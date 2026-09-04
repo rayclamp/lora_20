@@ -1,7 +1,7 @@
 # Inaria AI Studio — Generation / Dataset Department Specification
 
 - **Department:** ⑤ Prompt / AI Generation — Generation / Dataset
-- **Version:** v001
+- **Version:** v002
 - **Last Updated:** 2026-09-05
 - **Purpose:** Define the reproducible workflow for converting approved upstream character, clothing, scene, and pose/camera designs into generated images and a clean LoRA training dataset. This document governs generation, validation, repair, rejection, metadata, naming, and final dataset assembly. It does not redefine character identity or other departments' core settings.
 
@@ -460,7 +460,7 @@ For hand/foot repairs, preserve the original palm/wrist/arm or leg/ankle structu
 
 ---
 
-## 11. Final LoRA Dataset整理流程
+## 11. Final LoRA Dataset 整理流程
 
 ### Step 1 — Candidate collection
 
@@ -542,7 +542,7 @@ Each generated or repaired image should have a metadata record containing, at mi
 
 ```yaml
 asset_id: INR20_S01_001
-filename: INr20_S01_001_C01_CL03_SC02_P04_PASS_v001.png
+filename: INR20_S01_001_C01_CL03_SC02_P04_PASS_v001.png
 project: lora_20
 identity: inaria
 identity_age: 20
@@ -579,7 +579,7 @@ created_at: ""
 
 The exact fields may be extended for a specific workflow, but existing project identifiers and approved upstream information must remain traceable.
 
-**Filename spelling note:** the canonical prefix is `INR20`; metadata examples must use the same canonical spelling. Any conflicting legacy filename convention requires review rather than silent normalization.
+The canonical dataset prefix is `INR20` and must be used consistently.
 
 ---
 
