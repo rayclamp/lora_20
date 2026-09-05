@@ -1,0 +1,101 @@
+{
+  "job_id": "TEST-DIRECTOR-SUB-006",
+  "department": "POSE_CAMERA",
+  "status": "PASS",
+  "pose_camera_decisions": {
+    "pose": {
+      "overall_action": "Seated upright on the muted stone bench in a relaxed three-quarter orientation, with the torso turned mildly toward the camera and the pelvis fully supported by the bench.",
+      "shoulders_and_spine": "Keep the spine elongated but natural, shoulders level and relaxed, neck aligned without forward thrust or excessive arching.",
+      "head_and_gaze": "Turn the head slightly toward camera while preserving the approved quiet, confident three-quarter gaze and subtle relaxed smile. Keep the face fully unobstructed.",
+      "left_arm_and_hand": "Place one forearm naturally along the nearer thigh with the elbow softly bent and wrist aligned. Keep the hand relaxed and fully visible, with five separated, correctly attached fingers resting without compression.",
+      "right_arm_and_hand": "Place the other arm comfortably beside the torso, with the hand lightly holding the outer edge of the skirt. Keep the skirt edge below and behind the fingers so all five fingers remain inspectable and are not fused with fabric.",
+      "pelvis_and_legs": "Maintain a stable seated pelvis with no hovering or twisting. Angle both legs together slightly to one side, with knees close and naturally aligned rather than sharply crossed.",
+      "knees_and_ankles": "Keep both knees, shins, and ankles anatomically continuous and readable. Avoid occluding one knee completely with the skirt or the opposite leg.",
+      "feet": "Place both feet on the floor with believable sole contact, low-profile warm-gray flats parallel or slightly splayed in a natural seated stance. Maintain aligned ankles and avoid crossed feet, floating soles, or rotated lower legs.",
+      "balance": "Use a grounded center of gravity over the bench and floor contact. The pose must read as comfortable and stable without bracing against invisible support.",
+      "anatomy_safety": "Use only mild torso rotation, soft elbow bends, natural wrist angles, and simple leg geometry. Avoid severe twisting, hidden joints, overlapping hands, or limb positions that make digit inspection unreliable."
+    },
+    "camera": {
+      "viewpoint": "Eye-level three-quarter camera positioned slightly in front of the subject's turned side, approximately aligned with the face and upper torso rather than above or below the subject.",
+      "lens": "Approximately 50mm-equivalent perspective with natural proportions and no wide-angle stretching of the face, hands, knees, ankles, or feet.",
+      "framing": "Medium-full portrait from the top of the hair through both grounded feet and shoes, with comfortable margins around the head, hands, knees, ankles, and lower footwear.",
+      "composition": "Place Inaria slightly off-center, using pale vertical window frames and distant foliage as quiet framing elements. Keep the face as the strongest visual anchor and preserve a clear full-body silhouette.",
+      "camera_height_and_tilt": "Keep the camera level with minimal downward or upward tilt. Do not use a dramatic low angle, high angle, dutch tilt, or perspective that compresses the legs or enlarges the hands.",
+      "depth_of_field": "Use mild background separation while retaining enough detail for the face, hand structure, garment intersections, knees, ankles, and footwear to remain evaluable.",
+      "focus_priority": "Focus on the eyes and face, with sufficient depth of field to preserve both hands and the seated lower-body anatomy. Do not allow background blur or motion softness to obscure anatomy-critical areas.",
+      "lighting_support": "Use soft diffused daylight from camera-left with gentle frontal fill, avoiding shadows across the face, hands, knees, ankles, and shoes.",
+      "background_clearance": "Keep foliage, window bars, and architectural edges away from the face, hands, knees, ankles, and feet so they cannot resemble extra limbs or create confusing overlaps."
+    }
+  },
+  "locked_constraints": [
+    "Use trigger token: inr20.",
+    "Preserve the recognizable age-20 Inaria identity, facial structure, natural Taiwanese/Asian adult presentation, blue eyes, dark blue-black hair, and intended adult proportions.",
+    "Use the approved seated upright three-quarter pose on the muted stone bench.",
+    "Keep the torso only mildly turned toward camera, with level shoulders, natural spine alignment, and believable seated support.",
+    "Keep one forearm resting naturally on the thigh and the other hand lightly holding the skirt edge.",
+    "Keep both hands visible enough for inspection, with exactly five plausible fingers on each hand, correct attachment, natural joints, and no fabric fusion.",
+    "Keep both legs angled together with readable knees, continuous shins, aligned ankles, and grounded feet.",
+    "Use simple warm-gray closed-toe flats with believable sole contact and stable ankle alignment.",
+    "When toes are visible, each foot must show exactly five plausible toes; closed-toe footwear may limit direct toe visibility but must not create malformed, duplicated, or floating feet.",
+    "Use an eye-level three-quarter medium-full composition at approximately 50mm-equivalent perspective.",
+    "Frame from head through feet with adequate margins; do not crop the face, hands, knees, ankles, or footwear.",
+    "Avoid wide-angle distortion, dramatic camera angles, strong foreshortening, dutch tilt, severe perspective compression, or camera positions that enlarge hands or feet.",
+    "Maintain a readable body silhouette, stable center of gravity, believable bench contact, and natural floor contact.",
+    "Keep the face unobstructed by hair, hands, clothing, foliage, window geometry, props, or heavy shadow.",
+    "Keep background elements secondary and away from anatomy-critical regions; do not introduce objects that resemble limbs.",
+    "No extra limbs, duplicated body parts, impossible joints, broken wrists, malformed ankles, severe twisting, floating feet, or implausible balance.",
+    "Preserve soft facial and anatomy-supporting illumination with no harsh cast shadows, excessive bloom, or distracting effects."
+  ],
+  "intentional_variations": {
+    "pose_variation": "Introduce a grounded seated pose instead of a standing or tightly cropped portrait while maintaining simple ergonomic joint positions.",
+    "orientation_variation": "Use a mild three-quarter torso and head orientation toward camera without changing recognizable facial proportions.",
+    "hand_variation": "Show one relaxed hand on the thigh and one hand lightly controlling the skirt edge, providing useful hand-placement diversity while preserving exact-digit inspection.",
+    "lower_body_variation": "Use together-angled legs and visible grounded flats to add seated lower-body and footwear context without crossing or hiding the feet.",
+    "camera_variation": "Use an eye-level medium-full 50mm-equivalent view rather than a headshot, elevated view, low angle, or wide perspective.",
+    "composition_variation": "Place the subject slightly off-center with quiet vertical architecture and negative space around anatomy-critical areas.",
+    "depth_variation": "Use moderate, restrained background separation that establishes the conservatory while keeping the face, hands, joints, and footwear legible.",
+    "balance_variation": "Show a relaxed supported seated posture with both feet grounded, creating diversity without spectacle or unstable center of gravity.",
+    "identity_protection": "Keep the face, hairline, blue eyes, and dark blue-black hair visually dominant despite the environmental and clothing variation."
+  },
+  "notes": {
+    "production_guidance": "Generate one integrated image using the approved identity, clothing, and conservatory references. Prioritize identity and facial readability first, then stable adult anatomy, balanced seated posture, exact-digit hands, natural lower-body joints, and camera integrity. Keep the pose simple enough for reliable generation and inspection.",
+    "anatomy_check": [
+      "Verify each visible hand has five separated fingers with plausible lengths, joints, and attachment points.",
+      "Verify wrists, elbows, shoulders, knees, and ankles form continuous anatomically plausible chains.",
+      "Verify both feet are distinct, grounded, naturally oriented, and not duplicated or fused with the bench, skirt, or floor.",
+      "If any toes are visible, verify exactly five plausible toes per foot; if enclosed by flats, verify natural shoe volume and foot placement without invented openings or extra digits.",
+      "Confirm the skirt edge does not conceal or merge with the hand holding it."
+    ],
+    "camera_check": [
+      "Confirm eye-level viewpoint, natural 50mm-equivalent proportions, and absence of wide-angle facial or limb distortion.",
+      "Confirm full head-to-feet framing with margins around both hands and lower legs.",
+      "Confirm the face is the sharpest and strongest visual anchor while hands, joints, and footwear remain sufficiently readable.",
+      "Confirm no foliage, window frame, shadow, or background object overlaps anatomy-critical regions."
+    ],
+    "adjustable_choices": [
+      "The seated leg angle may shift slightly left or right while both feet remain grounded, ankles aligned, and knees readable.",
+      "The forearm resting on the thigh may be nearer or farther from camera if the wrist remains neutral and the hand stays fully inspectable.",
+      "The skirt-holding hand may grasp a minimal amount of fabric or simply touch the edge, provided all fingers remain distinct.",
+      "Minor off-center composition, background blur, and window-frame spacing may vary if the face remains dominant and the full anatomy remains visible.",
+      "Small natural asymmetries in posture and expression are acceptable when they do not compromise balance or identity."
+    ],
+    "unresolved_conflicts": [
+      "Closed-toe flats improve foot-generation stability but limit direct toe inspection; prioritize distinct shoe shape, five-toe plausibility where visible, aligned ankles, and grounded soles.",
+      "The skirt may overlap portions of the thighs in the seated pose, but both knees, lower legs, ankles, and feet must remain sufficiently readable.",
+      "A relaxed hand holding the skirt edge can create fabric-finger overlap; keep the grasp shallow and separate the fingers from the pleats.",
+      "Moderate depth of field is desirable for the conservatory setting, but blur must not reduce identity, hand, joint, or footwear inspection."
+    ],
+    "quality_gate": "PASS only if Inaria remains recognizable as the approved age-20 adult, the pose is balanced and anatomically simple, both hands pass the exact-five-finger check, both feet and ankles are natural and grounded, the face is unobstructed, and the camera shows a non-distorted head-to-feet medium-full view.",
+    "repair_policy": "Any repair requires a complete recheck of identity, apparent age, facial structure, hair and eye color, body proportions, clothing intersections, hand digits, wrist and elbow alignment, knees, ankles, feet, bench support, floor contact, camera perspective, framing, lighting, background overlaps, and unwanted artifacts.",
+    "rejection_triggers": [
+      "Identity drift, age drift, obscured face, wrong hair color, or wrong eye color.",
+      "Malformed hands, incorrect finger count, fused fingers, hidden hands, or skirt-finger entanglement.",
+      "Duplicated, missing, fused, floating, or malformed feet or toes; broken ankles or unstable shoe contact.",
+      "Extra limbs, impossible joints, severe torso twisting, crossed or disconnected legs, or implausible seated balance.",
+      "Cropped anatomy-critical regions, strong lens distortion, dramatic angle, or perspective-induced limb enlargement.",
+      "Background objects overlapping the face, hands, knees, ankles, or feet, or appearing as accidental limbs.",
+      "Excessive blur, harsh shadow, strong color cast, plastic smoothing, text, watermark, duplicate subject, or distracting environmental clutter."
+    ],
+    "dataset_role": "This image contributes controlled seated-pose, hand-placement, grounded-footwear, conservatory composition, eye-level camera, and mild three-quarter orientation diversity while preserving identity readability, adult anatomy, balance, and reliable inspection."
+  }
+}
