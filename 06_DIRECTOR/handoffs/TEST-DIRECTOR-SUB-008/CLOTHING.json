@@ -1,0 +1,73 @@
+{
+  "job_id": "TEST-DIRECTOR-SUB-008",
+  "department": "CLOTHING",
+  "status": "PASS",
+  "clothing_decisions": {
+    "primary_outfit": {
+      "top": "Refined indigo-blue wrap blouse with subtle traditional East Asian collar detailing, a secure natural wrap closure, modest neckline, and softly structured fabric.",
+      "bottom": "High-waisted charcoal wide-leg trousers with a clean waistband, realistic drape, moderate volume, and full-length hems that do not obscure the shoes.",
+      "belt": "Slim understated dark belt aligned naturally with the trouser waistband; buckle kept minimal and low-contrast.",
+      "footwear": "Simple dark flats with enclosed rounded or softly almond-shaped toes, stable soles, and a believable fit around both feet.",
+      "accessory": "One narrow, neutral-toned book held lightly at waist height; it must not cover the face, torso anatomy, or hand configuration."
+    },
+    "fit_and_construction": [
+      "Keep the blouse fitted enough to show the natural torso silhouette without compressing or enlarging the body.",
+      "Ensure wrap overlap, collar edges, belt, waistband, seams, and trouser hems follow plausible garment construction.",
+      "Keep fabric tension consistent at the waist, elbows, hips, and knees; avoid impossible folds or floating closures.",
+      "Maintain clean intersections between blouse, belt, trousers, hands, book, legs, and shoes.",
+      "Use restrained texture and matte-to-soft fabric response so clothing supports identity rather than competing with the face."
+    ],
+    "hair_interaction": [
+      "Keep the shoulder-length dark blue-black side-parted hair and loose face-framing strands visible around the collar without covering the face.",
+      "Allow a few strands to overlap the blouse naturally, but prevent hair from merging with the collar, book, or shoulder silhouette.",
+      "Do not add hats, headbands, elaborate hair ornaments, or styling that changes the recognizable hairline."
+    ],
+    "adjustable_choices": [
+      "Blouse fabric may range from matte crepe to softly woven silk-like material while remaining indigo blue and non-reflective.",
+      "Collar detailing may be subtle piping, a narrow folded band, or restrained frog-button-inspired closure, provided it remains simple and stable.",
+      "Trouser width may be adjusted slightly for generation stability while preserving the high-waisted wide-leg silhouette.",
+      "Book cover may be charcoal, muted navy, or desaturated brown and should remain visually subordinate.",
+      "Flat shape may vary between a plain ballet flat and a minimal loafer-like flat without exposing toes or changing the intended refined styling."
+    ],
+    "clothing_qc": [
+      "Confirm the blouse does not become a dress, jacket, cropped top, transparent garment, or overly ornate costume.",
+      "Confirm indigo blue remains distinct from black or bright royal blue, and charcoal trousers remain distinct from the blouse.",
+      "Check that the book is held naturally at waist height and does not hide the face, chest, elbow, wrist, or critical torso joints.",
+      "Check both hands for clear plausible five-finger anatomy, especially the hand supporting the book.",
+      "Check both feet remain fully enclosed by the flats, with grounded shoe contact and no visible malformed toes.",
+      "Confirm clothing does not alter apparent age, body proportions, ethnicity, or active adult presentation."
+    ]
+  },
+  "locked_constraints": [
+    "Use trigger inr20.",
+    "Preserve Inaria age-20 identity and active adult presentation.",
+    "Use the approved indigo-blue wrap blouse, high-waisted charcoal wide-leg trousers, slim belt, understated dark flats, and narrow book as the primary clothing design.",
+    "Preserve recognizable oval-to-soft-heart face shape, major facial structure, core facial proportions, blue eyes, dark blue-black hair, and intended natural body proportions.",
+    "Keep the shoulder-length side-parted hairstyle compatible with the collar and free of face obstruction.",
+    "Maintain plausible garment construction, natural fit, clean intersections, and stable silhouette.",
+    "Do not introduce excessive decoration, revealing styling, costume-like historical elements, high heels, open footwear, or accessories that compete with identity.",
+    "If hands are visible, preserve clear plausible five-finger configurations without extra, missing, fused, duplicated, or hidden-conflicting digits.",
+    "Keep both feet fully contained by the shoes with grounded contact and no visible malformed toes.",
+    "Keep the face unobstructed by clothing, hair, book, hands, glare, or foreground objects.",
+    "Use a refined, romantic, dreamy Japanese-inspired visual language while keeping clothing secondary to face and anatomy."
+  ],
+  "intentional_variations": [
+    "Use a refined indigo wrap blouse with subtle East Asian collar detailing instead of portrait-neutral clothing.",
+    "Use charcoal high-waisted wide-leg trousers to create a practical active-adult silhouette without changing body proportions.",
+    "Use understated dark flats rather than heels or decorative footwear for stable full-body anatomy and grounded posture.",
+    "Use a narrow book as a controlled hand-and-prop variation while keeping the face and major joints visible.",
+    "Use restrained late-afternoon seasonal styling suitable for a glasshouse conservatory without adding heavy outerwear.",
+    "Keep accessories minimal so dataset diversity comes primarily from silhouette, setting, pose, hairstyle, and camera rather than visual clutter.",
+    "Coordinate the clothing with the three-quarter standing pose: natural trouser drape over the rear leg, front foot angled slightly outward, and blouse folds following relaxed arm placement."
+  ],
+  "notes": {
+    "production_priority": "Identity and anatomy stability take priority over garment detail, color nuance, accessory detail, and fabric texture.",
+    "scene_coordination": "The indigo-and-charcoal palette should harmonize with pale architectural frames and softened foliage while maintaining clear separation from the background.",
+    "pose_coordination": "The wrap blouse must remain secure and visually coherent during the relaxed three-quarter stance. The book should be held lightly at waist height without forcing wrist, elbow, shoulder, or torso distortion.",
+    "seasonal_styling": "Use light-to-medium weight fabrics appropriate for a late-afternoon conservatory. No coat, scarf, gloves, or layered accessories are required.",
+    "unresolved_conflicts": "None. Minor fabric type, collar construction, book-cover color, and flat-shoe subtype remain adjustable only if they preserve the locked silhouette and anatomy requirements.",
+    "repair_policy": "Any repair to clothing, hair interaction, prop placement, pose, or framing requires a complete identity, anatomy, hand, foot, and clothing-intersection recheck.",
+    "reject_conditions": "Reject for identity drift, apparent minor age, altered body proportions, wrong face, blue-black hair shifting color, malformed hands or feet, clothing merging with anatomy, impossible garment construction, excessive ornament, face obstruction, plastic skin, or severe smoothing.",
+    "final_review": "Approve only when blouse overlap, collar, belt, waistband, trouser drape, book grip, shoe containment, and garment-background separation are all clean at full-body review."
+  }
+}
