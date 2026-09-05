@@ -1,0 +1,48 @@
+{
+  "job_id": "TEST-DIRECTOR-SUB-007",
+  "department": "CHARACTER",
+  "status": "PASS",
+  "character_decisions": {
+    "subject": "Inaria, age 20, Taiwanese/Asian adult woman",
+    "identity_priority": "Maintain recognizable age-20 standard portrait identity: stable face shape, major facial structure, core facial proportions, dark blue-black hair, blue eyes, and intended body proportions.",
+    "appearance": "Natural translucent skin with realistic texture, restrained makeup, softly defined brows, natural lips, and clear blue eyes. Active adult age presentation; no youthful childlike cues.",
+    "hair": "Medium-long dark blue-black hair with a loose low half-up arrangement and a few natural face-framing strands. Hair color must remain clearly blue-black rather than brown, gray, or saturated fantasy blue.",
+    "expression": "Calm, thoughtful, slightly warm expression with relaxed eyes and a subtle closed-mouth smile. Avoid exaggerated emotion or identity-changing facial distortion.",
+    "wardrobe": "Refined ivory linen blouse with a modest open collar, fitted dark teal high-waisted ankle-length skirt, slim muted-blue sash, and simple low-profile sandals removed so the bare feet remain visible. Clothing should support a romantic Japanese-inspired mood without becoming a costume.",
+    "scene": "Quiet traditional-inspired covered veranda overlooking a softly lit garden, with restrained wooden architecture, pale shoji-like panels, and sparse foliage. Background remains secondary and does not introduce strong competing identity cues.",
+    "pose": "Full-body standing three-quarter pose, torso turned approximately 20 degrees from camera, weight balanced primarily on the rear leg, front foot placed slightly forward and outward. One arm rests naturally at the side; the other hand lightly gathers the sash at waist level. Both hands and both bare feet are fully visible and separated from the body.",
+    "camera": "Eye-level 50mm-equivalent portrait lens, vertical composition, moderate distance, full-body framing with sufficient margin around hair, hands, and feet. Face remains large and readable while preserving complete anatomy.",
+    "lighting": "Soft late-afternoon window light from camera-left with gentle fill from camera-right, delicate natural shadows, controlled highlights, and no harsh color cast.",
+    "style": "Romantic, refined, dreamy Japanese-inspired visual treatment with clean detail, natural proportions, believable anatomy, and restrained atmosphere."
+  },
+  "locked_constraints": [
+    "Use trigger inr20.",
+    "Preserve Inaria age-20 identity and recognizable face; do not alter face shape, major facial structure, or core facial proportions.",
+    "Keep dark blue-black hair and blue eyes.",
+    "Preserve intended body proportions and plausible adult anatomy.",
+    "Maintain active age-20 presentation; no childlike, elderly, or ambiguous age cues.",
+    "Show plausible hands with five distinct fingers on each hand; no extra, missing, fused, duplicated, or hidden malformed digits.",
+    "Show plausible bare feet with five distinct toes on each foot; no extra, missing, fused, duplicated, or malformed toes.",
+    "No extra limbs, impossible joints, severe deformation, broken balance, or anatomically implausible weight distribution.",
+    "Both hands and both feet must be clearly visible for quality inspection.",
+    "Avoid identity drift, wrong face, wrong age, wrong hair color, plastic skin, excessive smoothing, exaggerated makeup, or fantasy body distortion.",
+    "Keep clothing, architecture, and props subordinate to character identity.",
+    "Recheck the complete image after any repair; repaired output cannot bypass anatomy and identity review."
+  ],
+  "intentional_variations": {
+    "hairstyle": "Loose low half-up style with face-framing strands, differing from a standard portrait while preserving hair color and facial silhouette.",
+    "clothing": "Ivory blouse, dark teal skirt, muted-blue sash, and minimal accessories instead of a default portrait outfit.",
+    "scene": "Traditional-inspired garden veranda rather than a plain studio or neutral background.",
+    "pose": "Balanced full-body standing three-quarter pose with a subtle sash interaction; no extreme gesture or occlusion.",
+    "camera": "Eye-level full-body 50mm-equivalent view, distinct from a standard close portrait while retaining face readability.",
+    "expression": "Quietly warm and contemplative rather than a neutral reference expression.",
+    "lighting": "Soft directional late-afternoon light with gentle shadow modeling.",
+    "composition": "Vertical centered three-quarter composition with clean negative space and complete head-to-feet coverage."
+  },
+  "notes": {
+    "production_prompt_guidance": "Prioritize face and body identity first, then anatomy, pose, clothing, environment, and atmosphere. Keep facial landmarks stable despite the hairstyle and three-quarter angle.",
+    "negative_guidance": "Exclude child, teen, elderly, masculine facial structure, brown or gray hair, non-blue eyes, heavy glam makeup, glossy plastic skin, excessive blur, extra fingers, missing fingers, fused fingers, extra toes, missing toes, fused toes, extra limbs, twisted joints, floating feet, broken perspective, cropped hands, cropped feet, extreme foreshortening, and obstructive props.",
+    "quality_gate": "PASS only if identity is recognizable, age reads as 20, blue eyes and blue-black hair are present, proportions remain stable, all four limbs are coherent, each hand has five usable fingers, each bare foot has five usable toes, and the pose has believable balance.",
+    "dataset_role": "Useful controlled diversity image: changes hairstyle, outfit, environment, expression, pose, lighting, and camera distance without introducing accidental identity signals."
+  }
+}
