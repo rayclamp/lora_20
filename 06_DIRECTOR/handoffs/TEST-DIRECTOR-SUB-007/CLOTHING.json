@@ -1,0 +1,57 @@
+{
+  "job_id": "TEST-DIRECTOR-SUB-007",
+  "department": "CLOTHING",
+  "status": "PASS",
+  "clothing_decisions": {
+    "subject": "Inaria, age 20, Taiwanese/Asian adult woman",
+    "wardrobe": {
+      "primary_top": "Refined ivory linen blouse with natural fabric texture, modest open collar, clean shoulder seams, lightly fitted torso, and three-quarter sleeves that leave both wrists and hands unobstructed.",
+      "lower_garment": "Fitted dark teal high-waisted ankle-length skirt with a simple structured waistband, believable drape, modest side movement, and a hem positioned clearly above both bare feet.",
+      "sash": "Slim muted-blue sash coordinated with the blue eyes and dark teal skirt, tied simply at the waist with a short controlled end. The sash should not cover the hands, obscure the torso, or create confusing overlapping loops.",
+      "footwear": "No footwear. Both bare feet remain fully visible, naturally grounded, and separated from the skirt hem for anatomy inspection.",
+      "accessories": "Minimal styling only: no large jewelry, gloves, hat, handbag, or obstructive hair ornament. If any accessory is rendered, use one small understated neutral or muted-blue hair tie consistent with the loose low half-up hairstyle.",
+      "seasonal_styling": "Soft late-spring or early-autumn styling appropriate for a covered veranda: breathable linen blouse, ankle-length skirt, and no heavy outerwear or winter layers.",
+      "construction_and_fit": "Use plausible garment construction, clean intersections, natural seam placement, moderate fabric folds, and a comfortable adult fit. Avoid painted-on clothing, transparent fabric, excessive wrinkles, floating belts, detached closures, or tangencies at the hands and feet."
+    },
+    "hair_interaction": "Keep medium-long dark blue-black hair in a loose low half-up arrangement with a few face-framing strands. Hair should remain behind the blouse collar and away from both eyes, hands, sash knot, and visible feet; avoid accessories that change the facial silhouette or conceal the neck.",
+    "pose_and_clothing_interaction": "In the full-body three-quarter standing pose, one hand lightly gathers the sash at waist level while the other rests naturally at the side. Ensure the sash hand remains readable with separated fingers, the side hand is not hidden by the skirt, and the skirt does not merge with either leg.",
+    "scene_coordination": "Use the ivory, dark teal, and muted-blue palette against the quiet traditional-inspired covered veranda. Clothing remains visually distinct from pale shoji-like panels and restrained garden foliage without becoming a costume or dominant environmental cue.",
+    "identity_support": "Clothing frames rather than defines Inaria: keep the face, blue eyes, blue-black hair, body proportions, hands, and bare feet more visually important than textile decoration."
+  },
+  "locked_constraints": [
+    "Use trigger inr20.",
+    "Preserve Inaria age-20 identity, recognizable face, stable facial structure, core facial proportions, blue eyes, and dark blue-black hair.",
+    "Maintain an active adult age-20 presentation with no childlike, elderly, masculine, or ambiguous styling cues.",
+    "Use the approved ivory linen blouse, dark teal high-waisted ankle-length skirt, slim muted-blue sash, and bare feet as the wardrobe for this image.",
+    "Do not add footwear, heavy outerwear, costume elements, large accessories, or props that obscure anatomy.",
+    "Both hands and both bare feet must be fully visible and separated from the body and clothing for inspection.",
+    "Preserve plausible adult anatomy, intended body proportions, believable balance, and natural garment contact with the body.",
+    "Show five distinct usable fingers on each hand and five distinct plausible toes on each bare foot; no extra, missing, fused, duplicated, or hidden malformed digits.",
+    "Avoid clothing intersections with fingers, toes, wrists, ankles, face, hair, or sash knot.",
+    "Avoid extra limbs, impossible joints, severe deformation, floating feet, broken perspective, cropped hands, cropped feet, or extreme foreshortening.",
+    "Keep clothing, accessories, hair styling, architecture, and props subordinate to identity.",
+    "Do not use heavy makeup, glossy plastic skin, fantasy colors, excessive fabric ornament, or styling that changes the facial silhouette.",
+    "Recheck the complete image after any clothing or styling repair; a repaired output must still pass identity and anatomy review."
+  ],
+  "intentional_variations": {
+    "clothing": "Controlled variation from a standard portrait outfit through an ivory linen blouse, fitted dark teal ankle-length skirt, muted-blue sash, and no footwear.",
+    "silhouette": "Refined modest adult silhouette with a fitted waist and restrained ankle-length volume, avoiding both body-constricting styling and oversized layers.",
+    "fabric_and_texture": "Natural linen texture and moderate folds add realism without high-frequency decoration that could destabilize hands, face, or body contours.",
+    "color_palette": "Ivory, dark teal, and muted blue create coordinated variation while reinforcing blue eyes and blue-black hair without introducing competing saturated colors.",
+    "season_and_occasion": "Quiet late-spring or early-autumn veranda attire suitable for a refined romantic garden setting.",
+    "footwear_variation": "Bare feet are intentionally used instead of sandals so toes, grounding, and lower-leg anatomy remain inspectable.",
+    "accessory_variation": "Accessories are intentionally minimized; the sash provides a controlled styling accent without introducing identity-changing signals.",
+    "hair_and_clothing_interaction": "The low half-up hairstyle and face-framing strands vary the portrait silhouette while leaving collar, shoulders, hands, and face readable.",
+    "pose_interaction": "The sash-gathering gesture provides a small clothing-related action while preserving open visibility of both hands and avoiding torso occlusion.",
+    "scene_coordination": "Wardrobe colors contrast gently with the covered veranda and garden while remaining subordinate to Inaria.",
+    "reliability_strategy": "Use simple closures, limited layers, clean hems, moderate folds, and no complex jewelry or overlapping accessories to protect generation stability."
+  },
+  "notes": {
+    "production_priority": "Preserve identity first, anatomy and stable balance second, then clothing construction, scene coordination, and atmosphere.",
+    "generation_guidance": "Describe the blouse, skirt, sash, and bare feet clearly but briefly. Emphasize realistic fabric behavior, clean garment-body intersections, visible wrists and ankles, and complete head-to-feet framing.",
+    "quality_gate": "PASS only if the approved wardrobe is present and plausible, the blouse and skirt do not obscure anatomy, the sash remains simple and controlled, both hands and both bare feet are visible, and clothing does not cause identity or anatomy drift.",
+    "repair_policy": "If clothing produces tangled sash geometry, hidden digits, merged limbs, incorrect footwear, excessive folds, or facial occlusion, simplify the garment construction before adding detail and rerun the full identity and anatomy review.",
+    "unresolved_conflicts": "None. The approved wardrobe is compatible with the veranda setting, balanced three-quarter pose, eye-level full-body camera, and required anatomy inspection.",
+    "dataset_role": "Useful controlled-diversity image that changes clothing silhouette, palette, season, footwear state, and sash interaction while keeping Inaria's recognizable identity stable."
+  }
+}
