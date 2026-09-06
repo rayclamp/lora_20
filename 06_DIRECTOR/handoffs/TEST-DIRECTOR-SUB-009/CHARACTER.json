@@ -1,0 +1,127 @@
+{
+  "job_id": "TEST-DIRECTOR-SUB-009",
+  "department": "CHARACTER",
+  "status": "PASS",
+  "character_decisions": {
+    "subject": "Inaria",
+    "target_age": 20,
+    "identity_role": "Primary identity subject for an age-20 character LoRA",
+    "demographic_presentation": "Taiwanese/Asian adult woman",
+    "trigger": "inr20",
+    "identity_anchor": "Use the approved age-20 standard portrait as the primary identity reference and maintain recognizable facial identity across all dataset subsets.",
+    "facial_identity": [
+      "Preserve overall face shape and silhouette",
+      "Preserve major facial structure and core facial proportions",
+      "Preserve recognizable eye, nose, mouth, cheek, jaw, and chin relationships",
+      "Preserve blue eyes as an identity feature without forcing identical expression or gaze in every image",
+      "Avoid face-shape drift caused by lens distortion, extreme perspective, or stylization"
+    ],
+    "hair_identity": [
+      "Preserve dark blue-black hair color",
+      "Allow hairstyle, parting, length presentation, and controlled styling variation",
+      "Do not introduce blonde, brown, red, gray, or strongly unnatural hair color",
+      "Avoid one hairstyle becoming an accidental identity shortcut"
+    ],
+    "body_identity": [
+      "Preserve intended body proportions and adult age presentation",
+      "Keep anatomy plausible and consistent across clothing, pose, and camera changes",
+      "Avoid body-shape exaggeration, age regression, sexualized distortion, or unexplained proportion changes"
+    ],
+    "expression_identity": "Allow natural variation from neutral and soft smile to thoughtful, calm, cheerful, and mildly serious expressions while preserving facial structure.",
+    "dataset_balance": {
+      "purpose": "Teach the person rather than a single outfit, hairstyle, pose, scene, camera setup, or lighting condition.",
+      "recommended_variation_axes": [
+        "Hairstyle and hair arrangement",
+        "Clothing categories and color palettes",
+        "Indoor and outdoor scenes",
+        "Standing, seated, walking, and relaxed poses",
+        "Portrait, half-body, three-quarter, and full-body framing",
+        "Eye-level, slight high-angle, and restrained low-angle cameras",
+        "Soft daylight, overcast light, warm interior light, and controlled evening light",
+        "Neutral, gentle, thoughtful, and naturally cheerful expressions"
+      ],
+      "identity_protection": "Distribute variations so no single hairstyle, garment, background, expression, or lighting style co-occurs with Inaria in most samples."
+    },
+    "style_direction": "Romantic, refined, dreamy Japanese-inspired presentation with delicate light and shadow, natural translucent skin, clean detail, and believable anatomy.",
+    "cross_department_guidance": {
+      "clothing": "Use varied refined outfits that do not obscure the face or repeatedly encode identity through one costume. Avoid extreme padding, body distortion, or excessive decorative clutter.",
+      "scene": "Use varied uncluttered environments with identity-readable backgrounds and no recurring unique prop that could become an accidental identity signal.",
+      "pose_camera": "Prioritize stable facial visibility, natural posture, plausible joints, balanced weight distribution, and enough camera diversity to prevent viewpoint overfitting.",
+      "prompt": "Include inr20, age-20 adult presentation, Taiwanese/Asian woman, recognizable facial structure, dark blue-black hair, blue eyes, intended body proportions, and believable anatomy. Describe clothing, scene, pose, camera, expression, and lighting separately.",
+      "director_qa": "Every repaired asset must receive a complete identity, anatomy, age, styling, and prompt-consistency recheck before approval."
+    }
+  },
+  "locked_constraints": [
+    "Inaria remains a 20-year-old adult woman in active age presentation.",
+    "Taiwanese/Asian identity presentation remains consistent.",
+    "Recognizable face, face shape, major facial structure, and core facial proportions must be preserved.",
+    "Dark blue-black hair color is locked.",
+    "Blue eyes are locked.",
+    "Intended body proportions are locked.",
+    "Anatomy must remain plausible and stable.",
+    "Hands must show plausible five-finger anatomy with no extra, missing, fused, or duplicated digits.",
+    "Bare feet, when visible, must show plausible five-toe anatomy with no extra, missing, fused, or duplicated digits.",
+    "Reject extra limbs, impossible joints, severe deformation, implausible balance, or incompatible body geometry.",
+    "Reject identity drift, incorrect face, incorrect age, incorrect hair color, plastic skin, excessive smoothing, and exaggerated makeup.",
+    "Preserve natural skin texture and translucent skin appearance without waxy or overprocessed rendering.",
+    "Do not allow a single outfit, hairstyle, pose, scene, camera, expression, or lighting setup to dominate the identity signal.",
+    "Approved age-20 standard portrait remains the primary identity authority."
+  ],
+  "intentional_variations": {
+    "hair": [
+      "Center part",
+      "Soft side part",
+      "Loose straight hair",
+      "Subtle waves",
+      "Low ponytail or restrained updo",
+      "Partial braids or pinned sections"
+    ],
+    "clothing": [
+      "Refined contemporary casualwear",
+      "Soft romantic dresses",
+      "Light blouse and skirt combinations",
+      "Minimal knitwear",
+      "Tasteful seasonal layers",
+      "Muted and selectively varied colors without changing identity cues"
+    ],
+    "pose": [
+      "Relaxed standing",
+      "Seated with natural support",
+      "Gentle walking or turning",
+      "Three-quarter body orientation",
+      "Hands naturally posed near the torso or interacting with simple objects",
+      "Avoid repeated signature gestures"
+    ],
+    "camera_and_composition": [
+      "Eye-level portrait",
+      "Moderate three-quarter view",
+      "Half-body and full-body framing",
+      "Centered and off-center compositions",
+      "Moderate focal-length variation",
+      "Restrained high-angle and low-angle views that do not distort facial identity"
+    ],
+    "expression": [
+      "Calm neutral",
+      "Soft natural smile",
+      "Thoughtful",
+      "Quietly cheerful",
+      "Mildly serious",
+      "Relaxed candid expression"
+    ],
+    "lighting_and_scene": [
+      "Soft window daylight",
+      "Overcast outdoor light",
+      "Warm refined interior light",
+      "Gentle evening ambience",
+      "Garden, architectural, studio-neutral, and domestic settings",
+      "Controlled dreamy lighting without obscuring facial structure"
+    ]
+  },
+  "notes": [
+    "Identity and body-proportion preservation outrank clothing, scene, camera, lighting, and decorative detail.",
+    "Use diverse assets to prevent shortcut learning while keeping the face consistently recognizable.",
+    "Anatomy is a hard gate: any digit, limb, joint, balance, or severe deformation failure is REJECT until repaired.",
+    "A repaired asset is not approved by default; it requires full recheck against all locked constraints.",
+    "Maintain traceability through asset IDs, reference linkage to the approved age-20 standard portrait, variation tags, QA status, and repair history in shared GitHub memory."
+  ]
+}
