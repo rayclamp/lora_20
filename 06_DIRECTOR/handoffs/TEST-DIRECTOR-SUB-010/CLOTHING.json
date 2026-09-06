@@ -1,0 +1,161 @@
+{
+  "job_id": "TEST-DIRECTOR-SUB-010",
+  "department": "CLOTHING",
+  "status": "PASS",
+  "clothing_decisions": {
+    "primary_test_configuration": {
+      "outfit": "Soft ivory blouse with restrained blue-gray detailing and a modest dark skirt",
+      "fit": "Natural adult fit with comfortable ease, clean seams, plausible garment structure, and no anatomy-obscuring excess fabric",
+      "fabric": "Lightweight realistic woven fabric with controlled folds and matte-to-soft natural response",
+      "footwear": "Simple low-profile dark flats or understated low heels appropriate to the interior setting",
+      "accessories": "Minimal accessories only; small unobtrusive earrings or a simple hair tie may be used, but no recurring signature item",
+      "season": "Mild spring or early autumn indoor styling",
+      "styling": "Refined Japanese-inspired, romantic, dreamy, practical, modest, and subordinate to Inaria's identity"
+    },
+    "identity_coordination": {
+      "character": "Keep the recognizable age-20 face, core facial proportions, dark blue-black hair, blue eyes, intended adult body proportions, and natural skin visible and unobstructed. Clothing must not become an identity signal.",
+      "scene": "The ivory and blue-gray palette supports the pale wood, translucent curtains, and soft window light without blending the figure into the background.",
+      "pose_camera": "Use garments that remain stable in front, three-quarter, seated, and moderate environmental framing. Avoid collars, sleeves, hair ties, or accessories that obscure the jaw, neck, eyes, hands, or major body landmarks.",
+      "prompt": "Include the approved clothing configuration as descriptive support after identity, anatomy, pose, and camera requirements. Negative prompt must reject distracting, overly revealing, malformed, fused, floating, or physically impossible garments.",
+      "director": "Apply priority order: identity, age, body proportions, anatomy, pose and camera, clothing construction and fit, scene and lighting, then decorative detail."
+    },
+    "locked_requirements": [
+      "Clothing must support Inaria age-20 identity rather than define it",
+      "Adult age presentation and intended body proportions must remain stable",
+      "Garments must be modest, non-distracting, and anatomically plausible",
+      "No clothing may obscure or alter the recognizable face, dark blue-black hair, or blue eyes",
+      "Hands, feet, joints, and body landmarks must remain inspectable where visible",
+      "Five-finger hands and five-toe bare feet are required when exposed",
+      "No extra, missing, fused, or duplicated digits, limbs, closures, straps, or garment components",
+      "Fabric, seams, hems, collars, sleeves, waistlines, and footwear must intersect the body cleanly",
+      "No transparent exposure, accidental nudity, extreme cleavage, implausible compression, or distracting logos",
+      "Accessories must remain minimal and must not become recurring identity cues",
+      "Any repaired clothing asset requires a complete identity, anatomy, pose, scene, and prompt recheck"
+    ],
+    "adjustable_choices": [
+      "Blouse collar and restrained blue-gray detailing",
+      "Skirt length and modest silhouette",
+      "Cardigan layering when compatible with the pose",
+      "Low flats versus understated low heels",
+      "Small neutral earrings, simple hair tie, or no accessory",
+      "Warm ivory, muted blue-gray, charcoal, navy, and soft taupe color relationships",
+      "Sleeve length and light seasonal layering",
+      "Tucked, untucked, or partially layered blouse treatment"
+    ],
+    "intentional_variations": {
+      "clothing": [
+        "Ivory blouse with modest dark skirt",
+        "Muted blue-gray dress with simple construction",
+        "Refined light cardigan over a plain top and dark skirt"
+      ],
+      "season": [
+        "Light spring layering",
+        "Mild early-autumn cardigan styling",
+        "Soft indoor year-round blouse styling"
+      ],
+      "silhouette": [
+        "Relaxed straight blouse with modest skirt",
+        "Simple lightly fitted dress",
+        "Clean cardigan-and-skirt combination"
+      ],
+      "footwear": [
+        "Dark low-profile flats",
+        "Understated low heels",
+        "Simple indoor shoes when scene context requires"
+      ],
+      "accessories": [
+        "No accessory",
+        "Small unobtrusive earrings",
+        "Plain hair tie or understated half-up support"
+      ],
+      "color": [
+        "Ivory with charcoal",
+        "Ivory with blue-gray",
+        "Muted blue-gray with soft taupe",
+        "Light cardigan with a dark neutral lower garment"
+      ],
+      "hair_interaction": [
+        "Loose straight dark blue-black hair over or behind the shoulders",
+        "Low tie that preserves facial visibility",
+        "Understated half-up style without decorative identity cues"
+      ]
+    },
+    "unresolved_conflicts": [],
+    "acceptance_checks": [
+      "Outfit does not cause apparent age drift or alter perceived body proportions",
+      "Hair remains dark blue-black and eyes remain blue",
+      "Face and neck remain readable in all approved clothing variants",
+      "Garment construction follows gravity and body movement",
+      "Sleeves, hems, collars, waistlines, straps, and footwear remain connected and correctly placed",
+      "Pose and camera changes do not create clothing-body intersections",
+      "Clothing variation is distributed across samples rather than permanently locking one outfit, color, shoe, or accessory",
+      "No accidental recurring clothing or background cue competes with identity"
+    ]
+  },
+  "locked_constraints": [
+    "Project: rayclamp/lora_20",
+    "Target: Inaria age-20 identity LoRA",
+    "Recognizable face, face structure, major facial features, and core facial proportions must remain stable",
+    "Dark blue-black hair and blue eyes are identity-critical",
+    "Intended adult body proportions must remain stable",
+    "Natural translucent skin and restrained makeup are required",
+    "Anatomy hard gate applies to hands, feet, limbs, joints, and balance",
+    "Style remains romantic, refined, dreamy, Japanese-inspired, and anatomically believable",
+    "Clothing must remain modest, practical, physically plausible, and subordinate to identity",
+    "Dataset diversity must not introduce accidental identity signals",
+    "Only assets passing identity, proportion, anatomy, clothing, scene, pose, camera, and style checks may proceed",
+    "GitHub shared memory must record accepted references, repairs, rejected failure modes, and final validation outcomes"
+  ],
+  "intentional_variations": {
+    "hairstyle": [
+      "Loose straight dark blue-black hair",
+      "Low tie",
+      "Understated half-up style"
+    ],
+    "clothing": [
+      "Ivory blouse and dark skirt",
+      "Muted blue-gray dress",
+      "Light cardigan over a simple top"
+    ],
+    "scene": [
+      "Sunlit Japanese-inspired interior",
+      "Quiet garden walkway",
+      "Minimalist studio with soft translucent backdrop"
+    ],
+    "pose": [
+      "Front-facing standing portrait",
+      "Three-quarter standing pose",
+      "Seated relaxed pose",
+      "Natural walking or turning pose"
+    ],
+    "camera": [
+      "Eye-level close portrait",
+      "Medium three-quarter portrait",
+      "Environmental portrait with moderate background context"
+    ],
+    "expression": [
+      "Gentle neutral expression",
+      "Subtle smile",
+      "Thoughtful relaxed gaze"
+    ],
+    "lighting": [
+      "Soft window light",
+      "Overcast diffuse light",
+      "Warm late-afternoon light",
+      "Controlled studio softness"
+    ],
+    "composition": [
+      "Centered portrait",
+      "Rule-of-thirds framing",
+      "Negative-space environmental composition"
+    ]
+  },
+  "notes": [
+    "The clothing configuration passes the integrated production specification test against the approved CHARACTER handoff.",
+    "Clothing is intentionally varied across season, occasion, silhouette, footwear, accessories, color, and layering while identity-critical traits remain locked.",
+    "Director integration confirms that clothing follows identity, anatomy, pose, camera, and scene priorities rather than overriding them.",
+    "No unresolved clothing conflicts are present in the approved test configuration.",
+    "Rendered outputs still require visual inspection for identity drift, age drift, clothing-body intersections, malformed hands or feet, implausible footwear, excessive accessories, plastic skin, and recurring outfit signals.",
+    "Record accepted clothing references, repaired assets, rejected failure modes, and final validation results in GitHub shared memory."
+  ]
+}
