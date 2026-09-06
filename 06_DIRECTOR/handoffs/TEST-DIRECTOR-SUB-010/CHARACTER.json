@@ -1,0 +1,147 @@
+{
+  "job_id": "TEST-DIRECTOR-SUB-010",
+  "department": "CHARACTER",
+  "status": "PASS",
+  "character_decisions": {
+    "identity_target": "Inaria, age 20, Taiwanese/Asian adult woman",
+    "trigger": "inr20",
+    "primary_identity_reference": "Age-20 standard portrait",
+    "identity_preservation": [
+      "Preserve recognizable face and major facial structure",
+      "Preserve core facial proportions and face shape",
+      "Preserve dark blue-black hair color",
+      "Preserve blue eyes",
+      "Preserve intended adult body proportions",
+      "Maintain active age-20 presentation"
+    ],
+    "integrated_departments": {
+      "character": {
+        "decision": "Use the age-20 identity reference as the dominant conditioning signal; allow natural expression changes without altering identity.",
+        "gate": "Reject wrong face, apparent age drift, altered eye color, incorrect hair color, excessive makeup, plastic skin, or facial over-smoothing."
+      },
+      "clothing": {
+        "decision": "Use refined Japanese-inspired clothing that supports the scene without becoming an identity signal.",
+        "test_configuration": "Soft ivory blouse with restrained blue-gray detailing and a modest dark skirt; realistic fabric, natural fit, no exaggerated accessories.",
+        "variation_policy": "Clothing may vary across dataset samples while face, body proportions, and age presentation remain stable."
+      },
+      "scene": {
+        "decision": "Use a quiet sunlit interior with understated romantic atmosphere and uncluttered background.",
+        "test_configuration": "Japanese-inspired room with pale wood, translucent curtains, and soft natural window light.",
+        "variation_policy": "Scene, background, season, and lighting may vary independently from identity."
+      },
+      "pose_camera": {
+        "decision": "Use a natural three-quarter standing portrait with relaxed shoulders, balanced weight distribution, and direct but gentle eye contact.",
+        "camera": "Eye-level medium portrait, three-quarter angle, moderate focal length, no facial distortion.",
+        "variation_policy": "Permit front, three-quarter, and profile views; seated and standing poses; close, medium, and environmental framing, provided anatomy and identity remain stable."
+      },
+      "prompt": {
+        "positive_requirements": [
+          "Inaria age 20",
+          "Taiwanese/Asian adult woman",
+          "recognizable age-20 face",
+          "dark blue-black hair",
+          "blue eyes",
+          "intended body proportions",
+          "natural translucent skin",
+          "clean facial detail",
+          "romantic refined dreamy Japanese-inspired styling",
+          "delicate light and shadow",
+          "believable anatomy",
+          "trigger inr20"
+        ],
+        "negative_requirements": [
+          "wrong identity",
+          "older or younger apparent age",
+          "different face shape",
+          "different eye color",
+          "brown, black, or light hair replacing dark blue-black hair",
+          "exaggerated makeup",
+          "plastic skin",
+          "excessive smoothing",
+          "facial distortion",
+          "extra limbs",
+          "malformed hands",
+          "missing, fused, duplicated, or extra fingers",
+          "malformed bare feet",
+          "missing, fused, duplicated, or extra toes",
+          "impossible joints",
+          "severe deformation",
+          "implausible balance",
+          "overly revealing or distracting clothing",
+          "accidental signature accessories or background identity cues"
+        ]
+      },
+      "director": {
+        "decision": "Coordinate identity first, then task locks, anatomy, pose and camera, clothing and scene, lighting and style, and decorative detail.",
+        "integration_result": "Character identity remains the controlling variable while clothing, scene, pose, camera, expression, and lighting provide dataset diversity.",
+        "handoff_gate": "Only assets passing identity, proportion, anatomy, and style checks may proceed to dataset acceptance."
+      }
+    }
+  },
+  "locked_constraints": [
+    "Project: rayclamp/lora_20",
+    "Target: Inaria age-20 identity LoRA",
+    "Adult age presentation must remain approximately 20",
+    "Recognizable face, face structure, major facial features, and core facial proportions must remain stable",
+    "Dark blue-black hair and blue eyes are identity-critical",
+    "Intended body proportions must remain stable",
+    "Anatomy hard gate: plausible five-finger hands and five-toe bare feet",
+    "No extra, missing, fused, or duplicated digits",
+    "No extra limbs, impossible joints, severe deformation, or implausible balance",
+    "Skin must remain natural and translucent rather than plastic",
+    "Makeup must remain restrained",
+    "Style must remain romantic, refined, dreamy, Japanese-inspired, and anatomically believable",
+    "Dataset diversity must not introduce accidental identity signals",
+    "Any repaired asset requires a complete recheck before acceptance"
+  ],
+  "intentional_variations": {
+    "hairstyle": [
+      "Loose straight dark blue-black hair",
+      "Low tie or understated half-up style",
+      "Natural shoulder-length variation while retaining color and facial visibility"
+    ],
+    "clothing": [
+      "Ivory blouse and dark skirt",
+      "Muted blue-gray dress",
+      "Refined light cardigan over a simple top"
+    ],
+    "scene": [
+      "Sunlit Japanese-inspired interior",
+      "Quiet garden walkway",
+      "Minimalist studio with soft translucent backdrop"
+    ],
+    "pose": [
+      "Front-facing standing portrait",
+      "Three-quarter standing pose",
+      "Seated relaxed pose",
+      "Natural walking or turning pose"
+    ],
+    "camera": [
+      "Eye-level close portrait",
+      "Medium three-quarter portrait",
+      "Environmental portrait with moderate background context"
+    ],
+    "expression": [
+      "Gentle neutral expression",
+      "Subtle smile",
+      "Thoughtful relaxed gaze"
+    ],
+    "lighting": [
+      "Soft window light",
+      "Overcast diffuse light",
+      "Warm late-afternoon light",
+      "Controlled studio softness"
+    ],
+    "composition": [
+      "Centered portrait",
+      "Rule-of-thirds framing",
+      "Negative-space environmental composition"
+    ]
+  },
+  "notes": [
+    "Integrated production specification passes the character and director consistency test.",
+    "Variation is intentional across hairstyle, clothing, scene, pose, camera, expression, lighting, and composition; identity-critical traits remain locked.",
+    "Final rendered assets must be visually inspected for identity drift, age drift, hair or eye-color errors, anatomy failures, plastic skin, and accidental recurring outfit or background signals.",
+    "GitHub shared memory should record accepted references, repaired assets, rejected failure modes, and final validation outcomes."
+  ]
+}
