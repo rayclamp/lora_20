@@ -24,11 +24,12 @@
 - Priority: P0
 
 ### T002 — 六帳號新聊天室啟動測試
-- Status: UNASSIGNED
+- Status: IN_PROGRESS
 - Account: ACCOUNT_01～ACCOUNT_06
 - Goal: 確認六個 ChatGPT 帳號都能依 `START_HERE.md` 找到專案規則、任務與自己的帳號狀態；ACCOUNT_06 另確認最終審查規則。
 - Target: 6
 - Priority: P0
+- Progress: ACCOUNT_01 startup verification completed; remaining accounts not yet verified in this workspace.
 
 ---
 
