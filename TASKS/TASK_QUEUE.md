@@ -29,7 +29,7 @@
 - Goal: 確認六個 ChatGPT 帳號都能依 `START_HERE.md` 找到專案規則、任務與自己的帳號狀態；ACCOUNT_06 另確認最終審查規則。
 - Target: 6
 - Priority: P0
-- Progress: ACCOUNT_01 and ACCOUNT_04 startup verification completed; remaining accounts not yet verified in this workspace.
+- Progress: ACCOUNT_01, ACCOUNT_04, and ACCOUNT_05 startup verification completed; remaining accounts not yet verified in this workspace.
 
 ---
 
@@ -73,13 +73,14 @@
 - Priority: P1
 
 ### T105 — PROMPT 提示詞資料
-- Status: UNASSIGNED
+- Status: BLOCKED
 - Account: ACCOUNT_05
 - Theme: 提示詞／生成指令
 - Project Area: `05_PROMPT`
 - Goal: 將人物、服裝、場景、姿勢與鏡位條件整合成可穩定執行的生成提示詞。
 - Target: 待定
 - Priority: P1
+- Blocker: 尚未提供本批次具體圖片／Prompt Package 數量與交付規格；且目前 repository 沒有已核准的 Character、Clothing、Scene、Pose/Camera 上游生產交接輸出可供 Prompt 部門整合。`WORKFLOW/GENERATION_RULES.md` 路徑不存在，但 `00_MASTER/GENERATION_RULES.md` 已提供可用的主生成規則。
 
 ### T106 — FINAL REVIEW 最終整合審查
 - Status: UNASSIGNED
