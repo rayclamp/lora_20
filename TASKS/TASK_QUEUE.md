@@ -54,13 +54,14 @@
 - Priority: P1
 
 ### T103 — SCENE 場景資料
-- Status: UNASSIGNED
+- Status: BLOCKED
 - Account: ACCOUNT_03
 - Theme: 場景／環境／光線
 - Project Area: `03_SCENE`
 - Goal: 建立不同環境、季節、時間與光線條件，避免資料高度重複。
 - Target: 待定
 - Priority: P1
+- Blocker: 尚未提供本批次具體圖片數量、場景／環境方向等可執行規格；`WORKFLOW/GENERATION_RULES.md` 亦不存在於 repository。
 
 ### T104 — POSE_CAMERA 姿勢與鏡位資料
 - Status: UNASSIGNED
