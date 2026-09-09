@@ -12,6 +12,8 @@
 
 不得重做 DONE 任務，除非任務被改為 NEED_REWORK。
 
+圖片生產另受 `PRODUCTION/IMAGE_QUEUE.md` 管理；圖片額度中斷時必須從佇列目前位置續作，不得重置。
+
 ---
 
 ## 第一階段：系統驗證任務
@@ -50,7 +52,6 @@
 - Priority: P1
 - Result: PASS
 - Deliverable: `01_CHARACTER/CHARACTER_SPEC.md` v1.1
-- Notes: 現有 v1.1 已完整涵蓋 20 歲身份、鎖定特徵、允許變化、LoRA 選圖、修復／淘汰、Prompt 結構與跨部門 handoff；不得為填充任務而重做。
 
 ### T102 — CLOTHING 服裝資料
 - Status: DONE
@@ -58,16 +59,14 @@
 - Theme: 服裝／鞋履／配件
 - Project Area: `02_CLOTHING`
 - Goal: 建立第一輪正式 LoRA 生產所需的服裝與配件多樣性資料。
-- Target: 20 個互不高度重複的服裝設計單元
+- Target: 20
 - Completed: 20
 - PASS: 20
 - REVIEW: 0
 - REJECT: 0
 - Priority: P1
-- Input: T101 Character Specification v1.1
-- Deliverable: `02_CLOTHING/T102_CLOTHING_HANDOFF_v1.0.md`，20 個服裝／鞋履／配件設計單元。
+- Deliverable: `02_CLOTHING/T102_CLOTHING_HANDOFF_v1.0.md`
 - Result: PASS
-- Notes: 第一輪 20 個 clothing design units 已完成並完成結構化 handoff；涵蓋四季、裙裝／褲裝／洋裝、外套層次、不同鞋型與配件、日系／韓系／Modern Taiwan 方向。未生成最終圖片，PASS 僅代表 T102 設計資料交付完成；最終圖片仍由 T105/T106 流程驗收。
 
 ### T103 — SCENE 場景資料
 - Status: DONE
@@ -75,16 +74,14 @@
 - Theme: 場景／環境／光線
 - Project Area: `03_SCENE`
 - Goal: 建立第一輪正式 LoRA 生產所需的場景與環境多樣性資料。
-- Target: 20 個互不高度重複的場景設計單元
+- Target: 20
 - Completed: 20
 - PASS: 20
 - REVIEW: 0
 - REJECT: 0
 - Priority: P1
-- Input: T101 Character Specification v1.1；T102 Clothing Handoff 可作為已完成服裝條件參考，但不得改寫服裝規格。
-- Deliverable: `03_SCENE/T103_SCENE_HANDOFF_v1.0.md`，20 個場景／環境／時間／天候／光線設計單元。
+- Deliverable: `03_SCENE/T103_SCENE_HANDOFF_v1.0.md`
 - Result: PASS
-- Notes: 第一輪 20 個 Scene Design Unit 已完成並完成部門自我檢查；涵蓋城市、郊區、自然、室內與過渡空間，以及季節、時間、天候、光線與區域多樣性。此 PASS 代表 T103 設計資料交付完成，不等同最終圖片已通過 IMAGE QC；正式圖片仍須依 `WORKFLOW/QUALITY_CONTROL.md` 驗收。
 
 ### T104 — POSE_CAMERA 姿勢與鏡位資料
 - Status: DONE
@@ -92,16 +89,14 @@
 - Theme: 姿勢／動作／鏡位／構圖
 - Project Area: `04_POSE_CAMERA`
 - Goal: 建立第一輪正式 LoRA 生產所需的人體工學姿勢、動作、視角、景別與構圖資料。
-- Target: 20 個互不高度重複的 Pose/Camera 設計單元
+- Target: 20
 - Completed: 20
 - PASS: 20
 - REVIEW: 0
 - REJECT: 0
 - Priority: P1
-- Input: T101 Character Specification v1.1；T102 Clothing Handoff 與 T103 Scene Handoff 可作為相容性參考。
-- Deliverable: `04_POSE_CAMERA/T104_POSE_CAMERA_HANDOFF_v1.0.md`，20 個版本化姿勢／動作／鏡位／構圖設計單元。
+- Deliverable: `04_POSE_CAMERA/T104_POSE_CAMERA_HANDOFF_v1.0.md`
 - Result: PASS
-- Notes: 第一輪 20 個 Pose/Camera design units 已完成結構化 handoff；以生成穩定性、人體工學、五指／五趾與清楚構圖優先。未生成最終圖片，PASS 僅代表 T104 設計資料交付完成；最終圖片仍由 T105/T106 流程驗收。
 
 ### T105 — PROMPT 提示詞資料
 - Status: DONE
@@ -109,16 +104,40 @@
 - Theme: 提示詞／生成指令
 - Project Area: `05_PROMPT`
 - Goal: 將第一輪 Character、Clothing、Scene、Pose/Camera 條件整合成可執行的 Prompt Package。
-- Target: 20 個 Prompt Package
+- Target: 20
 - Completed: 20
 - PASS: 20
 - REVIEW: 0
 - REJECT: 0
 - Priority: P1
-- Input: T101 Character Specification v1.1 + T102/T103/T104 版本化 Handoff
-- Deliverable: `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md`，20 個版本化 Prompt Package，分離 Character / Clothing / Scene / Pose-Camera / Lighting-Style / Negative。
+- Deliverable: `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md`
 - Result: PASS
-- Notes: T102、T103、T104 版本化 handoff 均已驗證完成後，ACCOUNT_05 完成第一輪 20 組 Prompt Package。C01–C20、S01–S20、P01–P20 各使用一次；未引入歷史聊天室或其他專案畫風。最終圖片仍須經 T106 圖片品質閘門。
+- Notes: C01–C20、S01–S20、P01–P20 各使用一次；Character / Clothing / Scene / Pose-Camera / Lighting-Style / Negative 模組分離；未引入歷史聊天室或其他專案畫風。
+
+---
+
+## 第三階段：第一輪正式圖片生產
+
+### T107 — IMAGE_PRODUCTION 第一輪 20 張圖片
+- Status: UNASSIGNED
+- Account: 待正式指定圖片生產帳號
+- Theme: 第一輪正式 LoRA 圖片生成
+- Project Area: `PRODUCTION`
+- Goal: 使用 T105 的 20 個 Prompt Package 產生第一輪 20 張候選圖片。
+- Target: 20
+- Completed: 0
+- GENERATED: 0
+- QC_PENDING: 0
+- PASS: 0
+- REVIEW: 0
+- REJECT: 0
+- NEED_REGENERATE: 0
+- NOT_STARTED: 20
+- Priority: P0
+- Input: `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md`
+- Queue: `PRODUCTION/IMAGE_QUEUE.md`
+- Rule: 每張圖片獨立記錄；遇到圖片生成額度上限時保留進度，額度恢復後從下一個未完成項目續作，不重做已完成圖片。
+- Result: NOT_STARTED
 
 ### T106 — FINAL REVIEW 第一輪最終整合審查
 - Status: UNASSIGNED
@@ -126,13 +145,13 @@
 - Theme: 最終品質驗收
 - Project Area: Final Quality Control
 - Goal: 依 `WORKFLOW/QUALITY_CONTROL.md` 對第一輪正式生產圖片進行 PASS / REVIEW / REJECT 判定。
-- Target: 第一輪正式圖片實際生產量；目前規劃 20 張
+- Target: 第一輪正式圖片實際生產量；規劃 20 張
 - Completed: 0
 - PASS: 0
 - REVIEW: 0
 - REJECT: 0
 - Priority: P0
-- Gate: T105 完成後進入圖片生成，再由 ACCOUNT_06 審查。
+- Gate: T107 圖片生成完成後進入 T106；不得把預計數量視為實際完成數量。
 
 ---
 
@@ -155,7 +174,7 @@
 
 第一輪以 **20 個最終圖片生產單元** 為規模；前置專業部門以 20 個可組合設計單元建立素材庫，Character 部門則以 1 份正式且完整的 Character Specification / Handoff 作為身份基準。
 
-任務之間應盡量避免高度重複，並補足不同資料維度。每個任務應明確定義主題、服裝、髮型、配件、姿勢／動作、構圖比例、目標圖片數、已完成數、PASS / REVIEW / REJECT 與備註。
+圖片生產以 `PRODUCTION/IMAGE_QUEUE.md` 為逐張狀態來源；不得因 ChatGPT 圖片生成額度、帳號切換或等待額度恢復而重置已完成圖片。
 
 ---
 
