@@ -70,20 +70,21 @@
 - Notes: 第一輪 20 個 clothing design units 已完成並完成結構化 handoff；涵蓋四季、裙裝／褲裝／洋裝、外套層次、不同鞋型與配件、日系／韓系／Modern Taiwan 方向。未生成最終圖片，PASS 僅代表 T102 設計資料交付完成；最終圖片仍由 T105/T106 流程驗收。
 
 ### T103 — SCENE 場景資料
-- Status: IN_PROGRESS
+- Status: DONE
 - Account: ACCOUNT_03
 - Theme: 場景／環境／光線
 - Project Area: `03_SCENE`
 - Goal: 建立第一輪正式 LoRA 生產所需的場景與環境多樣性資料。
 - Target: 20 個互不高度重複的場景設計單元
-- Completed: 0
-- PASS: 0
+- Completed: 20
+- PASS: 20
 - REVIEW: 0
 - REJECT: 0
 - Priority: P1
 - Input: T101 Character Specification v1.1；T102 Clothing Handoff 可作為已完成服裝條件參考，但不得改寫服裝規格。
-- Deliverable: 版本化 Scene Handoff，20 個場景／環境／時間／天候／光線設計單元。
-- Notes: 使用 `00_MASTER/GENERATION_RULES.md` 作為生成規則來源；不再以不存在的 `WORKFLOW/GENERATION_RULES.md` 作為 blocker。
+- Deliverable: `03_SCENE/T103_SCENE_HANDOFF_v1.0.md`，20 個場景／環境／時間／天候／光線設計單元。
+- Result: PASS
+- Notes: 第一輪 20 個 Scene Design Unit 已完成並完成部門自我檢查；涵蓋城市、郊區、自然、室內與過渡空間，以及季節、時間、天候、光線與區域多樣性。此 PASS 代表 T103 設計資料交付完成，不等同最終圖片已通過 IMAGE QC；正式圖片仍須依 `WORKFLOW/QUALITY_CONTROL.md` 驗收。
 
 ### T104 — POSE_CAMERA 姿勢與鏡位資料
 - Status: DONE
