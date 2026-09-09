@@ -1,83 +1,32 @@
-# ACCOUNT_05.md
-
-# ChatGPT 帳號工作站狀態
+# ACCOUNT_05.md — ChatGPT 帳號工作站狀態
 
 ## Account
-
 - Account: ACCOUNT_05
-- Role: PROMPT
+- Role: PROMPT / GENERATION / DATASET
 - Project Area: `05_PROMPT`
 - Status: DONE
-- Current Task: T105 — PROMPT 提示詞資料
+- Current Task: T105 — PROMPT（DONE）
 
 ## Responsibility
-
-負責生成提示詞、場景與人物條件整合、提示詞結構化與生成指令品質。
-
-提示詞必須遵守目前專案規則，不得引入與專案衝突的歷史畫風或舊聊天室風格。
+負責 Prompt 組裝、生成指令、候選圖片生產、caption、metadata 與 dataset 組織。必須遵守 `00_MASTER/` 全域規則，不得引入歷史聊天室畫風。
 
 ## Progress
-
-- Generated: 20
+- Generated: 20 Prompt Packages
 - PASS: 20
 - REVIEW: 0
 - REJECT: 0
 
-## Startup / Upstream Verification
+## Completed
+T105 — PROMPT：DONE / PASS，20 個 Prompt Package；deliverable `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md`。
 
-- 2026-09-09: ACCOUNT_05 re-read the current `START_HERE.md`, `PROJECT_STATUS.md`, `TASKS/TASK_QUEUE.md`, `WORKFLOW/GENERATION_RULES.md`, `WORKFLOW/STYLE_MASTER.md`, `WORKFLOW/IDENTITY_MASTER.md`, and this account state.
-- `WORKFLOW/GENERATION_RULES.md` is the workflow-facing alias; authoritative generation rules remain `00_MASTER/GENERATION_RULES.md`.
-- Uploaded age-20 MASTER_IMAGE is the active visual identity reference; it is used only for identity / appearance consistency, not as a fixed clothing, pose, composition, background, camera, or style template.
-- T102 / ACCOUNT_02: DONE / PASS, 20 of 20; `02_CLOTHING/T102_CLOTHING_HANDOFF_v1.0.md` verified available.
-- T103 / ACCOUNT_03: DONE / PASS, 20 of 20; `03_SCENE/T103_SCENE_HANDOFF_v1.0.md` verified available.
-- T104 / ACCOUNT_04: DONE / PASS, 20 of 20; `04_POSE_CAMERA/T104_POSE_CAMERA_HANDOFF_v1.0.md` verified available.
-- Required upstream handoff set is complete and versioned; T105 final integration was therefore executed.
+整合 T101 Character、T102 C01–C20、T103 S01–S20、T104 P01–P20；Character / Clothing / Scene / Pose-Camera / Lighting-Style / Negative 模組分離。`inr20` identity trigger 已統一使用。
 
-## Current Task
+## Image Production Boundary
 
-T105 — PROMPT 提示詞資料
-
-Status: DONE / PASS.
-
-Deliverable:
-- `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md`
-- 20 complete modular Prompt Packages: PP01–PP20
-
-Integration result:
-- T101 Character v1.1 integrated as the fixed identity module.
-- T102 C01–C20 integrated once each.
-- T103 S01–S20 integrated once each.
-- T104 P01–P20 integrated once each.
-- Identity trigger `inr20` used consistently.
-- Character identity target: preserve high recognizability (95–99% production objective) while avoiding invented permanent facial measurements.
-- Five-finger / five-toe anatomy rules and stable-generation constraints are encoded in the common negative module and package-specific negatives.
-- Approved project style is used; historical chats and unrelated project styles were not imported.
-
-## Prompt Package Structure
-
-Each package separates:
-1. Character
-2. Clothing
-3. Scene
-4. Pose / Camera
-5. Lighting / Style
-6. Negative constraints
-
-The 20 packages intentionally cover both 9:16 and 16:9, varied hair arrangements, four seasons, urban/rural/natural/interior environments, and distinct stable poses/camera compositions without creating new upstream design units.
-
-## QA / Scope Boundary
-
-- PASS means the Prompt Package handoff is complete and structurally compliant.
-- It does not mean the final images have passed image-level QC.
-- Model/workflow-specific generation parameters remain to be recorded when actual images are generated.
-- T106 remains the final image-quality gate.
+Prompt Package PASS 只代表提示詞資料完成，不代表最終圖片已通過圖片級 QA。實際圖片由 `PRODUCTION/IMAGE_QUEUE.md` 管理，最終由 ACCOUNT_06 審查。
 
 ## Next Step
-
-T105 is complete. The next project stage is first-round image generation from the 20 approved Prompt Packages, followed by ACCOUNT_06 final PASS / REVIEW / REJECT review.
+T105 完成。等待 T107 圖片生產指派或 NEED_REWORK。
 
 ## Notes
-
-- Do not redo T105 unless the task is explicitly changed to NEED_REWORK or a new revision is requested.
-- Do not change upstream Character, Clothing, Scene, or Pose/Camera specifications from the Prompt department.
-- Do not promote hairstyle, clothing, scene, pose, or camera details into permanent character identity traits.
+不修改上游 Character、Clothing、Scene、Pose/Camera 規格；不把服裝、髮型、場景或姿勢升格為永久人物身份特徵。全域規則統一位於 `00_MASTER/`。
