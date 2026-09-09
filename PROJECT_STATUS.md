@@ -61,7 +61,7 @@ ACCOUNT_06 不負責建立獨立畫風或取代前五個帳號的專業分工，
 - `PROJECT_STATUS.md`
 - `WORKFLOW/MASTER_WORKFLOW.md`
 - `WORKFLOW/ACCOUNT_WORKFLOW.md`
-- `WORKFLOW/GENERATION_RULES.md`
+- `WORKFLOW/GENERATION_RULES.md` — workflow-facing alias；權威規則仍為 `00_MASTER/GENERATION_RULES.md`
 - `WORKFLOW/STYLE_MASTER.md`
 - `WORKFLOW/DRAWING_INSTRUCTIONS.md`
 - `WORKFLOW/IDENTITY_MASTER.md`
@@ -85,18 +85,32 @@ ACCOUNT_06 不負責建立獨立畫風或取代前五個帳號的專業分工，
 
 ### 系統驗證
 
-- T001 — MASTER_IMAGE 驗證：ASSIGNED → ACCOUNT_06
-- T002 — 六帳號新聊天室啟動測試：IN_PROGRESS
-  - Progress: ACCOUNT_01, ACCOUNT_04, and ACCOUNT_05 startup verification completed; remaining accounts not yet verified in this workspace.
+- T001 — MASTER_IMAGE 驗證：DONE / PASS
+- T002 — 六帳號新聊天室啟動測試：DONE / PASS / 6 of 6
 
-### 生產任務
+### 第一輪生產前置資料
 
-- T101 — CHARACTER：UNASSIGNED → ACCOUNT_01
-- T102 — CLOTHING：UNASSIGNED → ACCOUNT_02
-- T103 — SCENE：BLOCKED → ACCOUNT_03
-- T104 — POSE_CAMERA：UNASSIGNED → ACCOUNT_04
-- T105 — PROMPT：BLOCKED → ACCOUNT_05
-- T106 — FINAL REVIEW：UNASSIGNED → ACCOUNT_06
+- T101 — CHARACTER：DONE / PASS → `01_CHARACTER/CHARACTER_SPEC.md` v1.1
+- T102 — CLOTHING：IN_PROGRESS → 20 個服裝設計單元
+- T103 — SCENE：IN_PROGRESS → 20 個場景設計單元
+- T104 — POSE_CAMERA：IN_PROGRESS → 20 個姿勢／鏡位設計單元
+- T105 — PROMPT：ASSIGNED → 20 個 Prompt Package，等待 T102～T104 上游 handoff
+- T106 — FINAL REVIEW：UNASSIGNED → 第一輪 20 張最終圖片的品質閘門
+
+---
+
+## 第一輪生產規模
+
+第一輪正式圖片目標：20 張。
+
+前置專業資料以可組合設計單元建立：
+- Character：1 份正式身份 Specification / Handoff
+- Clothing：20 單元
+- Scene：20 單元
+- Pose/Camera：20 單元
+- Prompt：20 Package
+
+這些數量是第一輪批次的執行目標，不是永久限制；後續批次可依 QC 結果調整。
 
 ---
 
@@ -131,12 +145,15 @@ LoRA 資料集優先考慮人物身份穩定、人體正確、風格一致，以
 - [x] 任務佇列正式建立
 - [x] 六個帳號角色正式建立
 - [x] 生產紀錄正式建立
+- [x] 六帳號新聊天室啟動驗證
+- [x] 第一輪生產 Target 定義
+- [x] `WORKFLOW/GENERATION_RULES.md` 路徑對齊
 
 ### 尚未完成
 
-- [ ] 六帳號新聊天室啟動測試
-- [ ] 第一批角色資料任務執行
-- [ ] 第一批圖片生產
+- [ ] T102～T104 第一輪專業設計單元
+- [ ] T105 第一輪 Prompt Package
+- [ ] 第一輪 20 張圖片生產
 - [ ] ACCOUNT_06 第一輪最終審查
 
 ---
@@ -151,11 +168,12 @@ Google Drive → Make binary → ReturnData file object → MCP 已能取得 PNG
 
 ## 下一步
 
-1. 執行 T001 MASTER_IMAGE repository 狀態確認。
-2. 執行 T002 六帳號新聊天室啟動測試。
-3. 五個專業帳號依角色取得 T101～T105。
-4. 各角色成果進入 ACCOUNT_06 最終審查。
-5. 通過後建立正式 LoRA 生產批次與紀錄。
+1. ACCOUNT_02 執行 T102：20 個 Clothing 設計單元。
+2. ACCOUNT_03 執行 T103：20 個 Scene 設計單元。
+3. ACCOUNT_04 執行 T104：20 個 Pose/Camera 設計單元。
+4. T102～T104 完成並交接後，ACCOUNT_05 執行 T105：20 個 Prompt Package。
+5. Prompt Package 核准後進入第一輪 20 張圖片生成。
+6. ACCOUNT_06 執行 T106 最終 PASS / REVIEW / REJECT。
 
 ---
 
