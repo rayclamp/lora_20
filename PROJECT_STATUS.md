@@ -93,7 +93,7 @@ ACCOUNT_06 不負責建立獨立畫風或取代前五個帳號的專業分工，
 - T101 — CHARACTER：DONE / PASS → `01_CHARACTER/CHARACTER_SPEC.md` v1.1
 - T102 — CLOTHING：IN_PROGRESS → 20 個服裝設計單元
 - T103 — SCENE：IN_PROGRESS → 20 個場景設計單元
-- T104 — POSE_CAMERA：IN_PROGRESS → 20 個姿勢／鏡位設計單元
+- T104 — POSE_CAMERA：DONE / PASS → `04_POSE_CAMERA/T104_POSE_CAMERA_HANDOFF_v1.0.md`（20 個設計單元）
 - T105 — PROMPT：ASSIGNED → 20 個 Prompt Package，等待 T102～T104 上游 handoff
 - T106 — FINAL REVIEW：UNASSIGNED → 第一輪 20 張最終圖片的品質閘門
 
@@ -151,7 +151,7 @@ LoRA 資料集優先考慮人物身份穩定、人體正確、風格一致，以
 
 ### 尚未完成
 
-- [ ] T102～T104 第一輪專業設計單元
+- [ ] T103 第一輪專業設計單元（T102、T104 已完成）
 - [ ] T105 第一輪 Prompt Package
 - [ ] 第一輪 20 張圖片生產
 - [ ] ACCOUNT_06 第一輪最終審查
@@ -170,8 +170,8 @@ Google Drive → Make binary → ReturnData file object → MCP 已能取得 PNG
 
 1. ACCOUNT_02 執行 T102：20 個 Clothing 設計單元。
 2. ACCOUNT_03 執行 T103：20 個 Scene 設計單元。
-3. ACCOUNT_04 執行 T104：20 個 Pose/Camera 設計單元。
-4. T102～T104 完成並交接後，ACCOUNT_05 執行 T105：20 個 Prompt Package。
+3. T104 已完成：20 個 Pose/Camera 設計單元已交接。
+4. 等待 T103 完成；T102～T104 全部完成並交接後，ACCOUNT_05 執行 T105：20 個 Prompt Package。
 5. Prompt Package 核准後進入第一輪 20 張圖片生成。
 6. ACCOUNT_06 執行 T106 最終 PASS / REVIEW / REJECT。
 
