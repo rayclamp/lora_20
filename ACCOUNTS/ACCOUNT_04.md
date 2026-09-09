@@ -27,10 +27,16 @@
 
 None
 
+## Completed
+
+- T002 — 六帳號新聊天室啟動測試：ACCOUNT_04 startup verification completed.
+
 ## Next Step
 
-依 `TASKS/TASK_QUEUE.md` 取得 POSE_CAMERA 相關任務。
+等待可執行的 POSE_CAMERA 任務規格。T104 目前 Target 為「待定」，尚未提供具體圖片數量與批次要求；且 `WORKFLOW/GENERATION_RULES.md` 目前不存在於 repository。
 
 ## Notes
 
-只記錄本帳號的專案工作狀態，不記錄個人審美或個人長期畫風偏好。
+- 已依 `START_HERE.md` 讀取專案狀態、工作規則、風格、身份、品質控制、任務佇列與本帳號狀態。
+- 使用者本次上傳的 20 歲依娜莉亞 MASTER_IMAGE 作為人物身份視覺基準；僅用於身份與外觀一致性，不作為固定構圖、服裝、姿勢、背景或畫風模板。
+- 只記錄本帳號的專案工作狀態，不記錄個人審美或個人長期畫風偏好。
