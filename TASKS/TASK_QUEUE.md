@@ -29,7 +29,7 @@
 - Goal: 確認六個 ChatGPT 帳號都能依 `START_HERE.md` 找到專案規則、任務與自己的帳號狀態；ACCOUNT_06 另確認最終審查規則。
 - Target: 6
 - Priority: P0
-- Progress: ACCOUNT_01 startup verification completed; remaining accounts not yet verified in this workspace.
+- Progress: ACCOUNT_01 and ACCOUNT_04 startup verification completed; remaining accounts not yet verified in this workspace.
 
 ---
 
