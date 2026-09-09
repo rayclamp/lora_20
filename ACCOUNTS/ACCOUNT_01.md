@@ -7,8 +7,8 @@
 - Account: ACCOUNT_01
 - Role: CHARACTER
 - Project Area: `01_CHARACTER`
-- Status: IDLE
-- Current Task: None
+- Status: BLOCKED
+- Current Task: T101 — CHARACTER 人物資料
 
 ## Responsibility
 
@@ -26,13 +26,22 @@
 - REVIEW: 0
 - REJECT: 0
 
+## Startup Verification
+
+- 2026-09-09: ACCOUNT_01 successfully completed the new-chat startup verification by reading the required project state, workflow, identity, style, drawing, quality-control, task-queue, and account documents.
+- Uploaded age-20 MASTER_IMAGE was confirmed as the active visual identity reference for this workspace.
+
 ## Current Task
 
-None
+T101 — CHARACTER 人物資料
+
+Status: BLOCKED pending a defined target/deliverable in `TASKS/TASK_QUEUE.md`.
+
+Existing `01_CHARACTER/CHARACTER_SPEC.md` v1.1 already defines the current character specification and handoff constraints; this account must not redo that completed work unless T101 explicitly requires a new revision or dataset production unit.
 
 ## Next Step
 
-依 `TASKS/TASK_QUEUE.md` 取得 CHARACTER 相關任務。
+Define the concrete T101 target/deliverable before beginning new CHARACTER production. Do not invent a permanent target or redo the existing CHARACTER_SPEC solely to fill the queue.
 
 ## Notes
 
