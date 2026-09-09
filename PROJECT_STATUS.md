@@ -20,6 +20,7 @@ GitHub 是跨聊天室、跨帳號的主要專案狀態來源。
 - `TASK_QUEUE` 是工作分配來源。
 - `ACCOUNT_XX` 是各帳號自己的進度記錄。
 - 舊聊天室與無關歷史畫風不得污染目前專案。
+- `PRODUCTION/IMAGE_QUEUE.md` 是第一輪圖片逐張生產與斷點續作狀態來源。
 
 ---
 
@@ -68,6 +69,7 @@ ACCOUNT_06 不負責建立獨立畫風或取代前五個帳號的專業分工，
 - `WORKFLOW/QUALITY_CONTROL.md`
 - `TASKS/TASK_QUEUE.md`
 - `STATUS/PRODUCTION_LOG.md`
+- `PRODUCTION/IMAGE_QUEUE.md` — 第一輪 20 張圖片逐張生產佇列與斷點續作控制
 
 ### 帳號狀態檔
 
@@ -95,7 +97,11 @@ ACCOUNT_06 不負責建立獨立畫風或取代前五個帳號的專業分工，
 - T103 — SCENE：DONE / PASS → `03_SCENE/T103_SCENE_HANDOFF_v1.0.md`（20 個設計單元）
 - T104 — POSE_CAMERA：DONE / PASS → `04_POSE_CAMERA/T104_POSE_CAMERA_HANDOFF_v1.0.md`（20 個設計單元）
 - T105 — PROMPT：DONE / PASS → `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md`（20 個 Prompt Package）
-- T106 — FINAL REVIEW：UNASSIGNED → 第一輪 20 張最終圖片的品質閘門
+
+### 第一輪圖片生產
+
+- T107 — IMAGE_PRODUCTION：UNASSIGNED → 20 張第一輪候選圖片
+- T106 — FINAL REVIEW：UNASSIGNED → 第一輪實際生成圖片的最終品質閘門
 
 ---
 
@@ -110,7 +116,7 @@ ACCOUNT_06 不負責建立獨立畫風或取代前五個帳號的專業分工，
 - Pose/Camera：20 單元
 - Prompt：20 Package
 
-這些數量是第一輪批次的執行目標，不是永久限制；後續批次可依 QC 結果調整。
+圖片生產逐張由 `PRODUCTION/IMAGE_QUEUE.md` 管理。圖片生成額度不足、帳號切換或暫時等待都不得造成已完成圖片被重做。
 
 ---
 
@@ -148,11 +154,12 @@ LoRA 資料集優先考慮人物身份穩定、人體正確、風格一致，以
 - [x] 六帳號新聊天室啟動驗證
 - [x] 第一輪生產 Target 定義
 - [x] `WORKFLOW/GENERATION_RULES.md` 路徑對齊
+- [x] 第一輪圖片斷點續作佇列建立
 
 ### 尚未完成
 
-- [ ] 第一輪 20 張圖片生產
-- [ ] ACCOUNT_06 第一輪最終審查
+- [ ] T107 第一輪 20 張圖片生產
+- [ ] T106 ACCOUNT_06 第一輪最終審查
 
 ### 第一輪 Prompt
 
@@ -160,6 +167,21 @@ LoRA 資料集優先考慮人物身份穩定、人體正確、風格一致，以
 - [x] C01–C20、S01–S20、P01–P20 各完成一次組合
 - [x] Character / Clothing / Scene / Pose-Camera / Lighting-Style / Negative 模組分離
 - [x] 身份與人體穩定性規則納入 Prompt Package
+
+---
+
+## 圖片額度與斷點續作
+
+ChatGPT 圖片生成額度視帳號與方案而定，可能在生產過程中暫時達到上限。專案不得假設一次可以完成全部 20 張。
+
+正式執行方式：
+
+1. 從 `PRODUCTION/IMAGE_QUEUE.md` 最小編號的 `NOT_STARTED` 開始。
+2. 每成功產生一張立即保存並更新狀態。
+3. 達到圖片生成上限時停止，不重做已完成圖片。
+4. 額度恢復後從下一個未完成項目繼續。
+5. 只有明確 REJECT / NEED_REGENERATE 的圖片才進入重生成。
+6. 全部 20 張實際完成後才進入 T106。
 
 ---
 
@@ -173,10 +195,11 @@ Google Drive → Make binary → ReturnData file object → MCP 已能取得 PNG
 
 ## 下一步
 
-1. 使用 T105 的 20 個 Prompt Package 進行第一輪 20 張圖片生成。
-2. 每張圖片依 `WORKFLOW/QUALITY_CONTROL.md` 進行候選檢查、必要修復與 PASS / REVIEW / REJECT 分類。
-3. ACCOUNT_06 執行 T106 最終 PASS / REVIEW / REJECT。
-4. 若 T106 發現上游設計問題，退回對應專業帳號處理，不由 Prompt 部門擅自改寫其他部門規格。
+1. 指定執行 T107 的圖片生產帳號／聊天室。
+2. 使用 T105 的 20 個 Prompt Package，依 `PRODUCTION/IMAGE_QUEUE.md` 逐張生成。
+3. 每張圖片完成後保存並更新 queue 與 `STATUS/PRODUCTION_LOG.md`。
+4. 若達圖片生成上限，保留狀態並等待額度恢復後續作。
+5. 20 張全部完成後，由 ACCOUNT_06 執行 T106 最終 PASS / REVIEW / REJECT。
 
 ---
 
