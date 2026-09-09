@@ -7,8 +7,8 @@
 - Account: ACCOUNT_03
 - Role: SCENE
 - Project Area: `03_SCENE`
-- Status: IDLE
-- Current Task: None
+- Status: BLOCKED
+- Current Task: T103
 
 ## Responsibility
 
@@ -25,11 +25,13 @@
 
 ## Current Task
 
-None
+T103 — SCENE 場景資料
+
+目前已確認 T103 為 ACCOUNT_03 對應任務，但 TASK_QUEUE 只提供 SCENE 的高層目標，Target 仍為「待定」，未提供本批次具體圖片數量、場景清單或其他可執行規格，因此暫不能安全開始正式圖片生產。另 `WORKFLOW/GENERATION_RULES.md` 目前不存在於 repository。
 
 ## Next Step
 
-依 `TASKS/TASK_QUEUE.md` 取得 SCENE 相關任務。
+待 T103 補充可執行規格（至少目標數量與場景／環境方向）及／或補回 `WORKFLOW/GENERATION_RULES.md` 後開始 SCENE 生產；不重做任何既有 DONE 任務。
 
 ## Notes
 
