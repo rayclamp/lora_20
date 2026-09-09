@@ -25,23 +25,29 @@
 
 ## Startup Verification
 
-- 2026-09-09: ACCOUNT_05 successfully completed the new-chat startup verification by reading the required project state, workflow, style, drawing, identity, quality-control, task-queue, account, and Prompt Department documents.
-- Uploaded age-20 MASTER_IMAGE was confirmed as the active visual identity reference for this workspace; it is used only for identity / appearance consistency, not as a fixed clothing, pose, composition, background, camera, or style template.
-- Repository `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` was confirmed to exist.
-- `WORKFLOW/GENERATION_RULES.md` is absent from the repository root workflow path; the available equivalent master rule is `00_MASTER/GENERATION_RULES.md`, and no missing rule content was invented.
+- 2026-09-09: ACCOUNT_05 successfully re-read the current `START_HERE.md`, `PROJECT_STATUS.md`, `TASKS/TASK_QUEUE.md`, generation rules, style master, identity master, and this account state.
+- Uploaded age-20 MASTER_IMAGE is the active visual identity reference for this workspace; it is used only for identity / appearance consistency, not as a fixed clothing, pose, composition, background, camera, or style template.
+- Repository `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` remains the shared 20-year-old identity reference.
 
 ## Current Task
 
 T105 — PROMPT 提示詞資料
 
-Status: BLOCKED. The task entry leaves `Target: 待定`, and the Prompt Department specification requires approved Character, Clothing, Scene, and Pose/Camera inputs before assembling a generation package. The repository currently contains department specifications/runtime contexts but no approved upstream production outputs or concrete T105 batch/deliverable definition.
+Status: BLOCKED pending complete upstream handoff.
 
-No speculative prompt batch was generated, and no completed work was redone.
+Current upstream check:
+- T102 / ACCOUNT_02: DONE / PASS, 20 of 20. Handoff available at `02_CLOTHING/T102_CLOTHING_HANDOFF_v1.0.md`.
+- T103 / ACCOUNT_03: TASK_QUEUE currently says IN_PROGRESS, but `03_SCENE/T103_SCENE_HANDOFF_v1.0.md` is present with Completed 20 / 20 and Status PASS. The handoff itself is therefore available; the account status is stale/inconsistent and should not be treated as stronger evidence than the versioned handoff.
+- T104 / ACCOUNT_04: IN_PROGRESS in `TASKS/TASK_QUEUE.md`, Completed 0 / 20, and no versioned Pose/Camera Handoff file is present in `04_POSE_CAMERA/`; repository search also found no T104 Pose/Camera Handoff. Therefore the required upstream set is incomplete.
+
+No speculative Prompt Package has been generated. T105 must not begin final integration until the T104 versioned handoff is complete and available.
 
 ## Next Step
 
-Provide a concrete T105 target/deliverable and the approved upstream Character / Clothing / Scene / Pose-Camera inputs (or their versioned handoff IDs). If a specific generation workflow/model is required, provide that as well; otherwise it can remain an implementation choice after the approved design inputs are available.
+Wait for ACCOUNT_04 to publish the approved T104 Pose/Camera Handoff. Once T104 is complete, integrate the approved T101 Character Specification + T102 Clothing Handoff + T103 Scene Handoff + T104 Pose/Camera Handoff into exactly 20 Prompt Packages, without importing historical-chat or unrelated-project styles.
 
 ## Notes
 
-只記錄本帳號的專案工作狀態，不記錄個人審美或個人長期畫風偏好。
+- Follow `00_MASTER/GENERATION_RULES.md` as the authoritative generation rule source; `WORKFLOW/GENERATION_RULES.md` is only its workflow-facing alias.
+- Do not change T105 completion counts or status while the required upstream handoff is incomplete.
+- 2026-09-09 latest check: T102 handoff available; T103 handoff available despite stale queue/account status; T104 handoff missing, so formal T105 integration remains blocked.
