@@ -1,234 +1,61 @@
-# PRODUCTION PROTOCOL
+# PRODUCTION_PROTOCOL.md — 六帳號 LoRA 生產協議
 
 ## 1. Purpose
 
-This document defines the shared production protocol for the six-account LoRA dataset system. It converts the project rules into a repeatable workflow in which the Director account coordinates specialist work through the shared repository.
+將專案規則轉為可重複執行的生產流程。GitHub 是共享記憶層；不再使用獨立 Director Workspace。
 
 ## 2. Authority
 
-Decision priority:
-
-1. Explicit user instruction for the current job
+1. 當前使用者指令
 2. `00_MASTER/MASTER_SPEC.md`
-3. Approved character/reference assets
-4. Specialist specifications
-5. Temporary implementation choices
+3. MASTER_IMAGE 與其他核准參考資產
+4. 專業規格與 handoff
+5. 暫時實作選擇
 
-No specialist may silently override a higher-priority rule.
-
-## 3. Production State Machine
-
-Every production job uses one primary state:
+## 3. Production state machine
 
 `QUEUED → PREFLIGHT → DESIGNING → GENERATING → REVIEWING → REPAIR → RECHECK → APPROVED → FINALIZED`
 
-Exception states:
+例外：`BLOCKED / REJECTED / CANCELLED`。
 
-- `BLOCKED` — required input, dependency, or specialist output is missing.
-- `REJECTED` — the asset or job cannot meet the acceptance criteria.
-- `CANCELLED` — explicitly stopped by the user or Director.
+第一輪實際圖片以 `PRODUCTION/IMAGE_QUEUE.md` 作為逐張狀態來源。
 
-A job may return from `RECHECK` to `REPAIR` if defects remain.
+## 4. Preflight
 
-## 4. Job Creation
+開始前確認：身份/年齡、聊天室中的 MASTER_IMAGE、五個專業輸入、Master 規則、Prompt Package、輸出位置、任務數量、已知硬限制與目前 queue 狀態。
 
-Each job receives a unique `job_id` and a manifest under `06_DIRECTOR/jobs/`.
+## 5. Specialist handoff
 
-Minimum manifest fields:
+每份 handoff 應標示任務 ID、部門、版本、完成決策、鎖定條件、可變條件、未解問題與輸出路徑。
 
-```yaml
-job_id: JOB-YYYYMMDD-###
-project: lora_20
-identity: Inaria
-age: 20
-status: QUEUED
-requested_count: 0
-character_spec_version: current
-clothing_spec_version: current
-scene_spec_version: current
-pose_camera_spec_version: current
-prompt_spec_version: current
-master_spec_version: current
-generation_workflow_version: current
-created_at: YYYY-MM-DDTHH:MM:SS
-notes: ""
-```
+## 6. Generation
 
-## 5. Preflight
+ACCOUNT_05 組裝與執行生成內容；候選圖產生後立即依 queue 保存與標記。不得因額度不足而重做已完成圖片。
 
-Before design or generation, the Director verifies:
+## 7. Final review
 
-- target identity and age
-- current reference image availability
-- all five specialist specifications
-- Master specification
-- generation workflow/version
-- requested image count
-- required diversity
-- known hard constraints
-- output and quarantine locations
+ACCOUNT_06 依 `00_MASTER/QUALITY_CONTROL.md` 審查每張圖片。檢查身份、人體、手腳、任務、服裝、場景、Pose/Camera、畫質、風格、完整性與資料集價值。
 
-If a required dependency is missing, state becomes `BLOCKED`.
+## 8. Decision rules
 
-## 6. Specialist Handoff
+- `PASS`：全部硬性條件通過且具足夠資料集價值。
+- `REPAIR`：身份/設計有效，缺陷局部且可安全修復。
+- `REJECT`：嚴重或系統性失敗，或資料集價值不足。
 
-The Director sends work to specialists conceptually through repository artifacts. Every specialist output must identify:
+修復後必須完整重新檢查。
 
-- `job_id`
-- responsible department
-- source specification version
-- requested task
-- completed decisions
-- constraints that must be preserved
-- unresolved questions, if any
-- output/reference paths
+## 9. Dataset finalization
 
-A specialist must not rewrite another department's rules.
+只有 PASS、caption/metadata 完整、來源與版本可追溯、無不必要近似、且已通過 ACCOUNT_06 最終閘門的圖片才可進入 `FINAL/`。
 
-## 7. Design Phase
+## 10. Quota interruption
 
-The five specialist responsibilities are:
+ChatGPT 圖片生成額度不是專案狀態。額度耗盡時，將目前項目保留為未完成/等待狀態，下一次從最小編號未完成項目繼續。只有明確 REJECT 或 NEED_REGENERATE 才重新消耗生成額度。
 
-- Character: identity, age, face, body proportions, hair and identity anchors.
-- Clothing: garment design, materials, colors, accessories and footwear.
-- Scene: environment, time, weather, atmosphere and background hierarchy.
-- Pose/Camera: stable pose, gesture, camera, framing, perspective and composition.
-- Prompt/Generation/Dataset: prompt assembly, generation settings, captioning, metadata and dataset organization.
+## 11. Repository rules
 
-The Director resolves conflicts before generation authorization.
+全域規則只放在 `00_MASTER/`。不要重新建立 `WORKFLOW/` 或 `06_DIRECTOR/`。專業輸出放在 `01_CHARACTER`–`05_PROMPT`，帳號狀態放 `ACCOUNTS/`，任務放 `TASKS/`，生產佇列放 `PRODUCTION/`，紀錄放 `STATUS/`，最終資料放 `FINAL/`。
 
-## 8. Generation Authorization
+## 12. Completion
 
-Generation begins only after the Director has a coherent design package. The package must preserve locked identity elements and explicitly state intentional variations.
-
-The generation stage should create enough candidates to compensate for expected rejection/repair while avoiding unnecessary duplication.
-
-## 9. Review Gate
-
-Every candidate is evaluated independently for:
-
-### Hard gates
-- recognizable target identity
-- correct target age representation
-- plausible anatomy
-- exactly five fingers where visible
-- exactly five toes where visible
-- no extra limbs or duplicated body parts
-- no severe facial deformation
-- no severe clothing/body intersection
-- no broken pose or impossible joints
-- no unwanted text, watermark or logo
-- no severe rendering failure
-
-### Soft quality checks
-- face quality and consistency
-- skin texture and lighting
-- hair consistency
-- clothing quality
-- scene coherence
-- pose/camera quality
-- composition
-- style consistency
-- visual cleanliness
-- dataset usefulness
-
-## 10. Decision Rules
-
-`PASS`: hard gates pass and the image has sufficient dataset value.
-
-`REPAIR`: the identity and overall composition are valuable, but a localized defect can realistically be corrected.
-
-`REJECT`: identity failure, severe anatomy failure, major composition failure, irreparable rendering failure, or low dataset value.
-
-A visually beautiful image is not automatically a PASS.
-
-## 11. Repair Protocol
-
-For `REPAIR`:
-
-1. Preserve the original candidate.
-2. Identify the smallest repair region.
-3. Use local masking/inpainting whenever feasible.
-4. Preserve non-targeted regions.
-5. Reinspect the repaired result using the complete QA checklist.
-6. Never mark an image PASS solely because the repaired region looks better.
-
-If repair introduces a new defect, return to `REPAIR` or `REJECT`.
-
-## 12. Diversity Gate
-
-Before final approval, the Director checks that the dataset does not accidentally encode a single outfit, background, hairstyle, camera angle, pose, lighting condition, or composition as part of identity.
-
-Variation must be deliberate rather than random noise.
-
-## 13. Dataset Finalization
-
-An image can enter `FINALIZED` only when:
-
-- QA is PASS
-- required repair history is recorded
-- caption is complete
-- metadata is complete
-- source/reference traceability is available
-- uniqueness/dataset value is acceptable
-- Director approval is recorded
-
-Rejected or quarantined candidates remain traceable and are not silently deleted.
-
-## 14. Required Decision Record
-
-```yaml
-asset_id: ASSET-###
-job_id: JOB-YYYYMMDD-###
-status: PASS|REPAIR|REJECT
-character: PASS|FAIL
-anatomy: PASS|FAIL
-clothing: PASS|FAIL
-scene: PASS|FAIL
-pose_camera: PASS|FAIL
-quality: PASS|FAIL
-caption: PASS|FAIL
-diversity_value: HIGH|MEDIUM|LOW
-repair_required: true|false
-repair_region: ""
-final_reason: ""
-reviewer: DIRECTOR
-```
-
-## 15. Traceability
-
-Every final asset should be traceable to:
-
-`job → design package → generation workflow → candidate → QA → repair history (if any) → final asset → caption/metadata`
-
-## 16. Repository Rules
-
-The repository is the shared memory layer. Rules and decisions belong in Markdown/YAML/text artifacts; large binary assets should be referenced by stable paths or external storage rather than duplicated unnecessarily.
-
-Recommended directories:
-
-- `00_MASTER/` — project-wide rules
-- `01_CHARACTER/` — character rules and references
-- `02_CLOTHING/` — clothing rules
-- `03_SCENE/` — scene rules
-- `04_POSE_CAMERA/` — pose/camera rules
-- `05_PROMPT/` — prompt/generation/dataset rules
-- `06_DIRECTOR/` — jobs, QA, decisions and orchestration
-- `FINAL/` — approved release metadata/assets
-
-## 17. Change Control
-
-Permanent rule changes require:
-
-1. change proposal
-2. reason
-3. affected departments
-4. Director review
-5. updated version
-6. downstream validation
-
-Temporary job-specific changes belong in the job manifest and must not silently become permanent rules.
-
-## 18. Completion Condition
-
-A production job is complete only when all requested final assets are either `FINALIZED`, explicitly `REJECTED`, or explicitly marked `BLOCKED` with a recorded reason.
+工作單元只有在輸出、QA、狀態、紀錄與必要 metadata 都完成後才算完成。
