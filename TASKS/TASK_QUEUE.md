@@ -104,20 +104,21 @@
 - Notes: 第一輪 20 個 Pose/Camera design units 已完成結構化 handoff；以生成穩定性、人體工學、五指／五趾與清楚構圖優先。未生成最終圖片，PASS 僅代表 T104 設計資料交付完成；最終圖片仍由 T105/T106 流程驗收。
 
 ### T105 — PROMPT 提示詞資料
-- Status: ASSIGNED
+- Status: DONE
 - Account: ACCOUNT_05
 - Theme: 提示詞／生成指令
 - Project Area: `05_PROMPT`
 - Goal: 將第一輪 Character、Clothing、Scene、Pose/Camera 條件整合成可執行的 Prompt Package。
 - Target: 20 個 Prompt Package
-- Completed: 0
-- PASS: 0
+- Completed: 20
+- PASS: 20
 - REVIEW: 0
 - REJECT: 0
 - Priority: P1
-- Input: T101 Character Specification v1.1 + T102/T103/T104 版本化 Handoff；上游未完成前保持 ASSIGNED，不開始最終整合。
-- Deliverable: 20 個版本化 Prompt Package，分離 Character / Clothing / Scene / Pose-Camera / Lighting-Style / Negative。
-- Notes: 使用 `00_MASTER/GENERATION_RULES.md` 與各 Master / Department 規則；不得引入歷史聊天室畫風。
+- Input: T101 Character Specification v1.1 + T102/T103/T104 版本化 Handoff
+- Deliverable: `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md`，20 個版本化 Prompt Package，分離 Character / Clothing / Scene / Pose-Camera / Lighting-Style / Negative。
+- Result: PASS
+- Notes: T102、T103、T104 版本化 handoff 均已驗證完成後，ACCOUNT_05 完成第一輪 20 組 Prompt Package。C01–C20、S01–S20、P01–P20 各使用一次；未引入歷史聊天室或其他專案畫風。最終圖片仍須經 T106 圖片品質閘門。
 
 ### T106 — FINAL REVIEW 第一輪最終整合審查
 - Status: UNASSIGNED
