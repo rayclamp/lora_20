@@ -8,7 +8,7 @@
 - Role: FINAL_REVIEWER
 - Project Area: Final Quality Control
 - Status: ACTIVE
-- Current Task: 系統與資料集最終審查
+- Current Task: T001 — MASTER_IMAGE 驗證 / T002 — 六帳號啟動測試
 
 ## Responsibility
 
@@ -42,6 +42,11 @@ ACCOUNT_06 為本專案最終審查員，負責整合檢查 ACCOUNT_01～ACCOUNT
 
 目前專案規則與 MASTER_IMAGE 優先於歷史聊天室內容。
 
+## System Validation
+
+- T001 MASTER_IMAGE：已確認 `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` 正式存在於 repository。
+- T002 六帳號新聊天室啟動測試：目前由 ACCOUNT_06 作為統一啟動驗證與最終審查端；其他帳號需在各自新聊天室以 `ACCOUNT_XX` 啟動後回寫狀態。
+
 ## Decision
 
 每張圖片依 `QUALITY_CONTROL.md` 判定：
@@ -61,7 +66,7 @@ ACCOUNT_06 為本專案最終審查員，負責整合檢查 ACCOUNT_01～ACCOUNT
 
 ## Current Task
 
-系統建立後執行第一輪跨帳號整合審查。
+執行第一輪六帳號系統啟動驗證，並準備後續跨帳號成果最終審查。
 
 ## Notes
 
