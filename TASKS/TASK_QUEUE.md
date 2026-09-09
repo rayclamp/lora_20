@@ -86,20 +86,21 @@
 - Notes: 使用 `00_MASTER/GENERATION_RULES.md` 作為生成規則來源；不再以不存在的 `WORKFLOW/GENERATION_RULES.md` 作為 blocker。
 
 ### T104 — POSE_CAMERA 姿勢與鏡位資料
-- Status: IN_PROGRESS
+- Status: DONE
 - Account: ACCOUNT_04
 - Theme: 姿勢／動作／鏡位／構圖
 - Project Area: `04_POSE_CAMERA`
 - Goal: 建立第一輪正式 LoRA 生產所需的人體工學姿勢、動作、視角、景別與構圖資料。
 - Target: 20 個互不高度重複的 Pose/Camera 設計單元
-- Completed: 0
-- PASS: 0
+- Completed: 20
+- PASS: 20
 - REVIEW: 0
 - REJECT: 0
 - Priority: P1
 - Input: T101 Character Specification v1.1；T102 Clothing Handoff 與 T103 Scene Handoff 可作為相容性參考。
-- Deliverable: 版本化 Pose/Camera Handoff，20 個姿勢／動作／鏡位／構圖設計單元。
-- Notes: 生成穩定性、人體工學、五指／五趾與清楚構圖優先。
+- Deliverable: `04_POSE_CAMERA/T104_POSE_CAMERA_HANDOFF_v1.0.md`，20 個版本化姿勢／動作／鏡位／構圖設計單元。
+- Result: PASS
+- Notes: 第一輪 20 個 Pose/Camera design units 已完成結構化 handoff；以生成穩定性、人體工學、五指／五趾與清楚構圖優先。未生成最終圖片，PASS 僅代表 T104 設計資料交付完成；最終圖片仍由 T105/T106 流程驗收。
 
 ### T105 — PROMPT 提示詞資料
 - Status: ASSIGNED
