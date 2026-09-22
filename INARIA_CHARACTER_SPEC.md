@@ -10,8 +10,8 @@ This document defines the formal character specification for future Codex QA of 
 | --- | --- |
 | Character name | Inaria / 依娜莉亞 |
 | Dataset target | Age-20 Inaria LoRA |
-| Primary reference | The user's designated age-20 Inaria reference image |
-| Reference authority | The age-20 reference image is the primary visual reference for character identity and visual appearance. |
+| Primary reference | `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` |
+| Reference authority | `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` is the designated primary visual reference for age-20 Inaria character identity and visual appearance. |
 
 ## Core Appearance
 
