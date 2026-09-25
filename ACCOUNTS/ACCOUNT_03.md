@@ -1,30 +1,27 @@
-# ACCOUNT_03.md — ChatGPT 帳號工作站狀態
+# ACCOUNT_03.md — ChatGPT Generation Worker
 
 ## Account
 - Account: ACCOUNT_03
-- Role: SCENE
-- Project Area: `03_SCENE`
-- Status: DONE
-- Current Task: T103 — SCENE（DONE）
+- Role: GENERATION_WORKER
+- Project Area: `PRODUCTION`
+- Status: READY
+- Current Task: T107 — IMAGE_PRODUCTION
 
 ## Responsibility
-負責場景、環境、季節、時間、背景、光線與空間資料多樣性。不得以歷史聊天室或舊作品改變目前專案風格。
+本帳號是共享 Generation Worker。只負責依 GitHub production queue 與 ACCOUNT_06 Master Director 已核准的 Prompt Package 生成圖片。
 
-## Progress
-- Generated: 20 scene design units
-- PASS: 20
-- REVIEW: 0
-- REJECT: 0
+不得自行設計 Character、Clothing、Scene、Pose/Camera、全域 Style 或 Prompt 架構。
 
-## Completed Task
-T103 — SCENE：20 個 Scene Design Unit 已完成，deliverable `03_SCENE/T103_SCENE_HANDOFF_v1.0.md`。
+## Startup
+使用 `START_HERE.md` 的統一 Generation Worker 指令，不需要帳號專屬創意指令。
 
-設計涵蓋城市、郊區/農業、自然水域、室內與日式區域，並分散季節、時間與天氣條件。場景遵守 `00_MASTER/GENERATION_RULES.md`、`00_MASTER/STYLE_MASTER.md`、`00_MASTER/IDENTITY_MASTER.md` 與 `00_MASTER/DRAWING_INSTRUCTIONS.md`。
-
-本次 PASS 代表 T103 handoff 完整交付，不代表最終圖片已通過 T106 圖片級 QA。
+## Current Production Rule
+- 讀取最新 `PRODUCTION/IMAGE_QUEUE.md`
+- 取得未被其他 worker claim 的最小編號項目
+- Claim 後再生成
+- 生成完成立即記錄
+- 遇到額度限制停止，不重做已完成圖片
+- 不把自己的圖片直接判定為最終 PASS
 
 ## Next Step
-T103 已完成；不重做已完成工作。後續等待新 SCENE 或 NEED_REWORK 任務。
-
-## Notes
-MASTER_IMAGE 僅作人物身份確認，不作構圖、服裝、姿勢或背景模板。全域規則統一位於 `00_MASTER/`。
+等待並執行 T107 可用 queue item。
