@@ -36,7 +36,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_03 | walking while looking back | walking stride with torso forward and head gently turned back | right 3/4 front | low ponytail | casual T-shirt with jeans | kitchen | full-body slightly low angle | one hand holding a book, other supporting naturally | FAILED |
 | IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | IMAGE_CREATED |
 | IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | FAILED |
-| IMG_06 | turning around | turning-around pose with feet stable and torso rotating naturally | left 3/4 rear | half-up hairstyle | hoodie with casual shorts | bookstore | waist-up | both hands lightly holding a larger object | CLAIMED |
+| IMG_06 | turning around | turning-around pose with feet stable and torso rotating naturally | left 3/4 rear | half-up hairstyle | hoodie with casual shorts | bookstore | waist-up | both hands lightly holding a larger object | GENERATING |
 | IMG_07 | reaching forward | standing reach toward a large object at chest height | right 3/4 rear | low bun | office blouse with trousers | convenience store | chest-up | one hand touching hair, other relaxed | QUEUED |
 | IMG_08 | reaching upward | standing reach upward with one arm, feet stable | full rear | side braid | office blouse with pencil skirt | shopping street | environmental full-body | one hand adjusting sleeve, other relaxed | QUEUED |
 | IMG_09 | reaching downward | standing light forward bend reaching toward a low object | front slight high angle | half-up braid | lightweight jacket with skirt | city sidewalk | side-oriented composition | one hand reaching toward a large object, other relaxed | QUEUED |
@@ -229,7 +229,7 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 
 ## Active Worker Claim
 - Task: IMG_06
-- Status: CLAIMED
+- Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0003-IMG_06-01
 - Lease until: 2026-09-26T02:03:00+08:00
