@@ -42,6 +42,9 @@ Worker 不需要被分配不同創意職能。所有角色、服裝、場景、�
 6. If the update conflicts/fails, the claim did not happen. **Do not generate.** Re-fetch and retry.
 7. Only after a successful update may the worker proceed.
 
+### C. Anatomy-first generation
+Before generation, verify the planned pose has exactly two hands and two legs, stable shoulder/hip connections, intended five-finger/five-toe visibility, stable center of gravity, and no high-risk false-limb structures. Simplify or remove complex props, straps, occlusions, or effects when they threaten anatomy stability. Follow `00_MASTER/ANATOMY_STABILITY.md`.
+
 ### C. Reference-first generation
 1. Confirm the uploaded `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` is visible in the current chat.
 2. Use it as the direct visual reference for both character identity and illustration style.
@@ -57,6 +60,7 @@ Before image generation:
 4. Only after that update succeeds, start image generation.
 
 ### D. Completion
+Before QC_PENDING, perform an anatomy self-check against `00_MASTER/ANATOMY_STABILITY.md`. Obvious extra/missing limbs or malformed hands/feet must not be submitted as clean candidates.
 1. Re-fetch the queue.
 2. Verify ownership and Claim ID.
 3. Record the candidate in the production log.
