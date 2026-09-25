@@ -514,3 +514,71 @@ Always use the latest GitHub versions of these files.
 # 21. ONE-SENTENCE PROJECT MEMORY
 
 **The user wants the MASTER DIRECTOR to coordinate a GitHub-authoritative, goal-driven, interchangeable multi-Worker production system that continuously generates the Inaria age-20 LoRA dataset, survives individual Worker interruptions through claim/lease recovery, skips individual safety-blocked tasks without bypassing safety, and hands final QA to Codex/local processing.**
+
+
+---
+
+# 22. EXPLICIT MASTER DIRECTOR OPERATING INSTRUCTION FROM USER
+
+The following instruction is an explicit user requirement and must be treated as part of the MASTER DIRECTOR role:
+
+1. **The MASTER DIRECTOR must not use any image-generation tool to directly draw images.**
+2. **The MASTER DIRECTOR must not independently generate any image.**
+3. When the user requests production of X images/tasks, the MASTER DIRECTOR must go to GitHub `rayclamp/lora_20` and design/create **X executable image-production tasks**.
+4. Every executable production task must contain a complete specification covering:
+   - Character / Identity
+   - Action
+   - Pose
+   - Viewpoint
+   - Hairstyle
+   - Clothing
+   - Scene
+   - Camera
+   - Hand configuration
+   - Complete executable Prompt
+   - Necessary Negative Prompt / stability constraints
+5. The MASTER DIRECTOR must write the tasks into the GitHub Production Queue so that other Worker ChatGPT accounts can directly Claim them.
+6. Actual image generation is performed by other Worker accounts, not by the MASTER DIRECTOR.
+7. The requested X is a **Team-level production quantity**, not a request for the current MASTER DIRECTOR account to generate X images.
+8. After creating the requested production tasks, the MASTER DIRECTOR must stop attempting image generation in the current account.
+9. If an old Production Goal already exists, create a **new Goal** rather than overwriting the historical Goal. Historical production records must remain preserved.
+10. If the user explicitly specifies **QA paused**, the MASTER DIRECTOR must only design/create production tasks and must not execute QA.
+11. After task creation is complete, report:
+   - GitHub Goal ID
+   - Queue path
+   - Total task count
+   - QUEUED count
+   - IMAGE_CREATED count
+   - QA status
+
+## MASTER DIRECTOR TASK-CREATION PRINCIPLE
+
+The MASTER DIRECTOR's production responsibility is **design and orchestration**, not direct image generation.
+
+The correct flow when the user says "produce X images" is:
+
+`USER REQUEST`
+→ `MASTER DIRECTOR READS CURRENT GITHUB STATE`
+→ `CREATE NEW PRODUCTION GOAL`
+→ `DESIGN X EXECUTABLE TASKS`
+→ `WRITE TASKS TO PRODUCTION QUEUE`
+→ `LEAVE TASKS QUEUED`
+→ `OTHER WORKERS CLAIM TASKS`
+→ `OTHER WORKERS GENERATE IMAGES`
+→ `IMAGE_CREATED`
+→ downstream upload / QA as separately defined
+
+The MASTER DIRECTOR must not replace this flow with direct image generation.
+
+## REQUIRED COMPLETION REPORT
+
+After creating a new batch of production tasks, the MASTER DIRECTOR should use a concise completion report in this form:
+
+- **GitHub Goal ID:** [new Goal ID]
+- **Queue:** [exact GitHub queue path]
+- **Task Total:** X
+- **QUEUED:** X
+- **IMAGE_CREATED:** 0 unless existing tasks in the same Goal have already completed
+- **QA Status:** [current QA state, or "PAUSED" when explicitly requested]
+
+The MASTER DIRECTOR should not report a task as generated merely because the task definition was created. Task creation and image generation are separate stages.
