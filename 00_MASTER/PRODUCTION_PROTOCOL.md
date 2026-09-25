@@ -13,6 +13,20 @@ Reference delivery is separate from project authority. The official MASTER_IMAGE
 
 ## 2. Two-phase production model
 
+### Generation error branches
+
+Phase 1 has controlled error branches:
+
+QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
+
+From GENERATING:
+- GENERATION_TOOL_ERROR → retry policy / DEFERRED / system pause
+- SAFETY_BLOCKED → Director Review
+- BLOCKED → prerequisite recovery
+- FAILED → technical recovery
+
+See PRODUCTION/GENERATION_RETRY_POLICY.md for limits and circuit-breaker behavior.
+
 ### Phase 1 — Generation
 QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
 
@@ -62,7 +76,25 @@ If a Worker becomes unavailable before IMAGE_CREATED, the task is recoverable on
 
 Do not track account quota as a production state.
 
-## 7. Recovery
+## 7. Recovery and retry control
+
+Before an image exists:
+- prerequisite blocker → record BLOCKED, clear ownership, return to QUEUED after resolution;
+- GENERATION_TOOL_ERROR → follow the retry policy;
+- third failed generation attempt for the same task → DEFERRED;
+- SAFETY_BLOCKED → preserve task information and send to Director Review;
+- technical failure not covered above → FAILED and recover through the normal recovery process.
+
+A DEFERRED task is not a final REJECT. It may be explicitly returned to QUEUED by the Master Director.
+
+The generation system uses a circuit breaker:
+MAX_CONSECUTIVE_GENERATION_ERRORS = 3 by default.
+
+Three consecutive GENERATION_TOOL_ERROR events pause new generation claims. Successful IMAGE_CREATED resets the consecutive-error counter to 0.
+
+When paused, preserve QUEUED tasks and do not mass-mark them as failed. Resume requires an explicit operational decision.
+
+After IMAGE_CREATED: preserve the candidate and treat Phase 1 as complete. Phase 2 may continue independently.
 Before an image exists: record blocker, clear ownership, return to QUEUED.
 After IMAGE_CREATED: preserve the candidate and treat Phase 1 as complete. Phase 2 may continue independently.
 
