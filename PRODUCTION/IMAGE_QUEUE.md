@@ -56,7 +56,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_23 | using a smartphone | standing naturally using a smartphone at comfortable chest height | right profile | low ponytail | office blouse with pencil skirt | kitchen | off-center composition | one hand on a stable surface, other relaxed | FAILED |
 | IMG_24 | drinking from a cup | seated upright drinking from a simple cup | front slight high angle | high ponytail | lightweight jacket with skirt | home workspace | symmetrical centered composition | hands carrying a simple lightweight object | SAFETY_BLOCKED |
 | IMG_25 | eating a simple meal | seated at table eating a simple meal | front slight low angle | side ponytail | casual sweater with straight-leg trousers | café | full-body eye-level | both hands relaxed and visible | FAILED |
-| IMG_26 | preparing food at a counter | standing at kitchen counter preparing food | rear slight low angle | half-up hairstyle | simple sportswear | bookstore | full-body slightly high angle | one hand holding a simple cup, other relaxed | GENERATING |
+| IMG_26 | preparing food at a counter | standing at kitchen counter preparing food | rear slight low angle | half-up hairstyle | simple sportswear | bookstore | full-body slightly high angle | one hand holding a simple cup, other relaxed | FAILED |
 | IMG_27 | organizing objects on a shelf | standing beside shelf organizing objects | over-shoulder | low bun | comfortable homewear | convenience store | full-body slightly low angle | one hand holding a book, other supporting naturally | QUEUED |
 | IMG_28 | opening a door | standing beside doorway opening a door with one hand | distant environmental full-body | side braid | pajamas | shopping street | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
 | IMG_29 | looking through a display shelf | standing beside display shelf examining an object | full frontal | half-up braid | light trench coat with simple inner outfit | city sidewalk | medium shot | writing with one hand, other stabilizing notebook | QUEUED |
@@ -624,10 +624,17 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Worker released immediately after worker self-check: YES
 
 
-## Active Worker Claim
+## Worker Outcome
 - Task: IMG_26
-- Status: GENERATING
-- Worker: CHATGPT_MANUAL_WORKER
+- Outcome: FAILED
+- Worker released: YES
 - Claim ID: CW-20260926-0102-IMG_26-01
-- Lease until: 2026-09-26T03:02:00+08:00
-- Claim recorded from queue SHA: 291a27b33666c45755115ee3e7714bf6d64b4cfd
+- Generation ID: 2b341dcc-0116-4edc-81fd-fe17932d4b18
+- Reason: generated candidate did not match the assigned IMG_26 design (standing at a bookstore counter preparing food, half-up hairstyle, simple sportswear, rear slight low-angle view, one hand holding a simple cup); not counted as IMAGE_CREATED.
+
+
+## Generation Event
+- Task: IMG_26
+- Event: FAILED
+- Generation ID: 2b341dcc-0116-4edc-81fd-fe17932d4b18
+- Worker released immediately after worker self-check: YES
