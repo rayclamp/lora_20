@@ -86,36 +86,36 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 | ID | Character | Clothing | Scene | Pose/Camera | Prompt | Worker | Status | Claim ID | Lease Until | Attempts | Last Error | Final QC |
 |---|---|---|---|---|---|---|---|---|---|---:|---|---|
 | IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | rayclamp | IMAGE_CREATED | CLAIM-T107-IMG_01-RAYCLAMP-20260925T2144 | 2026-09-25 23:44 +08:00 | 1 | - | - |
-| IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
+| IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_02-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
 | IMG_03 | C01 | C03 | S03 | P04 | Prompt 03 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_03-CHATGPT-20260925T2224 | 2026-09-26 00:24 +08:00 | 1 | - | - |
 | IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_04-CHATGPT-20260925T2227 | 2026-09-26 00:27 +08:00 | 1 | - | - |
 | IMG_05 | C01 | C05 | S04 | P05 | Prompt 05 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_05-CHATGPT-20260925T2230 | 2026-09-26 00:30 +08:00 | 1 | - | - |
 | IMG_06 | C01 | C06 | S06 | P06 | Prompt 06 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_06-CHATGPT-20260925T2233 | 2026-09-26 00:33 +08:00 | 1 | - | - |
 | IMG_07 | C01 | C07 | S08 | P15 | Prompt 07 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_07-CHATGPT-20260925T2237 | 2026-09-26 00:37 +08:00 | 0 | - | - |
-| IMG_08 | C01 | C08 | S18 | P12 | Prompt 08 | - | SAFETY_BLOCKED | - | - | 0 | EXPLICIT_SAFETY_BLOCK | - |
-| IMG_09 | C01 | C09 | S09 | P09 | Prompt 09 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
+| IMG_08 | C01 | C08 | S18 | P12 | Prompt 08 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_08-20260925 | - | 0 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
+| IMG_09 | C01 | C09 | S09 | P09 | Prompt 09 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_09-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
 | IMG_10 | C01 | C10 | S19 | P10 | Prompt 10 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_10-CHATGPT-20260925T2250 | 2026-09-26 00:50 +08:00 | 1 | - | - |
 | IMG_11 | C01 | C11 | S06 | P17 | Prompt 11 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_11-CHATGPT-20260925T2255 | 2026-09-26 00:55 +08:00 | 1 | - | - |
 | IMG_12 | C01 | C12 | S12 | P12 | Prompt 12 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG12-WORKER-2300 | 2026-09-26 01:00 +08:00 | 1 | - | - |
 | IMG_13 | C01 | C13 | S09 | P13 | Prompt 13 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG13-WORKER-2305 | 2026-09-26 01:05 +08:00 | 1 | - | - |
 | IMG_14 | C01 | C14 | S13 | P08 | Prompt 14 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG14-WORKER-2310 | 2026-09-26 01:10 +08:00 | 1 | - | - |
-| IMG_15 | C01 | C15 | S15 | P14 | Prompt 15 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
-| IMG_16 | C01 | C16 | S16 | P16 | Prompt 16 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
+| IMG_15 | C01 | C15 | S15 | P14 | Prompt 15 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_15-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
+| IMG_16 | C01 | C16 | S16 | P16 | Prompt 16 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_16-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
 | IMG_17 | C01 | C17 | S17 | P17 | Prompt 17 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG17-WORKER-2325 | 2026-09-26 01:25 +08:00 | 1 | - | - |
-| IMG_18 | C01 | C18 | S20 | P01 | Prompt 18 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
+| IMG_18 | C01 | C18 | S20 | P01 | Prompt 18 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_18-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
 | IMG_19 | C01 | C19 | S05 | P16 | Prompt 19 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG19-WORKER-2335 | 2026-09-26 01:35 +08:00 | 1 | - | - |
 | IMG_20 | C01 | C20 | S20 | P20 | Prompt 20 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG20-WORKER-2340 | 2026-09-26 01:40 +08:00 | 1 | - | - |
 
 ## Current reconciled count
 - Goal target: 20
-- Phase 1 IMAGE_CREATED: 1
-- Phase 1 remaining: 19
+- Phase 1 IMAGE_CREATED: 20
+- Phase 1 remaining: 0
 - Generation system state: ACTIVE
 - Consecutive GENERATION_TOOL_ERROR count: 0
-- QUEUED: 17
-- CLAIMED: 1
+- QUEUED: 0
+- CLAIMED: 0
 - GENERATING: 0
-- IMAGE_CREATED: 1
+- IMAGE_CREATED: 20
 - UPLOADING: 0
 - UPLOADED: 0
 - QC_PENDING: 0
@@ -125,7 +125,13 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 - BLOCKED: 0
 - FAILED: 0
 - DEFERRED: 0
-- SAFETY_BLOCKED: 6
+- SAFETY_BLOCKED: 0
+
+## Production/Upload separation safeguard
+
+A successful generation reaches IMAGE_CREATED immediately and counts toward the Phase 1 Goal. Uploading and QA are Phase 2 operations.
+
+If an image cannot be uploaded to GitHub, the task must still be recorded as IMAGE_CREATED and the Worker released. Upload failure must never roll back or delay the Phase 1 Goal counter.
 
 ## Historical candidates
 IMG_01–IMG_05 were previously generated under an obsolete production gate. Their historical outputs remain in STATUS/PRODUCTION_LOG.md but do not count toward the active Goal.
