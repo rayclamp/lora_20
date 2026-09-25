@@ -49,7 +49,7 @@
 | IMG_03 | C01 | C03 | S03 | P03 | Prompt 03 | ACCOUNT_01 | QC_PENDING | - |
 | IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | ACCOUNT_03 | QC_PENDING | - |
 | IMG_05 | C01 | C05 | S05 | P05 | Prompt 05 | ACCOUNT_04 | BLOCKED | - |
-| IMG_06 | C01 | C06 | S06 | P06 | Prompt 06 | - | NOT_STARTED | - |
+| IMG_06 | C01 | C06 | S06 | P06 | Prompt 06 | ACCOUNT_05 | BLOCKED | - |
 | IMG_07 | C01 | C07 | S07 | P07 | Prompt 07 | - | NOT_STARTED | - |
 | IMG_08 | C01 | C08 | S08 | P08 | Prompt 08 | - | NOT_STARTED | - |
 | IMG_09 | C01 | C09 | S09 | P09 | Prompt 09 | - | NOT_STARTED | - |
@@ -74,9 +74,9 @@
 - REPAIR: 0
 - REJECT: 0
 - NEED_REGENERATE: 0
-- NOT_STARTED: 15
+- NOT_STARTED: 14
 - CLAIMED: 0
-- BLOCKED: 1
+- BLOCKED: 2
 
 ## 續作方式
 
