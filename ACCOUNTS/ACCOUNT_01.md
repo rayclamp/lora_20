@@ -4,8 +4,8 @@
 - Account: ACCOUNT_01
 - Role: GENERATION_WORKER
 - Project Area: `PRODUCTION`
-- Status: ACTIVE — IMG_01–IMG_02 GENERATED / QC_PENDING
-- Current Task: T107 — IMG_02 completed; ready for next unclaimed queue item
+- Status: ACTIVE — IMG_01–IMG_03 GENERATED / QC_PENDING
+- Current Task: T107 — IMG_03 completed; ready for next unclaimed queue item
 
 ## Responsibility
 本帳號是共享 Generation Worker。只負責依 GitHub production queue 與 ACCOUNT_06 Master Director 已核准的 Prompt Package 生成圖片。
@@ -28,6 +28,8 @@
 - Generation reference: 9bff4359-55bd-4d12-9b8f-b355256f0494
 - IMG_02 — GENERATED / QC_PENDING
 - Generation reference: fcdb22d8-9208-456e-9c1a-bb34e7676925
+- IMG_03 — GENERATED / QC_PENDING (output materially diverged from Prompt Package; pending ACCOUNT_06 QA)
+- Generation reference: e2639e36-05ea-413b-b7b5-4e4b530575ee
 
 ## Next Step
 可繼續取得下一個未 claim 的 T107 queue item。
