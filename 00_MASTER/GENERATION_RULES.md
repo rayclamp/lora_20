@@ -11,13 +11,21 @@
 
 ## Reference-first generation
 Every image follows:
-MASTER_IMAGE → Character + Visual Style Reference → current Prompt Package → controlled changes → generation
+Official MASTER_IMAGE → Character + Visual Style Reference → current Prompt Package → controlled changes → generation
 
-MASTER_IMAGE must be used directly as both character and visual-style reference.
+The official MASTER_IMAGE must be supplied as an actual image input, either through AUTO MODE or MANUAL MODE.
 
 Preserve line-art language, face/eye rendering, hair rendering, proportions, coloring, shading, lighting language, and overall illustration finish.
 
 Do not use a generic Japanese anime label as a substitute for reference matching.
+
+## Reference verification
+Before generation:
+- confirm the actual reference image is available and visually inspectable;
+- confirm it is the official age-20 INARIA_20_MASTER_v1.0.png;
+- confirm no alternate identity reference has been substituted.
+
+If any check fails, stop and do not generate.
 
 ## Mandatory style
 Target: Japanese anime illustration matching the MASTER_IMAGE.
