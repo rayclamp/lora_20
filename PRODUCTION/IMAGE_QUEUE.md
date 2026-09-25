@@ -719,3 +719,12 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Task: IMG_31
 - Event: GENERATION_TOOL_ERROR
 - Worker released immediately: YES
+
+
+## Active Worker Claim
+- Task: IMG_32
+- Status: CLAIMED
+- Worker: CHATGPT_MANUAL_WORKER
+- Claim ID: CW-20260926-0142-IMG_32-01
+- Lease until: 2026-09-26T03:42:00+08:00
+- Claim recorded from queue SHA: 2ac472f54195a02e4a3581a9ce3656994e834e21
