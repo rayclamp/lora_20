@@ -1,5 +1,20 @@
 # CHANGELOG.md
 
+## 2026-09-25 — Added generation retry limits and system circuit breaker
+
+- Added PRODUCTION/GENERATION_RETRY_POLICY.md.
+- Added explicit GENERATION_TOOL_ERROR handling for cases such as the image-generation tool not appearing, generic retry responses, and internal generation-tool failures.
+- Added MAX_IMAGE_RETRIES = 3 per task by default.
+- Added MAX_CONSECUTIVE_GENERATION_ERRORS = 3 across the production system by default.
+- A task that reaches three failed generation attempts becomes DEFERRED and is skipped so production can continue with another task.
+- Three consecutive GENERATION_TOOL_ERROR events pause new generation claims while preserving all QUEUED tasks.
+- A successful IMAGE_CREATED resets the consecutive generation-error counter.
+- Added SAFETY_BLOCKED as a distinct state requiring Director Review rather than automatic prompt rewriting or repeated retries.
+- Clarified that BLOCKED is for prerequisites and FAILED is reserved for uncategorized technical failures.
+- Updated Worker, Production Protocol, Goal, Queue, Worker Pool, and QA rules to use the shared retry policy.
+- Reconciled T107 Goal accounting to 1/20 IMAGE_CREATED and 19 remaining.
+- Recorded the current IMG_02 explicit safety block without treating it as a QA rejection.
+
 ## 2026-09-25 — Goal-based Production Team and two-phase Worker architecture
 
 - Replaced fixed-account production ownership with an interchangeable Production Worker Pool.
