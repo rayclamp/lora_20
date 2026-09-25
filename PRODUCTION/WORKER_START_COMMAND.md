@@ -23,6 +23,7 @@ Read the latest GitHub state for rayclamp/lora_20, especially:
 - 00_MASTER/PRODUCTION_MODES.md
 - PRODUCTION/IMAGE_QUEUE.md
 - the current approved Prompt Package
+- PRODUCTION/GENERATION_RETRY_POLICY.md
 
 Use MANUAL MODE when the operator supplies MASTER_IMAGE directly.
 
@@ -37,7 +38,9 @@ Before every task:
 8. Visually verify the official INARIA_20_MASTER_v1.0.png supplied in the current generation context.
 9. Generate exactly the task specified by GitHub while preserving the official Character + Visual Style Reference.
 10. Perform the worker self-check.
-11. Change GENERATING → IMAGE_CREATED using the latest queue SHA.
+11. If generation succeeds, change GENERATING → IMAGE_CREATED using the latest queue SHA.
+12. If GENERATION_TOOL_ERROR occurs, follow the retry policy; after the allowed attempts, DEFERRED the task and move to another available task.
+13. If SAFETY_BLOCKED occurs, record SAFETY_BLOCKED, release the current Worker, do not automatically retry that task, and immediately continue with another available task. Never rewrite a prompt to bypass a safety system.
 
 IMAGE_CREATED is Phase 1 completion.
 
@@ -53,6 +56,10 @@ After IMAGE_CREATED:
 - if the Goal is incomplete, claim another task.
 
 The Production Team owns the Goal. Workers execute tasks. GitHub owns the shared state.
+
+A Worker is not required to finish every task it starts. If the Worker becomes unavailable before IMAGE_CREATED, the task remains a team task and may be taken over by another Worker after the claim/lease becomes legitimately recoverable.
+
+A system-level interruption of the current ChatGPT execution may require the operator to start another Worker session. The new Worker must read the latest GitHub state and continue from the queue; it must not wait for manual selection of the next task.
 
 If a Worker becomes unavailable before IMAGE_CREATED, do not fabricate completion or write after lease expiry. The task may be recovered by another Worker only through the normal release/lease mechanism.
 
