@@ -2,11 +2,13 @@
 
 ## Current architecture
 - ACCOUNT_06 = MASTER_DIRECTOR / FINAL_REVIEWER / QA
-- ACCOUNT_01–05, ACCOUNT_07–08 = GENERATION_WORKER
-- GitHub = shared persistent state and official reference authority
+- Generation accounts/sessions = interchangeable Production Worker Pool
+- GitHub = shared persistent state, production coordination layer, and official reference authority
 - MASTER_IMAGE/INARIA_20_MASTER_v1.0.png = single official Character + Visual Style Reference
 - Reference delivery modes: AUTO and MANUAL
+- PRODUCTION/PRODUCTION_GOAL.md = authoritative team-level target
 - PRODUCTION/IMAGE_QUEUE.md = authoritative per-image production state
+- PRODUCTION/WORKER_POOL.md = authoritative worker-pool behavior
 
 ## Current master rules
 The current mandatory standards are:
@@ -20,22 +22,39 @@ The current mandatory standards are:
 8. 00_MASTER/QUALITY_CONTROL.md
 9. 00_MASTER/PRODUCTION_PROTOCOL.md
 10. 00_MASTER/PRODUCTION_MODES.md
+11. PRODUCTION/PRODUCTION_GOAL.md
+12. PRODUCTION/WORKER_POOL.md
 
-## Production status
-T107 — IMAGE_PRODUCTION
-- Status: PAUSED_FOR_VALIDATION
-- Target: 20
-- Historical candidates: 5
-- Valid production candidates: 0
+## Production Goal
+- Goal ID: T107_GOAL_20260925_20
+- Target Phase 1 images: 20
+- Phase 1 completed: 0
+- Phase 1 remaining: 20
+- Goal status: ACTIVE
+- Completion event: IMAGE_CREATED
+- Production mode: MANUAL
+
+The target is team-level. No Worker has a fixed image quota.
+
+## T107 production status
+- Status: ACTIVE_MANUAL_PHASE1
+- Target: 20 new Phase 1 candidates
+- Historical candidates retained: 5
+- Valid Phase 1 production candidates before this run: 0
 - Final PASS: 0
 - REPAIR: 0
 - REJECT: 0
-- NEED_REGENERATE: 5
-- QUEUED: 15
-- Active claims: 0
-- Generating: 0
-- Uploaded: 0
+- QUEUED: 20
+- CLAIMED: 0
+- GENERATING: 0
+- IMAGE_CREATED: 0
+- UPLOADING: 0
+- UPLOADED: 0
 - QC_PENDING: 0
+- BLOCKED: 0
+- FAILED: 0
+
+IMG_01–IMG_05 are historical candidates that require regeneration and are therefore re-queued as production tasks. They do not count toward the new Goal until a new IMAGE_CREATED event occurs.
 
 ## Reference delivery status
 ### AUTO MODE
@@ -44,34 +63,41 @@ Path:
 GitHub MASTER_IMAGE → Make → OpenAI image input → generation → Make → GitHub
 
 ### MANUAL MODE
-Status: AVAILABLE_FOR_CONTROLLED_VALIDATION
+Status: ACTIVE_FOR_PHASE1_PRODUCTION
 Path:
-Operator uploads official MASTER_IMAGE to the generation account → worker verifies image → generation → local dataset inbox → Codex QA
+Operator uploads official MASTER_IMAGE to a generation Worker → Worker verifies image → generation → IMAGE_CREATED → Worker released
 
 Both modes use the same MASTER_IMAGE and the same project-wide rules.
 
-## Why production is paused
-The first five candidates were generated before the current reference-style, anatomy-stability, and production-asset gates were fully enforced. They are retained only as historical evidence and are not valid training images.
+## Validation result
+The controlled MANUAL MODE reference test succeeded:
+- official MASTER_IMAGE was supplied directly;
+- the worker visually used the reference;
+- Japanese anime reference matching was clean;
+- character appearance and anatomy were stable;
+- no major limb/hand/foot defect was observed.
 
-## Validation gate before resuming T107
-1. Use the current official MASTER_IMAGE directly through AUTO or MANUAL mode.
-2. Generate one controlled test.
-3. Confirm Japanese anime reference matching.
-4. Confirm no extra/missing/fused limbs or digits.
-5. Confirm stable hand/foot and object contact.
-6. Confirm the candidate can be transferred to production storage with lineage.
-7. ACCOUNT_06 reviews the test before resuming the queue.
+This validation result allows T107 Phase 1 production to proceed.
 
-## Queue lock
-FETCH → SELECT → CLAIM(CAS) → VERIFY → GENERATING → GENERATE → IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING
+## Phase separation
+Phase 1:
+QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
 
+Phase 1 completion releases the Worker immediately.
+
+Phase 2:
+IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → final QA
+
+Phase 2 is asynchronous and must not block Phase 1 production.
+
+## Goal stop rule
+When Phase 1 completed reaches the active Goal target, Workers must stop claiming new tasks for that Goal.
+
+## Queue ownership
 Claim ownership is determined only by successful conditional update using the latest queue blob SHA.
 
 Lease:
 - ChatGPT manual: 120 minutes
 - Make/OpenAI: 30 minutes
 
-Do not rely on staggered account startup.
-
-## Continuation rule
-Do not resume IMG_01–IMG_20 production until the validation gate passes.
+Do not track account quota as a project state. Worker replacement is handled by the Worker Pool and normal release/lease recovery.
