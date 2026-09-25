@@ -1,10 +1,12 @@
 # PRODUCTION_PROTOCOL.md — Inaria Production Protocol
 
 ## 1. Purpose
-GitHub is the shared project state layer.
+GitHub is the shared project state layer and official reference authority.
 - ACCOUNT_06 = Master Director / Final Reviewer / QA.
 - ACCOUNT_01–05, ACCOUNT_07–08 = Generation Workers.
 - PRODUCTION/IMAGE_QUEUE.md = authoritative per-image production state.
+
+Reference delivery is separate from project authority. The official MASTER_IMAGE may be delivered through AUTO MODE or MANUAL MODE as defined in 00_MASTER/PRODUCTION_MODES.md.
 
 ## 2. Production state machine
 QUEUED → CLAIMED → GENERATING → IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → PASS / REPAIR / REJECT
@@ -19,7 +21,11 @@ QC_PENDING means the asset is ready for ACCOUNT_06 review.
 Do not use GENERATED as a synonym for QC-ready.
 
 ## 3. Reference-first generation
-Every production image must use the current 20-year-old MASTER_IMAGE as the direct Character + Visual Style Reference.
+Every production image must use the actual official INARIA_20_MASTER_v1.0.png as the direct Character + Visual Style Reference.
+
+The reference may be supplied by AUTO MODE or MANUAL MODE. The same reference and the same identity/style/anatomy/generation/QA rules apply in both modes.
+
+The worker must not generate if the actual reference image is missing, unreadable, or clearly the wrong reference/version.
 
 The target is Japanese anime illustration matching that reference. Generic style labels do not replace reference matching.
 
