@@ -7,6 +7,12 @@
 4. Achieve the requested clothing, scene, lighting, and mood.
 5. Add visual richness only after the above are stable.
 
+## Anatomy stability hard rules
+- 完整規範見 `00_MASTER/ANATOMY_STABILITY.md`。
+- 人體固定兩隻手、兩條腿；可見手恰好五指；可見赤腳恰好五趾。
+- 優先簡化複雜手指、腳趾、遮擋、配件與特效。
+- 背包/側背包等背帶必須完整連接並自然貼合身體；高風險時簡化或取消。
+
 ## Hands and feet
 - Design actions that are easy for image models to render correctly.
 - Prefer natural hand placement and partially occluded fingers when appropriate.
