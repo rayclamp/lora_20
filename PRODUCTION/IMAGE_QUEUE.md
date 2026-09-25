@@ -68,8 +68,8 @@
 ## 計數規則
 
 - Target: 20
-- GENERATED: 4
-- QC_PENDING: 4
+- GENERATED: 5
+- QC_PENDING: 5
 - PASS: 0
 - REPAIR: 0
 - REJECT: 0
