@@ -1,19 +1,34 @@
 # IMAGE_QUEUE.md — Age-20 Inaria LoRA Production Queue
 
 ## Purpose
-This is the shared work queue and authoritative per-image production state source for the first 20-image dataset.
+This is the shared per-image work queue and authoritative task state source for the age-20 Inaria LoRA production Goal.
 
-It serves ChatGPT Generation Workers, future Make/OpenAI workers, and ACCOUNT_06 final QA.
+It serves the interchangeable Production Worker Pool, future Make/OpenAI workers, and ACCOUNT_06 final QA.
 
-## Current production gate
-The first five historical candidates were generated before the current Reference Style Lock, anatomy stability rules, and asset-transfer gate were fully enforced.
+## Active Goal
+See PRODUCTION/PRODUCTION_GOAL.md.
 
-Therefore:
-- IMG_01–IMG_05 are not approved training images.
-- Their previous candidate results remain historical in STATUS/PRODUCTION_LOG.md.
-- They must not be treated as valid completed production.
-- IMG_01–IMG_05 require controlled regeneration.
-- T107 remains paused until the controlled generation test passes.
+Current Goal:
+- Goal ID: T107_GOAL_20260925_20
+- Target Phase 1 images: 20
+- Completion event: IMAGE_CREATED
+- Completed at Goal start: 0
+
+The Goal is team-level. Workers do not have fixed image quotas.
+
+## Production phases
+
+### Phase 1 — Worker production
+QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
+
+IMAGE_CREATED is the Worker completion point and counts +1 toward the active Goal.
+
+Once IMAGE_CREATED is recorded, the Worker is released immediately.
+
+### Phase 2 — Delivery and QA
+IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → PASS / REPAIR / REJECT
+
+Phase 2 is asynchronous and must not block Phase 1.
 
 ## Queue rules
 1. Only QUEUED jobs without valid ownership may be claimed.
@@ -22,23 +37,25 @@ Therefore:
 4. A failed/conflicted claim means no ownership and no generation.
 5. CLAIMED → GENERATING must be written before image generation.
 6. Ownership lasts only through the valid lease.
-7. A generated candidate is not QC-ready until its production asset and lineage are recorded.
-8. ACCOUNT_06 is the only final PASS / REPAIR / REJECT gate.
-9. NEED_REGENERATE explicitly authorizes another generation attempt.
-10. Workers must re-fetch the queue after every completed or released job.
+7. IMAGE_CREATED completes Phase 1 for that task.
+8. Phase 2 must not block the Worker from starting another task.
+9. ACCOUNT_06 is the only final PASS / REPAIR / REJECT gate.
+10. NEED_REGENERATE explicitly authorizes another generation attempt.
+11. Workers must re-fetch the queue and active Goal after every completed or released job.
+12. No new task may be claimed once the active Goal target has been reached.
 
 ## State definitions
 - QUEUED: available for claim.
 - CLAIMED: exclusive lease acquired, generation not started.
 - GENERATING: generation started.
-- IMAGE_CREATED: candidate exists in the generating environment.
-- UPLOADING: asset transfer is in progress.
+- IMAGE_CREATED: candidate successfully generated; Phase 1 complete.
+- UPLOADING: Phase 2 asset transfer is in progress.
 - UPLOADED: production asset exists and lineage is recorded.
 - QC_PENDING: asset is ready for ACCOUNT_06 review.
 - PASS: final approved by ACCOUNT_06.
 - REPAIR: localized repair required.
 - REJECT: candidate not accepted.
-- NEED_REGENERATE: explicit instruction to create a new candidate.
+- NEED_REGENERATE: explicit instruction to create a replacement candidate.
 - BLOCKED: temporary prerequisite prevents progress.
 - FAILED: technical failure requiring recovery.
 
@@ -48,7 +65,7 @@ Therefore:
 - Expired ownership must never be reused; the job must be re-claimed with a new Claim ID.
 
 ## Claim protocol
-FETCH latest queue + SHA → SELECT lowest available QUEUED → CLAIM using exact SHA → VERIFY ownership → GENERATING → GENERATE.
+FETCH latest queue + SHA → SELECT available task → CLAIM using exact SHA → VERIFY ownership → GENERATING → GENERATE → IMAGE_CREATED.
 
 Reading QUEUED does not equal ownership. Successful conditional update is the only ownership event.
 
@@ -56,11 +73,11 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 
 | ID | Character | Clothing | Scene | Pose/Camera | Prompt | Worker | Status | Claim ID | Lease Until | Attempts | Final QC |
 |---|---|---|---|---|---|---|---|---|---|---:|---|
-| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | - | NEED_REGENERATE | - | - | 1 | - |
-| IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | - | NEED_REGENERATE | - | - | 1 | - |
-| IMG_03 | C01 | C03 | S03 | P04 | Prompt 03 | - | NEED_REGENERATE | - | - | 1 | - |
-| IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | - | NEED_REGENERATE | - | - | 1 | - |
-| IMG_05 | C01 | C05 | S05 | P05 | Prompt 05 | - | NEED_REGENERATE | - | - | 1 | - |
+| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | - | QUEUED | - | - | 1 | - |
+| IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | - | QUEUED | - | - | 1 | - |
+| IMG_03 | C01 | C03 | S03 | P04 | Prompt 03 | - | QUEUED | - | - | 1 | - |
+| IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | - | QUEUED | - | - | 1 | - |
+| IMG_05 | C01 | C05 | S05 | P05 | Prompt 05 | - | QUEUED | - | - | 1 | - |
 | IMG_06 | C01 | C06 | S06 | P06 | Prompt 06 | - | QUEUED | - | - | 1 | - |
 | IMG_07 | C01 | C07 | S07 | P07 | Prompt 07 | - | QUEUED | - | - | 0 | - |
 | IMG_08 | C01 | C08 | S08 | P08 | Prompt 08 | - | QUEUED | - | - | 0 | - |
@@ -78,39 +95,51 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 | IMG_20 | C01 | C20 | S20 | P20 | Prompt 20 | - | QUEUED | - | - | 0 | - |
 
 ## Current reconciled count
-- Target: 20
-- Historical candidates: 5
-- Valid production candidates: 0
-- Final PASS: 0
-- REPAIR: 0
-- REJECT: 0
-- NEED_REGENERATE: 5
+- Goal target: 20
+- Phase 1 IMAGE_CREATED: 0
+- Phase 1 remaining: 20
+- QUEUED: 20
 - CLAIMED: 0
 - GENERATING: 0
 - IMAGE_CREATED: 0
 - UPLOADING: 0
 - UPLOADED: 0
 - QC_PENDING: 0
-- QUEUED: 15
+- PASS: 0
+- REPAIR: 0
+- REJECT: 0
 - BLOCKED: 0
 - FAILED: 0
 
+## Historical candidates
+IMG_01–IMG_05 were previously generated under an obsolete production gate. Their historical outputs remain in STATUS/PRODUCTION_LOG.md but do not count toward the active Goal.
+
+Their production tasks are re-queued above with Attempts preserved for traceability.
+
 ## Worker continuation rule
-After every job, re-fetch the latest queue.
+After every Phase 1 completion:
+1. Re-fetch the latest queue.
+2. Re-fetch the active Production Goal.
+3. If the Goal is incomplete, claim another available task.
+4. If the Goal is complete, stop claiming.
 
 Never:
 - use an old queue snapshot for a new claim;
 - generate before successful claim;
 - assume startup order grants ownership;
-- treat ChatGPT output-area existence as uploaded production asset;
+- treat ChatGPT output-area existence as UPLOADED;
 - declare final PASS;
-- continue after lease expiry.
+- continue after lease expiry;
+- wait for Phase 2 upload or QA before continuing Phase 1.
 
 ## Related authoritative files
 - 00_MASTER/MASTER_SPEC.md
 - 00_MASTER/ANATOMY_STABILITY.md
 - 00_MASTER/GENERATION_WORKER_PROTOCOL.md
 - 00_MASTER/PRODUCTION_PROTOCOL.md
+- 00_MASTER/PRODUCTION_MODES.md
 - 00_MASTER/QUALITY_CONTROL.md
+- PRODUCTION/PRODUCTION_GOAL.md
+- PRODUCTION/WORKER_POOL.md
 - 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md
 - STATUS/PRODUCTION_LOG.md
