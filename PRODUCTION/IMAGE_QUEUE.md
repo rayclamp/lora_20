@@ -41,7 +41,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_08 | reaching upward | standing reach upward with one arm, feet stable | full rear | side braid | office blouse with pencil skirt | shopping street | environmental full-body | one hand adjusting sleeve, other relaxed | IMAGE_CREATED |
 | IMG_09 | reaching downward | standing light forward bend reaching toward a low object | front slight high angle | half-up braid | lightweight jacket with skirt | city sidewalk | side-oriented composition | one hand reaching toward a large object, other relaxed | FAILED |
 | IMG_10 | picking up a small object | controlled squat with one hand reaching toward a small object | front slight low angle | loose softly curled hair | casual sweater with straight-leg trousers | train station | rear-oriented composition | both hands resting naturally on thighs while seated | GENERATING |
-| IMG_11 | sitting upright on a chair | seated upright on a chair | rear slight high angle | long straight hair | simple sportswear | park | off-center composition | one hand on a stable surface, other relaxed | GENERATING |
+| IMG_11 | sitting upright on a chair | seated upright on a chair | rear slight high angle | long straight hair | simple sportswear | park | off-center composition | one hand on a stable surface, other relaxed | IMAGE_CREATED |
 | IMG_12 | sitting with one leg naturally extended | seated on chair with one leg naturally extended | rear slight low angle | long hair with subtle loose waves | comfortable homewear | riverside walkway | symmetrical centered composition | hands carrying a simple lightweight object | QUEUED |
 | IMG_13 | sitting sideways on a chair | seated side-facing on a chair | over-shoulder | low ponytail | pajamas | beach | full-body eye-level | both hands relaxed and visible | QUEUED |
 | IMG_14 | sitting on the edge of a bed | sitting on bed edge with feet grounded | distant environmental full-body | high ponytail | light trench coat with simple inner outfit | indoor pool | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
@@ -378,8 +378,18 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 
 ## Active Worker Claim
 - Task: IMG_11
-- Status: GENERATING
+- Status: IMAGE_CREATED
+- Worker released: YES
+- Generation ID: 84cd90b6-7ccc-4c71-872a-55397144f78f
+- IMAGE_CREATED recorded at: 2026-09-26T00:47:00+08:00
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0047-IMG_11-01
 - Lease until: 2026-09-26T02:47:00+08:00
-- Claim recorded from queue SHA: d7891edc29618e7005bbc36da85cedce6e5017da
+- Claim recorded from queue SHA: ea318c7ffcb6c2f86f890930c9b20ef54649944b
+
+
+## Generation Event
+- Task: IMG_11
+- Event: IMAGE_CREATED
+- Generation ID: 84cd90b6-7ccc-4c71-872a-55397144f78f
+- Worker released immediately after IMAGE_CREATED: YES
