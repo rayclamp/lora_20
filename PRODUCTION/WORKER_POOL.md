@@ -79,7 +79,7 @@ Every Worker follows the same loop:
 11. If GENERATION_TOOL_ERROR occurs, follow the retry policy.
 12. If the task reaches three failed generation attempts, set it to DEFERRED and move on.
 13. If three GENERATION_TOOL_ERROR events occur consecutively across tasks, pause new generation claims.
-14. If SAFETY_BLOCKED occurs, stop the task and send it to Director Review.
+14. If SAFETY_BLOCKED occurs, record SAFETY_BLOCKED, preserve the original task and Prompt Package, release the worker, do not automatically retry that same task, and continue with another available task.
 15. Release the worker after the task reaches a terminal worker outcome.
 16. Return to the queue if the Goal is not complete and the generation system is not paused.
 
@@ -95,7 +95,7 @@ A task that fails three times is DEFERRED rather than repeatedly retried.
 
 Three consecutive GENERATION_TOOL_ERROR events pause new generation claims. QUEUED tasks are preserved.
 
-A SAFETY_BLOCKED task is not automatically retried and is sent to Director Review.
+A SAFETY_BLOCKED task is not automatically retried. It is recorded as SAFETY_BLOCKED, released from the current Worker, and skipped so the Worker Pool can continue with another available task. Director/operator review may later return the task to QUEUED if appropriate. No prompt rewrite may be used to bypass the safety system.
 
 A successful IMAGE_CREATED resets the consecutive generation-error counter.
 
