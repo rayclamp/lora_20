@@ -4,8 +4,8 @@
 - Account: ACCOUNT_04
 - Role: GENERATION_WORKER
 - Project Area: `PRODUCTION`
-- Status: READY
-- Current Task: T107 — IMAGE_PRODUCTION
+- Status: ACTIVE — IMG_05 CLAIMED
+- Current Task: T107 — IMG_05
 
 ## Responsibility
 本帳號是共享 Generation Worker。只負責依 GitHub production queue 與 ACCOUNT_06 Master Director 已核准的 Prompt Package 生成圖片。
