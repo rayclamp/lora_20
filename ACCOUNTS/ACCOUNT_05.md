@@ -1,32 +1,27 @@
-# ACCOUNT_05.md — ChatGPT 帳號工作站狀態
+# ACCOUNT_05.md — ChatGPT Generation Worker
 
 ## Account
 - Account: ACCOUNT_05
-- Role: PROMPT / GENERATION / DATASET
-- Project Area: `05_PROMPT`
-- Status: DONE
-- Current Task: T105 — PROMPT（DONE）
+- Role: GENERATION_WORKER
+- Project Area: `PRODUCTION`
+- Status: READY
+- Current Task: T107 — IMAGE_PRODUCTION
 
 ## Responsibility
-負責 Prompt 組裝、生成指令、候選圖片生產、caption、metadata 與 dataset 組織。必須遵守 `00_MASTER/` 全域規則，不得引入歷史聊天室畫風。
+本帳號是共享 Generation Worker。只負責依 GitHub production queue 與 ACCOUNT_06 Master Director 已核准的 Prompt Package 生成圖片。
 
-## Progress
-- Generated: 20 Prompt Packages
-- PASS: 20
-- REVIEW: 0
-- REJECT: 0
+不得自行設計 Character、Clothing、Scene、Pose/Camera、全域 Style 或 Prompt 架構。
 
-## Completed
-T105 — PROMPT：DONE / PASS，20 個 Prompt Package；deliverable `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md`。
+## Startup
+使用 `START_HERE.md` 的統一 Generation Worker 指令，不需要帳號專屬創意指令。
 
-整合 T101 Character、T102 C01–C20、T103 S01–S20、T104 P01–P20；Character / Clothing / Scene / Pose-Camera / Lighting-Style / Negative 模組分離。`inr20` identity trigger 已統一使用。
-
-## Image Production Boundary
-
-Prompt Package PASS 只代表提示詞資料完成，不代表最終圖片已通過圖片級 QA。實際圖片由 `PRODUCTION/IMAGE_QUEUE.md` 管理，最終由 ACCOUNT_06 審查。
+## Current Production Rule
+- 讀取最新 `PRODUCTION/IMAGE_QUEUE.md`
+- 取得未被其他 worker claim 的最小編號項目
+- Claim 後再生成
+- 生成完成立即記錄
+- 遇到額度限制停止，不重做已完成圖片
+- 不把自己的圖片直接判定為最終 PASS
 
 ## Next Step
-T105 完成。等待 T107 圖片生產指派或 NEED_REWORK。
-
-## Notes
-不修改上游 Character、Clothing、Scene、Pose/Camera 規格；不把服裝、髮型、場景或姿勢升格為永久人物身份特徵。全域規則統一位於 `00_MASTER/`。
+等待並執行 T107 可用 queue item。
