@@ -3,8 +3,9 @@
 ## 1. Purpose
 GitHub is the shared project state layer, production coordination layer, and official reference authority.
 
-- ACCOUNT_06 = Master Director / Final Reviewer / QA.
-- All other generation accounts/sessions = interchangeable Production Workers.
+- Master Director/operator owns Goal/task design and operational decisions.
+- All generation accounts/sessions = interchangeable Production Workers.
+- Final QA is performed by the Codex/local QA workflow; Generation Workers do not perform final QA.
 - PRODUCTION/PRODUCTION_GOAL.md = authoritative team-level production target.
 - PRODUCTION/WORKER_POOL.md = authoritative worker-pool behavior.
 - PRODUCTION/IMAGE_QUEUE.md = authoritative per-image production state.
@@ -21,7 +22,7 @@ QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
 
 From GENERATING:
 - GENERATION_TOOL_ERROR → retry policy / DEFERRED / system pause
-- SAFETY_BLOCKED → Director Review
+- SAFETY_BLOCKED → record block → release Worker → skip task → continue with another available task
 - BLOCKED → prerequisite recovery
 - FAILED → technical recovery
 
@@ -82,7 +83,7 @@ Before an image exists:
 - prerequisite blocker → record BLOCKED, clear ownership, return to QUEUED after resolution;
 - GENERATION_TOOL_ERROR → follow the retry policy;
 - third failed generation attempt for the same task → DEFERRED;
-- SAFETY_BLOCKED → preserve task information and send to Director Review;
+- SAFETY_BLOCKED → preserve task information, release the Worker, skip the task for the current run, and continue with another available task; do not automatically retry or rewrite the prompt;
 - technical failure not covered above → FAILED and recover through the normal recovery process.
 
 A DEFERRED task is not a final REJECT. It may be explicitly returned to QUEUED by the Master Director.
@@ -101,7 +102,7 @@ After IMAGE_CREATED: preserve the candidate and treat Phase 1 as complete. Phase
 A generated candidate must not be regenerated merely because another Worker becomes available.
 
 ## 8. Final review
-ACCOUNT_06 uses 00_MASTER/QUALITY_CONTROL.md to review the actual production asset. Only ACCOUNT_06 may set final PASS, REPAIR, or REJECT.
+Final QA is performed by the Codex/local QA workflow outside the Generation Worker session. Generation Workers only report Phase 1 IMAGE_CREATED and must not declare final PASS, REPAIR, or REJECT.
 
 ## 9. Final dataset
-Only assets with final PASS, complete lineage, required metadata/caption, and no unresolved blocker may enter FINAL/.
+Only assets that pass the external Codex/local QA workflow, have complete lineage and required metadata/caption, and have no unresolved blocker may enter FINAL/.
