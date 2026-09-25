@@ -75,9 +75,29 @@ Every Worker follows the same loop:
 7. Verify ownership and lease.
 8. Change CLAIMED → GENERATING.
 9. Generate the image using the official MASTER_IMAGE.
-10. Record GENERATING → IMAGE_CREATED.
-11. Release the worker immediately.
-12. Return to the queue if the Goal is not complete.
+10. If generation succeeds, record GENERATING → IMAGE_CREATED.
+11. If GENERATION_TOOL_ERROR occurs, follow the retry policy.
+12. If the task reaches three failed generation attempts, set it to DEFERRED and move on.
+13. If three GENERATION_TOOL_ERROR events occur consecutively across tasks, pause new generation claims.
+14. If SAFETY_BLOCKED occurs, stop the task and send it to Director Review.
+15. Release the worker after the task reaches a terminal worker outcome.
+16. Return to the queue if the Goal is not complete and the generation system is not paused.
+
+## Generation error protection
+
+The Worker Pool uses the shared policy in PRODUCTION/GENERATION_RETRY_POLICY.md.
+
+Default limits:
+- MAX_IMAGE_RETRIES = 3 per task.
+- MAX_CONSECUTIVE_GENERATION_ERRORS = 3 across the production system.
+
+A task that fails three times is DEFERRED rather than repeatedly retried.
+
+Three consecutive GENERATION_TOOL_ERROR events pause new generation claims. QUEUED tasks are preserved.
+
+A SAFETY_BLOCKED task is not automatically retried and is sent to Director Review.
+
+A successful IMAGE_CREATED resets the consecutive generation-error counter.
 
 ## No per-worker quota
 
