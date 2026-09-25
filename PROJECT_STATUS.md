@@ -28,32 +28,28 @@ The current mandatory standards are:
 
 ## Production Goal
 - Goal ID: T108_GOAL_20260925_40_CAPACITY_TEST
-- Target Phase 1 images: 40
-- Phase 1 completed: 13
-- Phase 1 remaining: 27
-- Goal status: ACTIVE
-- Completion event: IMAGE_CREATED
+- Target production task coverage: 40
+- Task coverage: 40 / 40 processed
+- Generation attempts observed: 35
+- Unique successful candidate images observed: 25
+- Duplicate generation outcomes observed: 10
+- Goal status: COMPLETED_FOR_FIRST_ROUND_COVERAGE
+- IMAGE_CREATED remains an event-level generation outcome, not the task-coverage metric
 - Production mode: MANUAL
 
 The target is team-level. No Worker has a fixed image quota. A Worker may stop or become unavailable at any point; another Worker can take over recoverable team tasks through the queue claim/lease protocol.
 
 ## T108 production status
-- Status: ACTIVE_MANUAL_PHASE1
-- Target: 40 new Phase 1 candidates
-- Historical candidates retained: 5
-- Valid Phase 1 production candidates before this run: 13
-- Final PASS: 0
+- Status: FIRST_ROUND_TASK_COVERAGE_COMPLETE
+- Target: 40 designed production tasks processed once
+- Task Coverage: 40 / 40
+- Generation attempts observed: 35
+- Unique successful candidate images observed: 25
+- Duplicate generation outcomes observed: 10
+- Final PASS: 0 (QA paused)
 - REPAIR: 0
 - REJECT: 0
-- QUEUED: 3
-- CLAIMED: 0
-- GENERATING: 2
-- IMAGE_CREATED: 13
-- UPLOADING: 0
-- UPLOADED: 0
-- QC_PENDING: 0
-- BLOCKED: 0
-- FAILED: 19
+- Current queue may now contain only newly designed replacement tasks; do not reopen the original 40 solely to force success
 
 T108 is the active 40-task capacity test. Current queue state is authoritative; historical T107 records remain preserved separately.
 
@@ -92,7 +88,7 @@ IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → final QA
 Phase 2 is asynchronous and must not block Phase 1 production.
 
 ## Goal stop rule
-When Phase 1 completed reaches the active Goal target, Workers must stop claiming new tasks for that Goal.
+For a coverage-based Goal, Workers stop claiming tasks when the designed Task Coverage target has been processed. A completed coverage round does not imply that the candidate pool is large enough for LoRA training. MASTER DIRECTOR may then create a new Goal/batch containing new replacement designs.
 
 ## Queue ownership
 Claim ownership is determined only by successful conditional update using the latest queue blob SHA.
@@ -102,3 +98,9 @@ Lease:
 - Make/OpenAI: 30 minutes
 
 Do not track account quota as a project state. Worker replacement is handled by the Worker Pool and normal release/lease recovery.
+
+
+## Dataset diversity direction
+The project now explicitly treats clothing as a major dataset variable. Do not use the original MASTER_IMAGE outfit for most future production tasks. Maintain stable Inaria identity/style while varying clothing, hairstyle, action, pose, viewpoint, scene, and camera. See `00_MASTER/DATASET_DIVERSITY.md`.
+
+The first serious LoRA training cycle should be planned around approximately 60–80 QA-approved images from a larger candidate pool, with later targeted replacement batches based on QA and LoRA test results.
