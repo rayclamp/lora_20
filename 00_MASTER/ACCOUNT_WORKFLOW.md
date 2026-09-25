@@ -2,62 +2,50 @@
 
 ## 1. 共用原則
 
-本專案採用「單一 Master Director + 多個 Generation Workers」架構。
+本專案採用「單一 Master Director + 多個 Generation Workers + shared queue lock」架構。
 
-- **ACCOUNT_06** 是 Master Director / Final Reviewer / QA。
-- **ACCOUNT_01–05、ACCOUNT_07–08** 是可用的圖片生成工作帳號。
-- 可依實際可用帳號數量啟用 5–7 個 generation workers。
-- 所有帳號製作同一個 20 歲依娜莉亞。
-- GitHub 是所有帳號共同的持久化狀態來源。
+- ACCOUNT_06 = Master Director / Final Reviewer / QA
+- ACCOUNT_01–05、ACCOUNT_07–08 = Generation Workers
+- GitHub = 跨聊天室持久化狀態來源
 
-## 2. Master Director
+## 2. Generation worker 核心職責
 
-ACCOUNT_06 負責原本 CHARACTER、CLOTHING、SCENE、POSE_CAMERA、PROMPT 五類工作的整合與執行，包括：
+1. 讀取最新 queue。
+2. 找到最低編號的 `QUEUED` job。
+3. 使用最新 queue blob SHA 成功 conditional-update 後才取得 ownership。
+4. 驗證 Worker / Claim ID / Lease。
+5. 開始生成。
+6. 完成後立即記錄候選與 queue 狀態。
+7. 重新 fetch queue，再取得下一張。
+8. quota / prerequisite 阻塞且尚未生成時，釋放 job 回 `QUEUED`。
 
-- Character identity / consistency planning
-- Clothing / footwear / accessory planning
-- Scene / environment / season / lighting planning
-- Pose / action / anatomy-stability / camera planning
-- Prompt assembly
-- Dataset diversity planning
-- Production queue planning
-- Cross-worker conflict resolution
-- Final QA
-- Repair / reject decisions
-- Dataset finalization
+## 3. Queue Lock
 
-ACCOUNT_06 不要求其他 generation worker 自己重新設計上述內容。
+### Claim transaction
 
-## 3. Generation worker pool
+`FETCH queue + SHA → SELECT → CLAIM with exact SHA → VERIFY → GENERATE`
 
-Worker accounts:
+只有 claim update 成功才算取得工作。
 
-- ACCOUNT_01
-- ACCOUNT_02
-- ACCOUNT_03
-- ACCOUNT_04
-- ACCOUNT_05
-- ACCOUNT_07 (optional)
-- ACCOUNT_08 (optional)
+如果 update conflict：
+- 不得生成；
+- 不得假設自己擁有該 job；
+- 必須重新 FETCH。
 
-所有 worker 使用同一份啟動指令，不需要依帳號下不同創意指令。
+### Lease
 
-Worker 的唯一核心職責：
+- ChatGPT manual worker: 120 minutes
+- Make / OpenAI worker: 30 minutes
 
-1. 讀取 GitHub 最新 queue。
-2. 找到自己可以安全取得的下一個 `NOT_STARTED` 項目。
-3. 取得該項目的完整 Prompt Package / production instruction。
-4. 在聊天室使用使用者直接上傳的 MASTER_IMAGE 作身份基準。
-5. 生成候選圖片。
-6. 將候選圖片依 production protocol 保存/回報。
-7. 更新 queue 與自己的 account status。
-8. 遇到額度限制就停止，不重做已完成圖片，等待下一個可執行項目。
+Lease 到期後舊 worker ownership 失效；新 worker 必須用新的 Claim ID 重新 claim。
 
-Worker 不得自行修改 Character、Clothing、Scene、Pose/Camera 或全域風格規則。
+## 4. 不再使用啟動時間分工
 
-## 4. 啟動後讀取順序
+錯開帳號啟動時間只可降低碰撞機率，不是 ownership 機制。
 
-所有 generation workers：
+真正的 ownership 由 queue lock 決定。因此 ChatGPT 生圖慢、Make 生圖快，都不會改變 queue 的正確性。
+
+## 5. 啟動後讀取順序
 
 1. `START_HERE.md`
 2. `PROJECT_STATUS.md`
@@ -70,44 +58,29 @@ Worker 不得自行修改 Character、Clothing、Scene、Pose/Camera 或全域�
 9. `00_MASTER/DRAWING_INSTRUCTIONS.md`
 10. `00_MASTER/IDENTITY_MASTER.md`
 11. `00_MASTER/QUALITY_CONTROL.md`
-12. `TASKS/TASK_QUEUE.md`
-13. `PRODUCTION/IMAGE_QUEUE.md`
-14. `05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md` or the current production prompt package
-15. 使用者直接上傳的 `MASTER_IMAGE`
-
-ACCOUNT_06 不使用 worker 流程；它依 Master Director / Final QA 流程工作。
-
-## 5. Queue ownership
-
-A worker must claim an unclaimed queue item before generating it. Claiming is a coordination state, not a final QA result.
-
-Recommended queue states:
-
-`NOT_STARTED → CLAIMED → GENERATED → QC_PENDING → PASS / REPAIR / REJECT`
-
-If the worker cannot finish after claiming an item, it must leave a clear `BLOCKED` or `NOT_STARTED` recovery state so another worker can continue without ambiguity.
+12. `00_MASTER/PRODUCTION_PROTOCOL.md`
+13. `TASKS/TASK_QUEUE.md`
+14. `PRODUCTION/IMAGE_QUEUE.md`
+15. current Prompt Package
+16. user-uploaded MASTER_IMAGE
 
 ## 6. Quota handling
 
-Image-generation quota is a worker-local limitation, not project failure.
-
-- Never redo completed items because another account has quota available.
-- Available workers may continue unclaimed items.
-- When one worker hits quota, other workers continue.
-- If all workers hit quota, production pauses without resetting queue state.
-- Later production resumes from remaining unclaimed/incomplete items.
+- 未生成 job：清除 ownership，回 `QUEUED`。
+- 已生成 candidate：`QC_PENDING`，不得重做。
+- 其他 workers 可繼續 claim。
+- 所有 workers 都無法生成時，保留 queue 等待恢復。
 
 ## 7. Final QA
 
-ACCOUNT_06 performs the final PASS / REPAIR / REJECT decision using `00_MASTER/QUALITY_CONTROL.md`.
-
-Generation workers do not declare their own image as final PASS.
+只有 ACCOUNT_06 可以判定最終 PASS / REPAIR / REJECT。
 
 ## 8. Completion
 
-A worker's session is complete when it has either:
-- produced and recorded its assigned candidate image(s),
-- safely recorded a BLOCKED/quota state, or
-- found no available production item.
+Worker session 完成於：
+- 已產生並記錄 candidate；
+- 已安全釋放 blocked job；
+- 已記錄 failed attempt；或
+- 已無可用 queue item。
 
-No worker should redo DONE work unless the queue explicitly marks NEED_REGENERATE or NEED_REWORK.
+不得重做 completed work，除非 queue 明確標記 `NEED_REGENERATE`。
