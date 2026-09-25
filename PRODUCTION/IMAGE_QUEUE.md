@@ -21,6 +21,12 @@ The Goal is team-level. Workers do not have fixed image quotas.
 ### Phase 1 — Worker production
 QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
 
+Generation error branches:
+- GENERATION_TOOL_ERROR → retry policy / DEFERRED / system pause
+- SAFETY_BLOCKED → Director Review
+- BLOCKED → prerequisite recovery
+- FAILED → technical recovery
+
 IMAGE_CREATED is the Worker completion point and counts +1 toward the active Goal.
 
 Once IMAGE_CREATED is recorded, the Worker is released immediately.
@@ -41,8 +47,12 @@ Phase 2 is asynchronous and must not block Phase 1.
 8. Phase 2 must not block the Worker from starting another task.
 9. ACCOUNT_06 is the only final PASS / REPAIR / REJECT gate.
 10. NEED_REGENERATE explicitly authorizes another generation attempt.
-11. Workers must re-fetch the queue and active Goal after every completed or released job.
-12. No new task may be claimed once the active Goal target has been reached.
+11. GENERATION_TOOL_ERROR follows PRODUCTION/GENERATION_RETRY_POLICY.md and does not count toward IMAGE_CREATED.
+12. A task reaches DEFERRED after 3 failed generation attempts by default.
+13. Three consecutive GENERATION_TOOL_ERROR events pause new generation claims while preserving QUEUED tasks.
+14. SAFETY_BLOCKED is not automatically retried and requires Director Review.
+15. Workers must re-fetch the queue and active Goal after every completed or released job.
+16. No new task may be claimed once the active Goal target has been reached.
 
 ## State definitions
 - QUEUED: available for claim.
@@ -58,6 +68,8 @@ Phase 2 is asynchronous and must not block Phase 1.
 - NEED_REGENERATE: explicit instruction to create a replacement candidate.
 - BLOCKED: temporary prerequisite prevents progress.
 - FAILED: technical failure requiring recovery.
+- DEFERRED: generation attempts exhausted for the current retry policy; not a final QA decision.
+- SAFETY_BLOCKED: ChatGPT explicitly blocked the generation for safety; Director Review required.
 
 ## Lease
 - ChatGPT manual worker: 120 minutes.
@@ -71,10 +83,10 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 
 ## First-round 20 jobs
 
-| ID | Character | Clothing | Scene | Pose/Camera | Prompt | Worker | Status | Claim ID | Lease Until | Attempts | Final QC |
-|---|---|---|---|---|---|---|---|---|---|---:|---|
-| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | rayclamp | IMAGE_CREATED | CLAIM-T107-IMG_01-RAYCLAMP-20260925T2144 | 2026-09-25 23:44 +08:00 | 1 | - |
-| IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | rayclamp | GENERATING | CLAIM-T107-IMG_02-RAYCLAMP-20260925T2148 | 2026-09-25 23:48 +08:00 | 1 | - |
+| ID | Character | Clothing | Scene | Pose/Camera | Prompt | Worker | Status | Claim ID | Lease Until | Attempts | Last Error | Final QC |
+|---|---|---|---|---|---|---|---|---|---|---:|---|---|
+| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | rayclamp | IMAGE_CREATED | CLAIM-T107-IMG_01-RAYCLAMP-20260925T2144 | 2026-09-25 23:44 +08:00 | 1 | - | - |
+| IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
 | IMG_03 | C01 | C03 | S03 | P04 | Prompt 03 | - | QUEUED | - | - | 1 | - |
 | IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | - | QUEUED | - | - | 1 | - |
 | IMG_05 | C01 | C05 | S05 | P05 | Prompt 05 | - | QUEUED | - | - | 1 | - |
@@ -98,9 +110,11 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 - Goal target: 20
 - Phase 1 IMAGE_CREATED: 1
 - Phase 1 remaining: 19
+- Generation system state: ACTIVE
+- Consecutive GENERATION_TOOL_ERROR count: 0
 - QUEUED: 18
 - CLAIMED: 0
-- GENERATING: 1
+- GENERATING: 0
 - IMAGE_CREATED: 1
 - UPLOADING: 0
 - UPLOADED: 0
@@ -110,6 +124,8 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 - REJECT: 0
 - BLOCKED: 0
 - FAILED: 0
+- DEFERRED: 0
+- SAFETY_BLOCKED: 1
 
 ## Historical candidates
 IMG_01–IMG_05 were previously generated under an obsolete production gate. Their historical outputs remain in STATUS/PRODUCTION_LOG.md but do not count toward the active Goal.
