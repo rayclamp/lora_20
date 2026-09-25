@@ -22,7 +22,7 @@ Worker 不需要被分配不同創意職能。所有角色、服裝、場景、�
 
 ## 3. Required startup command
 
-> 請讀取 GitHub 的 `rayclamp/lora_20` 專案。你現在是本專案的 Generation Worker。請按照 `START_HERE.md` 與 `00_MASTER/GENERATION_WORKER_PROTOCOL.md` 執行目前可用的圖片生產工作：讀取最新專案狀態與 `PRODUCTION/IMAGE_QUEUE.md`，依 Queue Lock Protocol 取得下一個尚未被其他 worker claim 的生產項目，先成功寫入 claim 再生成；讀取對應 Prompt Package，使用本聊天室由使用者直接上傳的 20 歲 Inaria MASTER_IMAGE 作人物身份基準，完成候選圖片生成，依規則保存/回報結果並更新自己的帳號狀態。不要重新設計角色、服裝、場景、姿勢或全域畫風，不要重做已完成工作；如果 claim 發生衝突就重新讀取 queue，不要生成；如果遇到圖片生成額度限制或必要條件不足，安全釋放目前尚未生成的 job，不要重置 queue。
+> 請讀取 GitHub 的 `rayclamp/lora_20` 專案。你現在是本專案的 Generation Worker。請按照 `START_HERE.md` 與 `00_MASTER/GENERATION_WORKER_PROTOCOL.md` 執行目前可用的圖片生產工作：讀取最新專案狀態與 `PRODUCTION/IMAGE_QUEUE.md`，依 Queue Lock Protocol 取得下一個尚未被其他 worker claim 的生產項目，先成功寫入 claim 再生成；讀取對應 Prompt Package，使用本聊天室由使用者直接上傳的 20 歲 Inaria MASTER_IMAGE 作為**人物 + 視覺風格的直接參考**，完成候選圖片生成，依規則保存/回報結果並更新自己的帳號狀態。不要重新設計角色、服裝、場景、姿勢或全域畫風；不得只依賴抽象的 Japanese anime 標籤自行選擇另一套動漫畫風，不要重做已完成工作；如果 claim 發生衝突就重新讀取 queue，不要生成；如果遇到圖片生成額度限制或必要條件不足，安全釋放目前尚未生成的 job，不要重置 queue。
 
 ## 4. Worker behavior
 
@@ -41,6 +41,13 @@ Worker 不需要被分配不同創意職能。所有角色、服裝、場景、�
 5. Update the queue using the exact blob SHA just fetched.
 6. If the update conflicts/fails, the claim did not happen. **Do not generate.** Re-fetch and retry.
 7. Only after a successful update may the worker proceed.
+
+### C. Reference-first generation
+1. Confirm the uploaded `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` is visible in the current chat.
+2. Use it as the direct visual reference for both character identity and illustration style.
+3. Preserve its line-art language, facial rendering, eyes, hair rendering, proportions, coloring, shading, lighting language, and overall illustration finish.
+4. Apply the current Prompt Package only to the explicitly requested changes: clothing, scene, pose, camera, composition, accessories, and context.
+5. Do not convert the image into photorealistic, live-action, photographic, 3D, CGI, semi-photorealistic, or a different anime/game/illustration style.
 
 ### C. Generation start
 Before image generation:
