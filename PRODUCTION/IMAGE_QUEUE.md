@@ -46,7 +46,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_13 | sitting sideways on a chair | seated side-facing on a chair | over-shoulder | low ponytail | pajamas | beach | full-body eye-level | both hands relaxed and visible | FAILED |
 | IMG_14 | sitting on the edge of a bed | sitting on bed edge with feet grounded | distant environmental full-body | high ponytail | light trench coat with simple inner outfit | indoor pool | full-body slightly high angle | one hand holding a simple cup, other relaxed | IMAGE_CREATED |
 | IMG_15 | sitting on the floor | floor sitting with legs arranged simply | full frontal | side ponytail | casual blouse with wide-leg trousers | campus walkway | full-body slightly low angle | one hand holding a book, other supporting naturally | SAFETY_BLOCKED |
-| IMG_16 | kneeling naturally | natural kneeling with upright torso | left 3/4 front | half-up hairstyle | white blouse with pleated skirt | office | medium full shot | one hand holding smartphone, other relaxed | CLAIMED |
+| IMG_16 | kneeling naturally | natural kneeling with upright torso | left 3/4 front | half-up hairstyle | white blouse with pleated skirt | office | medium full shot | one hand holding smartphone, other relaxed | GENERATING |
 | IMG_17 | squatting naturally | natural balanced squat | right 3/4 front | low bun | light-blue knit dress | hotel room | medium shot | writing with one hand, other stabilizing notebook | QUEUED |
 | IMG_18 | leaning lightly against a surface | light side lean against a flat wall | left profile | side braid | casual T-shirt with jeans | museum gallery | waist-up | both hands lightly holding a larger object | QUEUED |
 | IMG_19 | resting with hands relaxed | relaxed standing rest with both feet grounded | right profile | half-up braid | cardigan with long skirt | garden | chest-up | one hand touching hair, other relaxed | QUEUED |
@@ -465,7 +465,7 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 
 ## Active Worker Claim
 - Task: IMG_16
-- Status: CLAIMED
+- Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0052-IMG_16-01
 - Lease until: 2026-09-26T02:52:00+08:00
