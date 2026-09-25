@@ -9,6 +9,7 @@ Primary authority:
 - 00_MASTER/IDENTITY_MASTER.md
 - 00_MASTER/ANATOMY_STABILITY.md
 - 00_MASTER/QUALITY_CONTROL.md
+- 00_MASTER/PRODUCTION_MODES.md
 
 ## QA principle
 Use only visible evidence.
@@ -34,7 +35,10 @@ Codex first-layer QA does not make the final production decision. ACCOUNT_06 is 
 13. No major artifact, text, watermark, logo, duplicate body, or severe crop damage.
 14. Sufficient dataset value.
 
+## Reference provenance
+QA must treat the official INARIA_20_MASTER_v1.0.png as the reference identity/style baseline regardless of whether the candidate was generated through AUTO MODE or MANUAL MODE.
+
 ## Important
-If anatomy cannot be reliably observed because of occlusion, do not invent a PASS or FAIL. Report REVIEW.
+If anatomy or reference match cannot be reliably observed because of occlusion or missing reference evidence, do not invent a PASS or FAIL. Report REVIEW.
 
 A beautiful image with a clear anatomy or reference-style failure is not a valid final dataset image.
