@@ -1,5 +1,22 @@
 # CHANGELOG.md
 
+## 2026-09-25 — Goal-based Production Team and two-phase Worker architecture
+
+- Replaced fixed-account production ownership with an interchangeable Production Worker Pool.
+- Added PRODUCTION/PRODUCTION_GOAL.md for team-level output targets.
+- Added PRODUCTION/WORKER_POOL.md for interchangeable workers, standby takeover, lease recovery, and quota-independent operation.
+- Added PRODUCTION/WORKER_START_COMMAND.md as the universal command for any generation account/session.
+- Defined Phase 1 as QUEUED → CLAIMED → GENERATING → IMAGE_CREATED.
+- Defined IMAGE_CREATED as the Worker completion point and Goal counting event.
+- Decoupled Phase 2 delivery/QA: IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → final QA.
+- Phase 2 is non-blocking for Phase 1 production.
+- Removed the concept of fixed per-account production quotas.
+- A Worker may be replaced by another account/session without changing the team Goal.
+- Re-queued IMG_01–IMG_05 as regeneration tasks while preserving their historical attempt counts.
+- Activated the 20-image MANUAL Phase 1 Goal T107_GOAL_20260925_20.
+- Updated account profiles so ACCOUNTS/ files are optional session profiles rather than permanent task ownership.
+- Updated ACCOUNT_06 to own Goal creation, completion reporting, and final QA.
+
 ## 2026-09-25 — Added AUTO and MANUAL reference delivery modes
 
 - Added 00_MASTER/PRODUCTION_MODES.md.
