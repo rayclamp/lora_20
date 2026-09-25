@@ -12,10 +12,13 @@ The user specifies the desired output quantity. The Master Director converts tha
 - Project: Age-20 Inaria LoRA
 - Target Phase 1 images: 20
 - Phase 1 completion event: IMAGE_CREATED
-- Phase 1 completed: 0
-- Phase 1 remaining: 20
+- Phase 1 completed: 1
+- Phase 1 remaining: 19
 - Goal status: ACTIVE
 - Production mode: MANUAL
+- Generation system state: ACTIVE
+- MAX_IMAGE_RETRIES: 3
+- MAX_CONSECUTIVE_GENERATION_ERRORS: 3
 - Reference: MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
 
 ## Goal semantics
@@ -63,6 +66,21 @@ IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → final QA
 Phase 2 completion is not required for the Goal counter.
 
 A Phase 2 delay, Make credit exhaustion, upload failure, or QC delay must not stop Workers from continuing Phase 1.
+
+## Generation retry and system-pause accounting
+
+A GENERATION_TOOL_ERROR does not increment the Phase 1 completion count.
+
+The same task may consume up to 3 generation attempts by default. After the third failed generation attempt, the task becomes DEFERRED and the Worker may continue with another task if the generation system remains healthy.
+
+Track the Goal-level consecutive generation-error counter:
+- increment on GENERATION_TOOL_ERROR;
+- reset to 0 on IMAGE_CREATED;
+- at 3 consecutive GENERATION_TOOL_ERROR events, set Generation system state to PAUSED and stop new generation claims.
+
+SAFETY_BLOCKED does not automatically consume three retries. It is sent to Director Review.
+
+DEFERRED does not count toward the Goal. A later explicit requeue creates another opportunity to produce IMAGE_CREATED.
 
 ## Goal accounting
 
