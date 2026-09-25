@@ -73,7 +73,7 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 
 | ID | Character | Clothing | Scene | Pose/Camera | Prompt | Worker | Status | Claim ID | Lease Until | Attempts | Final QC |
 |---|---|---|---|---|---|---|---|---|---|---:|---|
-| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | rayclamp | GENERATING | CLAIM-T107-IMG_01-RAYCLAMP-20260925T2144 | 2026-09-25 23:44 +08:00 | 1 | - |
+| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | rayclamp | IMAGE_CREATED | CLAIM-T107-IMG_01-RAYCLAMP-20260925T2144 | 2026-09-25 23:44 +08:00 | 1 | - |
 | IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | - | QUEUED | - | - | 1 | - |
 | IMG_03 | C01 | C03 | S03 | P04 | Prompt 03 | - | QUEUED | - | - | 1 | - |
 | IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | - | QUEUED | - | - | 1 | - |
@@ -96,12 +96,12 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 
 ## Current reconciled count
 - Goal target: 20
-- Phase 1 IMAGE_CREATED: 0
-- Phase 1 remaining: 20
+- Phase 1 IMAGE_CREATED: 1
+- Phase 1 remaining: 19
 - QUEUED: 19
 - CLAIMED: 0
-- GENERATING: 1
-- IMAGE_CREATED: 0
+- GENERATING: 0
+- IMAGE_CREATED: 1
 - UPLOADING: 0
 - UPLOADED: 0
 - QC_PENDING: 0
