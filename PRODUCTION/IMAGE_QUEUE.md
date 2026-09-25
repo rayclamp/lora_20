@@ -220,14 +220,6 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 
 
 ## Active Worker Claim
-- Task: IMG_04
-- Status: GENERATING
-- Worker: CHATGPT_MANUAL_WORKER
-- Claim ID: CW-20260926-0001-IMG_04-01
-- Lease until: 2026-09-26T02:01:00+08:00
-- Claim recorded from queue SHA: b8610c20bd1a2b5d2b6cbc92f937aa9b7f4f77bf
-
-## Active Worker Claim
 - Task: IMG_01
 - Status: IMAGE_CREATED
 - Worker released: YES
