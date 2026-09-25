@@ -25,6 +25,7 @@ Read:
 14. PRODUCTION/IMAGE_QUEUE.md
 15. current approved Prompt Package
 16. current reference image supplied to this generation context
+17. PRODUCTION/GENERATION_RETRY_POLICY.md
 
 ## 3. Universal Worker startup
 Read the latest rayclamp/lora_20 project state.
@@ -101,7 +102,33 @@ Object-contact requirements:
 - bags and straps must connect to the bag and naturally contact the body;
 - containers must be structurally complete before hand placement.
 
-## 8. Post-generation completion
+## 8. Generation error handling
+
+### GENERATION_TOOL_ERROR
+Examples include the image-generation tool not appearing, a generic retry response such as "Please try again", or an internal generation-tool error.
+
+- Do not assume the Prompt Package is wrong.
+- Increment the task attempt counter.
+- Follow PRODUCTION/GENERATION_RETRY_POLICY.md.
+- Retry the same task only while the per-image retry limit and global circuit breaker permit it.
+- After the per-image limit is reached, set the task to DEFERRED and move to another task.
+- After the global consecutive-error limit is reached, stop claiming new tasks and treat the generation system as paused.
+
+### SAFETY_BLOCKED
+If ChatGPT explicitly reports a safety-policy block:
+- stop the task;
+- record SAFETY_BLOCKED;
+- preserve the original Prompt Package;
+- do not repeatedly rewrite the prompt to bypass the safety system;
+- release the Worker;
+- send the task to Director Review.
+
+### BLOCKED
+If a required prerequisite is unavailable before generation, record BLOCKED and follow the normal recovery path.
+
+A generation error is not IMAGE_CREATED and must never be counted as Phase 1 completion.
+
+## 9. Post-generation completion
 After a successful image is generated:
 1. Perform the required worker self-check.
 2. Re-fetch the queue.
@@ -114,7 +141,7 @@ After a successful image is generated:
 
 IMAGE_CREATED is not final QA PASS.
 
-## 9. Phase 2 separation
+## 10. Phase 2 separation
 Do not wait for:
 - UPLOADING
 - UPLOADED
@@ -127,15 +154,17 @@ The Worker is finished with the task at IMAGE_CREATED.
 
 If binary upload is unavailable, the task still remains Phase 1 complete.
 
-## 10. Lease and recovery
+## 11. Lease and recovery
 - ChatGPT manual worker lease: 120 minutes.
 - Make/OpenAI worker lease: 30 minutes.
 - Renew before expiry when needed.
 - After expiry, re-fetch and re-claim with a new Claim ID.
-- A blocked pre-generation job returns to QUEUED.
+- A prerequisite-blocked pre-generation job returns to QUEUED after the blocker is resolved.
+- A GENERATION_TOOL_ERROR follows the retry policy; after three failed attempts the task becomes DEFERRED.
+- A SAFETY_BLOCKED task is sent to Director Review and is not automatically retried.
 - A generated candidate is preserved and must not be regenerated merely because another worker becomes available.
 
-## 11. Worker restrictions
+## 12. Worker restrictions
 Workers must not:
 - redesign identity or global style;
 - generate before successful claim;
