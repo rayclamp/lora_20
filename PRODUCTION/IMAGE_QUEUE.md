@@ -1,167 +1,219 @@
 # IMAGE_QUEUE.md — Age-20 Inaria LoRA Production Queue
 
 ## Purpose
-This is the shared per-image work queue and authoritative task state source for the age-20 Inaria LoRA production Goal.
-
-It serves the interchangeable Production Worker Pool, future Make/OpenAI workers, and ACCOUNT_06 final QA.
+Authoritative Phase 1 work queue for the current 40-image capacity test.
 
 ## Active Goal
-See PRODUCTION/PRODUCTION_GOAL.md.
-
-Current Goal:
-- Goal ID: T107_GOAL_20260925_20
-- Target Phase 1 images: 20
+- Goal ID: T108_GOAL_20260925_40_CAPACITY_TEST
+- Target Phase 1 images: 40
 - Completion event: IMAGE_CREATED
 - Completed at Goal start: 0
+- Production mode: MANUAL
+- QA status: PAUSED
+- Phase 2 upload/QA: asynchronous and non-blocking
 
-The Goal is team-level. Workers do not have fixed image quotas.
+## Test purpose
+This Goal contains 40 executable image tasks. The Master Director designs the tasks in GitHub; other worker accounts perform the actual generation. This is a capacity observation, not a claim that one account can generate all 40 images.
 
-## Production phases
+## Execution rules
+1. Claim only QUEUED tasks after successful GitHub claim.
+2. Read the current Goal and queue before each new claim.
+3. Use the mandatory master reference.
+4. Execute the assigned design; do not redesign it.
+5. IMAGE_CREATED counts +1 and releases the worker immediately.
+6. Do not wait for upload or QA.
+7. QA is PAUSED for this test.
+8. If a worker reaches its own image-generation limit, stop that worker and leave remaining tasks QUEUED.
+9. SAFETY_BLOCKED and GENERATION_TOOL_ERROR follow the existing worker protocol.
+10. Stop all new claims when Phase 1 reaches 40.
 
-### Phase 1 — Worker production
-QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
+## 40-image task table
 
-Generation error branches:
-- GENERATION_TOOL_ERROR → retry policy / DEFERRED / system pause
-- SAFETY_BLOCKED → Director Review
-- BLOCKED → prerequisite recovery
-- FAILED → technical recovery
+| ID | Action | Pose | View | Hair | Clothing | Scene | Camera | Hand configuration | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| IMG_01 | walking naturally | natural walking stride | full frontal | long straight hair | white blouse with pleated skirt | bedroom | full-body eye-level | both hands relaxed and visible | QUEUED |
+| IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
+| IMG_03 | walking while looking back | walking stride with torso forward and head gently turned back | right 3/4 front | low ponytail | casual T-shirt with jeans | kitchen | full-body slightly low angle | one hand holding a book, other supporting naturally | QUEUED |
+| IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
+| IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | QUEUED |
+| IMG_06 | turning around | turning-around pose with feet stable and torso rotating naturally | left 3/4 rear | half-up hairstyle | hoodie with casual shorts | bookstore | waist-up | both hands lightly holding a larger object | QUEUED |
+| IMG_07 | reaching forward | standing reach toward a large object at chest height | right 3/4 rear | low bun | office blouse with trousers | convenience store | chest-up | one hand touching hair, other relaxed | QUEUED |
+| IMG_08 | reaching upward | standing reach upward with one arm, feet stable | full rear | side braid | office blouse with pencil skirt | shopping street | environmental full-body | one hand adjusting sleeve, other relaxed | QUEUED |
+| IMG_09 | reaching downward | standing light forward bend reaching toward a low object | front slight high angle | half-up braid | lightweight jacket with skirt | city sidewalk | side-oriented composition | one hand reaching toward a large object, other relaxed | QUEUED |
+| IMG_10 | picking up a small object | controlled squat with one hand reaching toward a small object | front slight low angle | loose softly curled hair | casual sweater with straight-leg trousers | train station | rear-oriented composition | both hands resting naturally on thighs while seated | QUEUED |
+| IMG_11 | sitting upright on a chair | seated upright on a chair | rear slight high angle | long straight hair | simple sportswear | park | off-center composition | one hand on a stable surface, other relaxed | QUEUED |
+| IMG_12 | sitting with one leg naturally extended | seated on chair with one leg naturally extended | rear slight low angle | long hair with subtle loose waves | comfortable homewear | riverside walkway | symmetrical centered composition | hands carrying a simple lightweight object | QUEUED |
+| IMG_13 | sitting sideways on a chair | seated side-facing on a chair | over-shoulder | low ponytail | pajamas | beach | full-body eye-level | both hands relaxed and visible | QUEUED |
+| IMG_14 | sitting on the edge of a bed | sitting on bed edge with feet grounded | distant environmental full-body | high ponytail | light trench coat with simple inner outfit | indoor pool | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
+| IMG_15 | sitting on the floor | floor sitting with legs arranged simply | full frontal | side ponytail | casual blouse with wide-leg trousers | campus walkway | full-body slightly low angle | one hand holding a book, other supporting naturally | QUEUED |
+| IMG_16 | kneeling naturally | natural kneeling with upright torso | left 3/4 front | half-up hairstyle | white blouse with pleated skirt | office | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
+| IMG_17 | squatting naturally | natural balanced squat | right 3/4 front | low bun | light-blue knit dress | hotel room | medium shot | writing with one hand, other stabilizing notebook | QUEUED |
+| IMG_18 | leaning lightly against a surface | light side lean against a flat wall | left profile | side braid | casual T-shirt with jeans | museum gallery | waist-up | both hands lightly holding a larger object | QUEUED |
+| IMG_19 | resting with hands relaxed | relaxed standing rest with both feet grounded | right profile | half-up braid | cardigan with long skirt | garden | chest-up | one hand touching hair, other relaxed | QUEUED |
+| IMG_20 | rising from a seated position | controlled rise from a chair with stable feet | left 3/4 rear | loose softly curled hair | simple summer one-piece dress | balcony | environmental full-body | one hand adjusting sleeve, other relaxed | QUEUED |
+| IMG_21 | reading a book | seated upright reading a book | right 3/4 front | long straight hair | hoodie with casual shorts | bedroom | side-oriented composition | one hand reaching toward a large object, other relaxed | QUEUED |
+| IMG_22 | writing in a notebook | seated at a desk writing in a notebook | left profile | long hair with subtle loose waves | office blouse with trousers | living room | rear-oriented composition | both hands resting naturally on thighs while seated | QUEUED |
+| IMG_23 | using a smartphone | standing naturally using a smartphone at comfortable chest height | right profile | low ponytail | office blouse with pencil skirt | kitchen | off-center composition | one hand on a stable surface, other relaxed | QUEUED |
+| IMG_24 | drinking from a cup | seated upright drinking from a simple cup | front slight high angle | high ponytail | lightweight jacket with skirt | home workspace | symmetrical centered composition | hands carrying a simple lightweight object | QUEUED |
+| IMG_25 | eating a simple meal | seated at table eating a simple meal | front slight low angle | side ponytail | casual sweater with straight-leg trousers | café | full-body eye-level | both hands relaxed and visible | QUEUED |
+| IMG_26 | preparing food at a counter | standing at kitchen counter preparing food | rear slight low angle | half-up hairstyle | simple sportswear | bookstore | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
+| IMG_27 | organizing objects on a shelf | standing beside shelf organizing objects | over-shoulder | low bun | comfortable homewear | convenience store | full-body slightly low angle | one hand holding a book, other supporting naturally | QUEUED |
+| IMG_28 | opening a door | standing beside doorway opening a door with one hand | distant environmental full-body | side braid | pajamas | shopping street | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
+| IMG_29 | looking through a display shelf | standing beside display shelf examining an object | full frontal | half-up braid | light trench coat with simple inner outfit | city sidewalk | medium shot | writing with one hand, other stabilizing notebook | QUEUED |
+| IMG_30 | carrying a simple object | walking slowly while carrying one simple lightweight object | left 3/4 front | loose softly curled hair | casual blouse with wide-leg trousers | train station | waist-up | both hands lightly holding a larger object | QUEUED |
+| IMG_31 | adjusting hair | standing naturally adjusting hair with one hand | right 3/4 front | long straight hair | white blouse with pleated skirt | park | chest-up | one hand touching hair, other relaxed | QUEUED |
+| IMG_32 | tying hair | standing or seated naturally tying hair with both hands near head | left profile | long hair with subtle loose waves | light-blue knit dress | riverside walkway | environmental full-body | one hand adjusting sleeve, other relaxed | QUEUED |
+| IMG_33 | checking appearance in a mirror | standing naturally facing a mirror checking appearance | front slight high angle | low ponytail | casual T-shirt with jeans | beach | side-oriented composition | one hand reaching toward a large object, other relaxed | QUEUED |
+| IMG_34 | adjusting a sleeve | standing naturally adjusting one sleeve | left 3/4 rear | high ponytail | cardigan with long skirt | indoor pool | rear-oriented composition | both hands resting naturally on thighs while seated | QUEUED |
+| IMG_35 | adjusting a skirt hem | standing naturally adjusting skirt hem | right 3/4 rear | side ponytail | simple summer one-piece dress | campus walkway | off-center composition | one hand on a stable surface, other relaxed | QUEUED |
+| IMG_36 | stretching arms | standing gentle full-arm stretch with stable feet | full rear | half-up hairstyle | hoodie with casual shorts | office | symmetrical centered composition | hands carrying a simple lightweight object | QUEUED |
+| IMG_37 | light jogging | low-intensity jog with compact stride | front slight high angle | low bun | office blouse with trousers | hotel room | full-body eye-level | both hands relaxed and visible | QUEUED |
+| IMG_38 | taking a larger walking stride | controlled larger walking stride | front slight low angle | side braid | office blouse with pencil skirt | museum gallery | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
+| IMG_39 | bending naturally to inspect something | light forward bend inspecting a large object | rear slight high angle | half-up braid | lightweight jacket with skirt | garden | full-body slightly low angle | one hand holding a book, other supporting naturally | QUEUED |
+| IMG_40 | looking over the shoulder | standing naturally with body forward and gentle shoulder look | rear slight low angle | loose softly curled hair | casual sweater with straight-leg trousers | balcony | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
 
-IMAGE_CREATED is the Worker completion point and counts +1 toward the active Goal.
+## Executable prompts
 
-Once IMAGE_CREATED is recorded, the Worker is released immediately.
+### IMG_01 — walking naturally
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: long straight hair. Clothing: white blouse with pleated skirt. Scene: bedroom. Action: walking naturally. Pose: natural walking stride. Viewpoint: full frontal. Camera: full-body eye-level. Hand configuration: both hands relaxed and visible. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-### Phase 2 — Delivery and QA
-IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → PASS / REPAIR / REJECT
+### IMG_02 — walking while looking to the side
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: long hair with subtle loose waves. Clothing: light-blue knit dress. Scene: living room. Action: walking while looking to the side. Pose: walking stride with gentle head turn. Viewpoint: left 3/4 front. Camera: full-body slightly high angle. Hand configuration: one hand holding a simple cup, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-Phase 2 is asynchronous and must not block Phase 1.
+### IMG_03 — walking while looking back
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: low ponytail. Clothing: casual T-shirt with jeans. Scene: kitchen. Action: walking while looking back. Pose: walking stride with torso forward and head gently turned back. Viewpoint: right 3/4 front. Camera: full-body slightly low angle. Hand configuration: one hand holding a book, other supporting naturally. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-## Queue rules
-1. Only QUEUED jobs without valid ownership may be claimed.
-2. Claim must succeed in GitHub before generation.
-3. Claim uses the latest queue blob SHA as the optimistic concurrency guard.
-4. A failed/conflicted claim means no ownership and no generation.
-5. CLAIMED → GENERATING must be written before image generation.
-6. Ownership lasts only through the valid lease.
-7. IMAGE_CREATED completes Phase 1 for that task.
-8. Phase 2 must not block the Worker from starting another task.
-9. ACCOUNT_06 is the only final PASS / REPAIR / REJECT gate.
-10. NEED_REGENERATE explicitly authorizes another generation attempt.
-11. GENERATION_TOOL_ERROR follows PRODUCTION/GENERATION_RETRY_POLICY.md and does not count toward IMAGE_CREATED.
-12. A task reaches DEFERRED after 3 failed generation attempts by default.
-13. Three consecutive GENERATION_TOOL_ERROR events pause new generation claims while preserving QUEUED tasks.
-14. SAFETY_BLOCKED is not automatically retried and requires Director Review.
-15. Workers must re-fetch the queue and active Goal after every completed or released job.
-16. No new task may be claimed once the active Goal target has been reached.
+### IMG_04 — pausing mid-step
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: high ponytail. Clothing: cardigan with long skirt. Scene: home workspace. Action: pausing mid-step. Pose: paused walking pose with one foot slightly forward. Viewpoint: left profile. Camera: medium full shot. Hand configuration: one hand holding smartphone, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-## State definitions
-- QUEUED: available for claim.
-- CLAIMED: exclusive lease acquired, generation not started.
-- GENERATING: generation started.
-- IMAGE_CREATED: candidate successfully generated; Phase 1 complete.
-- UPLOADING: Phase 2 asset transfer is in progress.
-- UPLOADED: production asset exists and lineage is recorded.
-- QC_PENDING: asset is ready for ACCOUNT_06 review.
-- PASS: final approved by ACCOUNT_06.
-- REPAIR: localized repair required.
-- REJECT: candidate not accepted.
-- NEED_REGENERATE: explicit instruction to create a replacement candidate.
-- BLOCKED: temporary prerequisite prevents progress.
-- FAILED: technical failure requiring recovery.
-- DEFERRED: generation attempts exhausted for the current retry policy; not a final QA decision.
-- SAFETY_BLOCKED: ChatGPT explicitly blocked the generation for safety; Director Review required.
+### IMG_05 — standing and turning the body
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: side ponytail. Clothing: simple summer one-piece dress. Scene: café. Action: standing and turning the body. Pose: standing with natural torso turn. Viewpoint: right profile. Camera: medium shot. Hand configuration: writing with one hand, other stabilizing notebook. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-## Lease
-- ChatGPT manual worker: 120 minutes.
-- Make/OpenAI worker: 30 minutes.
-- Expired ownership must never be reused; the job must be re-claimed with a new Claim ID.
+### IMG_06 — turning around
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: half-up hairstyle. Clothing: hoodie with casual shorts. Scene: bookstore. Action: turning around. Pose: turning-around pose with feet stable and torso rotating naturally. Viewpoint: left 3/4 rear. Camera: waist-up. Hand configuration: both hands lightly holding a larger object. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-## Claim protocol
-FETCH latest queue + SHA → SELECT available task → CLAIM using exact SHA → VERIFY ownership → GENERATING → GENERATE → IMAGE_CREATED.
+### IMG_07 — reaching forward
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: low bun. Clothing: office blouse with trousers. Scene: convenience store. Action: reaching forward. Pose: standing reach toward a large object at chest height. Viewpoint: right 3/4 rear. Camera: chest-up. Hand configuration: one hand touching hair, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-Reading QUEUED does not equal ownership. Successful conditional update is the only ownership event.
+### IMG_08 — reaching upward
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: side braid. Clothing: office blouse with pencil skirt. Scene: shopping street. Action: reaching upward. Pose: standing reach upward with one arm, feet stable. Viewpoint: full rear. Camera: environmental full-body. Hand configuration: one hand adjusting sleeve, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-## First-round 20 jobs
+### IMG_09 — reaching downward
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: half-up braid. Clothing: lightweight jacket with skirt. Scene: city sidewalk. Action: reaching downward. Pose: standing light forward bend reaching toward a low object. Viewpoint: front slight high angle. Camera: side-oriented composition. Hand configuration: one hand reaching toward a large object, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-| ID | Character | Clothing | Scene | Pose/Camera | Prompt | Worker | Status | Claim ID | Lease Until | Attempts | Last Error | Final QC |
-|---|---|---|---|---|---|---|---|---|---|---:|---|---|
-| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | rayclamp | IMAGE_CREATED | CLAIM-T107-IMG_01-RAYCLAMP-20260925T2144 | 2026-09-25 23:44 +08:00 | 1 | - | - |
-| IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_02-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
-| IMG_03 | C01 | C03 | S03 | P04 | Prompt 03 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_03-CHATGPT-20260925T2224 | 2026-09-26 00:24 +08:00 | 1 | - | - |
-| IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_04-CHATGPT-20260925T2227 | 2026-09-26 00:27 +08:00 | 1 | - | - |
-| IMG_05 | C01 | C05 | S04 | P05 | Prompt 05 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_05-CHATGPT-20260925T2230 | 2026-09-26 00:30 +08:00 | 1 | - | - |
-| IMG_06 | C01 | C06 | S06 | P06 | Prompt 06 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_06-CHATGPT-20260925T2233 | 2026-09-26 00:33 +08:00 | 1 | - | - |
-| IMG_07 | C01 | C07 | S08 | P15 | Prompt 07 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_07-CHATGPT-20260925T2237 | 2026-09-26 00:37 +08:00 | 0 | - | - |
-| IMG_08 | C01 | C08 | S18 | P12 | Prompt 08 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_08-20260925 | - | 0 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
-| IMG_09 | C01 | C09 | S09 | P09 | Prompt 09 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_09-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
-| IMG_10 | C01 | C10 | S19 | P10 | Prompt 10 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_10-CHATGPT-20260925T2250 | 2026-09-26 00:50 +08:00 | 1 | - | - |
-| IMG_11 | C01 | C11 | S06 | P17 | Prompt 11 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_11-CHATGPT-20260925T2255 | 2026-09-26 00:55 +08:00 | 1 | - | - |
-| IMG_12 | C01 | C12 | S12 | P12 | Prompt 12 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG12-WORKER-2300 | 2026-09-26 01:00 +08:00 | 1 | - | - |
-| IMG_13 | C01 | C13 | S09 | P13 | Prompt 13 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG13-WORKER-2305 | 2026-09-26 01:05 +08:00 | 1 | - | - |
-| IMG_14 | C01 | C14 | S13 | P08 | Prompt 14 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG14-WORKER-2310 | 2026-09-26 01:10 +08:00 | 1 | - | - |
-| IMG_15 | C01 | C15 | S15 | P14 | Prompt 15 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_15-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
-| IMG_16 | C01 | C16 | S16 | P16 | Prompt 16 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_16-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
-| IMG_17 | C01 | C17 | S17 | P17 | Prompt 17 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG17-WORKER-2325 | 2026-09-26 01:25 +08:00 | 1 | - | - |
-| IMG_18 | C01 | C18 | S20 | P01 | Prompt 18 | MANUAL_RECONCILIATION | IMAGE_CREATED | RECONCILED-T107-IMG_18-20260925 | - | 1 | HISTORICAL_SAFETY_BLOCKED; IMAGE_CREATED_CONFIRMED | - |
-| IMG_19 | C01 | C19 | S05 | P16 | Prompt 19 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG19-WORKER-2335 | 2026-09-26 01:35 +08:00 | 1 | - | - |
-| IMG_20 | C01 | C20 | S20 | P20 | Prompt 20 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG20-WORKER-2340 | 2026-09-26 01:40 +08:00 | 1 | - | - |
+### IMG_10 — picking up a small object
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: loose softly curled hair. Clothing: casual sweater with straight-leg trousers. Scene: train station. Action: picking up a small object. Pose: controlled squat with one hand reaching toward a small object. Viewpoint: front slight low angle. Camera: rear-oriented composition. Hand configuration: both hands resting naturally on thighs while seated. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
 
-## Current reconciled count
-- Goal target: 20
-- Phase 1 IMAGE_CREATED: 20
-- Phase 1 remaining: 0
-- Generation system state: ACTIVE
-- Consecutive GENERATION_TOOL_ERROR count: 0
-- QUEUED: 0
+### IMG_11 — sitting upright on a chair
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: long straight hair. Clothing: simple sportswear. Scene: park. Action: sitting upright on a chair. Pose: seated upright on a chair. Viewpoint: rear slight high angle. Camera: off-center composition. Hand configuration: one hand on a stable surface, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_12 — sitting with one leg naturally extended
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: long hair with subtle loose waves. Clothing: comfortable homewear. Scene: riverside walkway. Action: sitting with one leg naturally extended. Pose: seated on chair with one leg naturally extended. Viewpoint: rear slight low angle. Camera: symmetrical centered composition. Hand configuration: hands carrying a simple lightweight object. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_13 — sitting sideways on a chair
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: low ponytail. Clothing: pajamas. Scene: beach. Action: sitting sideways on a chair. Pose: seated side-facing on a chair. Viewpoint: over-shoulder. Camera: full-body eye-level. Hand configuration: both hands relaxed and visible. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_14 — sitting on the edge of a bed
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: high ponytail. Clothing: light trench coat with simple inner outfit. Scene: indoor pool. Action: sitting on the edge of a bed. Pose: sitting on bed edge with feet grounded. Viewpoint: distant environmental full-body. Camera: full-body slightly high angle. Hand configuration: one hand holding a simple cup, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_15 — sitting on the floor
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: side ponytail. Clothing: casual blouse with wide-leg trousers. Scene: campus walkway. Action: sitting on the floor. Pose: floor sitting with legs arranged simply. Viewpoint: full frontal. Camera: full-body slightly low angle. Hand configuration: one hand holding a book, other supporting naturally. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_16 — kneeling naturally
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: half-up hairstyle. Clothing: white blouse with pleated skirt. Scene: office. Action: kneeling naturally. Pose: natural kneeling with upright torso. Viewpoint: left 3/4 front. Camera: medium full shot. Hand configuration: one hand holding smartphone, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_17 — squatting naturally
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: low bun. Clothing: light-blue knit dress. Scene: hotel room. Action: squatting naturally. Pose: natural balanced squat. Viewpoint: right 3/4 front. Camera: medium shot. Hand configuration: writing with one hand, other stabilizing notebook. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_18 — leaning lightly against a surface
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: side braid. Clothing: casual T-shirt with jeans. Scene: museum gallery. Action: leaning lightly against a surface. Pose: light side lean against a flat wall. Viewpoint: left profile. Camera: waist-up. Hand configuration: both hands lightly holding a larger object. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_19 — resting with hands relaxed
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: half-up braid. Clothing: cardigan with long skirt. Scene: garden. Action: resting with hands relaxed. Pose: relaxed standing rest with both feet grounded. Viewpoint: right profile. Camera: chest-up. Hand configuration: one hand touching hair, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_20 — rising from a seated position
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: loose softly curled hair. Clothing: simple summer one-piece dress. Scene: balcony. Action: rising from a seated position. Pose: controlled rise from a chair with stable feet. Viewpoint: left 3/4 rear. Camera: environmental full-body. Hand configuration: one hand adjusting sleeve, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_21 — reading a book
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: long straight hair. Clothing: hoodie with casual shorts. Scene: bedroom. Action: reading a book. Pose: seated upright reading a book. Viewpoint: right 3/4 front. Camera: side-oriented composition. Hand configuration: one hand reaching toward a large object, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_22 — writing in a notebook
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: long hair with subtle loose waves. Clothing: office blouse with trousers. Scene: living room. Action: writing in a notebook. Pose: seated at a desk writing in a notebook. Viewpoint: left profile. Camera: rear-oriented composition. Hand configuration: both hands resting naturally on thighs while seated. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_23 — using a smartphone
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: low ponytail. Clothing: office blouse with pencil skirt. Scene: kitchen. Action: using a smartphone. Pose: standing naturally using a smartphone at comfortable chest height. Viewpoint: right profile. Camera: off-center composition. Hand configuration: one hand on a stable surface, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_24 — drinking from a cup
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: high ponytail. Clothing: lightweight jacket with skirt. Scene: home workspace. Action: drinking from a cup. Pose: seated upright drinking from a simple cup. Viewpoint: front slight high angle. Camera: symmetrical centered composition. Hand configuration: hands carrying a simple lightweight object. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_25 — eating a simple meal
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: side ponytail. Clothing: casual sweater with straight-leg trousers. Scene: café. Action: eating a simple meal. Pose: seated at table eating a simple meal. Viewpoint: front slight low angle. Camera: full-body eye-level. Hand configuration: both hands relaxed and visible. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_26 — preparing food at a counter
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: half-up hairstyle. Clothing: simple sportswear. Scene: bookstore. Action: preparing food at a counter. Pose: standing at kitchen counter preparing food. Viewpoint: rear slight low angle. Camera: full-body slightly high angle. Hand configuration: one hand holding a simple cup, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_27 — organizing objects on a shelf
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: low bun. Clothing: comfortable homewear. Scene: convenience store. Action: organizing objects on a shelf. Pose: standing beside shelf organizing objects. Viewpoint: over-shoulder. Camera: full-body slightly low angle. Hand configuration: one hand holding a book, other supporting naturally. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_28 — opening a door
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: side braid. Clothing: pajamas. Scene: shopping street. Action: opening a door. Pose: standing beside doorway opening a door with one hand. Viewpoint: distant environmental full-body. Camera: medium full shot. Hand configuration: one hand holding smartphone, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_29 — looking through a display shelf
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: half-up braid. Clothing: light trench coat with simple inner outfit. Scene: city sidewalk. Action: looking through a display shelf. Pose: standing beside display shelf examining an object. Viewpoint: full frontal. Camera: medium shot. Hand configuration: writing with one hand, other stabilizing notebook. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_30 — carrying a simple object
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: loose softly curled hair. Clothing: casual blouse with wide-leg trousers. Scene: train station. Action: carrying a simple object. Pose: walking slowly while carrying one simple lightweight object. Viewpoint: left 3/4 front. Camera: waist-up. Hand configuration: both hands lightly holding a larger object. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_31 — adjusting hair
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: long straight hair. Clothing: white blouse with pleated skirt. Scene: park. Action: adjusting hair. Pose: standing naturally adjusting hair with one hand. Viewpoint: right 3/4 front. Camera: chest-up. Hand configuration: one hand touching hair, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_32 — tying hair
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: long hair with subtle loose waves. Clothing: light-blue knit dress. Scene: riverside walkway. Action: tying hair. Pose: standing or seated naturally tying hair with both hands near head. Viewpoint: left profile. Camera: environmental full-body. Hand configuration: one hand adjusting sleeve, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_33 — checking appearance in a mirror
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: low ponytail. Clothing: casual T-shirt with jeans. Scene: beach. Action: checking appearance in a mirror. Pose: standing naturally facing a mirror checking appearance. Viewpoint: front slight high angle. Camera: side-oriented composition. Hand configuration: one hand reaching toward a large object, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_34 — adjusting a sleeve
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: high ponytail. Clothing: cardigan with long skirt. Scene: indoor pool. Action: adjusting a sleeve. Pose: standing naturally adjusting one sleeve. Viewpoint: left 3/4 rear. Camera: rear-oriented composition. Hand configuration: both hands resting naturally on thighs while seated. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_35 — adjusting a skirt hem
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: side ponytail. Clothing: simple summer one-piece dress. Scene: campus walkway. Action: adjusting a skirt hem. Pose: standing naturally adjusting skirt hem. Viewpoint: right 3/4 rear. Camera: off-center composition. Hand configuration: one hand on a stable surface, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_36 — stretching arms
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: half-up hairstyle. Clothing: hoodie with casual shorts. Scene: office. Action: stretching arms. Pose: standing gentle full-arm stretch with stable feet. Viewpoint: full rear. Camera: symmetrical centered composition. Hand configuration: hands carrying a simple lightweight object. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_37 — light jogging
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: low bun. Clothing: office blouse with trousers. Scene: hotel room. Action: light jogging. Pose: low-intensity jog with compact stride. Viewpoint: front slight high angle. Camera: full-body eye-level. Hand configuration: both hands relaxed and visible. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_38 — taking a larger walking stride
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: side braid. Clothing: office blouse with pencil skirt. Scene: museum gallery. Action: taking a larger walking stride. Pose: controlled larger walking stride. Viewpoint: front slight low angle. Camera: full-body slightly high angle. Hand configuration: one hand holding a simple cup, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_39 — bending naturally to inspect something
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: half-up braid. Clothing: lightweight jacket with skirt. Scene: garden. Action: bending naturally to inspect something. Pose: light forward bend inspecting a large object. Viewpoint: rear slight high angle. Camera: full-body slightly low angle. Hand configuration: one hand holding a book, other supporting naturally. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+### IMG_40 — looking over the shoulder
+**Prompt:** Use the Common Character Module, Common Style Module, and Common Negative Module from 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md; use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the mandatory identity/style reference. Preserve recognizable Inaria identity, dark blue-black hair, blue eyes, light natural-looking skin, natural anatomy, Japanese anime rendering, restrained contrast. Exactly five fingers per visible hand and five toes per visible bare foot. No extra, missing, or fused digits or limbs. Keep props simple and away from hands and feet. Hairstyle: loose softly curled hair. Clothing: casual sweater with straight-leg trousers. Scene: balcony. Action: looking over the shoulder. Pose: standing naturally with body forward and gentle shoulder look. Viewpoint: rear slight low angle. Camera: medium full shot. Hand configuration: one hand holding smartphone, other relaxed. Keep the body configuration anatomically stable and visually readable; avoid background overlap with hands and feet.
+
+## Current count
+- Goal target: 40
+- Phase 1 IMAGE_CREATED: 0
+- Phase 1 remaining: 40
+- QUEUED: 40
 - CLAIMED: 0
 - GENERATING: 0
-- IMAGE_CREATED: 20
+- IMAGE_CREATED: 0
 - UPLOADING: 0
-- UPLOADED: 0
 - QC_PENDING: 0
 - PASS: 0
 - REPAIR: 0
 - REJECT: 0
-- BLOCKED: 0
-- FAILED: 0
-- DEFERRED: 0
 - SAFETY_BLOCKED: 0
 
-## Production/Upload separation safeguard
+## QA
+QA is intentionally PAUSED for T108. Do not route images into final QA during this capacity test unless the user explicitly resumes QA.
 
-A successful generation reaches IMAGE_CREATED immediately and counts toward the Phase 1 Goal. Uploading and QA are Phase 2 operations.
-
-If an image cannot be uploaded to GitHub, the task must still be recorded as IMAGE_CREATED and the Worker released. Upload failure must never roll back or delay the Phase 1 Goal counter.
-
-## Historical candidates
-IMG_01–IMG_05 were previously generated under an obsolete production gate. Their historical outputs remain in STATUS/PRODUCTION_LOG.md but do not count toward the active Goal.
-
-Their production tasks are re-queued above with Attempts preserved for traceability.
-
-## Worker continuation rule
-After every Phase 1 completion:
-1. Re-fetch the latest queue.
-2. Re-fetch the active Production Goal.
-3. If the Goal is incomplete, claim another available task.
-4. If the Goal is complete, stop claiming.
-
-Never:
-- use an old queue snapshot for a new claim;
-- generate before successful claim;
-- assume startup order grants ownership;
-- treat ChatGPT output-area existence as UPLOADED;
-- declare final PASS;
-- continue after lease expiry;
-- wait for Phase 2 upload or QA before continuing Phase 1.
-
-## Related authoritative files
-- 00_MASTER/MASTER_SPEC.md
-- 00_MASTER/ANATOMY_STABILITY.md
+## Reference
+- MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
+- 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md
 - 00_MASTER/GENERATION_WORKER_PROTOCOL.md
 - 00_MASTER/PRODUCTION_PROTOCOL.md
-- 00_MASTER/PRODUCTION_MODES.md
-- 00_MASTER/QUALITY_CONTROL.md
-- PRODUCTION/PRODUCTION_GOAL.md
-- PRODUCTION/WORKER_POOL.md
-- 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md
-- STATUS/PRODUCTION_LOG.md
