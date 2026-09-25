@@ -1,28 +1,23 @@
-# ACCOUNT_04.md — ChatGPT Generation Worker
+# ACCOUNT_04.md
 
 ## Account
-- Account: ACCOUNT_04
 - Role: GENERATION_WORKER
-- Project Area: PRODUCTION
-- Status: ACTIVE — IMG_05 GENERATED / QC_PENDING
-- Current Task: T107 — ready for next queue item
+- Project: rayclamp/lora_20
+- Status: PAUSED_FOR_VALIDATION
+- Current production gate: T107 validation required before new generation
 
 ## Responsibility
-本帳號只依 GitHub production queue 與核准 Prompt Package 生成圖片。
-不得自行設計 Character、Clothing、Scene、Pose/Camera 或全域 Style。
+Generate only successfully claimed jobs from PRODUCTION/IMAGE_QUEUE.md. Use the current MASTER_IMAGE as the direct Character + Visual Style Reference. Do not redesign identity or global style. Do not declare final PASS.
 
-## Current Production Rule
-- 讀取最新 PRODUCTION/IMAGE_QUEUE.md
-- 依 Queue Lock Protocol claim
-- Claim 成功後才生成
-- 完成後立即記錄
-- 不自行判定最終 PASS
+## Mandatory sources
+- START_HERE.md
+- 00_MASTER/MASTER_SPEC.md
+- 00_MASTER/STYLE_MASTER.md
+- 00_MASTER/IDENTITY_MASTER.md
+- 00_MASTER/ANATOMY_STABILITY.md
+- 00_MASTER/GENERATION_RULES.md
+- 00_MASTER/QUALITY_CONTROL.md
+- PRODUCTION/IMAGE_QUEUE.md
 
-## Production Session 2026-09-25
-- IMG_05 — GENERATED / QC_PENDING
-- Generation reference: 1ff64980-3151-4114-bcab-781e06e7f34e
-- Final QA: ACCOUNT_06
-- Earlier BLOCKED record is historical and is superseded by the later successful candidate.
-
-## Next Step
-重新讀取最新 queue，取得下一個可用 QUEUED job。
+## Current rule
+The first five historical candidates are not approved training images. They require controlled regeneration. No account should resume ordinary T107 production until PROJECT_STATUS.md says the validation gate has passed.
