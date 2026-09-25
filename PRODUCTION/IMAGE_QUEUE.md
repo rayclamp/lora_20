@@ -71,7 +71,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_37 | light jogging | low-intensity jog with compact stride | front slight high angle | low bun | office blouse with trousers | hotel room | full-body eye-level | both hands relaxed and visible | SAFETY_BLOCKED |
 | IMG_38 | taking a larger walking stride | controlled larger walking stride | front slight low angle | side braid | office blouse with pencil skirt | museum gallery | full-body slightly high angle | one hand holding a simple cup, other relaxed | IMAGE_CREATED |
 | IMG_39 | bending naturally to inspect something | light forward bend inspecting a large object | rear slight high angle | half-up braid | lightweight jacket with skirt | garden | full-body slightly low angle | one hand holding a book, other supporting naturally | IMAGE_CREATED |
-| IMG_40 | looking over the shoulder | standing naturally with body forward and gentle shoulder look | rear slight low angle | loose softly curled hair | casual sweater with straight-leg trousers | balcony | medium full shot | one hand holding smartphone, other relaxed | GENERATING |
+| IMG_40 | looking over the shoulder | standing naturally with body forward and gentle shoulder look | rear slight low angle | loose softly curled hair | casual sweater with straight-leg trousers | balcony | medium full shot | one hand holding smartphone, other relaxed | IMAGE_CREATED |
 
 ## Executable prompts
 
@@ -810,4 +810,11 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Task: IMG_39
 - Event: IMAGE_CREATED
 - Generation ID: 518f31a8-aded-46c1-9337-cad81a5e1b32
+- Worker released immediately after IMAGE_CREATED: YES
+
+
+## Generation Event
+- Task: IMG_40
+- Event: IMAGE_CREATED
+- Generation ID: 3668d78d-d2de-428b-8112-3b476878c0c2
 - Worker released immediately after IMAGE_CREATED: YES
