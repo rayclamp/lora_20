@@ -43,3 +43,18 @@
 - PASS、REVIEW、REJECT 必須依 QUALITY_CONTROL.md 判定。
 - 不刪除既有歷史紀錄；修正時新增更正紀錄或明確標記。
 - 生產紀錄不得用來建立個人化畫風偏好。
+
+## IMG_01 — ACCOUNT_01 — 2026-09-25
+- Date: 2026-09-25
+- Account: ACCOUNT_01
+- Task ID: T107 — IMAGE_PRODUCTION
+- Generated: 1
+- PASS: 0
+- REVIEW: 0
+- REJECT: 0
+- Scene: S01 — Taipei high-rise terrace, spring early morning
+- Outfit: C01 — ivory long-sleeve shirt, lavender pleated midi skirt, cream low-heel loafers, lavender shoulder bag, silver studs, slim watch
+- Hairstyle: long loose hair, natural center part
+- Pose / Action: P01 — front natural standing, even weight, arms relaxed, gaze to camera
+- Composition: full body, vertical 9:16, eye-level standard lens
+- Notes: Candidate generated successfully; queue advanced to QC_PENDING. Generation reference: 9bff4359-55bd-4d12-9b8f-b355256f0494. Local generated asset: /mnt/data/a_bright_clean_outdoor_rooftop_terrace_scene_with.png. Final PASS/REPAIR/REJECT remains ACCOUNT_06 responsibility.
