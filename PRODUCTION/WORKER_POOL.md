@@ -75,12 +75,12 @@ Every Worker follows the same loop:
 7. Verify ownership and lease.
 8. Change CLAIMED → GENERATING.
 9. Generate the image using the official MASTER_IMAGE.
-10. If generation succeeds, record GENERATING → IMAGE_CREATED.
+10. If generation succeeds and returns a candidate, record GENERATING → IMAGE_CREATED immediately. Do not self-QA or regenerate the candidate.
 11. If GENERATION_TOOL_ERROR occurs, follow the retry policy.
 12. If the task reaches three failed generation attempts, set it to DEFERRED and move on.
 13. If three GENERATION_TOOL_ERROR events occur consecutively across tasks, pause new generation claims.
 14. If SAFETY_BLOCKED occurs, record SAFETY_BLOCKED, preserve the original task and Prompt Package, release the worker, do not automatically retry that same task, and continue with another available task.
-15. Release the worker after the task reaches a terminal worker outcome.
+15. Release the worker immediately after IMAGE_CREATED or another protocol-defined terminal generation outcome. Do not hold the task for quality review.
 16. Return to the queue if the Goal is not complete and the generation system is not paused.
 
 ## Generation error protection
@@ -91,7 +91,9 @@ Default limits:
 - MAX_IMAGE_RETRIES = 3 per task.
 - MAX_CONSECUTIVE_GENERATION_ERRORS = 3 across the production system.
 
-A task that fails three times is DEFERRED rather than repeatedly retried.
+A task that encounters three genuine generation-tool errors is DEFERRED rather than repeatedly retried.
+
+A successfully generated candidate is never treated as a task failure merely because the Worker considers the result imperfect. It becomes IMAGE_CREATED and is handed to downstream QA.
 
 Three consecutive GENERATION_TOOL_ERROR events pause new generation claims. QUEUED tasks are preserved.
 
