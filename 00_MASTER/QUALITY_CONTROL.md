@@ -1,84 +1,77 @@
-# QUALITY_CONTROL.md — 20歲依娜莉亞 LoRA 最終品質標準
+# QUALITY_CONTROL.md — Inaria Age-20 LoRA Quality Standard
 
-## 1. 目的
+## 1. Purpose
+Select images with real training value, not merely attractive appearance.
 
-挑選真正具有 20 歲依娜莉亞 LoRA 訓練價值的圖片，而不只是挑選漂亮圖片。所有帳號使用同一標準。
+## 2. Final decisions
+- PASS: all hard gates pass and the image has dataset value.
+- REPAIR: identity/task/design are valid and the defect is localized and safely repairable.
+- REJECT: severe structural/style/task failure or insufficient dataset value.
+ACCOUNT_06 is the only final decision-maker.
 
-## 2. 新版決策狀態
+## 3. Reference Match Gate
+The image must match MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as both Character and Visual Style Reference.
 
-- `PASS`：硬性條件通過，具足夠資料集價值，可進入正式資料集。
-- `REPAIR`：身份與整體設計有效，缺陷局部且可安全修復。
-- `REJECT`：身份、人體、任務、構圖或渲染失敗嚴重，或資料集價值不足。
+Check face identity, eye rendering, hair rendering, proportions, line-art language, coloring, shading, lighting language, and overall anime illustration finish.
 
-舊紀錄中的 `REVIEW` 可保留作歷史相容標記，但新的最終決策必須轉為上述三態之一。
+Reject as a target-style match if the image is photorealistic, photographic/live-action, 3D/CGI, semi-photorealistic, or another anime/manga/game/illustration style.
 
-## 3. Hard gates
+A generic Japanese anime appearance without meaningful MASTER_IMAGE visual-language matching is insufficient.
 
-### Identity
-- 必須為 20 歲依娜莉亞。
-- 臉部與核心辨識度須符合 `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`。
-- 不得明顯變成另一人物。
+## 4. Anatomy hard gate
+Check:
+- exactly two hands and two legs;
+- five fingers on every visible hand;
+- five toes on every visible bare foot;
+- correct left/right anatomy;
+- natural shoulder/arm/wrist/palm connections;
+- natural hip/leg/ankle/foot connections;
+- plausible center of gravity;
+- no extra/missing/fused/duplicated digits;
+- no false limbs from clothing, straps, props, furniture, plants, or background.
 
-### Anatomy
-- 每隻可見手具合理五指結構。
-- 每隻可見赤腳具合理五趾結構。
-- 無多餘、缺失、融合、重複手指/腳趾。
-- 無多餘肢體、嚴重變形或不可能關節。
-- 重心與動作合理。
+Hand-action gate:
+- single-hand single-task;
+- natural grips;
+- no unnecessary fingertip pinching;
+- at least one clear hand when practical;
+- no hand-edge crop risk;
+- no busy effects around fingers.
 
-### Face and image integrity
-- 無嚴重五官錯位、臉部崩壞或塑膠/娃娃感。
-- 無文字、水印、Logo、邊框或嚴重 AI artifact。
-- 人物不得無理由被畫面邊界截斷。
+Object-contact gate:
+- hand actually contacts held object;
+- handle is connected and held naturally;
+- bags/straps connect to object and body;
+- containers are structurally complete;
+- no floating or unsupported objects.
 
-## 3.5 Anatomy stability hard gate
-- 必須只有兩隻手、兩條腿。
-- 每隻可見手必須五指；每隻可見赤腳必須五趾。
-- 左右手/腳正確，肩/手臂/手腕/手掌與髖/腿/腳連接自然。
-- 檢查袖子、衣物、包袋、背帶、道具、植物與背景是否形成假肢。
-- 背帶必須完整連接包體並自然貼合身體。
-- 明顯多肢、少肢、錯誤五指/五趾、斷裂肢體或假肢不得 PASS。
-- 自然遮擋本身不是缺陷；無法判定的手指/腳趾標記人工檢查。
+Lower-body gate:
+- legs traceable from hips to feet;
+- support and weight distribution plausible;
+- no unnecessary twisting, entangling, or ambiguous overlap;
+- long-skirt sofa poses follow ANATOMY_STABILITY.md.
 
-## 4. Style gate
-
-遵守 `00_MASTER/STYLE_MASTER.md` 與 MASTER_IMAGE 的 Reference Style Lock：必須是以 `INARIA_20_MASTER_v1.0.png` 為直接視覺參考的日系動漫插畫，並盡可能維持其線稿、臉部繪製、眼睛、頭髮、比例、上色、陰影、光影、色彩與整體插畫完成度。
-
-以下任一項成立不得 PASS：
-- photorealistic / live-action / photographic rendering
-- 3D / CGI / semi-photorealistic conversion
-- 與 MASTER_IMAGE 明顯不同的另一種 anime / manga / game / illustration style
-- 僅符合「動漫」但沒有維持 MASTER_IMAGE 的主要視覺語言
-
-「漂亮」或「高品質」不能取代 Reference Style Match。
+Any clear hard-gate failure cannot be PASS. If a digit or structure is genuinely hidden and cannot be evaluated, require human inspection rather than guessing.
 
 ## 5. Task gate
+Verify the current Prompt Package: clothing, hairstyle, scene, pose/action, camera/composition, accessories, colors, flowers/props, aspect ratio, and every other explicit requirement.
 
-確認場景、服裝、髮型、配件、鞋子/赤腳、動作、姿勢、花卉、構圖比例及其他明確要求全部符合當前 TASK。核心要求錯誤通常 REJECT。
-
-## 6. Flower and color rules
-
-常用花卉為日本藍星花與藍色粉蝶花；每個場景主要花種只選一種，不要求兩種同時出現。水藍色/藏青色為常用色系，但當前 TASK 明確指定其他配色時，以 TASK 為準。
+## 6. Image integrity
+Reject or repair as appropriate for severe face deformation, major generation artifacts, text/watermark/logo, severe object fusion, severe crop damage, or duplicate body/limb/object.
 
 ## 7. Local repair
+Repair only the necessary region when feasible. After any repair, repeat complete QA. A repair never becomes PASS automatically.
 
-局部修復只修改必要區域，盡可能保留未指定的臉部、髮型、服裝、背景、光影、色調與構圖。修復後必須從頭重新 QA；修復不會自動變成 PASS。
+## 8. Dataset value
+Evaluate controlled pose, clothing, hairstyle, scene, camera/composition, lighting/environment diversity, and non-redundancy. Dataset value never overrides a hard gate.
 
-## 8. Dataset value and diversity
-
-優先保留能增加姿勢、身體角度、視角、手部動作、服裝、髮型、配件、場景、光線與環境資訊的圖片。高度近似的圖片應降低優先級。
-
-## 9. 最終 PASS checklist
-
-- 20 歲身份正確
-- 臉部身份穩定
-- 人體與手腳合理
-- 當前任務完整正確
-- 構圖完整
-- 風格正確且無歷史污染
-- 無文字/水印/Logo
-- 品質足夠
-- 具 LoRA 訓練價值
-- 必要 caption / metadata / lineage 完整
-
-只有全部成立才可 PASS。
+## 9. Final PASS checklist
+All must be true:
+- age-20 Inaria identity matches;
+- MASTER_IMAGE visual style matches;
+- anatomy hard gates pass;
+- task requirements pass;
+- image integrity passes;
+- dataset value is sufficient;
+- asset/lineage is recorded;
+- no unresolved blocker remains.
