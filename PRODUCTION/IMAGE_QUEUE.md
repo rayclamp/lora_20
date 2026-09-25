@@ -249,7 +249,7 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Task: IMG_04
 - Status: IMAGE_CREATED
 - Worker released: YES
-- Generation ID: bdf8b78d-9edc-4ebd-bc71-d32c79b22gen
+- Generation ID: bdf8b78d-9edc-4ebd-bc71-d32c79b22b22
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0001-IMG_04-01
 - Lease until: 2026-09-26T02:01:00+08:00
@@ -259,5 +259,5 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 ## Generation Event
 - Task: IMG_04
 - Event: IMAGE_CREATED
-- Generation ID: bdf8b78d-9edc-4ebd-bc71-d32c79b22gen
+- Generation ID: bdf8b78d-9edc-4ebd-bc71-d32c79b22b22
 - Worker released immediately after IMAGE_CREATED: YES
