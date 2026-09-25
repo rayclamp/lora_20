@@ -130,16 +130,21 @@ A generation error is not IMAGE_CREATED and must never be counted as Phase 1 com
 
 ## 9. Post-generation completion
 After a successful image is generated:
-1. Perform the required worker self-check.
-2. Re-fetch the queue.
-3. Verify the active Claim ID and lease.
-4. Update GENERATING → IMAGE_CREATED using the latest queue SHA.
-5. Record the generation completion event required by the current queue schema.
-6. Treat IMAGE_CREATED as Phase 1 completion.
-7. Release the Worker immediately.
-8. Re-check the active Goal before claiming another task.
+1. Do NOT perform visual QA, task-compliance judgment, PASS/REPAIR/REJECT judgment, or subjective acceptance screening.
+2. Do NOT regenerate the task merely because the Worker believes the candidate could be improved.
+3. Re-fetch the queue.
+4. Verify the active Claim ID and lease.
+5. Update GENERATING → IMAGE_CREATED using the latest queue SHA.
+6. Record the generation completion event required by the current queue schema.
+7. Treat IMAGE_CREATED as Phase 1 completion.
+8. Release the Worker immediately.
+9. Re-check the active Goal before claiming another task.
 
-IMAGE_CREATED is not final QA PASS.
+The Worker may perform only the minimum operational checks required to confirm that generation actually returned a candidate and that the Worker can safely record the event. Those checks are not QA and must not be used to reject, repair, or regenerate a candidate.
+
+IMAGE_CREATED means a generation candidate was successfully produced. It does NOT mean the candidate passed final QA.
+
+A generated candidate must be preserved for downstream QA even when the Worker believes the pose, composition, anatomy, style match, or task compliance could be improved. Final judgment belongs to the external Codex/local QA workflow.
 
 ## 10. Phase 2 separation
 Do not wait for:
