@@ -44,7 +44,7 @@
 
 | ID | Character | Clothing | Scene | Pose/Camera | Prompt | Worker | Status | Final QC |
 |---|---|---|---|---|---|---|---|---|
-| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | - | NOT_STARTED | - |
+| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | ACCOUNT_01 | CLAIMED | - |
 | IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | - | NOT_STARTED | - |
 | IMG_03 | C01 | C03 | S03 | P03 | Prompt 03 | - | NOT_STARTED | - |
 | IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | - | NOT_STARTED | - |
@@ -74,7 +74,7 @@
 - REPAIR: 0
 - REJECT: 0
 - NEED_REGENERATE: 0
-- NOT_STARTED: 20
+- NOT_STARTED: 19
 
 ## 續作方式
 
