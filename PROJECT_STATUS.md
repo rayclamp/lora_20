@@ -1,8 +1,9 @@
 # PROJECT_STATUS.md — Age-20 Inaria LoRA Project Status
 
 ## Current architecture
-- ACCOUNT_06 = MASTER_DIRECTOR / FINAL_REVIEWER / QA
+- Master Director/operator = Goal and production-control authority
 - Generation accounts/sessions = interchangeable Production Worker Pool
+- Codex/local workflow = external QA authority; Generation Workers do not perform final QA
 - GitHub = shared persistent state, production coordination layer, and official reference authority
 - MASTER_IMAGE/INARIA_20_MASTER_v1.0.png = single official Character + Visual Style Reference
 - Reference delivery modes: AUTO and MANUAL
@@ -34,7 +35,7 @@ The current mandatory standards are:
 - Completion event: IMAGE_CREATED
 - Production mode: MANUAL
 
-The target is team-level. No Worker has a fixed image quota.
+The target is team-level. No Worker has a fixed image quota. A Worker may stop or become unavailable at any point; another Worker can take over recoverable team tasks through the queue claim/lease protocol.
 
 ## T107 production status
 - Status: ACTIVE_MANUAL_PHASE1
