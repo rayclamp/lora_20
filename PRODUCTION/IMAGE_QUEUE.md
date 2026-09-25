@@ -52,7 +52,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_19 | resting with hands relaxed | relaxed standing rest with both feet grounded | right profile | half-up braid | cardigan with long skirt | garden | chest-up | one hand touching hair, other relaxed | FAILED |
 | IMG_20 | rising from a seated position | controlled rise from a chair with stable feet | left 3/4 rear | loose softly curled hair | simple summer one-piece dress | balcony | environmental full-body | one hand adjusting sleeve, other relaxed | FAILED |
 | IMG_21 | reading a book | seated upright reading a book | right 3/4 front | long straight hair | hoodie with casual shorts | bedroom | side-oriented composition | one hand reaching toward a large object, other relaxed | FAILED |
-| IMG_22 | writing in a notebook | seated at a desk writing in a notebook | left profile | long hair with subtle loose waves | office blouse with trousers | living room | rear-oriented composition | both hands resting naturally on thighs while seated | GENERATING |
+| IMG_22 | writing in a notebook | seated at a desk writing in a notebook | left profile | long hair with subtle loose waves | office blouse with trousers | living room | rear-oriented composition | both hands resting naturally on thighs while seated | FAILED |
 | IMG_23 | using a smartphone | standing naturally using a smartphone at comfortable chest height | right profile | low ponytail | office blouse with pencil skirt | kitchen | off-center composition | one hand on a stable surface, other relaxed | QUEUED |
 | IMG_24 | drinking from a cup | seated upright drinking from a simple cup | front slight high angle | high ponytail | lightweight jacket with skirt | home workspace | symmetrical centered composition | hands carrying a simple lightweight object | QUEUED |
 | IMG_25 | eating a simple meal | seated at table eating a simple meal | front slight low angle | side ponytail | casual sweater with straight-leg trousers | café | full-body eye-level | both hands relaxed and visible | QUEUED |
@@ -559,10 +559,17 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Worker released immediately after worker self-check: YES
 
 
-## Active Worker Claim
+## Worker Outcome
 - Task: IMG_22
-- Status: GENERATING
-- Worker: CHATGPT_MANUAL_WORKER
+- Outcome: FAILED
+- Worker released: YES
 - Claim ID: CW-20260926-0058-IMG_22-01
-- Lease until: 2026-09-26T02:58:00+08:00
-- Claim recorded from queue SHA: 813a69ae742d1b7250d9a68d08c153d6e989aeca
+- Generation ID: 4575b896-dbdb-4f7e-bd46-d823f237bb32
+- Reason: generated candidate did not match the assigned IMG_22 design (seated at a desk writing in a notebook, left profile, rear-oriented composition, office blouse with trousers, living room); not counted as IMAGE_CREATED.
+
+
+## Generation Event
+- Task: IMG_22
+- Event: FAILED
+- Generation ID: 4575b896-dbdb-4f7e-bd46-d823f237bb32
+- Worker released immediately after worker self-check: YES
