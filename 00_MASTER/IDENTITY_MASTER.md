@@ -1,38 +1,22 @@
-# IDENTITY_MASTER.md — 依娜莉亞 20歲版本
+# IDENTITY_MASTER.md — Inaria Age-20 Identity Standard
 
-## 唯一人物身份基準
+## Primary identity reference
+All age-20 Inaria production uses MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the primary Character + Visual Style Reference.
 
-所有帳號製作 20 歲依娜莉亞時，人物身份以：
+It answers both who Inaria is and how this version of Inaria should be illustrated.
 
-`MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`
+## Identity preservation
+Preserve the reference facial identity, proportions, blue irises, dark blue-black long hair, neat bangs, slim balanced body proportions, fair Asian skin appearance, gentle/fresh/healing impression, and illustration rendering language.
 
-為主要視覺基準。
+The reference does not lock its original clothing, background, pose, camera, or composition unless the current task explicitly requests them.
 
-MASTER_IMAGE 用於回答「她是誰」以及「她應該被怎麼畫」。它不鎖死原圖的服裝、背景、姿勢、鏡位或構圖，但**鎖定人物身份與主要視覺風格語言**。
+## Age
+The active dataset target is age 20. Do not switch to an age-36 reference or another character reference for an age-20 production job.
 
-## 身份一致性
+## Style lock
+The age-20 target is Japanese anime illustration matching the MASTER_IMAGE.
 
-- 維持同一人物的臉部身份、核心五官特徵、髮色與整體辨識度。
-- 不任意重新設計五官。
-- 不任意改變 20 歲年齡設定。
-- 不因場景、服裝、姿勢或髮型變化而生成另一個人物。
-- 不自行發明未被專案文件鎖定的永久數值身體尺寸。
+Do not convert to photorealistic, photographic/live-action, 3D/CGI, semi-photorealistic, or another anime/manga/game/illustration style.
 
-## 身份與參考風格
-
-`MASTER_IMAGE` 同時決定人物身份與主要視覺參考。`STYLE_MASTER.md` 將 MASTER_IMAGE 的視覺語言正式化並防止風格漂移；`DRAWING_INSTRUCTIONS.md` 決定長期繪圖要求；當前 TASK 決定本次具體變化。
-
-### Reference Style Lock
-生成新圖時，不得只使用「Japanese anime」作為抽象風格標籤後讓模型自行選擇畫風。必須以 MASTER_IMAGE 作為直接視覺參考，延續其線稿、臉部、眼睛、頭髮、比例、上色、陰影、光影、色彩與整體插畫完成度。MASTER_IMAGE 是「同一個角色 + 同一套主要視覺語言」的共同基準。
-
-## 歷史風格隔離
-
-舊聊天室、過去生成圖片、其他專案或帳號曾使用的動漫、插畫、油畫、卡通等風格不得自動套用。新聊天室視為一次風格重置。
-
-## 局部修改
-
-若任務只要求修改特定區域，除指定內容外應盡可能保持人物身份與其他未指定區域。局部修復不得無理由重新設計臉部或整個人物。
-
-## LoRA 資料集
-
-六個帳號產生的圖片最終服務同一個人物 LoRA，因此不得各自建立不同版本的依娜莉亞。
+## Anatomy authority
+All anatomy, pose stability, hand/foot, wearable, container, and object-contact rules are defined by 00_MASTER/ANATOMY_STABILITY.md. Workers and QA must use that file rather than inventing local anatomy rules.
