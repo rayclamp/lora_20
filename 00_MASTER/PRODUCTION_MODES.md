@@ -3,7 +3,7 @@
 ## Purpose
 Define how the official age-20 MASTER_IMAGE reaches a Generation Worker.
 
-This file defines delivery methods only. It does not create separate identity, visual-style, anatomy, generation, or QA standards.
+This file defines reference delivery methods only. It does not create separate identity, visual-style, anatomy, generation, Goal, Worker Pool, or QA standards.
 
 ## Official reference
 Official reference:
@@ -27,6 +27,7 @@ GitHub MASTER_IMAGE
 - GitHub metadata, filename, SHA, or text description alone is insufficient.
 - The worker must visually inspect the actual supplied image before generation.
 - If image input is missing or unreadable, generation is blocked.
+- Phase 1 ends at IMAGE_CREATED; later upload/QA is downstream.
 
 ### Current status
 PAUSED_PENDING_MAKE_CREDITS_AND_OPENAI_IMAGE_BRIDGE_VALIDATION
@@ -38,19 +39,22 @@ Manual production while the automated image bridge is unavailable.
 
 ### Reference path
 Operator
-→ manually uploads official MASTER_IMAGE to the generation account conversation
-→ Generation Worker visually verifies the image
+→ manually uploads official MASTER_IMAGE to the generation Worker conversation
+→ Worker visually verifies the image
 → Generation
+→ IMAGE_CREATED
 
 ### Requirements
 - The operator must upload the official INARIA_20_MASTER_v1.0.png.
 - The worker must visually inspect the uploaded image before generation.
 - The worker must not substitute a text description, GitHub path, filename, SHA, older Inaria image, age-36 reference, or another generated image.
 - If the required reference is missing, unreadable, or clearly the wrong reference/version, generation is blocked.
-- Manual mode uses exactly the same identity, style, anatomy, generation, queue, and QA rules as AUTO MODE.
+- Manual mode uses exactly the same identity, style, anatomy, generation, Goal, queue, Worker Pool, and QA rules as AUTO MODE.
+- IMAGE_CREATED releases the Worker immediately.
+- Phase 2 upload and QA do not block subsequent Phase 1 generation.
 
 ### Current status
-AVAILABLE_FOR_CONTROLLED_VALIDATION
+ACTIVE_FOR_PHASE1_PRODUCTION
 
 ## Reference verification checklist
 
