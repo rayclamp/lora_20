@@ -1,9 +1,22 @@
 # IDENTITY_MASTER.md — Inaria Age-20 Identity Standard
 
 ## Primary identity reference
-All age-20 Inaria production uses MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the primary Character + Visual Style Reference.
+All age-20 Inaria production uses MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the single official Character + Visual Style Reference.
 
-It answers both who Inaria is and how this version of Inaria should be illustrated.
+The image may be delivered to the generation context through AUTO MODE or MANUAL MODE. The delivery method does not change the identity standard.
+
+## Reference availability rule
+The worker must actually receive and visually inspect the official MASTER_IMAGE before generation.
+
+If the image is missing, unreadable, unavailable, or clearly a different reference/version, do not generate.
+
+Do not substitute:
+- a text-only character description;
+- a GitHub filename/path/SHA;
+- a generic Japanese anime description;
+- an older Inaria image;
+- an age-36 reference;
+- another account's generated image.
 
 ## Identity preservation
 Preserve the reference facial identity, proportions, blue irises, dark blue-black long hair, neat bangs, slim balanced body proportions, fair Asian skin appearance, gentle/fresh/healing impression, and illustration rendering language.
