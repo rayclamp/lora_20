@@ -122,3 +122,39 @@ Natural occlusion is not automatically a failure. If a digit or structure cannot
 
 ## 11. Dataset rule
 A beautiful or high-resolution image with an obvious anatomy or structural failure is not a valid LoRA training image. Anatomy stability is a first-class dataset requirement.
+
+## 12. Mirror / reflection composition risk
+
+Mirror/reflection compositions are a high-risk dataset design pattern because the model may generate two independently interpreted instances of Inaria. Typical failure modes include:
+- mirror and real character have different poses/actions;
+- mirror character has malformed, blurred, duplicated, missing, or otherwise unstable limbs/digits;
+- mirror and real character have inconsistent clothing, accessories, hairstyle, or appearance;
+- both characters individually pass basic visual QA but their pose relationship is inconsistent, creating conflicting pose information for the LoRA dataset.
+
+### Mirror hard rule
+Do not design a composition containing both a fully visible real character and a fully visible mirror/reflection character.
+
+If a mirror is required, only these two configurations are permitted:
+
+**A. Mirror-only character**
+- Only the character inside the mirror is visible.
+- No separately readable real-world character appears outside the mirror.
+- Treat the mirror character as the single primary character instance.
+
+**B. Dominant mirror character + minimal real-world partial presence**
+- The mirror character is complete, clear, and the sole fully readable character.
+- The real-world character may appear only as a small partial/back view or similarly limited fragment.
+- The outside character must not expose enough body structure to become a second independently readable pose.
+- Avoid readable full arms, hands, legs, feet, or other pose-defining structures outside the mirror.
+
+**C. Prohibited**
+- Fully readable character outside the mirror + fully readable character inside the mirror.
+- Two independently readable character instances whose poses can be compared.
+
+### Dataset conflict rule
+Even when both the mirror character and real-world character individually pass anatomy/visual QA, the image must be rejected from the LoRA dataset if their poses/actions are inconsistent.
+
+Therefore, mirror risk must be prevented during MASTER DIRECTOR composition/task design rather than relying on downstream QA to rescue the image.
+
+### Design priority
+For LoRA production, prefer a simpler single-character composition over a visually attractive but high-risk dual-instance mirror composition. If the mirror does not materially improve the task, remove or avoid the reflection.
