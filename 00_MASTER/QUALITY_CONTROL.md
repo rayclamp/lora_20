@@ -53,19 +53,29 @@ Lower-body gate:
 
 Any clear hard-gate failure cannot be PASS. If a digit or structure is genuinely hidden and cannot be evaluated, require human inspection rather than guessing.
 
-## 5. Task gate
+## 5. Generation-system failure is not QA rejection
+
+A task that never produced an image because of GENERATION_TOOL_ERROR, SAFETY_BLOCKED, BLOCKED, or FAILED is not a QA REJECT.
+
+- No image exists → no final QA decision.
+- GENERATION_TOOL_ERROR → follow the retry policy.
+- SAFETY_BLOCKED → Director Review.
+- DEFERRED → temporarily set aside; not a quality judgment.
+- Only an actual generated candidate may enter PASS / REPAIR / REJECT review.
+
+## 6. Task gate
 Verify the current Prompt Package: clothing, hairstyle, scene, pose/action, camera/composition, accessories, colors, flowers/props, aspect ratio, and every other explicit requirement.
 
-## 6. Image integrity
+## 7. Image integrity
 Reject or repair as appropriate for severe face deformation, major generation artifacts, text/watermark/logo, severe object fusion, severe crop damage, or duplicate body/limb/object.
 
-## 7. Local repair
+## 8. Local repair
 Repair only the necessary region when feasible. After any repair, repeat complete QA. A repair never becomes PASS automatically.
 
-## 8. Dataset value
+## 9. Dataset value
 Evaluate controlled pose, clothing, hairstyle, scene, camera/composition, lighting/environment diversity, and non-redundancy. Dataset value never overrides a hard gate.
 
-## 9. Final PASS checklist
+## 10. Final PASS checklist
 All must be true:
 - age-20 Inaria identity matches;
 - MASTER_IMAGE visual style matches;
