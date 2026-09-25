@@ -3,9 +3,10 @@
 ## Current architecture
 - ACCOUNT_06 = MASTER_DIRECTOR / FINAL_REVIEWER / QA
 - ACCOUNT_01–05, ACCOUNT_07–08 = GENERATION_WORKER
-- GitHub = shared persistent state
+- GitHub = shared persistent state and official reference authority
+- MASTER_IMAGE/INARIA_20_MASTER_v1.0.png = single official Character + Visual Style Reference
+- Reference delivery modes: AUTO and MANUAL
 - PRODUCTION/IMAGE_QUEUE.md = authoritative per-image production state
-- MASTER_IMAGE/INARIA_20_MASTER_v1.0.png = Character + Visual Style Reference
 
 ## Current master rules
 The current mandatory standards are:
@@ -18,6 +19,7 @@ The current mandatory standards are:
 7. 00_MASTER/GENERATION_WORKER_PROTOCOL.md
 8. 00_MASTER/QUALITY_CONTROL.md
 9. 00_MASTER/PRODUCTION_PROTOCOL.md
+10. 00_MASTER/PRODUCTION_MODES.md
 
 ## Production status
 T107 — IMAGE_PRODUCTION
@@ -35,11 +37,24 @@ T107 — IMAGE_PRODUCTION
 - Uploaded: 0
 - QC_PENDING: 0
 
+## Reference delivery status
+### AUTO MODE
+Status: PAUSED_PENDING_MAKE_CREDITS_AND_OPENAI_IMAGE_BRIDGE_VALIDATION
+Path:
+GitHub MASTER_IMAGE → Make → OpenAI image input → generation → Make → GitHub
+
+### MANUAL MODE
+Status: AVAILABLE_FOR_CONTROLLED_VALIDATION
+Path:
+Operator uploads official MASTER_IMAGE to the generation account → worker verifies image → generation → local dataset inbox → Codex QA
+
+Both modes use the same MASTER_IMAGE and the same project-wide rules.
+
 ## Why production is paused
 The first five candidates were generated before the current reference-style, anatomy-stability, and production-asset gates were fully enforced. They are retained only as historical evidence and are not valid training images.
 
 ## Validation gate before resuming T107
-1. Use the current MASTER_IMAGE directly.
+1. Use the current official MASTER_IMAGE directly through AUTO or MANUAL mode.
 2. Generate one controlled test.
 3. Confirm Japanese anime reference matching.
 4. Confirm no extra/missing/fused limbs or digits.
