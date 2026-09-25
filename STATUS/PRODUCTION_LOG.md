@@ -135,3 +135,18 @@
 - Pose / Action: P05 — natural walk toward camera, upright, stable forward foot, low-amplitude arm swing
 - Composition: full body, vertical 9:16, eye-level front standard lens
 - Notes: Candidate generated successfully and recorded as QC_PENDING. Generation reference: 1ff64980-3151-4114-bcab-781e06e7f34e. Local generated asset: /mnt/data/a_bright_photorealistic_anime_inspired_realisti.png. Final PASS/REPAIR/REJECT remains ACCOUNT_06 responsibility.
+
+## IMG_06 — ACCOUNT_05 — 2026-09-25
+- Date: 2026-09-25
+- Account: ACCOUNT_05
+- Task ID: T107 — IMAGE_PRODUCTION
+- Generated: 0
+- PASS: 0
+- REVIEW: 0
+- REJECT: 0
+- Scene: S14 — modern museum white exhibition hall, autumn overcast afternoon
+- Outfit: C06 — white breathable short-sleeve shirt, navy high-waist straight trousers, light-gray loafers, navy work tote, silver watch, simple studs
+- Hairstyle: long loose hair, side part
+- Pose / Action: P09 — torso 15–20° off front, one forearm across abdomen, other hand lightly supporting near elbow, stable feet
+- Composition: waist-up, horizontal 16:9, eye-level slight 3/4 side-front
+- Notes: IMG_06 was claimed as the next available item. Candidate generation was blocked before image creation because the required user-uploaded 20-year-old Inaria MASTER_IMAGE is not available as a current-chat image input. No substitute identity source was used. Queue preserved as BLOCKED; no worker-side final QA decision made.
