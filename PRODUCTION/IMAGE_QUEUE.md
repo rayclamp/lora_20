@@ -61,7 +61,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_28 | opening a door | standing beside doorway opening a door with one hand | distant environmental full-body | side braid | pajamas | shopping street | medium full shot | one hand holding smartphone, other relaxed | FAILED |
 | IMG_29 | looking through a display shelf | standing beside display shelf examining an object | full frontal | half-up braid | light trench coat with simple inner outfit | city sidewalk | medium shot | writing with one hand, other stabilizing notebook | FAILED |
 | IMG_30 | carrying a simple object | walking slowly while carrying one simple lightweight object | left 3/4 front | loose softly curled hair | casual blouse with wide-leg trousers | train station | waist-up | both hands lightly holding a larger object | FAILED |
-| IMG_31 | adjusting hair | standing naturally adjusting hair with one hand | right 3/4 front | long straight hair | white blouse with pleated skirt | park | chest-up | one hand touching hair, other relaxed | CLAIMED |
+| IMG_31 | adjusting hair | standing naturally adjusting hair with one hand | right 3/4 front | long straight hair | white blouse with pleated skirt | park | chest-up | one hand touching hair, other relaxed | GENERATING |
 | IMG_32 | tying hair | standing or seated naturally tying hair with both hands near head | left profile | long hair with subtle loose waves | light-blue knit dress | riverside walkway | environmental full-body | one hand adjusting sleeve, other relaxed | QUEUED |
 | IMG_33 | checking appearance in a mirror | standing naturally facing a mirror checking appearance | front slight high angle | low ponytail | casual T-shirt with jeans | beach | side-oriented composition | one hand reaching toward a large object, other relaxed | QUEUED |
 | IMG_34 | adjusting a sleeve | standing naturally adjusting one sleeve | left 3/4 rear | high ponytail | cardigan with long skirt | indoor pool | rear-oriented composition | both hands resting naturally on thighs while seated | QUEUED |
@@ -706,7 +706,7 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 
 ## Active Worker Claim
 - Task: IMG_31
-- Status: CLAIMED
+- Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0107-IMG_31-01
 - Lease until: 2026-09-26T03:07:00+08:00
