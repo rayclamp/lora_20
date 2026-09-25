@@ -96,18 +96,18 @@ The purpose is to prevent a platform-wide generation outage from turning the ent
 
 ## 6. Safety-block handling
 
-SAFETY_BLOCKED is not automatically equivalent to GENERATION_TOOL_ERROR.
+SAFETY_BLOCKED is not equivalent to GENERATION_TOOL_ERROR and does not consume the normal three-attempt generation retry budget.
 
 When safety blocking is explicitly reported:
 1. stop the current task;
 2. record SAFETY_BLOCKED;
-3. preserve the original Prompt Package unchanged;
-4. release the Worker;
-5. send the task to Director Review;
-6. do not automatically retry the same task three times;
-7. do not automatically rewrite the Prompt Package to circumvent the safety system.
+3. preserve the original task definition and Prompt Package unchanged;
+4. release the current Worker;
+5. do not automatically retry the same task;
+6. do not rewrite the Prompt Package to bypass or circumvent the safety system;
+7. immediately return to the queue and claim another available task if the Goal remains active and the generation system is not paused.
 
-The Director may later create a legitimate revised task or explicitly return the task to QUEUED if appropriate.
+A SAFETY_BLOCKED task is skipped for the current production run. The Master Director/operator may later review it and explicitly create a legitimate revised task or return the task to QUEUED. A safety block does not by itself increment the consecutive GENERATION_TOOL_ERROR circuit breaker.
 
 ## 7. Prerequisite blocking
 
@@ -136,7 +136,7 @@ IMAGE_CREATED is the only successful Phase 1 completion event.
 3. Start generation.
 4. If image is created: record IMAGE_CREATED and continue.
 5. If GENERATION_TOOL_ERROR: increment attempts, check the per-image limit, and check the consecutive-error circuit breaker.
-6. If SAFETY_BLOCKED: stop and send to Director Review.
+6. If SAFETY_BLOCKED: record the block, release the current Worker, skip that task, and continue with another available task; never modify the prompt to bypass the safety system.
 7. If BLOCKED: return to QUEUED after the prerequisite is resolved.
 8. If the circuit breaker trips: stop all new generation.
 
