@@ -104,7 +104,7 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 | IMG_17 | C01 | C17 | S17 | P17 | Prompt 17 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG17-WORKER-2325 | 2026-09-26 01:25 +08:00 | 1 | - | - |
 | IMG_18 | C01 | C18 | S20 | P01 | Prompt 18 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
 | IMG_19 | C01 | C19 | S05 | P16 | Prompt 19 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG19-WORKER-2335 | 2026-09-26 01:35 +08:00 | 1 | - | - |
-| IMG_20 | C01 | C20 | S20 | P20 | Prompt 20 | ChatGPT-Generation-Worker | CLAIMED | T107-IMG20-WORKER-2340 | 2026-09-26 01:40 +08:00 | 1 | - | - |
+| IMG_20 | C01 | C20 | S20 | P20 | Prompt 20 | ChatGPT-Generation-Worker | GENERATING | T107-IMG20-WORKER-2340 | 2026-09-26 01:40 +08:00 | 1 | - | - |
 
 ## Current reconciled count
 - Goal target: 20
