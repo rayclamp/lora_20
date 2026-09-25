@@ -40,7 +40,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_07 | reaching forward | standing reach toward a large object at chest height | right 3/4 rear | low bun | office blouse with trousers | convenience store | chest-up | one hand touching hair, other relaxed | IMAGE_CREATED |
 | IMG_08 | reaching upward | standing reach upward with one arm, feet stable | full rear | side braid | office blouse with pencil skirt | shopping street | environmental full-body | one hand adjusting sleeve, other relaxed | IMAGE_CREATED |
 | IMG_09 | reaching downward | standing light forward bend reaching toward a low object | front slight high angle | half-up braid | lightweight jacket with skirt | city sidewalk | side-oriented composition | one hand reaching toward a large object, other relaxed | FAILED |
-| IMG_10 | picking up a small object | controlled squat with one hand reaching toward a small object | front slight low angle | loose softly curled hair | casual sweater with straight-leg trousers | train station | rear-oriented composition | both hands resting naturally on thighs while seated | CLAIMED |
+| IMG_10 | picking up a small object | controlled squat with one hand reaching toward a small object | front slight low angle | loose softly curled hair | casual sweater with straight-leg trousers | train station | rear-oriented composition | both hands resting naturally on thighs while seated | GENERATING |
 | IMG_11 | sitting upright on a chair | seated upright on a chair | rear slight high angle | long straight hair | simple sportswear | park | off-center composition | one hand on a stable surface, other relaxed | QUEUED |
 | IMG_12 | sitting with one leg naturally extended | seated on chair with one leg naturally extended | rear slight low angle | long hair with subtle loose waves | comfortable homewear | riverside walkway | symmetrical centered composition | hands carrying a simple lightweight object | QUEUED |
 | IMG_13 | sitting sideways on a chair | seated side-facing on a chair | over-shoulder | low ponytail | pajamas | beach | full-body eye-level | both hands relaxed and visible | QUEUED |
@@ -261,7 +261,7 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 
 ## Active Worker Claim
 - Task: IMG_10
-- Status: CLAIMED
+- Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0007-IMG_10-01
 - Lease until: 2026-09-26T02:07:00+08:00
