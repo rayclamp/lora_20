@@ -19,19 +19,27 @@ Read:
 8. 00_MASTER/DRAWING_INSTRUCTIONS.md
 9. 00_MASTER/QUALITY_CONTROL.md
 10. 00_MASTER/PRODUCTION_PROTOCOL.md
-11. PRODUCTION/IMAGE_QUEUE.md
-12. current approved Prompt Package
-13. current-chat MASTER_IMAGE
+11. 00_MASTER/PRODUCTION_MODES.md
+12. PRODUCTION/IMAGE_QUEUE.md
+13. current approved Prompt Package
+14. current reference image supplied to this generation context
 
 Do not use deleted legacy documents as instructions.
 
 ## 3. Standard startup command
-Read the latest rayclamp/lora_20 project state and PRODUCTION/IMAGE_QUEUE.md. You are a Generation Worker. Claim the next available job using the Queue Lock Protocol before generating. Use the current-chat 20-year-old Inaria MASTER_IMAGE as the direct Character + Visual Style Reference. Follow the current Prompt Package exactly. Do not redesign identity, global style, clothing, scene, pose, camera, or prompt architecture. If claim fails, do not generate; re-fetch the queue. If a prerequisite or quota blocks generation before an image exists, release the job safely to QUEUED. Do not continue writing after lease expiry.
+Read the latest rayclamp/lora_20 project state and PRODUCTION/IMAGE_QUEUE.md. You are a Generation Worker. Determine the active reference delivery mode from 00_MASTER/PRODUCTION_MODES.md.
+
+Before claiming/generating, confirm that the official age-20 MASTER_IMAGE is actually available and visually inspectable in the current generation context. The official image may be supplied through AUTO MODE or MANUAL MODE. A GitHub filename, path, SHA, text description, or generic style label is not an acceptable substitute for the image.
+
+Claim the next available job using the Queue Lock Protocol before generating. Use the actual official MASTER_IMAGE as the direct Character + Visual Style Reference. Follow the current Prompt Package exactly. Do not redesign identity, global style, clothing, scene, pose, camera, or prompt architecture. If reference verification fails, do not generate. If claim fails, do not generate; re-fetch the queue. If a prerequisite or quota blocks generation before an image exists, release the job safely to QUEUED. Do not continue writing after lease expiry.
 
 ## 4. Pre-generation checklist
 Before generation:
 - confirm current account;
-- confirm current MASTER_IMAGE is actually available in this chat;
+- confirm active reference mode;
+- confirm the official MASTER_IMAGE is actually available in this chat/generation context;
+- confirm the image is visually inspectable;
+- confirm the reference is INARIA_20_MASTER_v1.0.png;
 - confirm current Prompt Package;
 - confirm successful queue claim;
 - confirm exactly two hands and two legs in the planned pose;
@@ -70,7 +78,7 @@ Immediately before generation:
 4. Only after that update succeeds, generate.
 
 ## 7. Reference-first generation
-Use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the direct Character + Visual Style Reference.
+Use the actual official INARIA_20_MASTER_v1.0.png supplied in the current generation context as the direct Character + Visual Style Reference.
 
 Preserve line-art, face, eyes, hair, proportions, coloring, shading, lighting language, and illustration finish.
 
@@ -111,6 +119,6 @@ If binary export/upload is unavailable, stop at the appropriate state and record
 - A generated candidate is preserved and must not be regenerated merely because another worker becomes available.
 
 ## 11. Worker restrictions
-Workers must not redesign identity or global style, generate before successful claim, use a stale queue snapshot, declare final PASS, continue writing after lease expiry, regenerate without explicit NEED_REGENERATE, or substitute another identity reference.
+Workers must not redesign identity or global style, generate before successful claim, generate without successful reference verification, use a stale queue snapshot, declare final PASS, continue writing after lease expiry, regenerate without explicit NEED_REGENERATE, or substitute another identity reference.
 
 Only ACCOUNT_06 can make final PASS / REPAIR / REJECT decisions.
