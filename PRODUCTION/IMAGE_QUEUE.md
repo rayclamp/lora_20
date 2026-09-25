@@ -48,7 +48,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_15 | sitting on the floor | floor sitting with legs arranged simply | full frontal | side ponytail | casual blouse with wide-leg trousers | campus walkway | full-body slightly low angle | one hand holding a book, other supporting naturally | SAFETY_BLOCKED |
 | IMG_16 | kneeling naturally | natural kneeling with upright torso | left 3/4 front | half-up hairstyle | white blouse with pleated skirt | office | medium full shot | one hand holding smartphone, other relaxed | FAILED |
 | IMG_17 | squatting naturally | natural balanced squat | right 3/4 front | low bun | light-blue knit dress | hotel room | medium shot | writing with one hand, other stabilizing notebook | FAILED |
-| IMG_18 | leaning lightly against a surface | light side lean against a flat wall | left profile | side braid | casual T-shirt with jeans | museum gallery | waist-up | both hands lightly holding a larger object | GENERATING |
+| IMG_18 | leaning lightly against a surface | light side lean against a flat wall | left profile | side braid | casual T-shirt with jeans | museum gallery | waist-up | both hands lightly holding a larger object | FAILED |
 | IMG_19 | resting with hands relaxed | relaxed standing rest with both feet grounded | right profile | half-up braid | cardigan with long skirt | garden | chest-up | one hand touching hair, other relaxed | QUEUED |
 | IMG_20 | rising from a seated position | controlled rise from a chair with stable feet | left 3/4 rear | loose softly curled hair | simple summer one-piece dress | balcony | environmental full-body | one hand adjusting sleeve, other relaxed | QUEUED |
 | IMG_21 | reading a book | seated upright reading a book | right 3/4 front | long straight hair | hoodie with casual shorts | bedroom | side-oriented composition | one hand reaching toward a large object, other relaxed | QUEUED |
@@ -495,10 +495,17 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Worker released immediately after worker self-check: YES
 
 
-## Active Worker Claim
+## Worker Outcome
 - Task: IMG_18
-- Status: GENERATING
-- Worker: CHATGPT_MANUAL_WORKER
+- Outcome: FAILED
+- Worker released: YES
 - Claim ID: CW-20260926-0054-IMG_18-01
-- Lease until: 2026-09-26T02:54:00+08:00
-- Claim recorded from queue SHA: 3bf721bd943e78883abf76d0301d79854f9e4bdb
+- Generation ID: 8c6dfe05-f1c0-459c-b871-d43178f29c46
+- Reason: generated candidate did not match the assigned IMG_18 task design (left-profile waist-up side lean against a flat museum-gallery wall, both hands lightly holding a larger object); not counted as IMAGE_CREATED.
+
+
+## Generation Event
+- Task: IMG_18
+- Event: FAILED
+- Generation ID: 8c6dfe05-f1c0-459c-b871-d43178f29c46
+- Worker released immediately after worker self-check: YES
