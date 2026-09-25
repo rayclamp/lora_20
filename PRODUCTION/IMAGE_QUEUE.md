@@ -58,7 +58,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_25 | eating a simple meal | seated at table eating a simple meal | front slight low angle | side ponytail | casual sweater with straight-leg trousers | café | full-body eye-level | both hands relaxed and visible | FAILED |
 | IMG_26 | preparing food at a counter | standing at kitchen counter preparing food | rear slight low angle | half-up hairstyle | simple sportswear | bookstore | full-body slightly high angle | one hand holding a simple cup, other relaxed | FAILED |
 | IMG_27 | organizing objects on a shelf | standing beside shelf organizing objects | over-shoulder | low bun | comfortable homewear | convenience store | full-body slightly low angle | one hand holding a book, other supporting naturally | FAILED |
-| IMG_28 | opening a door | standing beside doorway opening a door with one hand | distant environmental full-body | side braid | pajamas | shopping street | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
+| IMG_28 | opening a door | standing beside doorway opening a door with one hand | distant environmental full-body | side braid | pajamas | shopping street | medium full shot | one hand holding smartphone, other relaxed | CLAIMED |
 | IMG_29 | looking through a display shelf | standing beside display shelf examining an object | full frontal | half-up braid | light trench coat with simple inner outfit | city sidewalk | medium shot | writing with one hand, other stabilizing notebook | QUEUED |
 | IMG_30 | carrying a simple object | walking slowly while carrying one simple lightweight object | left 3/4 front | loose softly curled hair | casual blouse with wide-leg trousers | train station | waist-up | both hands lightly holding a larger object | QUEUED |
 | IMG_31 | adjusting hair | standing naturally adjusting hair with one hand | right 3/4 front | long straight hair | white blouse with pleated skirt | park | chest-up | one hand touching hair, other relaxed | QUEUED |
@@ -654,3 +654,12 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Event: FAILED
 - Generation ID: a37697de-59e5-4c24-a638-06fdd8e2ba76
 - Worker released immediately after worker self-check: YES
+
+
+## Active Worker Claim
+- Task: IMG_28
+- Status: CLAIMED
+- Worker: CHATGPT_MANUAL_WORKER
+- Claim ID: CW-20260926-0104-IMG_28-01
+- Lease until: 2026-09-26T03:04:00+08:00
+- Claim recorded from queue SHA: 06d390d69def0990f5a929f5b6ef80f2675f15b9
