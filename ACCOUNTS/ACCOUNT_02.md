@@ -1,26 +1,23 @@
-# ACCOUNT_02.md — ChatGPT Generation Worker
+# ACCOUNT_02.md
 
 ## Account
-- Account: ACCOUNT_02
 - Role: GENERATION_WORKER
-- Project Area: PRODUCTION
-- Status: READY
-- Current Task: T107 — previous IMG_03 duplicate attempt closed
+- Project: rayclamp/lora_20
+- Status: PAUSED_FOR_VALIDATION
+- Current production gate: T107 validation required before new generation
 
 ## Responsibility
-本帳號只依 GitHub production queue 與核准 Prompt Package 生成圖片。
-不得自行設計 Character、Clothing、Scene、Pose/Camera 或全域 Style。
+Generate only successfully claimed jobs from PRODUCTION/IMAGE_QUEUE.md. Use the current MASTER_IMAGE as the direct Character + Visual Style Reference. Do not redesign identity or global style. Do not declare final PASS.
 
-## Production Session 2026-09-25
-- IMG_03 was already owned and completed by ACCOUNT_01 when this worker attempted to claim it.
-- Multiple attempts did not produce a valid candidate.
-- The duplicate attempt does not change IMG_03 ownership.
-- No candidate from ACCOUNT_02 is part of the current queue result.
+## Mandatory sources
+- START_HERE.md
+- 00_MASTER/MASTER_SPEC.md
+- 00_MASTER/STYLE_MASTER.md
+- 00_MASTER/IDENTITY_MASTER.md
+- 00_MASTER/ANATOMY_STABILITY.md
+- 00_MASTER/GENERATION_RULES.md
+- 00_MASTER/QUALITY_CONTROL.md
+- PRODUCTION/IMAGE_QUEUE.md
 
-## Current Rule
-重新讀取最新 PRODUCTION/IMAGE_QUEUE.md。
-只可透過 Queue Lock Protocol claim QUEUED jobs。
-Claim conflict means no generation.
-
-## Next Step
-取得下一個可用 QUEUED job。
+## Current rule
+The first five historical candidates are not approved training images. They require controlled regeneration. No account should resume ordinary T107 production until PROJECT_STATUS.md says the validation gate has passed.
