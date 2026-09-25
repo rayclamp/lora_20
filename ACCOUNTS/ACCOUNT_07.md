@@ -1,28 +1,46 @@
 # ACCOUNT_07.md
 
-## Account
-- Role: GENERATION_WORKER
+## Profile
+- Role: PRODUCTION_WORKER
 - Project: rayclamp/lora_20
-- Status: PAUSED_FOR_VALIDATION
-- Current production gate: T107 validation required before new generation
+- Worker model: interchangeable Worker Pool member
+- Permanent account ownership: NO
+- Fixed per-worker quota: NO
 
 ## Responsibility
-Generate only successfully claimed jobs from PRODUCTION/IMAGE_QUEUE.md. Use the official MASTER_IMAGE as the direct Character + Visual Style Reference. The reference may be supplied through AUTO MODE or MANUAL MODE. Do not redesign identity or global style. Do not declare final PASS.
+This file is an optional operator/session profile only. It does not assign permanent ownership of production tasks.
+
+The Worker must follow:
+- PRODUCTION/PRODUCTION_GOAL.md
+- PRODUCTION/WORKER_POOL.md
+- PRODUCTION/IMAGE_QUEUE.md
+- 00_MASTER/GENERATION_WORKER_PROTOCOL.md
+
+The Worker joins the shared Production Worker Pool and claims any legitimately available task. It does not need to know how many tasks it personally must produce.
 
 ## Reference rule
-Before generation, the actual INARIA_20_MASTER_v1.0.png image must be available and visually inspectable in the current generation context. If it is missing, unreadable, or clearly the wrong reference/version, do not generate.
+Before generation, the actual INARIA_20_MASTER_v1.0.png image must be available and visually inspectable in the current generation context.
 
-## Mandatory sources
-- START_HERE.md
-- PROJECT_STATUS.md
-- 00_MASTER/MASTER_SPEC.md
-- 00_MASTER/STYLE_MASTER.md
-- 00_MASTER/IDENTITY_MASTER.md
-- 00_MASTER/ANATOMY_STABILITY.md
-- 00_MASTER/GENERATION_RULES.md
-- 00_MASTER/QUALITY_CONTROL.md
-- 00_MASTER/PRODUCTION_MODES.md
-- PRODUCTION/IMAGE_QUEUE.md
+If the required reference is missing, unreadable, or clearly the wrong reference/version, do not generate.
 
-## Current rule
-The first five historical candidates are not approved training images. They require controlled regeneration. No account should resume ordinary T107 production until PROJECT_STATUS.md says the validation gate has passed.
+## Production rule
+Phase 1 ends at IMAGE_CREATED.
+
+After IMAGE_CREATED:
+- record completion in GitHub;
+- release the task;
+- do not wait for upload, Make, QC, or final QA;
+- re-check the active Production Goal;
+- claim another task only if the Goal is still incomplete.
+
+## Worker replacement
+A different ChatGPT account or session may replace this Worker without changing the Production Goal or manually reassigning the workload.
+
+Do not track account quota as project state.
+
+## Restrictions
+- Do not generate before successful claim.
+- Do not overwrite another valid Worker claim.
+- Do not continue after lease expiry.
+- Do not change the Goal target.
+- Do not declare final PASS / REPAIR / REJECT.
