@@ -46,7 +46,7 @@
 |---|---|---|---|---|---|---|---|---|
 | IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | ACCOUNT_01 | QC_PENDING | - |
 | IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | ACCOUNT_01 | QC_PENDING | - |
-| IMG_03 | C01 | C03 | S03 | P03 | Prompt 03 | ACCOUNT_01 | CLAIMED | - |
+| IMG_03 | C01 | C03 | S03 | P03 | Prompt 03 | ACCOUNT_01 | QC_PENDING | - |
 | IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | - | NOT_STARTED | - |
 | IMG_05 | C01 | C05 | S05 | P05 | Prompt 05 | - | NOT_STARTED | - |
 | IMG_06 | C01 | C06 | S06 | P06 | Prompt 06 | - | NOT_STARTED | - |
@@ -68,8 +68,8 @@
 ## 計數規則
 
 - Target: 20
-- GENERATED: 2
-- QC_PENDING: 2
+- GENERATED: 3
+- QC_PENDING: 3
 - PASS: 0
 - REPAIR: 0
 - REJECT: 0
