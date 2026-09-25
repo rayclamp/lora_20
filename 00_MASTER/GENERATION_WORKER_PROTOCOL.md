@@ -5,7 +5,7 @@ All Generation Workers use the same operational protocol.
 
 A Worker is an interchangeable execution session in the Production Worker Pool. It is not a permanent account identity.
 
-ACCOUNT_06 is the Master Director / Final Reviewer / QA and is not part of ordinary Worker claiming.
+Final QA is performed by the external Codex/local QA workflow and is not performed by Generation Workers. Generation Workers are not permanent account identities and are not assigned fixed per-account tasks.
 
 ## 2. Required startup
 Read:
@@ -161,7 +161,8 @@ If binary upload is unavailable, the task still remains Phase 1 complete.
 - After expiry, re-fetch and re-claim with a new Claim ID.
 - A prerequisite-blocked pre-generation job returns to QUEUED after the blocker is resolved.
 - A GENERATION_TOOL_ERROR follows the retry policy; after three failed attempts the task becomes DEFERRED.
-- A SAFETY_BLOCKED task is sent to Director Review and is not automatically retried.
+- A SAFETY_BLOCKED task is recorded, released, skipped for the current run, and is not automatically retried. Another available task should be claimed next.
+- If a Worker becomes unavailable after claiming but before IMAGE_CREATED, the task may be taken over by another Worker only after the claim/lease is legitimately recoverable.
 - A generated candidate is preserved and must not be regenerated merely because another worker becomes available.
 
 ## 12. Worker restrictions
@@ -171,6 +172,7 @@ Workers must not:
 - generate without successful reference verification;
 - use a stale queue snapshot;
 - declare final PASS;
+- perform final QA;
 - continue writing after lease expiry;
 - change the active Goal target;
 - wait for Phase 2 before starting another task;
