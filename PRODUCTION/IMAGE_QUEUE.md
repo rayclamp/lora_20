@@ -102,7 +102,7 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 | IMG_15 | C01 | C15 | S15 | P14 | Prompt 15 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
 | IMG_16 | C01 | C16 | S16 | P16 | Prompt 16 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
 | IMG_17 | C01 | C17 | S17 | P17 | Prompt 17 | ChatGPT-Generation-Worker | IMAGE_CREATED | T107-IMG17-WORKER-2325 | 2026-09-26 01:25 +08:00 | 1 | - | - |
-| IMG_18 | C01 | C18 | S20 | P01 | Prompt 18 | ChatGPT-Generation-Worker | GENERATING | T107-IMG18-WORKER-2330 | 2026-09-26 01:30 +08:00 | 1 | - | - |
+| IMG_18 | C01 | C18 | S20 | P01 | Prompt 18 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
 | IMG_19 | C01 | C19 | S19 | P19 | Prompt 19 | - | QUEUED | - | - | 0 | - |
 | IMG_20 | C01 | C20 | S20 | P20 | Prompt 20 | - | QUEUED | - | - | 0 | - |
 
@@ -125,7 +125,7 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 - BLOCKED: 0
 - FAILED: 0
 - DEFERRED: 0
-- SAFETY_BLOCKED: 5
+- SAFETY_BLOCKED: 6
 
 ## Historical candidates
 IMG_01–IMG_05 were previously generated under an obsolete production gate. Their historical outputs remain in STATUS/PRODUCTION_LOG.md but do not count toward the active Goal.
