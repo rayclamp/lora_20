@@ -8,11 +8,12 @@ The user specifies the desired output quantity. The Master Director converts tha
 ## Current Goal
 - Goal ID: T108_GOAL_20260925_40_CAPACITY_TEST
 - Project: Age-20 Inaria LoRA
-- Target Phase 1 images: 40
-- Phase 1 completion event: IMAGE_CREATED
-- Phase 1 completed: 16
-- Phase 1 remaining: 24
-- Goal status: ACTIVE
+- Target production task coverage: 40
+- Task coverage completion: all 40 designed tasks processed once
+- Generation attempts observed: 35
+- Unique successful candidate images observed: 25
+- Duplicate generation outcomes observed: 10
+- Goal status: COMPLETED_FOR_FIRST_ROUND_COVERAGE
 - Production mode: MANUAL
 - Generation system state: ACTIVE
 - QA status: PAUSED
@@ -21,7 +22,7 @@ The user specifies the desired output quantity. The Master Director converts tha
 - Reference: MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
 
 ## Purpose of this Goal
-T108 is a controlled 40-task production-capacity test.
+T108 is a controlled 40-task production-capacity test. The test is considered complete when the 40 designed tasks have all been processed once. It is not a requirement to obtain 40 unique images.
 
 The Master Director designs 40 executable image tasks in GitHub. Other worker accounts perform the actual generation. The current Director account is not expected to generate all 40 images itself.
 
@@ -32,14 +33,17 @@ A Production Goal is a team-level target, not a per-account quota.
 
 Workers may claim any available task. The system does not assign a fixed number of images to any account.
 
-The only production objective is:
-> Continue claiming and completing available production tasks until the Phase 1 completed count reaches 40, or until individual workers stop because of their own generation limits or another protocol-defined stop condition.
+The production objective for this round was:
+> Process all 40 designed tasks once. A task may end as IMAGE_CREATED, GENERATION_TOOL_ERROR, SAFETY_BLOCKED, FAILED, or another terminal production outcome. The task is still counted as covered once its production attempt has been completed and recorded.
 
-## Phase 1 completion
-A task contributes exactly +1 to the Goal when it reaches:
-`IMAGE_CREATED`
+The next production batches are replacement/new-design batches. They are not required to repair the original 40 designs.
 
-`IMAGE_CREATED` means the worker successfully generated the requested candidate.
+## Phase 1 event accounting
+`IMAGE_CREATED` remains an event-level record meaning that a generation candidate was successfully returned.
+
+For project planning, this is distinct from **Task Coverage**. Task Coverage counts a designed task once its production attempt reaches a terminal outcome, including IMAGE_CREATED, FAILED, GENERATION_TOOL_ERROR, or SAFETY_BLOCKED.
+
+A successful candidate can still be a duplicate and therefore should not automatically count as a new Unique Candidate.
 
 The worker is released at `IMAGE_CREATED`.
 
@@ -85,7 +89,7 @@ Do not count:
 If a candidate is later marked REPAIR, REJECT, or NEED_REGENERATE, the original IMAGE_CREATED event remains part of the production history. A replacement task must be explicitly queued if the project later requires another candidate.
 
 ## Goal authority
-The Master Director owns Goal creation, target quantity, task design, and completion reporting.
+The Master Director owns Goal creation, target quantity, task design, and completion reporting. For future Goals, target semantics must explicitly state whether the target is Task Coverage, IMAGE_CREATED candidate events, or another metric. Do not assume that a request for X designs means X final unique images.
 
 Generation Workers execute the GitHub tasks and report actual completion. They do not change the target quantity.
 
@@ -105,3 +109,9 @@ GitHub upload failure, Make credit exhaustion, binary-transfer limitations, or d
 
 ## Historical Goal
 The previous T107 20-image Goal is complete and remains historical. T108 is a new Goal and must not overwrite T107's production history.
+
+
+## T108 operator reconciliation
+The user confirmed that all 40 designed tasks were processed once. The user also observed 35 total generation outputs/attempt results, of which 25 were confirmed as successful useful images and 10 were duplicate production outcomes. These operator observations are recorded as planning metrics and do not rewrite historical event records.
+
+T108 therefore demonstrates the intended workflow: complete the designed task coverage first, then create new replacement designs to expand the candidate pool. Do not repeatedly regenerate failed or blocked T108 designs merely to force the original 40 to succeed.
