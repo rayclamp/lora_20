@@ -55,7 +55,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_22 | writing in a notebook | seated at a desk writing in a notebook | left profile | long hair with subtle loose waves | office blouse with trousers | living room | rear-oriented composition | both hands resting naturally on thighs while seated | FAILED |
 | IMG_23 | using a smartphone | standing naturally using a smartphone at comfortable chest height | right profile | low ponytail | office blouse with pencil skirt | kitchen | off-center composition | one hand on a stable surface, other relaxed | FAILED |
 | IMG_24 | drinking from a cup | seated upright drinking from a simple cup | front slight high angle | high ponytail | lightweight jacket with skirt | home workspace | symmetrical centered composition | hands carrying a simple lightweight object | SAFETY_BLOCKED |
-| IMG_25 | eating a simple meal | seated at table eating a simple meal | front slight low angle | side ponytail | casual sweater with straight-leg trousers | café | full-body eye-level | both hands relaxed and visible | GENERATING |
+| IMG_25 | eating a simple meal | seated at table eating a simple meal | front slight low angle | side ponytail | casual sweater with straight-leg trousers | café | full-body eye-level | both hands relaxed and visible | FAILED |
 | IMG_26 | preparing food at a counter | standing at kitchen counter preparing food | rear slight low angle | half-up hairstyle | simple sportswear | bookstore | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
 | IMG_27 | organizing objects on a shelf | standing beside shelf organizing objects | over-shoulder | low bun | comfortable homewear | convenience store | full-body slightly low angle | one hand holding a book, other supporting naturally | QUEUED |
 | IMG_28 | opening a door | standing beside doorway opening a door with one hand | distant environmental full-body | side braid | pajamas | shopping street | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
@@ -608,10 +608,17 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Worker released immediately: YES
 
 
-## Active Worker Claim
+## Worker Outcome
 - Task: IMG_25
-- Status: GENERATING
-- Worker: CHATGPT_MANUAL_WORKER
+- Outcome: FAILED
+- Worker released: YES
 - Claim ID: CW-20260926-0101-IMG_25-01
-- Lease until: 2026-09-26T03:01:00+08:00
-- Claim recorded from queue SHA: d9c1f9d59c1d23d5e28c9eb04080c1e1d504b65d
+- Generation ID: 6096e2a5-8c86-4380-8fdb-7683d2457237
+- Reason: generated candidate did not match the assigned IMG_25 design (seated at café table eating a simple meal, side ponytail, casual sweater with straight-leg trousers); not counted as IMAGE_CREATED.
+
+
+## Generation Event
+- Task: IMG_25
+- Event: FAILED
+- Generation ID: 6096e2a5-8c86-4380-8fdb-7683d2457237
+- Worker released immediately after worker self-check: YES
