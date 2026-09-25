@@ -1,82 +1,37 @@
-# Inaria LoRA Character Specification
+# INARIA_CHARACTER_SPEC.md — Codex QA Adapter
 
-## Purpose
+## Authority
+This file is a Codex QA adapter, not a second character authority.
 
-This document defines the formal character specification for future Codex QA of the Age-20 Inaria LoRA dataset. It is an evaluation reference only and does not authorize modification, renaming, moving, deletion, or regeneration of dataset images.
+For project-wide identity and visual-style rules, use:
+- 00_MASTER/IDENTITY_MASTER.md
+- 00_MASTER/STYLE_MASTER.md
+- MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
 
-## Project Character
+For anatomy and structural rules, use:
+- 00_MASTER/ANATOMY_STABILITY.md
+- 00_MASTER/QUALITY_CONTROL.md
 
-| Field | Specification |
-| --- | --- |
-| Character name | Inaria / 依娜莉亞 |
-| Dataset target | Age-20 Inaria LoRA |
-| Primary reference | `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` |
-| Reference authority | `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` is the designated primary visual reference for age-20 Inaria character identity and visual appearance. |
+## Active target
+Age-20 Inaria / 依娜莉亞.
 
-## Core Appearance
+## Core identity reference
+MASTER_IMAGE/INARIA_20_MASTER_v1.0.png is the primary Character + Visual Style Reference.
 
-- Female.
-- Taiwanese / Asian appearance.
-- Fair Asian skin.
-- Slim, balanced body proportions.
-- Small oval face.
-- Large, soft eyes.
-- Blue irises.
-- Dark blue-black long hair.
-- Neat bangs covering the forehead.
-- Gentle, fresh, healing overall impression.
+Core observable identity includes:
+- female Taiwanese / Asian appearance;
+- fair Asian skin;
+- slim balanced proportions;
+- small oval face;
+- large soft eyes;
+- blue irises;
+- dark blue-black long hair;
+- neat bangs;
+- gentle, fresh overall impression.
 
-## Character Identity Priority
+## QA interpretation
+Evaluate only visible evidence. Do not guess hidden anatomy.
 
-When evaluating whether an image matches Inaria, evaluate the following characteristics in priority order:
+For anatomy, use ANATOMY_STABILITY.md rather than inventing local rules.
 
-1. Face identity and overall facial structure.
-2. Hair color and hairstyle.
-3. Eye color.
-4. Overall body proportions.
-5. Skin appearance.
-6. General visual impression.
-
-Do not reject an image solely because its clothing, pose, background, hairstyle variation, or accessories differ. Treat those differences as acceptable unless the specific dataset job requires them to remain consistent.
-
-## Anatomy Rules
-
-The image must show natural, coherent human anatomy:
-
-- Exactly two arms.
-- Exactly two legs.
-- Exactly two hands when both hands are visible.
-- Five fingers per visible hand.
-- Five toes per visible foot.
-- No extra fingers.
-- No missing fingers.
-- No fused fingers.
-- No extra limbs.
-- No missing limbs.
-- Natural wrist, palm, arm, and leg connections.
-- Natural body balance and posture.
-
-## Wearable Object Rules
-
-When a backpack, shoulder bag, handbag, or similar wearable object is present:
-
-- Its straps must clearly connect to the object.
-- Its straps must naturally contact the body.
-- Its straps must not pass through the body.
-- Its straps must not float.
-- Its straps must not disappear or break unnaturally.
-- The object must have believable physical support.
-
-If a complex wearable object causes repeated anatomy or occlusion problems, simplify or remove the object instead of introducing unstable anatomy.
-
-## QA Interpretation
-
-Use these labels for every applicable requirement:
-
-| Label | Meaning |
-| --- | --- |
-| `PASS` | Clearly satisfies the requirement. |
-| `REVIEW` | Visual evidence is insufficient or the judgment is uncertain. |
-| `FAIL` | Clearly violates the requirement. |
-
-Never invent information that cannot be observed from the image. If resolution or occlusion prevents reliable judgment, use `REVIEW` rather than guessing.
+A QA adapter must never override the master documents.
