@@ -3,32 +3,26 @@
 ## Account
 - Account: ACCOUNT_04
 - Role: GENERATION_WORKER
-- Project Area: `PRODUCTION`
-- Status: BLOCKED — IMG_05 awaiting MASTER_IMAGE availability
-- Current Task: T107 — IMG_05 completed (BLOCKED)
+- Project Area: PRODUCTION
+- Status: ACTIVE — IMG_05 GENERATED / QC_PENDING
+- Current Task: T107 — ready for next queue item
 
 ## Responsibility
-本帳號是共享 Generation Worker。只負責依 GitHub production queue 與 ACCOUNT_06 Master Director 已核准的 Prompt Package 生成圖片。
-
-不得自行設計 Character、Clothing、Scene、Pose/Camera、全域 Style 或 Prompt 架構。
-
-## Startup
-使用 `START_HERE.md` 的統一 Generation Worker 指令，不需要帳號專屬創意指令。
+本帳號只依 GitHub production queue 與核准 Prompt Package 生成圖片。
+不得自行設計 Character、Clothing、Scene、Pose/Camera 或全域 Style。
 
 ## Current Production Rule
-- 讀取最新 `PRODUCTION/IMAGE_QUEUE.md`
-- 取得未被其他 worker claim 的最小編號項目
-- Claim 後再生成
-- 生成完成立即記錄
-- 遇到額度限制停止，不重做已完成圖片
-- 不把自己的圖片直接判定為最終 PASS
+- 讀取最新 PRODUCTION/IMAGE_QUEUE.md
+- 依 Queue Lock Protocol claim
+- Claim 成功後才生成
+- 完成後立即記錄
+- 不自行判定最終 PASS
+
+## Production Session 2026-09-25
+- IMG_05 — GENERATED / QC_PENDING
+- Generation reference: 1ff64980-3151-4114-bcab-781e06e7f34e
+- Final QA: ACCOUNT_06
+- Earlier BLOCKED record is historical and is superseded by the later successful candidate.
 
 ## Next Step
-等待並執行 T107 可用 queue item。
-
-
-## Blocked Reason — 2026-09-25
-- IMG_05 was already claimed by ACCOUNT_04.
-- PP05 is available and verified.
-- Candidate generation is blocked because the 20-year-old Inaria MASTER_IMAGE is not surfaced as an image attachment in this current chat session, so the required identity reference cannot be applied without inventing or substituting an identity source.
-- Queue was not reset and no completed work was redone.
+重新讀取最新 queue，取得下一個可用 QUEUED job。
