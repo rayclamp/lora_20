@@ -59,7 +59,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_26 | preparing food at a counter | standing at kitchen counter preparing food | rear slight low angle | half-up hairstyle | simple sportswear | bookstore | full-body slightly high angle | one hand holding a simple cup, other relaxed | FAILED |
 | IMG_27 | organizing objects on a shelf | standing beside shelf organizing objects | over-shoulder | low bun | comfortable homewear | convenience store | full-body slightly low angle | one hand holding a book, other supporting naturally | FAILED |
 | IMG_28 | opening a door | standing beside doorway opening a door with one hand | distant environmental full-body | side braid | pajamas | shopping street | medium full shot | one hand holding smartphone, other relaxed | FAILED |
-| IMG_29 | looking through a display shelf | standing beside display shelf examining an object | full frontal | half-up braid | light trench coat with simple inner outfit | city sidewalk | medium shot | writing with one hand, other stabilizing notebook | GENERATING |
+| IMG_29 | looking through a display shelf | standing beside display shelf examining an object | full frontal | half-up braid | light trench coat with simple inner outfit | city sidewalk | medium shot | writing with one hand, other stabilizing notebook | FAILED |
 | IMG_30 | carrying a simple object | walking slowly while carrying one simple lightweight object | left 3/4 front | loose softly curled hair | casual blouse with wide-leg trousers | train station | waist-up | both hands lightly holding a larger object | QUEUED |
 | IMG_31 | adjusting hair | standing naturally adjusting hair with one hand | right 3/4 front | long straight hair | white blouse with pleated skirt | park | chest-up | one hand touching hair, other relaxed | QUEUED |
 | IMG_32 | tying hair | standing or seated naturally tying hair with both hands near head | left profile | long hair with subtle loose waves | light-blue knit dress | riverside walkway | environmental full-body | one hand adjusting sleeve, other relaxed | QUEUED |
@@ -672,10 +672,17 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Worker released immediately after worker self-check: YES
 
 
-## Active Worker Claim
+## Worker Outcome
 - Task: IMG_29
-- Status: GENERATING
-- Worker: CHATGPT_MANUAL_WORKER
+- Outcome: FAILED
+- Worker released: YES
 - Claim ID: CW-20260926-0105-IMG_29-01
-- Lease until: 2026-09-26T03:05:00+08:00
-- Claim recorded from queue SHA: a95426c4be2260b1f21a09c7977aea3d98aac1d5
+- Generation ID: 6e5bb396-972f-488b-a7e4-f534d4681cf5
+- Reason: generated candidate did not match the assigned IMG_29 design (city sidewalk display shelf, half-up braid, light trench coat, writing with one hand while stabilizing a notebook); not counted as IMAGE_CREATED.
+
+
+## Generation Event
+- Task: IMG_29
+- Event: FAILED
+- Generation ID: 6e5bb396-972f-488b-a7e4-f534d4681cf5
+- Worker released immediately after worker self-check: YES
