@@ -31,7 +31,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 
 | ID | Action | Pose | View | Hair | Clothing | Scene | Camera | Hand configuration | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| IMG_01 | walking naturally | natural walking stride | full frontal | long straight hair | white blouse with pleated skirt | bedroom | full-body eye-level | both hands relaxed and visible | GENERATING |
+| IMG_01 | walking naturally | natural walking stride | full frontal | long straight hair | white blouse with pleated skirt | bedroom | full-body eye-level | both hands relaxed and visible | IMAGE_CREATED |
 | IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
 | IMG_03 | walking while looking back | walking stride with torso forward and head gently turned back | right 3/4 front | low ponytail | casual T-shirt with jeans | kitchen | full-body slightly low angle | one hand holding a book, other supporting naturally | QUEUED |
 | IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
@@ -196,12 +196,12 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 
 ## Current count
 - Goal target: 40
-- Phase 1 IMAGE_CREATED: 0
-- Phase 1 remaining: 40
-- QUEUED: 40
+- Phase 1 IMAGE_CREATED: 1
+- Phase 1 remaining: 39
+- QUEUED: 39
 - CLAIMED: 0
 - GENERATING: 0
-- IMAGE_CREATED: 0
+- IMAGE_CREATED: 1
 - UPLOADING: 0
 - QC_PENDING: 0
 - PASS: 0
@@ -221,8 +221,17 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 
 ## Active Worker Claim
 - Task: IMG_01
-- Status: GENERATING
+- Status: IMAGE_CREATED
+- Worker released: YES
+- Generation ID: 15673d8b-4dfe-45de-b3bb-79292b5d88d6
+- IMAGE_CREATED recorded at: 2026-09-25T23:17:00+08:00
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260925-2317-IMG_01-01
 - Lease until: 2026-09-26T01:17:00+08:00
 - Claim recorded from queue SHA: 84881ec52d43d0334f6d53a3f954daf16f236428
+
+## Generation Event
+- Task: IMG_01
+- Event: IMAGE_CREATED
+- Generation ID: 15673d8b-4dfe-45de-b3bb-79292b5d88d6
+- Worker released immediately after IMAGE_CREATED: YES
