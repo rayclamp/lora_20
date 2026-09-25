@@ -67,7 +67,7 @@ Track the Goal-level consecutive generation-error counter:
 - reset to 0 on `IMAGE_CREATED`;
 - at 3 consecutive `GENERATION_TOOL_ERROR` events, set Generation system state to `PAUSED`.
 
-`SAFETY_BLOCKED` requires Director Review and must not be bypassed.
+`SAFETY_BLOCKED` is a task-level safety outcome. It must never be bypassed or retried by prompt rewriting. The blocked task is recorded and skipped for the current production run so the Worker Pool can continue with another available task. A later Master Director/operator decision may explicitly return the task to QUEUED or create a legitimate replacement.
 
 ## Goal accounting
 Only one successful transition into `IMAGE_CREATED` may increment the Goal counter for a task.
