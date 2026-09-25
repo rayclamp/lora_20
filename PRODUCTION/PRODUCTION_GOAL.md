@@ -12,9 +12,9 @@ The user specifies the desired output quantity. The Master Director converts tha
 - Project: Age-20 Inaria LoRA
 - Target Phase 1 images: 20
 - Phase 1 completion event: IMAGE_CREATED
-- Phase 1 completed: 1
-- Phase 1 remaining: 19
-- Goal status: ACTIVE
+- Phase 1 completed: 20
+- Phase 1 remaining: 0
+- Goal status: COMPLETE
 - Production mode: MANUAL
 - Generation system state: ACTIVE
 - MAX_IMAGE_RETRIES: 3
@@ -113,6 +113,16 @@ Workers must stop claiming new tasks when:
 Phase 1 completed >= Target
 
 Workers may finish a task they have already successfully claimed only if that task is already in active execution and the protocol permits completion. No new claim may be made after the Goal is reached.
+
+## Production/Upload separation safeguard
+
+The Phase 1 Goal counter is updated at the moment a candidate is successfully generated and the task reaches IMAGE_CREATED. Uploading is a separate Phase 2 operation.
+
+Therefore:
+- A successful image generation must be recorded as IMAGE_CREATED immediately.
+- UPLOADING, UPLOADED, QC_PENDING, PASS, REPAIR, or REJECT must never be prerequisites for the Phase 1 counter.
+- GitHub upload failure, binary-transfer limitations, Make credit exhaustion, or delayed local transfer must not prevent an already-generated candidate from counting toward Phase 1.
+- If an upload is unavailable, preserve the generated asset locally and record IMAGE_CREATED anyway; Phase 2 may reconcile the asset later.
 
 ## Current operational principle
 
