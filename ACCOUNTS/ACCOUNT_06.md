@@ -17,6 +17,7 @@ Own integrated design, production direction, Codex first-layer QA integration, a
 - 00_MASTER/ANATOMY_STABILITY.md
 - 00_MASTER/GENERATION_RULES.md
 - 00_MASTER/QUALITY_CONTROL.md
+- 00_MASTER/PRODUCTION_MODES.md
 - PRODUCTION/IMAGE_QUEUE.md
 
 ## Current rule
