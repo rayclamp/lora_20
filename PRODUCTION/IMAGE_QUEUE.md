@@ -33,7 +33,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | ID | Action | Pose | View | Hair | Clothing | Scene | Camera | Hand configuration | Status |
 |---|---|---|---|---|---|---|---|---|---|
 | IMG_01 | walking naturally | natural walking stride | full frontal | long straight hair | white blouse with pleated skirt | bedroom | full-body eye-level | both hands relaxed and visible | IMAGE_CREATED |
-| IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
+| IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | CLAIMED |
 | IMG_03 | walking while looking back | walking stride with torso forward and head gently turned back | right 3/4 front | low ponytail | casual T-shirt with jeans | kitchen | full-body slightly low angle | one hand holding a book, other supporting naturally | FAILED |
 | IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | IMAGE_CREATED |
 | IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | FAILED |
