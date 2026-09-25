@@ -33,7 +33,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | ID | Action | Pose | View | Hair | Clothing | Scene | Camera | Hand configuration | Status |
 |---|---|---|---|---|---|---|---|---|---|
 | IMG_01 | walking naturally | natural walking stride | full frontal | long straight hair | white blouse with pleated skirt | bedroom | full-body eye-level | both hands relaxed and visible | IMAGE_CREATED |
-| IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | GENERATING |
+| IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | QUEUED |
 | IMG_03 | walking while looking back | walking stride with torso forward and head gently turned back | right 3/4 front | low ponytail | casual T-shirt with jeans | kitchen | full-body slightly low angle | one hand holding a book, other supporting naturally | FAILED |
 | IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | IMAGE_CREATED |
 | IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | FAILED |
@@ -220,40 +220,35 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - 00_MASTER/PRODUCTION_PROTOCOL.md
 
 
-## Active Worker Claim
-- Task: IMG_05
+## Historical Worker Claim (retained for audit)\n- Task: IMG_05
 - Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0002-IMG_05-01
 - Lease until: 2026-09-26T02:02:00+08:00
 - Claim recorded from queue SHA: 8b72c57101f2bb06b7848b2611ad7e7ace9ecfe4
 
-## Active Worker Claim
-- Task: IMG_06
+## Historical Worker Claim (retained for audit)\n- Task: IMG_06
 - Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0003-IMG_06-01
 - Lease until: 2026-09-26T02:03:00+08:00
 - Claim recorded from queue SHA: a0e94a0dc973fdde6898bbdb8f388524f42fab0a
 
-## Active Worker Claim
-- Task: IMG_07
+## Historical Worker Claim (retained for audit)\n- Task: IMG_07
 - Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0004-IMG_07-01
 - Lease until: 2026-09-26T02:04:00+08:00
 - Claim recorded from queue SHA: dfb0b977aa3dbdacd1a19c7002c87078c0ab63c4
 
-## Active Worker Claim
-- Task: IMG_08
+## Historical Worker Claim (retained for audit)\n- Task: IMG_08
 - Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0005-IMG_08-01
 - Lease until: 2026-09-26T02:05:00+08:00
 - Claim recorded from queue SHA: 57b76215b9c746d3985a36b9d1145a276d815056
 
-## Active Worker Claim
-- Task: IMG_09
+## Historical Worker Claim (retained for audit)\n- Task: IMG_09
 - Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0006-IMG_09-01
@@ -286,8 +281,7 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Worker released immediately after IMAGE_CREATED: YES
 
 
-## Active Worker Claim
-- Task: IMG_02
+## Expired Worker Claim (lease recovery)\n- Task: IMG_02
 - Status: GENERATING
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260925-2318-IMG_02-02
@@ -721,8 +715,7 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Worker released immediately: YES
 
 
-## Active Worker Claim
-- Task: IMG_32
+## Historical Worker Claim (retained for audit)\n- Task: IMG_32
 - Status: CLAIMED
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0142-IMG_32-01
@@ -760,3 +753,22 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 ## Generation Event
 - Task: IMG_37
 - Event: IMAGE_CREATED
+
+
+## Queue State Repair Event
+- Task: IMG_02
+- Event: LEASE_EXPIRED_REQUEUED
+- Previous state: GENERATING
+- Previous lease: 2026-09-26T01:18:00+08:00
+- New state: QUEUED
+- Reason: the recorded manual-worker lease had expired; no later IMAGE_CREATED event exists for IMG_02.
+- No image-generation result was fabricated or counted.
+
+## State Reconciliation Event
+- Goal: T108_GOAL_20260925_40_CAPACITY_TEST
+- IMAGE_CREATED events verified from queue history: 13
+- Goal counter reconciled to: 13 / 40
+- Remaining: 27
+- Valid current GENERATING task: IMG_10
+- QUEUED tasks after recovery: IMG_02, IMG_38, IMG_39, IMG_40
+- QA: PAUSED
