@@ -51,7 +51,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_18 | leaning lightly against a surface | light side lean against a flat wall | left profile | side braid | casual T-shirt with jeans | museum gallery | waist-up | both hands lightly holding a larger object | FAILED |
 | IMG_19 | resting with hands relaxed | relaxed standing rest with both feet grounded | right profile | half-up braid | cardigan with long skirt | garden | chest-up | one hand touching hair, other relaxed | FAILED |
 | IMG_20 | rising from a seated position | controlled rise from a chair with stable feet | left 3/4 rear | loose softly curled hair | simple summer one-piece dress | balcony | environmental full-body | one hand adjusting sleeve, other relaxed | FAILED |
-| IMG_21 | reading a book | seated upright reading a book | right 3/4 front | long straight hair | hoodie with casual shorts | bedroom | side-oriented composition | one hand reaching toward a large object, other relaxed | GENERATING |
+| IMG_21 | reading a book | seated upright reading a book | right 3/4 front | long straight hair | hoodie with casual shorts | bedroom | side-oriented composition | one hand reaching toward a large object, other relaxed | FAILED |
 | IMG_22 | writing in a notebook | seated at a desk writing in a notebook | left profile | long hair with subtle loose waves | office blouse with trousers | living room | rear-oriented composition | both hands resting naturally on thighs while seated | QUEUED |
 | IMG_23 | using a smartphone | standing naturally using a smartphone at comfortable chest height | right profile | low ponytail | office blouse with pencil skirt | kitchen | off-center composition | one hand on a stable surface, other relaxed | QUEUED |
 | IMG_24 | drinking from a cup | seated upright drinking from a simple cup | front slight high angle | high ponytail | lightweight jacket with skirt | home workspace | symmetrical centered composition | hands carrying a simple lightweight object | QUEUED |
@@ -543,10 +543,17 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Worker released immediately after worker self-check: YES
 
 
-## Active Worker Claim
+## Worker Outcome
 - Task: IMG_21
-- Status: GENERATING
-- Worker: CHATGPT_MANUAL_WORKER
+- Outcome: FAILED
+- Worker released: YES
 - Claim ID: CW-20260926-0057-IMG_21-01
-- Lease until: 2026-09-26T02:57:00+08:00
-- Claim recorded from queue SHA: b6f8b963c1ef50876a07fb143f495cb69b24c85c
+- Generation ID: b0df4857-0083-4c05-88b0-3863a57d54b2
+- Reason: generated candidate did not match the assigned IMG_21 design (upright reading in bedroom, hoodie with casual shorts, right 3/4 front, side-oriented composition); not counted as IMAGE_CREATED.
+
+
+## Generation Event
+- Task: IMG_21
+- Event: FAILED
+- Generation ID: b0df4857-0083-4c05-88b0-3863a57d54b2
+- Worker released immediately after worker self-check: YES
