@@ -44,7 +44,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_11 | sitting upright on a chair | seated upright on a chair | rear slight high angle | long straight hair | simple sportswear | park | off-center composition | one hand on a stable surface, other relaxed | IMAGE_CREATED |
 | IMG_12 | sitting with one leg naturally extended | seated on chair with one leg naturally extended | rear slight low angle | long hair with subtle loose waves | comfortable homewear | riverside walkway | symmetrical centered composition | hands carrying a simple lightweight object | FAILED |
 | IMG_13 | sitting sideways on a chair | seated side-facing on a chair | over-shoulder | low ponytail | pajamas | beach | full-body eye-level | both hands relaxed and visible | FAILED |
-| IMG_14 | sitting on the edge of a bed | sitting on bed edge with feet grounded | distant environmental full-body | high ponytail | light trench coat with simple inner outfit | indoor pool | full-body slightly high angle | one hand holding a simple cup, other relaxed | GENERATING |
+| IMG_14 | sitting on the edge of a bed | sitting on bed edge with feet grounded | distant environmental full-body | high ponytail | light trench coat with simple inner outfit | indoor pool | full-body slightly high angle | one hand holding a simple cup, other relaxed | IMAGE_CREATED |
 | IMG_15 | sitting on the floor | floor sitting with legs arranged simply | full frontal | side ponytail | casual blouse with wide-leg trousers | campus walkway | full-body slightly low angle | one hand holding a book, other supporting naturally | QUEUED |
 | IMG_16 | kneeling naturally | natural kneeling with upright torso | left 3/4 front | half-up hairstyle | white blouse with pleated skirt | office | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
 | IMG_17 | squatting naturally | natural balanced squat | right 3/4 front | low bun | light-blue knit dress | hotel room | medium shot | writing with one hand, other stabilizing notebook | QUEUED |
@@ -429,8 +429,18 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 
 ## Active Worker Claim
 - Task: IMG_14
-- Status: GENERATING
+- Status: IMAGE_CREATED
+- Worker released: YES
+- Generation ID: d9a26909-0249-4d8d-87b0-724222d140e2
+- IMAGE_CREATED recorded at: 2026-09-26T00:50:00+08:00
 - Worker: CHATGPT_MANUAL_WORKER
 - Claim ID: CW-20260926-0050-IMG_14-01
 - Lease until: 2026-09-26T02:50:00+08:00
-- Claim recorded from queue SHA: 542896c8d2d8d448fa1548457090c5b1eba7fac4
+- Claim recorded from queue SHA: 579e996b8e695698e313bb5b64628ff052e19205
+
+
+## Generation Event
+- Task: IMG_14
+- Event: IMAGE_CREATED
+- Generation ID: d9a26909-0249-4d8d-87b0-724222d140e2
+- Worker released immediately after IMAGE_CREATED: YES
