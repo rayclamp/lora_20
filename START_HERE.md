@@ -1,67 +1,49 @@
-# START_HERE.md — 20歲依娜莉亞 LoRA 專案啟動文件
+# START_HERE.md — Inaria Age-20 LoRA Project Startup
 
-## Generation Worker startup
+## 1. Authority
+This is an age-20 Inaria LoRA project. Read current 00_MASTER rules first. Do not rely on deleted legacy documents or historical chat instructions.
 
-所有 generation worker（ACCOUNT_01–05、ACCOUNT_07–08）使用完全相同的啟動指令：
+## 2. Current architecture
+- ACCOUNT_06 = MASTER_DIRECTOR / FINAL_REVIEWER / QA
+- ACCOUNT_01–05, ACCOUNT_07–08 = GENERATION_WORKER
+- GitHub = shared persistent state
+- MASTER_IMAGE/INARIA_20_MASTER_v1.0.png = Character + Visual Style Reference
+- PRODUCTION/IMAGE_QUEUE.md = authoritative per-image queue
 
-> 請讀取 GitHub 的 `rayclamp/lora_20` 專案。你現在是本專案的 Generation Worker。請按照 `START_HERE.md` 與 `00_MASTER/GENERATION_WORKER_PROTOCOL.md` 執行目前可用的圖片生產工作：讀取最新專案狀態與 `PRODUCTION/IMAGE_QUEUE.md`，依 Queue Lock Protocol 取得下一個尚未被其他 worker claim 的生產項目，先成功寫入 claim 再生成；讀取對應 Prompt Package，使用本聊天室由使用者直接上傳的 20 歲 Inaria MASTER_IMAGE 作為人物 + 視覺風格的直接參考，完成候選圖片生成，依規則保存/回報結果並更新自己的帳號狀態。不要重新設計角色、服裝、場景、姿勢或全域畫風；不得只依賴抽象的 Japanese anime 標籤自行選擇另一套動漫畫風，不要重做已完成工作；如果 claim 發生衝突就重新讀取 queue，不要生成；如果遇到圖片生成額度限制或必要條件不足，安全釋放目前尚未生成的 job，不要重置 queue。
+## 3. Required reading order
+1. PROJECT_STATUS.md
+2. 00_MASTER/MASTER_SPEC.md
+3. 00_MASTER/STYLE_MASTER.md
+4. 00_MASTER/IDENTITY_MASTER.md
+5. 00_MASTER/ANATOMY_STABILITY.md
+6. 00_MASTER/GENERATION_RULES.md
+7. 00_MASTER/DRAWING_INSTRUCTIONS.md
+8. 00_MASTER/GENERATION_WORKER_PROTOCOL.md
+9. 00_MASTER/QUALITY_CONTROL.md
+10. 00_MASTER/PRODUCTION_PROTOCOL.md
+11. PRODUCTION/IMAGE_QUEUE.md
+12. current approved Prompt Package
+13. current-chat MASTER_IMAGE
 
-## Master Director startup
+## 4. Reference Style Lock
+MASTER_IMAGE → Character + Visual Style Reference → Prompt Package → controlled changes → generation.
 
-ACCOUNT_06 使用 Master Director / Final QA 流程，不使用 Generation Worker 指令。
+The MASTER_IMAGE is not merely a face reference. Preserve line art, face/eyes, hair, proportions, colors, shading, lighting, and illustration finish.
 
-## MASTER_IMAGE
+The target is Japanese anime illustration matching the reference.
 
-每個負責圖片工作的全新 ChatGPT 聊天室，啟動時由使用者直接上傳 `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`。
-MASTER_IMAGE 同時用於人物身份與主要視覺風格參考；不複製原圖服裝、背景、姿勢、鏡位或構圖，但必須盡可能延續原圖的線稿、臉部、眼睛、頭髮、比例、上色、陰影、光影、色彩與整體插畫完成度。
+Do not switch to photorealistic, photographic/live-action, 3D/CGI, semi-photorealistic, or another anime/game/illustration style.
 
-## Reference Style Lock 核心規則
+## 5. Anatomy hard lock
+Use 00_MASTER/ANATOMY_STABILITY.md before generation.
 
-- 每個 Generation Worker 都必須以當前聊天室上傳的 `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` 作為直接 Character + Visual Style Reference。
-- 生成不是「重新畫一個 Japanese anime 的依娜莉亞」，而是「以 MASTER_IMAGE 為基準，只改變當前 Prompt Package 指定的內容」。
-- 禁止 photorealistic / live-action / photographic / 3D / CGI / semi-photorealistic 轉換。
-- 禁止任意漂移到另一種 anime / manga / game / illustration style。
+Exactly two hands and two legs; five fingers per visible hand; five toes per visible bare foot; traceable limb connections; plausible support/center of gravity; no false limbs; natural hand-object and wearable contact.
 
-## Queue Lock 核心規則
+## 6. Worker startup command
+Read the latest rayclamp/lora_20 project state. You are a Generation Worker. Read START_HERE.md, the required 00_MASTER documents, PRODUCTION/IMAGE_QUEUE.md, the current Prompt Package, and the current-chat MASTER_IMAGE. Claim one available job using the queue lock before generating. Use MASTER_IMAGE as the direct Character + Visual Style Reference. Follow the Prompt Package exactly. Do not redesign identity or global style. If claim fails, do not generate; re-fetch the queue. If a prerequisite or quota blocks generation before an image exists, release the job to QUEUED. Do not write after lease expiry.
 
-- 不依帳號啟動時間分配工作。
-- 每次 claim 前重新讀取 queue。
-- 使用最新 file blob SHA 做 conditional update。
-- update 成功才代表 claim 成功。
-- update conflict = 沒有 claim 成功，不得生成。
-- 生成開始前再次確認 Worker / Claim ID / Lease。
-- 每完成一張後重新讀取 queue。
-- 未生成但被 quota / prerequisite 阻塞時，釋放回 `QUEUED`。
-- lease 到期後不得使用舊 ownership 繼續寫入。
+## 7. Master Director
+ACCOUNT_06 does not use the worker startup command. ACCOUNT_06 owns integrated design, queue planning, Codex QA integration, and final PASS / REPAIR / REJECT.
 
-## 所有帳號啟動後必讀
-
-1. `PROJECT_STATUS.md`
-2. `00_MASTER/MASTER_SPEC.md`
-3. `00_MASTER/MASTER_WORKFLOW.md`
-4. `00_MASTER/ACCOUNT_WORKFLOW.md`
-5. `00_MASTER/GENERATION_WORKER_PROTOCOL.md`
-6. `00_MASTER/GENERATION_RULES.md`
-7. `00_MASTER/STYLE_MASTER.md`
-8. `00_MASTER/DRAWING_INSTRUCTIONS.md`
-9. `00_MASTER/IDENTITY_MASTER.md`
-10. `00_MASTER/QUALITY_CONTROL.md`
-11. `00_MASTER/PRODUCTION_PROTOCOL.md`
-12. `TASKS/TASK_QUEUE.md`
-13. `PRODUCTION/IMAGE_QUEUE.md`
-14. `ACCOUNTS/ACCOUNT_XX.md`
-15. 當前 production Prompt Package
-
-## 工作原則
-
-- 不捏造缺失規則。
-- 不重做已完成圖片，除非明確 NEED_REGENERATE。
-- 具體內容以 queue 與 Prompt Package 為準。
-- 多 workers 可以平行，但必須使用 queue lock。
-- 每張圖片完成後立即記錄。
-- quota / prerequisite 阻塞未生成 job 時，釋放回 queue。
-
-## 完成後
-
-Generation worker 更新自己的 account status 與必要 production record。
-ACCOUNT_06 更新整合狀態、最終 QA 與必要任務狀態。
+## 8. Production readiness
+IMG_01–IMG_05 are historical candidates generated before the current reference/style/anatomy/asset gates were fully enforced. They are not approved training images. T107 must remain paused until one controlled test confirms reference-matched anime style, anatomy stability, and real production asset transfer.
