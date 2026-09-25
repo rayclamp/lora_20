@@ -1,131 +1,116 @@
-# GENERATION_WORKER_PROTOCOL.md — 統一生圖帳號操作規則
+# GENERATION_WORKER_PROTOCOL.md — Generation Worker Protocol
 
 ## 1. Purpose
+All Generation Workers use the same operational protocol.
 
-本文件定義所有 Generation Worker 的共同執行方式。
+- ACCOUNT_01–05, ACCOUNT_07–08 = Generation Workers.
+- ACCOUNT_06 = Master Director / Final Reviewer / QA.
+- Workers do not redesign project-wide character or visual style.
 
-Worker 不需要被分配不同創意職能。所有角色、服裝、場景、姿勢、鏡位、Prompt 與批次策略由 ACCOUNT_06 Master Director 統一決定並寫入 GitHub。
+## 2. Required startup
+Read:
+1. START_HERE.md
+2. PROJECT_STATUS.md
+3. 00_MASTER/MASTER_SPEC.md
+4. 00_MASTER/STYLE_MASTER.md
+5. 00_MASTER/IDENTITY_MASTER.md
+6. 00_MASTER/ANATOMY_STABILITY.md
+7. 00_MASTER/GENERATION_RULES.md
+8. 00_MASTER/DRAWING_INSTRUCTIONS.md
+9. 00_MASTER/QUALITY_CONTROL.md
+10. 00_MASTER/PRODUCTION_PROTOCOL.md
+11. PRODUCTION/IMAGE_QUEUE.md
+12. current approved Prompt Package
+13. current-chat MASTER_IMAGE
 
-**Queue ownership 是生產開始前的必要條件。**
+Do not use deleted legacy documents as instructions.
 
-## 2. Supported worker accounts
+## 3. Standard startup command
+Read the latest rayclamp/lora_20 project state and PRODUCTION/IMAGE_QUEUE.md. You are a Generation Worker. Claim the next available job using the Queue Lock Protocol before generating. Use the current-chat 20-year-old Inaria MASTER_IMAGE as the direct Character + Visual Style Reference. Follow the current Prompt Package exactly. Do not redesign identity, global style, clothing, scene, pose, camera, or prompt architecture. If claim fails, do not generate; re-fetch the queue. If a prerequisite or quota blocks generation before an image exists, release the job safely to QUEUED. Do not continue writing after lease expiry.
 
-- ACCOUNT_01
-- ACCOUNT_02
-- ACCOUNT_03
-- ACCOUNT_04
-- ACCOUNT_05
-- ACCOUNT_07
-- ACCOUNT_08
+## 4. Pre-generation checklist
+Before generation:
+- confirm current account;
+- confirm current MASTER_IMAGE is actually available in this chat;
+- confirm current Prompt Package;
+- confirm successful queue claim;
+- confirm exactly two hands and two legs in the planned pose;
+- confirm intended finger/toe visibility;
+- confirm stable shoulder/hip connections;
+- confirm support surface and center of gravity;
+- identify false-limb risks from sleeves, skirts, bags, straps, props, furniture, or background;
+- simplify high-risk hand, leg, prop, strap, or occlusion design.
 
-實際同時啟用 5–7 個 generation workers。
+Hand-action requirements:
+- one simple main action per hand;
+- broad natural grips;
+- avoid unnecessary fingertip pinches;
+- keep at least one hand clear and away from image edges;
+- no busy effects around fingers.
 
-## 3. Required startup command
+Object-contact requirements:
+- held objects must visibly contact the hand;
+- handles must remain connected to the object;
+- bags and straps must connect to the bag and naturally contact the body;
+- containers must be structurally complete before hand placement.
 
-> 請讀取 GitHub 的 `rayclamp/lora_20` 專案。你現在是本專案的 Generation Worker。請按照 `START_HERE.md` 與 `00_MASTER/GENERATION_WORKER_PROTOCOL.md` 執行目前可用的圖片生產工作：讀取最新專案狀態與 `PRODUCTION/IMAGE_QUEUE.md`，依 Queue Lock Protocol 取得下一個尚未被其他 worker claim 的生產項目，先成功寫入 claim 再生成；讀取對應 Prompt Package，使用本聊天室由使用者直接上傳的 20 歲 Inaria MASTER_IMAGE 作為**人物 + 視覺風格的直接參考**，完成候選圖片生成，依規則保存/回報結果並更新自己的帳號狀態。不要重新設計角色、服裝、場景、姿勢或全域畫風；不得只依賴抽象的 Japanese anime 標籤自行選擇另一套動漫畫風，不要重做已完成工作；如果 claim 發生衝突就重新讀取 queue，不要生成；如果遇到圖片生成額度限制或必要條件不足，安全釋放目前尚未生成的 job，不要重置 queue。
+## 5. Claim protocol
+1. Fetch latest queue and blob SHA.
+2. Select lowest-numbered available QUEUED job.
+3. Create unique Claim ID.
+4. Update queue with exact fetched SHA.
+5. If update conflicts/fails, claim failed. Do not generate.
+6. Only after successful claim may generation begin.
 
-## 4. Worker behavior
+## 6. Generation start
+Immediately before generation:
+1. Re-fetch queue.
+2. Verify Worker, Claim ID, and Lease.
+3. Change CLAIMED → GENERATING using latest queue SHA.
+4. Only after that update succeeds, generate.
 
-### A. Preflight
-1. Identify the current account.
-2. Read the latest GitHub project state.
-3. Read the latest `PRODUCTION/IMAGE_QUEUE.md`.
-4. Confirm MASTER_IMAGE is available in the current chat.
-5. Confirm the Prompt Package exists.
+## 7. Reference-first generation
+Use MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the direct Character + Visual Style Reference.
 
-### B. Claim transaction
-1. Find the lowest-numbered `QUEUED` job.
-2. Fetch the queue file and record its current blob SHA.
-3. Create a unique Claim ID.
-4. Set Status=`CLAIMED`, Worker=current account, Claim ID, Claimed At, Lease Until, Updated At, and Attempts+1.
-5. Update the queue using the exact blob SHA just fetched.
-6. If the update conflicts/fails, the claim did not happen. **Do not generate.** Re-fetch and retry.
-7. Only after a successful update may the worker proceed.
+Preserve line-art, face, eyes, hair, proportions, coloring, shading, lighting language, and illustration finish.
 
-### C. Anatomy-first generation
-Before generation, verify the planned pose has exactly two hands and two legs, stable shoulder/hip connections, intended five-finger/five-toe visibility, stable center of gravity, and no high-risk false-limb structures. Simplify or remove complex props, straps, occlusions, or effects when they threaten anatomy stability. Follow `00_MASTER/ANATOMY_STABILITY.md`.
+The Prompt Package may change only explicitly assigned clothing, scene, pose, camera, composition, accessories, and context.
 
-### C. Reference-first generation
-1. Confirm the uploaded `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` is visible in the current chat.
-2. Use it as the direct visual reference for both character identity and illustration style.
-3. Preserve its line-art language, facial rendering, eyes, hair rendering, proportions, coloring, shading, lighting language, and overall illustration finish.
-4. Apply the current Prompt Package only to the explicitly requested changes: clothing, scene, pose, camera, composition, accessories, and context.
-5. Do not convert the image into photorealistic, live-action, photographic, 3D, CGI, semi-photorealistic, or a different anime/game/illustration style.
+Never substitute photorealistic, photographic, live-action, 3D, CGI, semi-photorealistic, or another anime/game/illustration style.
 
-### C. Generation start
-Before image generation:
-1. Re-fetch the queue.
-2. Verify Status, Worker, Claim ID and Lease Until still belong to this worker.
-3. Change Status from `CLAIMED` to `GENERATING` using the latest queue SHA.
-4. Only after that update succeeds, start image generation.
+## 8. Post-generation self-check
+Before submitting a candidate:
+- verify Japanese anime illustration matches MASTER_IMAGE;
+- verify no obvious extra/missing/fused/duplicated fingers or toes;
+- verify exactly two hands/two legs where visible;
+- verify limb connections and center of gravity;
+- verify no false limb from clothing/props/background;
+- verify hand-object contact;
+- verify bag/strap continuity;
+- verify container structure;
+- verify task requirements.
 
-### D. Completion
-Before QC_PENDING, perform an anatomy self-check against `00_MASTER/ANATOMY_STABILITY.md`. Obvious extra/missing limbs or malformed hands/feet must not be submitted as clean candidates.
-1. Re-fetch the queue.
-2. Verify ownership and Claim ID.
-3. Record the candidate in the production log.
-4. Set Status=`QC_PENDING`.
-5. Clear Worker / Claim ID / Claimed At / Lease Until.
-6. Keep Attempts.
-7. Update account status.
-8. Re-fetch queue before taking another job.
+If a hard defect is obvious, do not describe the candidate as clean or final.
 
-## 5. Concurrency / race-condition rule
+## 9. Asset state
+A generated image is not automatically QC-ready because it exists in the ChatGPT output area.
 
-**Do not rely on worker start time or staggered startup.**
+Use:
+GENERATING → IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING
 
-The queue file blob SHA is the concurrency guard. GitHub's file update requires the SHA of the file being replaced, and concurrent updates can conflict. citeturn0search0
+QC_PENDING requires a real production asset and lineage record.
 
-If two workers read the same `QUEUED` job:
-- first successful conditional update owns it;
-- the stale update fails;
-- the losing worker must not generate;
-- it re-fetches the queue and claims another available job.
+If binary export/upload is unavailable, stop at the appropriate state and record the blocker.
 
-## 6. Lease rules
+## 10. Lease and recovery
+- ChatGPT manual worker lease: 120 minutes.
+- Make/OpenAI worker lease: 30 minutes.
+- Renew before expiry when needed.
+- After expiry, re-claim with a new Claim ID.
+- A blocked pre-generation job returns to QUEUED.
+- A generated candidate is preserved and must not be regenerated merely because another worker becomes available.
 
-- ChatGPT manual worker: **120 minutes**
-- Make / OpenAI worker: **30 minutes**
-- Renew before expiry if needed.
-- An expired worker must not write again; it must re-claim with a new Claim ID.
-- A new worker may reclaim only after verifying the previous lease has expired.
+## 11. Worker restrictions
+Workers must not redesign identity or global style, generate before successful claim, use a stale queue snapshot, declare final PASS, continue writing after lease expiry, regenerate without explicit NEED_REGENERATE, or substitute another identity reference.
 
-## 7. Quota / blocking
-
-If quota or a prerequisite prevents generation before a candidate exists:
-- record the reason;
-- clear Worker / Claim ID / Lease;
-- return the job to `QUEUED`;
-- allow another worker to claim it.
-
-If a candidate already exists:
-- record it;
-- move to `QC_PENDING`;
-- never regenerate merely because another worker has quota.
-
-If MASTER_IMAGE is unavailable:
-- do not substitute another identity source;
-- release the job to `QUEUED`.
-
-## 8. Worker restrictions
-
-Workers must not:
-- redesign Inaria identity;
-- alter global style;
-- skip queue ownership;
-- generate before successful claim;
-- overwrite another worker's job;
-- regenerate completed images without explicit `NEED_REGENERATE`;
-- declare their own candidate final PASS;
-- use an old queue snapshot for a new claim;
-- continue writing after lease expiry.
-
-## 9. Failure recovery
-
-If a worker stops during `CLAIMED` / `GENERATING`, the lease protects the job until expiry. After expiry, another worker may reclaim it with a new Claim ID.
-
-If the worker never started generation and a blocking condition is known, it may release the job immediately after recording the reason.
-
-## 10. Final gate
-
-Only ACCOUNT_06 can finalize a candidate as PASS / REPAIR / REJECT.
+Only ACCOUNT_06 can make final PASS / REPAIR / REJECT decisions.
