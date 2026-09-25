@@ -1,51 +1,47 @@
 # PRODUCTION_GOAL.md — Goal-Based Production Control
 
 ## Purpose
-
 This file defines the current production target for the Inaria age-20 LoRA dataset.
 
-The user specifies the desired output quantity. The Master Director converts that request into a Production Goal. Generation Workers do not need to know how many images they personally must produce.
+The user specifies the desired output quantity. The Master Director converts that request into a Production Goal. Generation Workers do not receive fixed per-account quotas.
 
 ## Current Goal
-
-- Goal ID: T107_GOAL_20260925_20
+- Goal ID: T108_GOAL_20260925_40_CAPACITY_TEST
 - Project: Age-20 Inaria LoRA
-- Target Phase 1 images: 20
+- Target Phase 1 images: 40
 - Phase 1 completion event: IMAGE_CREATED
-- Phase 1 completed: 20
-- Phase 1 remaining: 0
-- Goal status: COMPLETE
+- Phase 1 completed: 0
+- Phase 1 remaining: 40
+- Goal status: ACTIVE
 - Production mode: MANUAL
 - Generation system state: ACTIVE
+- QA status: PAUSED
 - MAX_IMAGE_RETRIES: 3
 - MAX_CONSECUTIVE_GENERATION_ERRORS: 3
 - Reference: MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
 
-## Goal semantics
+## Purpose of this Goal
+T108 is a controlled 40-task production-capacity test.
 
+The Master Director designs 40 executable image tasks in GitHub. Other worker accounts perform the actual generation. The current Director account is not expected to generate all 40 images itself.
+
+The purpose is to observe how many Phase 1 `IMAGE_CREATED` events one individual worker account can complete before that account reaches its image-generation limit. The result must be recorded from actual worker behavior; this Goal does not assume a numeric daily limit in advance.
+
+## Goal semantics
 A Production Goal is a team-level target, not a per-account quota.
 
-Workers do not receive fixed image counts.
+Workers may claim any available task. The system does not assign a fixed number of images to any account.
 
 The only production objective is:
-
-> Continue claiming and completing available production tasks until the Phase 1 completed count reaches the target.
-
-When:
-
-Phase 1 completed >= Target
-
-the Production Goal is complete and Workers must stop claiming new tasks for this goal.
+> Continue claiming and completing available production tasks until the Phase 1 completed count reaches 40, or until individual workers stop because of their own generation limits or another protocol-defined stop condition.
 
 ## Phase 1 completion
-
 A task contributes exactly +1 to the Goal when it reaches:
+`IMAGE_CREATED`
 
-IMAGE_CREATED
+`IMAGE_CREATED` means the worker successfully generated the requested candidate.
 
-IMAGE_CREATED means the worker successfully generated the requested candidate.
-
-The worker is released at IMAGE_CREATED.
+The worker is released at `IMAGE_CREATED`.
 
 Do not wait for:
 - UPLOADING
@@ -55,36 +51,26 @@ Do not wait for:
 - REPAIR
 - REJECT
 
-Phase 2 is asynchronous and must not block Phase 1 production.
-
 ## Phase 2
-
 Phase 2 begins after IMAGE_CREATED:
+`IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → final QA`
 
-IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → final QA
-
-Phase 2 completion is not required for the Goal counter.
-
-A Phase 2 delay, Make credit exhaustion, upload failure, or QC delay must not stop Workers from continuing Phase 1.
+Phase 2 is intentionally paused for T108 and must not block Phase 1 production.
 
 ## Generation retry and system-pause accounting
+A `GENERATION_TOOL_ERROR` does not increment Phase 1.
 
-A GENERATION_TOOL_ERROR does not increment the Phase 1 completion count.
-
-The same task may consume up to 3 generation attempts by default. After the third failed generation attempt, the task becomes DEFERRED and the Worker may continue with another task if the generation system remains healthy.
+The same task may consume up to 3 generation attempts by default. After the third failed generation attempt, the task becomes `DEFERRED`.
 
 Track the Goal-level consecutive generation-error counter:
-- increment on GENERATION_TOOL_ERROR;
-- reset to 0 on IMAGE_CREATED;
-- at 3 consecutive GENERATION_TOOL_ERROR events, set Generation system state to PAUSED and stop new generation claims.
+- increment on `GENERATION_TOOL_ERROR`;
+- reset to 0 on `IMAGE_CREATED`;
+- at 3 consecutive `GENERATION_TOOL_ERROR` events, set Generation system state to `PAUSED`.
 
-SAFETY_BLOCKED does not automatically consume three retries. It is sent to Director Review.
-
-DEFERRED does not count toward the Goal. A later explicit requeue creates another opportunity to produce IMAGE_CREATED.
+`SAFETY_BLOCKED` requires Director Review and must not be bypassed.
 
 ## Goal accounting
-
-Only one successful transition into IMAGE_CREATED may increment the Goal counter for a task.
+Only one successful transition into `IMAGE_CREATED` may increment the Goal counter for a task.
 
 Do not count:
 - QUEUED
@@ -96,38 +82,26 @@ Do not count:
 - historical candidates
 - rejected historical candidates
 
-If a candidate is later marked REPAIR, REJECT, or NEED_REGENERATE, that does not retroactively remove the original IMAGE_CREATED event from the production history. A replacement task must be created/queued explicitly if the project goal requires another usable candidate.
+If a candidate is later marked REPAIR, REJECT, or NEED_REGENERATE, the original IMAGE_CREATED event remains part of the production history. A replacement task must be explicitly queued if the project later requires another candidate.
 
 ## Goal authority
+The Master Director owns Goal creation, target quantity, task design, and completion reporting.
 
-The Master Director owns Goal creation, target quantity, and goal completion reporting.
+Generation Workers execute the GitHub tasks and report actual completion. They do not change the target quantity.
 
-Generation Workers execute tasks. They do not change the target quantity.
+## Worker stop rules
+A worker must stop claiming new tasks when:
+1. T108 reaches 40 IMAGE_CREATED; or
+2. that worker reaches its own image-generation limit; or
+3. the generation system is paused; or
+4. a protocol-defined manual intervention is required.
 
-If the user requests a new quantity, the Master Director creates or updates the active Production Goal before production begins.
-
-## Stop rule
-
-Workers must stop claiming new tasks when:
-
-Phase 1 completed >= Target
-
-Workers may finish a task they have already successfully claimed only if that task is already in active execution and the protocol permits completion. No new claim may be made after the Goal is reached.
+If one worker reaches its limit, remaining QUEUED tasks stay available for other workers.
 
 ## Production/Upload separation safeguard
+The Phase 1 Goal counter is updated immediately when a candidate reaches IMAGE_CREATED. Uploading and QA are separate operations.
 
-The Phase 1 Goal counter is updated at the moment a candidate is successfully generated and the task reaches IMAGE_CREATED. Uploading is a separate Phase 2 operation.
+GitHub upload failure, Make credit exhaustion, binary-transfer limitations, or delayed local transfer must not prevent an already-generated candidate from counting toward Phase 1.
 
-Therefore:
-- A successful image generation must be recorded as IMAGE_CREATED immediately.
-- UPLOADING, UPLOADED, QC_PENDING, PASS, REPAIR, or REJECT must never be prerequisites for the Phase 1 counter.
-- GitHub upload failure, binary-transfer limitations, Make credit exhaustion, or delayed local transfer must not prevent an already-generated candidate from counting toward Phase 1.
-- If an upload is unavailable, preserve the generated asset locally and record IMAGE_CREATED anyway; Phase 2 may reconcile the asset later.
-
-## Current operational principle
-
-The user should only need to specify:
-
-"Produce N LoRA images."
-
-The system determines the required task count and lets the Worker Pool distribute work until the Goal is reached.
+## Historical Goal
+The previous T107 20-image Goal is complete and remains historical. T108 is a new Goal and must not overwrite T107's production history.
