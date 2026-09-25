@@ -1,5 +1,16 @@
 # CHANGELOG.md
 
+## 2026-09-25 — Added AUTO and MANUAL reference delivery modes
+
+- Added 00_MASTER/PRODUCTION_MODES.md.
+- Defined MASTER_IMAGE/INARIA_20_MASTER_v1.0.png as the single official age-20 Character + Visual Style Reference.
+- Added AUTO MODE for Make/OpenAI image-input delivery.
+- Added MANUAL MODE for operator-uploaded MASTER_IMAGE delivery to ChatGPT generation accounts.
+- Kept identity, visual-style, anatomy, generation, queue, and QA rules identical across both modes.
+- Added a hard reference verification gate: missing, unreadable, or wrong-version reference blocks generation.
+- Updated worker startup rules and account files so workers no longer depend on directly reading GitHub image binary.
+- GitHub remains the authoritative storage/reference authority; reference delivery is now explicitly separated from reference authority.
+
 ## 2026-09-25 — Repository consolidation and production reset
 
 - Corrected MASTER_SPEC from the obsolete realistic-human direction to the required age-20 Japanese anime reference-matching direction.
