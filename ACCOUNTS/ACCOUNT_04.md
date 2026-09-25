@@ -1,28 +1,27 @@
-# ACCOUNT_04.md — ChatGPT 帳號工作站狀態
+# ACCOUNT_04.md — ChatGPT Generation Worker
 
 ## Account
 - Account: ACCOUNT_04
-- Role: POSE_CAMERA
-- Project Area: `04_POSE_CAMERA`
-- Status: COMPLETED
-- Current Task: None
+- Role: GENERATION_WORKER
+- Project Area: `PRODUCTION`
+- Status: READY
+- Current Task: T107 — IMAGE_PRODUCTION
 
 ## Responsibility
-負責姿勢、動作、人體工學、鏡位、視角、景別與構圖資料多樣性。人體穩定性優先；可見手五指、赤腳五趾，姿勢符合人體工學。
+本帳號是共享 Generation Worker。只負責依 GitHub production queue 與 ACCOUNT_06 Master Director 已核准的 Prompt Package 生成圖片。
 
-## Progress
-- Generated: 20 design units
-- PASS: 20
-- REVIEW: 0
-- REJECT: 0
+不得自行設計 Character、Clothing、Scene、Pose/Camera、全域 Style 或 Prompt 架構。
 
-## Completed
-- T002 — 六帳號新聊天室啟動驗證完成。
-- T104 — POSE_CAMERA：20 / 20 設計單元完成，PASS。
-- Deliverable: `04_POSE_CAMERA/T104_POSE_CAMERA_HANDOFF_v1.0.md`
+## Startup
+使用 `START_HERE.md` 的統一 Generation Worker 指令，不需要帳號專屬創意指令。
+
+## Current Production Rule
+- 讀取最新 `PRODUCTION/IMAGE_QUEUE.md`
+- 取得未被其他 worker claim 的最小編號項目
+- Claim 後再生成
+- 生成完成立即記錄
+- 遇到額度限制停止，不重做已完成圖片
+- 不把自己的圖片直接判定為最終 PASS
 
 ## Next Step
-等待後續指派。T104 已完成，不重做，除非 TASK_QUEUE 明確標記 NEED_REWORK。
-
-## Notes
-使用者上傳的 20 歲 MASTER_IMAGE 作為人物身份基準，不作固定構圖、服裝、姿勢、背景或畫風模板。全域規則統一位於 `00_MASTER/`；未引入歷史聊天室風格。
+等待並執行 T107 可用 queue item。
