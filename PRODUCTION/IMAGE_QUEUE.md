@@ -734,3 +734,9 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Task: IMG_32
 - Event: IMAGE_CREATED
 - Worker released immediately after IMAGE_CREATED: YES
+
+
+## Generation Event
+- Task: IMG_33
+- Event: IMAGE_CREATED
+- Worker released immediately after IMAGE_CREATED: YES
