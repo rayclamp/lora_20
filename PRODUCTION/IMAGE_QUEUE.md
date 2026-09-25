@@ -33,7 +33,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | ID | Action | Pose | View | Hair | Clothing | Scene | Camera | Hand configuration | Status |
 |---|---|---|---|---|---|---|---|---|---|
 | IMG_01 | walking naturally | natural walking stride | full frontal | long straight hair | white blouse with pleated skirt | bedroom | full-body eye-level | both hands relaxed and visible | IMAGE_CREATED |
-| IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | GENERATING |
+| IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | IMAGE_CREATED |
 | IMG_03 | walking while looking back | walking stride with torso forward and head gently turned back | right 3/4 front | low ponytail | casual T-shirt with jeans | kitchen | full-body slightly low angle | one hand holding a book, other supporting naturally | FAILED |
 | IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | IMAGE_CREATED |
 | IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | FAILED |
@@ -782,3 +782,18 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Reason: the prior IMAGE_CREATED state was identified as an incorrect terminal outcome; the task is formally recorded as safety-blocked for this production run.
 - No retry and no prompt rewrite performed.
 - The prior IMAGE_CREATED entry is retained in the historical event log for auditability and is not treated as a valid Phase 1 completion after this correction.
+
+
+## Active Worker Claim
+- Task: IMG_02
+- Status: IMAGE_CREATED
+- Worker released: YES
+- Generation ID: a95d8cf0-2531-43fe-8ac2-b3f8810eb83c
+- IMAGE_CREATED recorded at: 2026-09-26T02:00:00+08:00
+- Worker: CHATGPT_MANUAL_WORKER
+
+## Generation Event
+- Task: IMG_02
+- Event: IMAGE_CREATED
+- Generation ID: a95d8cf0-2531-43fe-8ac2-b3f8810eb83c
+- Worker released immediately after IMAGE_CREATED: YES
