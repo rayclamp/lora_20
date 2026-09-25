@@ -96,11 +96,13 @@ Do not redesign the global character/style.
 Do not substitute another identity reference.
 Do not invent a different task.
 
-Perform only the worker self-check required by the production protocol. Final QA is handled by the external Codex/local QA workflow, not by this Worker.
+Generation is GENERATE-ONLY. After a candidate is successfully produced, do not perform visual QA, task-compliance judgment, PASS/REPAIR/REJECT judgment, or subjective acceptance screening. Do not regenerate merely because the Worker thinks the candidate is imperfect.
+
+Only perform the minimum operational checks needed to confirm that a generation candidate was actually returned and that the Worker can safely record IMAGE_CREATED. Final quality and task-compliance judgment are handled downstream by Codex/local QA.
 
 ## 6. SUCCESS
 
-If generation succeeds:
+If generation succeeds and a candidate is returned:
 
 `GENERATING → IMAGE_CREATED`
 
@@ -129,7 +131,9 @@ If generation fails because of a genuine generation-tool/system error:
 - Follow `PRODUCTION/GENERATION_RETRY_POLICY.md`.
 - A single task may receive up to 3 generation attempts.
 - After the task reaches its retry limit, mark/defer it according to the current policy and move to another available task.
-- Do not repeatedly attack the same failed task outside the policy.
+- Do not repeatedly attack the same task because the Worker dislikes or wants to improve the generated candidate.
+- A generation candidate that exists is not a generation-tool error. Record IMAGE_CREATED and move on.
+- Only a genuine generation-system/tool failure follows the retry policy.
 - Three consecutive `GENERATION_TOOL_ERROR` events trigger the production circuit-breaker specified by GitHub.
 - A successful `IMAGE_CREATED` resets the consecutive generation-error counter.
 
