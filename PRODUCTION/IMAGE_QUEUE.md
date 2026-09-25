@@ -728,3 +728,9 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Claim ID: CW-20260926-0142-IMG_32-01
 - Lease until: 2026-09-26T03:42:00+08:00
 - Claim recorded from queue SHA: 2ac472f54195a02e4a3581a9ce3656994e834e21
+
+
+## Generation Event
+- Task: IMG_32
+- Event: IMAGE_CREATED
+- Worker released immediately after IMAGE_CREATED: YES
