@@ -1,70 +1,47 @@
-# PRODUCTION_PROTOCOL.md — 多帳號圖片生產協議
+# PRODUCTION_PROTOCOL.md — Inaria Production Protocol
 
 ## 1. Purpose
-GitHub 是共享狀態層。ACCOUNT_06 是 Master Director；ACCOUNT_01–05、ACCOUNT_07–08 是 Generation Workers。
+GitHub is the shared project state layer.
+- ACCOUNT_06 = Master Director / Final Reviewer / QA.
+- ACCOUNT_01–05, ACCOUNT_07–08 = Generation Workers.
+- PRODUCTION/IMAGE_QUEUE.md = authoritative per-image production state.
 
 ## 2. Production state machine
-`QUEUED → CLAIMED → GENERATING → GENERATED → QC_PENDING → PASS / REPAIR / REJECT`
+QUEUED → CLAIMED → GENERATING → IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → PASS / REPAIR / REJECT
 
-例外：`BLOCKED / FAILED / NEED_REGENERATE`
+Exceptions: BLOCKED / FAILED / NEED_REGENERATE.
 
-## 3. Queue ownership
-`CLAIMED` / `GENERATING` 是 exclusive worker ownership。
-Ownership 不由聊天室啟動時間決定，而由 GitHub queue 的 successful conditional update 決定。
+IMAGE_CREATED means a candidate exists in the generating environment but is not yet confirmed in production storage.
+UPLOADING means binary transfer is in progress.
+UPLOADED means the production asset exists at the recorded path and lineage can be verified.
+QC_PENDING means the asset is ready for ACCOUNT_06 review.
 
-## 4. Reference-first generation requirement
+Do not use GENERATED as a synonym for QC-ready.
 
-Every production image must be generated from the current 20-year-old MASTER_IMAGE as a direct Character + Visual Style Reference. The production prompt may change only the fields explicitly defined by the Prompt Package. A generic style label such as `Japanese anime` is not sufficient by itself.
+## 3. Reference-first generation
+Every production image must use the current 20-year-old MASTER_IMAGE as the direct Character + Visual Style Reference.
 
-Required style preservation includes line-art language, facial rendering, eye rendering, hair rendering, proportions, coloring, shading, lighting language, and overall illustration finish. Photorealistic/live-action/3D/semi-photorealistic conversion and alternate anime-style drift are not allowed.
+The target is Japanese anime illustration matching that reference. Generic style labels do not replace reference matching.
 
-## 5. Claim transaction
-固定流程：
+Forbidden target rendering: photorealistic, photographic/live-action, 3D/CGI, semi-photorealistic, or unrelated anime/manga/game/illustration styles.
 
-`FETCH → SELECT → CLAIM(CAS) → VERIFY → GENERATING → GENERATE → RECORD → QC_PENDING`
+## 4. Queue ownership
+FETCH → SELECT → CLAIM(CAS) → VERIFY → GENERATING → GENERATE → IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING
 
-- FETCH：取得最新 queue 與 blob SHA。
-- SELECT：選最低編號 `QUEUED` job。
-- CLAIM(CAS)：使用剛 FETCH 的 SHA 更新 queue。
-- VERIFY：再次確認 Worker / Claim ID / Lease。
-- GENERATING：成功寫入後才開始生圖。
-- RECORD：寫入 production log / account state。
-- QC_PENDING：候選進入 ACCOUNT_06 review queue。
+The claim update must use the exact queue blob SHA fetched immediately before the claim. A failed/conflicted claim means no ownership and no generation.
 
-若 CLAIM 更新失敗，視為**沒有取得 job**；不得生成，必須重新 FETCH。
+## 5. Lease
+- ChatGPT manual worker: 120 minutes.
+- Make/OpenAI worker: 30 minutes.
+- Renew before expiry when necessary.
+- After expiry, re-fetch and re-claim with a new Claim ID.
 
-## 6. Lease
-- ChatGPT manual worker: 120 minutes
-- Make / OpenAI worker: 30 minutes
-- 超過預估時間時必須在到期前續租。
-- Lease 到期後舊 worker 不得覆寫；必須重新 claim。
+## 6. Recovery
+Before an image exists: record blocker, clear ownership, return to QUEUED.
+After an image exists: preserve the candidate, record asset state, and do not regenerate merely because another worker becomes available.
 
-## 7. Parallelism
-不同 workers 可以平行處理不同 jobs。
-同一 job 在有效 lease 期間不得被兩個 workers 同時生成。
+## 7. Final review
+ACCOUNT_06 uses 00_MASTER/QUALITY_CONTROL.md to review the actual production asset. Only ACCOUNT_06 may set final PASS, REPAIR, or REJECT.
 
-**不再依賴 staggered startup。**
-Make 即使比 ChatGPT 快很多，也必須先經過同一個 claim transaction。
-
-## 8. Recovery
-未生成即阻塞：
-- 記錄原因；
-- 清除 ownership；
-- job 回到 `QUEUED`。
-
-已生成：
-- 保留候選；
-- 設為 `QC_PENDING`；
-- 清除 ownership；
-- 不得重做。
-
-Lease expired：
-- 新 worker 重新 FETCH；
-- 驗證舊 lease 已過期；
-- 使用新 Claim ID 重新 claim。
-
-## 9. Final review
-ACCOUNT_06 依 `00_MASTER/QUALITY_CONTROL.md` 審查實際存在的圖片。
-
-## 10. Dataset finalization
-只有通過 ACCOUNT_06 Final QA 且 metadata / lineage 完整的圖片才可進入 `FINAL/`。
+## 8. Final dataset
+Only assets with final PASS, complete lineage, required metadata/caption, and no unresolved blocker may enter FINAL/.
