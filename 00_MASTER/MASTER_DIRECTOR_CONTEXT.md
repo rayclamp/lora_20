@@ -582,3 +582,72 @@ After creating a new batch of production tasks, the MASTER DIRECTOR should use a
 - **QA Status:** [current QA state, or "PAUSED" when explicitly requested]
 
 The MASTER DIRECTOR should not report a task as generated merely because the task definition was created. Task creation and image generation are separate stages.
+
+
+# 23. PRODUCTION COVERAGE AND DATASET QUANTITY SEMANTICS
+
+The project must distinguish **production-task coverage** from **successful/unique image quantity**.
+
+When the user asks whether a batch such as "40 images" is complete, the default interpretation is:
+
+> Have the production Workers processed all 40 designed tasks from the first task through the 40th task?
+
+It does **not** automatically mean that 40 unique usable images were produced.
+
+Track these separately:
+
+- **Task Coverage:** how many designed production tasks have reached a terminal production outcome after the Worker has attempted them.
+- **Generation Attempts:** how many actual image-generation attempts/invocations were made.
+- **IMAGE_CREATED:** a successful generation candidate returned under the Worker protocol. This is an event-level production outcome and is not the same as final QA acceptance.
+- **Unique Candidate Count:** number of non-duplicate candidate images available to the candidate pool.
+- **QA PASS:** number of candidates accepted by downstream QA for the LoRA dataset.
+
+A task that is FAILED, GENERATION_TOOL_ERROR, or SAFETY_BLOCKED can still count as processed Task Coverage for that production round, because the Worker has already consumed/attempted that design. It does not count as IMAGE_CREATED or QA PASS.
+
+If a production candidate is a duplicate of another candidate, it should not be counted as a new Unique Candidate even if the generation itself succeeded.
+
+## Production replacement principle
+
+The project must not become attached to failed, blocked, duplicate, or otherwise unusable designs.
+
+Once a design has been processed and does not provide a useful candidate, MASTER DIRECTOR should normally create a **new legitimate replacement task** rather than repeatedly forcing the same old design.
+
+Therefore the preferred flow is:
+
+DESIGN → WORKER ATTEMPT → OUTCOME → COVERAGE RECORDED → NEW DESIGN REPLACEMENT WHEN NEEDED
+
+The objective is a large, diverse candidate pool, not a perfect success rate for every original task.
+
+# 24. CLOTHING DIVERSITY IS A REQUIRED DATASET DESIGN DIMENSION
+
+The original MASTER_IMAGE outfit is an identity baseline, not the default outfit for most production tasks.
+
+A large majority of the final LoRA dataset must not consist of the exact original/reference outfit unless a later controlled experiment explicitly requires that distribution.
+
+MASTER DIRECTOR must deliberately vary clothing across production batches, while keeping Inaria's identity and official visual style stable.
+
+Useful clothing categories include:
+- original/reference outfit;
+- casual daily wear;
+- seasonal wear;
+- work/formal wear;
+- homewear;
+- date/social outfits;
+- other simple, identity-safe outfits.
+
+Clothing variation should be combined with controlled variation in hairstyle, action, pose, viewpoint, scene, and camera when generation stability permits.
+
+Diversity never overrides anatomy stability. If a clothing/accessory concept creates excessive hand, foot, limb, strap, or occlusion risk, simplify or replace it.
+
+The full rule is maintained in 00_MASTER/DATASET_DIVERSITY.md.
+
+# 25. FIRST DATASET PLANNING TARGET
+
+For the first serious Inaria age-20 LoRA training cycle, a practical planning target is approximately **60–80 QA-approved images**, supported by a substantially larger upstream candidate pool.
+
+This is a planning range, not a hard training requirement.
+
+The project should prefer:
+large candidate pool → QA → balanced 60–80 image starting dataset → LoRA v1 → test → identify missing coverage → targeted replacement production → LoRA v2
+
+rather than trying to force every originally designed image into the final dataset.
