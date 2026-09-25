@@ -44,7 +44,7 @@
 
 | ID | Character | Clothing | Scene | Pose/Camera | Prompt | Worker | Status | Final QC |
 |---|---|---|---|---|---|---|---|---|
-| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | ACCOUNT_01 | CLAIMED | - |
+| IMG_01 | C01 | C01 | S01 | P01 | Prompt 01 | ACCOUNT_01 | QC_PENDING | - |
 | IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | - | NOT_STARTED | - |
 | IMG_03 | C01 | C03 | S03 | P03 | Prompt 03 | - | NOT_STARTED | - |
 | IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | - | NOT_STARTED | - |
@@ -68,8 +68,8 @@
 ## 計數規則
 
 - Target: 20
-- GENERATED: 0
-- QC_PENDING: 0
+- GENERATED: 1
+- QC_PENDING: 1
 - PASS: 0
 - REPAIR: 0
 - REJECT: 0
