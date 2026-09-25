@@ -94,7 +94,7 @@ Reading QUEUED does not equal ownership. Successful conditional update is the on
 | IMG_07 | C01 | C07 | S08 | P15 | Prompt 07 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_07-CHATGPT-20260925T2237 | 2026-09-26 00:37 +08:00 | 0 | - | - |
 | IMG_08 | C01 | C08 | S18 | P12 | Prompt 08 | - | SAFETY_BLOCKED | - | - | 0 | EXPLICIT_SAFETY_BLOCK | - |
 | IMG_09 | C01 | C09 | S09 | P09 | Prompt 09 | - | SAFETY_BLOCKED | - | - | 1 | EXPLICIT_SAFETY_BLOCK | - |
-| IMG_10 | C01 | C10 | S19 | P10 | Prompt 10 | ChatGPT-Generation-Worker | GENERATING | CLAIM-T107-IMG_10-CHATGPT-20260925T2250 | 2026-09-26 00:50 +08:00 | 1 | - | - |
+| IMG_10 | C01 | C10 | S19 | P10 | Prompt 10 | ChatGPT-Generation-Worker | IMAGE_CREATED | CLAIM-T107-IMG_10-CHATGPT-20260925T2250 | 2026-09-26 00:50 +08:00 | 1 | - | - |
 | IMG_11 | C01 | C11 | S11 | P11 | Prompt 11 | - | QUEUED | - | - | 0 | - |
 | IMG_12 | C01 | C12 | S12 | P12 | Prompt 12 | - | QUEUED | - | - | 0 | - |
 | IMG_13 | C01 | C13 | S13 | P13 | Prompt 13 | - | QUEUED | - | - | 0 | - |
