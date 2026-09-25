@@ -4,7 +4,7 @@
 - Account: ACCOUNT_02
 - Role: GENERATION_WORKER
 - Project Area: `PRODUCTION`
-- Status: READY
+- Status: BLOCKED
 - Current Task: T107 — IMAGE_PRODUCTION
 
 ## Responsibility
