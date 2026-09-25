@@ -33,7 +33,15 @@
 
 ## 4. Style gate
 
-遵守 `00_MASTER/STYLE_MASTER.md`：寫實真人感、浪漫高級、唯美夢幻、日系空氣感、細膩光影、自然透亮皮膚。明顯動漫化、卡通化或歷史風格污染不得 PASS。
+遵守 `00_MASTER/STYLE_MASTER.md` 與 MASTER_IMAGE 的 Reference Style Lock：必須是以 `INARIA_20_MASTER_v1.0.png` 為直接視覺參考的日系動漫插畫，並盡可能維持其線稿、臉部繪製、眼睛、頭髮、比例、上色、陰影、光影、色彩與整體插畫完成度。
+
+以下任一項成立不得 PASS：
+- photorealistic / live-action / photographic rendering
+- 3D / CGI / semi-photorealistic conversion
+- 與 MASTER_IMAGE 明顯不同的另一種 anime / manga / game / illustration style
+- 僅符合「動漫」但沒有維持 MASTER_IMAGE 的主要視覺語言
+
+「漂亮」或「高品質」不能取代 Reference Style Match。
 
 ## 5. Task gate
 
