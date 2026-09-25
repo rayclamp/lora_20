@@ -1,39 +1,59 @@
-# Generation Rules
+# GENERATION_RULES.md — Inaria Generation Rules
 
 ## Priority order
-1. Preserve locked character identity and proportions.
-2. Preserve explicitly locked pose/composition elements.
-3. Ensure anatomy and generation stability.
-4. Achieve the requested clothing, scene, lighting, and mood.
-5. Add visual richness only after the above are stable.
-
-## Anatomy stability hard rules
-- 完整規範見 `00_MASTER/ANATOMY_STABILITY.md`。
-- 人體固定兩隻手、兩條腿；可見手恰好五指；可見赤腳恰好五趾。
-- 優先簡化複雜手指、腳趾、遮擋、配件與特效。
-- 背包/側背包等背帶必須完整連接並自然貼合身體；高風險時簡化或取消。
-
-## Hands and feet
-- Design actions that are easy for image models to render correctly.
-- Prefer natural hand placement and partially occluded fingers when appropriate.
-- Do not place busy effects directly around fingers.
-- Avoid poses that unnecessarily expose difficult finger/toe configurations.
-
-## Editing rule
-When the task is a local edit, change only the requested region whenever technically feasible. Preserve the original lighting, color balance, composition, face, hair, clothing, hands, feet, and background unless the request explicitly says otherwise.
-
-## AI-generation practicality
-Designs should not only look attractive; they must be realistically achievable with the user's ComfyUI workflow and selected models. When there is a conflict between a spectacular but unstable pose and a simpler stable pose, prefer the stable pose.
+1. MASTER_IMAGE identity + visual reference match.
+2. Anatomy and generation stability.
+3. Explicit task requirements.
+4. Pose / camera / composition.
+5. Clothing / scene.
+6. Lighting and decorative detail.
+7. Dataset diversity.
 
 ## Reference-first generation
+Every image follows:
+MASTER_IMAGE → Character + Visual Style Reference → current Prompt Package → controlled changes → generation
 
-每次圖片生成均採用以下順序：
+MASTER_IMAGE must be used directly as both character and visual-style reference.
 
-`MASTER_IMAGE → Character + Visual Style Reference → current Prompt Package → controlled changes → generation`
+Preserve line-art language, face/eye rendering, hair rendering, proportions, coloring, shading, lighting language, and overall illustration finish.
 
-MASTER_IMAGE 必須同時作為人物與畫風參考。當前 Prompt Package 只負責指定本張圖片需要改變的服裝、場景、姿勢、鏡位、構圖、配件與情境。
+Do not use a generic Japanese anime label as a substitute for reference matching.
 
-Worker 不得把 MASTER_IMAGE 只當成臉部身份提示，也不得用抽象的「Japanese anime」重新選擇另一套動漫風格。
+## Mandatory style
+Target: Japanese anime illustration matching the MASTER_IMAGE.
 
-## Prompt construction
-Prompt outputs should clearly separate character, clothing, scene, pose/camera, lighting/style, and negative constraints. Do not introduce unapproved character changes merely to make a prompt sound more detailed.
+Do not generate photorealistic, photographic/live-action, 3D/CGI, semi-photorealistic, or another anime/manga/game/illustration style.
+
+## Anatomy hard rules
+Full authority: 00_MASTER/ANATOMY_STABILITY.md.
+
+At minimum:
+- exactly two hands and two legs;
+- every visible hand exactly five fingers;
+- every visible bare foot exactly five toes;
+- correct left/right anatomy;
+- traceable shoulder/arm/wrist/palm and hip/leg/ankle/foot connections;
+- plausible center of gravity and support;
+- no false limbs from clothing, props, straps, furniture, or background.
+
+## Pose design
+Choose stable, ordinary actions before decorative complexity.
+- single-hand single-task;
+- broad, natural object contact;
+- avoid difficult fingertip grips when unnecessary;
+- keep effects away from hands;
+- keep important objects from overlapping hands;
+- simplify props, bags, occlusions, and effects when they threaten anatomy.
+
+## Hand/object and wearable rules
+- Hand must visibly contact a held object.
+- Handles must connect to the object and be naturally held.
+- Bags/straps must connect to the bag and naturally contact the body.
+- No floating, broken, disappearing, or body-penetrating straps.
+- If a prop or wearable is nonessential and unstable, remove it.
+
+## Local editing
+For a local edit, change only the requested region when feasible. Preserve identity, style, lighting, color balance, composition, clothing, and background outside the target area unless explicitly instructed otherwise.
+
+## Practical generation rule
+A stable, simpler image is preferred over a visually elaborate but structurally unreliable image.
