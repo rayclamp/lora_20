@@ -38,7 +38,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | FAILED |
 | IMG_06 | turning around | turning-around pose with feet stable and torso rotating naturally | left 3/4 rear | half-up hairstyle | hoodie with casual shorts | bookstore | waist-up | both hands lightly holding a larger object | IMAGE_CREATED |
 | IMG_07 | reaching forward | standing reach toward a large object at chest height | right 3/4 rear | low bun | office blouse with trousers | convenience store | chest-up | one hand touching hair, other relaxed | IMAGE_CREATED |
-| IMG_08 | reaching upward | standing reach upward with one arm, feet stable | full rear | side braid | office blouse with pencil skirt | shopping street | environmental full-body | one hand adjusting sleeve, other relaxed | GENERATING |
+| IMG_08 | reaching upward | standing reach upward with one arm, feet stable | full rear | side braid | office blouse with pencil skirt | shopping street | environmental full-body | one hand adjusting sleeve, other relaxed | IMAGE_CREATED |
 | IMG_09 | reaching downward | standing light forward bend reaching toward a low object | front slight high angle | half-up braid | lightweight jacket with skirt | city sidewalk | side-oriented composition | one hand reaching toward a large object, other relaxed | QUEUED |
 | IMG_10 | picking up a small object | controlled squat with one hand reaching toward a small object | front slight low angle | loose softly curled hair | casual sweater with straight-leg trousers | train station | rear-oriented composition | both hands resting naturally on thighs while seated | QUEUED |
 | IMG_11 | sitting upright on a chair | seated upright on a chair | rear slight high angle | long straight hair | simple sportswear | park | off-center composition | one hand on a stable surface, other relaxed | QUEUED |
@@ -199,9 +199,9 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 - Phase 1 IMAGE_CREATED: 2
 - Phase 1 remaining: 38
 - QUEUED: 32
-- CLAIMED: 1
+- CLAIMED: 0
 - GENERATING: 1
-- IMAGE_CREATED: 4
+- IMAGE_CREATED: 5
 - UPLOADING: 0
 - QC_PENDING: 0
 - PASS: 0
@@ -333,4 +333,21 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Task: IMG_07
 - Event: IMAGE_CREATED
 - Generation ID: 146b900e-f430-4886-8bb2-62a5302afe12
+- Worker released immediately after IMAGE_CREATED: YES
+
+## Active Worker Claim
+- Task: IMG_08
+- Status: IMAGE_CREATED
+- Worker released: YES
+- Generation ID: 837b5b6c-8781-468e-8cf0-2c405189db3c
+- Worker: CHATGPT_MANUAL_WORKER
+- Claim ID: CW-20260926-0005-IMG_08-01
+- Lease until: 2026-09-26T02:05:00+08:00
+- Claim recorded from queue SHA: 48c56f874b699367990464ddf27a80c0b91d1841
+- IMAGE_CREATED recorded at: 2026-09-26T00:01:00+08:00
+
+## Generation Event
+- Task: IMG_08
+- Event: IMAGE_CREATED
+- Generation ID: 837b5b6c-8781-468e-8cf0-2c405189db3c
 - Worker released immediately after IMAGE_CREATED: YES
