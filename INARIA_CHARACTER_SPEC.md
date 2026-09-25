@@ -8,6 +8,8 @@ For project-wide identity and visual-style rules, use:
 - 00_MASTER/STYLE_MASTER.md
 - MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
 
+The official MASTER_IMAGE is the single Character + Visual Style Reference. Its delivery mode may be AUTO or MANUAL; QA standards do not change between modes.
+
 For anatomy and structural rules, use:
 - 00_MASTER/ANATOMY_STABILITY.md
 - 00_MASTER/QUALITY_CONTROL.md
