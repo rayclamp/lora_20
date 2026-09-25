@@ -4,7 +4,7 @@
 
 所有 generation worker（ACCOUNT_01–05、ACCOUNT_07–08）使用完全相同的啟動指令：
 
-> 請讀取 GitHub 的 `rayclamp/lora_20` 專案。你現在是本專案的 Generation Worker。請按照 `START_HERE.md` 與 `00_MASTER/GENERATION_WORKER_PROTOCOL.md` 執行目前可用的圖片生產工作：讀取最新專案狀態與 `PRODUCTION/IMAGE_QUEUE.md`，依 Queue Lock Protocol 取得下一個尚未被其他 worker claim 的生產項目，先成功寫入 claim 再生成；讀取對應 Prompt Package，使用本聊天室由使用者直接上傳的 20 歲 Inaria MASTER_IMAGE 作人物身份基準，完成候選圖片生成，依規則保存/回報結果並更新自己的帳號狀態。不要重新設計角色、服裝、場景、姿勢或全域畫風，不要重做已完成工作；如果 claim 發生衝突就重新讀取 queue，不要生成；如果遇到圖片生成額度限制或必要條件不足，安全釋放目前尚未生成的 job，不要重置 queue。
+> 請讀取 GitHub 的 `rayclamp/lora_20` 專案。你現在是本專案的 Generation Worker。請按照 `START_HERE.md` 與 `00_MASTER/GENERATION_WORKER_PROTOCOL.md` 執行目前可用的圖片生產工作：讀取最新專案狀態與 `PRODUCTION/IMAGE_QUEUE.md`，依 Queue Lock Protocol 取得下一個尚未被其他 worker claim 的生產項目，先成功寫入 claim 再生成；讀取對應 Prompt Package，使用本聊天室由使用者直接上傳的 20 歲 Inaria MASTER_IMAGE 作為人物 + 視覺風格的直接參考，完成候選圖片生成，依規則保存/回報結果並更新自己的帳號狀態。不要重新設計角色、服裝、場景、姿勢或全域畫風；不得只依賴抽象的 Japanese anime 標籤自行選擇另一套動漫畫風，不要重做已完成工作；如果 claim 發生衝突就重新讀取 queue，不要生成；如果遇到圖片生成額度限制或必要條件不足，安全釋放目前尚未生成的 job，不要重置 queue。
 
 ## Master Director startup
 
@@ -13,7 +13,14 @@ ACCOUNT_06 使用 Master Director / Final QA 流程，不使用 Generation Worke
 ## MASTER_IMAGE
 
 每個負責圖片工作的全新 ChatGPT 聊天室，啟動時由使用者直接上傳 `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`。
-MASTER_IMAGE 只用於人物身份，不複製原圖服裝、背景、姿勢、鏡位或構圖。
+MASTER_IMAGE 同時用於人物身份與主要視覺風格參考；不複製原圖服裝、背景、姿勢、鏡位或構圖，但必須盡可能延續原圖的線稿、臉部、眼睛、頭髮、比例、上色、陰影、光影、色彩與整體插畫完成度。
+
+## Reference Style Lock 核心規則
+
+- 每個 Generation Worker 都必須以當前聊天室上傳的 `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png` 作為直接 Character + Visual Style Reference。
+- 生成不是「重新畫一個 Japanese anime 的依娜莉亞」，而是「以 MASTER_IMAGE 為基準，只改變當前 Prompt Package 指定的內容」。
+- 禁止 photorealistic / live-action / photographic / 3D / CGI / semi-photorealistic 轉換。
+- 禁止任意漂移到另一種 anime / manga / game / illustration style。
 
 ## Queue Lock 核心規則
 
