@@ -104,3 +104,14 @@ Do not track account quota as a project state. Worker replacement is handled by 
 The project now explicitly treats clothing as a major dataset variable. Do not use the original MASTER_IMAGE outfit for most future production tasks. Maintain stable Inaria identity/style while varying clothing, hairstyle, action, pose, viewpoint, scene, and camera. See `00_MASTER/DATASET_DIVERSITY.md`.
 
 The first serious LoRA training cycle should be planned around approximately 60–80 QA-approved images from a larger candidate pool, with later targeted replacement batches based on QA and LoRA test results.
+
+
+## Current active production Goal
+- Goal ID: T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION
+- Target: 150 production tasks
+- Task Coverage: 0 / 150
+- QUEUED: 150
+- IMAGE_CREATED: 0
+- QA: PAUSED
+- Queue: PRODUCTION/T109_IMAGE_QUEUE.md
+- T108 remains historical and is not overwritten.
