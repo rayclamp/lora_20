@@ -20,12 +20,13 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 2. Read the current Goal and queue before each new claim.
 3. Use the mandatory master reference.
 4. Execute the assigned design; do not redesign it.
-5. IMAGE_CREATED counts +1 and releases the worker immediately.
-6. Do not wait for upload or QA.
-7. QA is PAUSED for this test.
-8. If a worker reaches its own image-generation limit, stop that worker and leave remaining tasks QUEUED.
-9. SAFETY_BLOCKED and GENERATION_TOOL_ERROR follow the existing worker protocol.
-10. Stop all new claims when Phase 1 reaches 40.
+5. Generation Workers are GENERATE-ONLY: once a generation candidate is returned, record IMAGE_CREATED. Do not perform visual QA, task-compliance rejection, PASS/REPAIR/REJECT judgment, or regeneration to improve the candidate.
+6. IMAGE_CREATED counts +1 and releases the worker immediately.
+7. Do not wait for upload or QA.
+8. QA is PAUSED for this test.
+9. If a worker reaches its own image-generation limit, stop that worker and leave remaining tasks QUEUED.
+10. SAFETY_BLOCKED and GENERATION_TOOL_ERROR follow the existing worker protocol.
+11. Stop all new claims when Phase 1 reaches 40.
 
 ## 40-image task table
 
