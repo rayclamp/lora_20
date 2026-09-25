@@ -73,3 +73,18 @@
 - Pose / Action: P02 — three-quarter standing, one leg bearing weight, other half-step forward, one hand relaxed, other lightly at waist
 - Composition: full body, vertical 9:16, eye-level slight front-side
 - Notes: Candidate generated successfully; queue advanced to QC_PENDING. Generation reference: fcdb22d8-9208-456e-9c1a-bb34e7676925. Local generated asset: /mnt/data/a_bright_cinematic_photorealistic_illustration_s.png. Final PASS/REPAIR/REJECT remains ACCOUNT_06 responsibility.
+
+## IMG_03 — ACCOUNT_01 — 2026-09-25
+- Date: 2026-09-25
+- Account: ACCOUNT_01
+- Task ID: T107 — IMAGE_PRODUCTION
+- Generated: 1
+- PASS: 0
+- REVIEW: 0
+- REJECT: 0
+- Scene: S03 — Tamsui riverside path, spring golden hour
+- Outfit: C03 — blush-pink airy short-sleeve blouse, dark denim straight jeans, white low-top canvas sneakers, navy canvas tote, thin silver necklace, simple ring
+- Hairstyle: high ponytail with softly curved ends
+- Pose / Action: P04 — low-dynamic side-front walking moment
+- Composition: horizontal 16:9, full body, eye-level tracking feel
+- Notes: Candidate generated, but visual output materially diverged from the approved Prompt Package (anime-styled seated park/book scene rather than the specified realistic riverside walking scene). Recorded as QC_PENDING only; no worker-side PASS/REJECT decision. Generation reference: e2639e36-05ea-413b-b7b5-4e4b530575ee. Local generated asset: /mnt/data/a_bright_detailed_anime_style_illustration_of_a_s.png. ACCOUNT_06 final QA must determine disposition.
