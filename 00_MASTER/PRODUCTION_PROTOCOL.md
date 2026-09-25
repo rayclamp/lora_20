@@ -12,7 +12,13 @@ GitHub 是共享狀態層。ACCOUNT_06 是 Master Director；ACCOUNT_01–05、A
 `CLAIMED` / `GENERATING` 是 exclusive worker ownership。
 Ownership 不由聊天室啟動時間決定，而由 GitHub queue 的 successful conditional update 決定。
 
-## 4. Claim transaction
+## 4. Reference-first generation requirement
+
+Every production image must be generated from the current 20-year-old MASTER_IMAGE as a direct Character + Visual Style Reference. The production prompt may change only the fields explicitly defined by the Prompt Package. A generic style label such as `Japanese anime` is not sufficient by itself.
+
+Required style preservation includes line-art language, facial rendering, eye rendering, hair rendering, proportions, coloring, shading, lighting language, and overall illustration finish. Photorealistic/live-action/3D/semi-photorealistic conversion and alternate anime-style drift are not allowed.
+
+## 5. Claim transaction
 固定流程：
 
 `FETCH → SELECT → CLAIM(CAS) → VERIFY → GENERATING → GENERATE → RECORD → QC_PENDING`
@@ -27,20 +33,20 @@ Ownership 不由聊天室啟動時間決定，而由 GitHub queue 的 successful
 
 若 CLAIM 更新失敗，視為**沒有取得 job**；不得生成，必須重新 FETCH。
 
-## 5. Lease
+## 6. Lease
 - ChatGPT manual worker: 120 minutes
 - Make / OpenAI worker: 30 minutes
 - 超過預估時間時必須在到期前續租。
 - Lease 到期後舊 worker 不得覆寫；必須重新 claim。
 
-## 6. Parallelism
+## 7. Parallelism
 不同 workers 可以平行處理不同 jobs。
 同一 job 在有效 lease 期間不得被兩個 workers 同時生成。
 
 **不再依賴 staggered startup。**
 Make 即使比 ChatGPT 快很多，也必須先經過同一個 claim transaction。
 
-## 7. Recovery
+## 8. Recovery
 未生成即阻塞：
 - 記錄原因；
 - 清除 ownership；
@@ -57,8 +63,8 @@ Lease expired：
 - 驗證舊 lease 已過期；
 - 使用新 Claim ID 重新 claim。
 
-## 8. Final review
+## 9. Final review
 ACCOUNT_06 依 `00_MASTER/QUALITY_CONTROL.md` 審查實際存在的圖片。
 
-## 9. Dataset finalization
+## 10. Dataset finalization
 只有通過 ACCOUNT_06 Final QA 且 metadata / lineage 完整的圖片才可進入 `FINAL/`。
