@@ -35,7 +35,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | GENERATING |
 | IMG_03 | walking while looking back | walking stride with torso forward and head gently turned back | right 3/4 front | low ponytail | casual T-shirt with jeans | kitchen | full-body slightly low angle | one hand holding a book, other supporting naturally | FAILED |
 | IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | IMAGE_CREATED |
-| IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | GENERATING |
+| IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | FAILED |
 | IMG_06 | turning around | turning-around pose with feet stable and torso rotating naturally | left 3/4 rear | half-up hairstyle | hoodie with casual shorts | bookstore | waist-up | both hands lightly holding a larger object | QUEUED |
 | IMG_07 | reaching forward | standing reach toward a large object at chest height | right 3/4 rear | low bun | office blouse with trousers | convenience store | chest-up | one hand touching hair, other relaxed | QUEUED |
 | IMG_08 | reaching upward | standing reach upward with one arm, feet stable | full rear | side braid | office blouse with pencil skirt | shopping street | environmental full-body | one hand adjusting sleeve, other relaxed | QUEUED |
@@ -199,7 +199,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 - Phase 1 IMAGE_CREATED: 2
 - Phase 1 remaining: 38
 - QUEUED: 35
-- CLAIMED: 1
+- CLAIMED: 0
 - GENERATING: 1
 - IMAGE_CREATED: 2
 - UPLOADING: 0
@@ -269,3 +269,10 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - Event: IMAGE_CREATED
 - Generation ID: bdf8b78d-9edc-4ebd-bc71-d32c79b22b22
 - Worker released immediately after IMAGE_CREATED: YES
+
+## Worker Outcome
+- Task: IMG_05
+- Outcome: FAILED
+- Worker released: YES
+- Claim ID: CW-20260926-0002-IMG_05-01
+- Reason: generated candidate did not match the assigned task design during worker self-check; not counted as IMAGE_CREATED.
