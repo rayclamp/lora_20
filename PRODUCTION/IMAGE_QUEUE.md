@@ -34,7 +34,7 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 | IMG_01 | walking naturally | natural walking stride | full frontal | long straight hair | white blouse with pleated skirt | bedroom | full-body eye-level | both hands relaxed and visible | IMAGE_CREATED |
 | IMG_02 | walking while looking to the side | walking stride with gentle head turn | left 3/4 front | long hair with subtle loose waves | light-blue knit dress | living room | full-body slightly high angle | one hand holding a simple cup, other relaxed | GENERATING |
 | IMG_03 | walking while looking back | walking stride with torso forward and head gently turned back | right 3/4 front | low ponytail | casual T-shirt with jeans | kitchen | full-body slightly low angle | one hand holding a book, other supporting naturally | FAILED |
-| IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | QUEUED |
+| IMG_04 | pausing mid-step | paused walking pose with one foot slightly forward | left profile | high ponytail | cardigan with long skirt | home workspace | medium full shot | one hand holding smartphone, other relaxed | CLAIMED |
 | IMG_05 | standing and turning the body | standing with natural torso turn | right profile | side ponytail | simple summer one-piece dress | café | medium shot | writing with one hand, other stabilizing notebook | QUEUED |
 | IMG_06 | turning around | turning-around pose with feet stable and torso rotating naturally | left 3/4 rear | half-up hairstyle | hoodie with casual shorts | bookstore | waist-up | both hands lightly holding a larger object | QUEUED |
 | IMG_07 | reaching forward | standing reach toward a large object at chest height | right 3/4 rear | low bun | office blouse with trousers | convenience store | chest-up | one hand touching hair, other relaxed | QUEUED |
@@ -198,9 +198,9 @@ This Goal contains 40 executable image tasks. The Master Director designs the ta
 - Goal target: 40
 - Phase 1 IMAGE_CREATED: 1
 - Phase 1 remaining: 39
-- QUEUED: 39
-- CLAIMED: 0
-- GENERATING: 0
+- QUEUED: 36
+- CLAIMED: 1
+- GENERATING: 1
 - IMAGE_CREATED: 1
 - UPLOADING: 0
 - QC_PENDING: 0
@@ -218,6 +218,14 @@ QA is intentionally PAUSED for T108. Do not route images into final QA during th
 - 00_MASTER/GENERATION_WORKER_PROTOCOL.md
 - 00_MASTER/PRODUCTION_PROTOCOL.md
 
+
+## Active Worker Claim
+- Task: IMG_04
+- Status: CLAIMED
+- Worker: CHATGPT_MANUAL_WORKER
+- Claim ID: CW-20260926-0001-IMG_04-01
+- Lease until: 2026-09-26T02:01:00+08:00
+- Claim recorded from queue SHA: b8610c20bd1a2b5d2b6cbc92f937aa9b7f4f77bf
 
 ## Active Worker Claim
 - Task: IMG_01
