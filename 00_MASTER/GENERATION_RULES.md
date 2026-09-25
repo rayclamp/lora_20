@@ -7,7 +7,7 @@
 4. Pose / camera / composition.
 5. Clothing / scene.
 6. Lighting and decorative detail.
-7. Dataset diversity.
+7. Dataset diversity and clothing distribution.
 
 ## Reference-first generation
 Every image follows:
@@ -65,3 +65,16 @@ For a local edit, change only the requested region when feasible. Preserve ident
 
 ## Practical generation rule
 A stable, simpler image is preferred over a visually elaborate but structurally unreliable image.
+
+
+## Dataset diversity and clothing distribution
+
+Follow the full rules in `00_MASTER/DATASET_DIVERSITY.md`.
+
+Character identity and the official MASTER_IMAGE style remain stable, while clothing, hairstyle, action, pose, viewpoint, scene, and camera should vary deliberately across the production queue.
+
+Do not make the original MASTER_IMAGE outfit the default outfit for most tasks. The reference outfit is a controlled identity baseline, not the required clothing for every generated image.
+
+When creating batches, MASTER DIRECTOR should explicitly design clothing diversity and cross-variable variation while preserving anatomy and generation stability.
+
+Production coverage must be tracked separately from final dataset quality. A processed/failed/safety-blocked task can complete Task Coverage without producing an IMAGE_CREATED candidate, and an IMAGE_CREATED candidate is not automatically a QA PASS.
