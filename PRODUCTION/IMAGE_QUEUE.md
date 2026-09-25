@@ -48,7 +48,7 @@
 | IMG_02 | C01 | C02 | S02 | P02 | Prompt 02 | ACCOUNT_01 | QC_PENDING | - |
 | IMG_03 | C01 | C03 | S03 | P03 | Prompt 03 | ACCOUNT_01 | QC_PENDING | - |
 | IMG_04 | C01 | C04 | S04 | P04 | Prompt 04 | ACCOUNT_03 | QC_PENDING | - |
-| IMG_05 | C01 | C05 | S05 | P05 | Prompt 05 | - | NOT_STARTED | - |
+| IMG_05 | C01 | C05 | S05 | P05 | Prompt 05 | ACCOUNT_04 | CLAIMED | - |
 | IMG_06 | C01 | C06 | S06 | P06 | Prompt 06 | - | NOT_STARTED | - |
 | IMG_07 | C01 | C07 | S07 | P07 | Prompt 07 | - | NOT_STARTED | - |
 | IMG_08 | C01 | C08 | S08 | P08 | Prompt 08 | - | NOT_STARTED | - |
@@ -74,7 +74,8 @@
 - REPAIR: 0
 - REJECT: 0
 - NEED_REGENERATE: 0
-- NOT_STARTED: 16
+- NOT_STARTED: 15
+- CLAIMED: 1
 - CLAIMED: 0
 
 ## 續作方式
