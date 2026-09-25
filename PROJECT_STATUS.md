@@ -27,35 +27,35 @@ The current mandatory standards are:
 12. PRODUCTION/WORKER_POOL.md
 
 ## Production Goal
-- Goal ID: T107_GOAL_20260925_20
-- Target Phase 1 images: 20
-- Phase 1 completed: 0
-- Phase 1 remaining: 20
+- Goal ID: T108_GOAL_20260925_40_CAPACITY_TEST
+- Target Phase 1 images: 40
+- Phase 1 completed: 13
+- Phase 1 remaining: 27
 - Goal status: ACTIVE
 - Completion event: IMAGE_CREATED
 - Production mode: MANUAL
 
 The target is team-level. No Worker has a fixed image quota. A Worker may stop or become unavailable at any point; another Worker can take over recoverable team tasks through the queue claim/lease protocol.
 
-## T107 production status
+## T108 production status
 - Status: ACTIVE_MANUAL_PHASE1
-- Target: 20 new Phase 1 candidates
+- Target: 40 new Phase 1 candidates
 - Historical candidates retained: 5
-- Valid Phase 1 production candidates before this run: 0
+- Valid Phase 1 production candidates before this run: 13
 - Final PASS: 0
 - REPAIR: 0
 - REJECT: 0
-- QUEUED: 20
+- QUEUED: 3
 - CLAIMED: 0
-- GENERATING: 0
-- IMAGE_CREATED: 0
+- GENERATING: 2
+- IMAGE_CREATED: 13
 - UPLOADING: 0
 - UPLOADED: 0
 - QC_PENDING: 0
 - BLOCKED: 0
-- FAILED: 0
+- FAILED: 19
 
-IMG_01–IMG_05 are historical candidates that require regeneration and are therefore re-queued as production tasks. They do not count toward the new Goal until a new IMAGE_CREATED event occurs.
+T108 is the active 40-task capacity test. Current queue state is authoritative; historical T107 records remain preserved separately.
 
 ## Reference delivery status
 ### AUTO MODE
