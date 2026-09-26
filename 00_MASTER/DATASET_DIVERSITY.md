@@ -109,3 +109,18 @@ For a first serious Inaria age-20 LoRA dataset, the project should aim for a fin
 A practical initial target may be approximately **60–80 QA-approved images**, while maintaining a larger candidate pool upstream. This is a planning guideline, not a hard training requirement.
 
 The final dataset size and distribution should be adjusted after the first LoRA training/test cycle based on observed strengths and missing coverage.
+
+## Secondary-character and animal exclusion
+
+Dataset diversity must vary **Inaria's non-identity attributes**, not introduce recurring secondary characters.
+
+For the age-20 Inaria LoRA dataset, do not intentionally include:
+- cats / kittens;
+- dogs / puppies;
+- other pets;
+- prominent wildlife;
+- recurring animal companions.
+
+Animals can create an unintended association between the Inaria concept and a secondary visual concept. They can also introduce extra anatomy, occlusion, hand/object interaction, and scene noise.
+
+Therefore animal-free scenes are the default. A future exception requires an explicit MASTER DIRECTOR project-level decision rather than an individual Worker adding an animal for decoration.
