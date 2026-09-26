@@ -102,6 +102,29 @@ Object-contact requirements:
 - bags and straps must connect to the bag and naturally contact the body;
 - containers must be structurally complete before hand placement.
 
+## 8. FORCED-STOP AND QUOTA HANDLING
+
+### QUOTA_EXHAUSTED
+If the platform explicitly reports that this Worker/account has exhausted its image-generation quota:
+- This is NOT a task failure and NOT a GENERATION_TOOL_ERROR.
+- Change CLAIMED or GENERATING → QUEUED if GitHub is still writable.
+- Release the Claim/Lease.
+- Record the quota event if supported.
+- Stop this Worker session after the state is safely written.
+- Another Worker may claim the returned task.
+
+**Quota exhaustion releases work; it does not fail work.**
+
+### SYSTEM_POLICY_STOP
+If the platform explicitly reports that the current task is forcibly stopped because of a system rule/policy:
+- Change CLAIMED or GENERATING → FAILED if GitHub is still writable.
+- Preserve the original Prompt Package and task history.
+- Do not rewrite the prompt to bypass the rule.
+- Release the Claim/Lease.
+- Do not return the task to QUEUED.
+
+**System/policy forced stop closes the current task; quota exhaustion returns it to the pool.**
+
 ## 8. Generation error handling
 
 ### GENERATION_TOOL_ERROR
@@ -126,7 +149,7 @@ If ChatGPT explicitly reports a safety-policy block:
 ### BLOCKED
 If a required prerequisite is unavailable before generation, record BLOCKED and follow the normal recovery path.
 
-A generation error is not IMAGE_CREATED and must never be counted as Phase 1 completion.
+A generation error is not IMAGE_CREATED and must never be counted as Phase 1 completion. Quota exhaustion is also not IMAGE_CREATED; it returns the task to QUEUED rather than FAILED.
 
 ## 9. Post-generation completion
 After a successful image is generated:
