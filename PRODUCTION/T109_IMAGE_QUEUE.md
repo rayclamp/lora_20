@@ -291,6 +291,8 @@
 - **Worker:** INARIA_PRODUCTION_WORKER_20260926T1953+0800
 - **Claim ID:** CLAIM_20260926T1953_T109_IMG_013
 - **Lease Expires:** 2026-09-26T21:53:00+08:00
+- **Generation Attempts:** 1
+- **Last Generation Error:** GENERATION_TOOL_ERROR — image generation tool rate limit reached; retry deferred until generation becomes available
 
 ### IMG_014
 - **Character / Identity:** Inaria age-20 adult woman; official MASTER_IMAGE identity and visual-style reference; stable face, blue eyes, dark blue-black hair, natural light skin, slender balanced proportions.
