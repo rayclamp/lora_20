@@ -78,3 +78,23 @@ Do not make the original MASTER_IMAGE outfit the default outfit for most tasks. 
 When creating batches, MASTER DIRECTOR should explicitly design clothing diversity and cross-variable variation while preserving anatomy and generation stability.
 
 Production coverage must be tracked separately from final dataset quality. A processed/failed/safety-blocked task can complete Task Coverage without producing an IMAGE_CREATED candidate, and an IMAGE_CREATED candidate is not automatically a QA PASS.
+
+## Age-20 animal and pet exclusion
+
+The age-20 Inaria LoRA dataset is a **character-focused dataset**. Animals and pets are not part of Inaria's identity specification.
+
+Unless a future task explicitly receives a new project-level exception from the MASTER DIRECTOR, generation tasks must exclude:
+- cats / kittens;
+- dogs / puppies;
+- other pets;
+- wildlife or prominently visible animals;
+- animal companions positioned as a recurring character element.
+
+This rule applies even when an animal is not requested in the task. Scene selection must therefore avoid animal-heavy environments when they materially increase the chance of an animal appearing beside Inaria.
+
+The Worker must not intentionally add an animal because it makes the scene more decorative or natural.
+
+For negative prompts, use explicit exclusion terms such as:
+**cat, kitten, dog, puppy, pet, animal, wildlife, animal companion**.
+
+If an animal nevertheless appears in a generated candidate, the Worker does not self-QA or regenerate solely because of that result; record the generation outcome normally and let downstream QA exclude it. Future replacement tasks must not repeat the animal-containing design.
