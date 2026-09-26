@@ -20,9 +20,9 @@ Each task is counted as covered after the assigned Worker has attempted the desi
 - Status: ACTIVE
 - Production mode: MANUAL
 - Task target: 150
-- Task Coverage: 0 / 150
-- QUEUED: 150
-- IMAGE_CREATED: 0
+- Task Coverage: 1 / 150
+- QUEUED: 149
+- IMAGE_CREATED: 1
 - QA: PAUSED
 - Generation system: ACTIVE
 - Official reference: MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
