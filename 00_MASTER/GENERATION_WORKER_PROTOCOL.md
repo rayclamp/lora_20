@@ -223,3 +223,19 @@ The Worker Pool uses **Task-level exclusive Claim/Lease** as the primary synchro
 - SAFETY_BLOCKED is closed for automatic retry and must not be rewritten to bypass safety.
 - MASTER DIRECTOR creates replacement designs as new Tasks when additional candidate coverage is needed.
 - GENERATION_TOOL_ERROR is the only controlled retry path and follows GENERATION_RETRY_POLICY.md.
+
+## Age-20 animal/pet exclusion
+
+For the age-20 Inaria LoRA dataset, animals and pets are not intentional production elements.
+
+Workers must execute the current Task and project rules without adding decorative animals. Unless a future project-level exception explicitly says otherwise, exclude:
+- cat / kitten;
+- dog / puppy;
+- pet;
+- wildlife;
+- animal companion.
+
+If the current queued Task's Prompt Package contains an animal despite this rule, do not invent a workaround or redesign the task locally. Follow the authoritative current queue/task record. MASTER DIRECTOR is responsible for correcting queued designs.
+
+If an animal unexpectedly appears in a successfully generated candidate, record the generation outcome normally. Do not self-QA or repeatedly regenerate solely to remove the animal; downstream QA/data curation handles the candidate.
+
