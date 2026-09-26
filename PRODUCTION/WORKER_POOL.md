@@ -90,6 +90,23 @@ Every Worker follows the same loop:
 14. Release the worker immediately after IMAGE_CREATED or another protocol-defined terminal generation outcome. Do not hold the task for quality review.
 15. Return to the active queue if the active Goal is not complete and the generation system is not paused.
 
+## Quota and forced-stop handling
+
+If the platform reports that the current Worker/account has exhausted its image-generation quota:
+- do not mark IMAGE_CREATED;
+- do not mark FAILED;
+- return the current CLAIMED/GENERATING task to QUEUED when writable;
+- release the Claim/Lease;
+- record the quota event if supported;
+- stop this Worker session;
+- another Worker may claim the returned task.
+
+If the platform reports a system/policy forced stop for the task:
+- mark the current CLAIMED/GENERATING task FAILED when writable;
+- preserve the task/prompt history;
+- release the Claim/Lease;
+- do not requeue the same task.
+
 ## Generation error protection
 
 The Worker Pool uses the shared policy in `PRODUCTION/GENERATION_RETRY_POLICY.md`.
@@ -98,7 +115,7 @@ Default limits:
 - MAX_IMAGE_RETRIES = 3 per task.
 - MAX_CONSECUTIVE_GENERATION_ERRORS = 3 across the production system.
 
-A task that encounters three genuine generation-tool errors is DEFERRED rather than repeatedly retried.
+A task that encounters three genuine generation-tool errors is DEFERRED rather than repeatedly retried. Quota exhaustion is not a generation-tool error and returns the current task to QUEUED.
 
 A successfully generated candidate is never treated as a task failure merely because the Worker considers the result imperfect. It becomes IMAGE_CREATED and is handed to downstream QA.
 
