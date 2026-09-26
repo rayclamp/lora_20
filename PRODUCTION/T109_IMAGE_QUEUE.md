@@ -26,8 +26,8 @@
 
 ## Queue summary
 - Total tasks: 150
-- QUEUED: 149
-- IMAGE_CREATED: 1
+- QUEUED: 146
+- IMAGE_CREATED: 3
 - CLAIMED: 0
 - GENERATING: 0
 - QA PASS: 0
