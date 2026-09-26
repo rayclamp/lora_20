@@ -54,7 +54,7 @@ Use the actual official MASTER_IMAGE as the direct Character + Visual Style Refe
 ## 4. Claim protocol
 1. Fetch latest queue and blob SHA.
 2. Re-check the active Goal before claiming.
-3. Select one available task whose state is QUEUED or an explicitly recoverable state.
+3. Select one available task whose Task Record state is QUEUED. Do not treat FAILED or SAFETY_BLOCKED as automatically recoverable.
 4. Create a unique Claim ID.
 5. Update the queue using the exact fetched SHA.
 6. If the conditional update conflicts/fails, do not generate; re-fetch.
@@ -111,7 +111,7 @@ Examples include the image-generation tool not appearing, a generic retry respon
 - Increment the task attempt counter.
 - Follow PRODUCTION/GENERATION_RETRY_POLICY.md.
 - Retry the same task only while the per-image retry limit and global circuit breaker permit it.
-- After the per-image limit is reached, set the task to DEFERRED and move to another task.
+- After the per-image limit is reached, close/defer the task according to the retry policy and move to another QUEUED task. Do not return the same design to the ordinary queue for another Worker.
 - After the global consecutive-error limit is reached, stop claiming new tasks and treat the generation system as paused.
 
 ### SAFETY_BLOCKED
@@ -164,10 +164,10 @@ If binary upload is unavailable, the task still remains Phase 1 complete.
 - Make/OpenAI worker lease: 30 minutes.
 - Renew before expiry when needed.
 - After expiry, re-fetch and re-claim with a new Claim ID.
-- A prerequisite-blocked pre-generation job returns to QUEUED after the blocker is resolved.
+- A prerequisite-blocked pre-generation job may return to QUEUED only after the prerequisite is resolved; this is a distinct prerequisite-recovery path, not a retry of FAILED or SAFETY_BLOCKED.
 - A GENERATION_TOOL_ERROR follows the retry policy; after three failed attempts the task becomes DEFERRED.
 - A SAFETY_BLOCKED task is recorded, released, skipped for the current run, and is not automatically retried. Another available task should be claimed next.
-- If a Worker becomes unavailable after claiming but before IMAGE_CREATED, the task may be taken over by another Worker only after the claim/lease is legitimately recoverable.
+- If a Worker becomes unavailable after claiming but before IMAGE_CREATED, the task may be taken over by another Worker only after the claim/lease is legitimately recoverable. An active valid Claim always excludes other Workers.
 - A generated candidate is preserved and must not be regenerated merely because another worker becomes available.
 
 ## 12. Worker restrictions
@@ -184,3 +184,19 @@ Workers must not:
 - substitute another identity reference.
 
 Only ACCOUNT_06 can make final PASS / REPAIR / REJECT decisions.
+
+
+## 13. Task-level synchronization and summary tolerance
+
+The Worker Pool uses **Task-level exclusive Claim/Lease** as the primary synchronization mechanism.
+
+- One task may have at most one active Worker owner.
+- CLAIMED and GENERATING tasks are skipped by other Workers.
+- Workers continue scanning for other QUEUED tasks instead of waiting for another Worker.
+- Stale or inconsistent summary counters in PROJECT_STATUS.md, Goal summaries, or Queue summaries do not by themselves stop production.
+- The Worker stops claiming only when it cannot safely resolve/read the authoritative active queue, cannot safely determine the specific task state, cannot safely establish Claim/Lease ownership, or an explicit system-wide stop condition applies.
+- IMAGE_CREATED, FAILED, and SAFETY_BLOCKED are terminal task outcomes and do not automatically return to QUEUED.
+- FAILED means the design is closed for automatic Worker retry; another Worker must not be sent back to the same failed design.
+- SAFETY_BLOCKED is closed for automatic retry and must not be rewritten to bypass safety.
+- MASTER DIRECTOR creates replacement designs as new Tasks when additional candidate coverage is needed.
+- GENERATION_TOOL_ERROR is the only controlled retry path and follows GENERATION_RETRY_POLICY.md.
