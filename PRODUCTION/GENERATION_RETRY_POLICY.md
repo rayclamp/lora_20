@@ -45,6 +45,26 @@ Use for a missing prerequisite such as an unavailable or unreadable MASTER_IMAGE
 
 Use only for a technical failure that does not fit the more specific categories above.
 
+## 3A. QUOTA_EXHAUSTED
+
+Use when the platform explicitly reports that the current Worker/account has exhausted its image-generation quota or allowance.
+
+This is a Worker/account availability event, not a task failure and not a GENERATION_TOOL_ERROR.
+
+Required transition when writable:
+CLAIMED or GENERATING -> QUEUED
+
+Then release the Worker/Claim and stop this Worker session.
+
+## 3B. SYSTEM_POLICY_STOP
+
+Use when the platform explicitly reports that the current task was forcibly stopped because of a system rule/policy rather than account quota.
+
+Required transition when writable:
+CLAIMED or GENERATING -> FAILED
+
+Preserve the original task/prompt history. Do not rewrite the prompt to bypass the rule.
+
 ## 4. Per-image retry rule
 
 A GENERATION_TOOL_ERROR increments the task's attempt counter.
