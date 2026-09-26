@@ -132,3 +132,18 @@ Do not bind production correctness to a fixed account number, account quota, or 
 
 ## 15. Change control
 Permanent rule changes belong in the applicable 00_MASTER document and must be recorded in 00_MASTER/CHANGELOG.md. Do not restore deleted legacy architecture unless explicitly requested.
+
+## 16. Age-20 dataset contamination controls
+
+The age-20 Inaria LoRA dataset is intended to learn **Inaria as the character**, not recurring companion objects or secondary characters.
+
+Therefore, unless explicitly authorized by a future project-level rule, animals and pets are excluded from age-20 production:
+- no cats or kittens;
+- no dogs or puppies;
+- no other pets;
+- no prominent wildlife;
+- no recurring animal-companion concept.
+
+This is a dataset-design constraint, not merely a QA preference. MASTER DIRECTOR must prevent animals from being intentionally designed into production tasks, and Worker Prompt Packages should explicitly exclude them.
+
+If a generated image unexpectedly contains an animal, the image remains a generation event and is handled by downstream QA; Workers must not repeatedly regenerate the same task merely to remove the animal.
