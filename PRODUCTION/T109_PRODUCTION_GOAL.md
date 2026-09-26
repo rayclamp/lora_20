@@ -53,3 +53,18 @@ QA is explicitly PAUSED for T109. Production Workers must not perform QA.
 
 ## Completion
 T109 task coverage is complete when all 150 queued designs have been processed once. Final candidate quality and the number of QA-approved LoRA training images are separate downstream metrics.
+
+## T109 animal exclusion
+
+T109 is an age-20 Inaria character dataset production batch. Animals and pets are **not valid intentional design elements** in this batch.
+
+All remaining T109 tasks must exclude:
+- cats / kittens;
+- dogs / puppies;
+- other pets;
+- prominent wildlife;
+- animal companions.
+
+This is a task-design constraint. It does not retroactively rewrite completed Task Records or their original Prompt history. If an already generated candidate unexpectedly contains an animal, its generation event remains historical and downstream QA/data curation decides whether it is usable.
+
+For all still-QUEUED T109 tasks, MASTER DIRECTOR must ensure the task Prompt and Negative Prompt explicitly exclude animals and pets.
