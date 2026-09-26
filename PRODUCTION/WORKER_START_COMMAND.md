@@ -213,3 +213,70 @@ A safety block on one task does not equal production-wide failure.
 A new Worker must be able to discover the repository, read the latest state, and continue from the queue without manually selecting a task.
 
 End of Worker Start Command.
+
+## 12. TASK-LEVEL QUEUE RULES — FINAL PRODUCTION MODEL
+
+The queue is a shared work pool. **Task-level ownership is the synchronization mechanism; global summary synchronization is not a prerequisite for normal work.**
+
+### 12.1 One Task → One Worker
+- A task may be actively owned by only one Worker at a time.
+- CLAIMED and GENERATING tasks are unavailable to all other Workers.
+- Other Workers must skip tasks already owned by another valid Worker and continue scanning the queue.
+- A Worker must never overwrite another Worker’s valid Claim.
+
+### 12.2 Summary mismatch does not by itself stop production
+PROJECT_STATUS.md, Goal summaries, and Queue summary counters are reporting/summary data. If those summaries are temporarily stale or inconsistent with individual Task Records, a Worker must **not** stop merely because of that summary mismatch.
+
+The Worker must use the actual Task Records and the task-level Claim/Lease mechanism to determine whether a specific task is available.
+
+A Worker should stop claiming only when a required authoritative object cannot be resolved/read, the specific task state cannot be safely determined, Claim/Lease ownership cannot be safely written or verified, or an explicit system-wide stop condition applies.
+
+### 12.3 Normal task selection
+1. Find a QUEUED task that can be safely claimed.
+2. Attempt the Claim using the latest queue SHA/available atomic mechanism.
+3. If another Worker has claimed that task first, do not overwrite it; re-read the queue and select another QUEUED task.
+4. Do not wait for another Worker to finish before selecting another unclaimed task.
+
+### 12.4 Terminal task outcomes do not return to the ordinary queue
+Once a task reaches a terminal outcome, other Workers must not automatically claim it again.
+
+Terminal outcomes include:
+- IMAGE_CREATED
+- FAILED
+- SAFETY_BLOCKED
+
+FAILED specifically means the current task has been judged unsuccessful and is closed for automatic Worker processing. It must not be placed back into QUEUED merely so another Worker can try the same design. This prevents multiple Workers from repeatedly getting stuck on the same systemically failing design.
+
+SAFETY_BLOCKED is also closed for automatic retry. Never rewrite the prompt to bypass the safety system.
+
+If a failed/blocked/duplicate/unusable design needs replacement, MASTER DIRECTOR creates a new legitimate Task/design. Workers do not convert the old terminal task back into QUEUED and do not invent replacement tasks.
+
+### 12.5 Generation-tool errors are the only controlled retry path
+GENERATION_TOOL_ERROR follows PRODUCTION/GENERATION_RETRY_POLICY.md. It is a tool/system failure class, not a signal to pass the same design endlessly between Workers.
+
+After the defined retry/defer policy is exhausted, the task is closed/deferred and is not automatically returned to the normal queue by another Worker.
+
+### 12.6 Worker continuation after any terminal outcome
+After IMAGE_CREATED, FAILED, SAFETY_BLOCKED, or a protocol-defined deferred generation-tool error:
+- record the outcome;
+- release the Worker/task ownership as required;
+- immediately scan for another QUEUED task;
+- do not return to the just-finished terminal task;
+- do not wait for global summaries to become perfectly synchronized.
+
+### 12.7 Important distinction
+**Task Record state controls work ownership. Summary counters describe production state.**
+
+Therefore:
+- stale PROJECT_STATUS numbers do not block a valid task Claim;
+- stale Goal/Queue summary counters do not block a valid task Claim;
+- a conflicting active Claim on the specific task does block that task Claim;
+- an unreadable queue or unsafe Claim operation blocks claiming because the Worker cannot establish exclusive ownership.
+
+The intended operating model is:
+
+Worker 1 → Task 1 → Claim → Generate → terminal outcome → next available Task
+Worker 2 → Task 2 → Claim → Generate → terminal outcome → next available Task
+...
+
+At all times, one Task has at most one active Worker owner, while different Workers may process different tasks.
