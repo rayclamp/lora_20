@@ -75,7 +75,7 @@ If a Worker receives an older continuation command that names T108 or another hi
 Every Worker follows the same loop:
 
 1. Resolve the current active Goal and Queue using the mandatory pointer procedure above.
-2. Check whether the active Goal still has available `QUEUED` tasks.
+2. Check whether the active Goal still has available `QUEUED` tasks. Summary counters may be stale; inspect Task Records.
 3. Fetch the latest active queue SHA.
 4. Find an available task in the active Goal's queue.
 5. Claim the task atomically using the latest queue SHA.
@@ -84,7 +84,7 @@ Every Worker follows the same loop:
 8. Generate the image using the official MASTER_IMAGE.
 9. If generation succeeds and returns a candidate, record GENERATING → IMAGE_CREATED immediately. Do not self-QA or regenerate the candidate.
 10. If GENERATION_TOOL_ERROR occurs, follow the retry policy.
-11. If the task reaches three failed generation attempts, set it to DEFERRED and move on.
+11. If the task reaches three failed generation attempts, close/defer it according to the retry policy and move on; do not return it to ordinary QUEUED processing.
 12. If three GENERATION_TOOL_ERROR events occur consecutively across tasks, pause new generation claims.
 13. If SAFETY_BLOCKED occurs, record SAFETY_BLOCKED, preserve the original task and Prompt Package, release the worker, do not automatically retry that same task, and continue with another available task.
 14. Release the worker immediately after IMAGE_CREATED or another protocol-defined terminal generation outcome. Do not hold the task for quality review.
@@ -104,7 +104,7 @@ A successfully generated candidate is never treated as a task failure merely bec
 
 Three consecutive GENERATION_TOOL_ERROR events pause new generation claims. QUEUED tasks are preserved.
 
-A SAFETY_BLOCKED task is not automatically retried. It is recorded as SAFETY_BLOCKED, released from the current Worker, and skipped so the Worker Pool can continue with another available task. Director/operator review may later return the task to QUEUED if appropriate. No prompt rewrite may be used to bypass the safety system.
+A SAFETY_BLOCKED task is not automatically retried. It is recorded as SAFETY_BLOCKED, released from the current Worker, and permanently skipped for automatic Worker processing. If replacement coverage is needed, MASTER DIRECTOR creates a new legitimate Task rather than returning the blocked design to QUEUED. No prompt rewrite may be used to bypass the safety system.
 
 A successful IMAGE_CREATED resets the consecutive generation-error counter.
 
@@ -116,11 +116,7 @@ Do not assign a fixed number of images to a Worker. The target belongs to the te
 
 A standby Worker may claim work whenever a task is legitimately available in the active Goal queue.
 
-A task may become available again when:
-- a Worker explicitly releases it before generation;
-- a pre-generation blocker safely returns it to QUEUED;
-- the Worker lease expires;
-- the task is explicitly returned to the queue by the Production Protocol.
+A task may become available again only through an explicit protocol-defined recovery path, such as a pre-generation prerequisite blocker being resolved or a legitimately expired/recoverable active Claim. IMAGE_CREATED, FAILED, and SAFETY_BLOCKED tasks do not automatically become available again.
 
 A replacement Worker must never overwrite an active valid claim.
 
@@ -157,3 +153,12 @@ Phase 2 is downstream and non-blocking for the Worker Pool.
 ## Core principle
 
 > The Team owns the active Goal. Workers execute its Tasks. GitHub owns the shared state.
+
+
+## Task-level synchronization model
+
+The Worker Pool is intentionally tolerant of stale global summaries. Task Records and exclusive Claim/Lease state control ownership.
+
+If Worker 1 claims Task 1, all other Workers skip Task 1 and continue to the next QUEUED task. If Worker 1 reaches any terminal outcome, it releases and immediately scans for another QUEUED task. Workers do not wait for global summary counters to synchronize perfectly.
+
+FAILED is a closed terminal outcome. It is not a reusable queue state. Sending the same FAILED design through multiple Workers is prohibited because it can create an endless failure loop. SAFETY_BLOCKED is likewise closed for automatic retry. New coverage is supplied by new Tasks created by MASTER DIRECTOR.
