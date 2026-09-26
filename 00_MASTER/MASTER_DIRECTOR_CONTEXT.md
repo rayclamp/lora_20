@@ -639,7 +639,7 @@ Clothing variation should be combined with controlled variation in hairstyle, ac
 
 Diversity never overrides anatomy stability. If a clothing/accessory concept creates excessive hand, foot, limb, strap, or occlusion risk, simplify or replace it.
 
-The full rule is maintained in 00_MASTER/DATASET_DIVERSITY.md.
+The full rule is maintained in `00_MASTER/DATASET_DIVERSITY.md`.
 
 # 25. FIRST DATASET PLANNING TARGET
 
@@ -651,3 +651,85 @@ The project should prefer:
 large candidate pool → QA → balanced 60–80 image starting dataset → LoRA v1 → test → identify missing coverage → targeted replacement production → LoRA v2
 
 rather than trying to force every originally designed image into the final dataset.
+
+# 26. DYNAMIC ACTIVE GOAL / QUEUE MANAGEMENT — MANDATORY MASTER DIRECTOR DUTY
+
+The project must use a **dynamic Active Goal / Active Queue architecture** so that Worker continuation commands remain generic and do not need to be rewritten whenever a new LoRA production Goal is created.
+
+The MASTER DIRECTOR is responsible for maintaining the current active-state pointers.
+
+## When creating a new Production Goal
+
+Whenever the MASTER DIRECTOR creates a new production Goal, it must:
+
+1. Create a **new immutable Goal file** for the new Goal. Never overwrite the previous Goal's historical record.
+2. Create the corresponding **new immutable Production Queue file** for that Goal.
+3. Update `PRODUCTION/PRODUCTION_GOAL.md` so it points to the new Active Goal ID and exact Goal file path.
+4. Update `PRODUCTION/IMAGE_QUEUE.md` so it points to the new Active Goal ID and exact Queue file path.
+5. Update `PROJECT_STATUS.md` so its current active-production section points to the same Goal and Queue.
+6. If necessary, update `START_HERE.md` or Worker startup documentation only when the generic discovery protocol itself changes. Do **not** hard-code a specific Goal ID into the permanent Worker command merely because a new Goal was created.
+7. Verify all active pointers agree before telling Workers to continue.
+
+## What the MASTER DIRECTOR must NOT do
+
+The MASTER DIRECTOR must not require the user to provide a new Worker continuation command every time the Goal changes.
+
+The MASTER DIRECTOR must not make the Worker continuation command contain a fixed Goal ID such as `T109`.
+
+The MASTER DIRECTOR must not overwrite a completed/historical Goal merely to make it active again.
+
+## Worker-side principle
+
+Workers should use a single generic continuation/startup instruction:
+
+> **Read the latest GitHub project state, resolve the current Active Goal and Active Queue from the pointer files, and continue according to the Worker Protocol.**
+
+Workers must not infer the current Goal from an old conversation message.
+
+## Task-state updates after generation
+
+The MASTER DIRECTOR is responsible for **Goal/Queue design and active-pointer management**. Workers are responsible for recording the execution state of the task they actually claim and generate.
+
+Therefore:
+
+- Worker updates the actual Goal/Queue task state after Claim / Generating / IMAGE_CREATED / terminal generation outcome.
+- MASTER DIRECTOR does not manually fabricate or overwrite Worker execution events.
+- MASTER DIRECTOR does update the active pointer files when a new Goal becomes active.
+
+## Active-pointer invariant
+
+At all times there must be one authoritative current Active Goal for normal Worker execution.
+
+The following must agree:
+
+`PROJECT_STATUS.md`
+→ active Goal
+
+`PRODUCTION/PRODUCTION_GOAL.md`
+→ active Goal + Goal file
+
+`PRODUCTION/IMAGE_QUEUE.md`
+→ active Goal + Queue file
+
+If these disagree, the MASTER DIRECTOR must stop normal orchestration long enough to reconcile the project documents before directing Workers to continue.
+
+## New LoRA project principle
+
+This mechanism is intended to be reusable for future LoRA projects.
+
+Changing:
+
+- character;
+- reference image;
+- dataset size;
+- production Goal;
+- Queue;
+- task design;
+
+must not require rewriting the generic Worker continuation command.
+
+The GitHub Active Goal / Queue pointers are the mechanism that tells a new Worker what the current project is doing.
+
+## Final architecture principle
+
+> **Worker commands are generic. GitHub Active Goal pointers are dynamic. MASTER DIRECTOR updates the pointers when a new Goal is created. Historical Goals remain immutable records.**
