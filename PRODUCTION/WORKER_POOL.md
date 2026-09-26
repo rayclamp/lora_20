@@ -179,3 +179,19 @@ The Worker Pool is intentionally tolerant of stale global summaries. Task Record
 If Worker 1 claims Task 1, all other Workers skip Task 1 and continue to the next QUEUED task. If Worker 1 reaches any terminal outcome, it releases and immediately scans for another QUEUED task. Workers do not wait for global summary counters to synchronize perfectly.
 
 FAILED is a closed terminal outcome. It is not a reusable queue state. Sending the same FAILED design through multiple Workers is prohibited because it can create an endless failure loop. SAFETY_BLOCKED is likewise closed for automatic retry. New coverage is supplied by new Tasks created by MASTER DIRECTOR.
+
+## Age-20 animal/pet exclusion
+
+For the age-20 Inaria LoRA dataset, animals and pets are not intentional production elements.
+
+Workers must execute the current Task and project rules without adding decorative animals. Unless a future project-level exception explicitly says otherwise, exclude:
+- cat / kitten;
+- dog / puppy;
+- pet;
+- wildlife;
+- animal companion.
+
+If the current queued Task's Prompt Package contains an animal despite this rule, do not invent a workaround or redesign the task locally. Follow the authoritative current queue/task record. MASTER DIRECTOR is responsible for correcting queued designs.
+
+If an animal unexpectedly appears in a successfully generated candidate, record the generation outcome normally. Do not self-QA or repeatedly regenerate solely to remove the animal; downstream QA/data curation handles the candidate.
+
