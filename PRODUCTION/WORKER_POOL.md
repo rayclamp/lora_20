@@ -23,17 +23,7 @@ Example:
 7 available workers
 5 available tasks
 
-The system may assign:
-
-- Worker A → Task 001
-- Worker B → Task 002
-- Worker C → Task 003
-- Worker D → Task 004
-- Worker E → Task 005
-- Worker F → standby
-- Worker G → standby
-
-The two standby workers are available for takeover.
+The system may assign tasks to any available workers. Standby workers are available for takeover.
 
 ## Work ownership
 
@@ -55,37 +45,54 @@ The repository may retain a worker/session identifier for audit purposes, but it
 
 A new ChatGPT account or new session may join the Worker Pool and use the same standard Worker command.
 
-Do not require the Worker to prove:
-- which account it is;
-- whether it has generated before;
-- how much quota remains.
+Do not require the Worker to prove which account it is, whether it has generated before, or how much quota remains.
 
-The Worker only needs valid access to the project, the required reference image, and the current queue.
+## Active Goal resolution — mandatory
+
+Workers must never assume that a historical Goal is still active.
+
+At every startup and before every new claim:
+
+1. Read `PROJECT_STATUS.md`.
+2. Read `PRODUCTION/PRODUCTION_GOAL.md` and follow its active-Goal pointer.
+3. Read the pointed active Goal file.
+4. Read `PRODUCTION/IMAGE_QUEUE.md` and follow its active-Queue pointer.
+5. Read the pointed active Queue file.
+6. Use the Goal ID and Queue path explicitly identified as active by those pointer files.
+
+For the current final validation round, the active Goal is:
+`T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION`
+
+and the active Queue is:
+`PRODUCTION/T109_IMAGE_QUEUE.md`
+
+**T108 is historical. T108 completion must never be used as a stop condition for T109.**
+
+If a Worker receives an older continuation command that names T108 or another historical Goal, the Worker must ignore that stale Goal reference and resolve the current active Goal from GitHub before claiming.
 
 ## Worker behavior
 
 Every Worker follows the same loop:
 
-1. Read the latest GitHub rules.
-2. Read the active Production Goal.
-3. Check whether the Goal still needs Phase 1 output.
-4. Fetch the latest queue.
-5. Find an available task.
-6. Claim the task atomically using the latest queue SHA.
-7. Verify ownership and lease.
-8. Change CLAIMED → GENERATING.
-9. Generate the image using the official MASTER_IMAGE.
-10. If generation succeeds and returns a candidate, record GENERATING → IMAGE_CREATED immediately. Do not self-QA or regenerate the candidate.
-11. If GENERATION_TOOL_ERROR occurs, follow the retry policy.
-12. If the task reaches three failed generation attempts, set it to DEFERRED and move on.
-13. If three GENERATION_TOOL_ERROR events occur consecutively across tasks, pause new generation claims.
-14. If SAFETY_BLOCKED occurs, record SAFETY_BLOCKED, preserve the original task and Prompt Package, release the worker, do not automatically retry that same task, and continue with another available task.
-15. Release the worker immediately after IMAGE_CREATED or another protocol-defined terminal generation outcome. Do not hold the task for quality review.
-16. Return to the queue if the Goal is not complete and the generation system is not paused.
+1. Resolve the current active Goal and Queue using the mandatory pointer procedure above.
+2. Check whether the active Goal still has available `QUEUED` tasks.
+3. Fetch the latest active queue SHA.
+4. Find an available task in the active Goal's queue.
+5. Claim the task atomically using the latest queue SHA.
+6. Verify ownership and lease.
+7. Change CLAIMED → GENERATING.
+8. Generate the image using the official MASTER_IMAGE.
+9. If generation succeeds and returns a candidate, record GENERATING → IMAGE_CREATED immediately. Do not self-QA or regenerate the candidate.
+10. If GENERATION_TOOL_ERROR occurs, follow the retry policy.
+11. If the task reaches three failed generation attempts, set it to DEFERRED and move on.
+12. If three GENERATION_TOOL_ERROR events occur consecutively across tasks, pause new generation claims.
+13. If SAFETY_BLOCKED occurs, record SAFETY_BLOCKED, preserve the original task and Prompt Package, release the worker, do not automatically retry that same task, and continue with another available task.
+14. Release the worker immediately after IMAGE_CREATED or another protocol-defined terminal generation outcome. Do not hold the task for quality review.
+15. Return to the active queue if the active Goal is not complete and the generation system is not paused.
 
 ## Generation error protection
 
-The Worker Pool uses the shared policy in PRODUCTION/GENERATION_RETRY_POLICY.md.
+The Worker Pool uses the shared policy in `PRODUCTION/GENERATION_RETRY_POLICY.md`.
 
 Default limits:
 - MAX_IMAGE_RETRIES = 3 per task.
@@ -103,19 +110,11 @@ A successful IMAGE_CREATED resets the consecutive generation-error counter.
 
 ## No per-worker quota
 
-Do not assign:
-
-"Worker A must make 4 images."
-
-Instead:
-
-"Production Team must complete 20 Phase 1 images."
-
-The number of images produced by each Worker is an implementation detail.
+Do not assign a fixed number of images to a Worker. The target belongs to the team-level active Goal.
 
 ## Standby takeover
 
-A standby Worker may claim work whenever a task is legitimately available.
+A standby Worker may claim work whenever a task is legitimately available in the active Goal queue.
 
 A task may become available again when:
 - a Worker explicitly releases it before generation;
@@ -124,8 +123,6 @@ A task may become available again when:
 - the task is explicitly returned to the queue by the Production Protocol.
 
 A replacement Worker must never overwrite an active valid claim.
-
-If a Worker disappears after claiming a task, another Worker waits until the lease is safely recoverable according to the current lease protocol.
 
 ## Quota exhaustion
 
@@ -137,11 +134,11 @@ If a Worker can no longer continue:
 - the task becomes recoverable only through the normal release/lease recovery mechanism;
 - another Worker may take it when it is legitimately available.
 
-This keeps production independent of account-specific quota information.
-
 ## Team-level completion
 
-The Worker Pool stops taking new tasks when the active Production Goal reaches its target.
+The Worker Pool stops taking new tasks when the **currently active Goal** reaches its own target.
+
+Workers do not stop because a historical Goal is complete.
 
 Workers do not stop because another Worker has run out of quota.
 
@@ -159,4 +156,4 @@ Phase 2 is downstream and non-blocking for the Worker Pool.
 
 ## Core principle
 
-> The Team owns the Goal. Workers execute Tasks. GitHub owns the shared state.
+> The Team owns the active Goal. Workers execute its Tasks. GitHub owns the shared state.
