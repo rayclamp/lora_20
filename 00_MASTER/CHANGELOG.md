@@ -1,5 +1,16 @@
 # CHANGELOG.md
 
+## 2026-09-26 — Added age-20 animal/pet exclusion
+
+- Added a project-wide age-20 dataset purity rule excluding intentionally designed cats, dogs, pets, wildlife, and recurring animal companions.
+- Clarified that the LoRA target is Inaria as the character, not an unintended recurring "Inaria + animal" association.
+- Added explicit animal/pet exclusion guidance to generation rules, dataset diversity rules, MASTER_SPEC, MASTER_DIRECTOR_CONTEXT, Worker startup/protocol/pool documents, and T109 production documentation.
+- Updated the 134 still-QUEUED T109 task records with explicit negative-prompt exclusions: cat, kitten, dog, puppy, pet, animal, wildlife, animal companion.
+- Preserved completed T109 Task Records and their original Prompt/Negative Prompt history; completed tasks were not retroactively rewritten.
+- Unexpected animals in generated candidates remain generation events and are handled downstream by QA/data curation rather than by Worker self-repair.
+
+# CHANGELOG.md
+
 ## 2026-09-25 — Added generation retry limits and system circuit breaker
 
 - Added PRODUCTION/GENERATION_RETRY_POLICY.md.
