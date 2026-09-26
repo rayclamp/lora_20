@@ -204,8 +204,8 @@
 - **Lease Expires:** 2026-09-26T21:29:33+08:00
 
 
-- **Generation Attempts:** 1
-- **Last Generation Error:** GENERATION_TOOL_ERROR — generated candidate did not execute the assigned IMG_009 Prompt Package
+- **Generation Attempts:** 2
+- **Last Generation Error:** GENERATION_TOOL_ERROR — generated candidate again did not execute the assigned IMG_009 Prompt Package
 ### IMG_010
 - **Character / Identity:** Inaria age-20 adult woman; official MASTER_IMAGE identity and visual-style reference; stable face, blue eyes, dark blue-black hair, natural light skin, slender balanced proportions.
 - **Action:** standing naturally
