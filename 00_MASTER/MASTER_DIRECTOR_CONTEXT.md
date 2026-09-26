@@ -733,3 +733,27 @@ The GitHub Active Goal / Queue pointers are the mechanism that tells a new Worke
 ## Final architecture principle
 
 > **Worker commands are generic. GitHub Active Goal pointers are dynamic. MASTER DIRECTOR updates the pointers when a new Goal is created. Historical Goals remain immutable records.**
+
+## 24. AGE-20 ANIMAL / PET EXCLUSION
+
+The age-20 Inaria LoRA dataset is a character-focused dataset.
+
+**Default rule: animals and pets must not be intentionally designed into age-20 production tasks.**
+
+This includes:
+- cats / kittens;
+- dogs / puppies;
+- other pets;
+- prominent wildlife;
+- recurring animal companions.
+
+The reason is dataset purity: the LoRA should learn Inaria's identity and controlled variations, not an unintended association such as "Inaria + cat".
+
+MASTER DIRECTOR must therefore:
+1. avoid designing animals into scenes;
+2. add explicit animal/pet exclusions to new production Prompt Packages;
+3. prefer animal-free environments when selecting scenes;
+4. treat unexpected animals in generated outputs as a downstream QA/data-curation issue rather than repeatedly regenerating the same task;
+5. create replacement designs without animals when additional candidate coverage is needed.
+
+A future animal-related experiment requires an explicit project-level exception. An individual Worker must never introduce an animal on its own.
