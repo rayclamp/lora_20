@@ -306,3 +306,19 @@ Worker 2 → Task 2 → Claim → Generate → terminal outcome → next availab
 ...
 
 At all times, one Task has at most one active Worker owner, while different Workers may process different tasks.
+
+## Age-20 animal/pet exclusion
+
+For the age-20 Inaria LoRA dataset, animals and pets are not intentional production elements.
+
+Workers must execute the current Task and project rules without adding decorative animals. Unless a future project-level exception explicitly says otherwise, exclude:
+- cat / kitten;
+- dog / puppy;
+- pet;
+- wildlife;
+- animal companion.
+
+If the current queued Task's Prompt Package contains an animal despite this rule, do not invent a workaround or redesign the task locally. Follow the authoritative current queue/task record. MASTER DIRECTOR is responsible for correcting queued designs.
+
+If an animal unexpectedly appears in a successfully generated candidate, record the generation outcome normally. Do not self-QA or repeatedly regenerate solely to remove the animal; downstream QA/data curation handles the candidate.
+
