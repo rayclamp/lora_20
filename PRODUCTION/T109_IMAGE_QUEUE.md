@@ -2225,3 +2225,15 @@
 - **Negative Prompt / Stability Limits:** different person, identity drift, altered face shape, wrong eye color, wrong hair color, photorealistic, live action, 3D, CGI, another anime style, deformed hands, extra fingers, missing fingers, fused fingers, duplicated fingers, malformed feet, extra toes, missing toes, fused toes, extra limbs, missing limbs, impossible joints, severe anatomy distortion, extreme foreshortening, extreme perspective, unstable pose, back view, mirror reflection with another readable character, duplicate person, broken bag straps, floating objects, objects crossing hands, clutter around fingers or feet, text, watermark, logo, excessive blur, plastic skin, over-smoothed face, excessive effects
 - **Status:** QUEUED
 
+## T109 animal exclusion rule
+
+All **QUEUED** T109 tasks must explicitly exclude animals and pets.
+
+Required exclusion concept:
+**cat, kitten, dog, puppy, pet, animal, wildlife, animal companion**
+
+Do not intentionally add an animal to a queued task. Do not use animal companions as scene decoration.
+
+Completed task records are historical and must not have their original Prompt/Negative Prompt rewritten solely to retrofit this rule. The rule applies prospectively to remaining QUEUED tasks and future replacement tasks.
+
+If a generated candidate unexpectedly contains an animal, the Worker still records the generation outcome according to the Worker Protocol; the Worker does not self-QA or repeatedly regenerate the same task.
