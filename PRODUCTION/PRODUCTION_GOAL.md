@@ -1,117 +1,31 @@
-# PRODUCTION_GOAL.md — Goal-Based Production Control
+# PRODUCTION_GOAL.md — Current Production Goal Pointer
 
-## Purpose
-This file defines the current production target for the Inaria age-20 LoRA dataset.
+## Authority
+This file is the compatibility entry point for Generation Workers that read the generic Goal path.
 
-The user specifies the desired output quantity. The Master Director converts that request into a Production Goal. Generation Workers do not receive fixed per-account quotas.
+**The active Goal is T109. Do not continue T108.**
 
-## Current Goal
-- Goal ID: T108_GOAL_20260925_40_CAPACITY_TEST
-- Project: Age-20 Inaria LoRA
-- Target production task coverage: 40
-- Task coverage completion: all 40 designed tasks processed once
-- Generation attempts observed: 35
-- Unique successful candidate images observed: 25
-- Duplicate generation outcomes observed: 10
-- Goal status: COMPLETED_FOR_FIRST_ROUND_COVERAGE
-- Production mode: MANUAL
-- Generation system state: ACTIVE
-- QA status: PAUSED
-- MAX_IMAGE_RETRIES: 3
-- MAX_CONSECUTIVE_GENERATION_ERRORS: 3
-- Reference: MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
+- Active Goal ID: `T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION`
+- Active Goal file: `PRODUCTION/T109_PRODUCTION_GOAL.md`
+- Active Queue file: `PRODUCTION/T109_IMAGE_QUEUE.md`
+- Target: 150 production tasks
+- Task Coverage: 0 / 150
+- QUEUED: 150
+- IMAGE_CREATED: 0
+- QA: PAUSED
+- Generation System: ACTIVE
 
-## Purpose of this Goal
-T108 is a controlled 40-task production-capacity test. The test is considered complete when the 40 designed tasks have all been processed once. It is not a requirement to obtain 40 unique images.
+## Worker instruction
+If you arrived here from `START_HERE.md`, this file, or an older Worker continuation command:
 
-The Master Director designs 40 executable image tasks in GitHub. Other worker accounts perform the actual generation. The current Director account is not expected to generate all 40 images itself.
+1. Load `PRODUCTION/T109_PRODUCTION_GOAL.md` as the authoritative active Goal.
+2. Load `PRODUCTION/T109_IMAGE_QUEUE.md` as the authoritative active Queue.
+3. Do **not** claim any T108 task.
+4. Do **not** use T108's historical completion state as the current stop condition.
+5. T109 is a new Goal and its 150 tasks are currently available for Worker execution.
+6. QA is PAUSED; Workers are GENERATE-ONLY and must not perform QA.
 
-The purpose is to observe how many Phase 1 `IMAGE_CREATED` events one individual worker account can complete before that account reaches its image-generation limit. The result must be recorded from actual worker behavior; this Goal does not assume a numeric daily limit in advance.
+## T108 historical record
+T108 remains historical and complete. Its 40-task coverage result must not be used to stop T109.
 
-## Goal semantics
-A Production Goal is a team-level target, not a per-account quota.
-
-Workers may claim any available task. The system does not assign a fixed number of images to any account.
-
-The production objective for this round was:
-> Process all 40 designed tasks once. A task may end as IMAGE_CREATED, GENERATION_TOOL_ERROR, SAFETY_BLOCKED, FAILED, or another terminal production outcome. The task is still counted as covered once its production attempt has been completed and recorded.
-
-The next production batches are replacement/new-design batches. They are not required to repair the original 40 designs.
-
-## Phase 1 event accounting
-`IMAGE_CREATED` remains an event-level record meaning that a generation candidate was successfully returned.
-
-For project planning, this is distinct from **Task Coverage**. Task Coverage counts a designed task once its production attempt reaches a terminal outcome, including IMAGE_CREATED, FAILED, GENERATION_TOOL_ERROR, or SAFETY_BLOCKED.
-
-A successful candidate can still be a duplicate and therefore should not automatically count as a new Unique Candidate.
-
-The worker is released at `IMAGE_CREATED`.
-
-Do not wait for:
-- UPLOADING
-- UPLOADED
-- QC_PENDING
-- PASS
-- REPAIR
-- REJECT
-
-## Phase 2
-Phase 2 begins after IMAGE_CREATED:
-`IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → final QA`
-
-Phase 2 is intentionally paused for T108 and must not block Phase 1 production.
-
-## Generation retry and system-pause accounting
-A `GENERATION_TOOL_ERROR` does not increment Phase 1.
-
-The same task may consume up to 3 generation attempts by default. After the third failed generation attempt, the task becomes `DEFERRED`.
-
-Track the Goal-level consecutive generation-error counter:
-- increment on `GENERATION_TOOL_ERROR`;
-- reset to 0 on `IMAGE_CREATED`;
-- at 3 consecutive `GENERATION_TOOL_ERROR` events, set Generation system state to `PAUSED`.
-
-`SAFETY_BLOCKED` is a task-level safety outcome. It must never be bypassed or retried by prompt rewriting. The blocked task is recorded and skipped for the current production run so the Worker Pool can continue with another available task. A later Master Director/operator decision may explicitly return the task to QUEUED or create a legitimate replacement.
-
-## Goal accounting
-Only one successful transition into `IMAGE_CREATED` may increment the Goal counter for a task.
-
-Do not count:
-- QUEUED
-- CLAIMED
-- GENERATING
-- UPLOADING
-- UPLOADED
-- QC_PENDING
-- historical candidates
-- rejected historical candidates
-
-If a candidate is later marked REPAIR, REJECT, or NEED_REGENERATE, the original IMAGE_CREATED event remains part of the production history. A replacement task must be explicitly queued if the project later requires another candidate.
-
-## Goal authority
-The Master Director owns Goal creation, target quantity, task design, and completion reporting. For future Goals, target semantics must explicitly state whether the target is Task Coverage, IMAGE_CREATED candidate events, or another metric. Do not assume that a request for X designs means X final unique images.
-
-Generation Workers execute the GitHub tasks and report actual completion. They do not change the target quantity.
-
-## Worker stop rules
-A worker must stop claiming new tasks when:
-1. T108 reaches 40 IMAGE_CREATED; or
-2. that worker reaches its own image-generation limit; or
-3. the generation system is paused; or
-4. a protocol-defined manual intervention is required.
-
-If one worker reaches its limit, remaining QUEUED tasks stay available for other workers.
-
-## Production/Upload separation safeguard
-The Phase 1 Goal counter is updated immediately when a candidate reaches IMAGE_CREATED. Uploading and QA are separate operations.
-
-GitHub upload failure, Make credit exhaustion, binary-transfer limitations, or delayed local transfer must not prevent an already-generated candidate from counting toward Phase 1.
-
-## Historical Goal
-The previous T107 20-image Goal is complete and remains historical. T108 is a new Goal and must not overwrite T107's production history.
-
-
-## T108 operator reconciliation
-The user confirmed that all 40 designed tasks were processed once. The user also observed 35 total generation outputs/attempt results, of which 25 were confirmed as successful useful images and 10 were duplicate production outcomes. These operator observations are recorded as planning metrics and do not rewrite historical event records.
-
-T108 therefore demonstrates the intended workflow: complete the designed task coverage first, then create new replacement designs to expand the candidate pool. Do not repeatedly regenerate failed or blocked T108 designs merely to force the original 40 to succeed.
+For full T109 semantics and task definitions, use the two T109 files above.
