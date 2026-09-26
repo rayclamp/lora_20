@@ -58,7 +58,7 @@ Attempt 3 → stop retrying the task.
 After the third failed generation attempt:
 
 GENERATION_TOOL_ERROR × 3
-→ DEFERRED
+→ DEFERRED / CLOSED FOR AUTOMATIC WORKER PROCESSING
 
 DEFERRED means:
 - this task is temporarily set aside;
@@ -66,7 +66,7 @@ DEFERRED means:
 - it is not a final QA REJECT;
 - the Worker releases the task;
 - the Worker continues with another QUEUED task when the generation system is still considered healthy;
-- the Master Director may later return the task to QUEUED for another controlled attempt.
+- the Master Director does not return the same failed design to the ordinary Worker queue; if more coverage is needed, create a new legitimate replacement Task.
 
 Do not perform a fourth automatic attempt.
 
@@ -143,3 +143,12 @@ IMAGE_CREATED is the only successful Phase 1 completion event.
 ## 10. Principle
 
 > Give a difficult image a limited number of chances. Protect the entire production run when the generation system itself is failing.
+
+
+## 11. Terminal task rule
+
+FAILED is a terminal, closed task state. It is not an invitation for another Worker to retry the same design. This prevents a failing design from circulating indefinitely among Workers.
+
+SAFETY_BLOCKED is also terminal and closed for automatic Worker processing.
+
+Only a genuine GENERATION_TOOL_ERROR follows the controlled retry policy. If replacement coverage is needed after a terminal failure/block, MASTER DIRECTOR creates a new Task with a new design.
