@@ -130,12 +130,38 @@ If generation fails because of a genuine generation-tool/system error:
 
 - Follow `PRODUCTION/GENERATION_RETRY_POLICY.md`.
 - A single task may receive up to 3 generation attempts.
-- After the task reaches its retry limit, mark/defer it according to the current policy and move to another available task.
+- After the task reaches its retry limit, mark/defer it according to the current policy and move to another available task. A quota-exhausted task is not part of this retry path; it returns to QUEUED.
 - Do not repeatedly attack the same task because the Worker dislikes or wants to improve the generated candidate.
 - A generation candidate that exists is not a generation-tool error. Record IMAGE_CREATED and move on.
 - Only a genuine generation-system/tool failure follows the retry policy.
 - Three consecutive `GENERATION_TOOL_ERROR` events trigger the production circuit-breaker specified by GitHub.
 - A successful `IMAGE_CREATED` resets the consecutive generation-error counter.
+
+## 8. QUOTA / FORCED-STOP HANDLING
+
+A Worker must not simply stop when the platform says generation cannot continue. If the session can still write to GitHub, the current task must first be returned to the correct state.
+
+### 8.1 Account quota exhausted
+If the platform explicitly reports that this Worker/account has exhausted its image-generation quota:
+- Do NOT mark the task IMAGE_CREATED.
+- Do NOT mark it FAILED.
+- Change CLAIMED or GENERATING → QUEUED using the latest safe queue state.
+- Release the Worker/Claim.
+- Record the quota event if the queue schema supports event history.
+- Then stop this Worker session because it cannot continue.
+- Another Worker may claim the returned QUEUED task.
+
+Quota exhaustion is a Worker/account availability event, not a task-design failure.
+
+### 8.2 System/policy forced stop
+If the platform explicitly reports that the current task is forcibly stopped because of a system rule/policy:
+- Change CLAIMED or GENERATING → FAILED using the latest safe queue state.
+- Preserve the original Task Record, Prompt Package, and history.
+- Do not rewrite the prompt to bypass the restriction.
+- Release the Worker/Claim.
+- Do not return the same task to QUEUED.
+
+A system/policy forced stop is a task-level FAILED outcome and must never leave the task stuck in GENERATING.
 
 ## 8. SAFETY BLOCK
 
