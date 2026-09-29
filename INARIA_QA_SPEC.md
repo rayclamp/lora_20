@@ -42,3 +42,19 @@ QA must treat the official INARIA_20_MASTER_v1.0.png as the reference identity/s
 If anatomy or reference match cannot be reliably observed because of occlusion or missing reference evidence, do not invent a PASS or FAIL. Report REVIEW.
 
 A beautiful image with a clear anatomy or reference-style failure is not a valid final dataset image.
+
+
+## Body-proportion QA
+Codex must separately inspect natural body proportion when the image provides sufficient evidence.
+
+Check:
+1. Overall body proportion matches the applicable MASTER / CHARACTER REFERENCE.
+2. Thigh, lower-leg, and total-leg proportions remain natural.
+3. No obvious fashion-model-style leg elongation or vertical body stretching.
+4. Perspective from wide-angle or low-angle photography has not become an actual proportion error.
+5. Seated, crouching, kneeling, stair, heavily occluded, or high-heel images are not judged from apparent leg length alone.
+6. If pose, footwear, clothing, occlusion, or perspective makes the underlying proportion unreliable to determine, report REVIEW rather than guessing PASS or FAIL.
+
+Reliable proportion evidence should prioritize standing, full-body, front/front-3/4, naturally posed images with clear legs and limited perspective distortion.
+
+A high-heel image is not automatically a proportion failure. A seated image is not automatically a proportion failure. The QA question is whether the underlying human proportions are clearly inconsistent with the applicable reference.
