@@ -10,7 +10,7 @@
 | CLOTH_INDIAN_DIWALI_001 | Festive Indian sari/lehenga family | F012 | South Asia | HIGH |
 | CLOTH_HOLI_LIGHT_001 | Light festival clothing suitable for Holi color play | F013 | India/Nepal | MEDIUM |
 | CLOTH_EID_MODEST_001 | Modest festive Muslim women's outfit | F014,F015,F016 | Muslim communities | MEDIUM |
-| CLOTH_NOWRUZ_PERSIAN_001 | Festive Persian/East Asian-adjacent? No: Persian festive women's clothing | F017 | Iran/Central Asia | MEDIUM |
+| CLOTH_NOWRUZ_PERSIAN_001 | Festive Persian women's clothing | F017 | Iran/Central Asia | MEDIUM |
 | CLOTH_THAI_FEST_001 | Thai traditional/festival women's outfit | F029 | Thailand | HIGH |
 | CLOTH_VIET_MOON_001 | Vietnamese festive áo dài | F028 | Vietnam | HIGH |
 | CLOTH_TAIWAN_TRAD_001 | Taiwanese traditional festive-inspired women's outfit | F033,F034,F035,F037 | Taiwan | MEDIUM |
