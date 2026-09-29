@@ -39,23 +39,15 @@ The current mandatory standards are:
 
 The target is team-level. No Worker has a fixed image quota. A Worker may stop or become unavailable at any point; another Worker can take over recoverable team tasks through the queue claim/lease protocol.
 
-## T108 production status
-- Status: FIRST_ROUND_TASK_COVERAGE_COMPLETE
-- Target: 40 designed production tasks processed once
-- Task Coverage: 40 / 40
-- Generation attempts observed: 35
+## T108 historical status
+
+T108 is historical and complete for its original 40-task coverage test. Its results remain for audit only and do not control the active production queue.
+
+- Task Coverage: 40 / 40 processed
 - Unique successful candidate images observed: 25
-- Duplicate generation outcomes observed: 10
-- Final PASS: 0 (QA paused)
-- REPAIR: 0
-- REJECT: 0
-- Current queue may now contain only newly designed replacement tasks; do not reopen the original 40 solely to force success
+- Final QA: not performed in that round
 
-T108 is the active 40-task capacity test. Current queue state is authoritative; historical T107 records remain preserved separately.
-
-## Reference delivery status
-### AUTO MODE
-Status: PAUSED_PENDING_MAKE_CREDITS_AND_OPENAI_IMAGE_BRIDGE_VALIDATION
+The automated reference-delivery status below is historical context only; current reference delivery is defined by `00_MASTER/PRODUCTION_MODES.md`.
 Path:
 GitHub MASTER_IMAGE → Make → OpenAI image input → generation → Make → GitHub
 
@@ -107,11 +99,15 @@ The first serious LoRA training cycle should be planned around approximately 60�
 
 
 ## Current active production Goal
-- Goal ID: T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION
+
+- Goal ID: `T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION`
 - Target: 150 production tasks
-- Task Coverage: 0 / 150
-- QUEUED: 150
-- IMAGE_CREATED: 0
+- Task Coverage: 11 / 150
+- QUEUED: 135
+- GENERATING: 4
+- IMAGE_CREATED: 11
 - QA: PAUSED
-- Queue: PRODUCTION/T109_IMAGE_QUEUE.md
-- T108 remains historical and is not overwritten.
+- Queue: `PRODUCTION/T109_IMAGE_QUEUE.md`
+- Generation System: ACTIVE
+
+These counts were synchronized from the active T109 queue. Workers must treat the queue itself as authoritative for task-level state.
