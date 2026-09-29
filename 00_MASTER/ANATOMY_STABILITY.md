@@ -23,6 +23,47 @@ Conceptual drawing order: fingers/toes → body → background/effects.
 - Center of gravity and support must be plausible.
 - Sleeves, clothing, props, bags, straps, plants, furniture, background shapes, and effects must never create convincing false limbs.
 
+
+### Hand topology and handedness lock
+Hand correctness must be evaluated as a connected anatomical structure, not as an isolated five-finger count.
+
+For every visible hand, verify the chain in order:
+1. character's shoulder;
+2. upper arm;
+3. forearm;
+4. wrist;
+5. palm;
+6. fingers.
+
+The hand must remain connected to the correct side of the character's body throughout this chain.
+
+### Left/right handedness rule
+- Left/right is defined from the character's own anatomical perspective, never from the viewer's screen-left/screen-right position.
+- Do not determine handedness from the final hand position alone.
+- Trace shoulder → upper arm → forearm → wrist → palm to confirm whether the hand is truly the character's left or right hand.
+- If a task specifies a left/right hand action, the specified hand must remain on the correct anatomical side.
+- Never accept a mirrored or swapped hand merely because the pose looks visually plausible.
+
+### Back-view handedness high-risk rule
+BACK and BACK_3/4 views require additional handedness verification because the character's left/right sides are visually reversed from the viewer's intuitive screen orientation and the arms may be partially hidden by the torso, hair, or clothing.
+
+For BACK/BACK_3/4:
+- keep the two arms spatially separated whenever practical;
+- avoid hands crossing or wrapping ambiguously across the center of the back/body;
+- avoid placing both hands so close together that their arm origins cannot be traced;
+- if one hand performs a task, keep its shoulder-to-hand path visually traceable;
+- if the correct left/right identity cannot be established from visible evidence, classify as REVIEW rather than guessing.
+
+### Hand-structure failure rule
+If the wrist, palm, or arm topology is visibly malformed, do not treat a correct five-finger count as a PASS. A malformed palm can propagate errors into finger shape, count, orientation, and attachment.
+
+Therefore QA must check both:
+- **topology:** correct shoulder → arm → wrist → palm connection and correct left/right identity;
+- **digit structure:** five natural fingers with correct attachment, separation, orientation, and proportion.
+
+Priority:
+**correct anatomical side + continuous limb topology + natural palm/wrist structure > finger count alone.**
+
 ## 2. Pose-design rules
 1. Choose the most stable/easy-to-generate hand action during composition.
 2. Do not design a difficult action first and rely on post-generation repair.
@@ -152,7 +193,7 @@ If fingers/toes are visibly present but their boundaries are materially obscured
 Priority:
 **anatomical correctness + anatomical readability > background complexity/decorative detail.**
 
-## 9. Local repair priority
+## 10. Local repair priority
 1. Fingers / toes.
 2. Wrist / palm / arm / shoulder connections.
 3. Hip / leg / knee / ankle / foot connections.
@@ -162,7 +203,7 @@ Priority:
 
 Prefer localized repair; do not redesign the whole image when a local correction is sufficient.
 
-## 10. QA hard gates
+## 11. QA hard gates
 An image cannot PASS when clearly showing:
 - extra/missing limb;
 - extra/missing/fused/duplicated fingers or toes;
@@ -177,10 +218,10 @@ An image cannot PASS when clearly showing:
 
 Natural occlusion is not automatically a failure. If a digit or structure cannot be reliably determined, require human inspection rather than guessing.
 
-## 11. Dataset rule
+## 12. Dataset rule
 A beautiful or high-resolution image with an obvious anatomy or structural failure is not a valid LoRA training image. Anatomy stability is a first-class dataset requirement.
 
-## 12. Mirror / reflection composition risk
+## 13. Mirror / reflection composition risk
 
 Mirror/reflection compositions are a high-risk dataset design pattern because the model may generate two independently interpreted instances of Inaria. Typical failure modes include:
 - mirror and real character have different poses/actions;
@@ -216,7 +257,7 @@ Therefore, mirror risk must be prevented during MASTER DIRECTOR composition/task
 ### Design priority
 For LoRA production, prefer a simpler single-character composition over a visually attractive but high-risk dual-instance mirror composition. If the mirror does not materially improve the task, remove or avoid the reflection.
 
-## 13. Body-proportion stability
+## 14. Body-proportion stability
 
 Human body proportions are a project-wide anatomy requirement, not a style preference.
 
