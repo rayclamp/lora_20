@@ -29,12 +29,15 @@ Codex first-layer QA does not make the final production decision. ACCOUNT_06 is 
 7. Natural limb connections and center of gravity.
 8. No false limbs from clothing, props, straps, furniture, plants, or background.
 9. Hand/foot readability against the background; no material silhouette fusion with foliage, rails, patterns, effects, or other background detail.
-9. Natural hand-object contact.
-10. Complete bag/strap connections.
-11. Complete cup/mug/teapot/container structure.
-12. Task-specific clothing, scene, pose, camera, composition, and accessories.
-13. No major artifact, text, watermark, logo, duplicate body, or severe crop damage.
-14. Sufficient dataset value.
+10. Hand topology and handedness: trace shoulder → upper arm → forearm → wrist → palm and confirm the correct anatomical left/right hand.
+11. Back/BACK_3/4 handedness: do not infer left/right from screen position; if the anatomical side cannot be established, report REVIEW.
+12. Natural wrist/palm structure; a correct five-finger count does not PASS a visibly malformed hand topology.
+13. Natural hand-object contact.
+14. Complete bag/strap connections.
+15. Complete cup/mug/teapot/container structure.
+16. Task-specific clothing, scene, pose, camera, composition, and accessories.
+17. No major artifact, text, watermark, logo, duplicate body, or severe crop damage.
+18. Sufficient dataset value.
 
 ## Reference provenance
 QA must treat the official INARIA_20_MASTER_v1.0.png as the reference identity/style baseline regardless of whether the candidate was generated through AUTO MODE or MANUAL MODE.
