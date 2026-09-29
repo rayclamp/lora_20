@@ -1,3 +1,5 @@
+> **Historical handoff:** This completed T104 design document is retained as a reference asset, not an independent authority. Current project-wide rules in `00_MASTER/` override any older wording here.
+
 # T104 — POSE_CAMERA Handoff v1.0
 
 - Account: ACCOUNT_04
@@ -11,7 +13,7 @@
 - Purpose: 提供 ACCOUNT_05 可直接組合的第一輪姿勢、動作、人體工學、鏡位、景別與構圖設計單元。
 - Identity reference: `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`
 - Character source: T101 `01_CHARACTER/CHARACTER_SPEC.md` v1.1
-- Style source: `WORKFLOW/STYLE_MASTER.md`
+- Style source: `00_MASTER/STYLE_MASTER.md`
 - Generation source: `00_MASTER/GENERATION_RULES.md`
 
 ## Handoff rules
@@ -71,7 +73,7 @@
 
 ### P06 — 雙手輕握於身前
 - Pose: 自然站立，雙腳一前一後極小距離，重量主要落在後腳。
-- Hands: 雙手在下腹前方輕鬆相握，手指自然重疊，不交錯成複雜手勢。
+- Hands: 雙手保持清楚分離，不交疊、不交叉；如需靠近，仍必須能清楚辨識左右手與手臂來源。
 - Head/Gaze: 微笑或中性表情，正視鏡頭。
 - Camera: 平視。
 - Framing: 膝上至全身，直式 9:16。
@@ -87,7 +89,7 @@
 
 ### P08 — 雙臂自然交疊
 - Pose: 穩定站立，雙腳自然平行，重量平均。
-- Hands: 前臂鬆弛交疊於胸下或上腹前，手掌自然貼於對側手臂，不露出誇張手指。
+- Hands: 一前臂自然位於身體前側，另一手保持清楚分離，不交疊或包覆對側手臂。
 - Head/Gaze: 身體略 3/4，臉部看鏡頭。
 - Camera: 平視。
 - Framing: 半身至大腿中段，直式 9:16。
@@ -198,7 +200,7 @@
 - Front / near-front: P01, P05, P06, P12, P16
 - 3/4 orientation: P02, P07, P08, P10, P15, P18, P19, P20
 - Side-oriented: P03, P04, P14
-- Back-side return with visible face: P17 only; no back-facing primary composition
+- BACK and BACK_3/4 views are allowed for LoRA viewpoint diversity when the task calls for them; handedness must be verified using `00_MASTER/ANATOMY_STABILITY.md`.
 - Full body: P01, P02, P03, P04, P05, P10, P11, P17, P19
 - 3/4 body: P07, P12, P13, P14, P15, P18
 - Medium / close identity-supporting framing: P08, P09, P16, P20
@@ -217,4 +219,4 @@
 3. Scene from T103 may supply a chair, wall, low step or wide rail only when compatible with the selected Pxx; do not add an object merely to decorate the pose.
 4. Do not place busy flowers, foliage, props, water splashes, text or small architectural details across the hands.
 5. Keep Character / Clothing / Scene / Pose-Camera / Lighting-Style / Negative sections modular.
-6. Final generated images must still pass `WORKFLOW/QUALITY_CONTROL.md`; this handoff's PASS status does not replace T106 final image review.
+6. Final generated images must still pass `00_MASTER/QUALITY_CONTROL.md`; this handoff's PASS status does not replace T106 final image review.
