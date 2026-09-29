@@ -48,14 +48,16 @@ T109 current state at startup:
 - Goal: `T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION`
 - Queue: `PRODUCTION/T109_IMAGE_QUEUE.md`
 - Task target: 150
-- Task Coverage: 0 / 150
-- QUEUED: 150
-- IMAGE_CREATED: 0
+- Task Coverage: 11 / 150
+- QUEUED: 135
+- IMAGE_CREATED: 11
 - QA: PAUSED
 - Generation System: ACTIVE
 
 ## 5. Reference Style Lock
 The official MASTER_IMAGE is the single Character + Visual Style Reference.
+
+For LoRA viewpoint diversity, BACK and BACK_3/4 are permitted when a task calls for them. Do not infer left/right from screen position; follow the handedness rules in `00_MASTER/ANATOMY_STABILITY.md`.
 
 It must be supplied as an actual image input through either:
 - AUTO MODE: automated image-input bridge;
