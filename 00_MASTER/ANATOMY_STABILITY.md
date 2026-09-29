@@ -46,6 +46,29 @@ Conceptual drawing order: fingers/toes → body → background/effects.
 - For explicit finger poses, prefer large, simple objects with clear contact surfaces.
 - If a handheld prop is not essential and creates anatomy risk, simplify or remove it.
 
+### Hand-separation high-risk rule
+Both visible hands must remain clearly separated whenever the composition allows it.
+
+Do NOT design:
+- crossed hands;
+- overlapping or stacked hands;
+- both hands resting on the same knee;
+- both hands placed together on one thigh;
+- interlocked fingers;
+- hands positioned so closely that fingers or palm boundaries overlap or become difficult to distinguish.
+
+For seated poses, the phrase "hands on knees" does NOT mean both hands may be placed together. Prefer clearly separated placement, such as:
+- left hand naturally resting on the left knee and right hand naturally resting on the right knee;
+- one hand resting naturally on a thigh while the other remains clearly separated;
+- both hands naturally relaxed beside the body.
+
+The rule is about spatial separation, not a blanket ban on seated poses or hands resting on knees.
+
+If a planned pose causes the two hands to overlap, touch, merge visually, or obscure each other's fingers, redesign the hand action before generation.
+
+Priority:
+**clear left/right hand separation > pose complexity > decorative hand positioning.**
+
 ## 4. Hand-object contact
 - Palm/fingers must actually contact the object.
 - A handle must not pass through a palm.
