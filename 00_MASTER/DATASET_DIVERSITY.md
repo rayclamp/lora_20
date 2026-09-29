@@ -128,3 +128,23 @@ Therefore animal-free scenes are the default. A future exception requires an exp
 
 ## Current anatomy-diversity requirement
 Hand diversity must not be created by increasing structural complexity. Prefer different stable hand configurations while preserving clear left/right identity, palm/wrist topology, finger readability, and background separation. BACK/BACK_3/4 viewpoints are valid dataset diversity; they require stricter handedness verification, not automatic exclusion.
+
+
+## Framing-distance diversity requirement
+
+Framing is a first-class LoRA dataset variable. The production queue must contain meaningful variation in visual scale and framing distance rather than drifting toward full-body images.
+
+MASTER DIRECTOR must actively design a mixture of:
+- CLOSE-UP / FACE;
+- HEAD-AND-SHOULDERS;
+- BUST / HALF-BODY;
+- MEDIUM SHOT;
+- FULL-BODY.
+
+Do not treat framing diversity as satisfied merely because some tasks are technically half-body. True close-up portrait tasks must be deliberately created.
+
+For each close-up task, define explicit framing controls such as SHOT_DISTANCE, FRAMING, CHARACTER_SCALE, VISIBLE_BODY_AREA, and CROP. When needed, add negative constraints against distant, small-in-frame, or full-body composition.
+
+Full-body images remain valuable, but they are not the default representation of an Inaria LoRA candidate. Hand/foot inspection requirements must never force every task toward full-body framing.
+
+A close-up candidate can be valid and valuable even when hands and feet are outside the frame. QA should judge only visible anatomy and should not penalize natural framing crops or reasonable occlusion of body parts that are not visible.
