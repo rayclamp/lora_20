@@ -32,7 +32,7 @@ This department must not independently change:
 - approved pose/camera design
 - stable MASTER rules
 
-If two approved sources conflict, mark the item **NEEDS SIXTH INTEGRATION ACCOUNT DECISION** and do not silently choose a winner.
+If two approved sources conflict, mark the item **NEEDS MASTER DIRECTOR / ACCOUNT_06 DECISION** and do not silently choose a winner.
 
 ---
 
@@ -631,7 +631,7 @@ This follows the project's priority order rather than optimizing for visual spec
 
 When specifications disagree, use the following status:
 
-> **NEEDS SIXTH INTEGRATION ACCOUNT DECISION**
+> **NEEDS MASTER DIRECTOR / ACCOUNT_06 DECISION**
 
 Record:
 
