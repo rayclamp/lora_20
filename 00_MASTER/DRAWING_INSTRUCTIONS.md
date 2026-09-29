@@ -20,8 +20,10 @@ Use 00_MASTER/ANATOMY_STABILITY.md as the complete mandatory anatomy and generat
 ## Anatomy-first drawing
 Before decorative complexity:
 1. Confirm exactly two hands and two legs.
+2. Trace each visible hand from shoulder → upper arm → forearm → wrist → palm and confirm the correct anatomical left/right side.
+3. For BACK/BACK_3/4, never infer handedness from screen position; use anatomical tracing and mark REVIEW when uncertain.
 2. Confirm traceable shoulder/arm/wrist/palm and hip/leg/ankle/foot connections.
-3. Design stable fingers/toes.
+4. Design stable palm/wrist structure, then stable fingers/toes.
 4. Confirm support, center of gravity, joint direction, and force/load.
 5. Add clothing and accessories.
 6. Add background, props, lighting effects, and decorative details.
