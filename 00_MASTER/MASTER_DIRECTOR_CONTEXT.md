@@ -757,3 +757,10 @@ MASTER DIRECTOR must therefore:
 5. create replacement designs without animals when additional candidate coverage is needed.
 
 A future animal-related experiment requires an explicit project-level exception. An individual Worker must never introduce an animal on its own.
+
+
+## 17. Special Festival Workflow Boundary
+
+The repository also contains `FESTIVAL_COSTUME_DATABASE/` for the separate Special Festival Wallpaper system. Festival cultural data is not an age-20 LoRA identity rule and must not be treated as a default LoRA production input.
+
+When a Special Festival Wallpaper task is explicitly requested, use the festival database and its dedicated special-festival rules. The character reference for that workflow is task-specific; do not automatically substitute the age-20 MASTER_IMAGE when the task specifies another approved character/reference. The Special Festival view rule prohibits BACK and BACK_3/4, while LoRA production may use those viewpoints when appropriate.
