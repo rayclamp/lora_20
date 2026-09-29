@@ -1,63 +1,40 @@
-# TASK_QUEUE.md — Historical Project Task Index
+# TASK_QUEUE.md — Historical Task Index
 
 ## Authority
-Project-wide rules live in `00_MASTER/`. Current production state lives in `PRODUCTION/PRODUCTION_GOAL.md` and `PRODUCTION/IMAGE_QUEUE.md`.
 
-This file is a **historical task index**, not the active production queue. T107 and earlier task records remain for lineage and audit only. Do not resume them unless the current Master Director explicitly creates a new Goal that references them.
+This file is a historical index only.
 
-## Historical tasks
+- Project-wide rules: `00_MASTER/`
+- Current Goal: `PRODUCTION/PRODUCTION_GOAL.md`
+- Current Queue: `PRODUCTION/IMAGE_QUEUE.md`
+- Active per-task state: `PRODUCTION/T109_IMAGE_QUEUE.md`
 
-## T001 — Age-20 MASTER_IMAGE validation
-- Status: DONE
-- Account: ACCOUNT_06
-- Target: 1
-- Completed: 1
-- Priority: P0
+Do not use this file to claim, resume, or reassign production work.
 
-## T002 — Multi-account startup validation
-- Status: DONE
-- Accounts: ACCOUNT_01–ACCOUNT_06
-- Priority: P0
+## Historical records
 
-## T101–T105 — Approved design inputs
-- Status: DONE
-- These remain approved source handoffs for integrated design.
-- They are not active worker roles.
+The following task families were completed or superseded during earlier project validation:
 
-## T107 — IMAGE_PRODUCTION first 20 images
-- Status: PAUSED_FOR_VALIDATION
-- Account: Generation Worker Pool
-- Target: 20
-- Valid production candidates: 0
-- Historical candidates: 5
-- NEED_REGENERATE: 5
-- QUEUED: 15
-- Final PASS: 0
-- Priority: P0
-- Input: 05_PROMPT/T105_PROMPT_PACKAGE_v1.0.md
-- Queue: PRODUCTION/IMAGE_QUEUE.md
+- T001 — age-20 MASTER_IMAGE validation
+- T002 — multi-account startup validation
+- T101 — Character design handoff
+- T102 — Clothing design handoff
+- T103 — Scene design handoff
+- T104 — Pose/Camera design handoff
+- T105 — Prompt package handoff
+- T106 — Final review gate definition
+- T107 — earlier image-production validation
+- T108 — 40-task production capacity test
 
-## T106 — FINAL REVIEW
-- Status: WAITING_FOR_T107
-- Account: ACCOUNT_06
-- Gate: actual uploaded candidates must exist before final review.
+These records remain for lineage and audit. Their historical account assignments, queue states, and validation conditions do not override the current Worker Pool or current production Goal.
 
-## Current account architecture
-- ACCOUNT_01–05 = GENERATION_WORKER
+## Current architecture
+
 - ACCOUNT_06 = MASTER_DIRECTOR / FINAL_REVIEWER / QA
-- ACCOUNT_07–08 = optional GENERATION_WORKER
+- ACCOUNT_01–05 and ACCOUNT_07–08 = interchangeable Generation Worker sessions
+- Workers claim tasks through the active shared queue.
+- Workers do not have permanent task ownership or fixed quotas.
 
-## Production rule
-Workers use the shared queue lock. Startup timing never assigns ownership.
+## Current production
 
-A worker must successfully claim a job before generation. A candidate is not QC_PENDING until its production asset and lineage are recorded.
-
-## Validation requirement
-Before T107 resumes, one controlled test must pass:
-- MASTER_IMAGE reference style match;
-- Japanese anime target style;
-- anatomy stability;
-- hand/foot/object contact;
-- asset transfer and lineage.
-
-Only ACCOUNT_06 may resume T107 after validation.
+The active production batch is T109. Read the current pointer files instead of this historical index.
