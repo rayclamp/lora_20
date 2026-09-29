@@ -27,7 +27,7 @@
 | ACC_HOLI_DUPATTA_001 | Bright dupatta with tassels | F013 | India | HIGH |
 | ACC_HOLI_MINIMAL_JEWELRY_001 | Minimal washable bracelet | F013 | India | MEDIUM |
 | ACC_EID_HENNA_BRACELET_001 | Delicate festive bracelet paired with henna | F015,F016 | Muslim communities | MEDIUM |
-| ACC_EID_PEARL_001 | Pearl jewelry for festive modestwear | F014,F15,F016 | Muslim communities | MEDIUM |
+| ACC_EID_PEARL_001 | Pearl jewelry for festive modestwear | F014,F015,F016 | Muslim communities | MEDIUM |
 | ACC_EID_BROOCH_001 | Decorative brooch for scarf / shawl | F014,F015,F016 | Muslim communities | MEDIUM |
 | ACC_NOWRUZ_PENDANT_001 | Persian-style pendant necklace | F017 | Iran/Central Asia | MEDIUM |
 | ACC_NOWRUZ_SCARF_001 | Persian silk scarf | F017 | Iran | HIGH |
