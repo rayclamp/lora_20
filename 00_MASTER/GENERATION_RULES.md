@@ -158,3 +158,27 @@ Such tasks should specify, when relevant:
 - BACKGROUND_PRIORITY: secondary / atmospheric.
 
 Do not interpret FULL_BODY as automatically meaning a distant environmental shot. Conversely, do not force a large-character full-body composition when the task is intentionally environmental or when a close-up/half-body framing is required for dataset diversity.
+
+
+## Character-dominant wallpaper composition
+
+Wallpaper composition must follow `00_MASTER/WALLPAPER_COMPOSITION.md`.
+
+Do not interpret wallpaper format as requiring a small character or a full-body environmental shot. Both 9:16 and 16:9 may use large character-dominant close compositions.
+
+Treat these as independent controls:
+- FRAMING;
+- CHARACTER_OCCUPANCY;
+- SHOT_DISTANCE;
+- CHARACTER_POSITION;
+- VISUAL_FOCUS.
+
+MASTER DIRECTOR should actively create close-up, head-and-shoulders, bust, 1/3-body, and half-body compositions when appropriate. In particular, BUST / 1/3-BODY / HALF-BODY with approximately 65–85% character occupancy are valid core wallpaper compositions.
+
+Close-range images should be used to present facial features, face shape, eyes, hairstyle, expression, accessories, and upper clothing clearly. This is a wallpaper-aesthetic objective as well as a useful character-reference objective.
+
+16:9 horizontal wallpapers may also use very large close portraits or half-body/1/3-body compositions. Horizontal format does not imply distant framing.
+
+FULL-BODY remains valid but is not the automatic wallpaper default. FULL-BODY + CHARACTER-DOMINANT and FULL-BODY + ENVIRONMENTAL should be treated as distinct compositions.
+
+The series planner must actively consider what the viewer should notice first rather than only how much of the body is visible.
