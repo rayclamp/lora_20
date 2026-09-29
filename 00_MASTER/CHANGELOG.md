@@ -1,3 +1,19 @@
+## 2026-09-29 — Project-wide documentation cleanup and anatomy/festival synchronization
+
+- Audited the current repository structure and reconciled current authoritative rules with historical handoffs and production pointers.
+- Clarified that `00_MASTER/ANATOMY_STABILITY.md` governs hand topology, anatomical left/right handedness, BACK/BACK_3/4 handedness verification, and anatomy–background readability.
+- Strengthened hand-action and QA rules so five-finger count alone cannot pass a malformed wrist/palm/arm topology.
+- Clarified that BACK and BACK_3/4 are allowed for LoRA viewpoint diversity; they require stricter handedness verification.
+- Kept the no-BACK rule isolated to the Special Festival Wallpaper system.
+- Removed age-36 fallback ambiguity from the age-20 LoRA character adapter.
+- Corrected historical handoff references from deleted `WORKFLOW/*` paths to current `00_MASTER/*` authorities.
+- Converted `TASKS/TASK_QUEUE.md` into a historical index so old T107/T108 task state cannot be mistaken for active production state.
+- Synchronized the active T109 counters with the actual queue: 150 tasks, 135 QUEUED, 4 GENERATING, 11 IMAGE_CREATED.
+- Added the dedicated `FESTIVAL_COSTUME_DATABASE/SPECIAL_FESTIVAL_WALLPAPER_MASTER.md` boundary document.
+- Normalized all 48 Group 00 festival records to the current expanded reusable-item database and corrected their category links.
+- Removed duplicate/misclassified festival catalog entries that could confuse workers.
+- Marked historical production logs and handoff documents as non-authoritative historical references.
+
 # CHANGELOG.md
 
 ## 2026-09-26 — Added age-20 animal/pet exclusion
