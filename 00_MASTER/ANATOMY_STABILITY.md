@@ -118,6 +118,40 @@ If a small handle is too difficult, use palm support on the larger body when the
 ## 8. False-limb prevention
 Inspect sleeves, skirts, coats, bags, straps, cups, books, phones, umbrellas, plants, rails, furniture, background structures, clothing folds, and the opposite arm. No background or object may create a convincing third hand, third arm, third leg, or extra foot.
 
+## 9. Anatomy–background separation
+
+Correct anatomy is not sufficient if fingers, toes, hands, or feet visually merge into the background. Generation planning must protect both **anatomical correctness** and **anatomical readability**.
+
+### Core rule
+Visible fingers/toes and important hand/foot contours must have sufficient visual separation from the background to remain clearly distinguishable.
+
+Do NOT place high-risk background detail directly behind or through important anatomy, including:
+- thin branches, rails, wires, window frames, foliage, flower stems, grass, hair strands, or decorative lines behind fingers;
+- dense leaves, flowers, gravel, patterned flooring, wood grain, or other high-frequency textures behind bare toes or feet;
+- background elements with skin-like, clothing-like, or accessory-like colors that can visually merge with hands or feet;
+- high-contrast edges that cut directly through fingers, toes, palms, wrists, ankles, or foot contours;
+- particles, lighting effects, straps, props, or decorative elements that visually break the silhouette around hands or feet.
+
+### Visual-clearance rule
+A complex background is allowed. The background does **not** need to be plain, empty, or heavily blurred. However, the local area immediately surrounding important hands/feet must provide enough contrast, negative space, depth separation, or controlled detail for the anatomy to remain readable.
+
+Use one or more of the following when needed:
+- cleaner background area behind the hand/foot;
+- depth-of-field separation;
+- tonal or color contrast;
+- controlled lighting separation;
+- repositioning the limb away from dense background detail;
+- simplifying only the local background region rather than the whole scene.
+
+### Design-time requirement
+Background selection must be evaluated together with pose and anatomy during task design. Do not assume that a correct hand/foot pose will remain correct after a visually confusing background is added.
+
+### QA rule
+If fingers/toes are visibly present but their boundaries are materially obscured by background fusion, treat the anatomy as **not reliably readable**. If the structure cannot be determined from visible evidence, report REVIEW rather than guessing PASS. A clearly fused or malformed result remains FAIL.
+
+Priority:
+**anatomical correctness + anatomical readability > background complexity/decorative detail.**
+
 ## 9. Local repair priority
 1. Fingers / toes.
 2. Wrist / palm / arm / shoulder connections.
