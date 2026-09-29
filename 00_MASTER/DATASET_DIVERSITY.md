@@ -148,3 +148,23 @@ For each close-up task, define explicit framing controls such as SHOT_DISTANCE, 
 Full-body images remain valuable, but they are not the default representation of an Inaria LoRA candidate. Hand/foot inspection requirements must never force every task toward full-body framing.
 
 A close-up candidate can be valid and valuable even when hands and feet are outside the frame. QA should judge only visible anatomy and should not penalize natural framing crops or reasonable occlusion of body parts that are not visible.
+
+
+## Full-body scale diversity
+
+FULL-BODY does not automatically mean a distant or environment-dominant composition.
+
+MASTER DIRECTOR should distinguish between:
+- **FULL-BODY + CHARACTER-DOMINANT:** entire body visible, character occupies approximately 70–85% of the frame, background remains secondary;
+- **FULL-BODY + ENVIRONMENTAL:** entire body visible, but the character occupies a smaller portion of the frame and the environment is a major visual element.
+
+Both are valid dataset compositions. Character-dominant full-body framing is especially useful when clothing, complete outfit construction, accessories, posture, or visible anatomy are important.
+
+When appropriate, tasks may explicitly define:
+- SHOT_DISTANCE: CLOSE-MEDIUM / MEDIUM;
+- FRAMING: FULL_BODY;
+- CHARACTER_SCALE: LARGE / DOMINANT;
+- CHARACTER_OCCUPANCY: approximately 70–85%;
+- BACKGROUND_PRIORITY: secondary / atmospheric.
+
+This rule prevents the framing-diversity requirement from accidentally eliminating the large-character full-body composition that is useful for character-focused images and wallpapers.
