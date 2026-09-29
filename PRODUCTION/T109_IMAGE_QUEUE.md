@@ -20,14 +20,14 @@
 8. A failed, blocked, or duplicate task may be replaced later by MASTER DIRECTOR with a new legitimate design.
 9. Do not create new tasks yourself.
 10. QA is paused and must not block production.
-11. Front/side-facing only; no back-facing compositions.
+11. Viewpoint is task-specific. Rear views are allowed for LoRA viewpoint diversity when a task calls for them; verify left/right handedness and anatomy using `00_MASTER/ANATOMY_STABILITY.md`.
 12. No fully readable real-character + fully readable mirror/reflection composition.
 13. Clothing diversity is mandatory; the original MASTER_IMAGE outfit is not the default outfit for this batch.
 
 ## Queue summary
 - Total tasks: 150
-- QUEUED: 146
-- IMAGE_CREATED: 3
+- QUEUED: 135
+- IMAGE_CREATED: 11
 - CLAIMED: 0
 - GENERATING: 0
 - QA PASS: 0
