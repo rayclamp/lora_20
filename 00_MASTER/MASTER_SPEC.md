@@ -1,8 +1,8 @@
 # MASTER_SPEC.md — Inaria AI Studio Master Specification
 
 - Authority: Project-wide source of truth
-- Version: v006
-- Last Updated: 2026-09-25
+- Version: v007
+- Last Updated: 2026-09-29
 - Project: rayclamp/lora_20
 - Active target: Age-20 Inaria identity LoRA dataset
 
@@ -73,7 +73,7 @@ Forbidden target rendering:
 The generic label Japanese anime is not sufficient by itself. Reference matching is required.
 
 ## 9. Generation-stability priority
-00_MASTER/ANATOMY_STABILITY.md is the hard anatomy and pose-stability standard.
+00_MASTER/ANATOMY_STABILITY.md is the hard anatomy and pose-stability standard, including hand topology, anatomical handedness, BACK/BACK_3/4 handedness verification, and anatomy–background readability.
 
 Priority:
 1. identity/reference match
@@ -147,3 +147,10 @@ Therefore, unless explicitly authorized by a future project-level rule, animals 
 This is a dataset-design constraint, not merely a QA preference. MASTER DIRECTOR must prevent animals from being intentionally designed into production tasks, and Worker Prompt Packages should explicitly exclude them.
 
 If a generated image unexpectedly contains an animal, the image remains a generation event and is handled by downstream QA; Workers must not repeatedly regenerate the same task merely to remove the animal.
+
+
+## 17. Special Festival Database Boundary
+
+`FESTIVAL_COSTUME_DATABASE/` is a separate cultural-reference database for the Special Festival Wallpaper workflow. It does not change the age-20 LoRA identity, style, production Goal, or training rules.
+
+The current 48-festival Group 00 is fixed unless the user explicitly requests a scope change. Special Festival Wallpaper uses its own view rule: FRONT / FRONT_3/4 / SIDE only; BACK / BACK_3/4 are prohibited for that workflow. Do not copy this festival-specific restriction into general LoRA viewpoint rules.
