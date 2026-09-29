@@ -1,3 +1,5 @@
+> **Historical handoff:** This completed T105 design package is retained as a reference asset, not an independent authority. Current project-wide rules in `00_MASTER/` override any older wording here.
+
 # T105 — PROMPT PACKAGE Handoff v1.0
 
 - Account: ACCOUNT_05
