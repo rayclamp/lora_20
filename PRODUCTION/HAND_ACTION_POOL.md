@@ -15,7 +15,7 @@ All entries start as NEW.
 - HAND-007 One hand touching hair, other relaxed
 - HAND-008 One hand adjusting sleeve, other relaxed
 - HAND-009 One hand reaching toward a large object
-- HAND-010 Both hands resting naturally on thighs while seated
+- HAND-010 One hand on each knee/thigh while seated, hands clearly separated (do not stack/overlap on one knee).
 - HAND-011 One hand on a stable surface, other relaxed
 - HAND-012 Hands carrying a simple lightweight object
 
@@ -25,3 +25,10 @@ All entries start as NEW.
 - Avoid unnecessary finger crossing, pinching, or both hands overlapping.
 - Keep hands away from image edges and background clutter.
 - Exactly five fingers per visible hand; no extra, missing, fused, or malformed digits.
+
+
+## High-risk exclusions
+- Do not use both hands stacked, overlapped, interlocked, or crossed on the same knee/thigh.
+- Do not infer left/right from screen position.
+- For BACK/BACK_3/4 tasks, keep the shoulder-to-hand path traceable; if handedness is ambiguous, the candidate requires REVIEW.
+- A correct five-finger count does not compensate for a malformed wrist, palm, or arm topology.
