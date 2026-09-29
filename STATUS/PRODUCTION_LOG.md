@@ -1,3 +1,5 @@
+> **Historical log:** This file records prior production events for audit and lineage. It is not a current rule source and must not override `00_MASTER/` or the active T109 Goal/Queue.
+
 # PRODUCTION_LOG.md
 
 # 20歲依娜莉亞 LoRA 生產紀錄
