@@ -3,7 +3,7 @@
 - **Department:** 01_CHARACTER — Character Design
 - **Version:** v1.1
 - **Last Updated:** 2026-09-05
-- **Purpose:** Establish a reusable, long-term specification for Inaria's character identity, age variants, consistency evaluation, LoRA dataset selection, repair/rejection criteria, and character prompt standards. This document is subordinate to `00_MASTER/` and must not redefine or silently override Master rules.
+- **Purpose:** Provide a subordinate character-reference adapter for this age-20 Inaria LoRA repository. Other age variants are maintained outside this project and must not be used as fallback references here.
 
 ---
 
@@ -37,9 +37,9 @@ Character requirements supplied to other departments are handoff constraints, no
 - **Ethnicity/background:** Taiwanese / Asian
 - **Default setting:** modern Taiwan, 2026
 - **Birthday:** 1990-04-03
-- **Default age reference:** 36 years old
-- **Age 20:** use the user's designated age-20 standard portrait as the primary visual reference when an age-20 task is active.
-- **Age 36:** use the designated age-36 standard portrait as the primary visual reference when no other age/reference is specified.
+- **Active age reference:** 20 years old.
+- **Primary visual reference:** `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`.
+- **Age scope:** This repository is age-20 only. Other age variants must not be used as fallback references.
 
 The character identity must remain recognizable across clothing, scene, pose, camera, lighting, and composition changes.
 
@@ -127,42 +127,11 @@ These requirements follow the Character Master and Generation Rules.
 
 ---
 
-## 3. Age Variants — 20 vs 36
+## 3. Active age standard
 
-### 3.1 Age 20
+This repository contains the age-20 Inaria LoRA specification only. Do not introduce age-36 or other age-variant references, prompts, or fallback logic into this project.
 
-- Primary reference: the user's designated age-20 standard portrait.
-- Represents Inaria as a **20-year-old adult**.
-- Preserve the same underlying character identity while maintaining a clearly adult, youthful presentation.
-- Do not use the age-36 portrait as the primary identity target when an explicit age-20 task is active.
-- Age-appropriate differences should come from the designated reference rather than invented stereotypes about youth.
-
-### 3.2 Age 36
-
-- Primary reference: the designated age-36 standard portrait when no other age/reference is specified.
-- Represents the same underlying character with a mature adult presentation appropriate to age 36.
-- Do not unintentionally regress the character toward the age-20 visual target.
-
-### 3.3 Shared identity vs age-specific variation
-
-Shared across both versions:
-
-- underlying facial identity
-- core face structure
-- recognizable facial features
-- established hair color
-- intended body proportions, subject to the active age reference
-
-Allowed to vary by age:
-
-- apparent facial maturity
-- age-specific styling
-- age-specific expression/presentation
-- other visual characteristics explicitly established by the designated reference
-
-When an age-variant distinction is unclear, the designated reference image takes priority over inferred age styling.
-
----
+The active reference is `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`. It controls character identity and visual style for this repository.
 
 ## 4. Character Consistency Evaluation
 
@@ -370,7 +339,7 @@ Supplied by the Pose/Camera Department.
 
 **Lighting / Style**
 
-Supplied according to `ART_STYLE_MASTER.md` and the active task.
+Supplied according to `00_MASTER/STYLE_MASTER.md` and the active task.
 
 **Negative**
 
@@ -490,7 +459,7 @@ Primary repository sources:
 
 - `00_MASTER/PROJECT_MASTER.md`
 - `00_MASTER/CHARACTER_MASTER.md`
-- `00_MASTER/ART_STYLE_MASTER.md`
+- `00_MASTER/00_MASTER/STYLE_MASTER.md`
 - `00_MASTER/GENERATION_RULES.md`
 - `01_CHARACTER/README.md`
 
