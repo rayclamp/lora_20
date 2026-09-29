@@ -103,3 +103,37 @@ If an animal nevertheless appears in a generated candidate, the Worker does not 
 ## Hand topology and handedness
 
 Do not reduce hand correctness to a five-finger count. Trace shoulder → upper arm → forearm → wrist → palm → fingers, verify the anatomical left/right side, and then verify finger structure. For BACK/BACK_3/4, never infer left/right from screen position. If the side cannot be established, the task/candidate requires REVIEW. A malformed wrist or palm is a hand failure even when five fingers are visible.
+
+
+## LoRA framing and close-up generation
+
+LoRA dataset production must not default to full-body composition.
+
+When designing LoRA candidates, MASTER DIRECTOR must deliberately distribute framing across:
+- CLOSE-UP: face / head-and-shoulders portrait;
+- BUST / HALF-BODY;
+- MEDIUM SHOT: waist-up, thigh-up, knee-up, or comparable medium framing;
+- FULL-BODY.
+
+CLOSE-UP and BUST/HALF-BODY are required dataset categories, not merely optional possibilities. A task that does not explicitly require full-body should not automatically become a full-body composition.
+
+For close-up tasks, the prompt package should explicitly specify:
+- SHOT_DISTANCE;
+- FRAMING;
+- VIEW;
+- CHARACTER_SCALE;
+- VISIBLE_BODY_AREA;
+- CROP.
+
+Example close-up specification:
+- SHOT_DISTANCE: CLOSE;
+- FRAMING: HEAD-AND-SHOULDERS or FACE CLOSE-UP;
+- CHARACTER_SCALE: character occupies a large portion of the frame;
+- VISIBLE_BODY_AREA: head, hair, shoulders, neck, and/or upper chest as specified;
+- CROP: natural close portrait crop.
+
+Close-up tasks should also explicitly exclude unintended distant/full-body composition when necessary, such as: do not use a full-body composition; do not place the character far from the camera; do not shrink the character to a small portion of the frame.
+
+Hands and feet do not need to be visible in close-up or naturally cropped compositions. Anatomy QA applies to body parts actually visible in the image; natural cropping or reasonable occlusion of a non-visible body part is not itself an anatomy failure.
+
+The purpose of framing diversity is to teach character identity at multiple visual scales, not to maximize the number of fully visible limbs.
