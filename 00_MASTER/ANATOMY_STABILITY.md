@@ -158,3 +158,61 @@ Therefore, mirror risk must be prevented during MASTER DIRECTOR composition/task
 
 ### Design priority
 For LoRA production, prefer a simpler single-character composition over a visually attractive but high-risk dual-instance mirror composition. If the mirror does not materially improve the task, remove or avoid the reflection.
+
+## 13. Body-proportion stability
+
+Human body proportions are a project-wide anatomy requirement, not a style preference.
+
+The character's natural body proportions must remain consistent with the applicable MASTER / CHARACTER REFERENCE, including:
+- torso length;
+- pelvis proportion;
+- thigh length;
+- lower-leg length;
+- total leg length;
+- leg-to-torso relationship;
+- overall limb proportions.
+
+Do not elongate the legs or torso because of:
+- elegance;
+- beauty or fashion styling;
+- model-like appearance;
+- full-body composition;
+- wide-angle perspective;
+- low-angle photography;
+- dynamic walking poses;
+- clothing design;
+- high heels.
+
+**Slim does not mean long-legged. Elegant does not mean fashion-model proportions.**
+
+### Seated-pose rule
+Seated, crouching, kneeling, stair, and similar poses may visually shorten or distort the apparent leg length. These images may remain in the dataset, but they must not be used alone as the primary reference for natural leg proportions.
+
+If a seated image makes body proportion difficult to judge because of leg overlap, clothing occlusion, perspective, or pose, classify it as **REVIEW**, not automatic FAIL.
+
+### High-heel rule
+High heels are allowed in the dataset. However, heel height, foot angle, and the resulting visual leg-line effect must not be interpreted as a change to the character's underlying body proportions.
+
+A high-heel image should be reviewed for actual anatomy and proportion rather than judged by apparent leg length alone.
+
+### Reliable proportion-reference images
+Dataset proportion assessment should prioritize images with:
+- standing posture;
+- full-body visibility;
+- front or front 3/4 view;
+- natural stance;
+- clearly visible legs;
+- limited perspective distortion;
+- minimal clothing occlusion;
+- no reliance on high heels to create a long-leg appearance.
+
+These images provide stronger evidence for the character's natural body-proportion baseline.
+
+### Body-proportion QA classification
+**PASS** — natural proportions are clearly consistent with the applicable reference.
+
+**REVIEW** — pose, footwear, clothing, occlusion, or perspective makes the natural proportion difficult to determine reliably.
+
+**FAIL** — clear unnatural leg/torso elongation, abnormal thigh/lower-leg ratio, or obvious fashion-model-style body stretching is visible.
+
+The goal is not to make every image appear to have identical leg length. The goal is to preserve the same underlying natural body proportions across different poses, footwear, cameras, and scenes.
