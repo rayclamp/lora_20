@@ -1,7 +1,11 @@
-# TASK_QUEUE.md — Age-20 Inaria LoRA Tasks
+# TASK_QUEUE.md — Historical Project Task Index
 
-## Rules
-Project-wide rules live in 00_MASTER. Per-image production state lives only in PRODUCTION/IMAGE_QUEUE.md.
+## Authority
+Project-wide rules live in `00_MASTER/`. Current production state lives in `PRODUCTION/PRODUCTION_GOAL.md` and `PRODUCTION/IMAGE_QUEUE.md`.
+
+This file is a **historical task index**, not the active production queue. T107 and earlier task records remain for lineage and audit only. Do not resume them unless the current Master Director explicitly creates a new Goal that references them.
+
+## Historical tasks
 
 ## T001 — Age-20 MASTER_IMAGE validation
 - Status: DONE
