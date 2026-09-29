@@ -137,3 +137,24 @@ Close-up tasks should also explicitly exclude unintended distant/full-body compo
 Hands and feet do not need to be visible in close-up or naturally cropped compositions. Anatomy QA applies to body parts actually visible in the image; natural cropping or reasonable occlusion of a non-visible body part is not itself an anatomy failure.
 
 The purpose of framing diversity is to teach character identity at multiple visual scales, not to maximize the number of fully visible limbs.
+
+
+## Full-body does not mean distant shot
+
+FULL-BODY is a framing category, not a requirement for a distant camera.
+
+A full-body image may use a close-to-medium camera distance and a large character scale while keeping the entire body visible. MASTER DIRECTOR should distinguish between:
+
+- FULL-BODY + CHARACTER-DOMINANT: the entire body remains visible, while Inaria occupies approximately 70–85% of the frame; the background is secondary and supports the character presentation.
+- FULL-BODY + ENVIRONMENTAL: the entire body remains visible but the character occupies a smaller portion of the frame so that the surrounding environment is a major visual element.
+
+For character-focused wallpaper tasks, especially festival, seasonal, formalwear, kimono, costume, or accessory showcases, FULL-BODY + CHARACTER-DOMINANT is explicitly allowed and encouraged when it improves presentation of the complete outfit and visible anatomy.
+
+Such tasks should specify, when relevant:
+- SHOT_DISTANCE: CLOSE-MEDIUM or MEDIUM;
+- FRAMING: FULL_BODY;
+- CHARACTER_SCALE: LARGE or DOMINANT;
+- CHARACTER_OCCUPANCY: approximately 70–85% of the frame;
+- BACKGROUND_PRIORITY: secondary / atmospheric.
+
+Do not interpret FULL_BODY as automatically meaning a distant environmental shot. Conversely, do not force a large-character full-body composition when the task is intentionally environmental or when a close-up/half-body framing is required for dataset diversity.
