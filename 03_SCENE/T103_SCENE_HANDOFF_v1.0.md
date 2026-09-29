@@ -1,3 +1,5 @@
+> **Historical handoff:** This completed T103 design document is retained as a reference asset, not an independent authority. Current project-wide rules in `00_MASTER/` override any older wording here.
+
 # T103 — SCENE Handoff v1.0
 
 - **Account:** ACCOUNT_03
@@ -11,7 +13,7 @@
 - **Character source:** `01_CHARACTER/CHARACTER_SPEC.md` v1.1
 - **Scene source:** `03_SCENE/SCENE_SPEC.md` v001
 - **Generation source:** `00_MASTER/GENERATION_RULES.md`
-- **Style source:** `WORKFLOW/STYLE_MASTER.md`
+- **Style source:** `00_MASTER/STYLE_MASTER.md`
 
 ## Handoff rules
 
