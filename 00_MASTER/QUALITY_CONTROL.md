@@ -21,6 +21,8 @@ A generic Japanese anime appearance without meaningful MASTER_IMAGE visual-langu
 ## 4. Anatomy hard gate
 Check:
 - exactly two hands and two legs;
+- every visible hand traces from the correct shoulder through upper arm, forearm, wrist and palm;
+- left/right handedness is anatomically correct, especially in BACK/BACK_3/4 views;
 - five fingers on every visible hand;
 - five toes on every visible bare foot;
 - correct left/right anatomy;
@@ -28,7 +30,9 @@ Check:
 - natural hip/leg/ankle/foot connections;
 - plausible center of gravity;
 - no extra/missing/fused/duplicated digits;
-- no false limbs from clothing, straps, props, furniture, plants, or background.
+- no false limbs from clothing, straps, props, furniture, plants, or background;
+- hand/foot silhouettes remain readable against the local background;
+- a malformed wrist/palm/arm connection fails even if five fingers are visible;
 
 Hand-action gate:
 - single-hand single-task;
