@@ -62,3 +62,18 @@ Check:
 Reliable proportion evidence should prioritize standing, full-body, front/front-3/4, naturally posed images with clear legs and limited perspective distortion.
 
 A high-heel image is not automatically a proportion failure. A seated image is not automatically a proportion failure. The QA question is whether the underlying human proportions are clearly inconsistent with the applicable reference.
+
+
+## Framing and crop QA
+
+Framing is evaluated according to the task specification, not according to a universal full-body requirement.
+
+For CLOSE-UP, HEAD-AND-SHOULDERS, BUST/HALF-BODY, or other cropped tasks:
+- do not fail the candidate merely because hands or feet are outside the frame;
+- do not infer missing anatomy from naturally cropped regions;
+- inspect only the body parts that are actually visible;
+- natural cropping and reasonable occlusion are not anatomy failures by themselves.
+
+If a task explicitly requires CLOSE-UP but the result is clearly a distant or full-body composition, report the framing requirement as a task/composition failure.
+
+For full-body tasks, visible hands and feet remain subject to the normal anatomy rules.
