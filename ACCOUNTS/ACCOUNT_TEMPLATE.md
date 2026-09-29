@@ -1,8 +1,8 @@
 # ACCOUNT_TEMPLATE.md
 
-# ChatGPT 帳號工作站狀態
+# ChatGPT Worker Session Profile Template
 
-> 複製本文件建立 `ACCOUNT_XX.md`。每個實際使用的 ChatGPT 帳號只維護自己的檔案。
+> 可選的 Worker session profile。帳號不是永久任務所有者；目前 Worker 透過共享 Queue 自行取得任務。
 
 ## Account
 
@@ -37,7 +37,7 @@ None
 
 ## Next Step
 
-等待 TASK_QUEUE 分配或領取任務。
+等待目前 `PRODUCTION/IMAGE_QUEUE.md` 指向的 active Queue。
 
 ## Notes
 
