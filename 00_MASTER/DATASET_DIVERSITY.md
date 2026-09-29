@@ -168,3 +168,23 @@ When appropriate, tasks may explicitly define:
 - BACKGROUND_PRIORITY: secondary / atmospheric.
 
 This rule prevents the framing-diversity requirement from accidentally eliminating the large-character full-body composition that is useful for character-focused images and wallpapers.
+
+
+## Character-dominant composition coverage
+
+Composition diversity must include more than full-body versus close-up. FRAMING and CHARACTER_OCCUPANCY are independent variables.
+
+The production pool should deliberately include valid combinations such as:
+- BUST + 65–85%;
+- 1/3-BODY + 70–85%;
+- HALF-BODY + 65–85%;
+- FULL-BODY + 65–85% character-dominant;
+- FULL-BODY + smaller environmental scale.
+
+Large-character compositions are valuable because they expose facial identity, face shape, eyes, hairstyle, expression, accessories, and upper clothing at a useful visual scale. Do not let anatomy inspection requirements force every candidate toward full-body framing.
+
+For wallpaper-oriented candidates, both 9:16 and 16:9 should be allowed to contain large character-dominant portraits. Horizontal format must not be treated as an automatic distant/environmental composition.
+
+The diversity goal is not equal numeric distribution. The goal is meaningful variation in how Inaria is visually presented. A batch that contains many full-body environmental images but almost no large half-body/1/3-body/close compositions should be treated as compositionally incomplete even if the clothing and scenes are diverse.
+
+See 00_MASTER/WALLPAPER_COMPOSITION.md for the full character-dominant wallpaper composition system.
