@@ -28,6 +28,7 @@ Codex first-layer QA does not make the final production decision. ACCOUNT_06 is 
 6. Five toes per visible bare foot.
 7. Natural limb connections and center of gravity.
 8. No false limbs from clothing, props, straps, furniture, plants, or background.
+9. Hand/foot readability against the background; no material silhouette fusion with foliage, rails, patterns, effects, or other background detail.
 9. Natural hand-object contact.
 10. Complete bag/strap connections.
 11. Complete cup/mug/teapot/container structure.
