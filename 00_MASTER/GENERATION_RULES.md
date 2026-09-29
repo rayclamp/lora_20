@@ -98,3 +98,8 @@ For negative prompts, use explicit exclusion terms such as:
 **cat, kitten, dog, puppy, pet, animal, wildlife, animal companion**.
 
 If an animal nevertheless appears in a generated candidate, the Worker does not self-QA or regenerate solely because of that result; record the generation outcome normally and let downstream QA exclude it. Future replacement tasks must not repeat the animal-containing design.
+
+
+## Hand topology and handedness
+
+Do not reduce hand correctness to a five-finger count. Trace shoulder → upper arm → forearm → wrist → palm → fingers, verify the anatomical left/right side, and then verify finger structure. For BACK/BACK_3/4, never infer left/right from screen position. If the side cannot be established, the task/candidate requires REVIEW. A malformed wrist or palm is a hand failure even when five fingers are visible.
