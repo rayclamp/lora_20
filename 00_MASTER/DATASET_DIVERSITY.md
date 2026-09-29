@@ -124,3 +124,7 @@ For the age-20 Inaria LoRA dataset, do not intentionally include:
 Animals can create an unintended association between the Inaria concept and a secondary visual concept. They can also introduce extra anatomy, occlusion, hand/object interaction, and scene noise.
 
 Therefore animal-free scenes are the default. A future exception requires an explicit MASTER DIRECTOR project-level decision rather than an individual Worker adding an animal for decoration.
+
+
+## Current anatomy-diversity requirement
+Hand diversity must not be created by increasing structural complexity. Prefer different stable hand configurations while preserving clear left/right identity, palm/wrist topology, finger readability, and background separation. BACK/BACK_3/4 viewpoints are valid dataset diversity; they require stricter handedness verification, not automatic exclusion.
