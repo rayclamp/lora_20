@@ -1,3 +1,5 @@
+> **Historical handoff:** This completed T102 design document is retained as a reference asset, not an independent authority. Current project-wide rules in `00_MASTER/` override any older wording here.
+
 # T102 — CLOTHING Handoff v1.0
 
 - Account: ACCOUNT_02
@@ -8,7 +10,7 @@
 - Purpose: 提供 ACCOUNT_03 / ACCOUNT_04 / ACCOUNT_05 可直接組合的服裝、鞋履、配件設計單元。
 - Identity reference: `MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`
 - Character source: T101 `01_CHARACTER/CHARACTER_SPEC.md` v1.1
-- Style source: `WORKFLOW/STYLE_MASTER.md`
+- Style source: `00_MASTER/STYLE_MASTER.md`
 - Generation source: `00_MASTER/GENERATION_RULES.md`
 
 ## Handoff rules
