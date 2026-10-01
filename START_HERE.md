@@ -85,7 +85,16 @@ Use 00_MASTER/ANATOMY_STABILITY.md before generation.
 
 Exactly two hands and two legs; five fingers per visible hand; five toes per visible bare foot; traceable limb connections; plausible support/center of gravity; no false limbs; natural hand-object and wearable contact.
 
-## 8. Universal Worker startup command
+## 8. Drawing-stability generation lock
+Every Generation Worker must apply the complete owner-confirmed rules in `00_MASTER/DRAWING_INSTRUCTIONS.md` and `00_MASTER/ANATOMY_STABILITY.md` during task design and Prompt construction.
+
+In particular, the Worker must prioritize stable hand actions, finger/toe and limb-source clarity, natural body support and ergonomics, hand/object and wearable connections, lower-body stability, and background/effect clearance before decorative complexity.
+
+The conceptual drawing order is fingers/toes → body → clothing/accessories → background/effects.
+
+These rules are generation constraints, not post-generation QA. After successful generation, the Worker must not self-QA, reject, repair, or regenerate the candidate because of perceived visual defects.
+
+## 9. Universal Worker startup command
 Read the latest GitHub project state and **always resolve the active Goal and Queue by the current pointer files**. For this production round the active Goal is T109 and the active Queue is `PRODUCTION/T109_IMAGE_QUEUE.md`.
 
 You are an interchangeable Generation Worker in the Production Worker Pool.
@@ -104,8 +113,8 @@ If the active T109 Goal is reached, stop claiming new T109 work and report compl
 
 If reference verification or claim fails, do not generate. If a pre-generation blocker prevents work, safely release the task to QUEUED. Do not write after lease expiry.
 
-## 9. Master Director
+## 10. Master Director
 ACCOUNT_06 owns Goal creation, integrated design, queue planning, Worker Pool coordination rules, Codex QA integration, and final PASS / REPAIR / REJECT.
 
-## 10. Production readiness
+## 11. Production readiness
 T109 is the final production-architecture validation. If the Worker/Queue behavior is successful, this architecture becomes the reusable production framework for future character LoRA projects.
