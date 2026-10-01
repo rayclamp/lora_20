@@ -21,13 +21,15 @@ GitHub is the sole source of persistent production rules and coordination state.
 
 The user only needs to provide:
 1. Production quantity
-2. Wallpaper type
+2. Wallpaper type: ANIME WALLPAPER or REALISTIC WALLPAPER
 3. Output format
 4. Wallpaper theme
 5. Scene
 6. Weather
 7. Time
 8. Whether pets are allowed
+
+The wallpaper type is an explicit routing command, not a suggestion. The Worker must not reinterpret it.
 
 The user also uploads the reference image.
 
@@ -54,17 +56,21 @@ Before designing or generating anything, read the latest applicable GitHub rules
 
 At minimum read:
 1. START_HERE.md
-2. 00_MASTER/MASTER_SPEC.md
-3. 00_MASTER/DRAWING_INSTRUCTIONS.md
-4. 00_MASTER/ANATOMY_STABILITY.md
-5. 00_MASTER/GENERATION_RULES.md
-6. 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md
-7. 00_MASTER/GENERATION_WORKER_PROTOCOL.md
-8. 00_MASTER/PRODUCTION_PROTOCOL.md
-9. 00_MASTER/PRODUCTION_MODES.md
-10. PRODUCTION/WORKER_POOL.md
-11. PRODUCTION/GENERATION_RETRY_POLICY.md
-12. Any current wallpaper-type or festival-specific database/rule file applicable to the requested wallpaper type
+2. 00_MASTER/MODULE_REGISTRY.md
+3. 00_MASTER/MASTER_SPEC.md
+4. 00_MASTER/DRAWING_INSTRUCTIONS.md
+5. 00_MASTER/ANATOMY_STABILITY.md
+6. 00_MASTER/GENERATION_RULES.md
+7. 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md
+8. 00_MASTER/GENERATION_WORKER_PROTOCOL.md
+9. 00_MASTER/PRODUCTION_PROTOCOL.md
+10. 00_MASTER/PRODUCTION_MODES.md
+11. PRODUCTION/WORKER_POOL.md
+12. PRODUCTION/GENERATION_RETRY_POLICY.md
+13. The applicable wallpaper rule file:
+   - ANIME WALLPAPER → 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
+   - REALISTIC WALLPAPER → 00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md
+14. Any festival-specific database/rule file applicable to the requested wallpaper type
 
 The Worker must not rely on historical chat instructions when a current GitHub rule exists.
 
@@ -116,12 +122,18 @@ Any available Production Worker can execute any unclaimed compatible task.
 
 ## 8. Task design
 
+First resolve the wallpaper type:
+- ANIME WALLPAPER → load ANIME_WALLPAPER_RULES.md
+- REALISTIC WALLPAPER → load REALISTIC_WALLPAPER_RULES.md
+- Any other wallpaper type → STOP and ask for an explicit supported wallpaper type.
+
 For each image, the Worker derives the visual design from:
 A. Current user inputs
 B. The uploaded reference image
-C. Current GitHub production rules
-D. The requested wallpaper type's database/rules
-E. Dataset/diversity rules when applicable
+C. Current GitHub CORE rules
+D. The selected wallpaper-type rules
+E. Any applicable wallpaper/festival database
+F. Dataset/diversity rules when applicable
 
 The Worker may vary:
 - camera/view;
@@ -136,6 +148,8 @@ The Worker may vary:
 - environmental details.
 
 The Worker must NOT vary the reference identity into another person/character.
+
+The Worker must not mix Anime and Realistic rule sets in the same task unless the user explicitly requests a hybrid mode and a corresponding GitHub rule exists.
 
 ## 9. Drawing-stability rules are mandatory
 
