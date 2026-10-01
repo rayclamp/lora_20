@@ -1,3 +1,13 @@
+## 2026-10-02 — Production Worker drawing-stability and generation-safety separation
+
+- Added `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md` for generation-result safety, UNKNOWN recovery, duplicate-generation prevention, image preservation, and the Production/QA responsibility boundary.
+- Made `00_MASTER/DRAWING_INSTRUCTIONS.md` the explicit mandatory generation-design rule set, including the owner-confirmed 18 drawing rules and special rules for wearable straps, limb-source verification, hand-object contact, lower-body stability, long-skirt sofa poses, containers, anatomy/background separation, body proportions, and mirror risk.
+- Clarified that drawing-stability rules are applied BEFORE generation and are not post-generation QA.
+- Updated `00_MASTER/GENERATION_WORKER_PROTOCOL.md` and `START_HERE.md` so every Production Worker must apply the drawing-stability rules during composition and Prompt construction.
+- Registered the drawing-stability and generation-safety documents in `00_MASTER/MASTER_SPEC.md`.
+- Preserved the Production Worker boundary: workers generate candidates and record generation outcomes; downstream QA owns visual quality and PASS/FAIL/REPAIR/REJECT.
+- Current Phase 1 remains generation-only; generated image binaries are not uploaded to GitHub at this stage.
+
 ## 2026-09-29 — Project-wide documentation cleanup and anatomy/festival synchronization
 
 - Audited the current repository structure and reconciled current authoritative rules with historical handoffs and production pointers.
