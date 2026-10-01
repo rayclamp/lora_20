@@ -19,7 +19,8 @@ Read:
 8. 00_MASTER/ANATOMY_STABILITY.md
 9. 00_MASTER/GENERATION_RULES.md
 10. 00_MASTER/DRAWING_INSTRUCTIONS.md
-11. 00_MASTER/QUALITY_CONTROL.md
+11. 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md
+12. 00_MASTER/QUALITY_CONTROL.md
 12. 00_MASTER/PRODUCTION_PROTOCOL.md
 13. 00_MASTER/PRODUCTION_MODES.md
 14. PRODUCTION/IMAGE_QUEUE.md
@@ -79,6 +80,20 @@ The Prompt Package may change only explicitly assigned clothing, scene, pose, ca
 Never substitute photorealistic, photographic, live-action, 3D, CGI, semi-photorealistic, or another anime/game/illustration style.
 
 ## 7. Pre-generation stability
+Before generation, the Worker MUST apply the complete rules in `00_MASTER/DRAWING_INSTRUCTIONS.md` and `00_MASTER/ANATOMY_STABILITY.md`. These are mandatory generation-design constraints, not optional prompt suggestions.
+
+The Worker must explicitly design for stability in this order:
+1. stable hand action;
+2. fingers/toes and limb-source clarity;
+3. body ergonomics, support, center of gravity, joints, and load;
+4. hand/object and wearable/object connections;
+5. background/effect clearance around anatomy;
+6. decorative complexity.
+
+The Worker must simplify an unstable action, prop, strap, container, leg pose, or occlusion BEFORE generation rather than relying on downstream repair.
+
+The conceptual drawing order is fingers/toes → body → clothing/accessories → background/effects.
+
 Before generation:
 - confirm current Prompt Package;
 - confirm successful queue claim;
@@ -153,7 +168,7 @@ A generation error is not IMAGE_CREATED and must never be counted as Phase 1 com
 
 ## 9. Post-generation completion
 After a successful image is generated:
-1. Do NOT perform visual QA, task-compliance judgment, PASS/REPAIR/REJECT judgment, or subjective acceptance screening.
+1. Do NOT perform visual QA, task-compliance judgment, PASS/REPAIR/REJECT judgment, or subjective acceptance screening. The Worker may only confirm that the generation operation returned a candidate so that the generation event can be recorded.
 2. Do NOT regenerate the task merely because the Worker believes the candidate could be improved.
 3. Re-fetch the queue.
 4. Verify the active Claim ID and lease.
