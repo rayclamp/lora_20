@@ -16,7 +16,7 @@ A module must not require another module to execute unless an explicit integrati
 
 | Module | Status | Current executor / integration | Scope |
 |---|---|---|---|
-| UNIVERSAL_WALLPAPER | ACTIVE | ChatGPT Production Worker | General wallpaper generation |
+| UNIVERSAL_WALLPAPER | ACTIVE | ChatGPT Production Worker | Wallpaper routing and production |
 | LORA_PRODUCTION | PAUSED | Future Make/OpenAI integration | Age-20 Inaria LoRA dataset production |
 | IMAGE_DELIVERY | PAUSED | Future downstream integration | Image upload / delivery |
 | QA | PAUSED | Future QA Worker / Codex / final review | Visual and dataset quality control |
@@ -34,6 +34,12 @@ Its protocol is:
 `00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md`
 
 The Universal Wallpaper module is currently the only active production workflow.
+
+Wallpaper type routing:
+- ANIME_WALLPAPER → 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
+- REALISTIC_WALLPAPER → 00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md
+
+The current user instruction selects the wallpaper type. The current user-supplied reference image is the primary visual reference for that batch.
 
 ## 4. LoRA Production
 
