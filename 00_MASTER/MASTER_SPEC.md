@@ -86,7 +86,14 @@ Priority:
 
 When complexity conflicts with stability, simplify the action, prop, occlusion, or effect.
 
-## 10. QA
+## 10. Production drawing rules
+`00_MASTER/DRAWING_INSTRUCTIONS.md` is mandatory for Production Worker task design and Prompt construction. It includes the owner-confirmed drawing-stability rules for hand actions, fingers/toes, limb sources, support, object contact, wearable straps, containers, lower-body stability, background/effect clearance, and natural body proportions.
+
+Production Workers must apply these rules BEFORE generation. They are generation constraints, not post-generation QA. A Worker must simplify unstable designs before generation rather than relying on self-QA or automatic repair.
+
+`00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md` governs generation-result safety, preservation, duplicate-generation prevention, interruption recovery, and the Production/QA responsibility boundary.
+
+## 11. QA
 ACCOUNT_06 is the final gate. Codex may perform first-layer QA but does not replace ACCOUNT_06 final judgment.
 
 Final states: PASS, REPAIR, REJECT.
