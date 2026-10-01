@@ -1,139 +1,149 @@
-# START_HERE.md — Inaria Age-20 LoRA Project Startup
+# START_HERE.md — Modular Production System Startup
 
+## 0. System Architecture
 
-## 0. Universal Wallpaper Mode
+This repository uses a modular architecture:
 
-When the user is producing a wallpaper batch rather than executing a pre-existing LoRA production Goal, use:
+CORE → MODULE → MODULE-OWNED DATA / STATE
 
-00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md
+Read first:
+1. `00_MASTER/MODULE_REGISTRY.md`
+2. `00_MASTER/CORE_RULES.md`
+3. `00_MASTER/MASTER_SPEC.md`
 
-In this mode:
-- the user-uploaded image in the current request is the ONLY visual reference;
-- do not substitute MASTER_IMAGE/INARIA_20_MASTER_v1.0.png or any other project-specific reference;
-- the user does not provide Worker ID, account number, Task ID, or task folder;
-- the Worker creates a runtime Worker ID and claims the next compatible task;
-- the user only supplies quantity, wallpaper type, format, theme, scene, weather, time, and pet permission;
-- all persistent drawing, anatomy, generation-safety, queue, retry, and Worker rules are read from GitHub;
-- the universal protocol takes precedence over the LoRA-specific reference lock when this mode is explicitly active.
+The current active module is:
 
-The existing T109/age-20 LoRA rules below remain authoritative for T109 LoRA production and are not silently replaced by Universal Wallpaper Mode.
+**UNIVERSAL_WALLPAPER**
 
+The following modules are preserved but currently PAUSED:
+- LORA_PRODUCTION
+- IMAGE_DELIVERY
+- QA
 
-## 1. Authority
-This is an age-20 Inaria LoRA project. Read current 00_MASTER rules first. Do not rely on deleted legacy documents or historical chat instructions.
+PAUSED modules are not deleted and must not be executed until explicitly activated.
 
-## 2. Current architecture
-- ACCOUNT_06 = MASTER_DIRECTOR / FINAL_REVIEWER / QA
-- Generation accounts/sessions form one interchangeable PRODUCTION WORKER POOL
-- GitHub = shared persistent state, production coordination layer, and official reference authority
-- MASTER_IMAGE/INARIA_20_MASTER_v1.0.png = single official Character + Visual Style Reference
-- `PRODUCTION/PRODUCTION_GOAL.md` = compatibility pointer to the active Goal
-- `PRODUCTION/IMAGE_QUEUE.md` = compatibility pointer to the active Queue
-- T109 active Goal = `PRODUCTION/T109_PRODUCTION_GOAL.md`
-- T109 active Queue = `PRODUCTION/T109_IMAGE_QUEUE.md`
-- PRODUCTION/WORKER_POOL.md = authoritative worker-pool behavior
+## 1. Module selection rule
 
-A worker/session is not a permanent account identity. The team owns the production goal; workers temporarily execute tasks.
+A Worker must determine the active module from `00_MASTER/MODULE_REGISTRY.md`.
 
-## 3. Required reading order
-1. PROJECT_STATUS.md
-2. PRODUCTION/PRODUCTION_GOAL.md
-3. PRODUCTION/WORKER_POOL.md
-4. 00_MASTER/MASTER_SPEC.md
-5. 00_MASTER/STYLE_MASTER.md
-6. 00_MASTER/IDENTITY_MASTER.md
-7. 00_MASTER/ANATOMY_STABILITY.md
-8. 00_MASTER/GENERATION_RULES.md
-9. 00_MASTER/DATASET_DIVERSITY.md
-10. 00_MASTER/DRAWING_INSTRUCTIONS.md
-11. 00_MASTER/GENERATION_WORKER_PROTOCOL.md
-12. 00_MASTER/QUALITY_CONTROL.md
-13. 00_MASTER/PRODUCTION_PROTOCOL.md
-14. 00_MASTER/PRODUCTION_MODES.md
-15. PRODUCTION/IMAGE_QUEUE.md
-16. `PRODUCTION/T109_PRODUCTION_GOAL.md`
-17. `PRODUCTION/T109_IMAGE_QUEUE.md`
-18. current approved Prompt Package
-19. current reference image supplied to the generation context
+Do not assume that this repository is always running LoRA production.
 
-## 4. Active Goal lock
-**T109 is the current active production Goal.**
+A module loads:
+- CORE rules;
+- its own module protocol;
+- its own task/queue/state;
+- its own reference policy;
+- its own external integrations.
 
-`T108` is historical and complete. Never stop T109 because T108 reached completion.
+One module's workflow must not be silently inherited by another module.
 
-T109 target semantics are **150 Production Task Coverage**. This means MASTER DIRECTOR created 150 executable tasks for the Worker Pool. It does not mean the current worker must generate 150 images, and it does not require 150 successful or QA-approved images.
+## 2. Shared CORE rules
 
-T109 current state at startup:
-- Goal: `T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION`
-- Queue: `PRODUCTION/T109_IMAGE_QUEUE.md`
-- Task target: 150
-- Task Coverage: 11 / 150
-- QUEUED: 135
-- IMAGE_CREATED: 11
-- QA: PAUSED
-- Generation System: ACTIVE
+All modules use the applicable rules in `00_MASTER/`, especially:
+- `CORE_RULES.md`
+- `DRAWING_INSTRUCTIONS.md`
+- `ANATOMY_STABILITY.md`
+- `IMAGE_GENERATION_SAFETY_SPEC.md`
+- `GENERATION_RULES.md`
+- `GENERATION_WORKER_PROTOCOL.md`
 
-## 5. Reference Style Lock
-The official MASTER_IMAGE is the single Character + Visual Style Reference.
+These define cross-system constraints.
 
-For LoRA viewpoint diversity, BACK and BACK_3/4 are permitted when a task calls for them. Do not infer left/right from screen position; follow the handedness rules in `00_MASTER/ANATOMY_STABILITY.md`.
+They do NOT define a universal character, universal reference image, LoRA workflow, wallpaper workflow, upload destination, or QA acceptance result.
 
-It must be supplied as an actual image input through either:
-- AUTO MODE: automated image-input bridge;
-- MANUAL MODE: operator manually uploads the official MASTER_IMAGE.
+## 3. Current active module — Universal Wallpaper
 
-The delivery mode does not change the generation standard.
+When `UNIVERSAL_WALLPAPER` is ACTIVE, use:
 
-The worker must visually inspect the actual reference before generation. A GitHub path, filename, SHA, text description, or generic Japanese anime label is not a substitute.
+`00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md`
 
-Preserve line art, face/eyes, hair, proportions, colors, shading, lighting, and illustration finish.
+The user provides only:
+- quantity;
+- wallpaper type;
+- output format;
+- theme;
+- scene;
+- weather;
+- time;
+- pet permission;
+- current reference image.
 
-Do not switch to photorealistic, photographic/live-action, 3D/CGI, semi-photorealistic, or another anime/game/illustration style.
+The current uploaded image is the ONLY visual reference for that batch.
 
-## 6. Reference verification lock
-Required before generation:
-- actual image available;
-- image visually inspectable;
-- official age-20 MASTER_IMAGE confirmed;
-- no alternate identity reference substituted.
+Do not substitute the LoRA MASTER_IMAGE.
 
-If any item fails, stop and do not generate.
+The Worker creates a runtime identity, claims compatible work, generates, records the generation result, and continues.
 
-## 7. Anatomy hard lock
-Use 00_MASTER/ANATOMY_STABILITY.md before generation.
+Universal Wallpaper does not require T109.
 
-Exactly two hands and two legs; five fingers per visible hand; five toes per visible bare foot; traceable limb connections; plausible support/center of gravity; no false limbs; natural hand-object and wearable contact.
+## 4. Paused module — LoRA Production
 
-## 8. Drawing-stability generation lock
-Every Generation Worker must apply the complete owner-confirmed rules in `00_MASTER/DRAWING_INSTRUCTIONS.md` and `00_MASTER/ANATOMY_STABILITY.md` during task design and Prompt construction.
+When `LORA_PRODUCTION` is PAUSED, do not claim or generate T109 work.
 
-In particular, the Worker must prioritize stable hand actions, finger/toe and limb-source clarity, natural body support and ergonomics, hand/object and wearable connections, lower-body stability, and background/effect clearance before decorative complexity.
+Use the preserved module protocol:
 
-The conceptual drawing order is fingers/toes → body → clothing/accessories → background/effects.
+`00_MASTER/LORA_PRODUCTION_PROTOCOL.md`
 
-These rules are generation constraints, not post-generation QA. After successful generation, the Worker must not self-QA, reject, repair, or regenerate the candidate because of perceived visual defects.
+The existing T109 Goal, queue, age-20 reference, dataset rules, and historical production state remain preserved.
 
-## 9. Universal Worker startup command
-Read the latest GitHub project state and **always resolve the active Goal and Queue by the current pointer files**. For this production round the active Goal is T109 and the active Queue is `PRODUCTION/T109_IMAGE_QUEUE.md`.
+T109 is not the current active production Goal.
 
-You are an interchangeable Generation Worker in the Production Worker Pool.
+When LoRA is later activated, its executor must load CORE plus the LoRA module rules. Future Make/OpenAI automation should execute this module directly.
 
-Do not ask how many images you personally must make. Do not depend on a fixed account number or prior production history.
+## 5. Paused module — Image Delivery
 
-Check whether the active Goal still has QUEUED T109 tasks. If yes, claim one available T109 job using the queue lock before generation. Use the verified MASTER_IMAGE as the direct Character + Visual Style Reference. Follow the task and Prompt Package exactly.
+`IMAGE_DELIVERY` is currently PAUSED.
 
-After successful generation, update the task to IMAGE_CREATED. IMAGE_CREATED immediately releases the worker. Do not wait for upload, Make, QC, or final QA.
+Use:
 
-Workers are GENERATE-ONLY. Do not self-QA, reject a successful candidate because it is imperfect, redesign the task, or repeatedly regenerate the same design merely to improve it.
+`00_MASTER/IMAGE_DELIVERY_MODULE.md`
 
-If SAFETY_BLOCKED occurs, record it according to the safety/retry policy and move on; never rewrite a prompt to bypass the safety system.
+Do not delete its existing implementation or historical state.
 
-If the active T109 Goal is reached, stop claiming new T109 work and report completion through project state.
+It is a downstream module and is independent from image generation.
 
-If reference verification or claim fails, do not generate. If a pre-generation blocker prevents work, safely release the task to QUEUED. Do not write after lease expiry.
+## 6. Paused module — QA
 
-## 10. Master Director
-ACCOUNT_06 owns Goal creation, integrated design, queue planning, Worker Pool coordination rules, Codex QA integration, and final PASS / REPAIR / REJECT.
+`QA` is currently PAUSED.
 
-## 11. Production readiness
-T109 is the final production-architecture validation. If the Worker/Queue behavior is successful, this architecture becomes the reusable production framework for future character LoRA projects.
+Use:
+
+`00_MASTER/QA_MODULE.md`
+
+Do not delete existing QA rules, adapters, reports, or historical state.
+
+QA is downstream from generation and is independent from the generation Worker.
+
+## 7. Worker safety
+
+Regardless of module:
+- load CORE before execution;
+- never generate without valid task ownership when the module uses a queue;
+- apply drawing/anatomy rules before generation;
+- distinguish generation success from visual QA;
+- do not self-QA;
+- do not regenerate an UNKNOWN generation result;
+- preserve generated candidates;
+- respect module-specific retry and recovery rules;
+- stop on state/claim conflicts rather than guessing.
+
+## 8. Future module rule
+
+A new system should be added as a new module.
+
+It should:
+1. register itself in `MODULE_REGISTRY.md`;
+2. define its own protocol;
+3. declare its input/output contract;
+4. load CORE;
+5. own its own workflow and state.
+
+It should not modify or depend on another module merely to become operational.
+
+## 9. Historical LoRA project information
+
+The repository originated as the age-20 Inaria LoRA project. That historical purpose remains preserved inside the `LORA_PRODUCTION` module.
+
+It is no longer the definition of the entire platform.
+
+The platform-level architecture is now modular.
