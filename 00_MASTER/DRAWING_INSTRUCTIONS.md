@@ -1,4 +1,4 @@
-# DRAWING_INSTRUCTIONS.md — Inaria Drawing Instructions
+# DRAWING_INSTRUCTIONS.md — Shared Drawing Stability Instructions
 
 ## Authority
 
@@ -8,19 +8,11 @@ For anatomy, pose stability, object contact, and generation-stability details, `
 
 These rules are **generation rules, not QA rules**. Production Workers must use them while designing the Prompt and before generation. They do not judge the generated image after generation.
 
-## Visual direction
-
-- Romantic, refined, beautiful, dreamy Japanese airy atmosphere.
-- Delicate natural lighting and shadow.
-- Natural luminous skin appearance; avoid plastic over-retouching.
-- High quality, clean, detailed illustration.
-- Water-blue and navy are common project colors, not mandatory identity colors.
-
 ## Composition
 
-- 16:9 and 9:16 are valid task-defined formats.
-- Front or side-front views are preferred unless the approved task explicitly requires another view.
-- FULL-BODY does not mean distant shot. Character-dominant full-body compositions are allowed.
+- Output format is task-defined.
+- Viewpoint and shot are module-specific.
+- FULL-BODY does not mean distant shot; applicable wallpaper rules define composition diversity.
 - Keep hands away from image edges.
 - Keep important background objects and effects away from hands and fingers.
 - Avoid unnecessary effects around fingers and toes.
