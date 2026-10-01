@@ -1,256 +1,210 @@
 # GENERATION_WORKER_PROTOCOL.md — Generation Worker Protocol
 
 ## 1. Purpose
-All Generation Workers use the same operational protocol.
 
-A Worker is an interchangeable execution session in the Production Worker Pool. It is not a permanent account identity.
+All Generation Workers use the same generic operational protocol.
 
-Final QA is performed by the external Codex/local QA workflow and is not performed by Generation Workers. Generation Workers are not permanent account identities and are not assigned fixed per-account tasks.
+A Worker is an interchangeable execution session. This document defines only cross-module generation behavior. It must NOT define a character, Master Image, wallpaper type, LoRA dataset, festival database, fixed account, or QA authority.
 
-## 2. Required startup
-Read:
-1. START_HERE.md
-2. PROJECT_STATUS.md
-3. PRODUCTION/PRODUCTION_GOAL.md
-4. PRODUCTION/WORKER_POOL.md
-5. 00_MASTER/MASTER_SPEC.md
-6. 00_MASTER/STYLE_MASTER.md
-7. 00_MASTER/IDENTITY_MASTER.md
-8. 00_MASTER/ANATOMY_STABILITY.md
-9. 00_MASTER/GENERATION_RULES.md
-10. 00_MASTER/DRAWING_INSTRUCTIONS.md
-11. 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md
-12. 00_MASTER/QUALITY_CONTROL.md
-12. 00_MASTER/PRODUCTION_PROTOCOL.md
-13. 00_MASTER/PRODUCTION_MODES.md
-14. PRODUCTION/IMAGE_QUEUE.md
-15. current approved Prompt Package
-16. current reference image supplied to this generation context
-17. PRODUCTION/GENERATION_RETRY_POLICY.md
+Final visual QA belongs to the applicable downstream QA workflow and is not performed by Generation Workers.
 
-## 3. Universal Worker startup
-Read the latest rayclamp/lora_20 project state.
+## 2. Module boundary
 
-You are an interchangeable Generation Worker in the Production Worker Pool.
+The Worker must first determine the active module from:
+- `START_HERE.md`
+- `00_MASTER/MODULE_REGISTRY.md`
+- `00_MASTER/MASTER_SPEC.md`
 
-Do not ask how many images you personally must produce.
+The active module owns:
+- its task/queue/state;
+- its reference policy;
+- its prompt/design rules;
+- its module-specific production goal.
 
-Do not depend on:
-- a fixed account number;
-- a previous account identity;
-- previous production history;
-- remaining account quota;
-- startup order.
+This protocol supplies only generic generation execution and safety rules.
 
-Check the active Production Goal.
+## 3. Required startup
 
-If the Goal is already complete, stop.
+At minimum read:
+1. `START_HERE.md`
+2. `00_MASTER/MODULE_REGISTRY.md`
+3. `00_MASTER/CORE_RULES.md`
+4. `00_MASTER/MASTER_SPEC.md`
+5. `00_MASTER/DRAWING_INSTRUCTIONS.md`
+6. `00_MASTER/ANATOMY_STABILITY.md`
+7. `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md`
+8. the active module protocol
+9. the active module's current task/queue/state
+10. the active module's current reference/prompt package
 
-If the Goal still needs Phase 1 output, find one available task and claim it using the Queue Lock Protocol.
+Do not load another module's reference, queue, dataset, or production goal unless the active module explicitly requires it.
 
-Before generation, confirm that the official age-20 MASTER_IMAGE is actually available and visually inspectable in the current generation context.
+## 4. Generic task ownership
 
-Use the actual official MASTER_IMAGE as the direct Character + Visual Style Reference.
-
-## 4. Claim protocol
-1. Fetch latest queue and blob SHA.
-2. Re-check the active Goal before claiming.
-3. Select one available task whose Task Record state is QUEUED. Do not treat FAILED or SAFETY_BLOCKED as automatically recoverable.
-4. Create a unique Claim ID.
-5. Update the queue using the exact fetched SHA.
-6. If the conditional update conflicts/fails, do not generate; re-fetch.
-7. Verify Worker, Claim ID, and Lease.
+When the active module uses a queue:
+1. Fetch the latest authoritative queue/state.
+2. Re-check the active module goal.
+3. Select one compatible QUEUED task.
+4. Create a unique runtime Claim ID.
+5. Update the queue using the exact fetched SHA/CAS mechanism.
+6. If the conditional update conflicts or fails, do not generate; re-fetch.
+7. Verify Worker ID, Claim ID, and Lease before generation.
 
 A successful claim gives temporary execution ownership only.
 
+If the active module does not use a queue, follow that module's own execution contract.
+
 ## 5. Generation start
+
 Immediately before generation:
-1. Re-fetch queue.
-2. Verify Worker, Claim ID, and Lease.
-3. Change CLAIMED → GENERATING using the latest queue SHA.
-4. Only after that update succeeds, generate.
+1. Re-fetch authoritative task state when required by the module.
+2. Verify Claim/Lease ownership when applicable.
+3. Change the task to its generation state using the latest state SHA.
+4. Generate only after the state transition succeeds.
 
-## 6. Reference-first generation
-Use the actual official INARIA_20_MASTER_v1.0.png supplied in the current generation context as the direct Character + Visual Style Reference.
+Never generate from a stale or uncertain task state.
 
-Preserve line-art, face, eyes, hair, proportions, coloring, shading, lighting language, and illustration finish.
+## 6. Reference policy
 
-The Prompt Package may change only explicitly assigned clothing, scene, pose, camera, composition, accessories, and context.
+The active module defines the reference policy.
 
-Never substitute photorealistic, photographic, live-action, 3D, CGI, semi-photorealistic, or another anime/game/illustration style.
+The generic Worker must NOT assume:
+- a universal Master Image;
+- a specific character;
+- a specific age;
+- a specific visual style;
+- a specific filename;
+- a fixed camera angle.
+
+Use only the reference explicitly authorized by the active module and current generation context.
 
 ## 7. Pre-generation stability
-Before generation, the Worker MUST apply the complete rules in `00_MASTER/DRAWING_INSTRUCTIONS.md` and `00_MASTER/ANATOMY_STABILITY.md`. These are mandatory generation-design constraints, not optional prompt suggestions.
 
-The Worker must explicitly design for stability in this order:
+Before generation, apply the complete current rules in:
+- `00_MASTER/DRAWING_INSTRUCTIONS.md`
+- `00_MASTER/ANATOMY_STABILITY.md`
+
+Prioritize:
 1. stable hand action;
-2. fingers/toes and limb-source clarity;
-3. body ergonomics, support, center of gravity, joints, and load;
+2. finger/toe and limb-source clarity;
+3. body ergonomics, support, center of gravity, and joint direction;
 4. hand/object and wearable/object connections;
-5. background/effect clearance around anatomy;
-6. decorative complexity.
+5. lower-body stability;
+6. background/effect clearance around anatomy;
+7. decorative complexity.
 
-The Worker must simplify an unstable action, prop, strap, container, leg pose, or occlusion BEFORE generation rather than relying on downstream repair.
+Conceptual planning order:
+`fingers/toes → body → clothing/accessories → background/effects`
 
-The conceptual drawing order is fingers/toes → body → clothing/accessories → background/effects.
+Simplify an unstable action, prop, strap, container, leg pose, or occlusion BEFORE generation.
+
+## 8. Generic anatomy and contact checks
 
 Before generation:
-- confirm current Prompt Package;
-- confirm successful queue claim;
-- confirm exactly two hands and two legs in the planned pose;
+- confirm the planned pose has exactly two arms/hands and two legs;
 - confirm intended finger/toe visibility;
-- confirm stable shoulder/hip connections;
+- confirm shoulder/hip and limb-source clarity;
 - confirm support surface and center of gravity;
-- identify false-limb risks from sleeves, skirts, bags, straps, props, furniture, or background;
-- simplify high-risk hand, leg, prop, strap, or occlusion design.
+- identify false-limb risks from clothing, bags, straps, props, furniture, or background;
+- ensure held objects visibly contact the hand;
+- ensure handles remain connected to objects;
+- ensure wearable straps connect naturally and do not float, break, or pass through the body.
 
-Hand-action requirements:
-- one simple main action per hand;
-- broad natural grips;
-- avoid unnecessary fingertip pinches;
-- keep at least one hand clear and away from image edges;
-- no busy effects around fingers.
+Hand design should prefer simple, stable actions and broad natural grips. Avoid unnecessary fingertip pinches, interlaced fingers, crossed hands, or effects near fingers.
 
-Object-contact requirements:
-- held objects must visibly contact the hand;
-- handles must remain connected to the object;
-- bags and straps must connect to the bag and naturally contact the body;
-- containers must be structurally complete before hand placement.
+## 9. Generation result states
 
-## 8. FORCED-STOP AND QUOTA HANDLING
+Only three generation outcomes are valid:
 
-### QUOTA_EXHAUSTED
-If the platform explicitly reports that this Worker/account has exhausted its image-generation quota:
-- This is NOT a task failure and NOT a GENERATION_TOOL_ERROR.
-- Change CLAIMED or GENERATING → QUEUED if GitHub is still writable.
-- Release the Claim/Lease.
-- Record the quota event if supported.
-- Stop this Worker session after the state is safely written.
-- Another Worker may claim the returned task.
+### SUCCESS
+The generation operation explicitly returned a generated image candidate.
 
-**Quota exhaustion releases work; it does not fail work.**
+Record the module's success state and preserve the candidate.
 
-### SYSTEM_POLICY_STOP
-If the platform explicitly reports that the current task is forcibly stopped because of a system rule/policy:
-- Change CLAIMED or GENERATING → FAILED if GitHub is still writable.
-- Preserve the original Prompt Package and task history.
-- Do not rewrite the prompt to bypass the rule.
-- Release the Claim/Lease.
-- Do not return the task to QUEUED.
+### FAILED
+The generation operation explicitly failed.
 
-**System/policy forced stop closes the current task; quota exhaustion returns it to the pool.**
+Follow the active module's retry/recovery policy.
 
-## 8. Generation error handling
+### UNKNOWN
+The Worker cannot reliably determine whether generation succeeded.
 
-### GENERATION_TOOL_ERROR
-Examples include the image-generation tool not appearing, a generic retry response such as "Please try again", or an internal generation-tool error.
+Record:
+`GENERATION_RESULT: UNKNOWN`
+and the module's recovery state, such as `RECOVERY_REQUIRED`.
 
-- Do not assume the Prompt Package is wrong.
-- Increment the task attempt counter.
-- Follow PRODUCTION/GENERATION_RETRY_POLICY.md.
-- Retry the same task only while the per-image retry limit and global circuit breaker permit it.
-- After the per-image limit is reached, close/defer the task according to the retry policy and move to another QUEUED task. Do not return the same design to the ordinary queue for another Worker.
-- After the global consecutive-error limit is reached, stop claiming new tasks and treat the generation system as paused.
+STOP.
 
-### SAFETY_BLOCKED
-If ChatGPT explicitly reports a safety-policy block:
-- stop the task;
-- record SAFETY_BLOCKED;
-- preserve the original Prompt Package;
-- do not repeatedly rewrite the prompt to bypass the safety system;
-- release the Worker;
-- send the task to Director Review.
+Never regenerate an UNKNOWN result merely because its status is uncertain.
 
-### BLOCKED
-If a required prerequisite is unavailable before generation, record BLOCKED and follow the normal recovery path.
+## 10. Post-generation boundary
 
-A generation error is not IMAGE_CREATED and must never be counted as Phase 1 completion. Quota exhaustion is also not IMAGE_CREATED; it returns the task to QUEUED rather than FAILED.
+After SUCCESS:
+1. Confirm only that the generation operation returned a candidate.
+2. Do NOT perform visual QA.
+3. Do NOT judge PASS / REPAIR / REJECT.
+4. Do NOT regenerate merely because the candidate could be improved.
+5. Re-fetch state as required by the active module.
+6. Record the successful generation event.
+7. Preserve the candidate.
+8. Release the task/Worker according to the active module.
+9. Continue only if the active module authorizes another task.
 
-## 9. Post-generation completion
-After a successful image is generated:
-1. Do NOT perform visual QA, task-compliance judgment, PASS/REPAIR/REJECT judgment, or subjective acceptance screening. The Worker may only confirm that the generation operation returned a candidate so that the generation event can be recorded.
-2. Do NOT regenerate the task merely because the Worker believes the candidate could be improved.
-3. Re-fetch the queue.
-4. Verify the active Claim ID and lease.
-5. Update GENERATING → IMAGE_CREATED using the latest queue SHA.
-6. Record the generation completion event required by the current queue schema.
-7. Treat IMAGE_CREATED as Phase 1 completion.
-8. Release the Worker immediately.
-9. Re-check the active Goal before claiming another task.
+A successful generation is not equivalent to final QA acceptance.
 
-The Worker may perform only the minimum operational checks required to confirm that generation actually returned a candidate and that the Worker can safely record the event. Those checks are not QA and must not be used to reject, repair, or regenerate a candidate.
+## 11. Quota exhaustion
 
-IMAGE_CREATED means a generation candidate was successfully produced. It does NOT mean the candidate passed final QA.
+If the platform explicitly reports that the current Worker/session has exhausted its generation quota:
+- this is not a design failure;
+- safely release the current task when no successful generation result exists;
+- follow the active module's queue/state recovery rule;
+- stop this Worker session.
 
-A generated candidate must be preserved for downstream QA even when the Worker believes the pose, composition, anatomy, style match, or task compliance could be improved. Final judgment belongs to the external Codex/local QA workflow.
+Quota exhaustion must not be converted into a false FAILED result unless the active module explicitly defines otherwise.
 
-## 10. Phase 2 separation
-Do not wait for:
-- UPLOADING
-- UPLOADED
-- QC_PENDING
-- Codex
-- ACCOUNT_06
-- final PASS
+## 12. System or policy stop
 
-The Worker is finished with the task at IMAGE_CREATED.
+If the platform explicitly reports a system/policy stop:
+- preserve the original task and prompt;
+- do not rewrite the prompt to bypass the restriction;
+- record the module-defined blocked/failed state;
+- release the claim/lease;
+- stop or follow the module's recovery contract.
 
-If binary upload is unavailable, the task still remains Phase 1 complete.
+## 13. Generation tool errors
 
-## 11. Lease and recovery
-- ChatGPT manual worker lease: 120 minutes.
-- Make/OpenAI worker lease: 30 minutes.
-- Renew before expiry when needed.
-- After expiry, re-fetch and re-claim with a new Claim ID.
-- A prerequisite-blocked pre-generation job may return to QUEUED only after the prerequisite is resolved; this is a distinct prerequisite-recovery path, not a retry of FAILED or SAFETY_BLOCKED.
-- A GENERATION_TOOL_ERROR follows the retry policy; after three failed attempts the task becomes DEFERRED.
-- A SAFETY_BLOCKED task is recorded, released, skipped for the current run, and is not automatically retried. Another available task should be claimed next.
-- If a Worker becomes unavailable after claiming but before IMAGE_CREATED, the task may be taken over by another Worker only after the claim/lease is legitimately recoverable. An active valid Claim always excludes other Workers.
-- A generated candidate is preserved and must not be regenerated merely because another worker becomes available.
+For a tool error where generation status is explicitly FAILED:
+- follow the active module's retry policy;
+- do not assume the prompt is wrong;
+- do not silently change the design;
+- respect per-task and global retry/circuit-breaker limits.
 
-## 12. Worker restrictions
+If generation status cannot be determined, use UNKNOWN/RECOVERY_REQUIRED instead.
+
+## 14. Worker restrictions
+
 Workers must not:
-- redesign identity or global style;
-- generate before successful claim;
-- generate without successful reference verification;
+- redesign global identity or style outside the active module's authority;
+- generate before successful task ownership when a queue is used;
 - use a stale queue snapshot;
-- declare final PASS;
+- declare final QA acceptance;
 - perform final QA;
 - continue writing after lease expiry;
-- change the active Goal target;
-- wait for Phase 2 before starting another task;
-- substitute another identity reference.
+- change the active module goal;
+- import another module's rules merely for convenience;
+- substitute another module's reference;
+- regenerate an UNKNOWN result;
+- rewrite prompts to bypass a safety restriction.
 
-Only ACCOUNT_06 can make final PASS / REPAIR / REJECT decisions.
+## 15. QA separation
 
+Generation Workers stop at generation completion.
 
-## 13. Task-level synchronization and summary tolerance
+Downstream QA, data curation, upload, delivery, or human review belongs to the applicable module(s). No account number or named Worker is permanently assigned final QA authority by this generic protocol.
 
-The Worker Pool uses **Task-level exclusive Claim/Lease** as the primary synchronization mechanism.
+## 16. Core principle
 
-- One task may have at most one active Worker owner.
-- CLAIMED and GENERATING tasks are skipped by other Workers.
-- Workers continue scanning for other QUEUED tasks instead of waiting for another Worker.
-- Stale or inconsistent summary counters in PROJECT_STATUS.md, Goal summaries, or Queue summaries do not by themselves stop production.
-- The Worker stops claiming only when it cannot safely resolve/read the authoritative active queue, cannot safely determine the specific task state, cannot safely establish Claim/Lease ownership, or an explicit system-wide stop condition applies.
-- IMAGE_CREATED, FAILED, and SAFETY_BLOCKED are terminal task outcomes and do not automatically return to QUEUED.
-- FAILED means the design is closed for automatic Worker retry; another Worker must not be sent back to the same failed design.
-- SAFETY_BLOCKED is closed for automatic retry and must not be rewritten to bypass safety.
-- MASTER DIRECTOR creates replacement designs as new Tasks when additional candidate coverage is needed.
-- GENERATION_TOOL_ERROR is the only controlled retry path and follows GENERATION_RETRY_POLICY.md.
+`CORE → MODULE → MODULE-OWNED DATA / STATE`
 
-## Age-20 animal/pet exclusion
-
-For the age-20 Inaria LoRA dataset, animals and pets are not intentional production elements.
-
-Workers must execute the current Task and project rules without adding decorative animals. Unless a future project-level exception explicitly says otherwise, exclude:
-- cat / kitten;
-- dog / puppy;
-- pet;
-- wildlife;
-- animal companion.
-
-If the current queued Task's Prompt Package contains an animal despite this rule, do not invent a workaround or redesign the task locally. Follow the authoritative current queue/task record. MASTER DIRECTOR is responsible for correcting queued designs.
-
-If an animal unexpectedly appears in a successfully generated candidate, record the generation outcome normally. Do not self-QA or repeatedly regenerate solely to remove the animal; downstream QA/data curation handles the candidate.
+The generic Generation Worker executes the active module. It does not redefine that module.
 
