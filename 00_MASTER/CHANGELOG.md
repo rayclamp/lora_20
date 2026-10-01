@@ -1,3 +1,14 @@
+## 2026-10-02 — Wallpaper type routing: Anime vs Realistic
+
+- Added `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`.
+- Added `00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`.
+- Updated `UNIVERSAL_WALLPAPER` to route by the user's explicit wallpaper type.
+- ANIME WALLPAPER and REALISTIC WALLPAPER now have independent visual, composition, reference, and prompt rules.
+- The current user-supplied reference image is the primary visual reference for either wallpaper type.
+- Removed anime-specific visual direction from the shared drawing-stability layer so realistic wallpaper is not forced to inherit anime styling.
+- Kept anatomy, hand, limb, object-contact, wearable, and generation-safety constraints shared in CORE.
+- Updated Worker startup/protocol documentation to load only the rule set matching the requested wallpaper type.
+
 ## 2026-10-02 — Modular platform architecture
 
 - Established a project-wide CORE layer in `00_MASTER/CORE_RULES.md`.
