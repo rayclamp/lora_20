@@ -1,7 +1,7 @@
-# ANATOMY_STABILITY.md — Inaria Anatomy & Generation Stability Standard
+# ANATOMY_STABILITY.md — Shared Human Anatomy & Generation Stability Standard
 
 ## Authority
-This is the project-wide hard standard for human anatomy, pose stability, object contact, and generation-stability planning. It applies to ACCOUNT_06 design, all Generation Workers, prompt construction, generation, repair, Codex QA, and final QA.
+This is the project-wide hard standard for human anatomy, pose stability, object contact, and generation-stability planning. It applies to all Production Workers during prompt/design construction and generation. Downstream QA may use it as an inspection reference.
 
 If another project file conflicts with this document, this document is authoritative for anatomy and generation stability.
 
