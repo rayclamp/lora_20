@@ -1,3 +1,18 @@
+## 2026-10-02 — Modular platform architecture
+
+- Established a project-wide CORE layer in `00_MASTER/CORE_RULES.md`.
+- Established `00_MASTER/MODULE_REGISTRY.md` as the authoritative module-status registry.
+- Set `UNIVERSAL_WALLPAPER` as the current ACTIVE module.
+- Isolated `LORA_PRODUCTION` as an independent PAUSED module for future Make/OpenAI execution.
+- Preserved T109, the age-20 LoRA reference system, LoRA queues, dataset rules, and historical state without deleting them.
+- Isolated `IMAGE_DELIVERY` as a preserved PAUSED downstream module.
+- Isolated `QA` as a preserved PAUSED downstream module.
+- Added module protocols for LoRA, Image Delivery, and QA.
+- Reworked `START_HERE.md` so startup resolves the active module instead of assuming LoRA production.
+- Reworked `MASTER_SPEC.md` so shared CORE rules are separated from module-specific workflows.
+- Established the architectural rule: CORE is shared; Modules are independent; Execution is module-specific.
+- Defined the new-system integration rule: future systems are added as independent modules and inherit CORE without inheriting another module's workflow.
+
 ## 2026-10-02 — Production Worker drawing-stability and generation-safety separation
 
 - Added `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md` for generation-result safety, UNKNOWN recovery, duplicate-generation prevention, image preservation, and the Production/QA responsibility boundary.
