@@ -161,3 +161,17 @@ If a generated image unexpectedly contains an animal, the image remains a genera
 `FESTIVAL_COSTUME_DATABASE/` is a separate cultural-reference database for the Special Festival Wallpaper workflow. It does not change the age-20 LoRA identity, style, production Goal, or training rules.
 
 The current 48-festival Group 00 is fixed unless the user explicitly requests a scope change. Special Festival Wallpaper uses its own view rule: FRONT / FRONT_3/4 / SIDE only; BACK / BACK_3/4 are prohibited for that workflow. Do not copy this festival-specific restriction into general LoRA viewpoint rules.
+
+
+## 18. Universal Wallpaper Mode
+
+00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md defines an account-independent wallpaper production mode.
+
+Its reference model is deliberately runtime-based:
+- the image uploaded by the user for the current request is the only visual reference;
+- no fixed character, person, MASTER_IMAGE, or account is required;
+- the user supplies only the production parameters defined by the universal protocol;
+- Workers create runtime identities and claim available tasks rather than requiring user-assigned Worker folders;
+- persistent rules remain in 00_MASTER/ and PRODUCTION/.
+
+This mode is separate from the T109 age-20 LoRA production Goal. When Universal Wallpaper Mode is explicitly active, its runtime reference rule overrides the LoRA-specific MASTER_IMAGE reference requirement for that batch only.
