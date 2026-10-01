@@ -65,13 +65,31 @@ When activated, it must declare its input/output contract and operate independen
 
 ## 6. QA
 
-`QA` is preserved as a downstream module.
+`QA` is preserved as an independent downstream module.
 
 It is currently PAUSED.
 
-QA may consume generation outputs from one or more production modules, but QA rules and execution are not part of the generation worker's responsibility.
+Primary future executor:
+- Codex-assisted QA / future QA Worker.
 
-When activated, QA must use its own module protocol and state model.
+QA does not generate images and does not replace Production Worker responsibilities.
+
+Core QA documents:
+- `00_MASTER/QA_MODULE.md` — module boundary, ownership, status, result semantics.
+- `00_MASTER/QA_PROTOCOL.md` — execution protocol and Codex inspection behavior.
+- `00_MASTER/CODEX_QA_CHECKLIST.md` — practical visual inspection checklist.
+
+QA may consume successful generation outputs from one or more production modules.
+
+QA result:
+- PASS
+- REVIEW
+- REPAIR
+- REJECT
+
+A QA result never changes the historical generation result. A generation SUCCESS remains SUCCESS even when QA later rejects the candidate.
+
+When activated, QA must use its own state model and the source module's applicable acceptance profile. It must not import unrelated module requirements.
 
 ## 7. Module activation rule
 
