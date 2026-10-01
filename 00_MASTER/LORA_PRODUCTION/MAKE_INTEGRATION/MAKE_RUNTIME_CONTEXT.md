@@ -25,7 +25,7 @@ Compact runtime context for future Make/OpenAI automation that executes the LORA
 
 The future Make workflow uses the approved age-20 Inaria reference asset:
 
-`MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`
+`00_MASTER/LORA_PRODUCTION/MASTER_IMAGE/INARIA_20_MASTER_v1.0.png`
 
 The reference establishes the age-20 Inaria identity and visual baseline for LoRA production. It is NOT a Universal Wallpaper runtime reference.
 
