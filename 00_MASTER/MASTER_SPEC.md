@@ -1,177 +1,237 @@
-# MASTER_SPEC.md — Inaria AI Studio Master Specification
+# MASTER_SPEC.md — Inaria AI Studio Modular Master Specification
 
 - Authority: Project-wide source of truth
-- Version: v007
-- Last Updated: 2026-09-29
+- Version: v008
+- Last Updated: 2026-10-02
 - Project: rayclamp/lora_20
-- Active target: Age-20 Inaria identity LoRA dataset
 
 ## 1. Purpose
-This repository defines one controlled production system for an age-20 Inaria LoRA dataset. It separates project rules, approved design references, goal-based production control, interchangeable generation workers, per-image queue state, first-layer QA, final QA, and reference-image delivery modes.
 
-## 2. Source-of-truth hierarchy
+This repository is a modular image-production platform.
+
+It provides:
+- shared CORE rules used by every system;
+- independent production modules;
+- module-owned tasks, queues, state, references, and integrations;
+- optional downstream Image Delivery and QA modules.
+
+The repository originally served the age-20 Inaria LoRA project. That LoRA workflow is now an independent module rather than the definition of the entire platform.
+
+## 2. Architecture principle
+
+The highest-level rule is:
+
+> CORE is shared. Modules are independent. Execution is module-specific.
+
+A module must load CORE rules but must not inherit another module's workflow unless an explicit integration dependency is declared.
+
+New systems are added as new modules.
+
+## 3. Source-of-truth hierarchy
+
 1. Explicit user instruction for the current task.
-2. Applicable documents in 00_MASTER.
-3. PRODUCTION/PRODUCTION_GOAL.md and PRODUCTION/WORKER_POOL.md for active production coordination.
-4. MASTER_IMAGE/INARIA_20_MASTER_v1.0.png.
-5. Approved T101–T105 design handoffs.
-6. Current task and prompt package.
+2. `00_MASTER/MODULE_REGISTRY.md`
+3. `00_MASTER/CORE_RULES.md`
+4. Applicable module protocol.
+5. Applicable module task/queue/state.
+6. Applicable reference assets.
 7. Temporary implementation details.
 
-Historical chat content, old generated images, and obsolete documents never override current rules.
+Historical chat content and obsolete documents never override current rules.
 
-## 3. Current architecture
-ACCOUNT_06 = MASTER_DIRECTOR / FINAL_REVIEWER / QA.
+## 4. CORE rules
 
-All other generation accounts/sessions form one interchangeable Production Worker Pool. A worker is an execution slot/session, not a permanent account identity.
+The shared CORE layer includes:
+- drawing stability;
+- anatomy stability;
+- generation safety;
+- common Worker safety;
+- state-integrity principles;
+- separation of generation from downstream QA.
 
-The Production Team owns the Goal. Workers temporarily claim and execute individual tasks.
+Primary CORE documents:
+- `00_MASTER/CORE_RULES.md`
+- `00_MASTER/DRAWING_INSTRUCTIONS.md`
+- `00_MASTER/ANATOMY_STABILITY.md`
+- `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md`
+- `00_MASTER/GENERATION_RULES.md`
+- `00_MASTER/GENERATION_WORKER_PROTOCOL.md`
 
-## 4. Goal-based production
-The user specifies a desired output quantity. The Master Director creates or updates the active Production Goal.
+CORE does not define:
+- a universal character;
+- a universal MASTER_IMAGE;
+- a specific wallpaper workflow;
+- a LoRA workflow;
+- an upload destination;
+- QA acceptance criteria.
 
-Workers do not receive fixed per-account quotas.
+## 5. Module registry
 
-The active Goal counts Phase 1 completions at IMAGE_CREATED. When the target is reached, no new task may be claimed for that Goal.
+`00_MASTER/MODULE_REGISTRY.md` is authoritative for module status.
 
-## 5. Official reference and reference delivery modes
-MASTER_IMAGE/INARIA_20_MASTER_v1.0.png is the single official Character + Visual Style Reference for all age-20 production.
+Current status:
+- UNIVERSAL_WALLPAPER = ACTIVE
+- LORA_PRODUCTION = PAUSED
+- IMAGE_DELIVERY = PAUSED
+- QA = PAUSED
 
-The official reference may reach a Generation Worker through either:
-- AUTO MODE: an automated image-input bridge such as Make → OpenAI API supplies the actual image input.
-- MANUAL MODE: the operator manually uploads the official MASTER_IMAGE into the worker conversation before generation.
+Only ACTIVE modules may execute.
 
-AUTO and MANUAL are delivery modes only. They do not create different character, style, anatomy, generation, or QA standards.
+PAUSED means preserved but not executable. Paused module data and documents must not be deleted solely because they are inactive.
 
-A worker must use the actual supplied image as the Character + Visual Style Reference. Textual descriptions, GitHub metadata, filenames, SHA values, or generic "Japanese anime" wording are never substitutes for the actual image.
+## 6. Universal Wallpaper module
 
-## 6. Reference verification gate
-Before generation, the worker must verify:
-- the required reference image is actually available in the current generation context;
-- the image is visually inspectable;
-- the reference is the official age-20 MASTER_IMAGE;
-- no other identity reference has been substituted.
+Protocol:
 
-If the required reference image is missing, unreadable, unavailable, or clearly the wrong reference/version, the worker must not generate.
+`00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md`
 
-## 7. Character and visual reference
-Preserve the official reference's line-art language, facial rendering, eye rendering, hair rendering, proportions, coloring, shading, lighting language, and overall illustration finish.
+This module:
+- is account-independent;
+- uses the current user-uploaded image as the only visual reference for the batch;
+- accepts the universal wallpaper parameters defined by its protocol;
+- creates runtime Worker identity;
+- owns its own task workflow;
+- does not depend on the LoRA module;
+- does not use the age-20 LoRA MASTER_IMAGE unless explicitly requested by a future module rule.
 
-The current task may intentionally change clothing, scene, pose, camera, composition, accessories, and context. Do not reinterpret the reference into another style.
+This is the current active production system.
 
-## 8. Mandatory style
-The target is Japanese anime illustration matching the official MASTER_IMAGE visual language.
+## 7. LoRA Production module
 
-Forbidden target rendering:
-- photorealistic
-- live-action
-- photographic
-- 3D / CGI
-- semi-photorealistic
-- another anime, manga, game, or illustration style
+Protocol:
 
-The generic label Japanese anime is not sufficient by itself. Reference matching is required.
+`00_MASTER/LORA_PRODUCTION_PROTOCOL.md`
 
-## 9. Generation-stability priority
-00_MASTER/ANATOMY_STABILITY.md is the hard anatomy and pose-stability standard, including hand topology, anatomical handedness, BACK/BACK_3/4 handedness verification, and anatomy–background readability.
+This module is currently PAUSED.
 
-Priority:
-1. identity/reference match
-2. anatomy and generation stability
-3. explicit task requirements
-4. pose/camera/composition
-5. clothing/scene
-6. lighting and decorative detail
-7. dataset diversity
+It owns:
+- age-20 Inaria LoRA production;
+- T109 and future LoRA Goals;
+- LoRA-specific queues;
+- age-20 reference policy;
+- character/style identity rules;
+- dataset diversity and contamination controls;
+- future Make/OpenAI execution.
 
-When complexity conflicts with stability, simplify the action, prop, occlusion, or effect.
+The existing T109 Goal and queue remain preserved.
 
-## 10. Production drawing rules
-`00_MASTER/DRAWING_INSTRUCTIONS.md` is mandatory for Production Worker task design and Prompt construction. It includes the owner-confirmed drawing-stability rules for hand actions, fingers/toes, limb sources, support, object contact, wearable straps, containers, lower-body stability, background/effect clearance, and natural body proportions.
+T109 is not the current platform-wide active Goal.
 
-Production Workers must apply these rules BEFORE generation. They are generation constraints, not post-generation QA. A Worker must simplify unstable designs before generation rather than relying on self-QA or automatic repair.
+When activated, the LoRA executor loads CORE plus the LoRA module rules. It does not inherit Universal Wallpaper's runtime-reference policy.
 
-`00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md` governs generation-result safety, preservation, duplicate-generation prevention, interruption recovery, and the Production/QA responsibility boundary.
+## 8. Image Delivery module
 
-## 11. QA
-ACCOUNT_06 is the final gate. Codex may perform first-layer QA but does not replace ACCOUNT_06 final judgment.
+Protocol:
 
-Final states: PASS, REPAIR, REJECT.
+`00_MASTER/IMAGE_DELIVERY_MODULE.md`
 
-## 11. Production phases
-Phase 1:
-QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
+This module is currently PAUSED.
 
-IMAGE_CREATED is the Worker completion point. The Worker is released immediately.
+It owns downstream image upload, transfer, storage, or delivery operations.
 
-Phase 2:
-IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → PASS / REPAIR / REJECT
+It is not part of image generation and is not required for a generation module to exist.
 
-Phase 2 is downstream and non-blocking for Phase 1 Worker production.
+Existing delivery implementation and historical state remain preserved.
 
-Exceptions: BLOCKED / FAILED / NEED_REGENERATE.
+## 9. QA module
 
-## 12. Queue ownership
-PRODUCTION/IMAGE_QUEUE.md is the authoritative per-image state.
+Protocol:
 
-Claim flow:
-FETCH → SELECT → CLAIM(CAS) → VERIFY → GENERATING → GENERATE → IMAGE_CREATED
+`00_MASTER/QA_MODULE.md`
 
-The claim update must use the exact queue blob SHA fetched immediately before the claim. A failed/conflicted claim means no ownership and no generation.
+This module is currently PAUSED.
 
-## 13. Worker pool
-See PRODUCTION/WORKER_POOL.md.
+It owns downstream visual and dataset quality evaluation.
 
-Do not bind production correctness to a fixed account number, account quota, or worker startup order.
+Production success and QA acceptance are independent facts.
 
-## 14. Repository roles
-- 00_MASTER/ — authoritative rules and protocols
-- 01_CHARACTER/ — approved T101 character handoff
-- 02_CLOTHING/ — approved T102 clothing handoff
-- 03_SCENE/ — approved T103 scene handoff
-- 04_POSE_CAMERA/ — approved T104 pose/camera handoff
-- 05_PROMPT/ — approved T105 prompt package
-- ACCOUNTS/ — optional operator/session profiles; they do not define permanent worker ownership
-- PRODUCTION/ — Goal, Worker Pool, and per-image production state
-- STATUS/ — production history
-- MASTER_IMAGE/ — canonical visual reference
-- FINAL/ — only final approved dataset assets
+Existing QA rules, adapters, reports, and historical state remain preserved.
+
+## 10. Generation stability
+
+Every active generation module must apply:
+- `DRAWING_INSTRUCTIONS.md`
+- `ANATOMY_STABILITY.md`
+- `IMAGE_GENERATION_SAFETY_SPEC.md`
+
+before generation.
+
+The drawing rules prioritize:
+1. stable hand action;
+2. fingers/toes and limb-source clarity;
+3. body ergonomics and support;
+4. hand/object and wearable connections;
+5. lower-body stability;
+6. background/effect clearance;
+7. decorative complexity.
+
+FULL-BODY does not mean distant shot.
+
+These are generation constraints, not post-generation QA.
+
+## 11. Generation / QA boundary
+
+Generation modules:
+TASK → DESIGN → PROMPT → GENERATE → GENERATION RESULT
+
+QA module:
+GENERATION RESULT → INSPECT → module-specific QA state
+
+A successful generation is not automatically a QA PASS.
+
+A generation Worker must not self-QA, reject, repair, or regenerate solely because of perceived visual defects.
+
+## 12. Reference boundary
+
+Reference policy belongs to the module.
+
+Examples:
+- Universal Wallpaper: current user-uploaded reference.
+- LoRA: approved age-20 LoRA reference.
+- Future modules: their own declared reference mechanism.
+
+No module may silently replace another module's reference policy.
+
+## 13. Data and state ownership
+
+Each module owns its:
+- task model;
+- queue;
+- runtime Worker state;
+- logs;
+- references;
+- module-specific outputs.
+
+Shared CORE rules remain in `00_MASTER/`.
+
+Cross-module transfer must be explicit.
+
+## 14. Future module integration
+
+A new module must define:
+- module name and status;
+- protocol;
+- input contract;
+- output contract;
+- state model;
+- executor/integration;
+- dependencies;
+- CORE rules used.
+
+It must be possible to activate the new module without redesigning unrelated modules.
 
 ## 15. Change control
-Permanent rule changes belong in the applicable 00_MASTER document and must be recorded in 00_MASTER/CHANGELOG.md. Do not restore deleted legacy architecture unless explicitly requested.
 
-## 16. Age-20 dataset contamination controls
+Permanent shared-rule changes belong in the applicable CORE document and must be recorded in `00_MASTER/CHANGELOG.md`.
 
-The age-20 Inaria LoRA dataset is intended to learn **Inaria as the character**, not recurring companion objects or secondary characters.
+Module-specific changes belong in that module's protocol or state documents.
 
-Therefore, unless explicitly authorized by a future project-level rule, animals and pets are excluded from age-20 production:
-- no cats or kittens;
-- no dogs or puppies;
-- no other pets;
-- no prominent wildlife;
-- no recurring animal-companion concept.
+Do not move a module-specific rule into CORE merely for convenience.
 
-This is a dataset-design constraint, not merely a QA preference. MASTER DIRECTOR must prevent animals from being intentionally designed into production tasks, and Worker Prompt Packages should explicitly exclude them.
+## 16. Historical project preservation
 
-If a generated image unexpectedly contains an animal, the image remains a generation event and is handled by downstream QA; Workers must not repeatedly regenerate the same task merely to remove the animal.
+The age-20 Inaria LoRA project remains fully preserved as the `LORA_PRODUCTION` module.
 
+Its MASTER_IMAGE, T109 Goal, queues, handoffs, dataset rules, historical production records, and existing QA/delivery architecture are not deleted by this modularization.
 
-## 17. Special Festival Database Boundary
-
-`FESTIVAL_COSTUME_DATABASE/` is a separate cultural-reference database for the Special Festival Wallpaper workflow. It does not change the age-20 LoRA identity, style, production Goal, or training rules.
-
-The current 48-festival Group 00 is fixed unless the user explicitly requests a scope change. Special Festival Wallpaper uses its own view rule: FRONT / FRONT_3/4 / SIDE only; BACK / BACK_3/4 are prohibited for that workflow. Do not copy this festival-specific restriction into general LoRA viewpoint rules.
-
-
-## 18. Universal Wallpaper Mode
-
-00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md defines an account-independent wallpaper production mode.
-
-Its reference model is deliberately runtime-based:
-- the image uploaded by the user for the current request is the only visual reference;
-- no fixed character, person, MASTER_IMAGE, or account is required;
-- the user supplies only the production parameters defined by the universal protocol;
-- Workers create runtime identities and claim available tasks rather than requiring user-assigned Worker folders;
-- persistent rules remain in 00_MASTER/ and PRODUCTION/.
-
-This mode is separate from the T109 age-20 LoRA production Goal. When Universal Wallpaper Mode is explicitly active, its runtime reference rule overrides the LoRA-specific MASTER_IMAGE reference requirement for that batch only.
+The change is architectural isolation, not project deletion.
