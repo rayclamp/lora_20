@@ -68,9 +68,13 @@ The user provides only:
 - pet permission;
 - current reference image.
 
-The current uploaded image is the ONLY visual reference for that batch.
+The current uploaded image is the primary visual reference for that batch.
 
-Do not substitute the LoRA MASTER_IMAGE.
+The user instruction selects the wallpaper type:
+- ANIME WALLPAPER → 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
+- REALISTIC WALLPAPER → 00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md
+
+Do not substitute the current uploaded reference with the LoRA MASTER_IMAGE unless explicitly requested.
 
 The Worker creates a runtime identity, claims compatible work, generates, records the generation result, and continues.
 
