@@ -1,5 +1,24 @@
 # START_HERE.md — Inaria Age-20 LoRA Project Startup
 
+
+## 0. Universal Wallpaper Mode
+
+When the user is producing a wallpaper batch rather than executing a pre-existing LoRA production Goal, use:
+
+00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md
+
+In this mode:
+- the user-uploaded image in the current request is the ONLY visual reference;
+- do not substitute MASTER_IMAGE/INARIA_20_MASTER_v1.0.png or any other project-specific reference;
+- the user does not provide Worker ID, account number, Task ID, or task folder;
+- the Worker creates a runtime Worker ID and claims the next compatible task;
+- the user only supplies quantity, wallpaper type, format, theme, scene, weather, time, and pet permission;
+- all persistent drawing, anatomy, generation-safety, queue, retry, and Worker rules are read from GitHub;
+- the universal protocol takes precedence over the LoRA-specific reference lock when this mode is explicitly active.
+
+The existing T109/age-20 LoRA rules below remain authoritative for T109 LoRA production and are not silently replaced by Universal Wallpaper Mode.
+
+
 ## 1. Authority
 This is an age-20 Inaria LoRA project. Read current 00_MASTER rules first. Do not rely on deleted legacy documents or historical chat instructions.
 
