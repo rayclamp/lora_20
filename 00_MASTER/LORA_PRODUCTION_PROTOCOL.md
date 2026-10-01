@@ -36,7 +36,7 @@ When activated, the LoRA executor loads:
 
 The LoRA module uses its own approved reference policy. It must not inherit the runtime-uploaded-reference rule of Universal Wallpaper.
 
-The current age-20 reference remains the preserved LoRA reference for the existing project.
+The current age-20 reference remains the preserved LoRA reference for the existing project. Future Make/OpenAI automation loads the Make integration contract and runtime context from `00_MASTER/LORA_PRODUCTION/MAKE_INTEGRATION/`. The approved age-20 binary reference is module-owned and must not be treated as a Universal Wallpaper reference.
 
 ## State boundary
 
