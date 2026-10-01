@@ -87,13 +87,18 @@ Protocol:
 
 This module:
 - is account-independent;
-- uses the current user-uploaded image as the only visual reference for the batch;
-- accepts the universal wallpaper parameters defined by its protocol;
+- routes each request to ANIME_WALLPAPER or REALISTIC_WALLPAPER;
+- uses the current user-uploaded reference image as the primary visual reference for the batch;
 - creates runtime Worker identity;
-- owns its own task workflow;
-- does not depend on the LoRA module;
-- does not use the age-20 LoRA MASTER_IMAGE unless explicitly requested by a future module rule.
+- owns its task workflow;
+- does not depend on the LoRA module.
 
+Wallpaper type rules:
+- ANIME_WALLPAPER → 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
+- REALISTIC_WALLPAPER → 00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md
+
+The user's explicit wallpaper-type instruction determines which rule set is active.
+The current user-supplied reference image determines the visual identity/reference for that batch.
 This is the current active production system.
 
 ## 7. LoRA Production module
