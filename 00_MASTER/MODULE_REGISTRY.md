@@ -2,6 +2,12 @@
 
 ## 1. Architecture
 
+The complete high-level architecture is documented in:
+
+`00_MASTER/SYSTEM_ARCHITECTURE.md`
+
+This document is the persistent architecture map for the Inaria drawing system and should be read when recovering project context.
+
 The repository is organized as:
 
 CORE → MODULE → DATA / STATE
