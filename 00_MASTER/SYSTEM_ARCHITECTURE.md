@@ -317,6 +317,20 @@ Primary QA documents are registered in:
 
 ---
 
+# 7.5. DOWNSTREAM IMAGE DELIVERY
+
+Image Delivery is a downstream integration layer preserved in the repository for future use.
+
+It does not generate or redesign images. It consumes approved outputs from production / QA according to its own input-output contract.
+
+Current module registration:
+
+`IMAGE_DELIVERY` in `00_MASTER/MODULE_REGISTRY.md`
+
+If activated, Image Delivery must remain independent from image-generation logic.
+
+---
+
 # 8. SYSTEM 5 — WALLPAPER WORKER / TASK INTEGRITY
 
 This is shared infrastructure for Wallpaper production.
@@ -714,6 +728,9 @@ INARIA DRAWING SYSTEM
 │
 ├── 4. QA
 │   └── Cross-module image inspection
+│
+├── DOWNSTREAM IMAGE DELIVERY
+│   └── Future output / delivery integration
 │
 ├── 5. WALLPAPER TASK INTEGRITY
 │   └── Lock / State / Recovery / Resume
