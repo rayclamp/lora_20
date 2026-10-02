@@ -116,6 +116,83 @@ Use the Realistic Wallpaper rules. Preserve realistic human/photographic visual 
 
 Do not mix the two rule sets unless an explicit hybrid mode exists in GitHub and the user requests it.
 
+
+## 8A. Wallpaper Task Integrity
+
+Universal Wallpaper Workers MUST also follow:
+
+`00_MASTER/WALLPAPER/WALLPAPER_TASK_INTEGRITY.md`
+
+The preferred execution model is one task at a time:
+
+`TASK → DESIGN → SAVE DESIGN RECORD → GENERATE → RECORD RESULT → NEXT TASK`
+
+For every existing IMAGE_ID / TASK_ID:
+
+- load the authoritative GitHub design record before generation;
+- do not redesign an existing task from conversational memory;
+- respect DESIGN_LOCK;
+- respect IMAGE_ID_LOCK;
+- respect FORMAT_LOCK;
+- respect EXPECTED_OUTPUT_COUNT.
+
+### IMAGE_ID
+
+An IMAGE_ID refers to one existing designed task.
+
+If the requested IMAGE_ID does not exist in the authoritative current batch:
+
+`INVALID_IMAGE_ID`
+
+STOP. Do not invent a new wallpaper and do not silently extend the batch.
+
+### Format
+
+Every task must explicitly preserve:
+
+- OUTPUT_TYPE
+- ASPECT_RATIO
+- ORIENTATION
+
+A desktop 16:9 task must remain landscape 16:9. It must not silently become a portrait 9:16 phone wallpaper.
+
+The final executable prompt should explicitly repeat the format lock.
+
+### Output count
+
+Default:
+
+`ONE TASK = ONE FINAL IMAGE CANDIDATE`
+
+`EXPECTED_OUTPUT_COUNT: 1`
+
+If one task unexpectedly returns multiple image candidates:
+
+- record `OUTPUT_COUNT_MISMATCH`;
+- do not convert extra outputs into new IMAGE_IDs;
+- do not count the extra outputs as additional completed tasks;
+- preserve the event and follow the module recovery/review path.
+
+A new IMAGE_ID requires a new legitimate task/design record.
+
+### Task coverage
+
+Task coverage is determined by authoritative task records, not by raw image/file count.
+
+Generation success, task coverage, unique candidate count, and downstream QA acceptance remain separate concepts.
+
+### Integrity sequence
+
+Before generation:
+
+`READ TASK → VERIFY ID → VERIFY DESIGN → VERIFY FORMAT → VERIFY OUTPUT COUNT → GENERATE`
+
+After generation:
+
+`VERIFY RESULT COUNT → RECORD RESULT → RELEASE → NEXT TASK`
+
+If task identity, design, format, or generation result cannot be reliably determined, do not guess. Use the applicable recovery/error state.
+
 ## 9. Composition
 
 Apply the selected Wallpaper rule set.
