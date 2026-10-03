@@ -20,6 +20,9 @@ RUNTIME_STATE → MODULE_REGISTRY → MODULE.md → PRODUCTION/GOAL.md → curre
 When LoRA is PAUSED:
 no LoRA task is executable.
 
+## Architecture enforcement invariant
+Cross-file execution contracts are mechanically validated by `scripts/validate_architecture.mjs`. Registry, Runtime, Authority Matrix, module contracts, activation guards, QA boundaries, Worker safeguards, and legacy exclusions must remain validator-clean.
+
 ## Current state
 UNIVERSAL_WALLPAPER = ACTIVE
 FESTIVAL_WALLPAPER = ACTIVE
