@@ -11,7 +11,7 @@
 - QA is downstream and independent.
 
 ## Current-system-only invariant
-The current tree must contain no old T109/T108 task state, account-number Worker authority, root-level legacy LoRA production engine, old handoff pipeline, deprecated Master Image authority, or duplicate LoRA rules in CORE.
+ The current tree must contain no superseded task IDs, account-number Worker authority, root-level legacy LoRA production engine, old handoff pipeline, deprecated Master Image authority, or duplicate LoRA rules in CORE.
 
 ## LoRA activation invariant
 When LoRA is ACTIVE:
