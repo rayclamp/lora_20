@@ -40,9 +40,11 @@ Festival Wallpaper has a dedicated manual-design protocol and Festival Database 
 
 ### C. Persistent executable task state
 
-**EXECUTABLE: NOT READY**
+**SCHEMA: COMPLETE / EXECUTABLE: NOT READY**
 
-The repository contains task-integrity specifications, but no general executable task-state engine. Universal Wallpaper integrity rules require persistent design records, locks, ownership, output-count checks, and terminal state handling, but the repository currently contains no corresponding runtime implementation.
+Round 6 Phase 3 established `00_MASTER/RUNTIME_TASK_SCHEMA.md` as the canonical platform-wide persistent task envelope. It defines Task identity, module ownership, optional Goal/Batch relationships, lifecycle state, design locks, Claim/Lease fields, CAS versioning, generation result, output-count integrity, idempotency, recovery, and immutable history.
+
+The repository still contains no executable persistent task-state engine. Universal Wallpaper integrity rules require persistent design records, locks, ownership, output-count checks, and terminal state handling, but the runtime implementation remains future work.
 
 ### D. Claim / Lease / CAS
 
@@ -100,12 +102,18 @@ The repository is suitable for controlled manual/design operation under the curr
 
 It is not yet LEVEL 2 Automation Ready and not yet LEVEL 3 End-to-End Operation Ready.
 
+## Round 6 Phase Status
+
+- Phase 1 — Operational Readiness Audit: COMPLETE
+- Phase 2 — Runtime State Machine Contract: COMPLETE
+- Phase 3 — Persistent Task / Batch / Queue Schema: COMPLETE
+- Phase 4 — Claim / Lease / CAS: NEXT
+
 ## Required Round 6 Next Work
 
-1. runtime state machine;
-2. task/batch/queue records;
-3. Claim/Lease/CAS;
-4. Worker runtime;
+1. Claim/Lease/CAS;
+2. Worker runtime;
+3. generation adapter;
 5. generation adapter;
 6. result/event persistence;
 7. UNKNOWN recovery;
