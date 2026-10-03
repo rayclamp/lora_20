@@ -63,6 +63,7 @@ const required = [
   "00_MASTER/QA_MODULE.md",
   "00_MASTER/QA_PROTOCOL.md",
   "00_MASTER/IMAGE_DELIVERY_MODULE.md",
+  "00_MASTER/ARCHITECTURE_ENFORCEMENT_SPEC.md",
   "MODULES/LORA_PRODUCTION/MODULE.md",
   "MODULES/LORA_PRODUCTION/IDENTITY/CHARACTER_REFERENCE.md",
   "MODULES/LORA_PRODUCTION/IDENTITY/STYLE_REFERENCE.md",
@@ -172,6 +173,7 @@ const forbiddenPaths = [
   "00_MASTER/QUALITY_CONTROL.md", "00_MASTER/WALLPAPER_COMPOSITION.md"
 ];
 const files = allFiles();
+const operationalFiles = files.filter(function(f) { return f !== "scripts/validate_architecture.mjs" && f !== "00_MASTER/ARCHITECTURE_ENFORCEMENT_SPEC.md"; });
 for (const p of forbiddenPaths) {
   if (files.some(function(f) { return f === p || f.startsWith(p); })) {
     fail("Forbidden legacy path remains: " + p);
@@ -184,7 +186,7 @@ const forbiddenTokens = [
   "PRODUCTION/IMAGE_QUEUE.md", "PRODUCTION/PRODUCTION_GOAL.md",
   "PROJECT_STATUS.md", "LORA_PRODUCTION_PROTOCOL.md"
 ];
-for (const file of files.filter(function(f) { return f.endsWith(".md") || f.endsWith(".mjs"); })) {
+for (const file of operationalFiles.filter(function(f) { return f.endsWith(".md") || f.endsWith(".mjs"); })) {
   const content = read(file);
   for (const token of forbiddenTokens) {
     if (content.includes(token)) fail("Forbidden legacy token \"" + token + "\" in " + file);
