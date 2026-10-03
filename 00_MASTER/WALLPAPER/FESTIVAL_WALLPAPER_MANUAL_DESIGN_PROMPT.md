@@ -16,6 +16,7 @@
 
 本指令：
 - 不載入 LoRA Production 的 identity、dataset、Goal、Batch、Queue、Task、Worker state 或 QA profile。
+- Do not import LoRA Dataset or LoRA Production workflow/state.
 - 不以 LoRA 規則取代 Festival Wallpaper 的文化資料或 Wallpaper 規則。
 - 不自動生成圖片。
 - 不直接控制 ComfyUI。
