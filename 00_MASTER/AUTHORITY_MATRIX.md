@@ -95,7 +95,7 @@ When a non-canonical document conflicts with a canonical document:
 
 ## GitHub source-of-truth principle
 
-GitHub is the persistent source of truth for system configuration and desired operational state. Version-controlled state provides auditability and recoverability, consistent with GitOps source-of-truth practices. citeturn0search2turn0search5
+GitHub is the persistent source of truth for system configuration and desired operational state. Version-controlled state provides auditability and recoverability, consistent with version-controlled source-of-truth practices.
 
 ## Maintenance rule
 
