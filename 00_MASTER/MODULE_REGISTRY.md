@@ -22,24 +22,45 @@ A module must not require another module to execute unless an explicit integrati
 
 | Module | Status | Current executor / integration | Scope |
 |---|---|---|---|
-| UNIVERSAL_WALLPAPER | ACTIVE | ChatGPT Production Worker | Wallpaper routing and production |
+| UNIVERSAL_WALLPAPER | ACTIVE | ChatGPT Production Worker | General wallpaper routing and production |
+| FESTIVAL_WALLPAPER | ACTIVE | ChatGPT Festival Worker / Manual + Automated | Festival-specific anime/realistic wallpaper production |
 | LORA_PRODUCTION | PAUSED | Future Make/OpenAI integration | Age-20 Inaria LoRA dataset production |
 | IMAGE_DELIVERY | PAUSED | Future downstream integration | Image upload / delivery |
 | QA | PAUSED | Future QA Worker / Codex / final review | Visual and dataset quality control |
 
 PAUSED means preserved but not executed. Paused modules MUST NOT be deleted merely because they are inactive.
 
-## 3. Active module
+## 3. Active Wallpaper modules
 
-Current default production module:
+### UNIVERSAL_WALLPAPER
 
-`UNIVERSAL_WALLPAPER`
-
-Its protocol is:
+Protocol:
 
 `00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md`
 
-The Universal Wallpaper module is currently the only active production workflow.
+Scope:
+- general anime wallpaper;
+- general realistic wallpaper;
+- manual and automated wallpaper workflows.
+
+### FESTIVAL_WALLPAPER
+
+Festival Wallpaper is an independent active module.
+
+Primary documents:
+- `00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md`
+- `FESTIVAL_COSTUME_DATABASE/SPECIAL_FESTIVAL_WALLPAPER_MASTER.md`
+- `FESTIVAL_COSTUME_DATABASE/SPECIAL_FESTIVAL_WALLPAPER_VIEW_RULES.md`
+
+Scope:
+- festival anime wallpaper;
+- festival realistic wallpaper;
+- manual and automated festival workflows;
+- Festival Costume Database integration.
+
+Festival Wallpaper may reuse CORE and Wallpaper Task Integrity infrastructure, but must not inherit unrelated General Wallpaper or LoRA workflow semantics.
+
+The current active workflow is determined by `00_MASTER/RUNTIME_STATE.md`, not by this registry alone.
 
 Wallpaper type routing:
 - ANIME_WALLPAPER → 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
@@ -97,7 +118,15 @@ A QA result never changes the historical generation result. A generation SUCCESS
 
 When activated, QA must use its own state model and the source module's applicable acceptance profile. It must not import unrelated module requirements.
 
-## 7. Module activation rule
+## 7. Runtime-state authority
+
+`00_MASTER/RUNTIME_STATE.md` is the canonical source for current platform runtime state and active workflow selection.
+
+This registry owns module registration and whether a module is ACTIVE or PAUSED. Runtime state records which active workflow is currently being executed.
+
+If a preserved Goal exists under a PAUSED module, the Goal is not executable.
+
+## 8. Module activation rule
 
 Only explicitly ACTIVE modules may execute.
 
@@ -109,7 +138,7 @@ A module becoming PAUSED means:
 
 Activation must be recorded here before workers treat the module as executable.
 
-## 8. Shared CORE vs module-specific rules
+## 9. Shared CORE vs module-specific rules
 
 CORE:
 - anatomy stability
@@ -129,7 +158,7 @@ Module-specific:
 - QA acceptance criteria
 - Make/OpenAI integration
 
-## 9. Future modules
+## 10. Future modules
 
 A new module should be added without restructuring existing modules.
 
