@@ -151,6 +151,27 @@ The user's explicit wallpaper-type instruction determines which rule set is acti
 The current user-supplied reference image determines the visual identity/reference for that batch.
 This module is available for execution when selected by current runtime state.
 
+## 7. Festival Wallpaper module
+
+Festival Wallpaper is an independent active production module.
+
+Primary documents:
+- `00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md`
+- `FESTIVAL_COSTUME_DATABASE/SPECIAL_FESTIVAL_WALLPAPER_MASTER.md`
+- `FESTIVAL_COSTUME_DATABASE/SPECIAL_FESTIVAL_WALLPAPER_VIEW_RULES.md`
+
+It supports:
+- festival anime wallpaper;
+- festival realistic wallpaper;
+- manual design;
+- automated design + production.
+
+It uses the Festival Costume Database as the cultural/reference data authority.
+
+Festival Wallpaper may reuse shared CORE rules and Wallpaper Task Integrity infrastructure, but it does not inherit unrelated General Wallpaper or LoRA workflow semantics.
+
+The current Festival Wallpaper workflow is selected by `00_MASTER/RUNTIME_STATE.md`.
+
 ## 8. LoRA Production module
 
 Protocol:
