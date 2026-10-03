@@ -6,6 +6,10 @@ The complete high-level architecture is documented in:
 
 `00_MASTER/SYSTEM_ARCHITECTURE.md`
 
+Cross-document consistency is validated by:
+
+`00_MASTER/SYSTEM_CONSISTENCY_MATRIX.md`
+
 This document is the persistent architecture map for the Inaria drawing system and should be read when recovering project context.
 
 The repository is organized as:
@@ -122,7 +126,9 @@ When activated, QA must use its own state model and the source module's applicab
 
 `00_MASTER/RUNTIME_STATE.md` is the canonical source for current platform runtime state and active workflow selection.
 
-This registry owns module registration and whether a module is ACTIVE or PAUSED. Runtime state records which active workflow is currently being executed.
+This registry owns module registration and module activation status. Runtime state records which active workflow is currently being executed.
+
+A module-owned Goal cannot activate its parent module. A Goal under a PAUSED module is preserved but non-executable.
 
 If a preserved Goal exists under a PAUSED module, the Goal is not executable.
 
