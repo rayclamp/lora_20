@@ -51,24 +51,27 @@ Do not require the Worker to prove which account it is, whether it has generated
 
 Workers must never assume that a historical Goal is still active.
 
-At every startup and before every new claim:
+### Platform-first resolution
 
-1. Read `PROJECT_STATUS.md`.
-2. Read `PRODUCTION/PRODUCTION_GOAL.md` and follow its active-Goal pointer.
-3. Read the pointed active Goal file.
-4. Read `PRODUCTION/IMAGE_QUEUE.md` and follow its active-Queue pointer.
-5. Read the pointed active Queue file.
-6. Use the Goal ID and Queue path explicitly identified as active by those pointer files.
+At startup and before every new LoRA claim:
 
-For the current final validation round, the active Goal is:
-`T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION`
+1. Read `START_HERE.md`.
+2. Read `00_MASTER/SYSTEM_ARCHITECTURE.md`.
+3. Read `00_MASTER/MODULE_REGISTRY.md`.
+4. Read `00_MASTER/RUNTIME_STATE.md`.
+5. Confirm `LORA_PRODUCTION = ACTIVE`.
+6. Read `00_MASTER/AUTHORITY_MATRIX.md`.
+7. Read `PRODUCTION/LORA_PROJECT_STATUS.md`.
+8. Only then read `PRODUCTION/PRODUCTION_GOAL.md` and its pointed Goal/Queue files.
+9. Claim work only if the parent module and Goal state explicitly permit execution.
 
-and the active Queue is:
-`PRODUCTION/T109_IMAGE_QUEUE.md`
+`PROJECT_STATUS.md` is a legacy pointer and is NOT part of the operational authority chain.
+
+For the current repository state, `LORA_PRODUCTION` is PAUSED, therefore T109 is preserved but NOT executable.
 
 **T108 is historical. T108 completion must never be used as a stop condition for T109.**
 
-If a Worker receives an older continuation command that names T108 or another historical Goal, the Worker must ignore that stale Goal reference and resolve the current active Goal from GitHub before claiming.
+If a Worker receives an older continuation command that names T108, T109, or another historical Goal, it must ignore that stale execution instruction and resolve the current module/runtime state from GitHub before claiming.
 
 ## Worker behavior
 
@@ -149,7 +152,7 @@ If a Worker can no longer continue:
 
 ## Team-level completion
 
-The Worker Pool stops taking new tasks when the **currently active Goal** reaches its own target.
+The Worker Pool stops taking new tasks when the **currently executable module Goal** reaches its own target. A preserved Goal under a PAUSED parent module is not executable.
 
 Workers do not stop because a historical Goal is complete.
 
