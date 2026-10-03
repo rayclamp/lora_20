@@ -17,6 +17,9 @@ Read:
 
 GitHub is the current source of truth. Conversation memory is not an execution authority.
 
+## Architecture enforcement
+Run `scripts/validate_architecture.mjs` after architecture or authority changes. A passing result is required before treating the repository as structurally consistent.
+
 ## Current state
 UNIVERSAL_WALLPAPER = ACTIVE
 FESTIVAL_WALLPAPER = ACTIVE
