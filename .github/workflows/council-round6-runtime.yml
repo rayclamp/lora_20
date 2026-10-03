@@ -1,0 +1,25 @@
+name: Council Round 6 Runtime Verification
+
+on:
+  push:
+    paths:
+      - "scripts/runtime_engine.mjs"
+      - "scripts/test_runtime_engine.mjs"
+      - "00_MASTER/*RUNTIME*.md"
+      - "00_MASTER/*CLAIM*.md"
+      - "00_MASTER/*WORKER*.md"
+      - "00_MASTER/*GENERATION*.md"
+      - "00_MASTER/*RECOVERY*.md"
+      - "00_MASTER/*RETRY*.md"
+      - "00_MASTER/*SMOKE*.md"
+
+jobs:
+  runtime-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Runtime smoke tests
+        run: node scripts/test_runtime_engine.mjs
