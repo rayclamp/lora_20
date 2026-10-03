@@ -93,6 +93,23 @@ If runtime worker state is required, use the current Worker Pool/runtime-state m
 
 ## 7. Task ownership
 
+### 7A. ChatGPT-as-Worker batch mode
+
+When Universal Wallpaper is executed directly by ChatGPT without a queue, the canonical task source is the batch record defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md` at `MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/<BATCH_ID>.md`.
+
+In this mode:
+1. Read the active batch record.
+2. Resolve exactly one authoritative IMAGE_ID / TASK_ID.
+3. If the task is not yet designed, create its design record according to the current rules.
+4. Lock the design before generation.
+5. Show the exact executable prompt.
+6. Generate one image.
+7. Record the result and checkpoint before moving on.
+
+Do not require Claim/Lease/CAS merely because the generic Worker protocol mentions queue mode.
+
+### 7B. Queue mode
+
 When Universal Wallpaper uses a queue:
 1. Read the active Universal Wallpaper batch/goal.
 2. Create the required task records for the requested quantity if the batch has not already been registered.
@@ -315,7 +332,14 @@ If the current session reports quota exhaustion:
 
 ## 18. Resume behavior
 
-On resume:
+### ChatGPT-as-Worker batch mode
+1. read the latest GitHub batch record;
+2. resolve the current task and last recorded result;
+3. never assume an unknown generation result;
+4. if the previous result is UNKNOWN, enter recovery and stop;
+5. otherwise continue with the next authoritative task.
+
+### Queue mode
 1. read the latest GitHub state;
 2. recover runtime Worker state if applicable;
 3. verify any previous claim/lease;
