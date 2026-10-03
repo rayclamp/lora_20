@@ -35,7 +35,7 @@ This repository intentionally contains only the current operational specificatio
 If a useful lesson has become a current rule, use the current rule only. If a required rule is missing, update its current canonical owner before execution.
 
 ## Module routing
-Universal Wallpaper → 00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md + 00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md
+Universal Wallpaper → 00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md + 00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md + 00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md + MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/<BATCH_ID>.md
 Festival Wallpaper → 00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md + FESTIVAL_COSTUME_DATABASE/
 LoRA → MODULES/LORA_PRODUCTION/
 QA → 00_MASTER/QA_MODULE.md + 00_MASTER/QA_PROTOCOL.md
