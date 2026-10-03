@@ -1,113 +1,27 @@
-# PROJECT_STATUS.md — Age-20 Inaria LoRA Project Status
+# PROJECT_STATUS.md — Legacy Project Status Pointer
 
-## Current architecture
-- Master Director/operator = Goal and production-control authority
-- Generation accounts/sessions = interchangeable Production Worker Pool
-- Codex/local workflow = external QA authority; Generation Workers do not perform final QA
-- GitHub = shared persistent state, production coordination layer, and official reference authority
-- MASTER_IMAGE/INARIA_20_MASTER_v1.0.png = single official Character + Visual Style Reference
-- Reference delivery modes: AUTO and MANUAL
-- PRODUCTION/PRODUCTION_GOAL.md = authoritative team-level target
-- PRODUCTION/IMAGE_QUEUE.md = authoritative per-image production state
-- PRODUCTION/WORKER_POOL.md = authoritative worker-pool behavior
+> **LEGACY POINTER — NOT A CURRENT RUNTIME AUTHORITY**
 
-## Current master rules
-The current mandatory standards are:
-1. 00_MASTER/MASTER_SPEC.md
-2. 00_MASTER/STYLE_MASTER.md
-3. 00_MASTER/IDENTITY_MASTER.md
-4. 00_MASTER/ANATOMY_STABILITY.md
-5. 00_MASTER/GENERATION_RULES.md
-6. 00_MASTER/DRAWING_INSTRUCTIONS.md
-7. 00_MASTER/GENERATION_WORKER_PROTOCOL.md
-8. 00_MASTER/QUALITY_CONTROL.md
-9. 00_MASTER/PRODUCTION_PROTOCOL.md
-10. 00_MASTER/PRODUCTION_MODES.md
-11. PRODUCTION/PRODUCTION_GOAL.md
-12. PRODUCTION/WORKER_POOL.md
+This root file is preserved so historical links do not break.
 
-## Production Goal
-- Goal ID: T108_GOAL_20260925_40_CAPACITY_TEST
-- Target production task coverage: 40
-- Task coverage: 40 / 40 processed
-- Generation attempts observed: 35
-- Unique successful candidate images observed: 25
-- Duplicate generation outcomes observed: 10
-- Goal status: COMPLETED_FOR_FIRST_ROUND_COVERAGE
-- IMAGE_CREATED remains an event-level generation outcome, not the task-coverage metric
-- Production mode: MANUAL
+## Current platform status
 
-The target is team-level. No Worker has a fixed image quota. A Worker may stop or become unavailable at any point; another Worker can take over recoverable team tasks through the queue claim/lease protocol.
+Read:
+- `00_MASTER/RUNTIME_STATE.md` — current platform runtime state
+- `00_MASTER/MODULE_REGISTRY.md` — module registration and activation
+- `00_MASTER/SYSTEM_ARCHITECTURE.md` — system architecture
+- `00_MASTER/AUTHORITY_MATRIX.md` — canonical information ownership
 
-## T108 historical status
+## LoRA production status
 
-T108 is historical and complete for its original 40-task coverage test. Its results remain for audit only and do not control the active production queue.
+Read:
+- `PRODUCTION/LORA_PROJECT_STATUS.md` — LoRA-specific project/Goal status
 
-- Task Coverage: 40 / 40 processed
-- Unique successful candidate images observed: 25
-- Final QA: not performed in that round
+## Historical policy
 
-The automated reference-delivery status below is historical context only; current reference delivery is defined by `00_MASTER/PRODUCTION_MODES.md`.
-Path:
-GitHub MASTER_IMAGE → Make → OpenAI image input → generation → Make → GitHub
+Historical production status must not be interpreted as current runtime state.
 
-### MANUAL MODE
-Status: ACTIVE_FOR_PHASE1_PRODUCTION
-Path:
-Operator uploads official MASTER_IMAGE to a generation Worker → Worker verifies image → generation → IMAGE_CREATED → Worker released
+See:
+`00_MASTER/HISTORICAL_DATA_POLICY.md`
 
-Both modes use the same MASTER_IMAGE and the same project-wide rules.
-
-## Validation result
-The controlled MANUAL MODE reference test succeeded:
-- official MASTER_IMAGE was supplied directly;
-- the worker visually used the reference;
-- Japanese anime reference matching was clean;
-- character appearance and anatomy were stable;
-- no major limb/hand/foot defect was observed.
-
-This validation result allows T107 Phase 1 production to proceed.
-
-## Phase separation
-Phase 1:
-QUEUED → CLAIMED → GENERATING → IMAGE_CREATED
-
-Phase 1 completion releases the Worker immediately.
-
-Phase 2:
-IMAGE_CREATED → UPLOADING → UPLOADED → QC_PENDING → final QA
-
-Phase 2 is asynchronous and must not block Phase 1 production.
-
-## Goal stop rule
-For a coverage-based Goal, Workers stop claiming tasks when the designed Task Coverage target has been processed. A completed coverage round does not imply that the candidate pool is large enough for LoRA training. MASTER DIRECTOR may then create a new Goal/batch containing new replacement designs.
-
-## Queue ownership
-Claim ownership is determined only by successful conditional update using the latest queue blob SHA.
-
-Lease:
-- ChatGPT manual: 120 minutes
-- Make/OpenAI: 30 minutes
-
-Do not track account quota as a project state. Worker replacement is handled by the Worker Pool and normal release/lease recovery.
-
-
-## Dataset diversity direction
-The project now explicitly treats clothing as a major dataset variable. Do not use the original MASTER_IMAGE outfit for most future production tasks. Maintain stable Inaria identity/style while varying clothing, hairstyle, action, pose, viewpoint, scene, and camera. See `00_MASTER/DATASET_DIVERSITY.md`.
-
-The first serious LoRA training cycle should be planned around approximately 60–80 QA-approved images from a larger candidate pool, with later targeted replacement batches based on QA and LoRA test results.
-
-
-## Current active production Goal
-
-- Goal ID: `T109_GOAL_20260926_150_LORA_CANDIDATE_PRODUCTION`
-- Target: 150 production tasks
-- Task Coverage: 11 / 150
-- QUEUED: 135
-- GENERATING: 4
-- IMAGE_CREATED: 11
-- QA: PAUSED
-- Queue: `PRODUCTION/T109_IMAGE_QUEUE.md`
-- Generation System: ACTIVE
-
-These counts were synchronized from the active T109 queue. Workers must treat the queue itself as authoritative for task-level state.
+This file intentionally does not contain current production counters, active Goal claims, or Worker state.
