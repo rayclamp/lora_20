@@ -125,7 +125,22 @@ The Universal Wallpaper task contract must enforce the existence of:
 
 Task identity, task coverage, generation result, and QA acceptance remain separate concepts.
 
-### 10. Worker safety
+### 10. Cross-module boundary enforcement
+
+The validator must verify the canonical `CROSS_MODULE_BOUNDARY_SPEC.md` exists and that each module's current protocol declares its required isolation boundary.
+
+Required boundaries include:
+
+- Universal Wallpaper does not inherit LoRA production state or QA authority;
+- Festival Wallpaper does not inherit LoRA production state or QA authority;
+- LoRA does not inherit Wallpaper workflow state or Festival data as identity/dataset authority;
+- QA remains downstream and SOURCE_MODULE-scoped;
+- Image Delivery does not generate images or own QA decisions;
+- generic Workers do not import another module's execution state.
+
+The Phase 3 self-test must deliberately remove or weaken one boundary declaration in an isolated fixture and require validator rejection.
+
+### 11. Worker safety
 
 The generic Worker contract must retain:
 
@@ -134,6 +149,12 @@ The generic Worker contract must retain:
 - SUCCESS / FAILED / UNKNOWN states;
 - UNKNOWN recovery;
 - no self-QA.
+
+## Phase 3 — Cross-Module Boundary Enforcement Verification
+
+Phase 3 verifies that module isolation is mechanically represented rather than merely described in the architecture overview.
+
+The validator must test both the canonical boundary specification and module-specific isolation declarations. A clean repository must pass; an isolated fixture with a deliberately weakened boundary must fail; the clean fixture must then recover and pass.
 
 ## What this validator does not claim
 
