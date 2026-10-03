@@ -74,6 +74,7 @@ export class RuntimeEngine {
     const t=this.store.tasks[taskId];
     if (!t) throw new Error("TASK_NOT_FOUND");
     if (!moduleActive) throw new Error("MODULE_NOT_ACTIVE");
+    if (!this.canClaim(t.MODULE_ID)) throw new Error("CIRCUIT_OPEN");
     if (t.STATUS!=="QUEUED") throw new Error("TASK_NOT_QUEUED");
     const claimId="CLM_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8);
     const before=t.STATE_VERSION, now=Date.now();
@@ -146,6 +147,18 @@ export class RuntimeEngine {
     t.RECOVERY.RECOVERY_REASON=reason;t.STATE_VERSION++;t.UPDATED_AT=this.now();
     this.event("RECOVERY_RESOLVED",t,{before,after:t.STATE_VERSION,result:outcome});
     this.persist();return this.task(taskId);
+  }
+
+  casUpdate(taskId,workerId,expectedVersion,mutator){
+    const t=this.store.tasks[taskId]; if(!t) throw new Error("TASK_NOT_FOUND");
+    this.requireLease(t,workerId);
+    this.assertVersion(t,expectedVersion);
+    const before=t.STATE_VERSION;
+    mutator(t);
+    t.STATE_VERSION++; t.UPDATED_AT=this.now();
+    this.event("CAS_UPDATE",t,{before,after:t.STATE_VERSION});
+    this.persist();
+    return this.task(taskId);
   }
 
   retry(taskId){
