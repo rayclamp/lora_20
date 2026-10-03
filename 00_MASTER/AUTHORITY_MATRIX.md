@@ -26,13 +26,33 @@ If two documents disagree, use the authority assigned below.
 | Wallpaper task integrity | `00_MASTER/WALLPAPER/WALLPAPER_TASK_INTEGRITY.md` |
 | Wallpaper Worker behavior | `00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md` |
 | LoRA module behavior | `00_MASTER/LORA_PRODUCTION_PROTOCOL.md` and LoRA module documents |
-| LoRA Goal lifecycle | The applicable Goal document under `PRODUCTION/` |
+| LoRA Goal lifecycle | `PRODUCTION/LORA_PROJECT_STATUS.md` for module execution status + the applicable Goal file under `PRODUCTION/` for Goal-specific lifecycle |
 | LoRA per-task state | The applicable LoRA queue / Task Record |
 | QA module behavior | `00_MASTER/QA_MODULE.md`, `QA_PROTOCOL.md`, and registered QA documents |
 | Image Delivery behavior | `00_MASTER/IMAGE_DELIVERY_MODULE.md` and its registered module documents |
 | Automation contracts | The applicable automation/module contract |
 | Historical events | `00_MASTER/CHANGELOG.md` and explicitly historical documents |
-| Legacy project pointer | Root `PROJECT_STATUS.md` only as a pointer; it is not a runtime authority |
+| Legacy project pointer | Root `PROJECT_STATUS.md` only as a compatibility/historical pointer; never an execution authority |
+
+## Execution authority hierarchy
+
+For execution decisions, use this order:
+
+1. `00_MASTER/RUNTIME_STATE.md` — current platform runtime state.
+2. `00_MASTER/MODULE_REGISTRY.md` — module registration and activation.
+3. `00_MASTER/AUTHORITY_MATRIX.md` — information ownership.
+4. The selected module protocol.
+5. Module-owned Goal / Batch / Queue / Task state.
+
+A lower layer cannot activate or override a higher layer. In particular:
+
+- a Goal file cannot activate its parent module;
+- a Queue file cannot activate its Goal;
+- a Worker command cannot activate a module;
+- `PROJECT_STATUS.md` cannot authorize execution;
+- conversation memory cannot authorize execution.
+
+If a lower-level document says `ACTIVE` while `RUNTIME_STATE` says the parent module is `PAUSED`, the lower-level state is preserved but non-executable.
 
 ## Intent vs constraints
 
