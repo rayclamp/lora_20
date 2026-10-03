@@ -20,6 +20,14 @@
 | Cross-module boundaries | 00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md |
 | Runtime state-machine contract | 00_MASTER/RUNTIME_STATE_MACHINE_SPEC.md |
 | Persistent task schema | 00_MASTER/RUNTIME_TASK_SCHEMA.md |
+| Claim / Lease / CAS runtime contract | 00_MASTER/CLAIM_LEASE_CAS_SPEC.md |
+| Worker runtime contract | 00_MASTER/WORKER_RUNTIME_SPEC.md |
+| Generation adapter contract | 00_MASTER/GENERATION_ADAPTER_SPEC.md |
+| Result / event persistence contract | 00_MASTER/RESULT_EVENT_PERSISTENCE_SPEC.md |
+| UNKNOWN recovery contract | 00_MASTER/UNKNOWN_RECOVERY_SPEC.md |
+| Retry / circuit breaker contract | 00_MASTER/RETRY_CIRCUIT_BREAKER_SPEC.md |
+| Operational smoke-test contract | 00_MASTER/OPERATIONAL_SMOKE_TEST_SPEC.md |
+| Round 6 runtime verification | 00_MASTER/COUNCIL_ROUND6_RUNTIME_VERIFICATION.md |
 
 ## Execution hierarchy
 USER INTENT → RUNTIME_STATE → MODULE_REGISTRY → AUTHORITY_MATRIX → ACTIVE MODULE PROTOCOL → MODULE-OWNED STATE → WORKER
