@@ -8,7 +8,10 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ROOT = process.cwd();
+const rootArgIndex = process.argv.indexOf("--root");
+const ROOT = rootArgIndex >= 0 && process.argv[rootArgIndex + 1]
+  ? path.resolve(process.argv[rootArgIndex + 1])
+  : process.cwd();
 let failures = 0;
 
 function fail(message) { console.error("[FAIL] " + message); failures++; }
