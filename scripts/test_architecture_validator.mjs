@@ -93,10 +93,15 @@ expect("Incomplete QA contract is rejected", currentRoot, false);
 fs.rmSync(currentRoot, { recursive: true, force: true });
 
 currentRoot = cloneFixture();
-mutate("MODULES/LORA_PRODUCTION/MODULE.md", text =>
-  text.replace("No Queue is executable.", "Queue execution is temporarily available.")
-);
-expect("ACTIVE/blocked-state contradiction guard is rejected", currentRoot, false);
+mutate("00_MASTER/MODULE_REGISTRY.md", text => text.replace(
+  "| LORA_PRODUCTION | PAUSED |",
+  "| LORA_PRODUCTION | ACTIVE |"
+));
+mutate("00_MASTER/RUNTIME_STATE.md", text => text.replace(
+  "| LORA_PRODUCTION | PAUSED | NO |",
+  "| LORA_PRODUCTION | ACTIVE | YES |"
+));
+expect("ACTIVE LoRA with a blocked execution chain is rejected", currentRoot, false);
 fs.rmSync(currentRoot, { recursive: true, force: true });
 
 currentRoot = cloneFixture();
