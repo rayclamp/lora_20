@@ -82,12 +82,12 @@ fs.rmSync(currentRoot, { recursive: true, force: true });
 
 currentRoot = cloneFixture();
 mutate("00_MASTER/QA_MODULE.md", text => text
-  .replace("QA_INPUT_INCOMPLETE", "QA_INPUT_MISSING_TEST_TOKEN")
-  .replace("QA_DATA_CONFLICT", "QA_DATA_CONFLICT_TEST_TOKEN")
+  .replace("QA_INPUT_INCOMPLETE", "QA_INPUT_BROKEN")
+  .replace("QA_DATA_CONFLICT", "QA_DATA_BROKEN")
 );
 mutate("00_MASTER/QA_PROTOCOL.md", text => text
-  .replace("QA_INPUT_INCOMPLETE", "QA_INPUT_MISSING_TEST_TOKEN")
-  .replace("QA_DATA_CONFLICT", "QA_DATA_CONFLICT_TEST_TOKEN")
+  .replace("QA_INPUT_INCOMPLETE", "QA_INPUT_BROKEN")
+  .replace("QA_DATA_CONFLICT", "QA_DATA_BROKEN")
 );
 expect("Incomplete QA contract is rejected", currentRoot, false);
 fs.rmSync(currentRoot, { recursive: true, force: true });
