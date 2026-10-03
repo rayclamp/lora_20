@@ -80,11 +80,23 @@ test("wrong worker cannot mutate claim",()=>{
   assert.throws(()=>rt.startGeneration("TASK_005","WORKER_B"),/CLAIM_OWNER_MISMATCH/);
 });
 
+rt.createTask({TASK_ID:"TASK_006",MODULE_ID:"FESTIVAL_WALLPAPER"});
 rt.setCircuit("FESTIVAL_WALLPAPER",true);
 test("circuit breaker blocks claims",()=>{
   assert.equal(rt.canClaim("FESTIVAL_WALLPAPER"),false);
+  assert.throws(()=>rt.claim("TASK_006","WORKER_A",60000,true),/CIRCUIT_OPEN/);
 });
 rt.setCircuit("FESTIVAL_WALLPAPER",false);
+
+rt.claim("TASK_006","WORKER_A",60000,true);
+const beforeCAS=rt.task("TASK_006").STATE_VERSION;
+test("CAS accepts current version",()=>{
+  rt.casUpdate("TASK_006","WORKER_A",beforeCAS,t=>{t.ERROR.ERROR_CODE="CAS_OK";});
+  assert.equal(rt.task("TASK_006").ERROR.ERROR_CODE,"CAS_OK");
+});
+test("CAS rejects stale version",()=>{
+  assert.throws(()=>rt.casUpdate("TASK_006","WORKER_A",beforeCAS,t=>{t.ERROR.ERROR_CODE="STALE";}),/CAS_CONFLICT/);
+});
 
 test("append-only event history exists",()=>{
   assert.ok(rt.store.events.length>=20);
