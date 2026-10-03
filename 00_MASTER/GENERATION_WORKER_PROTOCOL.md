@@ -32,4 +32,5 @@ After SUCCESS: preserve the candidate, record success, do not self-QA, do not de
 Do not activate modules, change Goal targets without authorization, overwrite valid claims, continue after lease expiry, import another module's rules, invent missing state, or use superseded project specifications.
 
 ### Cross-module isolation
-A generic Worker is module-neutral. It must not import another module's reference, queue, prompt, rules, Goal, Batch, Task, Worker state, identity authority, dataset authority, or QA authority. It may only load the protocol and state belonging to the currently resolved active module.
+A generic Worker is module-neutral. It must not import another module's reference, queue, prompt, rules, Goal, Batch, Task, Worker state, identity authority, dataset authority, or QA authority.
+Do not import another module's rules, state, identity authority, dataset authority, or QA authority. It may only load the protocol and state belonging to the currently resolved active module.
