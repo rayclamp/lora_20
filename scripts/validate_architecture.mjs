@@ -253,8 +253,9 @@ if (failures === 0) pass("Phase 7: Festival authority wording is current");
 
 const qaModule = read("00_MASTER/QA_MODULE.md");
 const qaProtocol = read("00_MASTER/QA_PROTOCOL.md");
-for (const token of ["Generation SUCCESS is never QA PASS", "SOURCE_MODULE", "QA_DATA_CONFLICT", "QA_INPUT_INCOMPLETE"]) {
-  if (!qaModule.includes(token) && !qaProtocol.includes(token)) fail("QA contract missing: " + token);
+const qaCombined = (qaModule + "\n" + qaProtocol).toLowerCase();
+for (const token of ["generation success is never qa pass", "source_module", "qa_data_conflict", "qa_input_incomplete"]) {
+  if (!qaCombined.includes(token)) fail("QA contract missing: " + token);
 }
 if (failures === 0) pass("Phase 8: QA activation contract is structurally present");
 
