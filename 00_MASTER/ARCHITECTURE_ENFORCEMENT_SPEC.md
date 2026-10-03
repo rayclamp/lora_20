@@ -211,3 +211,32 @@ Architecture Defined
 to:
 
 Architecture Mechanically Enforced.
+
+
+## Phase 4 — Final Clean Architecture Verification
+
+Phase 4 is the final repository-level verification after Phase 3 boundary enforcement.
+
+The final verification must confirm:
+
+1. the current GitHub architecture files form one coherent authority chain;
+2. Registry and Runtime state agree;
+3. the active workflow points to an ACTIVE module;
+4. Authority Matrix canonical paths resolve;
+5. CORE remains cross-system and module-neutral;
+6. Universal Wallpaper, Festival Wallpaper, LoRA Production, QA, and Image Delivery retain their declared ownership boundaries;
+7. generation, QA, and delivery remain separate lifecycle stages;
+8. no forbidden legacy paths or tokens remain;
+9. the architecture validator passes on the current repository;
+10. the deterministic validator self-test rejects all injected defects and restores a clean fixture.
+
+A Phase 4 verification may record external execution evidence supplied by the repository operator, but the final status must distinguish:
+- repository inspection;
+- validator execution evidence;
+- claims not covered by the validator.
+
+Phase 4 does not claim visual image quality, model behavior, cultural correctness, or external service availability.
+
+When all required checks pass, Council Round 5 may be marked:
+
+**FINAL CLEAN ARCHITECTURE VERIFIED**
