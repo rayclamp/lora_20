@@ -39,10 +39,23 @@ All production accounts/sessions belong to the same Worker Pool.
 
 ## 2. REQUIRED INITIAL READ
 
-After locating `rayclamp/lora_20`, read the latest versions of these files when present:
+After locating `rayclamp/lora_20`, resolve the platform before reading any module-owned Goal:
 
-- `START_HERE.md`
-- `PROJECT_STATUS.md`
+1. `START_HERE.md`
+2. `00_MASTER/SYSTEM_ARCHITECTURE.md`
+3. `00_MASTER/MODULE_REGISTRY.md`
+4. `00_MASTER/RUNTIME_STATE.md`
+5. `00_MASTER/AUTHORITY_MATRIX.md`
+
+Then determine whether the requested module is actually executable.
+
+For LoRA Production, continue only if:
+- `LORA_PRODUCTION = ACTIVE` in the current runtime/module state;
+- the applicable LoRA Goal is executable;
+- the applicable Queue is readable and claimable.
+
+After that, read the module-owned files that actually exist, including:
+- `PRODUCTION/LORA_PROJECT_STATUS.md`
 - `PRODUCTION/PRODUCTION_GOAL.md`
 - `PRODUCTION/WORKER_POOL.md`
 - `00_MASTER/MASTER_SPEC.md`
@@ -64,12 +77,15 @@ If a referenced file is absent, do not invent it. Continue using the authoritati
 
 ## 3. GOAL-FIRST OPERATION
 
-Read the current Production Goal from GitHub.
+Resolve the current executable Goal from the active module state.
 
 - The Goal belongs to the Team, not to this account.
+- A Goal under a PAUSED module is preserved but not executable.
+- If the active module has no executable Goal, stop.
 - If the Goal is already complete, stop.
 - Never change the Goal target yourself.
 - Never create a private account-specific quota.
+- Never infer the current Goal from a legacy pointer, old conversation, or fixed Goal ID.
 
 ## 4. TASK CLAIM PROTOCOL
 
@@ -251,7 +267,7 @@ The queue is a shared work pool. **Task-level ownership is the synchronization m
 - A Worker must never overwrite another Worker’s valid Claim.
 
 ### 12.2 Summary mismatch does not by itself stop production
-PROJECT_STATUS.md, Goal summaries, and Queue summary counters are reporting/summary data. If those summaries are temporarily stale or inconsistent with individual Task Records, a Worker must **not** stop merely because of that summary mismatch.
+Legacy pointers, Goal summaries, and Queue summary counters are reporting/summary data. `PROJECT_STATUS.md` is legacy-only and is not an operational authority. If those summaries are temporarily stale or inconsistent with individual Task Records, a Worker must **not** stop merely because of that summary mismatch.
 
 The Worker must use the actual Task Records and the task-level Claim/Lease mechanism to determine whether a specific task is available.
 
