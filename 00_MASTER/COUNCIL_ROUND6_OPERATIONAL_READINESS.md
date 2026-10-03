@@ -4,7 +4,7 @@
 
 **Council Round 6 — Operational Readiness / Runtime Execution Verification**
 
-**Current determination: PARTIAL — MANUAL/DESIGN READY, AUTOMATION NOT READY**
+**Current determination: RUNTIME IMPLEMENTED — EXECUTION EVIDENCE PENDING**
 
 Verification date: 2026-10-03
 
@@ -96,24 +96,27 @@ This is not a Round 5 architecture defect. It is the expected boundary between A
 
 ## Current Readiness Level
 
-**LEVEL 1 — MANUAL OPERATION READY**
+**LEVEL 2 — AUTOMATION READY (IMPLEMENTATION COMPLETE)**
 
-The repository is suitable for controlled manual/design operation under the currently active Festival Wallpaper workflow.
+The repository now contains the runtime contracts, persistent task engine, Claim/Lease/CAS enforcement, Worker lifecycle primitives, generation adapter boundary, event persistence, UNKNOWN recovery, retry/circuit-breaker controls, smoke tests, and CI workflow.
 
-It is not yet LEVEL 2 Automation Ready and not yet LEVEL 3 End-to-End Operation Ready.
+**LEVEL 3 — END-TO-END RUNTIME VERIFIED: PENDING EVIDENCE**
+
+The GitHub connector returned no workflow run for the verification commit, so CI execution cannot be claimed as observed. External ComfyUI/model execution and visual QA remain separately unverified.
 
 ## Round 6 Phase Status
 
 - Phase 1 — Operational Readiness Audit: COMPLETE
 - Phase 2 — Runtime State Machine Contract: COMPLETE
 - Phase 3 — Persistent Task / Batch / Queue Schema: COMPLETE
-- Phase 4 — Claim / Lease / CAS: NEXT
-
-## Required Round 6 Next Work
-
-1. Claim/Lease/CAS;
-2. Worker runtime;
-3. generation adapter;
+- Phase 4 — Claim / Lease / CAS: COMPLETE
+- Phase 5 — Worker Runtime: COMPLETE
+- Phase 6 — Generation Adapter: COMPLETE (mock boundary; external ComfyUI adapter not verified)
+- Phase 7 — Result/Event Persistence: COMPLETE
+- Phase 8 — UNKNOWN Recovery: COMPLETE
+- Phase 9 — Retry/Circuit Breaker: COMPLETE
+- Phase 10 — Operational Smoke Tests: COMPLETE (test suite + CI workflow created)
+- Phase 11 — End-to-End Runtime Verification: COMPLETE AS REPOSITORY VERIFICATION; CI EXECUTION EVIDENCE PENDING
 5. generation adapter;
 6. result/event persistence;
 7. UNKNOWN recovery;
@@ -123,8 +126,8 @@ It is not yet LEVEL 2 Automation Ready and not yet LEVEL 3 End-to-End Operation 
 
 ## Final Determination
 
-**Council Round 6 is IN PROGRESS.**
+**Council Round 6 implementation is COMPLETE.**
 
-The audit has successfully identified the operational boundary.
+All planned Phase 1–11 runtime contracts and repository runtime components are present. The remaining evidence gap is execution observation: the configured GitHub Actions workflow has not returned a run for the verification commit.
 
-No false claim of full runtime readiness should be made until executable runtime evidence exists.
+Therefore the repository must not be described as externally runtime-verified or ComfyUI end-to-end verified yet.
