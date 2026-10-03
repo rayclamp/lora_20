@@ -144,8 +144,8 @@ expect("Festival → LoRA boundary violation is rejected", currentRoot, false);
 fs.rmSync(currentRoot, { recursive: true, force: true });
 
 currentRoot = cloneFixture();
-mutate("00_MASTER/QA_MODULE.md", text =>
-  text.replace("Production Workers do not own QA decisions.", "QA boundary weakened for test.")
+mutate("00_MASTER/QA_PROTOCOL.md", text =>
+  text.replace("Production Workers do not cross into QA.", "QA boundary weakened for test.")
 );
 expect("QA → Production boundary violation is rejected", currentRoot, false);
 fs.rmSync(currentRoot, { recursive: true, force: true });
