@@ -123,8 +123,8 @@ fs.rmSync(currentRoot, { recursive: true, force: true });
 
 // Council Round 5 — Phase 3: Cross-Module Boundary Enforcement
 currentRoot = cloneFixture();
-mutate("00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md", text =>
-  text.replace("LoRA identity/reference authority;", "Universal boundary weakened for test;")
+mutate("00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md", text =>
+  text.replace("Do not load LoRA-specific reference or production rules.", "Universal boundary weakened for test.")
 );
 expect("Universal cross-module isolation violation is rejected", currentRoot, false);
 fs.rmSync(currentRoot, { recursive: true, force: true });
@@ -138,7 +138,7 @@ fs.rmSync(currentRoot, { recursive: true, force: true });
 
 currentRoot = cloneFixture();
 mutate("00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md", text =>
-  text.replace("Do not import LoRA Dataset.", "Festival boundary weakened for test.")
+  text.replace("Do not import LoRA Dataset or LoRA Production workflow/state.", "Festival boundary weakened for test.")
 );
 expect("Festival → LoRA boundary violation is rejected", currentRoot, false);
 fs.rmSync(currentRoot, { recursive: true, force: true });
