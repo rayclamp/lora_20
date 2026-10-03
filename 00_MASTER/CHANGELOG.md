@@ -136,3 +136,17 @@
 ## 2026-09-05
 - Initialized the shared Inaria AI Studio repository structure.
 - Added project, character, art-style, and generation master rules.
+
+
+# 2026-10-03 — Architecture state/authority repair
+
+- Added `00_MASTER/RUNTIME_STATE.md` as the canonical current runtime-state authority.
+- Added `00_MASTER/AUTHORITY_MATRIX.md` to assign one canonical owner to each information category.
+- Added `00_MASTER/HISTORICAL_DATA_POLICY.md` to prevent historical records from being interpreted as current state.
+- Registered `FESTIVAL_WALLPAPER` as an independent active module.
+- Updated `MASTER_SPEC.md` and `SYSTEM_ARCHITECTURE.md` to separate USER INTENT from SYSTEM CONSTRAINTS.
+- Updated `START_HERE.md` to recover through architecture → registry → runtime state → authority matrix → selected module.
+- Changed T109 Goal status from ACTIVE to SUSPENDED because `LORA_PRODUCTION` is PAUSED.
+- Repositioned root `PROJECT_STATUS.md` as a legacy pointer and added `PRODUCTION/LORA_PROJECT_STATUS.md` for LoRA-specific status.
+- Added `scripts/validate_architecture.mjs` for architecture/status drift detection.
+- Preserved all T109 queues, tasks, historical records, and module documents; this change is state/authority repair, not deletion.
