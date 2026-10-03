@@ -8,7 +8,7 @@
 | Information ownership | 00_MASTER/AUTHORITY_MATRIX.md |
 | Shared drawing/anatomy | 00_MASTER/DRAWING_INSTRUCTIONS.md + 00_MASTER/ANATOMY_STABILITY.md |
 | Generation-result safety | 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md |
-| Wallpaper rules | 00_MASTER/WALLPAPER/ |
+| Wallpaper rules | 00_MASTER/WALLPAPER/ |\n| Universal Wallpaper persistent batch/task records | MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/ + 00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md |
 | Festival cultural data | FESTIVAL_COSTUME_DATABASE/ |
 | LoRA behavior | MODULES/LORA_PRODUCTION/MODULE.md |
 | LoRA identity/reference | MODULES/LORA_PRODUCTION/IDENTITY/ |
