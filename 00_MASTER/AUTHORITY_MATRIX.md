@@ -6,7 +6,7 @@
 | Module registration/activation | 00_MASTER/MODULE_REGISTRY.md |
 | Current runtime state | 00_MASTER/RUNTIME_STATE.md |
 | Information ownership | 00_MASTER/AUTHORITY_MATRIX.md |
-| Shared drawing/anatomy | 00_MASTER/DRAWING_INSTRUCTIONS.md + ANATOMY_STABILITY.md |
+| Shared drawing/anatomy | 00_MASTER/DRAWING_INSTRUCTIONS.md + 00_MASTER/ANATOMY_STABILITY.md |
 | Generation-result safety | 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md |
 | Wallpaper rules | 00_MASTER/WALLPAPER/ |
 | Festival cultural data | FESTIVAL_COSTUME_DATABASE/ |
@@ -15,7 +15,7 @@
 | LoRA dataset rules | MODULES/LORA_PRODUCTION/DATASET/ |
 | LoRA production state | MODULES/LORA_PRODUCTION/PRODUCTION/ |
 | LoRA QA profile | MODULES/LORA_PRODUCTION/QA/ |
-| QA platform behavior | 00_MASTER/QA_MODULE.md + QA_PROTOCOL.md |
+| QA platform behavior | 00_MASTER/QA_MODULE.md + 00_MASTER/QA_PROTOCOL.md |
 | Image Delivery | 00_MASTER/IMAGE_DELIVERY_MODULE.md |
 
 ## Execution hierarchy
