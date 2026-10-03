@@ -290,8 +290,8 @@ const delivery = read("00_MASTER/IMAGE_DELIVERY_MODULE.md");
 const genericWorker = worker;
 
 const boundaryChecks = [
-  ["boundary spec Universal isolation", /UNIVERSAL_WALLPAPER[\s\S]*Must not consume:[\s\S]*LoRA identity\/reference authority/i],
-  ["boundary spec Festival isolation", /FESTIVAL_WALLPAPER[\s\S]*Must not consume:[\s\S]*LoRA identity\/reference authority/i],
+  ["boundary spec Universal isolation", /### UNIVERSAL_WALLPAPER[\s\S]*?Must not consume:[\s\S]*?LoRA identity\/reference authority[\s\S]*?(?=### FESTIVAL_WALLPAPER)/i],
+  ["boundary spec Festival isolation", /### FESTIVAL_WALLPAPER[\s\S]*?Must not consume:[\s\S]*?LoRA identity\/reference authority[\s\S]*?(?=### LORA_PRODUCTION)/i],
   ["boundary spec LoRA isolation", /LORA_PRODUCTION[\s\S]*Must not consume:[\s\S]*Universal Wallpaper production state/i],
   ["boundary spec QA downstream", /QA[\s\S]*must not become a production module/i],
   ["boundary spec Delivery isolation", /IMAGE_DELIVERY[\s\S]*must not generate images/i],
