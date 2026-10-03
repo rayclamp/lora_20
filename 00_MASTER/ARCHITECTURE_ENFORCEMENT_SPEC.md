@@ -140,7 +140,19 @@ Required boundaries include:
 
 The Phase 3 self-test must deliberately remove or weaken one boundary declaration in an isolated fixture and require validator rejection.
 
-### 11. Worker safety
+### 11. Universal Wallpaper ChatGPT Session Boundary
+
+The Universal Wallpaper ChatGPT-as-Worker workflow must preserve:
+- Prompt Preview before each generation;
+- one task = one executable prompt = one generation event;
+- generation result checkpoint before continuation;
+- `SUCCESS / FAILED / UNKNOWN` separation;
+- UNKNOWN requires recovery;
+- resume resolves GitHub state rather than conversation memory.
+
+This does not require a distributed runtime engine, Claim/Lease/CAS service, external queue, or GitHub Actions image generation.
+
+### 13. Worker safety
 
 The generic Worker contract must retain:
 
