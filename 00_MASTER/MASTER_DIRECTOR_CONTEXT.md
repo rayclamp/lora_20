@@ -2,9 +2,19 @@
 
 ## PURPOSE
 
-This document is the persistent project-context record for the **MASTER DIRECTOR** of the INARIA LoRA production project.
+This document is the persistent project-context record for the **MASTER DIRECTOR** of the INARIA AI STUDIO platform.
 
-It exists so that a new ChatGPT conversation can recover the correct role, responsibilities, architecture, user requirements, and final objective by reading this file from GitHub.
+It exists so that a new ChatGPT conversation can recover the correct role, responsibilities, architecture, user requirements, and current operating model without relying on conversation memory.
+
+**Important:** this is contextual guidance, not the runtime authority.
+
+The MASTER DIRECTOR MUST resolve current execution state from:
+1. `00_MASTER/RUNTIME_STATE.md`
+2. `00_MASTER/MODULE_REGISTRY.md`
+3. `00_MASTER/AUTHORITY_MATRIX.md`
+4. the selected module's authoritative protocol and module-owned state.
+
+The repository originated as an Inaria age-20 LoRA project, but the current platform is modular. LoRA is only one module.
 
 **Repository:** `rayclamp/lora_20`  
 **Branch:** `main`  
@@ -114,9 +124,17 @@ This requirement is documented in:
 
 ---
 
-# 6. CURRENT PRODUCTION PHASE
+# 6. CURRENT PLATFORM AND MODULE PHASE
 
-The project is centered on **Phase 1 image generation**.
+The platform may execute different modules. The current platform workflow is always determined by `00_MASTER/RUNTIME_STATE.md`.
+
+The LoRA Production Phase 1 lifecycle described below applies **only when `LORA_PRODUCTION` is ACTIVE**.
+
+The current repository state has `LORA_PRODUCTION = PAUSED`, so its Phase 1 queue is preserved but not executable.
+
+## LoRA Phase 1 lifecycle
+
+The project is centered on **Phase 1 image generation** when LoRA is active.
 
 The important Phase 1 state progression is:
 
@@ -144,11 +162,16 @@ Generation Workers must not wait for downstream upload or QA before continuing t
 
 # 7. GENERATION WORKER LOOP
 
-The intended continuous production loop is:
+The intended continuous production loop is module-dependent. For an active queued production module, the generic loop is:
 
 `FIND REPOSITORY`
-→ `READ GOAL`
-→ `READ QUEUE`
+→ `READ START_HERE`
+→ `READ SYSTEM_ARCHITECTURE`
+→ `READ MODULE_REGISTRY`
+→ `READ RUNTIME_STATE`
+→ `READ AUTHORITY_MATRIX`
+→ `SELECT ACTIVE MODULE`
+→ `READ MODULE GOAL/QUEUE`
 → `CHECK SYSTEM STATE`
 → `CLAIM`
 → `VERIFY CLAIM/LEASE`
@@ -359,6 +382,27 @@ The downstream QA system handles final quality decisions.
 
 # 15. MASTER DIRECTOR RESPONSIBILITIES
 
+The MASTER DIRECTOR is a platform-level coordinator, not a LoRA-only authority.
+
+Before directing any work, the MASTER DIRECTOR must resolve:
+
+- current platform runtime state;
+- active module and mode;
+- module activation status;
+- applicable Goal / Batch / Queue;
+- applicable reference policy;
+- applicable Worker protocol;
+- applicable retry/recovery policy;
+- QA activation status;
+- automation status;
+- contradictions among authoritative documents.
+
+If the active module is not LoRA, do not route the request through LoRA Goal/Queue files.
+
+If a contradiction is found, reconcile the authoritative project documents before directing Workers.
+
+
+
 When the user asks the MASTER DIRECTOR to continue the project, the MASTER DIRECTOR should first inspect the current GitHub state rather than relying on old conversation memory.
 
 The MASTER DIRECTOR should verify:
@@ -409,8 +453,9 @@ The ideal user experience is:
 
 **User starts a Worker**
 → Worker finds GitHub
-→ Worker reads the project
-→ Worker finds the current Goal
+→ Worker reads platform authority
+→ Worker resolves the active module
+→ Worker finds that module's executable Goal/Batch
 → Worker claims a task
 → Worker generates
 → Worker records `IMAGE_CREATED`
@@ -434,15 +479,17 @@ The user should not have to repeatedly say:
 
 ---
 
-# 18. FINAL PROJECT GOAL
+# 18. FINAL PLATFORM OBJECTIVE
 
-The final objective is a reliable production pipeline capable of creating a large, diverse, consistent, high-quality **Inaria age-20 LoRA training dataset**.
+The platform objective is a reliable modular production system. One preserved objective is the age-20 Inaria LoRA dataset, but it is not the definition of every platform workflow.
 
 The intended architecture is:
 
 **MASTER DIRECTOR**
 ↓
-Project rules / Goal / Queue / Worker protocol
+Platform rules / Runtime State / Module routing
+↓
+Selected module rules / Goal / Queue / Worker protocol
 ↓
 **Interchangeable ChatGPT Generation Workers**
 ↓
@@ -470,20 +517,23 @@ GitHub remains the shared coordination/state layer.
 
 # 19. MASTER DIRECTOR STARTUP BEHAVIOR
 
-When a new conversation begins and the user asks to continue this LoRA project:
+When a new conversation begins:
 
-1. Identify yourself as the MASTER DIRECTOR for this project.
-2. Locate `rayclamp/lora_20`.
-3. Read this file first.
-4. Read the current `PROJECT_STATUS.md`.
-5. Read the current Production Goal.
-6. Read the Worker Pool and production protocol.
-7. Read the current Queue.
-8. Check for document contradictions.
-9. Treat the current GitHub state as authoritative.
-10. Continue from the actual current project state.
-11. Do not assume that old conversation state is still current.
-12. Do not make the user reconstruct the architecture manually.
+1. Locate `rayclamp/lora_20`.
+2. Read `START_HERE.md`.
+3. Read `00_MASTER/SYSTEM_ARCHITECTURE.md`.
+4. Read `00_MASTER/MODULE_REGISTRY.md`.
+5. Read `00_MASTER/RUNTIME_STATE.md`.
+6. Read `00_MASTER/AUTHORITY_MATRIX.md`.
+7. Resolve the active module and mode.
+8. Read only the selected module's protocol and module-owned Goal/Batch/Queue/Task state.
+9. Check for execution-critical contradictions.
+10. Continue from the actual current GitHub state.
+11. Do not use `PROJECT_STATUS.md` as runtime authority.
+12. Do not infer the current Goal from old conversation state, historical documents, or a hard-coded Goal ID.
+13. Do not make the user reconstruct the architecture manually.
+
+If the selected module is `LORA_PRODUCTION`, then and only then read the LoRA-specific references in this document and the `PRODUCTION/` module state.
 
 This document is contextual guidance for the MASTER DIRECTOR.
 
@@ -493,7 +543,15 @@ The actual current operational rules remain those in the authoritative project p
 
 # 20. KEY REFERENCE FILES
 
-Primary project references include:
+Platform authority references:
+
+- `START_HERE.md`
+- `00_MASTER/SYSTEM_ARCHITECTURE.md`
+- `00_MASTER/MODULE_REGISTRY.md`
+- `00_MASTER/RUNTIME_STATE.md`
+- `00_MASTER/AUTHORITY_MATRIX.md`
+
+LoRA module references (only when LoRA is active or being administratively inspected):
 
 - `START_HERE.md`
 - `PROJECT_STATUS.md`
@@ -654,7 +712,7 @@ rather than trying to force every originally designed image into the final datas
 
 # 26. DYNAMIC ACTIVE GOAL / QUEUE MANAGEMENT — MANDATORY MASTER DIRECTOR DUTY
 
-The project must use a **dynamic Active Goal / Active Queue architecture** so that Worker continuation commands remain generic and do not need to be rewritten whenever a new LoRA production Goal is created.
+Each executable production module must use a **dynamic module-owned Goal / Batch / Queue architecture** so Worker continuation commands remain generic and do not need to be rewritten whenever a new Goal is created.
 
 The MASTER DIRECTOR is responsible for maintaining the current active-state pointers.
 
@@ -698,18 +756,23 @@ Therefore:
 
 ## Active-pointer invariant
 
-At all times there must be one authoritative current Active Goal for normal Worker execution.
+At all times there must be one authoritative current executable Goal/Batch **within the currently active module**.
 
-The following must agree:
+The following must agree within an active LoRA workflow:
 
-`PROJECT_STATUS.md`
-→ active Goal
+`00_MASTER/RUNTIME_STATE.md`
+→ LoRA is ACTIVE
+
+`PRODUCTION/LORA_PROJECT_STATUS.md`
+→ LoRA module state / executable Goal status
 
 `PRODUCTION/PRODUCTION_GOAL.md`
-→ active Goal + Goal file
+→ LoRA Goal + Goal file
 
 `PRODUCTION/IMAGE_QUEUE.md`
-→ active Goal + Queue file
+→ LoRA Queue + Queue file
+
+`PROJECT_STATUS.md` is NOT part of this authority chain.
 
 If these disagree, the MASTER DIRECTOR must stop normal orchestration long enough to reconcile the project documents before directing Workers to continue.
 
