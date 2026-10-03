@@ -74,7 +74,7 @@ The current user instruction selects the wallpaper type. The current user-suppli
 
 Its existing T109 Goal, queue, age-20 reference policy, character rules, dataset rules, and LoRA-specific production documents remain preserved.
 
-T109 is NOT the current active production Goal while UNIVERSAL_WALLPAPER is active.
+T109 is NOT executable while `LORA_PRODUCTION` is PAUSED.
 
 Future Make/OpenAI automation should activate the LoRA module directly rather than routing through Universal Wallpaper.
 
