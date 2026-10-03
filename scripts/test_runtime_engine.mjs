@@ -7,99 +7,145 @@ import {RuntimeEngine} from "./runtime_engine.mjs";
 
 let passed=0;
 function test(name,fn){try{fn();console.log("[PASS] "+name);passed++;}catch(e){console.error("[FAIL] "+name+" :: "+e.message);process.exitCode=1;}}
-
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),"inaria-runtime-"));
 const file=path.join(dir,"runtime.json");
-const rt=new RuntimeEngine({file});
+const rt=new RuntimeEngine({file,root:process.cwd()});
+const active="FESTIVAL_WALLPAPER";
 
-rt.createTask({TASK_ID:"TASK_001",MODULE_ID:"FESTIVAL_WALLPAPER",DESIGN_LOCK:true,FORMAT_LOCK:true});
+rt.createGoal({GOAL_ID:"GOAL_001",MODULE_ID:active});
+rt.createBatch({BATCH_ID:"BATCH_001",GOAL_ID:"GOAL_001"});
+rt.createTask({TASK_ID:"TASK_001",MODULE_ID:active,GOAL_ID:"GOAL_001",BATCH_ID:"BATCH_001",DESIGN_LOCK:true,FORMAT_LOCK:true});
+
 test("persistent task survives reload",()=>{
-  const reloaded=new RuntimeEngine({file});
-  assert.equal(reloaded.task("TASK_001").STATUS,"QUEUED");
+  assert.equal(new RuntimeEngine({file,root:process.cwd()}).task("TASK_001").STATUS,"QUEUED");
 });
 
+test("canonical authority blocks caller-supplied active override",()=>{
+  assert.throws(()=>rt.claim("TASK_001","WORKER_A",60000,true),/TASK_NOT_QUEUED|RUNTIME_LOCK_CONFLICT/);
+});
+rt.setCircuit(active,false);
+
+const rt2=new RuntimeEngine({file,root:process.cwd()});
+rt2.createTask({TASK_ID:"TASK_UNIVERSAL",MODULE_ID:"UNIVERSAL_WALLPAPER"});
+test("inactive workflow module cannot claim",()=>{
+  assert.throws(()=>rt2.claim("TASK_UNIVERSAL","WORKER_A",60000),/ACTIVE_WORKFLOW_MODULE_MISMATCH/);
+});
+rt2.createTask({TASK_ID:"TASK_LORA",MODULE_ID:"LORA_PRODUCTION"});
 test("paused module cannot claim",()=>{
-  assert.throws(()=>rt.claim("TASK_001","WORKER_A",60000,false),/MODULE_NOT_ACTIVE/);
+  assert.throws(()=>rt2.claim("TASK_LORA","WORKER_A",60000),/ACTIVE_WORKFLOW_MODULE_MISMATCH|MODULE_NOT_ACTIVE/);
 });
 
-rt.claim("TASK_001","WORKER_A",60000,true);
+let current=rt.task("TASK_001");
+current=rt.claim("TASK_001","WORKER_A",60000);
+const claimId=current.CLAIM.CLAIM_ID;
 test("second worker cannot claim live task",()=>{
-  assert.throws(()=>rt.claim("TASK_001","WORKER_B",60000,true),/TASK_NOT_QUEUED/);
+  assert.throws(()=>rt.claim("TASK_001","WORKER_B",60000),/TASK_NOT_QUEUED/);
 });
-
-rt.startGeneration("TASK_001","WORKER_A");
-rt.recordResult("TASK_001","WORKER_A",{result:"SUCCESS",resultReference:"mock://image/001",outputCount:1});
-rt.release("TASK_001","WORKER_A");
-
+test("missing CAS version is rejected",()=>{
+  assert.throws(()=>rt.startGeneration("TASK_001","WORKER_A",undefined,claimId),/EXPECTED_VERSION_REQUIRED/);
+});
+current=rt.startGeneration("TASK_001","WORKER_A",current.STATE_VERSION,claimId);
+test("stale CAS write is rejected",()=>{
+  assert.throws(()=>rt.recordResult("TASK_001","WORKER_A",current.STATE_VERSION-1,claimId,{result:"SUCCESS",outputCount:1}),/CAS_CONFLICT/);
+});
+current=rt.recordResult("TASK_001","WORKER_A",current.STATE_VERSION,claimId,{result:"SUCCESS",resultReference:"mock://image/001",outputCount:1});
+current=rt.release("TASK_001","WORKER_A",current.STATE_VERSION,claimId);
 test("happy path reaches IMAGE_CREATED",()=>{
-  assert.equal(rt.task("TASK_001").STATUS,"IMAGE_CREATED");
-  assert.equal(rt.store.events.filter(e=>e.TASK_ID==="TASK_001").length,5);
+  assert.equal(current.STATUS,"IMAGE_CREATED");
+  assert.equal(current.CLAIM.WORKER_ID,null);
 });
 
-rt.createTask({TASK_ID:"TASK_002",MODULE_ID:"FESTIVAL_WALLPAPER"});
-rt.claim("TASK_002","WORKER_A",60000,true);
-rt.startGeneration("TASK_002","WORKER_A");
-rt.recordResult("TASK_002","WORKER_A",{result:"FAILED",errorCode:"MOCK_FAILURE"});
-rt.release("TASK_002","WORKER_A");
-rt.retry("TASK_002");
-
-test("FAILED can be explicitly retried",()=>assert.equal(rt.task("TASK_002").STATUS,"QUEUED"));
-
-rt.claim("TASK_002","WORKER_A",60000,true);
-rt.startGeneration("TASK_002","WORKER_A");
-rt.recordResult("TASK_002","WORKER_A",{result:"UNKNOWN",errorMessage:"mock timeout"});
-rt.release("TASK_002","WORKER_A");
-
-test("UNKNOWN requires recovery",()=>{
-  assert.equal(rt.task("TASK_002").STATUS,"UNKNOWN");
-  assert.throws(()=>rt.retry("TASK_002"),/ONLY_FAILED_IS_RETRYABLE/);
+rt.createTask({TASK_ID:"TASK_FAIL",MODULE_ID:active});
+current=rt.claim("TASK_FAIL","WORKER_A",60000); let failClaim=current.CLAIM.CLAIM_ID;
+current=rt.startGeneration("TASK_FAIL","WORKER_A",current.STATE_VERSION,failClaim);
+current=rt.recordResult("TASK_FAIL","WORKER_A",current.STATE_VERSION,failClaim,{result:"FAILED",errorCode:"MOCK_FAILURE"});
+current=rt.release("TASK_FAIL","WORKER_A",current.STATE_VERSION,failClaim);
+test("retry requires current CAS and cleared claim",()=>{
+  assert.throws(()=>rt.retry("TASK_FAIL",current.STATE_VERSION-1),/CAS_CONFLICT/);
+  assert.equal(rt.retry("TASK_FAIL",current.STATE_VERSION).STATUS,"QUEUED");
 });
 
-rt.recover("TASK_002","RETRY_AUTHORIZED","evidence reviewed");
-test("explicit recovery may authorize retry",()=>assert.equal(rt.task("TASK_002").STATUS,"QUEUED"));
-
-rt.createTask({TASK_ID:"TASK_003",MODULE_ID:"FESTIVAL_WALLPAPER",EXPECTED_OUTPUT_COUNT:1});
-rt.claim("TASK_003","WORKER_A",60000,true);
-rt.startGeneration("TASK_003","WORKER_A");
-rt.recordResult("TASK_003","WORKER_A",{result:"SUCCESS",resultReference:"mock://image/003a",outputCount:2});
-test("output count mismatch is persisted",()=>{
-  const t=rt.task("TASK_003");
-  assert.equal(t.STATUS,"IMAGE_CREATED");
-  assert.equal(t.ERROR.ERROR_CODE,"OUTPUT_COUNT_MISMATCH");
+rt.createTask({TASK_ID:"TASK_UNKNOWN",MODULE_ID:active});
+current=rt.claim("TASK_UNKNOWN","WORKER_A",60000); let unknownClaim=current.CLAIM.CLAIM_ID;
+current=rt.startGeneration("TASK_UNKNOWN","WORKER_A",current.STATE_VERSION,unknownClaim);
+current=rt.recordResult("TASK_UNKNOWN","WORKER_A",current.STATE_VERSION,unknownClaim,{result:"UNKNOWN",errorMessage:"mock timeout"});
+current=rt.release("TASK_UNKNOWN","WORKER_A",current.STATE_VERSION,unknownClaim);
+test("UNKNOWN cannot retry directly",()=>{
+  assert.throws(()=>rt.retry("TASK_UNKNOWN",current.STATE_VERSION),/ONLY_FAILED_IS_RETRYABLE/);
+});
+test("UNKNOWN recovery requires released claim and CAS",()=>{
+  assert.equal(rt.recover("TASK_UNKNOWN","RETRY_AUTHORIZED",current.STATE_VERSION,"evidence reviewed").STATUS,"QUEUED");
 });
 
-rt.createTask({TASK_ID:"TASK_004",MODULE_ID:"FESTIVAL_WALLPAPER"});
-rt.claim("TASK_004","WORKER_A",1,true);
-test("stale worker cannot mutate expired lease",()=>{
-  assert.throws(()=>rt.startGeneration("TASK_004","WORKER_A"),/LEASE_EXPIRED/);
+rt.createTask({TASK_ID:"TASK_COUNT",MODULE_ID:active,EXPECTED_OUTPUT_COUNT:1});
+current=rt.claim("TASK_COUNT","WORKER_A",60000); let countClaim=current.CLAIM.CLAIM_ID;
+current=rt.startGeneration("TASK_COUNT","WORKER_A",current.STATE_VERSION,countClaim);
+current=rt.recordResult("TASK_COUNT","WORKER_A",current.STATE_VERSION,countClaim,{result:"SUCCESS",resultReference:"mock://image/a",outputCount:2});
+test("output-count mismatch is preserved as generation evidence",()=>{
+  assert.equal(current.STATUS,"IMAGE_CREATED");
+  assert.equal(current.ERROR.ERROR_CODE,"OUTPUT_COUNT_MISMATCH");
 });
 
-rt.createTask({TASK_ID:"TASK_005",MODULE_ID:"FESTIVAL_WALLPAPER"});
-rt.claim("TASK_005","WORKER_A",60000,true);
-test("wrong worker cannot mutate claim",()=>{
-  assert.throws(()=>rt.startGeneration("TASK_005","WORKER_B"),/CLAIM_OWNER_MISMATCH/);
+rt.createTask({TASK_ID:"TASK_EXPIRE",MODULE_ID:active});
+current=rt.claim("TASK_EXPIRE","WORKER_A",1); const expireClaim=current.CLAIM.CLAIM_ID;
+test("expired lease blocks mutation",()=>{
+  assert.throws(()=>rt.startGeneration("TASK_EXPIRE","WORKER_A",current.STATE_VERSION,expireClaim),/LEASE_EXPIRED/);
 });
 
-rt.createTask({TASK_ID:"TASK_006",MODULE_ID:"FESTIVAL_WALLPAPER"});
-rt.setCircuit("FESTIVAL_WALLPAPER",true);
-test("circuit breaker blocks claims",()=>{
-  assert.equal(rt.canClaim("FESTIVAL_WALLPAPER"),false);
-  assert.throws(()=>rt.claim("TASK_006","WORKER_A",60000,true),/CIRCUIT_OPEN/);
+rt.createTask({TASK_ID:"TASK_CAS",MODULE_ID:active});
+current=rt.claim("TASK_CAS","WORKER_A",60000); const casClaim=current.CLAIM.CLAIM_ID; const casVersion=current.STATE_VERSION;
+current=rt.casUpdate("TASK_CAS","WORKER_A",casVersion,casClaim,t=>{t.ERROR.ERROR_CODE="CAS_OK";});
+test("CAS accepts current version and rejects stale version",()=>{
+  assert.equal(current.ERROR.ERROR_CODE,"CAS_OK");
+  assert.throws(()=>rt.casUpdate("TASK_CAS","WORKER_A",casVersion,casClaim,t=>{t.ERROR.ERROR_CODE="STALE";}),/CAS_CONFLICT/);
 });
-rt.setCircuit("FESTIVAL_WALLPAPER",false);
 
-rt.claim("TASK_006","WORKER_A",60000,true);
-const beforeCAS=rt.task("TASK_006").STATE_VERSION;
-test("CAS accepts current version",()=>{
-  rt.casUpdate("TASK_006","WORKER_A",beforeCAS,t=>{t.ERROR.ERROR_CODE="CAS_OK";});
-  assert.equal(rt.task("TASK_006").ERROR.ERROR_CODE,"CAS_OK");
+rt.createTask({TASK_ID:"TASK_IDEMP",MODULE_ID:active,IDEMPOTENCY_KEY:"IDEMP_001"});
+current=rt.claim("TASK_IDEMP","WORKER_A",60000); let idemClaim=current.CLAIM.CLAIM_ID;
+current=rt.startGeneration("TASK_IDEMP","WORKER_A",current.STATE_VERSION,idemClaim);
+current=rt.recordResult("TASK_IDEMP","WORKER_A",current.STATE_VERSION,idemClaim,{result:"SUCCESS",outputCount:1});
+current=rt.release("TASK_IDEMP","WORKER_A",current.STATE_VERSION,idemClaim);
+test("completed idempotency key cannot be claimed again",()=>{
+  assert.throws(()=>rt.claim("TASK_IDEMP","WORKER_A",60000),/IDEMPOTENCY_ALREADY_COMPLETED/);
 });
-test("CAS rejects stale version",()=>{
-  assert.throws(()=>rt.casUpdate("TASK_006","WORKER_A",beforeCAS,t=>{t.ERROR.ERROR_CODE="STALE";}),/CAS_CONFLICT/);
+
+rt.createTask({TASK_ID:"TASK_LOCK",MODULE_ID:active});
+fs.mkdirSync(file+".lock");
+test("runtime lock blocks concurrent writer",()=>{
+  assert.throws(()=>rt.claim("TASK_LOCK","WORKER_A",60000),/RUNTIME_LOCK_CONFLICT/);
+});
+fs.rmSync(file+".lock",{recursive:true,force:true});
+
+rt.createTask({TASK_ID:"TASK_WORKER",MODULE_ID:active});
+const workerResult=rt.runWorker(["TASK_WORKER"],"WORKER_AUTO",{generate:()=>({result:"SUCCESS",resultReference:"mock://worker",outputCount:1})});
+test("executable worker lifecycle reaches IMAGE_CREATED",()=>{
+  assert.equal(workerResult[0].STATUS,"IMAGE_CREATED");
+  assert.equal(workerResult[0].CLAIM.WORKER_ID,null);
+});
+
+rt.createTask({TASK_ID:"TASK_BREAKER_1",MODULE_ID:active});
+rt.createTask({TASK_ID:"TASK_BREAKER_2",MODULE_ID:active});
+rt.createTask({TASK_ID:"TASK_BREAKER_3",MODULE_ID:active});
+for(const id of ["TASK_BREAKER_1","TASK_BREAKER_2","TASK_BREAKER_3"]){
+  current=rt.claim(id,"WORKER_A",60000); const c=current.CLAIM.CLAIM_ID;
+  current=rt.startGeneration(id,"WORKER_A",current.STATE_VERSION,c);
+  current=rt.recordResult(id,"WORKER_A",current.STATE_VERSION,c,{result:"FAILED",errorCode:"TOOL_FAILURE"});
+  current=rt.release(id,"WORKER_A",current.STATE_VERSION,c);
+}
+test("third genuine generation failure opens circuit",()=>{
+  assert.equal(rt.canClaim(active),false);
+  assert.equal(rt.store.counters.consecutiveGenerationErrors[active],3);
+});
+rt.setCircuit(active,false);
+test("successful IMAGE_CREATED resets consecutive error counter",()=>{
+  rt.createTask({TASK_ID:"TASK_RESET",MODULE_ID:active});
+  const r=rt.runWorker(["TASK_RESET"],"WORKER_RESET",{generate:()=>({result:"SUCCESS",outputCount:1})});
+  assert.equal(r[0].STATUS,"IMAGE_CREATED");
+  assert.equal(rt.store.counters.consecutiveGenerationErrors[active],0);
 });
 
 test("append-only event history exists",()=>{
-  assert.ok(rt.store.events.length>=20);
+  assert.ok(rt.store.events.length>=30);
   for(let i=1;i<rt.store.events.length;i++) assert.notEqual(rt.store.events[i].EVENT_ID,rt.store.events[i-1].EVENT_ID);
 });
 
