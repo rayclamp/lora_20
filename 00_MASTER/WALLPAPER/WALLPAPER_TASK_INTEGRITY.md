@@ -176,7 +176,21 @@ The Worker should use the following sequence:
 
 A Worker must not start generation if the task identity, design, or required format cannot be safely resolved.
 
-## 10. Automation requirement
+## 10. Prompt preview and session checkpoint
+
+Universal Wallpaper ChatGPT-as-Worker production uses `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md`.
+
+Before generation, the complete executable prompt for the current task must be shown to the user.
+
+After each generation attempt, the result must be checkpointed before moving to another task.
+
+Minimum logical result states: `NOT_STARTED`, `SUCCESS`, `FAILED`, `UNKNOWN`.
+
+`UNKNOWN` requires recovery and must never be treated as success or silently regenerated.
+
+The repository must not claim knowledge of an exact remaining ChatGPT quota unless that information is explicitly available from the platform.
+
+## 11. Automation requirement
 
 Prompt instructions alone are not sufficient task-integrity controls.
 
@@ -192,7 +206,7 @@ The automation should enforce, when technically possible:
 
 Prompt-level instructions and automation-level validation should reinforce each other.
 
-## 11. Recovery principle
+## 12. Recovery principle
 
 When a task-integrity violation occurs, preserve the original task record and event history.
 
@@ -207,7 +221,7 @@ Examples:
 
 A legitimate replacement task must receive a new task identity/design record.
 
-## 12. Universal principle
+## 13. Universal principle
 
 **GitHub remembers the design. Workers execute the design. Automation validates the execution.**
 
