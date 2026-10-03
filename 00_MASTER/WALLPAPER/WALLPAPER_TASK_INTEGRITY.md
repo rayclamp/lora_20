@@ -178,7 +178,7 @@ A Worker must not start generation if the task identity, design, or required for
 
 ## 10. Prompt preview and session checkpoint
 
-Universal Wallpaper ChatGPT-as-Worker production uses `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md`.
+Universal Wallpaper ChatGPT-as-Worker production uses `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md` and persists resumable batch state using `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md`.
 
 Before generation, the complete executable prompt for the current task must be shown to the user.
 
