@@ -67,6 +67,7 @@ const required = [
   "00_MASTER/QA_PROTOCOL.md",
   "00_MASTER/IMAGE_DELIVERY_MODULE.md",
   "00_MASTER/ARCHITECTURE_ENFORCEMENT_SPEC.md",
+  "00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md",
   "MODULES/LORA_PRODUCTION/MODULE.md",
   "MODULES/LORA_PRODUCTION/IDENTITY/CHARACTER_REFERENCE.md",
   "MODULES/LORA_PRODUCTION/IDENTITY/STYLE_REFERENCE.md",
@@ -276,7 +277,52 @@ for (const token of [
 ]) {
   if (!worker.includes(token)) fail("Generic Worker enforcement rule missing: " + token);
 }
+
 if (failures === 0) pass("Phase 10: generic Worker execution safeguards are present");
+
+const boundary = read("00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md");
+const universalProtocol = read("00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md");
+const festivalProtocol = read("00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md");
+const loraProtocol = read("MODULES/LORA_PRODUCTION/MODULE.md");
+const loraWorker = read("MODULES/LORA_PRODUCTION/PRODUCTION/WORKER_PROTOCOL.md");
+const qaBoundary = qaModule + "\n" + qaProtocol;
+const delivery = read("00_MASTER/IMAGE_DELIVERY_MODULE.md");
+const genericWorker = worker;
+
+const boundaryChecks = [
+  ["boundary spec Universal isolation", /UNIVERSAL_WALLPAPER[\\s\\S]*Must not consume:[\\s\\S]*LoRA identity\/reference authority/i],
+  ["boundary spec Festival isolation", /FESTIVAL_WALLPAPER[\\s\\S]*Must not consume:[\\s\\S]*LoRA identity\/reference authority/i],
+  ["boundary spec LoRA isolation", /LORA_PRODUCTION[\\s\\S]*Must not consume:[\\s\\S]*Universal Wallpaper production state/i],
+  ["boundary spec QA downstream", /QA[\\s\\S]*must not become a production module/i],
+  ["boundary spec Delivery isolation", /IMAGE_DELIVERY[\\s\\S]*must not generate images/i],
+  ["Universal protocol LoRA isolation", /Do not load LoRA-specific reference or production rules/i],
+  ["Festival prompt LoRA isolation", /Do not import LoRA Dataset/i],
+  ["LoRA module Wallpaper isolation", /Do not import Wallpaper workflow/i],
+  ["LoRA worker production boundary", /Generation ends at IMAGE_CREATED[\\s\\S]*QA is independent/i],
+  ["QA source-module boundary", /QA must select criteria from SOURCE_MODULE/i],
+  ["QA production boundary", /Production Workers do not cross into QA/i],
+  ["Delivery generation boundary", /Image generation is not performed here/i],
+  ["Generic Worker module isolation", /Do not import another module's rules/i]
+];
+
+for (const [label, pattern] of boundaryChecks) {
+  const source = label.includes("boundary spec") ? boundary :
+    label.startsWith("Universal") ? universalProtocol :
+    label.startsWith("Festival") ? festivalProtocol :
+    label.startsWith("LoRA module") ? loraProtocol :
+    label.startsWith("LoRA worker") ? loraWorker :
+    label.startsWith("QA ") ? qaBoundary :
+    label.startsWith("Delivery") ? delivery :
+    genericWorker;
+  if (!pattern.test(source)) fail("Cross-module boundary missing: " + label);
+}
+
+if (universalProtocol.includes("00_MASTER/MASTER_SPEC.md")) {
+  fail("Universal Wallpaper references nonexistent canonical file: 00_MASTER/MASTER_SPEC.md");
+}
+if (failures === 0) pass("Phase 11: Cross-module boundary enforcement is structurally present");
+
+
 
 if (failures > 0) {
   console.error("\nArchitecture enforcement validation FAILED: " + failures + " issue(s).");
