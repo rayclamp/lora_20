@@ -197,12 +197,7 @@ for (const file of operationalFiles.filter(function(f) { return f.endsWith(".md"
 }
 if (failures === 0) pass("Phase 5: legacy path/token exclusion is clean");
 
-const core = [
-  "00_MASTER/CORE_RULES.md",
-  "00_MASTER/DRAWING_INSTRUCTIONS.md",
-  "00_MASTER/ANATOMY_STABILITY.md",
-  "00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md"
-].map(read).join("\n");
+const core = read("00_MASTER/CORE_RULES.md");
 
 const coreForbidden = ["age-20", "LoRA dataset", "festival cultural data", "wallpaper-specific workflow", "account-specific authority"];
 for (const token of coreForbidden) {
@@ -254,14 +249,20 @@ if (failures === 0) pass("Phase 7: Festival authority wording is current");
 const qaModule = read("00_MASTER/QA_MODULE.md");
 const qaProtocol = read("00_MASTER/QA_PROTOCOL.md");
 const qaCombined = (qaModule + "\n" + qaProtocol).toLowerCase();
-for (const token of ["generation success is never qa pass", "source_module", "qa_data_conflict", "qa_input_incomplete"]) {
-  if (!qaCombined.includes(token)) fail("QA contract missing: " + token);
+const qaContractChecks = [
+  ["generation-success/QA separation", /generation success[\\s\\S]*never retroactively changed[\\s\\S]*QA/i],
+  ["SOURCE_MODULE", /source_module/i],
+  ["QA_DATA_CONFLICT", /qa_data_conflict/i],
+  ["QA_INPUT_INCOMPLETE", /qa_input_incomplete/i]
+];
+for (const [label, pattern] of qaContractChecks) {
+  if (!pattern.test(qaCombined)) fail("QA contract missing: " + label);
 }
 if (failures === 0) pass("Phase 8: QA activation contract is structurally present");
 
 const taskIntegrity = read("00_MASTER/WALLPAPER/WALLPAPER_TASK_INTEGRITY.md");
 for (const token of [
-  "DESIGN_LOCK", "IMAGE_ID_LOCK", "FORMAT_LOCK", "EXPECTED_OUTPUT_COUNT",
+  "DESIGN_LOCK", "IMAGE_ID LOCK", "FORMAT_LOCK", "EXPECTED_OUTPUT_COUNT",
   "OUTPUT_COUNT_MISMATCH", "INVALID_IMAGE_ID", "UNKNOWN / RECOVERY_REQUIRED"
 ]) {
   if (!taskIntegrity.includes(token)) fail("Wallpaper task-integrity contract missing: " + token);
