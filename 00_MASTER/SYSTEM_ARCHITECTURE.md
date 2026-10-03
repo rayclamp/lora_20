@@ -34,6 +34,7 @@ The major production systems are:
 2. Festival Wallpaper System
 3. LoRA Automated Production System
 4. QA Image Inspection System
+5. Image Delivery System
 ```
 
 Supporting infrastructure:
@@ -680,27 +681,80 @@ Commands are interfaces to the underlying GitHub systems. They are not the sourc
 
 ---
 
-# 17. SOURCE-OF-TRUTH PRIORITY
+# 17. AUTHORITY AND STATE MODEL
 
-When information conflicts, use this priority:
+The system separates **USER INTENT** from **SYSTEM CONSTRAINTS**.
+
+User intent defines what the user wants, such as wallpaper type, quantity, aspect ratio, theme, festival, scene, reference image, and requested workflow.
+
+System constraints define what is allowed and how execution proceeds:
+- CORE rules;
+- module rules;
+- current runtime/module state;
+- safety rules;
+- database constraints;
+- task integrity.
+
+Canonical information ownership is defined in:
+
+`00_MASTER/AUTHORITY_MATRIX.md`
+
+Current runtime state is defined only by:
+
+`00_MASTER/RUNTIME_STATE.md`
+
+Module activation is defined by:
+
+`00_MASTER/MODULE_REGISTRY.md`
+
+Resolution flow:
 
 ```
-1. Current GitHub CORE rules
-2. Current module specification
-3. Current task / Design Record
-4. Current Festival Database data
-5. Current production state
-6. User-provided parameters
-7. Conversation memory
+USER INTENT
+  ↓
+RULE / STATE RESOLUTION
+  ├ CORE
+  ├ MODULE
+  ├ DATABASE
+  ├ SAFETY
+  └ TASK INTEGRITY
+  ↓
+DESIGN
+  ↓
+WORKER
+  ↓
+OUTPUT
+  ↓
+QA
 ```
 
-User parameters remain authoritative for explicit task choices unless they conflict with higher-level safety or system constraints.
-
-Conversation memory must never override current GitHub state.
+Conversation memory and historical documents never override current canonical GitHub state.
 
 ---
 
-# 18. QUICK SYSTEM MAP
+# 18. RUNTIME RECOVERY ENTRY POINT
+
+The canonical recovery sequence is:
+
+```
+START_HERE
+  ↓
+SYSTEM_ARCHITECTURE
+  ↓
+MODULE_REGISTRY
+  ↓
+RUNTIME_STATE
+  ↓
+AUTHORITY_MATRIX
+  ↓
+SELECTED MODULE
+  ↓
+MODULE TASK / DESIGN / QUEUE STATE
+```
+
+Workers must not search historical files to infer current status.
+
+# 19. QUICK SYSTEM MAP
 
 ```
 INARIA DRAWING SYSTEM
@@ -747,7 +801,7 @@ INARIA DRAWING SYSTEM
 
 ---
 
-# 19. FUTURE CHANGE RULE
+# 20. FUTURE CHANGE RULE
 
 When a new drawing system is created:
 
@@ -764,7 +818,7 @@ This document must be updated whenever the high-level architecture changes.
 
 ---
 
-# 20. CORE PRINCIPLE
+# 21. CORE PRINCIPLE
 
 **ChatGPT designs and interprets user intent.**
 
