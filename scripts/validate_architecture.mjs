@@ -97,6 +97,8 @@ const forbiddenPaths = [
   "05_PROMPT/",
   "PROJECT_STATUS.md",
   "MASTER_IMAGE/",
+  "00_MASTER/QUALITY_CONTROL.md",
+  "00_MASTER/WALLPAPER_COMPOSITION.md",
 ];
 const files = allFiles();
 for (const p of forbiddenPaths) {
@@ -136,6 +138,11 @@ if (!registry.includes("MODULES/LORA_PRODUCTION/MODULE.md")) {
 if (runtime.includes("LORA_PRODUCTION: ACTIVE")) {
   fail("Runtime attempts to activate LoRA");
 }
+
+const festivalPrompt = read("00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md");
+if (!festivalPrompt.includes("USER INTENT\n   defines WHAT is requested")) fail("Festival prompt is missing the current authority wording for user intent");
+if (!festivalPrompt.includes("SYSTEM / RUNTIME / MODULE AUTHORITY")) fail("Festival prompt is missing the current system/module authority layer");
+if (festivalPrompt.includes("1. 使用者當前明確要求\n2. CHARACTER_REFERENCE")) fail("Festival prompt still uses the superseded precedence ordering");
 
 if (failures > 0) {
   console.error("\nArchitecture validation FAILED: " + failures + " issue(s).");
