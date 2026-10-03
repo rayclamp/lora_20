@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Council Round 5 — Phase 2
+ * Council Round 5 — Phase 3
  * Validator self-test / failure injection.
  *
  * The harness creates isolated fixtures, injects one controlled defect at a time,
@@ -119,6 +119,42 @@ currentRoot = cloneFixture();
 const legacyToken = ["T", "109"].join("");
 mutate("START_HERE.md", text => text + "\nLegacy fixture marker: " + legacyToken + "\n");
 expect("Forbidden legacy token is rejected", currentRoot, false);
+fs.rmSync(currentRoot, { recursive: true, force: true });
+
+// Council Round 5 — Phase 3: Cross-Module Boundary Enforcement
+currentRoot = cloneFixture();
+mutate("00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md", text =>
+  text.replace("LoRA identity/reference authority;", "Universal boundary weakened for test;")
+);
+expect("Universal cross-module isolation violation is rejected", currentRoot, false);
+fs.rmSync(currentRoot, { recursive: true, force: true });
+
+currentRoot = cloneFixture();
+mutate("00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md", text =>
+  text.replace("Universal Wallpaper production state;", "LoRA boundary weakened for test;")
+);
+expect("LoRA cross-module isolation violation is rejected", currentRoot, false);
+fs.rmSync(currentRoot, { recursive: true, force: true });
+
+currentRoot = cloneFixture();
+mutate("00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md", text =>
+  text.replace("Do not import LoRA Dataset.", "Festival boundary weakened for test.")
+);
+expect("Festival → LoRA boundary violation is rejected", currentRoot, false);
+fs.rmSync(currentRoot, { recursive: true, force: true });
+
+currentRoot = cloneFixture();
+mutate("00_MASTER/QA_MODULE.md", text =>
+  text.replace("Production Workers do not own QA decisions.", "QA boundary weakened for test.")
+);
+expect("QA → Production boundary violation is rejected", currentRoot, false);
+fs.rmSync(currentRoot, { recursive: true, force: true });
+
+currentRoot = cloneFixture();
+mutate("00_MASTER/IMAGE_DELIVERY_MODULE.md", text =>
+  text.replace("Image generation is not performed here.", "Delivery boundary weakened for test.")
+);
+expect("Image Delivery → Generation boundary violation is rejected", currentRoot, false);
 fs.rmSync(currentRoot, { recursive: true, force: true });
 
 currentRoot = cloneFixture();
