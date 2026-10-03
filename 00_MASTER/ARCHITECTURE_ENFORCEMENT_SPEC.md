@@ -152,7 +152,7 @@ The Universal Wallpaper ChatGPT-as-Worker workflow must preserve:
 
 This does not require a distributed runtime engine, Claim/Lease/CAS service, external queue, or GitHub Actions image generation.
 
-### 13. Worker safety
+### 12. Worker safety
 
 The generic Worker contract must retain:
 
