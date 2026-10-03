@@ -16,7 +16,7 @@ One task represents one intended image generation.
 
 ## 2. Session state
 
-When a persistent session record is available, track:
+The Session Contract defines the logical state; it does not create a separate runtime database. When a persistent session/task record is available, track:
 
 - SESSION_ID
 - BATCH_ID
@@ -70,7 +70,13 @@ Minimum logical result states:
 
 `UNKNOWN`: record `UNKNOWN / RECOVERY_REQUIRED` and stop. Never silently regenerate an UNKNOWN result.
 
-## 5. Continuation
+## 5. Checkpoint ownership
+
+For the current architecture, checkpoint information is authoritative only when it is written to an existing authorized GitHub task/session record. The Session Contract does not authorize inventing a new storage location or changing RUNTIME_STATE directly.
+
+If no authorized persistent task/session record exists yet, ChatGPT may maintain the current single-image progression within the active conversation, but a RESUME after interruption cannot claim persistent recovery beyond the state actually recorded in GitHub.
+
+## 6. Continuation
 
 After confirmed SUCCESS:
 
@@ -80,7 +86,7 @@ The session continues until the requested target is completed, the user stops it
 
 A platform interruption is a stop condition, not permission to guess remaining quota.
 
-## 6. Resume
+## 7. Resume
 
 On RESUME, ChatGPT must reread current GitHub state.
 
@@ -100,7 +106,7 @@ Decision:
 
 Do not redesign an existing task from conversation memory.
 
-## 7. Count integrity
+## 8. Count integrity
 
 `TARGET_COUNT` is a batch target, not a quota prediction.
 
@@ -110,7 +116,7 @@ Extra outputs do not create extra tasks.
 
 **ONE TASK = ONE IMAGE DESIGN = ONE EXECUTABLE PROMPT = ONE GENERATION EVENT**
 
-## 8. Architecture boundary
+## 9. Architecture boundary
 
 This session contract intentionally does not require:
 
@@ -124,12 +130,12 @@ This session contract intentionally does not require:
 
 These are separate future requirements and must not be reintroduced merely to support ChatGPT-as-Worker production.
 
-## 9. Worker boundary
+## 10. Worker boundary
 
 ChatGPT may read rules, design, show the prompt, generate, record the result, checkpoint, and continue.
 
 ChatGPT must not activate PAUSED modules, bypass runtime state, invent missing task state, silently redesign DESIGN-LOCKED tasks, self-QA, or silently regenerate UNKNOWN results.
 
-## 10. Core principle
+## 11. Core principle
 
 **GitHub defines HOW. ChatGPT executes ONE IMAGE at a time. The checkpoint defines WHERE TO RESUME.**
