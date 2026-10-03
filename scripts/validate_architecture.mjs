@@ -290,15 +290,15 @@ const delivery = read("00_MASTER/IMAGE_DELIVERY_MODULE.md");
 const genericWorker = worker;
 
 const boundaryChecks = [
-  ["boundary spec Universal isolation", /UNIVERSAL_WALLPAPER[\\s\\S]*Must not consume:[\\s\\S]*LoRA identity\/reference authority/i],
-  ["boundary spec Festival isolation", /FESTIVAL_WALLPAPER[\\s\\S]*Must not consume:[\\s\\S]*LoRA identity\/reference authority/i],
-  ["boundary spec LoRA isolation", /LORA_PRODUCTION[\\s\\S]*Must not consume:[\\s\\S]*Universal Wallpaper production state/i],
-  ["boundary spec QA downstream", /QA[\\s\\S]*must not become a production module/i],
-  ["boundary spec Delivery isolation", /IMAGE_DELIVERY[\\s\\S]*must not generate images/i],
+  ["boundary spec Universal isolation", /UNIVERSAL_WALLPAPER[\s\S]*Must not consume:[\s\S]*LoRA identity\/reference authority/i],
+  ["boundary spec Festival isolation", /FESTIVAL_WALLPAPER[\s\S]*Must not consume:[\s\S]*LoRA identity\/reference authority/i],
+  ["boundary spec LoRA isolation", /LORA_PRODUCTION[\s\S]*Must not consume:[\s\S]*Universal Wallpaper production state/i],
+  ["boundary spec QA downstream", /QA[\s\S]*must not become a production module/i],
+  ["boundary spec Delivery isolation", /IMAGE_DELIVERY[\s\S]*must not generate images/i],
   ["Universal protocol LoRA isolation", /Do not load LoRA-specific reference or production rules/i],
   ["Festival prompt LoRA isolation", /Do not import LoRA Dataset/i],
   ["LoRA module Wallpaper isolation", /Do not import Wallpaper workflow/i],
-  ["LoRA worker production boundary", /Generation ends at IMAGE_CREATED[\\s\\S]*QA is independent/i],
+  ["LoRA worker production boundary", /Generation ends at IMAGE_CREATED[\s\S]*QA is independent/i],
   ["QA source-module boundary", /QA must select criteria from SOURCE_MODULE/i],
   ["QA production boundary", /Production Workers do not cross into QA/i],
   ["Delivery generation boundary", /Image generation is not performed here/i],
