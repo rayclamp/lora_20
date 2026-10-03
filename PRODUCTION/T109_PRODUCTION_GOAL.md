@@ -17,14 +17,16 @@ It does **not** mean the current Director account should generate 150 images, an
 Each task is counted as covered after the assigned Worker has attempted the design and recorded a terminal production outcome. IMAGE_CREATED, FAILED, GENERATION_TOOL_ERROR, and SAFETY_BLOCKED remain distinct outcomes.
 
 ## Current state
-- Status: ACTIVE
+- Status: SUSPENDED
+- Parent module: LORA_PRODUCTION (PAUSED)
+- Execution: NOT ALLOWED until LORA_PRODUCTION is explicitly activated in MODULE_REGISTRY and RUNTIME_STATE
 - Production mode: MANUAL
 - Task target: 150
 - Task Coverage: 11 / 150
 - QUEUED: 135
 - IMAGE_CREATED: 11
 - QA: PAUSED
-- Generation system: ACTIVE
+- Generation system: SUSPENDED
 - Official reference: MASTER_IMAGE/INARIA_20_MASTER_v1.0.png
 
 ## Design requirements
@@ -68,3 +70,12 @@ All remaining T109 tasks must exclude:
 This is a task-design constraint. It does not retroactively rewrite completed Task Records or their original Prompt history. If an already generated candidate unexpectedly contains an animal, its generation event remains historical and downstream QA/data curation decides whether it is usable.
 
 For all still-QUEUED T109 tasks, MASTER DIRECTOR must ensure the task Prompt and Negative Prompt explicitly exclude animals and pets.
+
+
+## Runtime status note
+
+T109 is preserved as a module-owned Goal. Its task queue and production records are not deleted.
+
+The current platform runtime does not execute T109 because `LORA_PRODUCTION` is PAUSED. A Goal's existence or queued tasks do not activate its parent module.
+
+When LoRA production is intentionally resumed, update `00_MASTER/MODULE_REGISTRY.md`, `00_MASTER/RUNTIME_STATE.md`, and this Goal status in the same controlled state transition.
