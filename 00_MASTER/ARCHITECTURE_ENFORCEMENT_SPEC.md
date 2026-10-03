@@ -148,6 +148,28 @@ This validator does not prove:
 
 Those remain the responsibility of their respective modules and QA processes.
 
+## Phase 2 — Validator Self-Test / Failure Injection
+
+The repository must contain a deterministic self-test harness:
+
+- `scripts/test_architecture_validator.mjs`
+
+The self-test must:
+
+1. verify a clean fixture is accepted;
+2. inject Registry ↔ Runtime mismatch and require rejection;
+3. inject ACTIVE workflow → PAUSED module and require rejection;
+4. inject an Authority Matrix → nonexistent canonical path and require rejection;
+5. remove required QA contract evidence and require rejection;
+6. activate LoRA while its execution chain remains blocked and require rejection;
+7. inject a forbidden legacy path and require rejection;
+8. inject a forbidden legacy token and require rejection;
+9. restore a clean fixture and require acceptance.
+
+The harness must run against isolated temporary fixtures and must never mutate the real repository.
+
+The production validator supports an optional `--root <path>` argument specifically so the self-test can execute isolated fixtures without changing the validator's default behavior.
+
 ## Round 5 completion condition
 
 Council Round 5 is structurally complete when:
@@ -157,7 +179,9 @@ Council Round 5 is structurally complete when:
 3. legacy exclusion is checked;
 4. module activation guards are checked;
 5. QA/task/worker boundaries are checked;
-6. the validator returns PASS on the current repository.
+6. the validator has a deterministic failure-injection self-test;
+7. the self-test returns PASS;
+8. the validator returns PASS on the current repository.
 
 The repository then moves from:
 
