@@ -250,7 +250,7 @@ const qaModule = read("00_MASTER/QA_MODULE.md");
 const qaProtocol = read("00_MASTER/QA_PROTOCOL.md");
 const qaCombined = (qaModule + "\n" + qaProtocol).toLowerCase();
 const qaContractChecks = [
-  ["generation-success/QA separation", /generation success[\\s\\S]*never retroactively changed[\\s\\S]*QA/i],
+  ["generation-success/QA separation", /generation success.*never retroactively changed.*qa/i],
   ["SOURCE_MODULE", /source_module/i],
   ["QA_DATA_CONFLICT", /qa_data_conflict/i],
   ["QA_INPUT_INCOMPLETE", /qa_input_incomplete/i]
