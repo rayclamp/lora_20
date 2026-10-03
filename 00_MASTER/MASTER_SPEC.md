@@ -2,7 +2,7 @@
 
 - Authority: Project-wide source of truth
 - Version: v008
-- Last Updated: 2026-10-02
+- Last Updated: 2026-10-03
 - Project: rayclamp/lora_20
 
 ## 1. Purpose
@@ -27,17 +27,64 @@ A module must load CORE rules but must not inherit another module's workflow unl
 
 New systems are added as new modules.
 
-## 3. Source-of-truth hierarchy
+## 3. Source-of-truth and authority model
 
-1. Explicit user instruction for the current task.
-2. `00_MASTER/MODULE_REGISTRY.md`
-3. `00_MASTER/CORE_RULES.md`
-4. Applicable module protocol.
-5. Applicable module task/queue/state.
-6. Applicable reference assets.
-7. Temporary implementation details.
+The system separates **USER INTENT** from **SYSTEM CONSTRAINTS**.
 
-Historical chat content and obsolete documents never override current rules.
+User intent defines what the user wants, for example:
+- wallpaper type;
+- quantity;
+- aspect ratio;
+- theme;
+- festival;
+- scene;
+- reference image;
+- requested workflow.
+
+System constraints define what is allowed and how execution proceeds:
+- CORE rules;
+- module rules;
+- runtime/module activation state;
+- safety rules;
+- database constraints;
+- task integrity;
+- applicable task/design/queue state.
+
+Canonical ownership is defined by `00_MASTER/AUTHORITY_MATRIX.md`.
+
+For current runtime state:
+- `00_MASTER/RUNTIME_STATE.md` is authoritative.
+
+For module activation:
+- `00_MASTER/MODULE_REGISTRY.md` is authoritative.
+
+For architecture:
+- `00_MASTER/SYSTEM_ARCHITECTURE.md` is authoritative.
+
+Conversation memory and historical documents never override current GitHub state.
+
+Resolution flow:
+
+```
+USER INTENT
+    ↓
+RULE / STATE RESOLUTION
+    ├── CORE
+    ├── MODULE
+    ├── DATABASE
+    ├── SAFETY
+    └── TASK INTEGRITY
+    ↓
+DESIGN
+    ↓
+WORKER
+    ↓
+OUTPUT
+    ↓
+QA
+```
+
+An explicit user request does not silently activate a PAUSED module.
 
 ## 4. CORE rules
 
@@ -67,13 +114,16 @@ CORE does not define:
 
 ## 5. Module registry
 
-`00_MASTER/MODULE_REGISTRY.md` is authoritative for module status.
+`00_MASTER/MODULE_REGISTRY.md` is authoritative for module registration and module activation status.
 
-Current status:
+Current module status:
 - UNIVERSAL_WALLPAPER = ACTIVE
+- FESTIVAL_WALLPAPER = ACTIVE
 - LORA_PRODUCTION = PAUSED
 - IMAGE_DELIVERY = PAUSED
 - QA = PAUSED
+
+`00_MASTER/RUNTIME_STATE.md` is authoritative for which active workflow is currently executing.
 
 Only ACTIVE modules may execute.
 
@@ -99,9 +149,9 @@ Wallpaper type rules:
 
 The user's explicit wallpaper-type instruction determines which rule set is active.
 The current user-supplied reference image determines the visual identity/reference for that batch.
-This is the current active production system.
+This module is available for execution when selected by current runtime state.
 
-## 7. LoRA Production module
+## 8. LoRA Production module
 
 Protocol:
 
@@ -124,7 +174,7 @@ T109 is not the current platform-wide active Goal.
 
 When activated, the LoRA executor loads CORE plus the LoRA module rules. It does not inherit Universal Wallpaper's runtime-reference policy.
 
-## 8. Image Delivery module
+## 9. Image Delivery module
 
 Protocol:
 
@@ -138,7 +188,7 @@ It is not part of image generation and is not required for a generation module t
 
 Existing delivery implementation and historical state remain preserved.
 
-## 9. QA module
+## 10. QA module
 
 Protocol:
 
@@ -152,7 +202,7 @@ Production success and QA acceptance are independent facts.
 
 Existing QA rules, adapters, reports, and historical state remain preserved.
 
-## 10. Generation stability
+## 11. Generation stability
 
 Every active generation module must apply:
 - `DRAWING_INSTRUCTIONS.md`
@@ -174,7 +224,7 @@ FULL-BODY does not mean distant shot.
 
 These are generation constraints, not post-generation QA.
 
-## 11. Generation / QA boundary
+## 12. Generation / QA boundary
 
 Generation modules:
 TASK → DESIGN → PROMPT → GENERATE → GENERATION RESULT
@@ -186,7 +236,7 @@ A successful generation is not automatically a QA PASS.
 
 A generation Worker must not self-QA, reject, repair, or regenerate solely because of perceived visual defects.
 
-## 12. Reference boundary
+## 13. Reference boundary
 
 Reference policy belongs to the module.
 
@@ -197,7 +247,7 @@ Examples:
 
 No module may silently replace another module's reference policy.
 
-## 13. Data and state ownership
+## 14. Data and state ownership
 
 Each module owns its:
 - task model;
@@ -211,7 +261,7 @@ Shared CORE rules remain in `00_MASTER/`.
 
 Cross-module transfer must be explicit.
 
-## 14. Future module integration
+## 15. Future module integration
 
 A new module must define:
 - module name and status;
@@ -225,7 +275,7 @@ A new module must define:
 
 It must be possible to activate the new module without redesigning unrelated modules.
 
-## 15. Change control
+## 16. Change control
 
 Permanent shared-rule changes belong in the applicable CORE document and must be recorded in `00_MASTER/CHANGELOG.md`.
 
@@ -233,7 +283,7 @@ Module-specific changes belong in that module's protocol or state documents.
 
 Do not move a module-specific rule into CORE merely for convenience.
 
-## 16. Historical project preservation
+## 17. Historical project preservation
 
 The age-20 Inaria LoRA project remains fully preserved as the `LORA_PRODUCTION` module.
 
