@@ -16,7 +16,7 @@ One task represents one intended image generation.
 
 ## 2. Session state
 
-The Session Contract defines the logical state; it does not create a separate runtime database. When a persistent session/task record is available, track:
+The Session Contract defines the logical state; it does not create a separate runtime database. The canonical persistent record is `MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/<BATCH_ID>.md`. Track session state there.
 
 - SESSION_ID
 - BATCH_ID
@@ -72,9 +72,11 @@ Minimum logical result states:
 
 ## 5. Checkpoint ownership
 
-For the current architecture, checkpoint information is authoritative only when it is written to an existing authorized GitHub task/session record. The Session Contract does not authorize inventing a new storage location or changing RUNTIME_STATE directly.
+The canonical persistent record is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md` and stored at `MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/<BATCH_ID>.md`.
 
-If no authorized persistent task/session record exists yet, ChatGPT may maintain the current single-image progression within the active conversation, but a RESUME after interruption cannot claim persistent recovery beyond the state actually recorded in GitHub.
+Checkpoint information is authoritative only when written to that authorized batch record. The Session Contract does not authorize changing `RUNTIME_STATE` directly or creating another persistence layer.
+
+If the batch record does not yet exist, it must be created before a multi-image session claims persistent resumability. Until then, conversation memory is not a persistent recovery source.
 
 ## 6. Continuation
 
