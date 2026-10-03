@@ -6,6 +6,8 @@
 - No platform-wide Goal is required.
 - User intent cannot activate a paused module.
 - Universal Wallpaper does not depend on LoRA.
+- Universal Wallpaper ChatGPT-as-Worker production uses the lightweight Production Session contract.
+- Universal Wallpaper generation follows Prompt Preview → Result → Checkpoint → Next Task.
 - Festival Wallpaper does not inherit LoRA rules.
 - LoRA owns identity, dataset, production, and QA rules.
 - QA is downstream and independent.
