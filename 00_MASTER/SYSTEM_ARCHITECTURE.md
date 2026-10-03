@@ -732,6 +732,49 @@ Conversation memory and historical documents never override current canonical Gi
 
 ---
 
+# 17A. EXECUTION AUTHORITY HIERARCHY
+
+The repository uses a strict execution-authority hierarchy:
+
+```
+USER INTENT
+    ↓
+RUNTIME_STATE
+    ↓
+MODULE_REGISTRY
+    ↓
+AUTHORITY_MATRIX
+    ↓
+ACTIVE MODULE PROTOCOL
+    ↓
+MODULE-OWNED GOAL / BATCH / QUEUE / TASK STATE
+    ↓
+WORKER EXECUTION
+    ↓
+RESULT
+    ↓
+QA / DOWNSTREAM
+```
+
+Rules:
+
+1. `00_MASTER/RUNTIME_STATE.md` is the sole platform runtime authority.
+2. `00_MASTER/MODULE_REGISTRY.md` owns module registration and activation status.
+3. `00_MASTER/AUTHORITY_MATRIX.md` defines information ownership.
+4. A module-owned Goal or Queue cannot activate itself.
+5. A Goal under a PAUSED module is preserved but non-executable.
+6. Legacy pointers and historical documents may provide navigation or historical context only; they cannot authorize execution.
+7. Worker commands must remain generic and must not hard-code a Goal ID.
+8. If an execution-critical conflict exists between these layers, stop normal execution and reconcile the canonical files before continuing.
+
+## 17B. LEGACY DOCUMENT RULE
+
+`PROJECT_STATUS.md` is a legacy compatibility pointer. It is not part of the runtime authority chain.
+
+`PRODUCTION/PRODUCTION_GOAL.md` is a module-owned LoRA Goal pointer. It is not a platform-wide Active Goal authority.
+
+Historical Goal files, reports, and old continuation instructions must never be used to infer current execution state.
+
 # 18. RUNTIME RECOVERY ENTRY POINT
 
 The canonical recovery sequence is:
