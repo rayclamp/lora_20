@@ -264,14 +264,6 @@ Before generation confirm:
 
 After generation, confirm the result, record it, checkpoint when applicable, and continue only when the next task is safely resolvable.
 
-Before generation confirm:
-- current reference is available;
-- task ownership is valid;
-- required inputs are present;
-- wallpaper type routing is correct;
-- applicable GitHub rules are loaded;
-- unstable actions have been simplified.
-
 ## 14. Production Worker is not QA
 
 The Worker must not:
