@@ -7,18 +7,23 @@ This repository uses a modular architecture:
 CORE → MODULE → MODULE-OWNED DATA / STATE
 
 Read first:
-1. `00_MASTER/MODULE_REGISTRY.md`
-2. `00_MASTER/CORE_RULES.md`
-3. `00_MASTER/MASTER_SPEC.md`
+1. `00_MASTER/SYSTEM_ARCHITECTURE.md`
+2. `00_MASTER/MODULE_REGISTRY.md`
+3. `00_MASTER/RUNTIME_STATE.md`
+4. `00_MASTER/AUTHORITY_MATRIX.md`
+5. `00_MASTER/CORE_RULES.md`
+6. `00_MASTER/MASTER_SPEC.md`
 
-The current active module is:
+Currently active modules:
+- `UNIVERSAL_WALLPAPER`
+- `FESTIVAL_WALLPAPER`
 
-**UNIVERSAL_WALLPAPER**
+Currently paused modules:
+- `LORA_PRODUCTION`
+- `IMAGE_DELIVERY`
+- `QA`
 
-The following modules are preserved but currently PAUSED:
-- LORA_PRODUCTION
-- IMAGE_DELIVERY
-- QA
+The currently executing workflow is selected by `00_MASTER/RUNTIME_STATE.md`.
 
 PAUSED modules are not deleted and must not be executed until explicitly activated.
 
@@ -51,7 +56,7 @@ These define cross-system constraints.
 
 They do NOT define a universal character, universal reference image, LoRA workflow, wallpaper workflow, upload destination, or QA acceptance result.
 
-## 3. Current active module — Universal Wallpaper
+## 3. Active module — Universal Wallpaper
 
 When `UNIVERSAL_WALLPAPER` is ACTIVE, use:
 
@@ -80,7 +85,19 @@ The Worker creates a runtime identity, claims compatible work, generates, record
 
 Universal Wallpaper does not require T109.
 
-## 4. Paused module — LoRA Production
+## 4. Active module — Festival Wallpaper
+
+When `FESTIVAL_WALLPAPER` is ACTIVE and selected by runtime state, use:
+
+- `00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md`
+- `FESTIVAL_COSTUME_DATABASE/SPECIAL_FESTIVAL_WALLPAPER_MASTER.md`
+- `FESTIVAL_COSTUME_DATABASE/SPECIAL_FESTIVAL_WALLPAPER_VIEW_RULES.md`
+
+Festival Wallpaper supports both anime and realistic festival wallpapers, with manual and automated workflows. It uses the Festival Costume Database for cultural data and may reuse shared CORE and Wallpaper Task Integrity infrastructure.
+
+It must not inherit unrelated LoRA workflow semantics.
+
+## 5. Paused module — LoRA Production
 
 When `LORA_PRODUCTION` is PAUSED, do not claim or generate T109 work.
 
@@ -94,7 +111,7 @@ T109 is not the current active production Goal.
 
 When LoRA is later activated, its executor must load CORE plus the LoRA module rules. Future Make/OpenAI automation should execute this module directly.
 
-## 5. Paused module — Image Delivery
+## 6. Paused module — Image Delivery
 
 `IMAGE_DELIVERY` is currently PAUSED.
 
@@ -106,7 +123,7 @@ Do not delete its existing implementation or historical state.
 
 It is a downstream module and is independent from image generation.
 
-## 6. Paused module — QA
+## 7. Paused module — QA
 
 `QA` is currently PAUSED.
 
@@ -118,7 +135,7 @@ Do not delete existing QA rules, adapters, reports, or historical state.
 
 QA is downstream from generation and is independent from the generation Worker.
 
-## 7. Worker safety
+## 8. Worker safety
 
 Regardless of module:
 - load CORE before execution;
@@ -131,7 +148,7 @@ Regardless of module:
 - respect module-specific retry and recovery rules;
 - stop on state/claim conflicts rather than guessing.
 
-## 8. Future module rule
+## 9. Future module rule
 
 A new system should be added as a new module.
 
@@ -144,7 +161,7 @@ It should:
 
 It should not modify or depend on another module merely to become operational.
 
-## 9. Historical LoRA project information
+## 10. Historical LoRA project information
 
 The repository originated as the age-20 Inaria LoRA project. That historical purpose remains preserved inside the `LORA_PRODUCTION` module.
 
