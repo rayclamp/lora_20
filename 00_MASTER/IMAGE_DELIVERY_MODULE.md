@@ -1,33 +1,26 @@
 # IMAGE_DELIVERY_MODULE.md — Independent Image Delivery Module
 
 ## Status
-
-**PAUSED**
-
-This module is preserved for future activation.
+PAUSED.
 
 ## Purpose
-
-Own downstream image upload, transfer, storage, or delivery operations after a production system creates an image candidate.
+Own downstream image upload, transfer, storage, or delivery after a production module creates a candidate.
 
 ## Boundary
+Image generation is not performed here.
 
-Image generation is not the responsibility of this module.
+A generation module records its generation result first. Delivery consumes that result only when this module is activated.
 
-A generation module records its generation result first. Delivery may consume that result only after the applicable delivery workflow is activated.
-
-## Activation
-
-When activated, this module must define:
+## Activation requirements
+When activated, define:
 - accepted input state;
 - destination;
-- upload/transfer method;
+- transfer method;
 - success/failure states;
-- retry and recovery behavior;
-- ownership and idempotency rules.
+- retry/recovery;
+- idempotency and ownership.
 
-Existing delivery-related implementation and historical state remain preserved while PAUSED.
+This module has no historical execution state in the current repository.
 
 ## CORE dependency
-
-This module loads CORE safety and state-integrity rules but does not inherit Universal Wallpaper or LoRA workflow rules.
+Use CORE safety and state-integrity rules. Do not inherit Wallpaper or LoRA workflow rules.
