@@ -234,9 +234,35 @@ Prioritize:
 
 Simplify unstable designs before generation.
 
-## 12. Generation sequence
+## 12. Single-image production loop
 
-`DESIGN → APPLY RULES → STABILITY CHECK → FINAL PROMPT → GENERATE → CONFIRM RESULT → RECORD → NEXT TASK`
+`DESIGN → APPLY RULES → STABILITY CHECK → FINAL PROMPT → SHOW PROMPT → GENERATE → CONFIRM RESULT → RECORD → CHECKPOINT → NEXT TASK`
+
+Detailed session contract: `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md`
+
+### Prompt Preview Gate
+
+Before every generation, the Worker MUST show the complete executable prompt for the current task to the user. The Worker must not silently generate first and disclose the prompt afterward. The shown prompt must be the prompt actually used.
+
+### Per-image checkpoint
+
+After each generation attempt:
+- `SUCCESS` → preserve candidate, checkpoint, then continue;
+- `FAILED` → follow retry/recovery policy;
+- `UNKNOWN` → record `UNKNOWN / RECOVERY_REQUIRED` and STOP.
+
+## 13. Generation sequence
+
+Before generation confirm:
+- current reference is available;
+- task ownership is valid when a queue is used;
+- required inputs are present;
+- wallpaper type routing is correct;
+- applicable GitHub rules are loaded;
+- unstable actions have been simplified;
+- the executable prompt has been shown to the user.
+
+After generation, confirm the result, record it, checkpoint when applicable, and continue only when the next task is safely resolvable.
 
 Before generation confirm:
 - current reference is available;
@@ -246,7 +272,7 @@ Before generation confirm:
 - applicable GitHub rules are loaded;
 - unstable actions have been simplified.
 
-## 13. Production Worker is not QA
+## 14. Production Worker is not QA
 
 The Worker must not:
 - perform final visual QA;
@@ -257,7 +283,7 @@ The Worker must not:
 
 The Worker only confirms whether the generation operation returned a candidate.
 
-## 14. Generation-result safety
+## 15. Generation-result safety
 
 ### SUCCESS
 The generation operation explicitly returned a candidate.
@@ -273,7 +299,7 @@ Record UNKNOWN / RECOVERY_REQUIRED and STOP.
 
 Never regenerate an UNKNOWN result merely because its status is uncertain.
 
-## 15. Image preservation
+## 16. Image preservation
 
 After SUCCESS:
 - preserve the generated candidate;
@@ -282,7 +308,7 @@ After SUCCESS:
 
 The current workflow does not require image binaries to be stored in GitHub. GitHub stores rules, prompts, task state, lineage, and coordination data.
 
-## 16. Quantity and quota
+## 17. Quantity and quota
 
 The requested quantity is a batch-level target.
 
@@ -295,7 +321,7 @@ If the current session reports quota exhaustion:
 - stop that Worker session;
 - allow another Worker to continue the batch.
 
-## 17. Resume behavior
+## 18. Resume behavior
 
 On resume:
 1. read the latest GitHub state;
@@ -305,7 +331,7 @@ On resume:
 5. if a previous result is UNKNOWN, enter recovery and stop;
 6. otherwise continue with the next compatible QUEUED task.
 
-## 18. Universal principle
+## 19. Universal principle
 
 The user specifies WHAT to produce.
 
