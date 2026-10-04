@@ -225,6 +225,8 @@ Minimum logical result states: `NOT_STARTED`, `SUCCESS`, `FAILED`, `UNKNOWN`.
 
 The repository must not claim knowledge of an exact remaining ChatGPT quota unless that information is explicitly available from the platform.
 
+A Worker must not claim QUOTA_LIMITED, RATE_LIMITED, or GENERATION_UNAVAILABLE without explicit platform evidence. If the Worker cannot verify the availability state, use UNKNOWN / RECOVERY_REQUIRED rather than inventing a quota or availability stop.
+
 ## 11. Automation requirement
 
 Prompt instructions alone are not sufficient task-integrity controls.
