@@ -29,17 +29,21 @@ Execution: shared `00_MASTER/PRODUCTION_WORKER_RUNTIME.md`
 Batch state: `MODULES/LORA_PRODUCTION/BATCHES/`
 Status: PAUSED.
 No LoRA Goal, Batch, Queue, Task, Worker, or QA state is executable while PAUSED.
+LoRA identity/reference assets and LoRA-specific production state are owned exclusively by the LoRA module.
 
 ## Activation rule
 Only explicitly ACTIVE modules may execute. A Goal, Queue, Task, or Worker command cannot activate its parent module.
 
+## Automation scope
+
+System Automation is a dedicated automated entry mode for the Wallpaper Production domain.
+
+Automated requests may resolve only:
+- UNIVERSAL_WALLPAPER
+- FESTIVAL_WALLPAPER
+
+The existence of a shared Worker Runtime does not make other modules automatically eligible for System Automation.
 
 ## Canonical routing
 
-All production-critical rule paths are resolved through 00_MASTER/CANONICAL_PATH_REGISTRY.md. Missing or contradictory canonical paths are context-load failures and block execution.
-
-## Automation status
-
-System Automation is a core automated entry mode and must use 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md. It is independent of any external automation provider.
-
-The currently discovered Make departmental scenarios are LEGACY / PAUSED / NON-AUTHORITATIVE until migrated. Make is a future external integration concern, not the current definition of System Automation. See 00_MASTER/MAKE_AUTOMATION_LEGACY_STATUS.md.
+All production-critical rule paths are resolved through `00_MASTER/CANONICAL_PATH_REGISTRY.md`. Missing or contradictory canonical paths are context-load failures and block execution.
