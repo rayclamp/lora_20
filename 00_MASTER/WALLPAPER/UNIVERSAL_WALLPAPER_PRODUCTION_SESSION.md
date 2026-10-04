@@ -12,7 +12,7 @@ GitHub remains the persistent Source of Truth. ChatGPT is the execution Worker f
 
 `USER COMMAND → READ GITHUB → DESIGN IMAGE N → SHOW PROMPT → GENERATE IMAGE N → RECORD RESULT → CHECKPOINT → IMAGE N+1`
 
-One task represents one intended image generation.
+One task represents one intended successful wallpaper output. A task may require more than one bounded generation attempt when an attempt explicitly fails validation.
 
 ## 2. Session Contract and state
 
@@ -76,11 +76,14 @@ Required order:
 5. lock the final prompt;
 6. **show prompt to user**;
 7. invoke generation using that locked prompt;
-8. record the generation execution event/status;
-9. confirm result;
-10. record result;
-11. checkpoint;
-12. continue only when safe.
+8. count the invocation against `GENERATION_ATTEMPT_COUNT`;
+9. enforce `MAX_ATTEMPTS_PER_TASK` before any further generation;
+10. record the generation execution event/status;
+11. confirm result count and actual format;
+12. record result;
+13. evaluate retry/recovery against the hard attempt limit;
+14. checkpoint;
+15. continue only when safe.
 
 The shown prompt must be the exact prompt intended for the current generation event.
 
@@ -106,7 +109,7 @@ Minimum logical result states:
 
 `SUCCESS`: preserve the candidate and mark generation complete.
 
-`FAILED`: do not count the task as complete; follow the current retry/recovery rule.
+`FAILED`: do not count the task as complete; increment the attempt counter; perform failure analysis; retry only when explicitly permitted and only while `GENERATION_ATTEMPT_COUNT < MAX_ATTEMPTS_PER_TASK`.
 
 `UNKNOWN`: record `UNKNOWN / RECOVERY_REQUIRED` and stop. Never silently regenerate an UNKNOWN result.
 
@@ -181,9 +184,11 @@ The following are hard gates, not advisory instructions:
 
 1. Prompt Preview must actually occur before generation.
 2. The design must pass module/batch diversity validation before DESIGN_LOCK.
-3. The declared output format must be preserved.
+3. The declared output format must be a HARD DESIGN LOCK before composition and generation.
 4. Actual output format must be validated when technically determinable.
-5. After SUCCESS, the next authoritative task must be resolved when the batch remains incomplete.
+5. A failed format attempt does not satisfy the task and does not consume the successful-output slot.
+6. `MAX_ATTEMPTS_PER_TASK` is an absolute hard ceiling; no fourth attempt is permitted when the limit is 3.
+7. After SUCCESS, the next authoritative task must be resolved when the batch remains incomplete.
 
 A worker must never treat the existence of a field such as `PROMPT_PREVIEW_STATUS: SHOWN` as a substitute for performing the corresponding action.
 
