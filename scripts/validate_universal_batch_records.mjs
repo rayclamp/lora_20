@@ -66,6 +66,14 @@ if (!fs.existsSync(BATCH_DIR)) {
       }
 
       const taskStatus = task.match(/TASK_STATUS:\s*([^\n]+)/)?.[1]?.trim();
+      const result = task.match(/GENERATION_RESULT:\s*([^\n]+)/)?.[1]?.trim();
+      const designLock = task.match(/DESIGN_LOCK:\s*([^\n]+)/)?.[1]?.trim();
+      const preview = task.match(/PROMPT_PREVIEW_STATUS:\s*([^\n]+)/)?.[1]?.trim();
+      const resultCount = Number(task.match(/RESULT_COUNT:\s*(\d+)/)?.[1]);
+      const attemptCount = Number(task.match(/GENERATION_ATTEMPT_COUNT:\s*(\d+)/)?.[1]);
+      const consecutiveFailures = Number(task.match(/CONSECUTIVE_FAILURE_COUNT:\s*(\d+)/)?.[1]);
+      const recoveryStatus = task.match(/RECOVERY_STATUS:\s*([^\n]+)/)?.[1]?.trim();
+
       const ownershipStatus = task.match(/OWNERSHIP_STATUS:\s*([^\\n]+)/)?.[1]?.trim();
       const workerId = task.match(/WORKER_ID:\s*([^\\n]+)/)?.[1]?.trim();
       const claimId = task.match(/CLAIM_ID:\s*([^\\n]+)/)?.[1]?.trim();
@@ -82,13 +90,6 @@ if (!fs.existsSync(BATCH_DIR)) {
       if (ownershipStatus === "TERMINAL" && result !== "SUCCESS" && taskStatus !== "ABANDONED") fail(label + ": TERMINAL requires SUCCESS or ABANDONED");
       if (result === "UNKNOWN" && ownershipStatus === "CLAIMED") fail(label + ": UNKNOWN / RECOVERY_REQUIRED cannot remain actively claimed");
 
-      const result = task.match(/GENERATION_RESULT:\s*([^\n]+)/)?.[1]?.trim();
-      const designLock = task.match(/DESIGN_LOCK:\s*([^\n]+)/)?.[1]?.trim();
-      const preview = task.match(/PROMPT_PREVIEW_STATUS:\s*([^\n]+)/)?.[1]?.trim();
-      const resultCount = Number(task.match(/RESULT_COUNT:\s*(\d+)/)?.[1]);
-      const attemptCount = Number(task.match(/GENERATION_ATTEMPT_COUNT:\s*(\d+)/)?.[1]);
-      const consecutiveFailures = Number(task.match(/CONSECUTIVE_FAILURE_COUNT:\s*(\d+)/)?.[1]);
-      const recoveryStatus = task.match(/RECOVERY_STATUS:\s*([^\n]+)/)?.[1]?.trim();
 
       if (!Number.isInteger(attemptCount) || attemptCount < 0) fail(label + ": invalid GENERATION_ATTEMPT_COUNT");
       if (!Number.isInteger(consecutiveFailures) || consecutiveFailures < 0) fail(label + ": invalid CONSECUTIVE_FAILURE_COUNT");
