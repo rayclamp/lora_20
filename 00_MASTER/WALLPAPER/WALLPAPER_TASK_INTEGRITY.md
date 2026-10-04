@@ -355,7 +355,12 @@ Examples:
 
 A legitimate replacement task must receive a new task identity/design record.
 
-\n## 13. Failure/recovery integrity\n\nFailure and recovery are governed by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.\n\nAutomation must preserve failure history and enforce: bounded FAILED retry without duplicate IMAGE_ID; `MAX_ATTEMPTS_PER_TASK` as an absolute attempt ceiling; three-consecutive-failure stop; UNKNOWN hard stop; ABANDONED identity immutability; and SUCCESS terminality.\n
+## 13. Failure/recovery integrity
+
+Failure and recovery are governed by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.
+
+Automation must preserve failure history and enforce: bounded FAILED retry without duplicate IMAGE_ID; `MAX_ATTEMPTS_PER_TASK` as an absolute attempt ceiling; three-consecutive-failure stop; UNKNOWN hard stop; ABANDONED identity immutability; and SUCCESS terminality.
+
 ## 14. Universal principle
 
 **GitHub remembers the design. Workers execute the design. Automation validates the execution.**
