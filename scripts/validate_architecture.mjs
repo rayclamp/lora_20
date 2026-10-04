@@ -361,7 +361,6 @@ if (failures === 0) pass("Phase 10: generic Worker execution safeguards are pres
 const designProtocol = read("00_MASTER/PRODUCTION_DESIGN_PROTOCOL.md");
 for (const token of [
   "The user supplies the image requirement",
-  "system designs the image",
   "SYSTEM PROMPT",
   "MANUAL",
   "AUTOMATED",
@@ -370,6 +369,9 @@ for (const token of [
   "USER_DECLINED_GENERATION"
 ]) {
   if (!designProtocol.includes(token)) fail("Production Design Protocol missing manual/automated design boundary: " + token);
+}
+if (!/system\s+(?:designs|is responsible for designing)\s+the image/i.test(designProtocol)) {
+  fail("Production Design Protocol missing manual/automated design boundary: system designs the image");
 }
 if (!/user-authored Prompt is not required/i.test(designProtocol)) {
   fail("Production Design Protocol does not explicitly state that user-authored Prompt is not required");
@@ -381,9 +383,12 @@ if (failures === 0) pass("Phase 10D: Image Production design/Prompt ownership an
 
 const productionSession = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md");
 const batchRecord = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md");
+if (!/user is not required to provide the Prompt|user-authored Prompt is not required/i.test(batchRecord)) {
+  fail("Universal batch record missing explicit system-owned Prompt rule");
+}
 for (const [label, source, tokens] of [
   ["Universal manual session", productionSession, ["USER GENERATION CONFIRMATION", "GENERATION_AUTHORIZATION_STATUS", "WAITING_USER_CONFIRMATION", "USER_CONFIRMED_GENERATION", "user-authored Prompt is not required"]],
-  ["Universal batch record", batchRecord, ["GENERATION_AUTHORIZATION_STATUS", "USER_CONFIRMED_GENERATION", "user-authored Prompt is not required"]]
+  ["Universal batch record", batchRecord, ["GENERATION_AUTHORIZATION_STATUS", "USER_CONFIRMED_GENERATION"]]
 ]) {
   for (const token of tokens) {
     if (!source.includes(token)) fail(label + " missing manual confirmation/design ownership rule: " + token);
