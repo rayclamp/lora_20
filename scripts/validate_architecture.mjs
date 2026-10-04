@@ -89,6 +89,8 @@ const required = [
   "MODULES/LORA_PRODUCTION/QA/QA_CHECKLIST.md",
   "MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/README.md",
   "MODULES/LORA_PRODUCTION/BATCHES/README.md",
+  "00_MASTER/LORA_ACTIVATION_READINESS.md",
+  "scripts/test_lora_activation_readiness.mjs",
   "scripts/validate_universal_batch_records.mjs",
   "scripts/test_universal_batch_validator.mjs"
 ];
