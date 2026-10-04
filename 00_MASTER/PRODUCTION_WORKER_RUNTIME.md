@@ -120,7 +120,7 @@ Artifact upload is not a reason to create a second module-specific Worker system
 This runtime does not itself implement:
 
 - OpenAI dispatch;
-- Make orchestration;
+- external automation-provider orchestration;
 - Worker discovery;
 - ComfyUI orchestration;
 - visual QA;
