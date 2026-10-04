@@ -268,6 +268,7 @@ After each generation attempt:
 - `FAILED` → follow retry/recovery policy;
 - `UNKNOWN` → record `UNKNOWN / RECOVERY_REQUIRED` and STOP.
 
+\n### Failure / Recovery Gate\n\nWorkers MUST follow `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.\n\nFor an explicit `FAILED` result, retry only while `RECOVERY_STATUS: RETRY_READY`; reuse the same TASK_ID / IMAGE_ID and increment the generation-attempt counters. Three consecutive failures require `RECOVERY_REQUIRED` and stop.\n\nFor `UNKNOWN`, stop immediately and never silently regenerate. For `ABANDONED`, never reuse the task identity; a replacement requires a new legitimate TASK_ID / IMAGE_ID. A confirmed `SUCCESS` is terminal and cannot be regenerated under the same task identity.\n
 ## 13. Generation sequence
 
 Before generation confirm:

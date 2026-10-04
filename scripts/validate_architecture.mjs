@@ -63,6 +63,7 @@ const required = [
   "00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md",
   "00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md",
   "00_MASTER/WALLPAPER/WALLPAPER_TASK_INTEGRITY.md",
+  "00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md",
   "00_MASTER/QA_MODULE.md",
   "00_MASTER/QA_PROTOCOL.md",
   "00_MASTER/IMAGE_DELIVERY_MODULE.md",
@@ -275,6 +276,7 @@ for (const [label, pattern] of qaContractChecks) {
 if (failures === 0) pass("Phase 8: QA activation contract is structurally present");
 
 const taskIntegrity = read("00_MASTER/WALLPAPER/WALLPAPER_TASK_INTEGRITY.md");
+const failureRecovery = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md");
 for (const token of [
   "DESIGN_LOCK", "IMAGE_ID LOCK", "FORMAT_LOCK", "EXPECTED_OUTPUT_COUNT",
   "OUTPUT_COUNT_MISMATCH", "INVALID_IMAGE_ID", "UNKNOWN / RECOVERY_REQUIRED"
@@ -282,6 +284,16 @@ for (const token of [
   if (!taskIntegrity.includes(token)) fail("Wallpaper task-integrity contract missing: " + token);
 }
 if (failures === 0) pass("Phase 9: Wallpaper task-integrity contract is present");
+for (const token of [
+  "3 consecutive FAILED generation attempts",
+  "UNKNOWN result",
+  "ABANDONED",
+  "SUCCESS is terminal",
+  "same TASK_ID and IMAGE_ID"
+]) {
+  if (!failureRecovery.includes(token)) fail("Failure/recovery contract missing: " + token);
+}
+if (failures === 0) pass("Phase 9A: Wallpaper failure/recovery contract is present");
 
 const worker = read("00_MASTER/GENERATION_WORKER_PROTOCOL.md");
 for (const token of [
