@@ -2,7 +2,9 @@
 
 ## Purpose
 
-Dispatch starts production. It does not define production rules and does not own task execution state.
+Dispatch selects the execution-control entry path. It does not define production content rules and does not own task execution state.
+
+For the Image Production System, both MANUAL and AUTOMATED entry paths receive a user/image requirement and converge on system-owned image design and Prompt construction. The distinction is whether generation waits for explicit user confirmation or proceeds through the approved automated execution path.
 
 ## Modes
 
@@ -10,7 +12,7 @@ Dispatch starts production. It does not define production rules and does not own
 
 `USER → CHATGPT WORKER → SHARED WORKER RUNTIME`
 
-The user explicitly starts a Worker session. The Worker reads the current GitHub state, resolves the selected production module, claims work when required, shows the executable prompt, generates, records the result, and continues until a valid stop condition.
+The user explicitly starts an Image Production session. The Worker reads the current GitHub state, resolves the selected production module, claims work when required, designs the image, constructs and validates the executable Prompt, shows the design/Prompt, and waits for explicit user generation confirmation. Only after confirmation does it generate, record the result, and continue until a valid stop condition.
 
 ### AUTOMATED
 
@@ -43,9 +45,11 @@ Automated Dispatch is an additive entry layer over the same Worker Runtime and a
 
 ## Prompt visibility
 
-Manual Dispatch requires interactive Prompt Preview before generation.
+Manual Dispatch requires interactive Prompt Preview before generation and explicit user generation confirmation after the system has designed and validated the Prompt.
 
-Automated Dispatch may use a persisted/auditable prompt-preview event when its contract does not provide an interactive user surface.
+A user-provided image requirement is sufficient; a user-authored Prompt is not required.
+
+Automated Dispatch may use a persisted/auditable prompt-preview event when its contract does not provide an interactive user surface. It still must use system-owned design and Prompt construction.
 
 ## Canonical principle
 
