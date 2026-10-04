@@ -1,8 +1,11 @@
-# AUTOMATION_EXECUTION_CONTRACT.md — Automated Dispatch Contract
+# AUTOMATION_EXECUTION_CONTRACT.md — System Automation Contract
 
 ## Purpose
-This is the canonical contract for external automation layers such as Make.
-Automated Dispatch is an entry mode into the shared Production Worker Runtime. It must not create a second production execution architecture.
+This is the canonical contract for the system's internal Automation Engine and Automated Dispatch path.
+
+System Automation is a first-class system capability that feeds the shared Production Worker Runtime. It must not create a second production execution architecture.
+
+External automation providers are integration layers outside this contract. They may eventually connect to System Automation through an explicit adapter, but they do not define Automation, its runtime semantics, or its production authority.
 
 ## Required trace identity
 Every automated production invocation must carry or create:
