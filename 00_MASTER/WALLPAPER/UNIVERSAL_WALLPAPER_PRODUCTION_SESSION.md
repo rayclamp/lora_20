@@ -25,6 +25,9 @@ The Session Contract defines the logical state; it does not create a separate ru
 - CURRENT_TASK_ID
 - SESSION_STATUS
 - STOP_REASON
+- STOP_EVIDENCE
+- STOP_EVIDENCE_SOURCE
+- STOP_EVIDENCE_STATUS
 - LAST_RESULT
 - CHECKPOINT
 
@@ -35,6 +38,8 @@ Stop reasons:
 `USER_STOP`, `CHATGPT_FORCED_STOP`, `QUOTA_LIMIT_REACHED`, `GENERATION_UNAVAILABLE`, `SYSTEM_ERROR`, `UNKNOWN_RECOVERY_REQUIRED`, `COMPLETED`
 
 GitHub must not invent or predict a remaining platform quota.
+
+A quota/rate-limit/generation-unavailable stop is valid only when explicit platform evidence exists. Worker inference or expectation is not evidence. If evidence is absent and availability is uncertain, record UNKNOWN / RECOVERY_REQUIRED rather than claiming a quota stop.
 
 ## 3. Prompt Preview Gate
 
@@ -86,7 +91,7 @@ After confirmed SUCCESS:
 
 The session continues until the requested target is completed, the user stops it, ChatGPT is forcibly stopped, quota/platform availability ends, generation becomes unavailable, or an execution-critical conflict occurs.
 
-A platform interruption is a stop condition, not permission to guess remaining quota.
+A platform interruption is a stop condition only when the platform explicitly reports the interruption. A Worker must not convert an inference about quota or availability into a verified stop reason.
 
 ## 7. Resume
 
