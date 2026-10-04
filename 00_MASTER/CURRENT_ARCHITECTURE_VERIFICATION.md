@@ -2,16 +2,19 @@
 
 ## Status
 
-**VERIFIED — Council Round 7**
+**VERIFIED — Council Round 9**
 
-Verified repository commit: `39992131f5aea5c8f87cb5ae5ba5b13917e77d21`
+Verified repository commit: `221c02e5a121a271cb3ec0b0bdec8004d9302bba`
 
-Verification workflow run: `37185494292`
+Verification workflow run: `37198984512`
 
 Verification result:
 - `node scripts/validate_architecture.mjs --root .` — PASS
 - `node scripts/test_architecture_validator.mjs` — PASS
 - GitHub Actions job `architecture-validation` — SUCCESS
+- Universal Wallpaper failure/recovery validator — PASS
+- Universal Wallpaper failure/recovery self-test — PASS
+- Round 9 isolated persisted failure/recovery fixture — PASS
 
 Verification date: 2026-10-04
 
@@ -35,5 +38,7 @@ ACTIVE modules with persistent state must have real module-owned canonical stora
 - The cultural database must not contain a second Festival Wallpaper master instruction.
 
 ## Historical evidence boundary
+
+Round 9 also verified the persisted FAILED / UNKNOWN / ABANDONED / SUCCESS recovery boundaries. The isolated runtime fixture was removed before merge.
 
 Historical Council documents describe prior verification states only. They never substitute for verification of the current HEAD.
