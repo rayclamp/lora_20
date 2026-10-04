@@ -11,18 +11,24 @@ This protocol applies to Universal Wallpaper only. It does not activate paused m
 ## 1. Core invariants
 
 1. A failed generation does not increase `COMPLETED_COUNT`.
-2. An UNKNOWN generation result is never silently retried.
-3. A successful task is terminal and must not be regenerated under the same `IMAGE_ID`.
-4. A retry of an explicitly FAILED task reuses the same `TASK_ID` and `IMAGE_ID`; it never creates a duplicate ID.
-5. A replacement for an abandoned task requires a new legitimate task/design identity.
-6. Every failure/recovery decision must be checkpointed in the canonical batch record before the Worker continues or stops.
-7. Failure history must not be erased or rewritten to make a task appear successful.
+2. `MAX_ATTEMPTS_PER_TASK` is an absolute ceiling on generation events for one task.
+3. `TARGET_SUCCESS_COUNT: 1` means one validated successful output is required to complete the task.
+4. An UNKNOWN generation result is never silently retried.
+5. A successful task is terminal and must not be regenerated under the same `IMAGE_ID`.
+6. A retry of an explicitly FAILED task reuses the same `TASK_ID` and `IMAGE_ID`; it never creates a duplicate ID.
+7. A replacement for an abandoned task requires a new legitimate task/design identity.
+8. Every failure/recovery decision must be checkpointed in the canonical batch record before the Worker continues or stops.
+9. Failure history must not be erased or rewritten to make a task appear successful.
 
 ## 2. Generation attempt fields
 
 For every task that reaches generation, the task record must contain:
 
-`GENERATION_ATTEMPT_COUNT:` non-negative integer
+`GENERATION_ATTEMPT_COUNT:` non-negative integer; every generation invocation increments it exactly once
+
+`MAX_ATTEMPTS_PER_TASK:` positive integer; hard ceiling, default `3`
+
+`TARGET_SUCCESS_COUNT:` positive integer; default `1`
 
 `CONSECUTIVE_FAILURE_COUNT:` non-negative integer
 
@@ -43,8 +49,9 @@ When generation explicitly fails:
 - preserve the task's locked design and `IMAGE_ID`;
 - increment `GENERATION_ATTEMPT_COUNT`;
 - increment `CONSECUTIVE_FAILURE_COUNT`;
-- set `RECOVERY_STATUS: RETRY_READY` unless the repeated-failure stop rule is reached;
-- checkpoint the failure before another generation attempt.
+- set `RECOVERY_STATUS: RETRY_READY` only if `GENERATION_ATTEMPT_COUNT < MAX_ATTEMPTS_PER_TASK` and recovery is otherwise permitted;
+- if `GENERATION_ATTEMPT_COUNT >= MAX_ATTEMPTS_PER_TASK`, set `RECOVERY_STATUS: RECOVERY_REQUIRED` and STOP;
+- checkpoint the failure before any another generation attempt.
 
 A retry is a new generation attempt of the same task, not a new task. It reuses the same TASK_ID and IMAGE_ID.
 
@@ -52,18 +59,18 @@ A retry must reuse the authoritative design and executable prompt unless an expl
 
 ## 4. Repeated-failure stop rule
 
-If the same task reaches **3 consecutive FAILED generation attempts**:
+If the same task reaches **3 consecutive FAILED generation attempts**, or reaches `MAX_ATTEMPTS_PER_TASK` total generation attempts (whichever occurs first):
 
-- do not start a fourth attempt automatically;
+- do not start another attempt;
 - set `RECOVERY_STATUS: RECOVERY_REQUIRED`;
 - set the session to `STOPPED`;
 - use `STOP_REASON: REPEATED_FAILURE`;
 - checkpoint the state;
 - require explicit recovery/retry direction before another attempt.
 
-A successful attempt resets `CONSECUTIVE_FAILURE_COUNT` to `0`.
+A successful attempt resets `CONSECUTIVE_FAILURE_COUNT` to `0` and immediately completes the task because `TARGET_SUCCESS_COUNT: 1` is satisfied.
 
-The count is consecutive failures for the same task, not total failures across unrelated tasks.
+The attempt counter does NOT reset after success or any intermediate recovery. The count is consecutive failures for the same task, while `GENERATION_ATTEMPT_COUNT` is total attempts for that task.
 
 ## 5. UNKNOWN result
 
@@ -100,7 +107,7 @@ If the batch still requires an image, a replacement must receive a new `TASK_ID`
 
 ## 7. SUCCESS is terminal
 
-When a generation attempt explicitly returns one candidate:
+When a generation attempt returns one candidate that passes all required execution-level output gates (including determinable format and count):
 
 - set `GENERATION_RESULT: SUCCESS`;
 - set `TASK_STATUS: SUCCESS`;
@@ -120,7 +127,7 @@ On resume, resolve the authoritative task state:
 |---|---|
 | `NOT_STARTED` | continue design/execution |
 | `DESIGN_READY` / `DESIGN_LOCKED` | continue authoritative task |
-| `FAILED + RETRY_READY` | retry same task identity |
+| `FAILED + RETRY_READY + ATTEMPT_COUNT < MAX_ATTEMPTS` | retry same task identity |
 | `FAILED + RECOVERY_REQUIRED` | STOP until explicit recovery direction |
 | `UNKNOWN / RECOVERY_REQUIRED` | STOP; resolve UNKNOWN first |
 | `ABANDONED` | do not reuse; create legitimate replacement if batch still needs coverage |
@@ -158,4 +165,4 @@ Those remain separate future capabilities.
 
 ## 11. Universal principle
 
-**FAILED may retry under explicit rules. UNKNOWN must stop. Three consecutive failures require recovery. ABANDONED identities are never silently reused. SUCCESS is terminal.**
+**FAILED may retry only under explicit recovery rules and within a hard attempt ceiling. UNKNOWN must stop. Three consecutive failures require recovery. The absolute attempt ceiling can stop earlier or at the same time. ABANDONED identities are never silently reused. SUCCESS is terminal.**
