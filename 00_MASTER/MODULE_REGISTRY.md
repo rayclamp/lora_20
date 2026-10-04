@@ -32,3 +32,12 @@ No LoRA Goal, Batch, Queue, Task, Worker, or QA state is executable while PAUSED
 
 ## Activation rule
 Only explicitly ACTIVE modules may execute. A Goal, Queue, Task, or Worker command cannot activate its parent module.
+
+
+## Canonical routing
+
+All production-critical rule paths are resolved through 00_MASTER/CANONICAL_PATH_REGISTRY.md. Missing or contradictory canonical paths are context-load failures and block execution.
+
+## Automation status
+
+External automation is an entry mode only and must use 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md. The currently discovered Make departmental scenarios are LEGACY / PAUSED / NON-AUTHORITATIVE until migrated; see 00_MASTER/MAKE_AUTOMATION_LEGACY_STATUS.md.
