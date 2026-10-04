@@ -116,6 +116,12 @@ Example:
 
 Every wallpaper task must explicitly declare its output format.
 
+The session-level user choice is `OUTPUT_TYPE`:
+- `DESKTOP_WALLPAPER`
+- `PHONE_WALLPAPER`
+
+The task derives and locks the corresponding technical `ASPECT_RATIO` and `ORIENTATION`. A worker must not require a second user-facing aspect-ratio choice when OUTPUT_TYPE already determines the canonical format.
+
 Minimum fields:
 
 - `OUTPUT_TYPE`
@@ -220,7 +226,36 @@ These fields must be resolved before DESIGN_LOCK.
 
 The design record must contain an explicit `SHOES` field for wallpaper tasks where footwear is visible. Footwear must not be hidden inside the CLOTHING field when shoe variation is a requested series requirement.
 
-### 9. Generation boundary
+### 8B. Session Contract integrity
+
+Before the first task enters generation, the Worker must verify that the authoritative batch contains the persisted Production Session Contract.
+
+At minimum:
+- MODULE
+- PRODUCTION_TYPE
+- CHARACTER
+- TARGET_COUNT
+- OUTPUT_TYPE
+- resolved ASPECT_RATIO
+- resolved ORIENTATION
+- THEME / FESTIVAL_SCOPE
+- SCENE
+- SEASON
+- WEATHER
+- TIME
+- PET_ALLOWED
+- REFERENCE_IMAGE authority/status
+
+For `CHARACTER: INARIA` with a supplied person reference:
+- the uploaded reference image is the sole visual identity authority;
+- Inaria Character Specification is used for contextual character semantics;
+- canonical visual/body fields must not replace or normalize the referenced person;
+- original Inaria/reference outfit remains DO_NOT_INHERIT;
+- wallpaper presentation remains INDEPENDENT_REDESIGN.
+
+RESUME restores these values from the batch record. STOP preserves them in the batch record. Neither operation may reconstruct them from conversation memory.
+
+## 9. Generation boundary
 
 The Worker should use the following sequence:
 
