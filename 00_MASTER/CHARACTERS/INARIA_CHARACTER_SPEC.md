@@ -4,7 +4,9 @@
 
 This document is the canonical character specification for Inaria / 依娜莉亞.
 
-It defines character identity, stable identity anchors, personality, preferences, default world setting, and default everyday visual presentation.
+It defines character identity, stable identity anchors, personality, preferences, default world setting, and the retained original/reference outfit specification.
+
+IMPORTANT: The retained original/reference outfit is character-reference data only. It is NOT a wallpaper outfit template, wallpaper default, presentation baseline, or clothing inheritance source.
 
 It does not override a user-supplied visual person reference for a specific wallpaper task.
 
@@ -172,9 +174,23 @@ Default environment:
 
 These are defaults, not mandatory scene locks. A user-requested destination, season, weather, or special event may override them.
 
-## 11. Default Everyday Outfit
+## 11. Original / Reference Outfit Specification
 
-This is Inaria's main default everyday-outing design, not a permanent clothing lock.
+This section records the original outfit supplied as part of Inaria's basic character setting.
+
+**This outfit is NOT a wallpaper design template.** It exists only as character-reference data and may be retained for character documentation, historical reference, or explicit user requests.
+
+Unless the user explicitly requests this outfit, a Wallpaper Worker MUST NOT:
+- automatically select it for a wallpaper;
+- use it as the default wallpaper outfit;
+- use it as the base layer for a new outfit;
+- reuse its top, skirt, belt, shoes, accessories, colors, decorative motifs, or garment structure merely because the character is Inaria;
+- derive a new outfit by keeping parts of this outfit and adding/removing outer layers.
+
+For wallpaper production, this outfit has **NO DEFAULT INHERITANCE**.
+
+### Original outfit components
+
 
 ### Top
 
@@ -204,19 +220,23 @@ This is Inaria's main default everyday-outing design, not a permanent clothing l
 - Aqua-blue gemstone drop earrings
 - Flower-shaped aqua gemstone bracelet
 
-## 12. Everyday Outfit Usage Rule
+## 12. Wallpaper Outfit Isolation Rule
 
-The default everyday outfit is a reusable character styling reference, not a mandatory outfit for every Inaria wallpaper.
+For every Universal Wallpaper task, the wallpaper outfit must be designed independently from this original/reference outfit unless the user explicitly requests reuse or preservation.
 
-When the user asks for:
-- "依娜莉亞的日常" / "Inaria's everyday life" without specifying a different outfit, this outfit may be used as the canonical default starting point.
-- a specific activity, destination, season, weather, or social context, design a complete outfit appropriate to that context while preserving Inaria's identity and overall color/style language where appropriate.
-- a new outfit, redesign the complete outfit rather than merely adding an outer layer to an existing source outfit.
+The phrase "依娜莉亞的日常" / "Inaria's everyday life" does NOT by itself authorize reuse of the original/reference outfit. It authorizes an everyday-life context; the Worker must still design an appropriate outfit for that specific scene.
 
-For a task with a supplied reference image:
-- the uploaded source outfit remains non-authoritative by default;
-- REFERENCE_OUTFIT_POLICY is REPLACE;
-- the default Inaria outfit may be used only when it is appropriate to the task; it must not be confused with or copied from the uploaded source outfit.
+The default wallpaper behavior is:
+- `CHARACTER_REFERENCE_OUTFIT_POLICY: DO_NOT_INHERIT`
+- `WALLPAPER_OUTFIT_MODE: INDEPENDENT_REDESIGN`
+
+A wallpaper outfit must be a complete design appropriate to the requested activity, destination, season, weather, time, and social context.
+
+Do not preserve individual garment pieces, accessory sets, decorative motifs, or color combinations from the original/reference outfit merely because they are associated with Inaria.
+
+The original/reference outfit may be reused only when the user explicitly says to preserve, reuse, restore, or dress Inaria in that specific outfit.
+
+For a task with a supplied reference image, this rule is independent of `REFERENCE_OUTFIT_POLICY`: the uploaded source outfit remains non-authoritative and must be replaced unless the user explicitly requests preservation.
 
 ## 13. Reference-Image Relationship
 
@@ -256,10 +276,10 @@ For an Inaria wallpaper task, use this precedence:
 
 1. Explicit user instruction for the current task
 2. User-supplied visual person reference for visual identity evidence
-3. This Inaria Character Specification for stable character semantics
+3. This Inaria Character Specification for stable character semantics only
 4. Applicable Universal Wallpaper rules
 5. Selected Anime or Realistic Wallpaper rules
-6. Default presentation preferences in this file
+6. Optional presentation preferences in this file, excluding the original/reference outfit
 
 A default presentation detail must never override an explicit user request.
 
