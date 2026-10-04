@@ -282,6 +282,39 @@ If platform availability cannot be reliably determined, use `UNKNOWN / RECOVERY_
 The record exists only to preserve production identity, design, result, and resume state.
 
 
+## 13A. Production Session Contract
+
+Every authoritative batch record must persist the user-defined Production Session Contract.
+
+Required fields:
+- `MODULE`
+- `PRODUCTION_TYPE`
+- `CHARACTER`
+- `IMAGE_COUNT` / `TARGET_COUNT`
+- `OUTPUT_TYPE`
+- `ASPECT_RATIO` (derived technical lock)
+- `ORIENTATION` (derived technical lock)
+- `THEME / FESTIVAL_SCOPE`
+- `SCENE`
+- `SEASON`
+- `WEATHER`
+- `TIME`
+- `PET_ALLOWED`
+- `REFERENCE_IMAGE`
+- `REFERENCE_IMAGE_STATUS`
+- `CHARACTER_AUTHORITY_STATUS`
+
+For an explicit Inaria task with a supplied person reference:
+- `CHARACTER: INARIA`
+- `REFERENCE_IMAGE_STATUS: AVAILABLE` only when the actual image is available and readable;
+- the reference image is the sole visual person identity authority;
+- Inaria Character Specification is contextual/semantic authority;
+- canonical Inaria visual/body fields are fallback only when no task-specific person reference exists.
+
+A batch must not enter generation if a required reference is declared but unavailable.
+
+`OUTPUT_TYPE` is the user-facing output requirement. `ASPECT_RATIO` and `ORIENTATION` are derived and locked from it; they are not separate duplicate user choices.
+
 ## 14. Batch diversity fields
 
 For multi-image batches, the batch record must preserve enough structured design data to validate presentation diversity.
