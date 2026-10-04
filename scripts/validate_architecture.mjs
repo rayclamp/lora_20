@@ -59,9 +59,15 @@ const required = [
   "00_MASTER/PRODUCTION_WORKER_RUNTIME.md",
   "00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md",
   "00_MASTER/PRODUCTION_OUTPUT_PROTOCOL.md",
+  "00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md",
+  "00_MASTER/CANONICAL_PATH_REGISTRY.md",
+  "00_MASTER/SCENE_INTENT_RESOLUTION_PROTOCOL.md",
   "00_MASTER/MODULE_REGISTRY.md",
   "00_MASTER/RUNTIME_STATE.md",
   "00_MASTER/AUTHORITY_MATRIX.md",
+  "00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md",
+  "MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md",
+  "MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md",
   "00_MASTER/SYSTEM_CONSISTENCY_MATRIX.md",
   "00_MASTER/CORE_RULES.md",
   "00_MASTER/DRAWING_INSTRUCTIONS.md",
@@ -146,10 +152,11 @@ if (activeSession.moduleName === "NONE" && activeSession.status !== "NONE") {
 }
 
 const workflowContracts = {
-  UNIVERSAL_WALLPAPER: ["00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md","00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md","00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md","MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/README.md"],
+  UNIVERSAL_WALLPAPER: ["00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md","00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md","00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md","00_MASTER/WALLPAPER/SCENE_INTENT_RESOLUTION_PROTOCOL.md","MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md","MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/README.md"],
   FESTIVAL_WALLPAPER: [
     "00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md",
-    "FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/CORE_FESTIVAL_INDEX.md"
+    "FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/CORE_FESTIVAL_INDEX.md",
+    "MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md"
   ],
   LORA_PRODUCTION: [
     "MODULES/LORA_PRODUCTION/MODULE.md",
@@ -413,6 +420,51 @@ for (const [moduleName, statePath] of canonicalStateChecks) {
   if (registryStatus[moduleName] === "ACTIVE" && !exists(statePath)) fail("ACTIVE module has no canonical persistent state marker: " + moduleName);
 }
 if (failures === 0) pass("Phase 12: canonical persistent-state contracts are present");
+
+// Phase 13: Wallpaper Automation / Reference Authority hardening
+const automationContract = read("00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md");
+const canonicalRegistry = read("00_MASTER/CANONICAL_PATH_REGISTRY.md");
+const universalReferencePolicy = read("MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md");
+const festivalReferencePolicy = read("MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md");
+const characterSpec = read("00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md");
+
+for (const token of [
+  "UNIVERSAL_WALLPAPER", "FESTIVAL_WALLPAPER",
+  "REFERENCE_POLICY_LOADED", "REFERENCE_AUTHORITY_RESOLVED",
+  "SCENE_INTENT_RESOLVED", "PROMPT_PREVIEW_RECORDED",
+  "GENERATION_EXECUTION", "GENERATION_RESULT", "CHECKPOINT"
+]) {
+  if (!automationContract.includes(token)) fail("Automation Contract missing required token/event: " + token);
+}
+for (const token of [
+  "MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md",
+  "MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md",
+  "00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md"
+]) {
+  if (!canonicalRegistry.includes(token)) fail("Canonical Path Registry missing current authority path: " + token);
+}
+for (const [label, policy] of [
+  ["Universal Reference Policy", universalReferencePolicy],
+  ["Festival Reference Policy", festivalReferencePolicy]
+]) {
+  for (const token of ["EXPLICIT_TASK_REFERENCE", "MODULE_APPROVED_REFERENCE", "NO_REFERENCE", "REFERENCE_BLOCKED"]) {
+    if (!policy.includes(token)) fail(label + " missing reference state: " + token);
+  }
+  if (!/LoRA reference assets are outside this module|LoRA reference assets.*outside/i.test(policy)) {
+    fail(label + " does not explicitly block LoRA reference leakage");
+  }
+}
+if (!characterSpec.includes("It is not a visual reference") && !characterSpec.includes("must not be treated as a second visual person reference")) {
+  fail("Character Specification does not explicitly preserve semantic-only reference authority");
+}
+if (/INARIA_20_MASTER_v1\\.0\\.png|MASTER_IMAGE\\//i.test(automationContract + canonicalRegistry + universalReferencePolicy + festivalReferencePolicy)) {
+  fail("Wallpaper Automation reference boundary leaks LoRA Master Image path");
+}
+if (/\\bMake\\b/i.test(automationContract)) {
+  fail("Wallpaper Automation Contract contains forbidden Make dependency");
+}
+if (failures === 0) pass("Phase 13: Wallpaper Automation scope and module-owned reference authority are enforced");
+
 
 
 
