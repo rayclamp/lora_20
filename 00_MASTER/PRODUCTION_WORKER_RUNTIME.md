@@ -40,6 +40,19 @@ The Worker Runtime owns:
 
 ## Module responsibilities
 
+### Attempt/output boundary
+
+The shared runtime distinguishes three independent concepts:
+- `GENERATION_ATTEMPT_COUNT` — generation events invoked for the current task;
+- `TARGET_SUCCESS_COUNT` — validated successful outputs required for task completion;
+- `MAX_ATTEMPTS_PER_TASK` — absolute generation-attempt ceiling.
+
+The runtime MUST enforce `GENERATION_ATTEMPT_COUNT <= MAX_ATTEMPTS_PER_TASK`. A returned candidate that fails an output contract (for example, wrong aspect ratio) is a `FAILED` task result, not a successful output. It increments the attempt counter but not `COMPLETED_COUNT`. Retry is controlled recovery and requires failure analysis/recovery authorization. When the hard attempt ceiling is reached, no additional generation event is allowed; transition to `RECOVERY_REQUIRED` and stop according to the module failure protocol.
+
+`TARGET_SUCCESS_COUNT: 1` means one validated successful output is required. Once it is reached, the task is terminal and must not generate a second candidate under the same task identity.
+
+### Module responsibilities
+
 A production module owns:
 
 - identity/reference policy;
@@ -165,7 +178,7 @@ If the executable prompt changes after preview, the Worker must show the complet
 
 ## Mandatory design-validation gate
 
-Before DESIGN_LOCK, validate all module-required design fields and batch-level diversity constraints. A Worker must not lock an incomplete or non-compliant design.
+Before DESIGN_LOCK, validate all module-required design fields, batch-level diversity constraints, and the HARD output-format composition lock. The task's `OUTPUT_TYPE → ASPECT_RATIO → ORIENTATION` must constrain composition before prompt generation. A Worker must not lock an incomplete or non-compliant design.
 
 ## Mandatory output-format validation
 
@@ -173,8 +186,10 @@ Where the generation result exposes actual image dimensions or equivalent output
 
 If actual format metadata is available and mismatches the task:
 - record the actual result;
-- record a format mismatch / task-compliance failure;
-- do not mark the task as compliant SUCCESS.
+- record `FAILED / OUTPUT_FORMAT_MISMATCH`;
+- increment the generation-attempt counter;
+- do not mark the task as compliant SUCCESS;
+- evaluate retry only through the bounded failure/recovery protocol.
 
 If the actual format cannot be determined reliably, record `UNKNOWN / RECOVERY_REQUIRED` when format compliance is a required execution gate. Do not infer compliance from the prompt text alone.
 
