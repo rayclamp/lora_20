@@ -40,4 +40,6 @@ All production-critical rule paths are resolved through 00_MASTER/CANONICAL_PATH
 
 ## Automation status
 
-External automation is an entry mode only and must use 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md. The currently discovered Make departmental scenarios are LEGACY / PAUSED / NON-AUTHORITATIVE until migrated; see 00_MASTER/MAKE_AUTOMATION_LEGACY_STATUS.md.
+System Automation is a core automated entry mode and must use 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md. It is independent of any external automation provider.
+
+The currently discovered Make departmental scenarios are LEGACY / PAUSED / NON-AUTHORITATIVE until migrated. Make is a future external integration concern, not the current definition of System Automation. See 00_MASTER/MAKE_AUTOMATION_LEGACY_STATUS.md.
