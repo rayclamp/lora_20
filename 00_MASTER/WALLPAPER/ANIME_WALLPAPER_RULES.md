@@ -10,10 +10,10 @@ Use this rule set only for ANIME WALLPAPER / 動漫桌布 or an equivalent unamb
 If the user requests REALISTIC WALLPAPER, do not use this file.
 
 ## 2. Reference image
-The reference image supplied in the current request is the primary visual reference for the current batch.
-Use it to establish character/person identity, face, hair, apparent age, body proportions, clothing/style cues, illustration style, and visual language represented by the reference.
-Do not silently replace the supplied reference with a GitHub MASTER_IMAGE.
-A GitHub character master may only be used when the user explicitly requests it or the current task declares it as an additional reference.
+The reference image supplied in the current request is the primary visual reference for the current task when an explicit task reference exists.
+Use the selected module Reference Policy to determine whether a visual reference is legally available.
+Do not silently replace the supplied reference with another repository asset.
+LoRA Master Images and other references owned by another production module are forbidden unless the selected module's Reference Policy explicitly authorizes that exact source; character-name matching is never sufficient.
 Do not force the reference image's camera angle, pose, framing, or exact composition onto every generated image.
 
 ## 2A. Inaria character authority
