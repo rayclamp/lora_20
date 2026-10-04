@@ -1,5 +1,9 @@
 # CROSS_MODULE_BOUNDARY_SPEC.md — Council Round 5 Phase 3
 
+## Shared Production Core boundary
+
+All production modules use the same Worker Runtime, Dispatch boundary, and CORE execution rules. Module isolation means **domain data/state is isolated**, not that every module owns a separate Worker system.
+
 ## Purpose
 
 This document defines the mechanically enforced boundaries between production modules and downstream modules.
@@ -37,6 +41,8 @@ Must not consume:
 - QA decision authority.
 
 ### LORA_PRODUCTION
+Uses shared production execution through `00_MASTER/PRODUCTION_WORKER_RUNTIME.md` and `00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md`.
+
 May consume:
 - CORE shared rules;
 - its own IDENTITY, DATASET, PRODUCTION, and QA profile.
@@ -48,7 +54,7 @@ Must not consume:
 - Image Delivery execution state;
 - QA platform execution authority.
 
-Its identity/reference authority remains module-local.
+Its identity/reference authority remains module-local. LoRA-specific GitHub image upload is an output/persistence requirement and does not create a second Worker system.
 
 ### QA
 May consume:
