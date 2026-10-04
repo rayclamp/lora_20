@@ -44,7 +44,7 @@ The exact design variables are owned by the selected production module.
 
 The Image Production System constructs the complete executable Prompt from USER INTENT + CORE RULES + SELECTED MODULE RULES + RESOLVED CONTEXT + DESIGN RECORD.
 
-The final Prompt is not supplied by the user unless a separate future user-authored-prompt mode is explicitly defined. That mode is not part of the current architecture.
+The final Prompt is not supplied by the user unless a separate future user-authored-prompt mode is explicitly defined. That mode is not part of the current architecture.\n\nUser-authored Prompt is not required.
 
 The Worker must validate the Prompt against CORE hard constraints, selected module rules, output-format lock, design lock, reference authority, resolved Scene Intent where applicable, and prompt-integrity requirements.
 
