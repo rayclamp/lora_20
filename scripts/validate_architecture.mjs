@@ -315,7 +315,7 @@ const workerPool = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PRO
 for (const token of [
   "Canonical source of work",
   "Selection policy",
-  "one claim per scheduling cycle",
+  "One claim per scheduling cycle",
   "Fairness and starvation",
   "No-work condition",
   "Scheduling is advisory. Ownership is authoritative."
