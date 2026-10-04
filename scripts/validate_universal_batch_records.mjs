@@ -72,7 +72,7 @@ if (!fs.existsSync(BATCH_DIR)) {
       const resultCount = Number(task.match(/RESULT_COUNT:\s*(\d+)/)?.[1]);
       const attemptCount = Number(task.match(/GENERATION_ATTEMPT_COUNT:\s*(\d+)/)?.[1]);
       const consecutiveFailures = Number(task.match(/CONSECUTIVE_FAILURE_COUNT:\s*(\d+)/)?.[1]);
-      const recoveryStatus = task.match(/RECOVERY_STATUS:\s*([^\\n]+)/)?.[1]?.trim();
+      const recoveryStatus = task.match(/RECOVERY_STATUS:\s*([^\n]+)/)?.[1]?.trim();
 
       if (!Number.isInteger(attemptCount) || attemptCount < 0) fail(label + ": invalid GENERATION_ATTEMPT_COUNT");
       if (!Number.isInteger(consecutiveFailures) || consecutiveFailures < 0) fail(label + ": invalid CONSECUTIVE_FAILURE_COUNT");
