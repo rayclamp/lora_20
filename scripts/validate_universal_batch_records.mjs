@@ -74,10 +74,10 @@ if (!fs.existsSync(BATCH_DIR)) {
       const consecutiveFailures = Number(task.match(/CONSECUTIVE_FAILURE_COUNT:\s*(\d+)/)?.[1]);
       const recoveryStatus = task.match(/RECOVERY_STATUS:\s*([^\n]+)/)?.[1]?.trim();
 
-      const ownershipStatus = task.match(/OWNERSHIP_STATUS:\s*([^\\n]+)/)?.[1]?.trim();
-      const workerId = task.match(/WORKER_ID:\s*([^\\n]+)/)?.[1]?.trim();
-      const claimId = task.match(/CLAIM_ID:\s*([^\\n]+)/)?.[1]?.trim();
-      const stateVersion = Number(task.match(/STATE_VERSION:\s*(\\d+)/)?.[1]);
+      const ownershipStatus = task.match(/OWNERSHIP_STATUS:\s*([^\n]+)/)?.[1]?.trim();
+      const workerId = task.match(/WORKER_ID:\s*([^\n]+)/)?.[1]?.trim();
+      const claimId = task.match(/CLAIM_ID:\s*([^\n]+)/)?.[1]?.trim();
+      const stateVersion = Number(task.match(/STATE_VERSION:\s*(\d+)/)?.[1]);
 
       if (!["UNCLAIMED","CLAIMED","RELEASED","TERMINAL"].includes(ownershipStatus)) fail(label + ": invalid OWNERSHIP_STATUS " + ownershipStatus);
       if (!Number.isInteger(stateVersion) || stateVersion < 0) fail(label + ": invalid STATE_VERSION");
