@@ -252,7 +252,25 @@ It does not provide:
 
 Those capabilities require separate architecture and must not be inferred from this record format.
 
-## 13. Minimality principle
+## 13. Stop-reason evidence invariant
+
+For any stop caused by quota, rate limiting, or generation unavailability, the batch record must preserve:
+
+- `STOP_REASON`;
+- `STOP_EVIDENCE`;
+- `STOP_EVIDENCE_SOURCE`;
+- `STOP_EVIDENCE_STATUS`.
+
+`STOP_EVIDENCE_STATUS` must be one of:
+- `VERIFIED` — explicit platform evidence exists;
+- `NOT_VERIFIED` — no explicit platform evidence was available;
+- `NOT_APPLICABLE` — stop reason is unrelated to platform availability.
+
+A Worker MUST NOT record `QUOTA_LIMIT_REACHED`, `RATE_LIMITED`, or `GENERATION_UNAVAILABLE` as a verified stop without `STOP_EVIDENCE_STATUS: VERIFIED`.
+
+If platform availability cannot be reliably determined, use `UNKNOWN / RECOVERY_REQUIRED` rather than inventing a quota or availability state.
+
+## 14. Minimality principle
 
 **One batch = one record. One task identity = one designed image target. One active owner per task. Each retry is an attempt on that same task identity. One checkpoint = one authoritative resume point.**
 
