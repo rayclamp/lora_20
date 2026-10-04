@@ -383,11 +383,15 @@ if (failures === 0) pass("Phase 10D: Image Production design/Prompt ownership an
 
 const productionSession = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md");
 const batchRecord = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md");
-if (!/user is not required to provide the Prompt|user-authored Prompt is not required/i.test(batchRecord)) {
+const promptOwnershipPattern = /user is not required to provide the Prompt|user-authored Prompt is not required/i;
+if (!promptOwnershipPattern.test(productionSession)) {
+  fail("Universal manual session missing explicit system-owned Prompt rule");
+}
+if (!promptOwnershipPattern.test(batchRecord)) {
   fail("Universal batch record missing explicit system-owned Prompt rule");
 }
 for (const [label, source, tokens] of [
-  ["Universal manual session", productionSession, ["USER GENERATION CONFIRMATION", "GENERATION_AUTHORIZATION_STATUS", "WAITING_USER_CONFIRMATION", "USER_CONFIRMED_GENERATION", "user-authored Prompt is not required"]],
+  ["Universal manual session", productionSession, ["USER GENERATION CONFIRMATION", "GENERATION_AUTHORIZATION_STATUS", "WAITING_USER_CONFIRMATION", "USER_CONFIRMED_GENERATION"]],
   ["Universal batch record", batchRecord, ["GENERATION_AUTHORIZATION_STATUS", "USER_CONFIRMED_GENERATION"]]
 ]) {
   for (const token of tokens) {
