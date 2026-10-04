@@ -1,0 +1,24 @@
+name: Architecture Validation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  architecture-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate architecture
+        run: node scripts/validate_architecture.mjs --root .
+
+      - name: Run validator self-test
+        run: node scripts/test_architecture_validator.mjs
