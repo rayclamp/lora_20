@@ -175,6 +175,10 @@ if (!consistency.includes("Single-rule principle")) fail("Consistency matrix mis
 if (!startHere.includes("Conversation memory is not an execution authority.")) fail("START_HERE is missing conversation-memory authority boundary");
 if (failures === 0) pass("Phase 4: authority and precedence invariants are declared");
 
+const forbiddenExactPaths = [
+  "FESTIVAL_COSTUME_DATABASE/SPECIAL_FESTIVAL_WALLPAPER_MASTER.md"
+];
+
 const forbiddenPaths = [
   "PRODUCTION/", "ACCOUNTS/", "TASKS/", "STATUS/", "01_CHARACTER/", "02_CLOTHING/",
   "03_SCENE/", "04_POSE_CAMERA/", "05_PROMPT/", "PROJECT_STATUS.md", "MASTER_IMAGE/",
@@ -199,6 +203,9 @@ for (const file of operationalFiles.filter(function(f) { return f.endsWith(".md"
   for (const token of forbiddenTokens) {
     if (content.includes(token)) fail("Forbidden legacy token \"" + token + "\" in " + file);
   }
+}
+for (const p of forbiddenExactPaths) {
+  if (files.includes(p)) fail("Forbidden duplicate/superseded canonical file remains: " + p);
 }
 if (failures === 0) pass("Phase 5: legacy path/token exclusion is clean");
 
