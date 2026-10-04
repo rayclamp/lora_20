@@ -120,6 +120,7 @@ DIVERSITY_VALIDATION_STATUS:
 FINAL_EXECUTABLE_PROMPT:
 NEGATIVE_STABILITY_PROMPT:
 PROMPT_PREVIEW_STATUS:
+GENERATION_AUTHORIZATION_STATUS:
 PROMPT_EXECUTION_STATUS:
 EXECUTED_PROMPT_REFERENCE:
 EXECUTION_VERIFICATION_STATUS:
@@ -169,7 +170,7 @@ Before generation:
 
 `PROMPT_PREVIEW_STATUS: SHOWN`
 
-The stored `FINAL_EXECUTABLE_PROMPT` must be the same prompt shown to the user and used for generation.
+The stored `FINAL_EXECUTABLE_PROMPT` must be the same system-generated prompt shown to the user and used for generation. In MANUAL mode, generation is forbidden until explicit USER_CONFIRMED_GENERATION is recorded.
 
 If the prompt changes after preview, update the record and show the new complete prompt again before generation.
 
