@@ -210,3 +210,14 @@ Required distinction:
 If no explicit platform evidence exists, the Worker must continue when generation remains available. If the Worker cannot reliably determine whether generation is available, record `UNKNOWN / RECOVERY_REQUIRED` and stop rather than inventing a quota state.
 
 Any verified platform stop must preserve the evidence in the canonical batch record.
+
+
+## Automated context-resolution gate
+
+Before DESIGN, Automated Dispatch MUST validate the Automation Execution Contract and load canonical rules through the Canonical Path Registry.
+
+For wallpaper production, a broad Theme/Scene input MUST pass Scene Intent Resolution before presentation design or prompt assembly. The resolved intent must include ACTIVITY, LOCATION, ACTION, TIME, WEATHER, SOCIAL_CONTEXT, and ENVIRONMENTAL_CUES when materially applicable, with provenance recorded as EXPLICIT, AUTOMATION_INPUT, WORKER_RESOLVED, RULE_DEFAULT, or NOT_OBSERVABLE.
+
+A missing canonical rule, unresolved required Scene Intent, or conflicting context is a context/design gate failure and blocks generation. The Worker must not silently substitute an obsolete rule path or invent upstream provenance.
+
+Automated execution must record the trace events defined by 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md whenever observable. Unknown automation telemetry remains NOT_OBSERVABLE/UNKNOWN and is never fabricated.
