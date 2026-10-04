@@ -28,3 +28,6 @@ jobs:
 
       - name: Run Universal Wallpaper batch validator self-test
         run: node scripts/test_universal_batch_validator.mjs
+
+      - name: Run Universal Wallpaper concurrency self-test
+        run: node scripts/test_universal_concurrency.mjs
