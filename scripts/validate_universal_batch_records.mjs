@@ -60,7 +60,7 @@ if (!fs.existsSync(BATCH_DIR)) {
       for (const field of [
         "TASK_ID:", "IMAGE_ID:", "TASK_STATUS:", "DESIGN_STATUS:", "DESIGN_LOCK:",
         "OUTPUT_TYPE:", "ASPECT_RATIO:", "ORIENTATION:", "FINAL_EXECUTABLE_PROMPT:",
-        "PROMPT_PREVIEW_STATUS:", "GENERATION_RESULT:", "RESULT_COUNT:", "CHECKPOINT_STATUS:"
+        "PROMPT_PREVIEW_STATUS:", "GENERATION_RESULT:", "RESULT_COUNT:", "GENERATION_ATTEMPT_COUNT:", "CONSECUTIVE_FAILURE_COUNT:", "RECOVERY_STATUS:", "LAST_FAILURE_REASON:", "EVENT_HISTORY:", "CHECKPOINT_STATUS:"
       ]) {
         if (!task.includes(field)) fail(label + ": task missing " + field);
       }
@@ -71,7 +71,7 @@ if (!fs.existsSync(BATCH_DIR)) {
       const preview = task.match(/PROMPT_PREVIEW_STATUS:\s*([^\n]+)/)?.[1]?.trim();
       const resultCount = Number(task.match(/RESULT_COUNT:\s*(\d+)/)?.[1]);
 
-      if (!["NOT_STARTED","DESIGN_READY","DESIGN_LOCKED","GENERATING","SUCCESS","FAILED","UNKNOWN / RECOVERY_REQUIRED","OUTPUT_COUNT_MISMATCH","INVALID_IMAGE_ID"].includes(taskStatus)) {
+      if (!["NOT_STARTED","DESIGN_READY","DESIGN_LOCKED","GENERATING","SUCCESS","FAILED","UNKNOWN / RECOVERY_REQUIRED","OUTPUT_COUNT_MISMATCH","INVALID_IMAGE_ID","ABANDONED"].includes(taskStatus)) {
         fail(label + ": invalid TASK_STATUS " + taskStatus);
       }
       if (!["NOT_STARTED","SUCCESS","FAILED","UNKNOWN"].includes(result)) {
@@ -90,6 +90,12 @@ if (!fs.existsSync(BATCH_DIR)) {
     }
 
     const sessionStatus = text.match(/SESSION_STATUS:\s*([^\n]+)/)?.[1]?.trim();
+
+    if (sessionStatus === "STOPPED" && /REPEATED_FAILURE/.test(text)) {
+      const hasThree = /CONSECUTIVE_FAILURE_COUNT:\s*3/.test(text);
+      if (!hasThree) fail(label + ": REPEATED_FAILURE stop lacks 3-consecutive-failure evidence");
+    }
+    if (sessionStatus === "RECOVERY_REQUIRED" && !/RECOVERY_REQUIRED/.test(text)) fail(label + ": recovery-required session lacks recovery evidence");
     if (completed === target && sessionStatus !== "COMPLETED") {
       fail(label + ": completed batch does not declare SESSION_STATUS: COMPLETED");
     }
