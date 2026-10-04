@@ -1,5 +1,9 @@
 # UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md
 
+## Shared runtime relationship
+
+Universal Wallpaper is a production module. Generic Worker execution is authoritative in `00_MASTER/PRODUCTION_WORKER_RUNTIME.md`; this document is the Universal Wallpaper domain adapter. Claim/Lease/CAS and Worker Pool behavior are shared execution contracts, not Universal-only architecture.
+
 ## 1. Purpose
 
 This is the Production Worker protocol for the active Universal Wallpaper module.
@@ -117,7 +121,14 @@ Before generation, the Worker must hold the current claim, claim ID, lease, stat
 
 A Worker that loses ownership MUST NOT generate, release, or overwrite the task. SUCCESS is terminal and cannot be claimed again. UNKNOWN is never resolved by lease expiry alone.
 
-### 7B. Queue mode
+### 7A.5 Worker Pool routing
+
+Queue-mode scheduling uses the canonical Worker Pool contract:
+`00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL.md`
+
+The Worker Pool selects eligible work; Claim/Lease/CAS remains the ownership authority.
+
+## 7B. Queue mode
 
 When Universal Wallpaper uses a queue, the Worker Pool / Scheduler contract is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL.md`.
 

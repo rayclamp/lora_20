@@ -7,6 +7,8 @@
 
 本指令用於手動設計特殊節日桌布系列。
 
+本文件是 Festival Wallpaper 的內容/設計生產規範，不是獨立 Worker 或 Dispatch 系統。若 Festival 任務進入正式生產執行，使用共用 `00_MASTER/PRODUCTION_WORKER_RUNTIME.md` 與 `00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md`；本文件只提供 Festival-specific identity/data/design constraints。
+
 本指令負責：
 1. 從 GitHub Festival Database 讀取正式節慶資料。
 2. 選擇節慶與文化素材。

@@ -49,6 +49,9 @@ function activeWorkflow(runtimeText) {
 const required = [
   "START_HERE.md",
   "00_MASTER/SYSTEM_ARCHITECTURE.md",
+  "00_MASTER/PRODUCTION_WORKER_RUNTIME.md",
+  "00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md",
+  "00_MASTER/PRODUCTION_OUTPUT_PROTOCOL.md",
   "00_MASTER/MODULE_REGISTRY.md",
   "00_MASTER/RUNTIME_STATE.md",
   "00_MASTER/AUTHORITY_MATRIX.md",
@@ -173,7 +176,7 @@ for (const rawTarget of authorityTargets) {
 }
 if (failures === 0) pass("Phase 3: Authority Matrix canonical paths resolve");
 
-if (!architecture.includes("CORE → MODULE → MODULE-OWNED DATA / STATE")) fail("Architecture boundary missing");
+if (!architecture.includes("CORE → DISPATCH → SHARED WORKER RUNTIME → PRODUCTION MODULE → MODULE-OWNED DATA / STATE")) fail("Architecture boundary missing");
 if (!architecture.includes("A lower layer cannot activate or override a higher layer.")) fail("Architecture precedence invariant missing");
 if (!consistency.includes("Current-system-only invariant")) fail("Consistency matrix missing current-system-only invariant");
 if (!consistency.includes("Single-rule principle")) fail("Consistency matrix missing single-rule principle");
@@ -312,7 +315,7 @@ const workerPool = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PRO
 for (const token of [
   "Canonical source of work",
   "Selection policy",
-  "one claim per scheduling cycle",
+  "One claim per scheduling cycle",
   "Fairness and starvation",
   "No-work condition",
   "Scheduling is advisory. Ownership is authoritative."
@@ -330,6 +333,18 @@ for (const token of [
 }
 
 if (failures === 0) pass("Phase 10: generic Worker execution safeguards are present");
+const productionRuntime = read("00_MASTER/PRODUCTION_WORKER_RUNTIME.md");
+const dispatchProtocol = read("00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md");
+const outputProtocol = read("00_MASTER/PRODUCTION_OUTPUT_PROTOCOL.md");
+for (const [label, source, tokens] of [
+  ["shared worker runtime", productionRuntime, ["Worker Runtime owns", "Claim / Lease / CAS", "SUCCESS / FAILED / UNKNOWN"]],
+  ["dispatch boundary", dispatchProtocol, ["MANUAL", "AUTOMATED", "same Worker Runtime"]],
+  ["output boundary", outputProtocol, ["Task/result state", "Artifact storage", "GitHub Image Artifact Upload"]]
+]) {
+  for (const token of tokens) if (!source.includes(token)) fail("Shared Production Core missing: " + label + " / " + token);
+}
+if (failures === 0) pass("Phase 10C: Shared Production Core / Dispatch / Output boundaries are present");
+
 
 const boundary = read("00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md");
 const universalProtocol = read("00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md");
@@ -349,12 +364,12 @@ const boundaryChecks = [
   ["Universal protocol LoRA isolation", /Do not load LoRA-specific reference or production rules/i],
   ["Festival prompt LoRA isolation", /Do not import LoRA Dataset/i],
   ["LoRA module Wallpaper isolation", /Do not import Wallpaper workflow/i],
-  ["LoRA worker production boundary", /Generation ends at IMAGE_CREATED[\s\S]*QA is independent/i],
+  ["LoRA worker uses shared runtime", /does not own a separate Worker system[\s\S]*PRODUCTION_WORKER_RUNTIME\.md/i],
   ["QA source-module boundary", /QA must select criteria from SOURCE_MODULE/i],
   ["QA production boundary", /Production Workers do not cross into QA/i],
   ["Delivery generation boundary", /Image generation is not performed here/i],
   ["Generic Worker module isolation", /Do not import another module's rules/i],
-  ["Universal Worker Pool routing", /UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL\\.md/i]
+  ["Universal Worker Pool routing", /UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL\.md/i]
 ];
 
 for (const [label, pattern] of boundaryChecks) {

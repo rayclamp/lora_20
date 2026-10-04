@@ -1,7 +1,11 @@
 # GENERATION_WORKER_PROTOCOL.md — Generic Generation Worker
 
 ## Scope
-Cross-module execution only. This document does not define character, age, style, reference, dataset, wallpaper, festival, account, or QA authority.
+Cross-module production execution only. This is the shared Worker contract for every production module. This document does not define character, age, style, reference, dataset, wallpaper, festival, account, or QA authority.
+
+## Shared runtime authority
+
+This Worker delegates generic execution to `00_MASTER/PRODUCTION_WORKER_RUNTIME.md`. Module-specific protocols define only domain behavior. No production module may create a duplicate Worker or Dispatch implementation.
 
 ## Startup
 1. START_HERE.md

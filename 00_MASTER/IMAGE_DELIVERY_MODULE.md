@@ -4,7 +4,9 @@
 PAUSED.
 
 ## Purpose
-Own downstream image upload, transfer, storage, or delivery after a production module creates a candidate.
+Own downstream transfer/delivery capabilities after a production module creates a candidate.
+
+Production artifact persistence is defined by `00_MASTER/PRODUCTION_OUTPUT_PROTOCOL.md`. A module may persist its generated artifact to GitHub without activating this downstream Delivery module when the active production contract explicitly requires that output adapter.
 
 ## Boundary
 Image generation is not performed here.

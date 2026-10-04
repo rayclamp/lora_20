@@ -1,7 +1,7 @@
 # SYSTEM_ARCHITECTURE.md — INARIA AI STUDIO
 
 ## Architecture
-CORE → MODULE → MODULE-OWNED DATA / STATE → GENERATION → QA / DOWNSTREAM
+CORE → DISPATCH → SHARED WORKER RUNTIME → PRODUCTION MODULE → MODULE-OWNED DATA / STATE → OUTPUT / GENERATION → QA / DOWNSTREAM
 
 GitHub is the current system specification. Superseded project specifications are not part of the current architecture.
 
@@ -10,11 +10,12 @@ USER INTENT
 → RUNTIME_STATE
 → MODULE_REGISTRY
 → AUTHORITY_MATRIX
-→ SELECTED MODULE PROTOCOL
+→ DISPATCH
+→ SHARED WORKER RUNTIME
+→ SELECTED PRODUCTION MODULE
 → MODULE-OWNED GOAL / BATCH / QUEUE / TASK
-→ WORKER
 → GENERATION RESULT
-→ QA / DOWNSTREAM
+→ OUTPUT / QA / DOWNSTREAM
 
 A lower layer cannot activate or override a higher layer.
 
@@ -28,10 +29,17 @@ CORE contains only cross-system rules:
 
 CORE must not define a universal character age, universal Master Image, LoRA dataset policy, festival cultural data, wallpaper-specific workflow, or account-specific authority.
 
+## Production Core
+The repository has one shared production execution core. Manual and Automated Dispatch are entry modes into the same Worker Runtime.
+
+The Worker Runtime owns Worker lifecycle, task selection, Claim/Lease/CAS, generation outcomes, recovery, and common result recording. Production modules do not create duplicate Worker or Dispatch systems.
+
+`PRODUCTION_DISPATCH_PROTOCOL.md` defines who starts production. `PRODUCTION_WORKER_RUNTIME.md` defines how production work executes. `PRODUCTION_OUTPUT_PROTOCOL.md` defines artifact persistence.
+
 ## Modules
 UNIVERSAL_WALLPAPER — general anime/realistic wallpaper. ACTIVE and owns persistent batch/task state under MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/.
 FESTIVAL_WALLPAPER — festival anime/realistic wallpaper. ACTIVE and uses the canonical execution protocol under 00_MASTER/WALLPAPER/.
-LORA_PRODUCTION — independent age-20 Inaria LoRA dataset production. PAUSED.
+LORA_PRODUCTION — age-20 Inaria LoRA dataset production profile. PAUSED. It owns LoRA-specific identity, dataset, diversity, QA, and output requirements; it uses the shared Production Worker Runtime.
 QA — independent downstream inspection. PAUSED.
 IMAGE_DELIVERY — independent downstream delivery. PAUSED.
 
@@ -45,7 +53,7 @@ MODULES/LORA_PRODUCTION/BATCHES/
 A module protocol may reference shared CORE rules and approved cultural/reference data, but it may not silently create a second operational state authority elsewhere.
 
 ## LoRA boundary
-All LoRA-specific identity, reference, dataset, diversity, production, batch, queue, retry, and QA rules live under MODULES/LORA_PRODUCTION/.
+All LoRA-specific identity, reference, dataset, diversity, production requirements, batch state, and QA profile live under MODULES/LORA_PRODUCTION/. Generic Worker execution, Dispatch, Claim/Lease/CAS, and artifact-persistence mechanics are shared core capabilities.
 
 LoRA must never route through Wallpaper production state.
 

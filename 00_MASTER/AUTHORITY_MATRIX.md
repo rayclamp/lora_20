@@ -3,6 +3,9 @@
 | Information | Authority |
 |---|---|
 | Platform architecture | 00_MASTER/SYSTEM_ARCHITECTURE.md |
+| Production Dispatch | 00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md |
+| Shared Production Worker Runtime | 00_MASTER/PRODUCTION_WORKER_RUNTIME.md |
+| Production Output / Persistence | 00_MASTER/PRODUCTION_OUTPUT_PROTOCOL.md |
 | Module registration/activation | 00_MASTER/MODULE_REGISTRY.md |
 | Current runtime state | 00_MASTER/RUNTIME_STATE.md |
 | Information ownership | 00_MASTER/AUTHORITY_MATRIX.md |
@@ -15,15 +18,16 @@
 | LoRA behavior | MODULES/LORA_PRODUCTION/MODULE.md |
 | LoRA identity/reference | MODULES/LORA_PRODUCTION/IDENTITY/ |
 | LoRA dataset rules | MODULES/LORA_PRODUCTION/DATASET/ |
-| LoRA production state | MODULES/LORA_PRODUCTION/PRODUCTION/ |
+| LoRA production rules | MODULES/LORA_PRODUCTION/PRODUCTION/ |
+| LoRA production state | MODULES/LORA_PRODUCTION/BATCHES/ |
 | LoRA batch state | MODULES/LORA_PRODUCTION/BATCHES/ |
 | LoRA QA profile | MODULES/LORA_PRODUCTION/QA/ |
 | QA platform behavior | 00_MASTER/QA_MODULE.md + 00_MASTER/QA_PROTOCOL.md |
-| Image Delivery | 00_MASTER/IMAGE_DELIVERY_MODULE.md |
+| Image Delivery / downstream delivery | 00_MASTER/IMAGE_DELIVERY_MODULE.md |
 | Cross-module boundaries | 00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md |
 
 ## Execution hierarchy
-USER INTENT → RUNTIME_STATE → MODULE_REGISTRY → AUTHORITY_MATRIX → ACTIVE MODULE PROTOCOL → MODULE-OWNED STATE → WORKER
+USER INTENT → RUNTIME_STATE → MODULE_REGISTRY → AUTHORITY_MATRIX → DISPATCH → SHARED WORKER RUNTIME → ACTIVE PRODUCTION MODULE → MODULE-OWNED STATE → RESULT / OUTPUT → QA
 
 Lower layers cannot activate or override higher layers.
 
