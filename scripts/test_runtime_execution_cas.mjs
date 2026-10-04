@@ -25,9 +25,22 @@ const store = new GitHubContentsStateStore({
   path: "runtime-tests/execution-cas.json", branch: "test",
 });
 
+let intervened = false;
 const runtime = new ProductionWorkerRuntime({
   store,
-  generator: new MockGenerationAdapter(["SUCCESS"]),
+  generator: {
+    generate() {
+      if (!intervened) {
+        intervened = true;
+        const snapshot = store.read();
+        const external = structuredClone(snapshot.state);
+        external.events.push({ type: "EXTERNAL_INTERVENING_EVENT" });
+        external.version++;
+        store.compareAndSwap(snapshot.sha, external, "test: intervening mutation");
+      }
+      return { result: "SUCCESS", verification: "VERIFIED", output: {} };
+    },
+  },
   workerId: "EXECUTION_OWNER",
 });
 
@@ -57,21 +70,9 @@ runtime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", {
   },
 });
 
-const before = store.read();
-assert.ok(before?.sha);
-
-const external = structuredClone(before.state);
-external.events.push({ type: "EXTERNAL_INTERVENING_EVENT" });
-external.version++;
-store.compareAndSwap(before.sha, external, "test: intervening mutation");
-
 assert.throws(() => runtime.execute(), /STALE_SHA_REJECTED/);
 
 const persisted = store.read();
 assert.equal(persisted.state.events.at(-1).type, "EXTERNAL_INTERVENING_EVENT");
 assert.equal(persisted.state.taskStatus, "CLAIMED");
 
-console.log("Worker Runtime execution CAS probe: PASS");
-console.log("PASS stale execution checkpoint is rejected");
-console.log("PASS intervening authoritative state is preserved");
-console.log("NOTE: deterministic in-memory GitHub Contents API double; no remote repository mutation.");
