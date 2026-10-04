@@ -40,10 +40,17 @@ function statusFromTable(markdown, moduleName) {
   const cells = line.split("|").map(function(v) { return v.trim(); });
   return cells[2] === "ACTIVE" || cells[2] === "PAUSED" ? cells[2] : null;
 }
-function activeWorkflow(runtimeText) {
-  const moduleName = runtimeText.match(/ACTIVE_WORKFLOW:\s*\n\s*MODULE:\s*([^\n]+)/)?.[1]?.trim();
-  const mode = runtimeText.match(/ACTIVE_WORKFLOW:[\s\S]*?MODE:\s*([^\n]+)/)?.[1]?.trim();
+function defaultWorkflow(runtimeText) {
+  const moduleName = runtimeText.match(/SYSTEM_DEFAULT_WORKFLOW:\s*\n\s*MODULE:\s*([^\n]+)/)?.[1]?.trim();
+  const mode = runtimeText.match(/SYSTEM_DEFAULT_WORKFLOW:[\s\S]*?MODE:\s*([^\n]+)/)?.[1]?.trim();
   return { moduleName, mode };
+}
+
+function activeProductionSession(runtimeText) {
+  const moduleName = runtimeText.match(/ACTIVE_PRODUCTION_SESSION:\s*\n\s*MODULE:\s*([^\n]+)/)?.[1]?.trim();
+  const mode = runtimeText.match(/ACTIVE_PRODUCTION_SESSION:[\s\S]*?MODE:\s*([^\n]+)/)?.[1]?.trim();
+  const status = runtimeText.match(/ACTIVE_PRODUCTION_SESSION:[\s\S]*?STATUS:\s*([^\n]+)/)?.[1]?.trim();
+  return { moduleName, mode, status };
 }
 
 const required = [
@@ -119,14 +126,23 @@ for (const moduleName of modules) {
 }
 if (failures === 0) pass("Phase 1: Module Registry ↔ Runtime State contract is consistent");
 
-const workflow = activeWorkflow(runtime);
+const workflow = defaultWorkflow(runtime);\nconst activeSession = activeProductionSession(runtime);
 if (!workflow.moduleName) {
-  fail("Runtime ACTIVE_WORKFLOW has no MODULE");
+  fail("Runtime SYSTEM_DEFAULT_WORKFLOW has no MODULE");
 } else if (runtimeStatus[workflow.moduleName] !== "ACTIVE") {
-  fail("Active workflow points to non-ACTIVE module: " + workflow.moduleName);
+  fail("System default workflow points to non-ACTIVE module: " + workflow.moduleName);
 }
 if (workflow.moduleName === "FESTIVAL_WALLPAPER" && workflow.mode !== "MANUAL_DESIGN") {
-  fail("Festival active workflow mode is not MANUAL_DESIGN: " + workflow.mode);
+  fail("Festival system default workflow mode is not MANUAL_DESIGN: " + workflow.mode);
+}
+if (!activeSession.moduleName || !activeSession.mode || !activeSession.status) {
+  fail("Runtime ACTIVE_PRODUCTION_SESSION is incomplete");
+}
+if (activeSession.moduleName !== "NONE" && runtimeStatus[activeSession.moduleName] !== "ACTIVE") {
+  fail("Active production session points to non-ACTIVE module: " + activeSession.moduleName);
+}
+if (activeSession.moduleName === "NONE" && activeSession.status !== "NONE") {
+  fail("Inactive production session must have STATUS NONE: " + activeSession.status);
 }
 
 const workflowContracts = {
