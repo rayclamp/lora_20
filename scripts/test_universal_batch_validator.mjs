@@ -31,6 +31,10 @@ function fixture(overrides = {}) {
     stopReason: "NONE",
     completed: 0,
     eventHistory: "CREATED",
+    ownership: "UNCLAIMED",
+    worker: "NONE",
+    claim: "NONE",
+    stateVersion: 0,
     ...overrides,
   };
 
@@ -65,6 +69,12 @@ REFERENCE: TEST
 TASK_ID: TASK-01
 IMAGE_ID: IMAGE-01
 TASK_STATUS: ${task.taskStatus}
+OWNERSHIP_STATUS: ${task.ownership ?? "UNCLAIMED"}
+WORKER_ID: ${task.worker ?? "NONE"}
+CLAIM_ID: ${task.claim ?? "NONE"}
+CLAIMED_AT: NONE
+LEASE_EXPIRES_AT: NONE
+STATE_VERSION: ${task.stateVersion ?? 0}
 DESIGN_STATUS: LOCKED
 DESIGN_LOCK: YES
 OUTPUT_TYPE: DESKTOP_WALLPAPER
@@ -145,6 +155,19 @@ fs.rmSync(root, { recursive: true, force: true });
 
 root = fixture({ taskStatus:"SUCCESS", result:"SUCCESS", resultCount:1, attempts:2, consecutiveFailures:1, recovery:"TERMINAL_SUCCESS", completed:1, sessionStatus:"COMPLETED", stopReason:"COMPLETED" });
 expect("SUCCESS with non-reset consecutive failures is rejected", root, false);
+fs.rmSync(root, { recursive: true, force: true });
+
+
+root = fixture({ result:"NOT_STARTED", taskStatus:"DESIGN_LOCKED", ownership:"CLAIMED", worker:"worker-A", claim:"claim-A", stateVersion:1 });
+expect("Claimed task with owner and claim identity is accepted", root, true);
+fs.rmSync(root, { recursive: true, force: true });
+
+root = fixture({ result:"SUCCESS", taskStatus:"SUCCESS", resultCount:1, attempts:1, recovery:"TERMINAL_SUCCESS", completed:1, sessionStatus:"COMPLETED", stopReason:"COMPLETED", ownership:"CLAIMED", worker:"worker-A", claim:"claim-A", stateVersion:2 });
+expect("SUCCESS cannot remain actively claimed", root, false);
+fs.rmSync(root, { recursive: true, force: true });
+
+root = fixture({ result:"UNKNOWN", taskStatus:"UNKNOWN / RECOVERY_REQUIRED", attempts:1, recovery:"RECOVERY_REQUIRED", sessionStatus:"RECOVERY_REQUIRED", stopReason:"UNKNOWN_RECOVERY_REQUIRED", ownership:"CLAIMED", worker:"worker-A", claim:"claim-A", stateVersion:2 });
+expect("UNKNOWN cannot remain actively claimed", root, false);
 fs.rmSync(root, { recursive: true, force: true });
 
 if (failures > 0) {

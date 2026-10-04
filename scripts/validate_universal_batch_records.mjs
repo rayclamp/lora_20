@@ -74,6 +74,23 @@ if (!fs.existsSync(BATCH_DIR)) {
       const consecutiveFailures = Number(task.match(/CONSECUTIVE_FAILURE_COUNT:\s*(\d+)/)?.[1]);
       const recoveryStatus = task.match(/RECOVERY_STATUS:\s*([^\n]+)/)?.[1]?.trim();
 
+      const ownershipStatus = task.match(/OWNERSHIP_STATUS:\s*([^\n]+)/)?.[1]?.trim();
+      const workerId = task.match(/WORKER_ID:\s*([^\n]+)/)?.[1]?.trim();
+      const claimId = task.match(/CLAIM_ID:\s*([^\n]+)/)?.[1]?.trim();
+      const stateVersion = Number(task.match(/STATE_VERSION:\s*(\d+)/)?.[1]);
+
+      if (!["UNCLAIMED","CLAIMED","RELEASED","TERMINAL"].includes(ownershipStatus)) fail(label + ": invalid OWNERSHIP_STATUS " + ownershipStatus);
+      if (!Number.isInteger(stateVersion) || stateVersion < 0) fail(label + ": invalid STATE_VERSION");
+      if (ownershipStatus === "CLAIMED") {
+        if (!workerId || workerId === "NONE") fail(label + ": CLAIMED task requires WORKER_ID");
+        if (!claimId || claimId === "NONE") fail(label + ": CLAIMED task requires CLAIM_ID");
+        if (taskStatus === "SUCCESS" || result === "SUCCESS") fail(label + ": SUCCESS cannot remain CLAIMED");
+      }
+      if (["UNCLAIMED","RELEASED","TERMINAL"].includes(ownershipStatus) && workerId && workerId !== "NONE") fail(label + ": non-claimed task cannot retain active WORKER_ID");
+      if (ownershipStatus === "TERMINAL" && result !== "SUCCESS" && taskStatus !== "ABANDONED") fail(label + ": TERMINAL requires SUCCESS or ABANDONED");
+      if (result === "UNKNOWN" && ownershipStatus === "CLAIMED") fail(label + ": UNKNOWN / RECOVERY_REQUIRED cannot remain actively claimed");
+
+
       if (!Number.isInteger(attemptCount) || attemptCount < 0) fail(label + ": invalid GENERATION_ATTEMPT_COUNT");
       if (!Number.isInteger(consecutiveFailures) || consecutiveFailures < 0) fail(label + ": invalid CONSECUTIVE_FAILURE_COUNT");
       if (!["NONE","RETRY_READY","RECOVERY_REQUIRED","ABANDONED","TERMINAL_SUCCESS"].includes(recoveryStatus)) fail(label + ": invalid RECOVERY_STATUS " + recoveryStatus);

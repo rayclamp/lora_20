@@ -76,6 +76,12 @@ REFERENCE:
 TASK_ID:
 IMAGE_ID:
 TASK_STATUS:
+OWNERSHIP_STATUS:
+WORKER_ID:
+CLAIM_ID:
+CLAIMED_AT:
+LEASE_EXPIRES_AT:
+STATE_VERSION:
 DESIGN_STATUS:
 DESIGN_LOCK:
 OUTPUT_TYPE:
@@ -239,6 +245,6 @@ Those capabilities require separate architecture and must not be inferred from t
 
 ## 13. Minimality principle
 
-**One batch = one record. One task identity = one designed image target. Each retry is an attempt on that same task identity. One checkpoint = one authoritative resume point.**
+**One batch = one record. One task identity = one designed image target. One active owner per task. Each retry is an attempt on that same task identity. One checkpoint = one authoritative resume point.**
 
 The record exists only to preserve production identity, design, result, and resume state.

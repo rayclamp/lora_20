@@ -17,7 +17,7 @@ Cross-module execution only. This document does not define character, age, style
 Resolve the active module from Runtime State. Do not assume LoRA or Wallpaper. Do not import another module's reference, queue, prompt, or rules.
 
 ## Queue execution
-When the module uses a queue: fetch current state, verify the parent module is ACTIVE, claim one valid QUEUED task atomically, verify Claim/Lease, enter generation state, generate, record SUCCESS/FAILED/UNKNOWN, then release according to module rules.
+When the module uses a queue: fetch current state, verify the parent module is ACTIVE, claim one valid QUEUED task atomically using the selected module's canonical Claim/Lease/Concurrency protocol, verify ownership, enter generation state, generate, record SUCCESS/FAILED/UNKNOWN, then release according to module rules.
 
 ## Pre-generation
 Apply DRAWING_INSTRUCTIONS.md and ANATOMY_STABILITY.md. Prefer stable hands/feet, natural proportions, clear limb sources, physical object contact, and simple support before decorative complexity.
@@ -29,7 +29,7 @@ SUCCESS / FAILED / UNKNOWN only. UNKNOWN requires recovery and must not be guess
 After SUCCESS: preserve the candidate, record success, do not self-QA, do not declare PASS/REPAIR/REJECT, and continue only when the selected module authorizes another task.
 
 ## Restrictions
-Do not activate modules, change Goal targets without authorization, overwrite valid claims, continue after lease expiry, import another module's rules, invent missing state, or use superseded project specifications.
+Do not activate modules, change Goal targets without authorization, overwrite valid claims, continue after lease expiry, bypass a module's Claim/Lease/Concurrency protocol, import another module's rules, invent missing state, or use superseded project specifications.
 
 ### Cross-module isolation
 A generic Worker is module-neutral. It must not import another module's reference, queue, prompt, rules, Goal, Batch, Task, Worker state, identity authority, dataset authority, or QA authority.
