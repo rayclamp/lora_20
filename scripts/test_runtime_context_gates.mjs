@@ -52,13 +52,13 @@ function makeRuntime(name, generatorOutcomes = ["SUCCESS"]) {
 {
   const { runtime, store } = makeRuntime("valid");
   const s = runtime.designAndLockPrompt("SYSTEM-GENERATED CONTEXT-VALIDATED PROMPT", validContext);
-  assert.equal(s.promptPreview, "RECORDED");
+  assert.equal(s.promptPreview, "SHOWN");
   assert.ok(s.promptHash);
   const persisted = store.read();
   assert.ok(persisted.events.some(e => e.type === "REFERENCE_AUTHORITY_RESOLVED" && e.status === "NO_REFERENCE"));
   assert.ok(persisted.events.some(e => e.type === "SCENE_INTENT_RESOLVED" && e.status === "RESOLVED"));
-  const result = runtime.authorizeAutomatedGeneration();
-runtime.execute();
+  runtime.authorizeAutomatedGeneration();
+const result = runtime.execute();
   assert.equal(result.taskStatus, "SUCCESS");
 }
 
@@ -127,4 +127,4 @@ console.log("PASS SCENE_INTENT CONFLICT fence");
 console.log("PASS incomplete scene-intent fence");
 console.log("PASS invalid reference-state fence");
 console.log("PASS successful execution after context validation");
-console.log("NOTE: context is supplied as a structured runtime input; canonical GitHub policy resolution is not yet implemented.");
+console.log("NOTE: this is the direct runtime-gate probe; canonical GitHub resolution is covered by the Phase-6 resolver probe.");
