@@ -69,3 +69,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-9 worker-pool CAS
         run: node scripts/test_phase9_worker_pool.mjs
+
+      - name: Run Runtime Verification Phase-10 provider adapter boundary
+        run: node scripts/test_phase10_provider_adapter_boundary.mjs
