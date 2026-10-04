@@ -55,6 +55,7 @@ assert.equal(refEvent.policyPath, "MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.
 assert.equal(sceneEvent.protocolPath, "00_MASTER/WALLPAPER/SCENE_INTENT_RESOLUTION_PROTOCOL.md");
 assert.equal(sceneEvent.fieldProvenance.ACTION, "USER_OR_AUTOMATION_INPUT");
 
+runtime.authorizeAutomatedGeneration();
 runtime.execute();
 assert.equal(store.read().taskStatus, "SUCCESS");
 
