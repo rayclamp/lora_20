@@ -18,6 +18,56 @@ export class JsonStateStore {
     fs.writeFileSync(tmp, JSON.stringify(state, null, 2) + "\n", "utf8");
     fs.renameSync(tmp, this.filePath);
   }
+  mutate(mutator) {
+    const current = this.read();
+    if (!current) throw new Error("RUNTIME_STATE_MISSING");
+    const next = mutator(clone(current));
+    this.write(next);
+    return next;
+  }
+}
+
+export class GitHubContentsStateStore {
+  constructor({ client, owner, repo, path: filePath, branch = "main" }) {
+    this.client = client;
+    this.owner = owner;
+    this.repo = repo;
+    this.filePath = filePath;
+    this.branch = branch;
+  }
+
+  read() {
+    const item = this.client.getContents({
+      owner: this.owner, repo: this.repo, path: this.filePath, ref: this.branch
+    });
+    if (!item) return null;
+    return { state: JSON.parse(Buffer.from(item.content, "base64").toString("utf8")), sha: item.sha };
+  }
+
+  write(state) {
+    throw new Error("CAS_REQUIRED");
+  }
+
+  compareAndSwap(expectedSha, state, message = "runtime: checkpoint state") {
+    const payload = Buffer.from(JSON.stringify(state, null, 2) + "\n", "utf8").toString("base64");
+    const result = this.client.updateContents({
+      owner: this.owner,
+      repo: this.repo,
+      path: this.filePath,
+      branch: this.branch,
+      sha: expectedSha,
+      content: payload,
+      message
+    });
+    return { state: clone(state), sha: result.content.sha ?? result.sha };
+  }
+
+  mutate(mutator, message = "runtime: checkpoint state") {
+    const current = this.read();
+    if (!current) throw new Error("RUNTIME_STATE_MISSING");
+    const next = mutator(clone(current.state));
+    return this.compareAndSwap(current.sha, next, message);
+  }
 }
 
 export class MockGenerationAdapter {
@@ -78,34 +128,36 @@ export class ProductionWorkerRuntime {
   }
 
   claim() {
-    const s = this.requireState();
-    if (s.taskStatus !== "QUEUED" || s.ownership !== "UNCLAIMED") throw new Error("CLAIM_REJECTED");
-    s.events.push({ type: "CONTEXT_LOADED", at: this.clock() });
-    s.events.push({ type: "MODULE_RESOLVED", at: this.clock(), module: s.module });
-    s.taskStatus = "CLAIMED";
-    s.ownership = "CLAIMED";
-    s.workerId = this.workerId;
-    s.claimId = crypto.randomUUID();
-    s.version++;
-    s.events.push({ type: "TASK_CLAIMED", at: this.clock(), claimId: s.claimId });
-    this.store.write(s);
+    const s = this.mutateState((s) => {
+      if (s.taskStatus !== "QUEUED" || s.ownership !== "UNCLAIMED") throw new Error("CLAIM_REJECTED");
+      s.events.push({ type: "CONTEXT_LOADED", at: this.clock() });
+      s.events.push({ type: "MODULE_RESOLVED", at: this.clock(), module: s.module });
+      s.taskStatus = "CLAIMED";
+      s.ownership = "CLAIMED";
+      s.workerId = this.workerId;
+      s.claimId = crypto.randomUUID();
+      s.version++;
+      s.events.push({ type: "TASK_CLAIMED", at: this.clock(), claimId: s.claimId });
+      return s;
+    });
     return clone(s);
   }
 
   designAndLockPrompt(prompt) {
-    const s = this.requireState();
-    if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED") throw new Error("DESIGN_REQUIRES_CLAIM");
-    s.events.push({ type: "REFERENCE_POLICY_LOADED", at: this.clock() });
-    s.events.push({ type: "REFERENCE_AUTHORITY_RESOLVED", at: this.clock(), status: "RESOLVED" });
-    s.events.push({ type: "SCENE_INTENT_RESOLVED", at: this.clock(), status: "RESOLVED" });
-    s.events.push({ type: "PRESENTATION_DESIGNED", at: this.clock() });
-    s.events.push({ type: "DESIGN_VALIDATED", at: this.clock(), status: "PASS" });
-    s.promptHash = sha256(prompt);
-    s.lockedPrompt = prompt;
-    s.promptPreview = "RECORDED";
-    s.events.push({ type: "PROMPT_ASSEMBLED", at: this.clock(), promptHash: s.promptHash });
-    s.events.push({ type: "PROMPT_PREVIEW_RECORDED", at: this.clock(), promptHash: s.promptHash });
-    this.store.write(s);
+    const s = this.mutateState((s) => {
+      if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED") throw new Error("DESIGN_REQUIRES_CLAIM");
+      s.events.push({ type: "REFERENCE_POLICY_LOADED", at: this.clock() });
+      s.events.push({ type: "REFERENCE_AUTHORITY_RESOLVED", at: this.clock(), status: "RESOLVED" });
+      s.events.push({ type: "SCENE_INTENT_RESOLVED", at: this.clock(), status: "RESOLVED" });
+      s.events.push({ type: "PRESENTATION_DESIGNED", at: this.clock() });
+      s.events.push({ type: "DESIGN_VALIDATED", at: this.clock(), status: "PASS" });
+      s.promptHash = sha256(prompt);
+      s.lockedPrompt = prompt;
+      s.promptPreview = "RECORDED";
+      s.events.push({ type: "PROMPT_ASSEMBLED", at: this.clock(), promptHash: s.promptHash });
+      s.events.push({ type: "PROMPT_PREVIEW_RECORDED", at: this.clock(), promptHash: s.promptHash });
+      return s;
+    });
     return clone(s);
   }
 
@@ -143,25 +195,43 @@ export class ProductionWorkerRuntime {
     s.version++;
     s.checkpointVersion++;
     s.events.push({ type: "CHECKPOINT", at: this.clock(), checkpointVersion: s.checkpointVersion });
-    this.store.write(s);
+    const expected = this.store.read();
+    if (expected && expected.state) {
+      this.store.compareAndSwap(expected.sha, s, "runtime: execution checkpoint");
+    } else {
+      this.store.write(s);
+    }
     return clone(s);
   }
 
   resumeAfterFailure() {
-    const s = this.requireState();
-    if (s.recovery !== "RETRY_READY") throw new Error("RETRY_NOT_READY");
-    s.taskStatus = "QUEUED";
-    s.ownership = "UNCLAIMED";
-    s.workerId = "NONE";
-    s.claimId = "NONE";
-    s.version++;
-    s.events.push({ type: "NEXT_TASK_RESOLVED", at: this.clock(), action: "RETRY_SAME_TASK" });
-    this.store.write(s);
+    const s = this.mutateState((s) => {
+      if (s.recovery !== "RETRY_READY") throw new Error("RETRY_NOT_READY");
+      s.taskStatus = "QUEUED";
+      s.ownership = "UNCLAIMED";
+      s.workerId = "NONE";
+      s.claimId = "NONE";
+      s.version++;
+      s.events.push({ type: "NEXT_TASK_RESOLVED", at: this.clock(), action: "RETRY_SAME_TASK" });
+      return s;
+    });
     return clone(s);
   }
 
+  mutateState(mutator) {
+    if (typeof this.store.mutate === "function") {
+      const result = this.store.mutate(mutator);
+      return result.state ?? result;
+    }
+    const s = this.requireState();
+    const next = mutator(clone(s));
+    this.store.write(next);
+    return next;
+  }
+
   requireState() {
-    const s = this.store.read();
+    const raw = this.store.read();
+    const s = raw?.state ?? raw;
     if (!s) throw new Error("RUNTIME_STATE_MISSING");
     return s;
   }
