@@ -171,6 +171,19 @@ The stored `FINAL_EXECUTABLE_PROMPT` must be the same prompt shown to the user a
 
 If the prompt changes after preview, update the record and show the new complete prompt again before generation.
 
+## 6A. Session count vs task output count
+
+`TARGET_COUNT` / `IMAGE_COUNT` is the number of wallpaper tasks required by the production session.
+
+`EXPECTED_OUTPUT_COUNT` is the number of image candidates allowed from one individual task, normally exactly `1`.
+
+Therefore:
+- `TARGET_COUNT: 12` means twelve separate wallpaper tasks are required for the session;
+- `EXPECTED_OUTPUT_COUNT: 1` means each task must produce one candidate;
+- `OUTPUT COUNT LOCK` must never be interpreted as a one-image limit for the entire session.
+
+A prompt line such as `one image candidate only` is a per-task output lock. It must not reduce the persisted session target.
+
 ## 7. Result record
 
 After each generation attempt, record:
