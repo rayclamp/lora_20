@@ -132,7 +132,8 @@ for (const moduleName of modules) {
 }
 if (failures === 0) pass("Phase 1: Module Registry ↔ Runtime State contract is consistent");
 
-const workflow = defaultWorkflow(runtime);\nconst activeSession = activeProductionSession(runtime);
+const workflow = defaultWorkflow(runtime);
+const activeSession = activeProductionSession(runtime);
 if (!workflow.moduleName) {
   fail("Runtime SYSTEM_DEFAULT_WORKFLOW has no MODULE");
 } else if (runtimeStatus[workflow.moduleName] !== "ACTIVE") {
@@ -457,10 +458,10 @@ for (const [label, policy] of [
 if (!characterSpec.includes("It is not a visual reference") && !characterSpec.includes("must not be treated as a second visual person reference")) {
   fail("Character Specification does not explicitly preserve semantic-only reference authority");
 }
-if (/INARIA_20_MASTER_v1\\.0\\.png|MASTER_IMAGE\\//i.test(automationContract + canonicalRegistry + universalReferencePolicy + festivalReferencePolicy)) {
+if (/INARIA_20_MASTER_v1\.0\.png|MASTER_IMAGE\//i.test(automationContract + canonicalRegistry + universalReferencePolicy + festivalReferencePolicy)) {
   fail("Wallpaper Automation reference boundary leaks LoRA Master Image path");
 }
-if (/\\bMake\\b/i.test(automationContract)) {
+if (/\bMake\b/i.test(automationContract)) {
   fail("Wallpaper Automation Contract contains forbidden Make dependency");
 }
 if (failures === 0) pass("Phase 13: Wallpaper Automation scope and module-owned reference authority are enforced");
