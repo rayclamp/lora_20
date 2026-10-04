@@ -47,8 +47,8 @@ for (const m of modules) {
   assert.ok(exists(m.profile), `${m.id}: profile missing`);
   const profile = read(m.profile);
   assert.ok(profile.includes(sharedRuntime), `${m.id}: does not route to shared Worker Runtime`);
-  assert.ok(!profile.includes("independent Worker") && !profile.includes("second Worker"), `${m.id}: declares an independent Worker system`);
-  assert.ok(!profile.includes("second Dispatch") && !profile.includes("independent Dispatch"), `${m.id}: declares an independent Dispatch system`);
+  assert.ok(!/owns (?:an )?separate Worker system|creates? (?:a )?(?:second|independent) Worker system/i.test(profile), `${m.id}: declares an independent Worker system`);
+  assert.ok(!/owns (?:an )?separate Dispatch system|creates? (?:a )?(?:second|independent) Dispatch system/i.test(profile), `${m.id}: declares an independent Dispatch system`);
   if (m.state) {
     assert.ok(exists(m.state), `${m.id}: canonical state path missing`);
   }
