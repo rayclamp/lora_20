@@ -78,6 +78,11 @@ Before designing or generating, read the latest applicable:
 8. `00_MASTER/GENERATION_WORKER_PROTOCOL.md`
 9. the selected wallpaper rule file
 
+Character routing:
+- If the user explicitly requests Inaria / 依娜莉亞, load `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`.
+- If no character is explicitly requested, do not infer Inaria from the reference image.
+- The character specification is semantic character authority, not a second visual person reference.
+
 Routing:
 - `ANIME WALLPAPER` → `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
 - `REALISTIC WALLPAPER` → `00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
