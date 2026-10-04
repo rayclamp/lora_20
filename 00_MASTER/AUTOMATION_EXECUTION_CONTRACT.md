@@ -1,58 +1,143 @@
 # AUTOMATION_EXECUTION_CONTRACT.md — System Automation Contract
 
 ## Purpose
-This is the canonical contract for the system's internal Automation Engine and Automated Dispatch path.
 
-System Automation is a first-class system capability that feeds the shared Production Worker Runtime. It must not create a second production execution architecture.
+This is the canonical contract for the internal automated Wallpaper Production entry path.
 
-External automation providers are integration layers outside this contract. They may eventually connect to System Automation through an explicit adapter, but they do not define Automation, its runtime semantics, or its production authority.
+System Automation is a first-class production capability for:
+- UNIVERSAL_WALLPAPER
+- FESTIVAL_WALLPAPER
+
+It feeds the shared Production Worker Runtime. It must not create a second production execution architecture.
+
+## Automation domain boundary
+
+System Automation is a Wallpaper Production capability, not a universal controller for every module in the repository.
+
+The Automation Engine may resolve and dispatch only modules explicitly declared in the Automation Scope above.
+
+The following are outside the Automation Scope and must not be resolved, imported, or executed by this Automation contract:
+- LoRA Production
+- LoRA identity/reference assets
+- LoRA dataset, queue, goal, worker, or QA state
+- downstream QA as a production module
+- Image Delivery as a production module
+- external automation providers or provider-specific runtime state
+
+A shared Worker Runtime does not grant Automation authority over every module that happens to use that runtime.
+
+## Reference authority boundary
+
+Reference resolution is module-owned.
+
+Automation must not name, discover, or depend on a LoRA Master Image or any other LoRA-specific reference asset.
+
+For Wallpaper Production, the selected Wallpaper Module owns the applicable Character / Reference Authority. A reference may be:
+- explicitly supplied by the user;
+- resolved from the selected Wallpaper Module's canonical reference policy;
+- resolved by an approved module-specific rule.
+
+If the selected module cannot legally resolve its reference authority, execution must stop with a context/reference failure.
+
+Automation must never substitute a LoRA reference because the character name is the same.
 
 ## Required trace identity
+
 Every automated production invocation must carry or create:
 - TRACE_RUN_ID
-- AUTOMATION_RUN_ID when the automation platform exposes one
-- AUTOMATION_PLATFORM
+- AUTOMATION_RUN_ID when exposed by the runtime
+- AUTOMATION_PLATFORM when applicable
 - INPUT_PAYLOAD_HASH when hashing is supported
 - CONTRACT_VERSION
-If an automation platform does not expose a field, record NOT_OBSERVABLE; never invent a value.
+
+If a runtime field is not observable, record NOT_OBSERVABLE; never invent a value.
 
 ## Production request
-The automation request must preserve MODULE, PRODUCTION_TYPE, CHARACTER, IMAGE_COUNT / TARGET_COUNT, OUTPUT_TYPE, THEME / FESTIVAL_SCOPE, SCENE, SEASON, WEATHER, TIME, PET_ALLOWED, and REFERENCE_IMAGE.
-ASPECT_RATIO and ORIENTATION are technical fields derived by the Worker.
+
+The automation request must preserve the fields required by the selected Wallpaper Module, including:
+- MODULE
+- PRODUCTION_TYPE
+- CHARACTER
+- IMAGE_COUNT / TARGET_COUNT
+- OUTPUT_TYPE
+- THEME / FESTIVAL_SCOPE
+- SCENE
+- SEASON
+- WEATHER
+- TIME
+- PET_ALLOWED
+
+Reference information must be expressed through the selected module's reference policy. It must not contain or imply a LoRA-specific reference path.
+
+ASPECT_RATIO and ORIENTATION are technical fields derived by the Worker from the locked OUTPUT_TYPE.
 
 ## Structured design context
-When known upstream, Automation should provide ACTIVITY, LOCATION, ACTION, SOCIAL_CONTEXT, and ENVIRONMENTAL_CUES.
+
+When known upstream, Automation may provide:
+- ACTIVITY
+- LOCATION
+- ACTION
+- SOCIAL_CONTEXT
+- ENVIRONMENTAL_CUES
+
 When absent, the Worker must invoke the Scene Intent Resolution Protocol rather than silently guessing during prompt assembly.
 
 ## Context provenance
-Design-critical fields should carry provenance: AUTOMATION_INPUT, USER_INPUT, WORKER_RESOLVED, RULE_DEFAULT, or NOT_OBSERVABLE.
+
+Design-critical fields should carry provenance:
+- AUTOMATION_INPUT
+- USER_INPUT
+- WORKER_RESOLVED
+- RULE_DEFAULT
+- NOT_OBSERVABLE
 
 ## Rule loading
-The automated Worker must resolve rules through the Canonical Path Registry. A missing canonical rule is a context-load failure and blocks execution.
-The Worker must not silently fall back to an obsolete path, copied rule, or conversational memory.
+
+The automated Worker must resolve rules through the Canonical Path Registry.
+
+A missing canonical rule is a context-load failure and blocks execution.
+
+The Worker must not silently fall back to an obsolete path, copied rule, LoRA-specific rule, or conversational memory.
 
 ## Required execution trace
-The automated path should record these ordered events when observable:
+
+The automated Wallpaper path should record these ordered events when observable:
 1. AUTOMATION_REQUEST_RECEIVED
 2. CONTEXT_LOADED
-3. REFERENCE_RESOLVED
-4. SCENE_INTENT_RESOLVED
-5. PRESENTATION_DESIGNED
-6. DESIGN_VALIDATED
-7. PROMPT_ASSEMBLED
-8. PROMPT_PREVIEW_RECORDED
-9. GENERATION_EXECUTION
-10. GENERATION_RESULT
-11. CHECKPOINT
-12. NEXT_TASK_RESOLVED / SESSION_TERMINATED
+3. MODULE_RESOLVED
+4. REFERENCE_AUTHORITY_RESOLVED
+5. SCENE_INTENT_RESOLVED
+6. PRESENTATION_DESIGNED
+7. DESIGN_VALIDATED
+8. PROMPT_ASSEMBLED
+9. PROMPT_PREVIEW_RECORDED
+10. GENERATION_EXECUTION
+11. GENERATION_RESULT
+12. CHECKPOINT
+13. NEXT_TASK_RESOLVED / SESSION_TERMINATED
 
 ## Prompt integrity
+
 For automated dispatch, Prompt Preview may be satisfied by a persisted audit/event record when the selected automated contract permits non-interactive execution.
-The exact locked prompt must be associated with the execution event when the platform exposes it. If it does not, record EXECUTION_VERIFICATION_STATUS: NOT_OBSERVABLE.
+
+The exact locked prompt must be associated with the execution event when observable. If it is not observable, record EXECUTION_VERIFICATION_STATUS: NOT_OBSERVABLE.
 
 ## No false observability
-Never invent automation run IDs, execution IDs, prompt hashes, platform quota errors, or executed prompt payloads.
+
+Never invent automation run IDs, execution IDs, prompt hashes, executed prompt payloads, provider telemetry, or quota errors.
 
 ## Manual/Automated equivalence
-MANUAL and AUTOMATED must converge at DISPATCH → SHARED WORKER RUNTIME → MODULE.
-Automation may change triggering and audit mechanics. It may not bypass module routing, reference authority, Scene Intent Resolution, design validation, format lock, prompt integrity, result semantics, checkpointing, or continuation/termination rules.
+
+MANUAL and AUTOMATED must converge at:
+
+DISPATCH → SHARED WORKER RUNTIME → SELECTED WALLPAPER MODULE
+
+Automation may change triggering and audit mechanics. It may not bypass module routing, module-owned reference authority, Scene Intent Resolution, design validation, format lock, prompt integrity, result semantics, checkpointing, or continuation/termination rules.
+
+## External integration boundary
+
+External automation services are optional integration adapters outside this contract.
+
+They are not required for System Automation, do not define its runtime semantics, and do not own production authority.
+
+No external provider-specific knowledge belongs in the System Automation execution path.
