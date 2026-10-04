@@ -60,9 +60,20 @@ The Inaria specification is the canonical character-semantic authority for Inari
 
 If a user-supplied person image exists, that image remains the sole visual person reference for the current task. The Inaria specification supplies stable character constraints and defaults, while the uploaded image supplies visual person evidence.
 
-For an Inaria task, preserve the character identity anchors defined by the Inaria specification while independently redesigning presentation according to the current task.
+For an Inaria task with a supplied person reference, preserve the actual visual identity established by that reference while using the Inaria specification primarily for contextual character design. Independently redesign presentation according to the current task. If no person reference exists, the canonical Inaria identity anchors may be used as the fallback visual baseline.
 
 If the user does not explicitly request Inaria, do not silently apply the Inaria character specification.
+
+### Context-first rule for referenced realistic Inaria
+
+When the user says the supplied image is the realistic Inaria person and asks to design according to Inaria's basic information:
+
+- Use the supplied image as the sole visual identity authority.
+- Use the Inaria specification's contextual character data to inform the design: occupation, work context, default world/location, lifestyle, habits, interests, likes, dislikes, personality, preferred environments, and relevant pet/lifestyle context.
+- Do NOT use Inaria's canonical height, weight, BMI, measurements, canonical face/eye/hair/skin/body descriptions, or original outfit to reconstruct the person in the reference image.
+- Those visual/body fields are fallback identity data only when no task-specific person reference is supplied.
+- Do not silently normalize the reference person toward the GitHub Inaria baseline merely because the task is labeled Inaria.
+
 
 ## 3. Identity anchors vs. presentation variables
 Identity must remain stable while presentation may vary.
