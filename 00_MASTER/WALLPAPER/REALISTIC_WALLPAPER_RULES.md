@@ -198,6 +198,10 @@ Do not reuse the reference pose simply because the reference is the easiest stab
 
 Pose variation must still preserve the same underlying body proportions and center of gravity.
 
+## 7B. Facial expression
+
+Facial expression is a first-class presentation variable. Design the expression explicitly for the scene and action; do not automatically inherit the reference expression.
+
 ## 8. Human pose
 Prioritize natural human posture and believable physical support.
 Check shoulder/torso alignment, spinal curve, pelvis orientation, knee direction, foot placement, center of gravity, and contact with support surfaces.
