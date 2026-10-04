@@ -212,7 +212,7 @@ Only confirmed SUCCESS counts as generation-complete.
 
 Extra outputs do not create extra tasks.
 
-**ONE TASK = ONE IMAGE DESIGN = ONE EXECUTABLE PROMPT = ONE GENERATION EVENT**
+**ONE TASK = ONE IMAGE DESIGN = ONE TARGET SUCCESSFUL OUTPUT; EACH GENERATION ATTEMPT IS A SEPARATE BOUNDED GENERATION EVENT**
 
 ## 9. Architecture boundary
 
