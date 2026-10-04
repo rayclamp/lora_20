@@ -208,46 +208,55 @@ export class ProductionWorkerRuntime {
   }
 
   execute() {
-    const s = this.requireState();
-    if (s.taskStatus !== "CLAIMED" || !s.lockedPrompt) throw new Error("EXECUTION_NOT_READY");
+    const snapshot = this.store.read();
+    const s = snapshot?.state ?? snapshot;
+    if (!s) throw new Error("RUNTIME_STATE_MISSING");
+    if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED" || s.workerId !== this.workerId || !s.claimId) {
+      throw new Error("EXECUTION_OWNERSHIP_REQUIRED");
+    }
+    if (!s.lockedPrompt) throw new Error("EXECUTION_NOT_READY");
     if (s.attemptCount >= s.maxAttempts) throw new Error("MAX_ATTEMPTS_REACHED");
-    s.events.push({ type: "GENERATION_EXECUTION", at: this.clock(), attempt: s.attemptCount + 1 });
-    const result = this.generator.generate({ prompt: s.lockedPrompt, outputType: s.outputType });
-    s.attemptCount++;
-    s.result = result.result;
-    s.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification });
+
+    const claimId = s.claimId;
+    const expectedSha = snapshot?.sha;
+    const next = clone(s);
+    next.events.push({ type: "GENERATION_EXECUTION", at: this.clock(), attempt: next.attemptCount + 1, claimId });
+    const result = this.generator.generate({ prompt: next.lockedPrompt, outputType: next.outputType });
+    next.attemptCount++;
+    next.result = result.result;
+    next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification });
 
     if (result.result === "SUCCESS") {
-      s.taskStatus = "SUCCESS";
-      s.ownership = "TERMINAL";
-      s.workerId = "NONE";
-      s.claimId = "NONE";
-      s.recovery = "TERMINAL_SUCCESS";
-      s.consecutiveFailures = 0;
+      next.taskStatus = "SUCCESS";
+      next.ownership = "TERMINAL";
+      next.workerId = "NONE";
+      next.claimId = "NONE";
+      next.recovery = "TERMINAL_SUCCESS";
+      next.consecutiveFailures = 0;
     } else if (result.result === "UNKNOWN") {
-      s.taskStatus = "UNKNOWN / RECOVERY_REQUIRED";
-      s.ownership = "RELEASED";
-      s.workerId = "NONE";
-      s.claimId = "NONE";
-      s.recovery = "RECOVERY_REQUIRED";
+      next.taskStatus = "UNKNOWN / RECOVERY_REQUIRED";
+      next.ownership = "RELEASED";
+      next.workerId = "NONE";
+      next.claimId = "NONE";
+      next.recovery = "RECOVERY_REQUIRED";
     } else {
-      s.taskStatus = s.attemptCount >= s.maxAttempts ? "FAILED / RECOVERY_REQUIRED" : "FAILED";
-      s.recovery = s.attemptCount >= s.maxAttempts ? "RECOVERY_REQUIRED" : "RETRY_READY";
-      s.consecutiveFailures++;
-      s.ownership = "RELEASED";
-      s.workerId = "NONE";
-      s.claimId = "NONE";
+      next.taskStatus = next.attemptCount >= next.maxAttempts ? "FAILED / RECOVERY_REQUIRED" : "FAILED";
+      next.recovery = next.attemptCount >= next.maxAttempts ? "RECOVERY_REQUIRED" : "RETRY_READY";
+      next.consecutiveFailures++;
+      next.ownership = "RELEASED";
+      next.workerId = "NONE";
+      next.claimId = "NONE";
     }
-    s.version++;
-    s.checkpointVersion++;
-    s.events.push({ type: "CHECKPOINT", at: this.clock(), checkpointVersion: s.checkpointVersion });
-    const expected = this.store.read();
-    if (expected && expected.state) {
-      this.store.compareAndSwap(expected.sha, s, "runtime: execution checkpoint");
+    next.version++;
+    next.checkpointVersion++;
+    next.events.push({ type: "CHECKPOINT", at: this.clock(), checkpointVersion: next.checkpointVersion });
+
+    if (expectedSha && typeof this.store.compareAndSwap === "function") {
+      this.store.compareAndSwap(expectedSha, next, "runtime: execution checkpoint");
     } else {
-      this.store.write(s);
+      this.store.write(next);
     }
-    return clone(s);
+    return clone(next);
   }
 
   resumeAfterFailure() {
