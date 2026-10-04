@@ -69,6 +69,7 @@ runtime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", {
     },
   },
 });
+runtime.authorizeAutomatedGeneration();
 
 assert.throws(() => runtime.execute(), /STALE_SHA_REJECTED/);
 
