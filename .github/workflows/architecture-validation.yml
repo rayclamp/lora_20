@@ -51,3 +51,6 @@ jobs:
 
       - name: Run Worker Runtime canonical context gate probe
         run: node scripts/test_runtime_context_gates.mjs
+
+      - name: Run Worker Runtime execution CAS probe
+        run: node scripts/test_runtime_execution_cas.mjs
