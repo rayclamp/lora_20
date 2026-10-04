@@ -84,7 +84,8 @@ export class CanonicalContextResolver {
         id: normalize(supplied.id) || "NOT_OBSERVABLE",
         provenance: normalize(supplied.provenance) || "NOT_OBSERVABLE",
         verification: "BLOCKED",
-        policyPath: context.policyPath
+        policyPath: context.policyPath,
+        sceneProtocolPath: context.sceneProtocolPath
       };
     }
 
