@@ -14,11 +14,13 @@ The user explicitly starts a Worker session. The Worker reads the current GitHub
 
 ### AUTOMATED
 
-`USER → AUTOMATION / MAKE → OPENAI WORKER → SHARED WORKER RUNTIME`
+`AUTOMATION ENGINE → PRODUCTION DISPATCH → SHARED WORKER RUNTIME`
 
-Automated Dispatch starts or coordinates Workers using the same production batch, task, Claim/Lease/CAS, generation, and recording contracts.
+System Automation is a first-class internal execution capability. It starts or coordinates Workers using the same production batch, task, Claim/Lease/CAS, generation, and recording contracts as Manual Dispatch.
 
-Automated Dispatch is an additional entry point. It must not create a second task authority, hidden queue, or duplicate Worker protocol.
+Automated Dispatch is an additional entry point into the shared production core. It must not create a second task authority, hidden queue, or duplicate Worker protocol.
+
+External automation providers are integrations to System Automation, not the definition of System Automation. A provider such as Make may later supply an integration adapter, but the provider must not become the production architecture or bypass this dispatch boundary.
 
 ## Dispatch must not
 
