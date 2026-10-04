@@ -61,7 +61,7 @@ The automation request must preserve the fields required by the selected Wallpap
 - TIME
 - PET_ALLOWED
 
-Reference information must be expressed through the selected module's reference policy. It must not contain or imply a LoRA-specific reference path.
+Reference information must be expressed only through the selected module's reference policy. It must not contain a path owned by an unrelated domain.
 
 ASPECT_RATIO and ORIENTATION are technical fields derived by the Worker from the locked OUTPUT_TYPE.
 
