@@ -16,13 +16,7 @@ System Automation is a Wallpaper Production capability, not a universal controll
 
 The Automation Engine may resolve and dispatch only modules explicitly declared in the Automation Scope above.
 
-The following are outside the Automation Scope and must not be resolved, imported, or executed by this Automation contract:
-- LoRA Production
-- LoRA identity/reference assets
-- LoRA dataset, queue, goal, worker, or QA state
-- downstream QA as a production module
-- Image Delivery as a production module
-- external automation providers or provider-specific runtime state
+Any module, data domain, reference authority, state authority, QA flow, delivery flow, or integration not explicitly listed in the Automation Scope is outside this contract and must not be resolved, imported, or executed by the Automation Engine.
 
 A shared Worker Runtime does not grant Automation authority over every module that happens to use that runtime.
 
@@ -30,7 +24,7 @@ A shared Worker Runtime does not grant Automation authority over every module th
 
 Reference resolution is module-owned.
 
-Automation must not name, discover, or depend on a LoRA Master Image or any other LoRA-specific reference asset.
+Automation must not name, discover, or depend on a reference asset owned by an unrelated production domain.
 
 For Wallpaper Production, the selected Wallpaper Module owns the applicable Character / Reference Authority. A reference may be:
 - explicitly supplied by the user;
@@ -39,7 +33,7 @@ For Wallpaper Production, the selected Wallpaper Module owns the applicable Char
 
 If the selected module cannot legally resolve its reference authority, execution must stop with a context/reference failure.
 
-Automation must never substitute a LoRA reference because the character name is the same.
+Automation must never substitute another domain's reference because the character name is the same.
 
 ## Required trace identity
 
@@ -97,7 +91,7 @@ The automated Worker must resolve rules through the Canonical Path Registry.
 
 A missing canonical rule is a context-load failure and blocks execution.
 
-The Worker must not silently fall back to an obsolete path, copied rule, LoRA-specific rule, or conversational memory.
+The Worker must not silently fall back to an obsolete path, copied rule from another domain, or conversational memory.
 
 ## Required execution trace
 
