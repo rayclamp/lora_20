@@ -48,6 +48,7 @@ COMPLETED_COUNT: ${task.completed}
 CURRENT_TASK_ID: TASK-01
 SESSION_STATUS: ${task.sessionStatus}
 STOP_REASON: ${task.stopReason}
+TERMINATION_STATUS: ${task.terminationStatus ?? "NONE"}
 LAST_RESULT: ${task.result}
 CHECKPOINT: RECORDED
 
