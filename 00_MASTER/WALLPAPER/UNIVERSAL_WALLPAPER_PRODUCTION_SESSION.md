@@ -14,9 +14,31 @@ GitHub remains the persistent Source of Truth. ChatGPT is the execution Worker f
 
 One task represents one intended image generation.
 
-## 2. Session state
+## 2. Session Contract and state
 
-The Session Contract defines the logical state; it does not create a separate runtime database. The canonical persistent record is `MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/<BATCH_ID>.md`. Track session state there.
+The Session Contract is the user-defined production contract created by START. It is not optional metadata and must be persisted in the canonical batch record before execution.
+
+The canonical persistent record is `MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/<BATCH_ID>.md`. Track the Session Contract and runtime state there.
+
+Required Session Contract fields:
+- MODULE
+- PRODUCTION_TYPE
+- CHARACTER
+- TARGET_COUNT / IMAGE_COUNT
+- OUTPUT_TYPE
+- resolved ASPECT_RATIO
+- resolved ORIENTATION
+- THEME / FESTIVAL_SCOPE
+- SCENE
+- SEASON
+- WEATHER
+- TIME
+- PET_ALLOWED
+- REFERENCE_IMAGE authority/status
+
+`OUTPUT_TYPE` is the user-facing choice. `ASPECT_RATIO` and `ORIENTATION` are derived technical locks, not duplicate user inputs.
+
+When CHARACTER is INARIA, the batch must explicitly record that the Inaria Character Specification is semantic/context authority and that a supplied reference image is the sole visual person reference.
 
 - SESSION_ID
 - BATCH_ID
