@@ -34,6 +34,7 @@ The Worker Runtime owns:
 - SUCCESS / FAILED / UNKNOWN handling;
 - recovery gates;
 - common prompt-execution contract;
+- prompt execution event/telemetry contract;
 - common generation recording;
 - continuation / stop conditions.
 
@@ -76,6 +77,8 @@ MANUAL dispatch requires the executable prompt to be shown to the user before ge
 AUTOMATED dispatch may satisfy the preview requirement through an automation audit/event record instead of an interactive user display, if the selected automated contract explicitly permits that behavior.
 
 A Worker must never generate from a silently changed prompt.
+
+Prompt Preview and Prompt Execution are separate controls. Preview proves what was shown; it does not by itself prove what the generation operation received. When the runtime exposes execution telemetry, the Worker must record the execution event and verify prompt correspondence. When telemetry is not exposed, record `EXECUTION_VERIFICATION_STATUS: NOT_OBSERVABLE` rather than inventing evidence.
 
 ## Generation result
 
@@ -125,6 +128,32 @@ For an ACTIVE batch:
 Therefore:
 
 `SUCCESS + REMAINING_TASKS + ACTIVE = NEXT_TASK_REQUIRED`
+
+Execution-turn boundary rule:
+
+If the generation environment ends the current Worker execution before another generation event can be invoked, the Worker MUST persist an explicit resumable state before control returns. An ACTIVE incomplete batch must never disappear into an unrecorded endpoint.
+
+The valid outcomes after a generation event are:
+- continue to the next task in the same execution when supported;
+- persist an explicit paused/resumable boundary state;
+- persist FAILED/UNKNOWN/recovery state;
+- persist a verified platform stop;
+- complete the batch.
+
+The Worker must not reinterpret a normal assistant-turn boundary as quota exhaustion, generation failure, or completion.
+
+## Mandatory prompt-execution gate
+
+For every generation event, the final executable prompt must be locked before invocation.
+
+The runtime must track, when supported:
+- `PROMPT_EXECUTION_STATUS`;
+- `EXECUTED_PROMPT_REFERENCE`;
+- `EXECUTION_VERIFICATION_STATUS`.
+
+A preview event is not execution proof. If the platform exposes no executed-prompt telemetry, `NOT_OBSERVABLE` is the correct value. Never fabricate a hash, request ID, or executed payload.
+
+An observable prompt mismatch is an execution-integrity failure and must not be recorded as normal SUCCESS.
 
 ## Mandatory prompt-preview gate
 
