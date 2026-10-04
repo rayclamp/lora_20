@@ -64,6 +64,7 @@ const required = [
   "00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md",
   "00_MASTER/WALLPAPER/WALLPAPER_TASK_INTEGRITY.md",
   "00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md",
+  "00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_CONCURRENCY_PROTOCOL.md",
   "00_MASTER/QA_MODULE.md",
   "00_MASTER/QA_PROTOCOL.md",
   "00_MASTER/IMAGE_DELIVERY_MODULE.md",
@@ -277,6 +278,7 @@ if (failures === 0) pass("Phase 8: QA activation contract is structurally presen
 
 const taskIntegrity = read("00_MASTER/WALLPAPER/WALLPAPER_TASK_INTEGRITY.md");
 const failureRecovery = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md");
+const concurrency = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_CONCURRENCY_PROTOCOL.md");
 for (const token of [
   "DESIGN_LOCK", "IMAGE_ID LOCK", "FORMAT_LOCK", "EXPECTED_OUTPUT_COUNT",
   "OUTPUT_COUNT_MISMATCH", "INVALID_IMAGE_ID", "UNKNOWN / RECOVERY_REQUIRED"
@@ -294,6 +296,16 @@ for (const token of [
   if (!failureRecovery.includes(token)) fail("Failure/recovery contract missing: " + token);
 }
 if (failures === 0) pass("Phase 9A: Wallpaper failure/recovery contract is present");
+for (const token of [
+  "Claim atomicity",
+  "Exactly one Worker may own a non-terminal task at a time",
+  "LEASE_EXPIRES_AT",
+  "STALE_WRITE_REJECTED",
+  "SUCCESS is terminal"
+]) {
+  if (!concurrency.includes(token)) fail("Concurrency contract missing: " + token);
+}
+if (failures === 0) pass("Phase 10A: Wallpaper concurrency contract is present");
 
 const worker = read("00_MASTER/GENERATION_WORKER_PROTOCOL.md");
 for (const token of [
