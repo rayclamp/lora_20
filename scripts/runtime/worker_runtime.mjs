@@ -48,6 +48,19 @@ export class GitHubContentsStateStore {
     throw new Error("CAS_REQUIRED");
   }
 
+  create(state, message = "runtime: create task state") {
+    const payload = Buffer.from(JSON.stringify(state, null, 2) + "\n", "utf8").toString("base64");
+    const result = this.client.updateContents({
+      owner: this.owner,
+      repo: this.repo,
+      path: this.filePath,
+      branch: this.branch,
+      content: payload,
+      message
+    });
+    return { state: clone(state), sha: result.content.sha ?? result.sha };
+  }
+
   compareAndSwap(expectedSha, state, message = "runtime: checkpoint state") {
     const payload = Buffer.from(JSON.stringify(state, null, 2) + "\n", "utf8").toString("base64");
     const result = this.client.updateContents({
@@ -123,7 +136,8 @@ export class ProductionWorkerRuntime {
       checkpointVersion: 0,
       events: [{ type: "AUTOMATION_REQUEST_RECEIVED", at: this.clock(), traceRunId: input.traceRunId ?? "GENERATED" }]
     };
-    this.store.write(state);
+    if (typeof this.store.create === "function") this.store.create(state, "runtime: create task state");
+    else this.store.write(state);
     return clone(state);
   }
 
