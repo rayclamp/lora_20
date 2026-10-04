@@ -108,6 +108,15 @@ In this mode:
 
 Do not require Claim/Lease/CAS merely because the generic Worker protocol mentions queue mode.
 
+
+### Queue-mode concurrency gate
+
+Queue-mode Workers MUST follow `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_CONCURRENCY_PROTOCOL.md`.
+
+Before generation, the Worker must hold the current claim, claim ID, lease, state version, and authoritative batch SHA. A failed conditional update is a stale-state conflict, not permission to force-write.
+
+A Worker that loses ownership MUST NOT generate, release, or overwrite the task. SUCCESS is terminal and cannot be claimed again. UNKNOWN is never resolved by lease expiry alone.
+
 ### 7B. Queue mode
 
 When Universal Wallpaper uses a queue:
