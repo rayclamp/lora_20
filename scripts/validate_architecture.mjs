@@ -65,6 +65,7 @@ const required = [
   "00_MASTER/WALLPAPER/WALLPAPER_TASK_INTEGRITY.md",
   "00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md",
   "00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_CONCURRENCY_PROTOCOL.md",
+  "00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL.md",
   "00_MASTER/QA_MODULE.md",
   "00_MASTER/QA_PROTOCOL.md",
   "00_MASTER/IMAGE_DELIVERY_MODULE.md",
@@ -307,6 +308,19 @@ for (const token of [
 }
 if (failures === 0) pass("Phase 10A: Wallpaper concurrency contract is present");
 
+const workerPool = read("00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL.md");
+for (const token of [
+  "Canonical source of work",
+  "Selection policy",
+  "one claim per scheduling cycle",
+  "Fairness and starvation",
+  "No-work condition",
+  "Scheduling is advisory. Ownership is authoritative."
+]) {
+  if (!workerPool.includes(token)) fail("Worker Pool contract missing: " + token);
+}
+if (failures === 0) pass("Phase 10B: Worker Pool / Scheduler contract is present");
+
 const worker = read("00_MASTER/GENERATION_WORKER_PROTOCOL.md");
 for (const token of [
   "claim one valid QUEUED task atomically using the selected module's canonical Claim/Lease/Concurrency protocol", "verify ownership",
@@ -339,7 +353,8 @@ const boundaryChecks = [
   ["QA source-module boundary", /QA must select criteria from SOURCE_MODULE/i],
   ["QA production boundary", /Production Workers do not cross into QA/i],
   ["Delivery generation boundary", /Image generation is not performed here/i],
-  ["Generic Worker module isolation", /Do not import another module's rules/i]
+  ["Generic Worker module isolation", /Do not import another module's rules/i],
+  ["Universal Worker Pool routing", /UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL\\.md/i]
 ];
 
 for (const [label, pattern] of boundaryChecks) {
