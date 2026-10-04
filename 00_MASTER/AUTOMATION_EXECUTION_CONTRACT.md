@@ -22,18 +22,23 @@ A shared Worker Runtime does not grant Automation authority over every module th
 
 ## Reference authority boundary
 
-Reference resolution is module-owned.
+Reference resolution is **module-owned and policy-driven**.
+
+The Automation Engine must resolve the selected module's canonical Reference Policy before resolving any visual person reference.
+
+For Wallpaper Production:
+- UNIVERSAL_WALLPAPER owns `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md`.
+- FESTIVAL_WALLPAPER owns `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md`.
+
+The selected module's Reference Policy is the only authority that may declare an allowed visual reference source.
+
+The Inaria Character Specification at `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` is a character-semantic authority. It is **not** a visual reference authority.
 
 Automation must not name, discover, or depend on a reference asset owned by an unrelated production domain.
 
-For Wallpaper Production, the selected Wallpaper Module owns the applicable Character / Reference Authority. A reference may be:
-- explicitly supplied by the user;
-- resolved from the selected Wallpaper Module's canonical reference policy;
-- resolved by an approved module-specific rule.
+Automation must never substitute another domain's reference because the character name is the same.
 
 If the selected module cannot legally resolve its reference authority, execution must stop with a context/reference failure.
-
-Automation must never substitute another domain's reference because the character name is the same.
 
 ## Required trace identity
 
@@ -61,7 +66,7 @@ The automation request must preserve the fields required by the selected Wallpap
 - TIME
 - PET_ALLOWED
 
-Reference information must be expressed only through the selected module's reference policy. It must not contain a path owned by an unrelated domain.
+Reference information must be expressed only through the selected module's Reference Policy. A request must not contain or inject a path owned by an unrelated domain.
 
 ASPECT_RATIO and ORIENTATION are technical fields derived by the Worker from the locked OUTPUT_TYPE.
 
@@ -85,6 +90,8 @@ Design-critical fields should carry provenance:
 - RULE_DEFAULT
 - NOT_OBSERVABLE
 
+Reference provenance must additionally identify the module-owned Reference Policy resolution state.
+
 ## Rule loading
 
 The automated Worker must resolve rules through the Canonical Path Registry.
@@ -99,16 +106,17 @@ The automated Wallpaper path should record these ordered events when observable:
 1. AUTOMATION_REQUEST_RECEIVED
 2. CONTEXT_LOADED
 3. MODULE_RESOLVED
-4. REFERENCE_AUTHORITY_RESOLVED
-5. SCENE_INTENT_RESOLVED
-6. PRESENTATION_DESIGNED
-7. DESIGN_VALIDATED
-8. PROMPT_ASSEMBLED
-9. PROMPT_PREVIEW_RECORDED
-10. GENERATION_EXECUTION
-11. GENERATION_RESULT
-12. CHECKPOINT
-13. NEXT_TASK_RESOLVED / SESSION_TERMINATED
+4. REFERENCE_POLICY_LOADED
+5. REFERENCE_AUTHORITY_RESOLVED
+6. SCENE_INTENT_RESOLVED
+7. PRESENTATION_DESIGNED
+8. DESIGN_VALIDATED
+9. PROMPT_ASSEMBLED
+10. PROMPT_PREVIEW_RECORDED
+11. GENERATION_EXECUTION
+12. GENERATION_RESULT
+13. CHECKPOINT
+14. NEXT_TASK_RESOLVED / SESSION_TERMINATED
 
 ## Prompt integrity
 
@@ -126,7 +134,7 @@ MANUAL and AUTOMATED must converge at:
 
 DISPATCH → SHARED WORKER RUNTIME → SELECTED WALLPAPER MODULE
 
-Automation may change triggering and audit mechanics. It may not bypass module routing, module-owned reference authority, Scene Intent Resolution, design validation, format lock, prompt integrity, result semantics, checkpointing, or continuation/termination rules.
+Automation may change triggering and audit mechanics. It may not bypass module routing, module-owned Reference Policy, Scene Intent Resolution, design validation, format lock, prompt integrity, result semantics, checkpointing, or continuation/termination rules.
 
 ## External integration boundary
 
