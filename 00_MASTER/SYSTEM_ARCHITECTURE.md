@@ -67,3 +67,12 @@ Do not preserve alternate operational specifications inside the current tree. If
 START_HERE → SYSTEM_ARCHITECTURE → MODULE_REGISTRY → RUNTIME_STATE → AUTHORITY_MATRIX → SELECTED MODULE → MODULE STATE
 
 Never reconstruct current state from previous conversations.
+
+
+## Automation and scene-resolution hardening
+
+Automated Dispatch is governed by 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md. Canonical production rule paths are governed by 00_MASTER/CANONICAL_PATH_REGISTRY.md.
+
+A Theme is not an executable Scene Intent. Before DESIGN_LOCK, production tasks must pass 00_MASTER/WALLPAPER/SCENE_INTENT_RESOLUTION_PROTOCOL.md and record the provenance of resolved scene fields.
+
+Automation, manual execution, and future integrations converge on the same Shared Worker Runtime. Legacy departmental automation is non-authoritative until migrated under the current contract.
