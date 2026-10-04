@@ -63,7 +63,7 @@ GitHub must not invent or predict a remaining platform quota.
 
 A quota/rate-limit/generation-unavailable stop is valid only when explicit platform evidence exists. Worker inference or expectation is not evidence. If evidence is absent and availability is uncertain, record UNKNOWN / RECOVERY_REQUIRED rather than claiming a quota stop.
 
-## 3. Prompt Preview Gate
+## 3. Prompt Preview and Execution Integrity Gate
 
 Before generating each image, the Worker MUST show the complete executable prompt to the user.
 
@@ -73,14 +73,27 @@ Required order:
 2. design image;
 3. perform stability check;
 4. finalize executable prompt;
-5. **show prompt to user**;
-6. generate image;
-7. confirm result;
-8. record result;
-9. checkpoint;
-10. continue only when safe.
+5. lock the final prompt;
+6. **show prompt to user**;
+7. invoke generation using that locked prompt;
+8. record the generation execution event/status;
+9. confirm result;
+10. record result;
+11. checkpoint;
+12. continue only when safe.
 
-The shown prompt must be the prompt actually used for the current task.
+The shown prompt must be the exact prompt intended for the current generation event.
+
+Prompt preview is NOT proof of prompt execution. The task record must separately track:
+- `PROMPT_EXECUTION_STATUS`;
+- `EXECUTED_PROMPT_REFERENCE`;
+- `EXECUTION_VERIFICATION_STATUS`.
+
+If the runtime exposes an execution/request identifier or executed-prompt payload, record it. If the platform does not expose this information, record `NOT_OBSERVABLE`; never fabricate execution evidence.
+
+If the prompt changes after preview, the previous preview/execution lock is invalid. Update `FINAL_EXECUTABLE_PROMPT`, show the complete replacement prompt again, and create a new execution event.
+
+A prompt execution mismatch or unresolvable execution identity is an execution-integrity issue, not a successful generation.
 
 ## 4. Per-image result
 
@@ -104,6 +117,32 @@ The canonical persistent record is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WAL
 Checkpoint information is authoritative only when written to that authorized batch record. The Session Contract does not authorize changing `RUNTIME_STATE` directly or creating another persistence layer.
 
 If the batch record does not yet exist, it must be created before a multi-image session claims persistent resumability. Until then, conversation memory is not a persistent recovery source.
+
+## 6. Continuation and turn boundary
+
+After confirmed SUCCESS:
+
+`CHECKPOINT → RESOLVE NEXT VALID TASK`
+
+If the execution environment permits another generation event in the same worker execution, continue with the next task.
+
+If the image-generation operation ends the current assistant execution before another generation can be invoked, the Worker MUST NOT silently terminate an ACTIVE incomplete session. Instead it must persist an explicit resumable state.
+
+The persisted record must include:
+- `CURRENT_TASK_ID` for the next unresolved task;
+- `COMPLETED_COUNT`;
+- `LAST_RESULT`;
+- `CHECKPOINT`;
+- the full Session Contract;
+- the reason/evidence for the execution boundary.
+
+A subsequent RESUME must restore the batch record and continue from the next authoritative task. It must never treat an assistant-turn boundary as quota exhaustion or generation failure.
+
+There must be no silent endpoint:
+
+`ACTIVE + COMPLETED_COUNT < TARGET_COUNT` must resolve to either another executable task event or an explicitly persisted resumable/stop/recovery state with a reason.
+
+The session continues across explicit RESUME operations until the target is completed, the user stops it, a verified platform stop occurs, generation becomes unavailable, UNKNOWN/recovery occurs, or an execution-critical conflict occurs.
 
 ## 6. Continuation
 
@@ -147,6 +186,18 @@ The following are hard gates, not advisory instructions:
 5. After SUCCESS, the next authoritative task must be resolved when the batch remains incomplete.
 
 A worker must never treat the existence of a field such as `PROMPT_PREVIEW_STATUS: SHOWN` as a substitute for performing the corresponding action.
+
+## 7C. Silent termination prohibition
+
+A Worker must never finish an execution with no recorded state transition after a generated candidate.
+
+After every generation attempt, one of the following must be observable in the authoritative record:
+- `SUCCESS` + checkpoint + next-task resolution;
+- `FAILED` + recovery/checkpoint;
+- `UNKNOWN / RECOVERY_REQUIRED` + stop/checkpoint;
+- explicit execution/turn boundary state + resumable checkpoint.
+
+Silence is not a valid state.
 
 ## 8. Count integrity
 
