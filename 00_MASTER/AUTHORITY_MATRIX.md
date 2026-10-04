@@ -8,12 +8,15 @@
 | Information ownership | 00_MASTER/AUTHORITY_MATRIX.md |
 | Shared drawing/anatomy | 00_MASTER/DRAWING_INSTRUCTIONS.md + 00_MASTER/ANATOMY_STABILITY.md |
 | Generation-result safety | 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md |
-| Wallpaper rules | 00_MASTER/WALLPAPER/ |\n| Universal Wallpaper persistent batch/task records | MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/ + 00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md |
+| Wallpaper rules | 00_MASTER/WALLPAPER/ |
+| Universal Wallpaper persistent batch/task records | MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/ + 00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md |
 | Festival cultural data | FESTIVAL_COSTUME_DATABASE/ |
+| Festival Wallpaper execution protocol | 00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md |
 | LoRA behavior | MODULES/LORA_PRODUCTION/MODULE.md |
 | LoRA identity/reference | MODULES/LORA_PRODUCTION/IDENTITY/ |
 | LoRA dataset rules | MODULES/LORA_PRODUCTION/DATASET/ |
 | LoRA production state | MODULES/LORA_PRODUCTION/PRODUCTION/ |
+| LoRA batch state | MODULES/LORA_PRODUCTION/BATCHES/ |
 | LoRA QA profile | MODULES/LORA_PRODUCTION/QA/ |
 | QA platform behavior | 00_MASTER/QA_MODULE.md + 00_MASTER/QA_PROTOCOL.md |
 | Image Delivery | 00_MASTER/IMAGE_DELIVERY_MODULE.md |
@@ -26,3 +29,6 @@ Lower layers cannot activate or override higher layers.
 
 ## Current-system-only
 The current repository contains one operational specification set. Workers must not search for alternate project versions or superseded rules.
+
+## Canonical ownership invariant
+Every ACTIVE module must have an actual module-owned canonical state location when its protocol declares persistent state. Authority documents must never point to a path that does not exist.
