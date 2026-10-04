@@ -22,6 +22,8 @@ Automated Dispatch is an additional entry point into the shared production core.
 
 Automated Dispatch may resolve only modules declared eligible by the System Automation Contract and Module Registry.
 
+Before reference resolution, Automated Dispatch must ensure the selected Wallpaper Module's canonical Reference Policy has been loaded. Dispatch must never resolve a visual reference itself or substitute a reference from another module.
+
 ## Dispatch must not
 
 - activate a PAUSED module;
