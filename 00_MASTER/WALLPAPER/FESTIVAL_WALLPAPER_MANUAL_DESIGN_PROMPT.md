@@ -61,7 +61,7 @@ Valid `OUTPUT_TYPE` values:
 - `DESKTOP_WALLPAPER`
 - `PHONE_WALLPAPER`
 
-`ASPECT_RATIO` and `ORIENTATION` are technical lock fields derived from `OUTPUT_TYPE`; they are not independent user-facing inputs.
+`ASPECT_RATIO` and `ORIENTATION` are technical lock fields derived from `OUTPUT_TYPE`. ASPECT_RATIO 與 ORIENTATION 是技術鎖定欄位。 they are not independent user-facing inputs.
 
 Derivation:
 - `DESKTOP_WALLPAPER` → `ASPECT_RATIO: 16:9` → `ORIENTATION: LANDSCAPE`
