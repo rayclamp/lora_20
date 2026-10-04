@@ -40,12 +40,11 @@ s = runtime.claim();
 assert.equal(s.ownership, "CLAIMED");
 
 s = runtime.designAndLockPrompt("SYSTEM-GENERATED VERIFIED PROMPT — DESKTOP WALLPAPER", VALID_CONTEXT);
-assert.equal(s.promptPreview, "RECORDED");
+assert.equal(s.promptPreview, "SHOWN");
 assert.ok(s.promptHash);
 
 runtime.authorizeAutomatedGeneration();
-s = runtime.authorizeAutomatedGeneration();
-runtime.execute();
+s = runtime.execute();
 assert.equal(s.taskStatus, "SUCCESS");
 assert.equal(s.recovery, "TERMINAL_SUCCESS");
 assert.equal(s.attemptCount, 1);
@@ -84,17 +83,15 @@ failureRuntime.request({
 });
 failureRuntime.claim();
 failureRuntime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", VALID_CONTEXT);
-let failureRuntime.authorizeAutomatedGeneration();
-f = failureRuntime.authorizeAutomatedGeneration();
-failureRuntime.execute();
+failureRuntime.authorizeAutomatedGeneration();
+f = failureRuntime.execute();
 assert.equal(f.attemptCount, 1);
 assert.equal(f.recovery, "RETRY_READY");
 failureRuntime.resumeAfterFailure();
 failureRuntime.claim();
 failureRuntime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", VALID_CONTEXT);
 failureRuntime.authorizeAutomatedGeneration();
-f = failureRuntime.authorizeAutomatedGeneration();
-failureRuntime.execute();
+f = failureRuntime.execute();
 assert.equal(f.attemptCount, 2);
 failureRuntime.resumeAfterFailure();
 failureRuntime.claim();
