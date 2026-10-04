@@ -330,13 +330,33 @@ After each generation attempt:
 - `FAILED` → follow retry/recovery policy;
 - `UNKNOWN` → record `UNKNOWN / RECOVERY_REQUIRED` and STOP.
 
+### Prompt Execution Gate
+
+Showing `FINAL_EXECUTABLE_PROMPT` to the user is a preview event, not proof that the generation tool executed that exact prompt.
+
+Before generation:
+- lock the final prompt;
+- show the complete prompt;
+- invoke exactly that locked prompt for the current generation event.
+
+After invocation, record:
+- `PROMPT_EXECUTION_STATUS`;
+- `EXECUTED_PROMPT_REFERENCE` when observable;
+- `EXECUTION_VERIFICATION_STATUS`.
+
+If the platform does not expose the executed prompt/request payload, record `NOT_OBSERVABLE`; do not fabricate execution evidence.
+
+An observable mismatch is an execution-integrity failure and must not be treated as normal SUCCESS.
+
 ### Continuation Gate
 
 After a confirmed SUCCESS, the Worker MUST immediately resolve the next authoritative task when:
 
 `SESSION_STATUS = ACTIVE` AND `COMPLETED_COUNT < TARGET_COUNT` AND no stop/recovery condition exists.
 
-The Worker MUST NOT end the session merely because the current image succeeded and MUST NOT wait for another user command.
+The Worker MUST NOT silently end an incomplete ACTIVE session merely because the current image succeeded.
+
+If the current generation environment cannot invoke another image-generation event after returning the candidate, the Worker must persist an explicit resumable turn-boundary state and let RESUME restore the next authoritative task. The boundary must never be represented as quota exhaustion or generation failure without explicit evidence.
 
 Only these conditions permit normal session termination:
 - `COMPLETED_COUNT = TARGET_COUNT`;
