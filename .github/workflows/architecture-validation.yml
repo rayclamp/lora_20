@@ -54,3 +54,6 @@ jobs:
 
       - name: Run Worker Runtime execution CAS probe
         run: node scripts/test_runtime_execution_cas.mjs
+
+      - name: Run Worker Runtime canonical context resolver probe
+        run: node scripts/test_runtime_canonical_context.mjs
