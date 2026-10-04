@@ -126,6 +126,8 @@ EXECUTION_VERIFICATION_STATUS:
 GENERATION_RESULT:
 RESULT_COUNT:
 RESULT_REFERENCE:
+TARGET_SUCCESS_COUNT:
+MAX_ATTEMPTS_PER_TASK:
 GENERATION_ATTEMPT_COUNT:
 CONSECUTIVE_FAILURE_COUNT:
 RECOVERY_STATUS:
@@ -175,11 +177,17 @@ If the prompt changes after preview, update the record and show the new complete
 
 `TARGET_COUNT` / `IMAGE_COUNT` is the number of wallpaper tasks required by the production session.
 
-`EXPECTED_OUTPUT_COUNT` is the number of image candidates allowed from one individual task, normally exactly `1`.
+`EXPECTED_OUTPUT_COUNT` is the number of image candidates allowed from one individual generation attempt, normally exactly `1`.
+
+`TARGET_SUCCESS_COUNT` is the number of validated successful outputs required to complete one task, normally exactly `1`.
+
+`MAX_ATTEMPTS_PER_TASK` is the absolute maximum number of generation attempts permitted for that task. It must not reset after an intermediate failure or partial recovery.
 
 Therefore:
 - `TARGET_COUNT: 12` means twelve separate wallpaper tasks are required for the session;
-- `EXPECTED_OUTPUT_COUNT: 1` means each task must produce one candidate;
+- `EXPECTED_OUTPUT_COUNT: 1` means each generation attempt may return only one candidate;
+- `TARGET_SUCCESS_COUNT: 1` means the task needs one validated successful output;
+- `MAX_ATTEMPTS_PER_TASK: 3` means the task may never invoke a fourth generation attempt;
 - `OUTPUT COUNT LOCK` must never be interpreted as a one-image limit for the entire session.
 
 A prompt line such as `one image candidate only` is a per-task output lock. It must not reduce the persisted session target.
@@ -198,13 +206,31 @@ After each generation attempt, record:
 - `EVENT_HISTORY`;
 - `CHECKPOINT_STATUS`.
 
-Only `SUCCESS` counts toward `COMPLETED_COUNT`.
+Only a validated `SUCCESS` counts toward `COMPLETED_COUNT`.
+
+A generation attempt that returns an image with an invalid format, invalid output count, or other execution-level contract violation is not a successful output. It increments `GENERATION_ATTEMPT_COUNT` and does not consume `TARGET_SUCCESS_COUNT`.
 
 `UNKNOWN` requires recovery and stops the session.
 
 Extra outputs never create extra IMAGE_IDs.
 
-## 7A. Prompt execution integrity
+## 7A. Task attempt and output-success boundary
+
+The task has three independent counters/limits:
+
+- `GENERATION_ATTEMPT_COUNT` — how many generation events have been invoked;
+- `TARGET_SUCCESS_COUNT` — how many validated successful outputs are required;
+- `MAX_ATTEMPTS_PER_TASK` — the hard ceiling on generation events.
+
+The correct invariant is:
+
+`GENERATION_ATTEMPT_COUNT <= MAX_ATTEMPTS_PER_TASK`
+
+A failed candidate never increases `COMPLETED_COUNT`. A retry is permitted only after explicit failure analysis/recovery authorization. Retry is controlled recovery, not blind regeneration. When `GENERATION_ATTEMPT_COUNT == MAX_ATTEMPTS_PER_TASK`, no further generation event is permitted; set `RECOVERY_REQUIRED` and stop the task/session according to the failure protocol.
+
+A successful output ends the task immediately because `TARGET_SUCCESS_COUNT: 1` has been satisfied. Do not generate a second successful candidate under the same task identity.
+
+## 7B. Prompt execution integrity
 
 `FINAL_EXECUTABLE_PROMPT` is the canonical prompt artifact for the task. `PROMPT_PREVIEW_STATUS: SHOWN` proves only that the prompt was shown; it does not prove that the generation operation received or executed that exact prompt.
 
