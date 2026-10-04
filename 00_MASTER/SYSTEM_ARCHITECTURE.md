@@ -30,9 +30,11 @@ CORE contains only cross-system rules:
 CORE must not define a universal character age, universal Master Image, LoRA dataset policy, festival cultural data, wallpaper-specific workflow, or account-specific authority.
 
 ## Production Core
-The repository has one shared production execution core. Manual and Automated Dispatch are entry modes into the same Worker Runtime.
+The repository has one shared production execution core. Manual Dispatch and System Automation are entry modes into the same Worker Runtime.
 
 The Worker Runtime owns Worker lifecycle, task selection, Claim/Lease/CAS, generation outcomes, recovery, and common result recording. Production modules do not create duplicate Worker or Dispatch systems.
+
+System Automation is an internal production capability. It must be defined and validated independently of any external automation provider. External tools or services are integration adapters only and must never become the source of production authority, task semantics, or Worker execution rules.
 
 `PRODUCTION_DISPATCH_PROTOCOL.md` defines who starts production. `PRODUCTION_WORKER_RUNTIME.md` defines how production work executes. `PRODUCTION_OUTPUT_PROTOCOL.md` defines artifact persistence.
 
