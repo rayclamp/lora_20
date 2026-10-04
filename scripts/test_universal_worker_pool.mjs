@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const assert = require("node:assert/strict");
+import assert from "node:assert/strict";
 
 const states = {
   eligible: "QUEUED",
