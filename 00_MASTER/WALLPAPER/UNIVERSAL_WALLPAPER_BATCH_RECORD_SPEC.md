@@ -97,12 +97,16 @@ LEG_POSITION:
 HAIRSTYLE:
 CLOTHING:
 ACCESSORIES:
+SHOES:
+MAKEUP:
 SCENE:
 WEATHER:
 TIME:
 LIGHTING:
 CAMERA_LENS:
 STABILITY_CONSTRAINTS:
+DIVERSITY_ROLE:
+DIVERSITY_VALIDATION_STATUS:
 FINAL_EXECUTABLE_PROMPT:
 NEGATIVE_STABILITY_PROMPT:
 PROMPT_PREVIEW_STATUS:
@@ -248,3 +252,38 @@ Those capabilities require separate architecture and must not be inferred from t
 **One batch = one record. One task identity = one designed image target. One active owner per task. Each retry is an attempt on that same task identity. One checkpoint = one authoritative resume point.**
 
 The record exists only to preserve production identity, design, result, and resume state.
+
+
+## 14. Batch diversity fields
+
+For multi-image batches, the batch record must preserve enough structured design data to validate presentation diversity.
+
+Each task should explicitly record, when applicable:
+- HAIRSTYLE
+- CLOTHING
+- ACCESSORIES
+- SHOES
+- MAKEUP
+- DIVERSITY_ROLE
+
+`DIVERSITY_VALIDATION_STATUS` must be recorded before DESIGN_LOCK.
+
+A batch must not be considered design-ready when its planned variation is effectively limited to scene/background and pose while presentation variables remain materially identical across the series.
+
+Identity consistency and presentation diversity are separate requirements:
+- identity anchors remain stable;
+- presentation variables are deliberately varied.
+
+## 15. Continuation invariant
+
+For an ACTIVE batch:
+
+`SUCCESS + COMPLETED_COUNT < TARGET_COUNT` requires resolution of the next authoritative incomplete task.
+
+The batch may not remain ACTIVE with a terminal SUCCESS followed by an intentionally idle current task unless a documented stop/recovery condition exists.
+
+## 16. Actual format invariant
+
+The task's declared `ASPECT_RATIO`, `OUTPUT_TYPE`, and `ORIENTATION` describe the required output, not proof of the actual result.
+
+When actual output dimensions/metadata are available, they must be recorded or validated before terminal SUCCESS. A mismatch must not be silently accepted as format-compliant success.
