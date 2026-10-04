@@ -84,7 +84,7 @@ failureRuntime.request({
 failureRuntime.claim();
 failureRuntime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", VALID_CONTEXT);
 failureRuntime.authorizeAutomatedGeneration();
-f = failureRuntime.execute();
+let f = failureRuntime.execute();
 assert.equal(f.attemptCount, 1);
 assert.equal(f.recovery, "RETRY_READY");
 failureRuntime.resumeAfterFailure();
