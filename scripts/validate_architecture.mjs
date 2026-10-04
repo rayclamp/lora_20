@@ -425,6 +425,7 @@ if (failures === 0) pass("Phase 10C: Shared Production Core / Dispatch / Output 
 
 const boundary = read("00_MASTER/CROSS_MODULE_BOUNDARY_SPEC.md");
 const universalProtocol = read("00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md");
+const animeRules = read("00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md");
 const festivalProtocol = read("00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md");
 const loraProtocol = read("MODULES/LORA_PRODUCTION/MODULE.md");
 const loraWorker = read("MODULES/LORA_PRODUCTION/PRODUCTION/WORKER_PROTOCOL.md");
@@ -454,6 +455,7 @@ for (const [label, pattern] of boundaryChecks) {
   const source = label.includes("boundary spec") ? boundary :
     label.startsWith("Universal") ? universalProtocol :
     label.startsWith("Festival") ? festivalProtocol :
+    label.startsWith("Anime protocol") ? animeRules :
     label.startsWith("LoRA module") ? loraProtocol :
     label.startsWith("LoRA worker") ? loraWorker :
     label.startsWith("QA ") ? qaBoundary :
