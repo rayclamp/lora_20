@@ -369,7 +369,7 @@ const boundaryChecks = [
   ["QA production boundary", /Production Workers do not cross into QA/i],
   ["Delivery generation boundary", /Image generation is not performed here/i],
   ["Generic Worker module isolation", /Do not import another module's rules/i],
-  ["Universal Worker Pool routing", /UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL\\.md/i]
+  ["Universal Worker Pool routing", /UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL\.md/i]
 ];
 
 for (const [label, pattern] of boundaryChecks) {
