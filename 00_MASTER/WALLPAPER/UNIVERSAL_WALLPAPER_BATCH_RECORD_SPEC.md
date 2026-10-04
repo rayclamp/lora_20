@@ -170,7 +170,9 @@ Before generation:
 
 `PROMPT_PREVIEW_STATUS: SHOWN`
 
-The stored `FINAL_EXECUTABLE_PROMPT` must be the same system-generated prompt shown to the user and used for generation. In MANUAL mode, generation is forbidden until explicit USER_CONFIRMED_GENERATION is recorded.
+The stored `FINAL_EXECUTABLE_PROMPT` must be the same system-generated prompt shown to the user and used for generation.
+
+The user is not required to provide the Prompt. The Prompt is system-owned and must be constructed by the Image Production System from the user requirement and applicable production rules. In MANUAL mode, generation is forbidden until explicit USER_CONFIRMED_GENERATION is recorded.
 
 If the prompt changes after preview, update the record and show the new complete prompt again before generation.
 
