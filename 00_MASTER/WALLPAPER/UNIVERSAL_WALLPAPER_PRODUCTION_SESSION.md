@@ -237,3 +237,35 @@ ChatGPT must not activate PAUSED modules, bypass runtime state, invent missing t
 ## 11. Core principle
 
 **GitHub defines HOW. ChatGPT executes ONE IMAGE at a time. The checkpoint defines WHERE TO RESUME.**
+
+## 7D. Explicit STOP / Terminal Session Rule
+
+/STOP is a permanent user termination command, not a resumable pause.
+
+The existing SESSION_STATUS: STOPPED state is retained for both recoverable and terminal stops. Terminality is distinguished by TERMINATION_STATUS.
+
+Allowed values:
+- TERMINATION_STATUS: NONE
+- TERMINATION_STATUS: NON_TERMINAL
+- TERMINATION_STATUS: TERMINAL
+
+For explicit user /STOP:
+- SESSION_STATUS: STOPPED
+- STOP_REASON: USER_STOP
+- TERMINATION_STATUS: TERMINAL
+- the Batch must no longer be treated as executable runtime work
+- the authoritative Batch Record remains preserved as historical/audit data.
+
+A terminal user stop MUST NOT be converted back to ACTIVE, PAUSED, or RECOVERY_REQUIRED by /RESUME.
+
+If the user wants the same production again after a terminal stop, /START MUST create a new Batch and new Task identities. The old Batch is never resurrected.
+
+Task handling during terminal batch stop:
+- confirmed SUCCESS tasks remain SUCCESS;
+- unfinished tasks lose execution eligibility under the terminated Batch;
+- an unfinished current task may be recorded as ABANDONED when the stop operation explicitly terminalizes that task;
+- no task already in terminal SUCCESS may be rewritten as ABANDONED;
+- no abandoned identity may be reused.
+
+STOPPED + TERMINATION_STATUS: NON_TERMINAL = potentially resumable.
+STOPPED + TERMINATION_STATUS: TERMINAL = permanently terminated, never resumable.
