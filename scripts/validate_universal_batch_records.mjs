@@ -85,7 +85,7 @@ if (!fs.existsSync(BATCH_DIR)) {
       if (consecutiveFailures >= 3 && result === "FAILED" && recoveryStatus !== "RECOVERY_REQUIRED") fail(label + ": 3 consecutive failures require RECOVERY_REQUIRED");
       if (taskStatus === "ABANDONED" && recoveryStatus !== "ABANDONED") fail(label + ": ABANDONED task must have RECOVERY_STATUS: ABANDONED");
       if (result === "UNKNOWN" && recoveryStatus !== "RECOVERY_REQUIRED") fail(label + ": UNKNOWN must have RECOVERY_STATUS: RECOVERY_REQUIRED");
-      if (result === "FAILED" && consecutiveFailures < 3 && recoveryStatus !== "RETRY_READY") fail(label + ": FAILED under 3 consecutive attempts must be RETRY_READY");
+      if (result === "FAILED" && consecutiveFailures < 3 && !["RETRY_READY","ABANDONED"].includes(recoveryStatus)) fail(label + ": FAILED under 3 consecutive attempts must be RETRY_READY unless the task is explicitly ABANDONED");
       if (recoveryStatus === "TERMINAL_SUCCESS" && result !== "SUCCESS") fail(label + ": TERMINAL_SUCCESS requires GENERATION_RESULT: SUCCESS");
       if (recoveryStatus === "ABANDONED" && taskStatus !== "ABANDONED") fail(label + ": ABANDONED recovery status requires ABANDONED task state");
 
