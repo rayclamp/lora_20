@@ -2,7 +2,7 @@ name: Architecture Validation
 
 on:
   push:
-    branches: [main, council-round9-failure-recovery]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
