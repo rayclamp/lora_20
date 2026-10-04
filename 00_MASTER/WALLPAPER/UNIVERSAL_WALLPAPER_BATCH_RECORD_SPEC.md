@@ -120,6 +120,9 @@ DIVERSITY_VALIDATION_STATUS:
 FINAL_EXECUTABLE_PROMPT:
 NEGATIVE_STABILITY_PROMPT:
 PROMPT_PREVIEW_STATUS:
+PROMPT_EXECUTION_STATUS:
+EXECUTED_PROMPT_REFERENCE:
+EXECUTION_VERIFICATION_STATUS:
 GENERATION_RESULT:
 RESULT_COUNT:
 RESULT_REFERENCE:
@@ -187,6 +190,29 @@ Only `SUCCESS` counts toward `COMPLETED_COUNT`.
 `UNKNOWN` requires recovery and stops the session.
 
 Extra outputs never create extra IMAGE_IDs.
+
+## 7A. Prompt execution integrity
+
+`FINAL_EXECUTABLE_PROMPT` is the canonical prompt artifact for the task. `PROMPT_PREVIEW_STATUS: SHOWN` proves only that the prompt was shown; it does not prove that the generation operation received or executed that exact prompt.
+
+Before generation, establish a prompt execution event:
+- `PROMPT_EXECUTION_STATUS: READY` — the exact final prompt is locked and is the payload intended for the generation event.
+- `PROMPT_EXECUTION_STATUS: SENT` — the generation operation was invoked using the locked prompt.
+- `PROMPT_EXECUTION_STATUS: UNKNOWN` — the Worker cannot reliably establish whether the locked prompt was the prompt executed.
+
+`EXECUTED_PROMPT_REFERENCE` identifies the execution event when the runtime provides an event/request identifier. If the platform does not expose one, record `NOT_OBSERVABLE` rather than inventing one.
+
+`EXECUTION_VERIFICATION_STATUS` values:
+- `VERIFIED` — the runtime exposes enough information to verify prompt correspondence;
+- `NOT_OBSERVABLE` — the platform does not expose the executed prompt payload;
+- `MISMATCH` — an observable executed prompt differs from the locked prompt;
+- `UNKNOWN` — execution identity or correspondence cannot be reliably determined.
+
+Rules:
+1. A changed prompt after preview requires a new preview and resets execution status.
+2. `MISMATCH` is an execution-integrity failure and must not be recorded as normal SUCCESS.
+3. `UNKNOWN` must not be silently converted to VERIFIED.
+4. Prompt preview alone never proves prompt execution.
 
 ## 8. Checkpoint rule
 
