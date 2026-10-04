@@ -166,3 +166,32 @@ Those remain separate future capabilities.
 ## 11. Universal principle
 
 **FAILED may retry only under explicit recovery rules and within a hard attempt ceiling. UNKNOWN must stop. Three consecutive failures require recovery. The absolute attempt ceiling can stop earlier or at the same time. ABANDONED identities are never silently reused. SUCCESS is terminal.**
+
+## 12. Explicit user STOP is terminal
+
+The user command /STOP is distinct from failure recovery.
+
+When /STOP is explicitly issued:
+- stop all new generation events immediately;
+- checkpoint the current authoritative state;
+- preserve all historical results and event history;
+- set SESSION_STATUS: STOPPED;
+- set STOP_REASON: USER_STOP;
+- set TERMINATION_STATUS: TERMINAL;
+- do not set RECOVERY_STATUS: RECOVERY_REQUIRED merely because unfinished work remains;
+- do not permit /RESUME to reactivate the Batch;
+- preserve successful tasks as SUCCESS;
+- unfinished tasks may be explicitly terminalized as ABANDONED, but successful tasks must never be rewritten;
+- future continuation requires a new Batch via /START, not resurrection of the terminated Batch.
+
+This is different from FAILED + RETRY_READY, FAILED + RECOVERY_REQUIRED, UNKNOWN + RECOVERY_REQUIRED, and an explicit resumable execution/turn boundary.
+
+The historical Batch remains available for audit. Terminal means no execution authority, not deletion.
+
+## 13. Resume eligibility after STOP
+
+A resume request MUST first read the authoritative Batch Record.
+
+If TERMINATION_STATUS: TERMINAL, /RESUME MUST reject the request and must not change the Batch back to an executable state.
+
+If the user wants to continue the same production objective, the Worker must require a new /START Batch. The new Batch must have new task identities and may preserve lineage to the previous Batch.
