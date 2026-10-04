@@ -8,9 +8,9 @@ Branch:
 
 `main` (Round 11 changes merged via PR #3; subsequently preserved and revalidated through PR #4)
 
-Base verified main:
+Latest verified main baseline:
 
-`1435b0e30fe1cdd74a150371b63b6a4477d0387b`
+`c1f64aab70d4dac181328c1ce6875ad5904e5cf6`
 
 ## Objective
 
@@ -87,7 +87,7 @@ A later architecture-changing commit must trigger another verification; no stale
 ## Verified CI
 
 - GitHub Actions workflow: `Architecture Validation`
-- Main run: `37205414324`
-- Main commit: `1435b0e30fe1cdd74a150371b63b6a4477d0387b`
+- Main run: `37206039281` (final main revalidation)
+- Main commit: `c1f64aab70d4dac181328c1ce6875ad5904e5cf6`
 - Conclusion: `success`
 - Verified steps included architecture validation, validator self-test, batch validation, batch validator self-test, concurrency self-test, and Worker Pool self-test.
