@@ -69,7 +69,9 @@ runtime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", {
     },
   },
 });
-runtime.authorizeAutomatedGeneration();
+const authorization = runtime.authorizeAutomatedGeneration();
+assert.equal(authorization.generationAuthorization, "AUTOMATION_EXECUTION_AUTHORIZED");
+assert.equal(store.read().state.generationAuthorization, "AUTOMATION_EXECUTION_AUTHORIZED");
 
 assert.throws(() => runtime.execute(), /STALE_SHA_REJECTED/);
 
