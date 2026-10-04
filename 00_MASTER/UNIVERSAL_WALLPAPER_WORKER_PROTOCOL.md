@@ -82,6 +82,9 @@ Character routing:
 - If the user explicitly requests Inaria / 依娜莉亞, load `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`.
 - If no character is explicitly requested, do not infer Inaria from the reference image.
 - The character specification is semantic character authority, not a second visual person reference.
+- The original/reference outfit inside the character specification is character-reference data only and has no automatic inheritance into wallpaper clothing design.
+- For Inaria wallpaper tasks, default `CHARACTER_REFERENCE_OUTFIT_POLICY` is `DO_NOT_INHERIT` and default `WALLPAPER_OUTFIT_MODE` is `INDEPENDENT_REDESIGN`.
+- Only an explicit user request may authorize reuse/preservation of the original Inaria outfit.
 
 Routing:
 - `ANIME WALLPAPER` → `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
@@ -334,6 +337,8 @@ Before generation confirm:
 - required inputs are present;
 - wallpaper type routing is correct;
 - applicable GitHub rules are loaded;
+- character authority is resolved when a character is explicitly specified;
+- Inaria original/reference outfit is confirmed isolated from wallpaper presentation unless explicitly requested;
 - unstable actions have been simplified;
 - the executable prompt has been shown to the user.
 
