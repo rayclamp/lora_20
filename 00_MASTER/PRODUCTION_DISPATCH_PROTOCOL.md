@@ -14,13 +14,13 @@ The user explicitly starts a Worker session. The Worker reads the current GitHub
 
 ### AUTOMATED
 
-`AUTOMATION ENGINE → PRODUCTION DISPATCH → SHARED WORKER RUNTIME`
+`SYSTEM AUTOMATION ENGINE → PRODUCTION DISPATCH → SHARED PRODUCTION WORKER RUNTIME`
 
-System Automation is a first-class internal execution capability. It starts or coordinates Workers using the same production batch, task, Claim/Lease/CAS, generation, and recording contracts as Manual Dispatch.
+System Automation is a first-class internal execution capability for the Wallpaper Production domain.
 
 Automated Dispatch is an additional entry point into the shared production core. It must not create a second task authority, hidden queue, or duplicate Worker protocol.
 
-External automation providers are integrations to System Automation, not the definition of System Automation. A provider such as Make may later supply an integration adapter, but the provider must not become the production architecture or bypass this dispatch boundary.
+Automated Dispatch may resolve only modules declared eligible by the System Automation Contract and Module Registry.
 
 ## Dispatch must not
 
@@ -30,13 +30,14 @@ External automation providers are integrations to System Automation, not the def
 - override Runtime State;
 - replace canonical GitHub task state with local state;
 - silently select another module;
-- change a module's identity/reference rules.
+- change a module's identity/reference rules;
+- route an Automation request into an out-of-scope production domain.
 
 ## Phase compatibility
 
 Phase 1 manual production remains valid after Automated Dispatch is added.
 
-Phase 2 automation is an additive integration layer over the same Worker Runtime and production modules.
+Automated Dispatch is an additive entry layer over the same Worker Runtime and approved production modules.
 
 ## Prompt visibility
 
@@ -46,4 +47,4 @@ Automated Dispatch may use a persisted/auditable prompt-preview event when its c
 
 ## Canonical principle
 
-**Dispatch chooses who starts the work. The Worker Runtime defines how the work is executed. The Production Module defines what is produced.**
+**Dispatch chooses who starts the work. The Worker Runtime defines how the work is executed. The Production Module defines what is produced. Automation Scope defines which modules Automated Dispatch is allowed to enter.**
