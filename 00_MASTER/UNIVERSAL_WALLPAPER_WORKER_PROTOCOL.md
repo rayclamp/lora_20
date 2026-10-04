@@ -121,7 +121,14 @@ Before generation, the Worker must hold the current claim, claim ID, lease, stat
 
 A Worker that loses ownership MUST NOT generate, release, or overwrite the task. SUCCESS is terminal and cannot be claimed again. UNKNOWN is never resolved by lease expiry alone.
 
-### 7B. Queue mode
+### 7A.5 Worker Pool routing
+
+Queue-mode scheduling uses the canonical Worker Pool contract:
+`00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL.md`
+
+The Worker Pool selects eligible work; Claim/Lease/CAS remains the ownership authority.
+
+## 7B. Queue mode
 
 When Universal Wallpaper uses a queue, the Worker Pool / Scheduler contract is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL.md`.
 
