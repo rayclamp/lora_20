@@ -79,7 +79,9 @@ Supported modes:
 
 Both modes use the same Worker Runtime and the same canonical task/ownership rules.
 
-Automated Dispatch is an additive integration layer. It must not replace or fork the manual execution path.
+System Automation is an additive entry mode over the shared production core. It must not replace or fork the manual execution path.
+
+External automation providers are not part of the Worker Runtime. They may later connect through an explicit System Automation adapter, but they must not define, replace, or fork the Automation or Worker architecture.
 
 ## Prompt Preview
 
