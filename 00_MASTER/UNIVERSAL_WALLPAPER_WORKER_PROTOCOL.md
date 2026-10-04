@@ -285,12 +285,40 @@ Detailed session contract: `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_S
 
 Before every generation, the Worker MUST show the complete executable prompt for the current task to the user. The Worker must not silently generate first and disclose the prompt afterward. The shown prompt must be the prompt actually used.
 
+`PROMPT_PREVIEW_STATUS: SHOWN` may only be written after the preview action actually occurred. It is not a self-attestation that permits generation.
+
+If the prompt changes after preview, the Worker MUST show the complete changed prompt again before generation.
+
 ### Per-image checkpoint
 
 After each generation attempt:
-- `SUCCESS` → preserve candidate, checkpoint, then continue;
+- `SUCCESS` → preserve candidate, validate required output format, checkpoint, then continue;
 - `FAILED` → follow retry/recovery policy;
 - `UNKNOWN` → record `UNKNOWN / RECOVERY_REQUIRED` and STOP.
+
+### Continuation Gate
+
+After a confirmed SUCCESS, the Worker MUST immediately resolve the next authoritative task when:
+
+`SESSION_STATUS = ACTIVE` AND `COMPLETED_COUNT < TARGET_COUNT` AND no stop/recovery condition exists.
+
+The Worker MUST NOT end the session merely because the current image succeeded and MUST NOT wait for another user command.
+
+Only these conditions permit normal session termination:
+- `COMPLETED_COUNT = TARGET_COUNT`;
+- explicit user/system stop;
+- quota/platform availability stop;
+- generation unavailable;
+- UNKNOWN / RECOVERY_REQUIRED;
+- execution-critical state conflict.
+
+### Output Format Gate
+
+For every generated candidate, the Worker/output adapter must verify the actual output format when dimensions or equivalent metadata are available.
+
+A task declared `DESKTOP_WALLPAPER / 16:9 / LANDSCAPE` is not considered format-compliant merely because the prompt says 16:9.
+
+Actual mismatch must be recorded as a task-compliance failure and must not be silently recorded as a compliant SUCCESS. If actual dimensions cannot be determined reliably, use the applicable UNKNOWN/recovery state rather than guessing.
 
 \n### Failure / Recovery Gate\n\nWorkers MUST follow `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.\n\nFor an explicit `FAILED` result, retry only while `RECOVERY_STATUS: RETRY_READY`; reuse the same TASK_ID / IMAGE_ID and increment the generation-attempt counters. Three consecutive failures require `RECOVERY_REQUIRED` and stop.\n\nFor `UNKNOWN`, stop immediately and never silently regenerate. For `ABANDONED`, never reuse the task identity; a replacement requires a new legitimate TASK_ID / IMAGE_ID. A confirmed `SUCCESS` is terminal and cannot be regenerated under the same task identity.\n
 ## 13. Generation sequence
