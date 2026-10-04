@@ -42,3 +42,6 @@ QA → 00_MASTER/QA_MODULE.md + 00_MASTER/QA_PROTOCOL.md
 
 ## Worker safety
 Never generate without valid task ownership when a queue is used. Apply CORE anatomy/drawing rules before generation. Generation SUCCESS is not QA PASS. Do not self-QA. Do not guess UNKNOWN state. Stop on execution-critical conflicts.
+
+## Canonical-state rule
+If an ACTIVE module declares persistent state, that state must exist in its module-owned canonical directory. Do not create parallel batch/task records in 00_MASTER or cultural-data directories.
