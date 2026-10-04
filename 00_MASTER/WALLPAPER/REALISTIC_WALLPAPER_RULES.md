@@ -179,6 +179,30 @@ Allowed variation includes:
 
 Variation must never be achieved by changing identity anchors, facial geometry, body proportions, natural hair color, or distinctive traits.
 
+## 10A. Multi-image presentation diversity
+
+For a multi-image REALISTIC WALLPAPER batch, presentation variation is mandatory.
+
+The same identity must remain recognizable, but the batch must not reuse one default presentation across all images.
+
+The design stage MUST deliberately vary, as appropriate:
+- hairstyle arrangement;
+- clothing;
+- shoes;
+- accessories;
+- makeup;
+- pose/action;
+- viewpoint;
+- shot size/framing;
+- scene/environment;
+- weather/time/lighting.
+
+Changing only the background and pose is insufficient when the requested batch is intended to provide varied wallpapers.
+
+For a 12-image travel batch, the Worker should use a deliberate coverage plan so that clothing, hairstyle, footwear, and accessory choices are visibly diversified rather than repeated with minor wording changes.
+
+Identity anchors that remain fixed include facial structure, natural hair color/hairline, skin tone, recognizable body build, and natural proportions.
+
 ## 11. Realistic composition
 Use deliberate variation: CLOSE-UP, BUST / HALF-BODY, MEDIUM SHOT, CHARACTER-DOMINANT FULL-BODY, ENVIRONMENTAL FULL-BODY.
 FULL-BODY ≠ DISTANT SHOT.
