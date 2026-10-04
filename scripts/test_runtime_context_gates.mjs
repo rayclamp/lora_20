@@ -57,7 +57,8 @@ function makeRuntime(name, generatorOutcomes = ["SUCCESS"]) {
   const persisted = store.read();
   assert.ok(persisted.events.some(e => e.type === "REFERENCE_AUTHORITY_RESOLVED" && e.status === "NO_REFERENCE"));
   assert.ok(persisted.events.some(e => e.type === "SCENE_INTENT_RESOLVED" && e.status === "RESOLVED"));
-  const result = runtime.execute();
+  const result = runtime.authorizeAutomatedGeneration();
+runtime.execute();
   assert.equal(result.taskStatus, "SUCCESS");
 }
 
