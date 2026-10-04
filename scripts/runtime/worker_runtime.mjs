@@ -200,12 +200,16 @@ export class ProductionWorkerRuntime {
         type: "REFERENCE_AUTHORITY_RESOLVED", at: this.clock(),
         status: referenceState,
         referenceId: effectiveContext.reference?.id ?? "NOT_OBSERVABLE",
-        provenance: effectiveContext.reference?.provenance ?? "NOT_OBSERVABLE"
+        provenance: effectiveContext.reference?.provenance ?? "NOT_OBSERVABLE",
+        policyPath: effectiveContext.reference?.policyPath ?? "NOT_OBSERVABLE",
+        verification: effectiveContext.reference?.verification ?? "NOT_OBSERVABLE"
       });
       s.events.push({
         type: "SCENE_INTENT_RESOLVED", at: this.clock(),
         status: sceneStatus,
         provenance: effectiveContext.sceneIntent?.provenance ?? "NOT_OBSERVABLE",
+        fieldProvenance: effectiveContext.sceneIntent?.fieldProvenance ?? {},
+        protocolPath: effectiveContext.sceneIntent?.sceneProtocolPath ?? "NOT_OBSERVABLE",
         fields: intent
       });
       s.events.push({ type: "PRESENTATION_DESIGNED", at: this.clock() });
