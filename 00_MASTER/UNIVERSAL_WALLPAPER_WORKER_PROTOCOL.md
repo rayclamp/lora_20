@@ -37,22 +37,44 @@ It does not inherit:
 - QA acceptance rules;
 - Image Delivery workflow.
 
-## 3. Required user input
+## 3. Production Session Contract
 
-The user provides:
-1. Production quantity
-2. Wallpaper type: `ANIME WALLPAPER` or `REALISTIC WALLPAPER`
-3. Output format / aspect ratio
-4. Wallpaper theme
-5. Scene
-6. Weather
-7. Time
-8. Whether pets are allowed
-9. Current reference image
+The user starts a production session by providing a Session Contract. The Session Contract is the authoritative user-defined input for that production session.
 
-If a required input is missing, ask only for the missing input.
+Required session fields:
+1. `MODULE`: `UNIVERSAL_WALLPAPER` or `FESTIVAL_WALLPAPER`
+2. `PRODUCTION_TYPE`: `ANIME WALLPAPER` or `REALISTIC WALLPAPER`
+3. `CHARACTER`: explicit character identity such as `INARIA`, or `NONE`
+4. `IMAGE_COUNT`: target number of images
+5. `OUTPUT_TYPE`: `DESKTOP_WALLPAPER` or `PHONE_WALLPAPER`
+6. `THEME / FESTIVAL_SCOPE`
+7. `SCENE`
+8. `SEASON`
+9. `WEATHER`
+10. `TIME`
+11. `PET_ALLOWED`: `YES` or `NO`
+12. `REFERENCE_IMAGE`: the current uploaded person/visual identity reference, when used
 
-## 4. Reference-image rule
+If a Session field is explicitly provided, preserve it as the session constraint. If an optional design field is not specified, resolve it from the applicable GitHub rules; do not ask the user to repeat a value that can be safely resolved from the rules.
+
+`OUTPUT_TYPE` is the user-facing output requirement. `ASPECT_RATIO` and `ORIENTATION` are technical task fields derived from and locked to the selected `OUTPUT_TYPE`; they are not additional user-facing session choices.
+
+The Session Contract must be persisted in the authoritative batch record before image execution begins. RESUME and STOP operate on this persisted contract rather than reconstructing it from conversation memory.
+
+## 4. Reference-image and character-identity rule
+
+The current uploaded image is the primary and sole visual person reference for the current batch when `REFERENCE_IMAGE` is supplied.
+
+`CHARACTER` is an explicit routing field. The Worker MUST NOT infer Inaria merely because a reference image resembles Inaria.
+
+When `CHARACTER: INARIA`, load `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`. When a reference image is supplied, that image remains the sole visual identity authority; the Inaria Character Specification supplies contextual character data and canonical visual/body fields only as fallback when no task-specific person reference exists.
+
+For realistic Inaria with a supplied reference image:
+- use the reference image for actual facial/body/age/skin/hair visual evidence;
+- use Inaria Character Specification for occupation, work context, world/location, lifestyle, habits, interests, likes/dislikes, personality, preferred environments, and relevant pet/lifestyle context;
+- do NOT reconstruct or normalize the referenced person toward Inaria's canonical height, weight, BMI, measurements, face/eye/hair/skin/body specifications;
+- do NOT inherit Inaria's original/reference outfit;
+- independently redesign wallpaper outfit, hairstyle arrangement, accessories, shoes, pose, action, scene, and presentation unless the user explicitly requests preservation.
 
 The current uploaded image is the primary visual reference for the current batch.
 
@@ -63,7 +85,7 @@ The Worker must:
 - not require a project-specific master filename;
 - not force the reference image's exact camera angle, pose, or framing across the series.
 
-If the reference is missing, unreadable, or unavailable, STOP before generation.
+If a person reference is required by the Session Contract but is missing, unreadable, or unavailable, STOP before generation. A character declaration does not create a substitute visual reference image.
 
 ## 5. GitHub authority and routing
 
@@ -204,6 +226,8 @@ Every task must explicitly preserve:
 - OUTPUT_TYPE
 - ASPECT_RATIO
 - ORIENTATION
+
+`OUTPUT_TYPE` is the user-facing session requirement. The Worker derives the technical `ASPECT_RATIO` and `ORIENTATION` from that value according to the canonical wallpaper format rules. The user is not required to provide a separate aspect-ratio field unless an explicit higher-level rule defines a supported override.
 
 A desktop 16:9 task must remain landscape 16:9. It must not silently become a portrait 9:16 phone wallpaper.
 
@@ -398,9 +422,34 @@ If the current session reports quota exhaustion:
 
 ## 18. Resume behavior
 
+### Session Contract restoration
+
+RESUME MUST restore the persisted Production Session Contract from the authoritative batch record before resolving the next task.
+
+Restore at minimum:
+- MODULE
+- PRODUCTION_TYPE
+- CHARACTER
+- TARGET_COUNT / IMAGE_COUNT
+- OUTPUT_TYPE
+- resolved ASPECT_RATIO
+- resolved ORIENTATION
+- THEME / FESTIVAL_SCOPE
+- SCENE
+- SEASON
+- WEATHER
+- TIME
+- PET_ALLOWED
+- REFERENCE_IMAGE authority/status
+- character/reference authority routing
+- applicable presentation-isolation policies
+
+RESUME MUST NOT invent, silently change, or re-infer these values from conversation memory.
+
 ### ChatGPT-as-Worker batch mode
 1. read the latest GitHub batch record;
-2. resolve the current task and last recorded result;
+2. restore and validate the Session Contract;
+3. resolve the current task and last recorded result;
 3. never assume an unknown generation result;
 4. if the previous result is UNKNOWN, enter recovery and stop;
 5. otherwise continue with the next authoritative task.
@@ -413,7 +462,24 @@ If the current session reports quota exhaustion:
 5. if a previous result is UNKNOWN, enter recovery and stop;
 6. otherwise continue with the next compatible QUEUED task.
 
-## 19. Universal principle
+## 19. Stop persistence
+
+STOP MUST checkpoint the current Session Contract together with the current task state and result state.
+
+At minimum, preserve:
+- the full Session Contract;
+- current task identity;
+- design state and DESIGN_LOCK;
+- generation result;
+- completed count;
+- checkpoint;
+- stop reason and evidence when applicable;
+- reference-image authority;
+- character authority/routing.
+
+STOP does not delete tasks, redesign locked tasks, or convert UNKNOWN into SUCCESS.
+
+## 20. Universal principle
 
 The user specifies WHAT to produce.
 
