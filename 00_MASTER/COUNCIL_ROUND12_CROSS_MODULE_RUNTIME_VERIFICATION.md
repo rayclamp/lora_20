@@ -47,5 +47,7 @@ The exact branch commit and corresponding GitHub Actions run must pass:
 - Pre-merge branch commit: `a29c6ce2f5993690a4296fe6503077cc3e4c313f`
 - Pull request workflow run: `37205909543` — SUCCESS
 - Main merge commit: `53304d6b4cec0911ddd24735db1a0768e28dfe7f`
+- Final main verification commit: `c1f64aab70d4dac181328c1ce6875ad5904e5cf6`
+- Final main workflow run: `37206039281` — SUCCESS
 
-The Round 12 cross-module runtime contract passed before merge. A fresh main-branch architecture validation is required for the final repository baseline.
+The Round 12 cross-module runtime contract passed before merge and was revalidated on the final main branch.
