@@ -528,3 +528,21 @@ The Worker:
 - records the result;
 - continues only when safe.
 
+
+
+## 21. Canonical routing and Scene Intent gate
+
+The canonical rule path for this protocol is 00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md. Older references that place this protocol under the WALLPAPER directory are non-authoritative.
+
+Before designing or generating, the Worker MUST also load:
+- 00_MASTER/CANONICAL_PATH_REGISTRY.md
+- 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md when dispatch mode is AUTOMATED
+- 00_MASTER/WALLPAPER/SCENE_INTENT_RESOLUTION_PROTOCOL.md
+
+The Worker must resolve the exact canonical paths. If a required path is missing or contradictory, enter CONTEXT_LOAD_FAILURE and stop.
+
+A Theme is not a complete executable scene. Before DESIGN_LOCK, resolve and record Scene Intent: ACTIVITY, LOCATION, ACTION, TIME, WEATHER, SOCIAL_CONTEXT, and ENVIRONMENTAL_CUES, with provenance. If the intent cannot be safely resolved, do not assemble a final prompt and do not generate.
+
+## 22. Automated execution trace
+
+Automated Universal Wallpaper runs must follow 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md. The trace must distinguish upstream automation input, Worker context loading, Scene Intent resolution, presentation design, prompt assembly, execution, result, and checkpoint. Missing telemetry must be recorded as NOT_OBSERVABLE rather than inferred.
