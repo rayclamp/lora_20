@@ -150,7 +150,7 @@ root = fixture({ taskStatus:"UNKNOWN / RECOVERY_REQUIRED", result:"UNKNOWN", att
 expect("UNKNOWN requires recovery and stops", root, true);
 fs.rmSync(root, { recursive: true, force: true });
 
-root = fixture({ taskStatus:"ABANDONED", result:"FAILED", attempts:1, consecutiveFailures:1, recovery:"ABANDONED", sessionStatus:"STOPPED", stopReason:"USER_STOP", lastFailure:"USER_ABANDONED", eventHistory:"GENERATION_FAILED attempt=1; TASK_ABANDONED" });
+root = fixture({ taskStatus:"ABANDONED", result:"FAILED", attempts:1, consecutiveFailures:1, recovery:"ABANDONED", sessionStatus:"STOPPED", stopReason:"USER_STOP", terminationStatus:"TERMINAL", lastFailure:"USER_ABANDONED", eventHistory:"GENERATION_FAILED attempt=1; TASK_ABANDONED" });
 expect("ABANDONED task is terminal and preserved", root, true);
 fs.rmSync(root, { recursive: true, force: true });
 
