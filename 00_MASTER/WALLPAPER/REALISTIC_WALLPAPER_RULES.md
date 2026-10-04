@@ -50,6 +50,20 @@ When no task-specific realistic person reference overrides it, the realistic Ina
 
 These are identity/background characteristics, not a requirement to reproduce one fixed pose, camera angle, hairstyle arrangement, expression, or outfit in every image.
 
+## 2A. Inaria character authority
+
+When the user explicitly requests Inaria / 依娜莉亞, load and apply:
+
+`00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`
+
+The Inaria specification is the canonical character-semantic authority for Inaria. It does not become a second visual person reference.
+
+If a user-supplied person image exists, that image remains the sole visual person reference for the current task. The Inaria specification supplies stable character constraints and defaults, while the uploaded image supplies visual person evidence.
+
+For an Inaria task, preserve the character identity anchors defined by the Inaria specification while independently redesigning presentation according to the current task.
+
+If the user does not explicitly request Inaria, do not silently apply the Inaria character specification.
+
 ## 3. Identity anchors vs. presentation variables
 Identity must remain stable while presentation may vary.
 
