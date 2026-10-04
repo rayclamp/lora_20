@@ -2,7 +2,8 @@
 
 ## Authority
 This document defines the visual and production rules used when the user explicitly requests REALISTIC WALLPAPER.
-It is a child rule set of the active UNIVERSAL_WALLPAPER module.
+It operates under the active UNIVERSAL_WALLPAPER module registered in `00_MASTER/MODULE_REGISTRY.md`.
+Shared wallpaper production/session contracts are defined by the current documents under `00_MASTER/WALLPAPER/`.
 It does not define generic anatomy or generation safety; those remain in CORE.
 
 ## 1. Activation
@@ -10,28 +11,70 @@ Use this rule set only for REALISTIC WALLPAPER / 寫實人物桌布 or an equiva
 If the user requests ANIME WALLPAPER, do not use this file.
 
 ## 2. Reference image and identity authority
-The reference image supplied in the current request is the primary visual reference for the current batch.
-Use it to establish person identity, face, apparent age, hair, body proportions, skin appearance, and realistic visual characteristics.
-
+The reference image supplied in the current request is the primary visual reference for the current task/batch when one is explicitly supplied.
 A declared task reference is the identity authority for that task. Do not silently replace it with another person, another character master, or an unrelated reference.
-A GitHub character master may be used only when the user explicitly requests it or the current task declares it as an additional reference.
-Do not interpret "primary identity reference" as a requirement to preserve every visual property of the reference image; camera angle, pose, framing, clothing, scene, lighting, and composition may change.
 
-### Identity priority
-Identity preservation is the highest visual priority and takes precedence over clothing, pose, scene, lighting, camera styling, and aesthetic beautification.
+For realistic Inaria tasks:
+- If the task explicitly supplies a person reference, that task reference is the identity authority.
+- If the task does not supply a different person reference, use the approved 36-year-old realistic Inaria identity baseline as the default identity reference.
+- The age-20 anime Inaria master is not a substitute for the realistic Inaria identity baseline.
+- A different GitHub character/reference asset may be used only when the current task explicitly declares it as the applicable reference.
 
-Preserve, as applicable:
+Do not interpret an identity reference as a requirement to preserve every visual property of the source image; camera angle, pose, framing, clothing, scene, lighting, and composition may change.
+
+### Realistic Inaria visual identity baseline
+When no task-specific realistic person reference overrides it, the realistic Inaria baseline is:
+
+- Asian Taiwanese woman
+- 158 cm height
+- 48 kg body weight
+- slim, balanced natural build
+- approximately 85-58-86 body proportions
+- fairer-than-average Asian skin tone
+- small oval face
+- large, gentle eyes
+- blue irises
+- dark blue-black long straight hair
+- neat bangs covering the forehead
+- fresh, gentle, healing overall visual impression
+
+These are identity/background characteristics, not a requirement to reproduce one fixed pose, camera angle, hairstyle arrangement, expression, or outfit in every image.
+
+## 3. Identity anchors vs. presentation variables
+Identity must remain stable while presentation may vary.
+
+### Identity anchors — preserve
+Unless the task explicitly establishes a different identity reference, preserve:
 - recognizable facial structure and bone structure
 - facial-feature size, position, and relative proportions
-- eye shape and expression characteristics
+- eye shape and characteristic expression
 - eyebrow shape
 - nose shape
 - lip shape
 - jawline and chin structure
-- hairline, hair color, and characteristic hairstyle features
+- hairline
+- natural hair color
 - natural skin tone and age appearance
 - recognizable body build and natural body proportions
-- distinctive visual traits of the reference person
+- distinctive visual traits
+
+### Presentation variables — may vary
+The following may deliberately change when compatible with the task:
+- hairstyle arrangement and styling
+- hair tying method
+- clothing and accessories
+- makeup
+- pose and action
+- viewpoint and camera angle
+- shot size and framing
+- scene and environment
+- weather and time
+- lighting
+- camera/lens setup
+- editorial, cinematic, bridal, or magazine styling
+
+**Hair identity is not the same as hairstyle lock.**
+Hairline and natural hair color are identity anchors; hairstyle arrangement may vary.
 
 Do not:
 - replace the person with another identity
@@ -43,8 +86,10 @@ Do not:
 
 The reference image's particular face direction must not create a fixed left-facing/right-facing bias.
 
-## 3. Body proportion preservation
+## 4. Body proportion preservation
 Preserve the reference person's natural body proportions, body silhouette, limb proportions, and physical build.
+
+For the default realistic Inaria baseline, do not silently convert the established 158 cm / 48 kg slim balanced build into a taller, longer-limbed, narrower-waisted, or fashion-model body.
 
 Do not artificially:
 - increase apparent height
@@ -60,19 +105,21 @@ Operational principle:
 
 Body-proportion preservation remains separate from pose design: pose may change, but the underlying person must remain physically consistent.
 
-## 4. Realistic skin and human appearance
+## 5. Realistic skin and human appearance
 The result must read as a realistic human photograph / photorealistic scene unless the user explicitly requests another realistic rendering style.
 
 Preserve natural skin color and believable skin-tone variation.
-Skin may appear clean and luminous, but must not be artificially whitened or excessively beautified.
+Skin may appear clean, luminous, and professionally photographed, but must not be artificially whitened or excessively beautified.
 
-Prefer:
-- visible but natural pores
+Preserve natural skin texture appropriate to the shot:
 - fine skin texture
+- natural pores when visible at the given camera distance and resolution
 - subtle natural lines and age-related detail where present
 - realistic facial micro-detail
 - natural hair texture
 - believable human surface variation
+
+Do not force visible pores in close detail when the selected lens, distance, depth of field, lighting, or image scale would naturally soften them.
 
 Avoid:
 - plastic or wax-like skin
@@ -81,50 +128,69 @@ Avoid:
 - unnaturally uniform skin tone
 - loss of all natural facial texture
 
-## 5. Realistic visual direction
-Prioritize natural human facial structure, realistic skin texture, natural hair, physically plausible clothing and fabric, realistic lighting and shadows, believable environmental depth, and natural body proportions.
+## 6. Realistic visual direction
+REALISTIC does not mean raw documentary photography or the absence of professional styling.
+Professional makeup, controlled lighting, cinematic lighting, editorial photography, bridal photography, magazine aesthetics, and refined color grading are allowed when requested.
+
+Prioritize:
+- natural human facial structure
+- realistic skin texture
+- natural hair
+- physically plausible clothing and fabric
+- realistic lighting and shadows
+- believable environmental depth
+- natural body proportions
+
 Avoid anime facial proportions, illustration line-art treatment, excessive beauty-filter smoothing, exaggerated fashion-model proportions, and intentionally elongated limbs.
 
-## 6. Photography and perspective
+Professional styling may improve presentation, but it must not alter identity anchors or body proportions.
+
+## 7. Photography and perspective
 Select a camera setup appropriate to the composition, including when useful: camera distance, focal length/lens character, perspective, depth of field, camera height, and viewpoint.
 Avoid extreme wide-angle perspective when it causes unnatural enlargement of nearby hands, feet, face, or other body parts.
 Do not use camera perspective as an excuse for anatomically implausible proportions.
 
-## 7. Human pose
+## 8. Human pose
 Prioritize natural human posture and believable physical support.
 Check shoulder/torso alignment, spinal curve, pelvis orientation, knee direction, foot placement, center of gravity, and contact with support surfaces.
 A visually elegant pose must not override realistic body mechanics.
 
-## 8. Clothing and wearable realism
+Apply the CORE anatomy and generation-stability rules rather than duplicating CORE anatomy rules inside this module.
+
+## 9. Clothing and wearable realism
 Clothing must behave as physical material: natural folds, believable drape, correct body contact, plausible seams/openings, connected sleeves, connected straps, and physically supported bags.
 Avoid floating fabric, broken straps, clothing penetrating the body, or unsupported accessories.
 
-## 9. Identity consistency across variation
-The same person must remain recognizable while the following may deliberately vary:
+## 10. Identity consistency across variation
+The same person must remain recognizable while presentation may deliberately vary.
+
+Allowed variation includes:
 - viewpoint and camera angle
 - shot size and framing
 - pose and action
 - clothing and accessories
-- hairstyle variation
+- hairstyle arrangement
+- makeup
 - scene and environment
 - weather and time
 - lighting
 - camera/lens setup
+- professional photographic styling
 
-Variation must never be achieved by changing the person's identity, facial geometry, body proportions, or distinctive traits.
+Variation must never be achieved by changing identity anchors, facial geometry, body proportions, natural hair color, or distinctive traits.
 
-## 10. Realistic composition
+## 11. Realistic composition
 Use deliberate variation: CLOSE-UP, BUST / HALF-BODY, MEDIUM SHOT, CHARACTER-DOMINANT FULL-BODY, ENVIRONMENTAL FULL-BODY.
 FULL-BODY ≠ DISTANT SHOT.
 Character-dominant framing is allowed and encouraged when facial identity, clothing, or physical detail is important.
 
-## 11. Pet rule
+## 12. Pet rule
 The current user PET_ALLOWED parameter controls intentional pet/animal inclusion unless a stricter applicable wallpaper rule says otherwise.
 
-## 12. Prompt construction
+## 13. Prompt construction
 The final prompt must describe:
-1. supplied reference identity and identity-preservation requirements
-2. realistic human appearance derived from the supplied reference
+1. applicable identity reference and identity-preservation requirements
+2. realistic human appearance
 3. pose/action
 4. camera/lens/perspective
 5. clothing/accessories
@@ -132,25 +198,27 @@ The final prompt must describe:
 7. lighting
 8. required wallpaper format
 
-When useful, task-level style directions such as editorial, cinematic, bridal, or magazine aesthetics may be added after identity and realism constraints. Such styles must never override identity or body-proportion preservation.
+When useful, task-level style directions such as editorial, cinematic, bridal, or magazine aesthetics may be added after identity and realism constraints. Such styles must never override identity anchors or body-proportion preservation.
 
 Apply CORE anatomy and generation-stability rules before finalizing the prompt.
 
-## 13. Priority order
+## 14. Priority order
 For conflicts within a realistic-person prompt, use this priority order:
 
-P0 — IDENTITY PRESERVATION
+P0 — IDENTITY ANCHORS
 P1 — FACIAL STRUCTURE / RECOGNIZABILITY
 P2 — BODY PROPORTION PRESERVATION
 P3 — NATURAL HUMAN / SKIN REALISM
 P4 — ANATOMICAL STABILITY
 P5 — POSE / ACTION
-P6 — CLOTHING / HAIRSTYLE / ACCESSORIES
+P6 — PRESENTATION: HAIRSTYLE / MAKEUP / CLOTHING / ACCESSORIES
 P7 — CAMERA / LENS / COMPOSITION
 P8 — LIGHTING / ENVIRONMENT
 P9 — CINEMATIC / EDITORIAL STYLE
 
-A lower-priority aesthetic request must not override a higher-priority identity or realism rule.
+A lower-priority presentation or aesthetic request must not override a higher-priority identity anchor or body-proportion rule.
 
-## 14. Output boundary
+Task-level changes may alter presentation variables, but may not silently redefine the identity anchors.
+
+## 15. Output boundary
 This rule set defines how a REALISTIC WALLPAPER request is designed. It does not perform QA and does not replace CORE safety/state rules.
