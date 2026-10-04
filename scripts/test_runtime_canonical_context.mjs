@@ -45,7 +45,7 @@ const designed = runtime.designAndLockPrompt("PHASE6 SYSTEM PROMPT", {
   theme: "EVERYDAY_LIFE",
   sceneIntent
 });
-assert.equal(designed.promptPreview, "RECORDED");
+assert.equal(designed.promptPreview, "SHOWN");
 
 const persisted = store.read();
 const refEvent = persisted.events.find((e) => e.type === "REFERENCE_AUTHORITY_RESOLVED");
