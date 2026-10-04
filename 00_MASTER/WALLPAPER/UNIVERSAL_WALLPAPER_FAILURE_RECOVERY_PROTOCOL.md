@@ -46,7 +46,7 @@ When generation explicitly fails:
 - set `RECOVERY_STATUS: RETRY_READY` unless the repeated-failure stop rule is reached;
 - checkpoint the failure before another generation attempt.
 
-A retry is a new generation attempt of the same task, not a new task.
+A retry is a new generation attempt of the same task, not a new task. It reuses the same TASK_ID and IMAGE_ID.
 
 A retry must reuse the authoritative design and executable prompt unless an explicit design update is committed before the retry.
 
