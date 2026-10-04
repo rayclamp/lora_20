@@ -43,7 +43,9 @@ s = runtime.designAndLockPrompt("SYSTEM-GENERATED VERIFIED PROMPT — DESKTOP WA
 assert.equal(s.promptPreview, "RECORDED");
 assert.ok(s.promptHash);
 
-s = runtime.execute();
+runtime.authorizeAutomatedGeneration();
+s = runtime.authorizeAutomatedGeneration();
+runtime.execute();
 assert.equal(s.taskStatus, "SUCCESS");
 assert.equal(s.recovery, "TERMINAL_SUCCESS");
 assert.equal(s.attemptCount, 1);
@@ -82,18 +84,24 @@ failureRuntime.request({
 });
 failureRuntime.claim();
 failureRuntime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", VALID_CONTEXT);
-let f = failureRuntime.execute();
+let failureRuntime.authorizeAutomatedGeneration();
+f = failureRuntime.authorizeAutomatedGeneration();
+failureRuntime.execute();
 assert.equal(f.attemptCount, 1);
 assert.equal(f.recovery, "RETRY_READY");
 failureRuntime.resumeAfterFailure();
 failureRuntime.claim();
 failureRuntime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", VALID_CONTEXT);
-f = failureRuntime.execute();
+failureRuntime.authorizeAutomatedGeneration();
+f = failureRuntime.authorizeAutomatedGeneration();
+failureRuntime.execute();
 assert.equal(f.attemptCount, 2);
 failureRuntime.resumeAfterFailure();
 failureRuntime.claim();
 failureRuntime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", VALID_CONTEXT);
-f = failureRuntime.execute();
+failureRuntime.authorizeAutomatedGeneration();
+f = failureRuntime.authorizeAutomatedGeneration();
+failureRuntime.execute();
 assert.equal(f.attemptCount, 3);
 assert.equal(f.recovery, "RECOVERY_REQUIRED");
 assert.throws(() => failureRuntime.resumeAfterFailure(), /RETRY_NOT_READY/);
