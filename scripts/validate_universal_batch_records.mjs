@@ -134,7 +134,7 @@ if (!fs.existsSync(BATCH_DIR)) {
 
     const sessionStatus = text.match(/SESSION_STATUS:\s*([^\n]+)/)?.[1]?.trim();
     const terminationStatus = text.match(/TERMINATION_STATUS:\s*([^\n]+)/)?.[1]?.trim();
-    const successTaskCount = [...text.matchAll(/GENERATION_RESULT:\s*SUCCESS/g)].length;
+    const successTaskCount = tasks.filter(task => /TASK_STATUS:\s*SUCCESS\b/.test(task)).length;
 
     if (!["NONE","NON_TERMINAL","TERMINAL"].includes(terminationStatus)) {
       fail(label + ": invalid or missing TERMINATION_STATUS " + terminationStatus);
@@ -142,8 +142,8 @@ if (!fs.existsSync(BATCH_DIR)) {
     if (Number.isInteger(completed) && successTaskCount !== completed) {
       fail(label + ": COMPLETED_COUNT does not equal number of SUCCESS task records");
     }
-    if (sessionStatus === "STOPPED" && terminationStatus === "TERMINAL" && /STOP_REASON:\s*USER_STOP/.test(text)) {
-      if (!/TERMINATION_STATUS:\s*TERMINAL/.test(text)) fail(label + ": explicit USER_STOP must be terminal");
+    if (/STOP_REASON:\s*USER_STOP\b/.test(text) && terminationStatus !== "TERMINAL") {
+      fail(label + ": explicit USER_STOP must have TERMINATION_STATUS: TERMINAL");
     }
     if (terminationStatus === "TERMINAL" && sessionStatus !== "STOPPED" && sessionStatus !== "COMPLETED") {
       fail(label + ": TERMINAL batch must be STOPPED or COMPLETED");
