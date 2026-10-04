@@ -39,3 +39,6 @@ jobs:
 
       - name: Run cross-module runtime self-test
         run: node scripts/test_cross_module_runtime.mjs
+
+      - name: Run LoRA activation readiness self-test
+        run: node scripts/test_lora_activation_readiness.mjs
