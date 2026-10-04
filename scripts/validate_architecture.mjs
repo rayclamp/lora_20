@@ -285,7 +285,7 @@ for (const token of [
 }
 if (failures === 0) pass("Phase 9: Wallpaper task-integrity contract is present");
 for (const token of [
-  "Three consecutive FAILED generation attempts",
+  "3 consecutive FAILED generation attempts",
   "UNKNOWN result",
   "ABANDONED",
   "SUCCESS is terminal",
