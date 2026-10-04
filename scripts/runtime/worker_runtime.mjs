@@ -140,7 +140,6 @@ export class ProductionWorkerRuntime {
       version: 0,
       attemptCount: 0,
       consecutiveFailures: 0,
-      generationAuthorization: "NOT_REQUIRED",
       promptPreview: "NOT_RECORDED",
       result: "NOT_STARTED",
       recovery: "NONE",
@@ -149,7 +148,7 @@ export class ProductionWorkerRuntime {
       design: null,
       generationAuthorization: input.mode === "MANUAL" ? "WAITING_USER_CONFIRMATION" : "WAITING_AUTOMATION_EXECUTION",
       checkpointVersion: 0,
-      events: [{ type: "AUTOMATION_REQUEST_RECEIVED", at: this.clock(), traceRunId: input.traceRunId ?? "GENERATED" }]
+      events: [{ type: input.mode === "MANUAL" ? "USER_REQUEST_RECEIVED" : "AUTOMATION_REQUEST_RECEIVED", at: this.clock(), traceRunId: input.traceRunId ?? "GENERATED" }]
     };
     if (typeof this.store.create === "function") this.store.create(state, "runtime: create task state");
     else this.store.write(state);
