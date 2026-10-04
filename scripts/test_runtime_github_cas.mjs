@@ -7,7 +7,8 @@ class FakeGitHubContentsClient {
   constructor(initialState) { this.state = initialState; this.sha = "blob-1"; this.writes = 0; }
   getContents() { return { content: Buffer.from(JSON.stringify(this.state), "utf8").toString("base64"), sha: this.sha }; }
   updateContents({ sha, content }) {
-    if (sha !== this.sha) { const error = new Error("STALE_CONTENT_SHA"); error.code = "STALE_CONTENT_SHA"; throw error; }
+    if (sha === undefined && this.state !== null) { const error = new Error("FILE_ALREADY_EXISTS"); error.code = "FILE_ALREADY_EXISTS"; throw error; }
+    if (sha !== undefined && sha !== this.sha) { const error = new Error("STALE_CONTENT_SHA"); error.code = "STALE_CONTENT_SHA"; throw error; }
     this.state = JSON.parse(Buffer.from(content, "base64").toString("utf8"));
     this.writes++; this.sha = "blob-" + (this.writes + 1); return { content: { sha: this.sha } };
   }
@@ -29,6 +30,24 @@ const claimedA = runtimeA.claim(); assert.equal(claimedA.workerId, "WORKER_A"); 
 assert.throws(() => runtimeB.claim(), /CLAIM_REJECTED/);
 
 console.log("Production Runtime Phase-4 CAS probe: PASS");
+const createClient = new FakeGitHubContentsClient(null);
+const createStore = new GitHubContentsStateStore({
+  client: createClient, owner: "rayclamp", repo: "lora_20",
+  path: "MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/STATE/RV-CREATE.json", branch
+});
+const createRuntime = new ProductionWorkerRuntime({
+  store: createStore,
+  generator: { generate: () => ({ result: "SUCCESS", verification: "VERIFIED", output: {} }) },
+  workerId: "WORKER_CREATE"
+});
+const created = createRuntime.request({
+  traceRunId: "RV-CREATE-001", module: "UNIVERSAL_WALLPAPER",
+  productionType: "ANIME", outputType: "DESKTOP_WALLPAPER",
+  batchId: "RV-BATCH-CREATE", taskId: "IMAGE-01"
+});
+assert.equal(created.taskStatus, "QUEUED");
+assert.equal(createClient.state.taskId, "IMAGE-01");
+
 console.log("PASS stale content SHA is rejected");
 console.log("PASS first worker claim becomes authoritative");
 console.log("PASS second worker cannot reclaim claimed task");
