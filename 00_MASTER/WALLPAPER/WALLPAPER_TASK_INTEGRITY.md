@@ -56,6 +56,9 @@ Before generation, each wallpaper task must have a persistent design record cont
 - stability constraints
 - final executable prompt
 - negative/stability prompt
+- prompt execution status
+- executed prompt reference, when observable
+- execution verification status
 - task status
 
 The generation Worker executes the current task record. It must not silently replace the design with a newly invented scene.
@@ -259,7 +262,7 @@ RESUME restores these values from the batch record. STOP preserves them in the b
 
 The Worker should use the following sequence:
 
-`READ TASK → VERIFY ID → RESOLVE CHARACTER AUTHORITY → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY OUTFIT ISOLATION → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY OUTPUT COUNT → SHOW PROMPT → GENERATE → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECKPOINT → NEXT TASK`
+`READ TASK → VERIFY ID → RESOLVE CHARACTER AUTHORITY → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY OUTFIT ISOLATION → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY OUTPUT COUNT → LOCK PROMPT → SHOW PROMPT → EXECUTE LOCKED PROMPT → RECORD EXECUTION EVENT → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECKPOINT → NEXT TASK`
 
 A Worker must not start generation if the task identity, design, diversity, reference-decoupling policy, or required format cannot be safely resolved.
 
@@ -278,6 +281,41 @@ Minimum logical result states: `NOT_STARTED`, `SUCCESS`, `FAILED`, `UNKNOWN`.
 The repository must not claim knowledge of an exact remaining ChatGPT quota unless that information is explicitly available from the platform.
 
 A Worker must not claim QUOTA_LIMITED, RATE_LIMITED, or GENERATION_UNAVAILABLE without explicit platform evidence. If the Worker cannot verify the availability state, use UNKNOWN / RECOVERY_REQUIRED rather than inventing a quota or availability stop.
+
+## 10A. Prompt execution integrity
+
+`FINAL_EXECUTABLE_PROMPT` is the canonical task prompt. `PROMPT_PREVIEW_STATUS: SHOWN` is only a preview event and does not prove that the generation operation executed that exact prompt.
+
+Before generation:
+- lock the final prompt;
+- show the complete locked prompt;
+- set `PROMPT_EXECUTION_STATUS: READY`;
+- invoke generation using that locked prompt.
+
+After invocation:
+- set `PROMPT_EXECUTION_STATUS: SENT` only when the runtime can establish that the generation call was made with the locked prompt;
+- record `EXECUTED_PROMPT_REFERENCE` when the platform exposes an execution/request identifier;
+- record `EXECUTION_VERIFICATION_STATUS`.
+
+Allowed verification values:
+- `VERIFIED`
+- `NOT_OBSERVABLE`
+- `MISMATCH`
+- `UNKNOWN`
+
+`MISMATCH` must not be treated as normal SUCCESS.
+
+`NOT_OBSERVABLE` means the platform does not expose the executed prompt payload; it is honest runtime telemetry, not evidence that the prompt was ignored. The Worker must not fabricate a prompt hash, request ID, or execution proof.
+
+If the prompt changes, the previous preview/execution state is invalidated and the replacement prompt must be previewed again.
+
+## 10B. Prompt adherence boundary
+
+Prompt execution integrity and visual prompt adherence are different controls.
+
+The production Worker can verify that the intended prompt was locked and, when the runtime exposes enough telemetry, that the generation event used it. It cannot guarantee that an image model will semantically obey every prompt instruction.
+
+If the runtime cannot inspect the generated image or cannot compare it against the prompt, visual adherence remains a downstream QA concern. A model ignoring an executed instruction must not be falsely classified as a prompt-execution mismatch.
 
 ## 11. Automation requirement
 
