@@ -70,6 +70,9 @@ TIME:
 PET_ALLOWED:
 REFERENCE:
 
+REFERENCE_OUTFIT_POLICY:
+REFERENCE_POSE_POLICY:
+
 ## TASKS
 
 ### IMAGE 01
@@ -105,6 +108,8 @@ TIME:
 LIGHTING:
 CAMERA_LENS:
 STABILITY_CONSTRAINTS:
+REFERENCE_OUTFIT_POLICY:
+REFERENCE_POSE_POLICY:
 DIVERSITY_ROLE:
 DIVERSITY_VALIDATION_STATUS:
 FINAL_EXECUTABLE_PROMPT:
@@ -287,3 +292,16 @@ The batch may not remain ACTIVE with a terminal SUCCESS followed by an intention
 The task's declared `ASPECT_RATIO`, `OUTPUT_TYPE`, and `ORIENTATION` describe the required output, not proof of the actual result.
 
 When actual output dimensions/metadata are available, they must be recorded or validated before terminal SUCCESS. A mismatch must not be silently accepted as format-compliant success.
+
+
+## 17. Reference-decoupling task invariant
+
+For REALISTIC WALLPAPER tasks using a person reference:
+- `REFERENCE_OUTFIT_POLICY` must be `REPLACE` unless the user explicitly requests outfit preservation.
+- `REFERENCE_POSE_POLICY` must be `IGNORE` unless the user explicitly requests pose preservation.
+
+`REPLACE` means a complete new outfit must be designed. "Source outfit + jacket" or "source outfit + shoes" is not a valid replacement.
+
+`IGNORE` means the source pose cannot be copied as the generated pose template. The Worker must independently design the generated pose/action.
+
+These fields must be resolved before DESIGN_LOCK.
