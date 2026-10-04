@@ -399,6 +399,7 @@ Before generation confirm:
 - character authority is resolved when a character is explicitly specified;
 - Inaria original/reference outfit is confirmed isolated from wallpaper presentation unless explicitly requested;
 - when a person reference exists, contextual Inaria data is separated from canonical visual/body identity data before prompt construction;
+- the Universal Wallpaper Reference Policy has been loaded and the visual reference authority is resolved or explicitly recorded as NO_REFERENCE;
 - unstable actions have been simplified;
 - the executable prompt has been shown to the user.
 
