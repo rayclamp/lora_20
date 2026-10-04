@@ -16,6 +16,20 @@ Do not silently replace the supplied reference with a GitHub MASTER_IMAGE.
 A GitHub character master may only be used when the user explicitly requests it or the current task declares it as an additional reference.
 Do not force the reference image's camera angle, pose, framing, or exact composition onto every generated image.
 
+## 2A. Inaria character authority
+
+When the user explicitly requests Inaria / 依娜莉亞, load and apply:
+
+`00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`
+
+The Inaria specification is the canonical character-semantic authority for Inaria. It is not a second visual person reference.
+
+If a user-supplied person image exists, that image remains the sole visual person reference for the current task. The Inaria specification supplies stable character constraints and defaults, while the uploaded image supplies visual person evidence.
+
+For an Inaria task, preserve the character identity anchors defined by the Inaria specification while independently redesigning hairstyle, complete outfit, accessories, shoes, pose/action, and expression unless the user explicitly requests preservation.
+
+If the user does not explicitly request Inaria, do not silently apply the Inaria character specification.
+
 ## 3. Anime visual direction
 Preserve the supplied reference image's visual identity first.
 Favor clean anime/illustrated rendering, coherent line and shape treatment, natural-looking anime lighting, controlled color harmony, detailed but readable backgrounds, and expressive but stable poses when supported by the reference.
