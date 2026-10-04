@@ -10,7 +10,7 @@ GitHub remains the persistent Source of Truth. ChatGPT is the execution Worker f
 
 ## 1. Session loop
 
-`USER COMMAND → READ GITHUB → DESIGN IMAGE N → SHOW PROMPT → GENERATE IMAGE N → RECORD RESULT → CHECKPOINT → IMAGE N+1`
+`USER COMMAND → READ GITHUB → DESIGN IMAGE N → VALIDATE DESIGN → BUILD PROMPT → SHOW PROMPT → USER GENERATION CONFIRMATION → GENERATE IMAGE N → RECORD RESULT → CHECKPOINT → IMAGE N+1`
 
 One task represents one intended successful wallpaper output. A task may require more than one bounded generation attempt when an attempt explicitly fails validation.
 
@@ -46,6 +46,7 @@ When CHARACTER is INARIA, the batch must explicitly record that the Inaria Chara
 - COMPLETED_COUNT
 - CURRENT_TASK_ID
 - SESSION_STATUS
+- GENERATION_AUTHORIZATION_STATUS
 - STOP_REASON
 - STOP_EVIDENCE
 - STOP_EVIDENCE_SOURCE
@@ -56,6 +57,11 @@ When CHARACTER is INARIA, the batch must explicitly record that the Inaria Chara
 Session statuses:
 `NOT_STARTED`, `ACTIVE`, `PAUSED`, `STOPPED`, `COMPLETED`, `RECOVERY_REQUIRED`
 
+Manual generation authorization states:
+`NOT_REQUIRED`, `WAITING_USER_CONFIRMATION`, `USER_CONFIRMED_GENERATION`, `USER_REQUESTED_REVISION`, `USER_DECLINED_GENERATION`.
+
+`WAITING_USER_CONFIRMATION` is not a generation failure, quota stop, UNKNOWN result, or batch completion. The session may remain ACTIVE while waiting for the user's decision.
+
 Stop reasons:
 `USER_STOP`, `CHATGPT_FORCED_STOP`, `QUOTA_LIMIT_REACHED`, `GENERATION_UNAVAILABLE`, `SYSTEM_ERROR`, `UNKNOWN_RECOVERY_REQUIRED`, `COMPLETED`
 
@@ -63,9 +69,11 @@ GitHub must not invent or predict a remaining platform quota.
 
 A quota/rate-limit/generation-unavailable stop is valid only when explicit platform evidence exists. Worker inference or expectation is not evidence. If evidence is absent and availability is uncertain, record UNKNOWN / RECOVERY_REQUIRED rather than claiming a quota stop.
 
-## 3. Prompt Preview and Execution Integrity Gate
+## 3. Prompt Preview and Manual Confirmation Gate
 
-Before generating each image, the Worker MUST show the complete executable prompt to the user.
+The Worker designs the image and constructs the complete executable Prompt from the user requirement plus the applicable CORE and Wallpaper rules. The user is not required to provide the Prompt.
+
+Before generating each image in MANUAL mode, the Worker MUST show the complete executable prompt to the user and receive explicit generation confirmation.
 
 Required order:
 
@@ -75,19 +83,20 @@ Required order:
 4. finalize executable prompt;
 5. lock the final prompt;
 6. **show prompt to user**;
-7. invoke generation using that locked prompt;
-8. count the invocation against `GENERATION_ATTEMPT_COUNT`;
-9. enforce `MAX_ATTEMPTS_PER_TASK` before any further generation;
-10. record the generation execution event/status;
-11. confirm result count and actual format;
-12. record result;
-13. evaluate retry/recovery against the hard attempt limit;
-14. checkpoint;
-15. continue only when safe.
+7. **wait for explicit USER_GENERATION_CONFIRMATION**;
+8. invoke generation using that locked prompt;
+9. count the invocation against `GENERATION_ATTEMPT_COUNT`;
+10. enforce `MAX_ATTEMPTS_PER_TASK` before any further generation;
+11. record the generation execution event/status;
+12. confirm result count and actual format;
+13. record result;
+14. evaluate retry/recovery against the hard attempt limit;
+15. checkpoint;
+16. continue only when safe.
 
 The shown prompt must be the exact prompt intended for the current generation event.
 
-Prompt preview is NOT proof of prompt execution. The task record must separately track:
+Prompt preview is NOT proof of prompt execution. User confirmation is authorization to generate, not proof that generation occurred. The task record must separately track:
 - `PROMPT_EXECUTION_STATUS`;
 - `EXECUTED_PROMPT_REFERENCE`;
 - `EXECUTION_VERIFICATION_STATUS`.
