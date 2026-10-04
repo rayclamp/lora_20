@@ -64,7 +64,7 @@ assert.ok(loraAdapter.includes("LoRA-specific Worker adapter"), "LoRA adapter bo
 assert.ok(loraAdapter.includes("shared Output/Persistence"), "LoRA output boundary missing");
 
 const festival = read("00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md");
-assert.ok(/not an independent Worker or Dispatch system/i.test(festival), "Festival boundary missing");
+assert.ok(/不是獨立 Worker 或 Dispatch 系統/.test(festival) && festival.includes("PRODUCTION_WORKER_RUNTIME.md"), "Festival boundary missing");
 
 const universal = read("00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md");
 assert.ok(universal.includes("production module"), "Universal module boundary missing");
