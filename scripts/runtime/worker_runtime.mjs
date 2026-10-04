@@ -110,9 +110,10 @@ export function sha256(value) {
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 export class ProductionWorkerRuntime {
-  constructor({ store, generator, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null }) {
+  constructor({ store, generator, designer = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null }) {
     this.store = store;
     this.generator = generator;
+    this.designer = designer;
     this.clock = clock;
     this.workerId = workerId;
     this.contextResolver = contextResolver;
@@ -143,6 +144,10 @@ export class ProductionWorkerRuntime {
       promptPreview: "NOT_RECORDED",
       result: "NOT_STARTED",
       recovery: "NONE",
+      mode: input.mode ?? "AUTOMATED",
+      userRequest: input.userRequest ?? "NOT_PROVIDED",
+      design: null,
+      generationAuthorization: input.mode === "MANUAL" ? "WAITING_USER_CONFIRMATION" : "WAITING_AUTOMATION_EXECUTION",
       checkpointVersion: 0,
       events: [{ type: "AUTOMATION_REQUEST_RECEIVED", at: this.clock(), traceRunId: input.traceRunId ?? "GENERATED" }]
     };
@@ -165,6 +170,23 @@ export class ProductionWorkerRuntime {
       return s;
     });
     return clone(s);
+  }
+
+  designFromRequest(userRequest, context = {}) {
+    if (!this.designer || typeof this.designer.design !== "function") throw new Error("SYSTEM_DESIGNER_REQUIRED");
+    const state = this.requireState();
+    const canonical = this.contextResolver
+      ? this.contextResolver.resolve({
+          module: state.module,
+          reference: context.reference,
+          referenceRequired: context.referenceRequired ?? false,
+          theme: context.theme ?? "",
+          sceneIntent: context.sceneIntent
+        })
+      : context;
+    const designed = this.designer.design({ userRequest, state, context: canonical });
+    if (!designed || typeof designed.prompt !== "string" || !designed.prompt.trim()) throw new Error("SYSTEM_PROMPT_REQUIRED");
+    return this.designAndLockPrompt(designed.prompt, { ...canonical, design: designed.design, userRequest });
   }
 
   designAndLockPrompt(prompt, context = {}) {
@@ -212,13 +234,40 @@ export class ProductionWorkerRuntime {
         protocolPath: effectiveContext.sceneIntent?.sceneProtocolPath ?? "NOT_OBSERVABLE",
         fields: intent
       });
+      if (context.userRequest !== undefined) s.userRequest = String(context.userRequest);
+      if (context.design !== undefined) s.design = clone(context.design);
       s.events.push({ type: "PRESENTATION_DESIGNED", at: this.clock() });
       s.events.push({ type: "DESIGN_VALIDATED", at: this.clock(), status: "PASS" });
       s.promptHash = sha256(prompt);
       s.lockedPrompt = prompt;
       s.promptPreview = "RECORDED";
       s.events.push({ type: "PROMPT_ASSEMBLED", at: this.clock(), promptHash: s.promptHash });
+      s.promptPreview = "SHOWN";
       s.events.push({ type: "PROMPT_PREVIEW_RECORDED", at: this.clock(), promptHash: s.promptHash });
+      return s;
+    });
+    return clone(s);
+  }
+
+  confirmManualGeneration() {
+    const s = this.mutateState((s) => {
+      if (s.mode !== "MANUAL") throw new Error("MANUAL_CONFIRMATION_NOT_APPLICABLE");
+      if (s.promptPreview !== "SHOWN") throw new Error("PROMPT_PREVIEW_REQUIRED");
+      s.generationAuthorization = "USER_CONFIRMED_GENERATION";
+      s.events.push({ type: "USER_GENERATION_CONFIRMED", at: this.clock() });
+      s.version++;
+      return s;
+    });
+    return clone(s);
+  }
+
+  authorizeAutomatedGeneration() {
+    const s = this.mutateState((s) => {
+      if (s.mode !== "AUTOMATED") throw new Error("AUTOMATION_AUTHORIZATION_NOT_APPLICABLE");
+      if (s.promptPreview !== "SHOWN") throw new Error("PROMPT_PREVIEW_REQUIRED");
+      s.generationAuthorization = "AUTOMATION_EXECUTION_AUTHORIZED";
+      s.events.push({ type: "AUTOMATION_EXECUTION_AUTHORIZED", at: this.clock() });
+      s.version++;
       return s;
     });
     return clone(s);
@@ -232,6 +281,11 @@ export class ProductionWorkerRuntime {
       throw new Error("EXECUTION_OWNERSHIP_REQUIRED");
     }
     if (!s.lockedPrompt) throw new Error("EXECUTION_NOT_READY");
+    if (s.promptPreview !== "SHOWN") throw new Error("PROMPT_PREVIEW_REQUIRED");
+    const authorized = s.mode === "MANUAL"
+      ? s.generationAuthorization === "USER_CONFIRMED_GENERATION"
+      : s.generationAuthorization === "AUTOMATION_EXECUTION_AUTHORIZED";
+    if (!authorized) throw new Error("GENERATION_AUTHORIZATION_REQUIRED");
     if (s.attemptCount >= s.maxAttempts) throw new Error("MAX_ATTEMPTS_REACHED");
 
     const claimId = s.claimId;
@@ -241,7 +295,22 @@ export class ProductionWorkerRuntime {
     const result = this.generator.generate({ prompt: next.lockedPrompt, outputType: next.outputType });
     next.attemptCount++;
     next.result = result.result;
-    next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification });
+    const expectedPromptHash = sha256(next.lockedPrompt);
+    const observedPromptHash = result.output?.promptHash;
+    if (result.result === "SUCCESS" && observedPromptHash && observedPromptHash !== expectedPromptHash) {
+      result.result = "FAILED";
+      result.verification = "VERIFIED";
+      result.failureReason = "EXECUTED_PROMPT_MISMATCH";
+      next.result = "FAILED";
+    }
+    const formatMismatch = result.result === "SUCCESS" && result.output?.format && result.output.format !== next.outputType;
+    if (formatMismatch) {
+      result.result = "FAILED";
+      result.verification = "VERIFIED";
+      result.failureReason = "OUTPUT_FORMAT_MISMATCH";
+      next.result = "FAILED";
+    }
+    next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification, failureReason: result.failureReason ?? "NONE" });
 
     if (result.result === "SUCCESS") {
       next.taskStatus = "SUCCESS";
