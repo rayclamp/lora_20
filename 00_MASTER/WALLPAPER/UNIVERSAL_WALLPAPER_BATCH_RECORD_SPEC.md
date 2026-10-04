@@ -94,6 +94,7 @@ VIEWPOINT:
 SHOT_SIZE:
 CHARACTER_POSITION:
 POSE:
+EXPRESSION:
 MAIN_ACTION:
 HAND_ACTION:
 LEG_POSITION:
@@ -323,3 +324,25 @@ For REALISTIC WALLPAPER tasks using a person reference:
 `IGNORE` means the source pose cannot be copied as the generated pose template. The Worker must independently design the generated pose/action.
 
 These fields must be resolved before DESIGN_LOCK.
+
+
+## 17. User design intent contract
+
+The canonical Universal Wallpaper design model follows the user's normal design sequence:
+
+1. REFERENCE PERSON — use the user-supplied image as the sole person/identity reference for the current task.
+2. PRESENTATION REDESIGN — independently design a new hairstyle, complete outfit, accessories, and shoes unless the user explicitly requests preservation.
+3. SCENE — design the requested location/environment and contextual details.
+4. POSE / ACTION — independently design the character's body pose and main action; do not copy the reference pose unless explicitly requested.
+5. EXPRESSION — explicitly design the character's facial expression appropriate to the scene/action.
+6. WALLPAPER OUTPUT — resolve whether the task is a DESKTOP_WALLPAPER or PHONE_WALLPAPER and apply the corresponding technical format lock.
+
+The task record must represent these decisions explicitly before DESIGN_LOCK.
+
+For person-reference wallpaper tasks, the reference image establishes who the person is. It is not automatically an outfit, hairstyle, pose, or composition template.
+
+Default presentation policies:
+- REFERENCE_OUTFIT_POLICY: REPLACE
+- REFERENCE_POSE_POLICY: IGNORE
+
+A user may explicitly override either policy by requesting preservation.
