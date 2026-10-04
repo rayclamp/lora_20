@@ -2,7 +2,7 @@ name: Architecture Validation
 
 on:
   push:
-    branches: [main]
+    branches: [main, council-round10-concurrency]
   workflow_dispatch:
 
 jobs:
