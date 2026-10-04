@@ -44,7 +44,7 @@ The shared Worker Runtime may be used by other production domains, but that does
 
 ## Modules
 UNIVERSAL_WALLPAPER — general anime/realistic wallpaper. ACTIVE and owns persistent batch/task state under MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/.
-FESTIVAL_WALLPAPER — festival anime/realistic wallpaper. ACTIVE and uses the canonical execution protocol under 00_MASTER/WALLPAPER/.
+FESTIVAL_WALLPAPER — festival anime/realistic wallpaper. ACTIVE and owns its module-level reference policy under MODULES/FESTIVAL_WALLPAPER/.
 LORA_PRODUCTION — age-20 Inaria LoRA dataset production profile. PAUSED. It owns LoRA-specific identity, dataset, diversity, QA, and output requirements; it uses the shared Production Worker Runtime.
 QA — independent downstream inspection. PAUSED.
 IMAGE_DELIVERY — independent downstream delivery. PAUSED.
@@ -64,7 +64,14 @@ All LoRA-specific identity, reference, dataset, diversity, production requiremen
 LoRA must never route through Wallpaper production state.
 
 ## Reference isolation
-Every module owns its own reference policy. A module may not silently substitute another module's reference.
+
+Every production module owns its own Reference Policy.
+
+The selected module's Reference Policy is the sole authority for allowed visual person-reference sources for that module.
+
+A Character Specification provides semantic/context authority unless a production module explicitly defines a different role. It does not become a visual reference merely because the same character name appears in the task.
+
+A module may not silently substitute another module's reference.
 
 ## Current-system-only
 Do not preserve alternate operational specifications inside the current tree. If a rule remains useful, encode it once under its current canonical owner.
@@ -74,11 +81,12 @@ START_HERE → SYSTEM_ARCHITECTURE → MODULE_REGISTRY → RUNTIME_STATE → AUT
 
 Never reconstruct current state from previous conversations.
 
-
 ## Automation and scene-resolution hardening
 
-System Automation and Automated Dispatch are governed by 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md. Canonical production rule paths are governed by 00_MASTER/CANONICAL_PATH_REGISTRY.md.
+System Automation and Automated Dispatch are governed by `00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md`. Canonical production rule paths are governed by `00_MASTER/CANONICAL_PATH_REGISTRY.md`.
 
-A Theme is not an executable Scene Intent. Before DESIGN_LOCK, production tasks must pass 00_MASTER/WALLPAPER/SCENE_INTENT_RESOLUTION_PROTOCOL.md and record the provenance of resolved scene fields.
+A Theme is not an executable Scene Intent. Before DESIGN_LOCK, production tasks must pass `00_MASTER/WALLPAPER/SCENE_INTENT_RESOLUTION_PROTOCOL.md` and record the provenance of resolved scene fields.
+
+Before reference resolution, Automation must load the selected Wallpaper Module's canonical Reference Policy. Manual execution and System Automation converge on the same Shared Worker Runtime after module and reference-policy resolution.
 
 Manual execution and System Automation converge on the same Shared Worker Runtime. External automation integrations are downstream adapters to System Automation and are not part of the core execution architecture. Legacy departmental automation is non-authoritative until migrated under the current contract.
