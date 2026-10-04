@@ -23,14 +23,29 @@ Workers and automation must resolve these paths exactly. A missing file is a con
 - Scene intent: 00_MASTER/WALLPAPER/SCENE_INTENT_RESOLUTION_PROTOCOL.md
 - Realistic rules: 00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md
 - Anime rules: 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
+- Reference policy: MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md
+
+## Festival Wallpaper
+- Module reference policy: MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md
+- Execution profile: 00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md
+- Cultural data: FESTIVAL_COSTUME_DATABASE/
+- Cultural data index: FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/CORE_FESTIVAL_INDEX.md
 
 ## Character
-- Inaria: 00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md
+- Inaria semantic character authority: 00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md
 
 ## Path resolution rule
 A Worker must load the exact canonical path listed here.
 If the path is unavailable, renamed, or contradictory: CONTEXT_LOAD_FAILURE → STOP → CHECKPOINT.
 The Worker must not silently search obsolete paths and continue.
+
+## Reference authority rule
+
+A Character Specification is semantic/context authority unless the selected production module explicitly designates it otherwise. It is not a visual reference asset.
+
+Visual reference authority must be resolved through the selected production module's canonical Reference Policy.
+
+Automation must load the selected module's Reference Policy before resolving REFERENCE_AUTHORITY_RESOLVED.
 
 ## Legacy references
 Historical references to alternate paths are non-authoritative. They must be migrated or explicitly marked LEGACY before an automated production path is reactivated.
