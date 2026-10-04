@@ -9,6 +9,15 @@ import { JsonStateStore, MockGenerationAdapter, ProductionWorkerRuntime } from "
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), "lora20-runtime-"));
 const store = new JsonStateStore(path.join(dir, "runtime-state.json"));
 
+
+const VALID_CONTEXT = {
+  reference: { status: "NO_REFERENCE", provenance: "TEST" },
+  sceneIntent: { status: "EXPLICIT", provenance: "TEST", fields: {
+    ACTIVITY: "TEST_ACTIVITY", LOCATION: "TEST_LOCATION", ACTION: "TEST_ACTION", TIME: "DAY",
+    WEATHER: "CLEAR", SOCIAL_CONTEXT: "ALONE", ENVIRONMENTAL_CUES: "TEST_CUES"
+  }}
+};
+
 const runtime = new ProductionWorkerRuntime({
   store,
   generator: new MockGenerationAdapter(["SUCCESS"]),
@@ -30,7 +39,7 @@ assert.equal(s.taskStatus, "QUEUED");
 s = runtime.claim();
 assert.equal(s.ownership, "CLAIMED");
 
-s = runtime.designAndLockPrompt("SYSTEM-GENERATED VERIFIED PROMPT — DESKTOP WALLPAPER");
+s = runtime.designAndLockPrompt("SYSTEM-GENERATED VERIFIED PROMPT — DESKTOP WALLPAPER", VALID_CONTEXT);
 assert.equal(s.promptPreview, "RECORDED");
 assert.ok(s.promptHash);
 
@@ -72,7 +81,7 @@ failureRuntime.request({
   taskId: "IMAGE-01",
 });
 failureRuntime.claim();
-failureRuntime.designAndLockPrompt("SYSTEM-GENERATED PROMPT");
+failureRuntime.designAndLockPrompt("SYSTEM-GENERATED PROMPT", VALID_CONTEXT);
 let f = failureRuntime.execute();
 assert.equal(f.attemptCount, 1);
 assert.equal(f.recovery, "RETRY_READY");
