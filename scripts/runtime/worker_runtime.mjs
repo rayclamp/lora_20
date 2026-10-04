@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { CanonicalContextResolver } from "./canonical_context_resolver.mjs";
 
 export const AUTOMATION_SCOPE = new Set(["UNIVERSAL_WALLPAPER", "FESTIVAL_WALLPAPER"]);
 export const REQUIRED_SCENE_INTENT_FIELDS = [
@@ -109,11 +110,12 @@ export function sha256(value) {
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 export class ProductionWorkerRuntime {
-  constructor({ store, generator, clock = () => Date.now(), workerId = "RUNTIME_WORKER" }) {
+  constructor({ store, generator, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null }) {
     this.store = store;
     this.generator = generator;
     this.clock = clock;
     this.workerId = workerId;
+    this.contextResolver = contextResolver;
   }
 
   request(input) {
@@ -166,17 +168,28 @@ export class ProductionWorkerRuntime {
   }
 
   designAndLockPrompt(prompt, context = {}) {
+    const canonical = this.contextResolver
+      ? this.contextResolver.resolve({
+          module: this.requireState().module,
+          reference: context.reference,
+          referenceRequired: context.referenceRequired ?? false,
+          theme: context.theme ?? "",
+          sceneIntent: context.sceneIntent
+        })
+      : null;
+    const effectiveContext = canonical ?? context;
+
     const s = this.mutateState((s) => {
       if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED") throw new Error("DESIGN_REQUIRES_CLAIM");
-      const referenceState = context.reference?.status ?? "NO_REFERENCE";
+      const referenceState = effectiveContext.reference?.status ?? "NO_REFERENCE";
       if (!REFERENCE_STATES.has(referenceState)) throw new Error("REFERENCE_STATE_INVALID");
       if (referenceState === "REFERENCE_BLOCKED") throw new Error("REFERENCE_BLOCKED");
-      const sceneStatus = context.sceneIntent?.status;
+      const sceneStatus = effectiveContext.sceneIntent?.status;
       if (!SCENE_INTENT_STATES.has(sceneStatus)) throw new Error("SCENE_INTENT_STATUS_REQUIRED");
       if (sceneStatus === "MISSING" || sceneStatus === "CONFLICT" || sceneStatus === "BLOCKED") {
         throw new Error("SCENE_INTENT_BLOCKED");
       }
-      const intent = context.sceneIntent?.fields ?? {};
+      const intent = effectiveContext.sceneIntent?.fields ?? {};
       for (const field of REQUIRED_SCENE_INTENT_FIELDS) {
         if (intent[field] === undefined || intent[field] === null || intent[field] === "") {
           throw new Error("SCENE_INTENT_INCOMPLETE");
@@ -186,13 +199,13 @@ export class ProductionWorkerRuntime {
       s.events.push({
         type: "REFERENCE_AUTHORITY_RESOLVED", at: this.clock(),
         status: referenceState,
-        referenceId: context.reference?.id ?? "NOT_OBSERVABLE",
-        provenance: context.reference?.provenance ?? "NOT_OBSERVABLE"
+        referenceId: effectiveContext.reference?.id ?? "NOT_OBSERVABLE",
+        provenance: effectiveContext.reference?.provenance ?? "NOT_OBSERVABLE"
       });
       s.events.push({
         type: "SCENE_INTENT_RESOLVED", at: this.clock(),
         status: sceneStatus,
-        provenance: context.sceneIntent?.provenance ?? "NOT_OBSERVABLE",
+        provenance: effectiveContext.sceneIntent?.provenance ?? "NOT_OBSERVABLE",
         fields: intent
       });
       s.events.push({ type: "PRESENTATION_DESIGNED", at: this.clock() });
