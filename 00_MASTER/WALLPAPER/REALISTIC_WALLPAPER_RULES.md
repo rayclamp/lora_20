@@ -22,6 +22,16 @@ For realistic Inaria tasks:
 
 Do not interpret an identity reference as a requirement to preserve every visual property of the source image; camera angle, pose, framing, clothing, scene, lighting, and composition may change.
 
+For REALISTIC WALLPAPER production, the supplied reference image is an identity/body-reference image, NOT an outfit or pose template unless the task explicitly says otherwise.
+
+Hard reference-decoupling rules:
+- SOURCE OUTFIT MUST NOT be reused as the wallpaper outfit.
+- SOURCE OUTFIT MUST NOT be treated as a default base layer with only an added jacket, coat, cardigan, or accessory.
+- The Worker must design a complete new outfit appropriate to the destination, season, weather, activity, and realistic social context.
+- SOURCE POSE MUST NOT be copied or treated as the default pose.
+- The Worker must design a new pose/action independently from the reference image.
+- Source clothing and source pose may be visually present in the reference only for identity/context extraction; they have no authority over the generated presentation.
+
 ### Realistic Inaria visual identity baseline
 When no task-specific realistic person reference overrides it, the realistic Inaria baseline is:
 
@@ -86,8 +96,32 @@ Do not:
 
 The reference image's particular face direction must not create a fixed left-facing/right-facing bias.
 
+## 3A. Reference decoupling validation
+
+Before DESIGN_LOCK for a realistic wallpaper task, explicitly verify:
+
+`REFERENCE_OUTFIT_POLICY: REPLACE`
+`REFERENCE_POSE_POLICY: IGNORE`
+
+The planned outfit must be a complete outfit, including the primary clothing pieces and footwear when visible. Adding only outerwear or shoes to the source outfit fails this gate.
+
+The planned pose/action must be independently designed and must not reproduce the reference image's body arrangement, limb placement, or hand position unless the task explicitly requests pose preservation.
+
+A task that still says "same outfit + jacket" or otherwise derives the generated clothing directly from the source outfit is NOT DESIGN_READY.
+
 ## 4. Body proportion preservation
 Preserve the reference person's natural body proportions, body silhouette, limb proportions, and physical build.
+
+Body silhouette is an identity constraint, not a style suggestion. The generated person must not become visibly heavier, especially through widened thighs or calves, merely because the pose, clothing, camera angle, or scene changed.
+
+When the reference establishes a slim natural build:
+- preserve the relative thigh and calf circumference;
+- preserve the apparent waist-to-hip relationship;
+- do not add muscular or padded leg volume;
+- do not widen both legs symmetrically unless the reference itself has that build;
+- do not use clothing folds or perspective as a reason to change the underlying leg anatomy.
+
+The Worker must treat body-proportion preservation as a pre-generation design check, not something to be corrected after generation.
 
 For the default realistic Inaria baseline, do not silently convert the established 158 cm / 48 kg slim balanced build into a taller, longer-limbed, narrower-waisted, or fashion-model body.
 
@@ -149,6 +183,20 @@ Professional styling may improve presentation, but it must not alter identity an
 Select a camera setup appropriate to the composition, including when useful: camera distance, focal length/lens character, perspective, depth of field, camera height, and viewpoint.
 Avoid extreme wide-angle perspective when it causes unnatural enlargement of nearby hands, feet, face, or other body parts.
 Do not use camera perspective as an excuse for anatomically implausible proportions.
+
+## 7A. Pose independence from reference
+
+The reference image's pose is non-authoritative.
+
+Before finalizing the prompt, explicitly design:
+- a new torso orientation;
+- new arm/hand placement;
+- new leg placement and weight distribution;
+- a new action appropriate to the scene.
+
+Do not reuse the reference pose simply because the reference is the easiest stable composition.
+
+Pose variation must still preserve the same underlying body proportions and center of gravity.
 
 ## 8. Human pose
 Prioritize natural human posture and believable physical support.
@@ -214,7 +262,8 @@ The current user PET_ALLOWED parameter controls intentional pet/animal inclusion
 ## 13. Prompt construction
 The final prompt must describe:
 1. applicable identity reference and identity-preservation requirements
-2. realistic human appearance
+2. explicit reference-decoupling instructions: replace source outfit; ignore source pose
+3. realistic human appearance
 3. pose/action
 4. camera/lens/perspective
 5. clothing/accessories
@@ -235,10 +284,11 @@ P2 — BODY PROPORTION PRESERVATION
 P3 — NATURAL HUMAN / SKIN REALISM
 P4 — ANATOMICAL STABILITY
 P5 — POSE / ACTION
-P6 — PRESENTATION: HAIRSTYLE / MAKEUP / CLOTHING / ACCESSORIES
-P7 — CAMERA / LENS / COMPOSITION
-P8 — LIGHTING / ENVIRONMENT
-P9 — CINEMATIC / EDITORIAL STYLE
+P6 — REFERENCE-DECOUPLING COMPLIANCE
+P7 — PRESENTATION: HAIRSTYLE / MAKEUP / CLOTHING / ACCESSORIES
+P8 — CAMERA / LENS / COMPOSITION
+P9 — LIGHTING / ENVIRONMENT
+P10 — CINEMATIC / EDITORIAL STYLE
 
 A lower-priority presentation or aesthetic request must not override a higher-priority identity anchor or body-proportion rule.
 
