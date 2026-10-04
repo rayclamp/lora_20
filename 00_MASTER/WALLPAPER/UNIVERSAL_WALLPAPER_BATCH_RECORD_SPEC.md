@@ -466,3 +466,28 @@ Default presentation policies:
 - WALLPAPER_OUTFIT_MODE: INDEPENDENT_REDESIGN
 
 A user may explicitly override either policy by requesting preservation.
+
+## 19. Session termination and resume eligibility
+
+Every authoritative batch record must preserve:
+- TERMINATION_STATUS
+
+Allowed values:
+- NONE
+- NON_TERMINAL
+- TERMINAL
+
+Rules:
+1. Normal batches use TERMINATION_STATUS: NONE unless a terminal completion event requires otherwise.
+2. A recoverable interruption may use SESSION_STATUS: STOPPED or RECOVERY_REQUIRED with TERMINATION_STATUS: NON_TERMINAL.
+3. Explicit user /STOP MUST use SESSION_STATUS: STOPPED, STOP_REASON: USER_STOP, and TERMINATION_STATUS: TERMINAL.
+4. A batch with TERMINATION_STATUS: TERMINAL MUST NOT be resumed or reactivated.
+5. Repeating a previously terminated production requires /START and a new BATCH_ID and new Task identities.
+6. Confirmed SUCCESS tasks remain successful when a batch is terminated.
+7. Unfinished tasks in a terminal batch may be marked ABANDONED when the stop operation explicitly terminalizes them.
+8. Terminalization never deletes the batch, task, prompt, attempt, result, or checkpoint history.
+
+Resume eligibility invariant:
+RESUME_ELIGIBLE = session/recovery rules allow + TERMINATION_STATUS != TERMINAL
+
+A terminal batch has permanently lost execution eligibility even though its record remains readable.
