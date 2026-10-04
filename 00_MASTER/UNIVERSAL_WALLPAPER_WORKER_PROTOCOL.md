@@ -138,7 +138,8 @@ In this mode:
 2. Resolve exactly one authoritative IMAGE_ID / TASK_ID.
 3. If the task is not yet designed, create its design record according to the current rules.
 4. Lock the design before generation.
-5. Show the exact executable prompt.
+5. Build and validate the exact executable prompt.
+6. In MANUAL mode, show the complete system-generated prompt and wait for explicit user generation confirmation.
 6. Generate one image.
 7. Record the result and checkpoint before moving on.
 
@@ -198,7 +199,7 @@ Universal Wallpaper Workers MUST also follow:
 
 The preferred execution model is one task at a time:
 
-`TASK → DESIGN → SAVE DESIGN RECORD → GENERATE → RECORD RESULT → NEXT TASK`
+`TASK → DESIGN → VALIDATE DESIGN → BUILD PROMPT → SHOW PROMPT → USER CONFIRMATION (MANUAL) / AUTOMATION EXECUTION DECISION → GENERATE → RECORD RESULT → NEXT TASK`
 
 For every existing IMAGE_ID / TASK_ID:
 
