@@ -1,5 +1,9 @@
 # UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md
 
+## Shared runtime relationship
+
+Universal Wallpaper is a production module. Generic Worker execution is authoritative in `00_MASTER/PRODUCTION_WORKER_RUNTIME.md`; this document is the Universal Wallpaper domain adapter. Claim/Lease/CAS and Worker Pool behavior are shared execution contracts, not Universal-only architecture.
+
 ## 1. Purpose
 
 This is the Production Worker protocol for the active Universal Wallpaper module.
