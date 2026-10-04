@@ -142,6 +142,7 @@ export class CanonicalContextResolver {
         fields,
         provenance: supplied.provenance ?? "NOT_OBSERVABLE",
         fieldProvenance: supplied.fieldProvenance ?? {},
+        sceneProtocolPath: context.sceneProtocolPath,
         theme: normalize(theme)
       };
     }
@@ -155,6 +156,7 @@ export class CanonicalContextResolver {
         fieldProvenance: supplied.fieldProvenance ?? Object.fromEntries(
           required.map((field) => [field, resolved ? "WORKER_RESOLVED" : "USER_OR_AUTOMATION_INPUT"])
         ),
+        sceneProtocolPath: context.sceneProtocolPath,
         theme: normalize(theme)
       };
     }
@@ -170,6 +172,7 @@ export class CanonicalContextResolver {
           fields: Object.fromEntries(required.map((field) => [field, normalize(resolvedFields[field])])),
           provenance: "WORKER_RESOLVED",
           fieldProvenance: Object.fromEntries(required.map((field) => [field, "WORKER_RESOLVED"])),
+          sceneProtocolPath: context.sceneProtocolPath,
           theme: normalize(theme)
         };
       }
@@ -180,6 +183,7 @@ export class CanonicalContextResolver {
       fields,
       provenance: "NOT_OBSERVABLE",
       fieldProvenance: {},
+      sceneProtocolPath: context.sceneProtocolPath,
       missingFields: missing,
       theme: normalize(theme)
     };
