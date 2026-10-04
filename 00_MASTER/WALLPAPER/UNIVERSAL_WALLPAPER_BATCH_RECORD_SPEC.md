@@ -72,6 +72,8 @@ REFERENCE:
 
 REFERENCE_OUTFIT_POLICY:
 REFERENCE_POSE_POLICY:
+CHARACTER_REFERENCE_OUTFIT_POLICY:
+WALLPAPER_OUTFIT_MODE:
 
 ## TASKS
 
@@ -111,6 +113,8 @@ CAMERA_LENS:
 STABILITY_CONSTRAINTS:
 REFERENCE_OUTFIT_POLICY:
 REFERENCE_POSE_POLICY:
+CHARACTER_REFERENCE_OUTFIT_POLICY:
+WALLPAPER_OUTFIT_MODE:
 DIVERSITY_ROLE:
 DIVERSITY_VALIDATION_STATUS:
 FINAL_EXECUTABLE_PROMPT:
@@ -326,7 +330,23 @@ For REALISTIC WALLPAPER tasks using a person reference:
 These fields must be resolved before DESIGN_LOCK.
 
 
-## 17. User design intent contract
+## 17. Character presentation isolation contract
+
+When `CHARACTER_NAME` is explicitly Inaria / 依娜莉亞, the Worker must load the canonical Inaria Character Specification.
+
+The original/reference outfit stored in that character specification is **character-reference data only**. It has no automatic inheritance into wallpaper presentation.
+
+For wallpaper tasks, the default values are:
+- `CHARACTER_REFERENCE_OUTFIT_POLICY: DO_NOT_INHERIT`
+- `WALLPAPER_OUTFIT_MODE: INDEPENDENT_REDESIGN`
+
+The Worker must independently design the complete wallpaper outfit. It must not reuse individual garments, accessories, decorative motifs, or the original outfit's overall clothing construction merely because the character is Inaria.
+
+Only an explicit user request to preserve/reuse the original Inaria outfit may change this policy.
+
+This is separate from `REFERENCE_OUTFIT_POLICY`, which controls the outfit in the user-supplied visual reference image.
+
+## 18. User design intent contract
 
 The canonical Universal Wallpaper design model follows the user's normal design sequence:
 
@@ -344,5 +364,7 @@ For person-reference wallpaper tasks, the reference image establishes who the pe
 Default presentation policies:
 - REFERENCE_OUTFIT_POLICY: REPLACE
 - REFERENCE_POSE_POLICY: IGNORE
+- CHARACTER_REFERENCE_OUTFIT_POLICY: DO_NOT_INHERIT
+- WALLPAPER_OUTFIT_MODE: INDEPENDENT_REDESIGN
 
 A user may explicitly override either policy by requesting preservation.
