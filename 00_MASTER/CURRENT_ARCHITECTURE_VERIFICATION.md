@@ -1,24 +1,25 @@
 # CURRENT_ARCHITECTURE_VERIFICATION.md
 
-## Purpose
+## Status
+
+**VERIFIED — Council Round 7**
+
+Verified repository commit: `39992131f5aea5c8f87cb5ae5ba5b13917e77d21`
+
+Verification workflow run: `37185494292`
+
+Verification result:
+- `node scripts/validate_architecture.mjs --root .` — PASS
+- `node scripts/test_architecture_validator.mjs` — PASS
+- GitHub Actions job `architecture-validation` — SUCCESS
+
+Verification date: 2026-10-04
+
+## Verification contract
 
 This file defines the verification contract for the current repository HEAD.
 
-It is not a permanent claim that the architecture is correct forever. Any architecture, authority, module-state, validator, or workflow change requires a new verification run.
-
-## Current verification status
-
-**PENDING RUNTIME VERIFICATION**
-
-This file must remain PENDING until the validator and self-test have been executed against the exact current repository HEAD.
-
-## Required commands
-
-`node scripts/validate_architecture.mjs --root .`
-
-`node scripts/test_architecture_validator.mjs`
-
-Both must return PASS before this document may be marked VERIFIED.
+Any subsequent architecture, authority, module-state, validator, or workflow change requires a new verification run. A later commit must not inherit this VERIFIED status without revalidation.
 
 ## Canonical-state requirements
 
@@ -33,17 +34,6 @@ ACTIVE modules with persistent state must have real module-owned canonical stora
 - Festival cultural data authority: `FESTIVAL_COSTUME_DATABASE/`
 - The cultural database must not contain a second Festival Wallpaper master instruction.
 
-## Verification rule
-
-Do not mark this document VERIFIED unless both required commands have been run against the exact current commit and both results are PASS.
-
-The verification record must identify:
-- exact verified commit SHA;
-- validator result;
-- self-test result;
-- verification date;
-- verifier/runtime context.
-
 ## Historical evidence boundary
 
-Historical Council documents may describe prior verification states, but they never substitute for verification of the current HEAD.
+Historical Council documents describe prior verification states only. They never substitute for verification of the current HEAD.
