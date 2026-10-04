@@ -97,7 +97,7 @@ f = failureRuntime.execute();
 assert.equal(f.attemptCount, 3);
 assert.equal(f.recovery, "RECOVERY_REQUIRED");
 assert.throws(() => failureRuntime.resumeAfterFailure(), /RETRY_NOT_READY/);
-assert.throws(() => failureRuntime.execute(), /MAX_ATTEMPTS_REACHED/);
+assert.throws(() => failureRuntime.execute(), /EXECUTION_OWNERSHIP_REQUIRED/);
 
 console.log("Production Runtime Level-2 control-plane probe: PASS");
 console.log("PASS persisted state");
