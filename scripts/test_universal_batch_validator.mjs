@@ -35,6 +35,7 @@ function fixture(overrides = {}) {
     worker: "NONE",
     claim: "NONE",
     stateVersion: 0,
+    maxAttempts: 3,
     ...overrides,
   };
 
@@ -104,7 +105,7 @@ PROMPT_PREVIEW_STATUS: SHOWN
 GENERATION_RESULT: ${task.result}
 RESULT_COUNT: ${task.resultCount}
 TARGET_SUCCESS_COUNT: 1
-MAX_ATTEMPTS_PER_TASK: 3
+MAX_ATTEMPTS_PER_TASK: ${task.maxAttempts}
 RESULT_REFERENCE: TEST
 GENERATION_ATTEMPT_COUNT: ${task.attempts}
 CONSECUTIVE_FAILURE_COUNT: ${task.consecutiveFailures}
