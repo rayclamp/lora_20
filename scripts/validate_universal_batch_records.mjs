@@ -70,6 +70,24 @@ if (!fs.existsSync(BATCH_DIR)) {
       const designLock = task.match(/DESIGN_LOCK:\s*([^\n]+)/)?.[1]?.trim();
       const preview = task.match(/PROMPT_PREVIEW_STATUS:\s*([^\n]+)/)?.[1]?.trim();
       const resultCount = Number(task.match(/RESULT_COUNT:\s*(\d+)/)?.[1]);
+      const attemptCount = Number(task.match(/GENERATION_ATTEMPT_COUNT:\s*(\d+)/)?.[1]);
+      const consecutiveFailures = Number(task.match(/CONSECUTIVE_FAILURE_COUNT:\s*(\d+)/)?.[1]);
+      const recoveryStatus = task.match(/RECOVERY_STATUS:\s*([^\\n]+)/)?.[1]?.trim();
+
+      if (!Number.isInteger(attemptCount) || attemptCount < 0) fail(label + ": invalid GENERATION_ATTEMPT_COUNT");
+      if (!Number.isInteger(consecutiveFailures) || consecutiveFailures < 0) fail(label + ": invalid CONSECUTIVE_FAILURE_COUNT");
+      if (!["NONE","RETRY_READY","RECOVERY_REQUIRED","ABANDONED","TERMINAL_SUCCESS"].includes(recoveryStatus)) fail(label + ": invalid RECOVERY_STATUS " + recoveryStatus);
+      if (result === "NOT_STARTED" && attemptCount !== 0) fail(label + ": NOT_STARTED task must have GENERATION_ATTEMPT_COUNT: 0");
+      if (result === "SUCCESS" && recoveryStatus !== "TERMINAL_SUCCESS") fail(label + ": SUCCESS must be TERMINAL_SUCCESS");
+      if (result === "SUCCESS" && consecutiveFailures !== 0) fail(label + ": SUCCESS must reset CONSECUTIVE_FAILURE_COUNT to 0");
+      if (result === "FAILED" && attemptCount < 1) fail(label + ": FAILED requires at least one generation attempt");
+      if (result === "FAILED" && consecutiveFailures < 1) fail(label + ": FAILED requires CONSECUTIVE_FAILURE_COUNT >= 1");
+      if (consecutiveFailures >= 3 && result === "FAILED" && recoveryStatus !== "RECOVERY_REQUIRED") fail(label + ": 3 consecutive failures require RECOVERY_REQUIRED");
+      if (taskStatus === "ABANDONED" && recoveryStatus !== "ABANDONED") fail(label + ": ABANDONED task must have RECOVERY_STATUS: ABANDONED");
+      if (result === "UNKNOWN" && recoveryStatus !== "RECOVERY_REQUIRED") fail(label + ": UNKNOWN must have RECOVERY_STATUS: RECOVERY_REQUIRED");
+      if (result === "FAILED" && consecutiveFailures < 3 && recoveryStatus !== "RETRY_READY") fail(label + ": FAILED under 3 consecutive attempts must be RETRY_READY");
+      if (recoveryStatus === "TERMINAL_SUCCESS" && result !== "SUCCESS") fail(label + ": TERMINAL_SUCCESS requires GENERATION_RESULT: SUCCESS");
+      if (recoveryStatus === "ABANDONED" && taskStatus !== "ABANDONED") fail(label + ": ABANDONED recovery status requires ABANDONED task state");
 
       if (!["NOT_STARTED","DESIGN_READY","DESIGN_LOCKED","GENERATING","SUCCESS","FAILED","UNKNOWN / RECOVERY_REQUIRED","OUTPUT_COUNT_MISMATCH","INVALID_IMAGE_ID","ABANDONED"].includes(taskStatus)) {
         fail(label + ": invalid TASK_STATUS " + taskStatus);
