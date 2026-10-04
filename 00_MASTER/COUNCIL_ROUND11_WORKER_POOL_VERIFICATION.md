@@ -2,15 +2,15 @@
 
 ## Status
 
-**IN PROGRESS — CI verification pending**
+**PASS — verified on main**
 
 Branch:
 
-`council-round11-worker-pool`
+`main` (Round 11 changes merged via PR #3; subsequently preserved and revalidated through PR #4)
 
 Base verified main:
 
-`6376d6fda3d0bc61adc99c2d9ab0116ad5a6fda0`
+`1435b0e30fe1cdd74a150371b63b6a4477d0387b`
 
 ## Objective
 
@@ -67,7 +67,7 @@ It verifies the contract required for a future scheduler implementation.
 
 ## CI verification
 
-Pending the workflow run triggered by the Round 11 branch changes.
+Verified through the final main validation after the Production Core refactor.
 
 Required CI steps:
 
@@ -82,4 +82,12 @@ Required CI steps:
 
 This document may be promoted to **PASS** only after the exact Round 11 branch/main commit and corresponding CI run are verified successful.
 
-A later metadata commit must trigger another verification; no stale SHA may be recorded as current verification.
+A later architecture-changing commit must trigger another verification; no stale SHA may be recorded as current verification.
+
+## Verified CI
+
+- GitHub Actions workflow: `Architecture Validation`
+- Main run: `37205414324`
+- Main commit: `1435b0e30fe1cdd74a150371b63b6a4477d0387b`
+- Conclusion: `success`
+- Verified steps included architecture validation, validator self-test, batch validation, batch validator self-test, concurrency self-test, and Worker Pool self-test.
