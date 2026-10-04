@@ -11,16 +11,21 @@
 ## Universal Wallpaper
 Module root: `MODULES/UNIVERSAL_WALLPAPER/`
 Protocol: `00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md`
+Reference Policy: `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md`
 Persistent batch/task state: `MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/`
 Status: ACTIVE.
 Every persistent Universal Wallpaper batch must have its canonical record in the module-owned BATCHES directory.
+The Reference Policy is the sole module authority for allowed visual person-reference sources.
 
 ## Festival Wallpaper
+Module root: `MODULES/FESTIVAL_WALLPAPER/`
 Execution profile: `00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md`
 Execution runtime: shared `00_MASTER/PRODUCTION_WORKER_RUNTIME.md`
+Reference Policy: `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md`
 Cultural data: `FESTIVAL_COSTUME_DATABASE/`
 Status: ACTIVE.
 The cultural database is data authority; it is not a second execution master.
+The Reference Policy is the sole module authority for allowed visual person-reference sources.
 
 ## LoRA Production
 Module root: `MODULES/LORA_PRODUCTION/`
@@ -41,6 +46,8 @@ System Automation is a dedicated automated entry mode for the Wallpaper Producti
 Automated requests may resolve only:
 - UNIVERSAL_WALLPAPER
 - FESTIVAL_WALLPAPER
+
+For either module, Automation must load that module's canonical Reference Policy before reference resolution.
 
 The existence of a shared Worker Runtime does not make other modules automatically eligible for System Automation.
 
