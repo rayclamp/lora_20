@@ -118,7 +118,8 @@ A successful task does not terminate an active multi-task production session.
 For an ACTIVE batch:
 - if the current task is SUCCESS and `COMPLETED_COUNT < TARGET_COUNT`, the Worker MUST resolve the next authoritative incomplete task;
 - the Worker MUST NOT stop, return control to the user, or wait for another command merely because one task succeeded;
-- the Worker may stop only when a defined stop condition applies: target completed, user/system stop, quota/platform failure, UNKNOWN/recovery state, or an execution-critical conflict;
+- the Worker may stop only when a defined stop condition applies: target completed, user/system stop, VERIFIED quota/platform failure, UNKNOWN/recovery state, or an execution-critical conflict;
+- a quota/rate-limit/generation-unavailable stop MUST be backed by explicit platform evidence; Worker inference or expectation is not sufficient;
 - the next task must begin from the authoritative GitHub task state, not conversational memory.
 
 Therefore:
@@ -147,3 +148,21 @@ If actual format metadata is available and mismatches the task:
 - do not mark the task as compliant SUCCESS.
 
 If the actual format cannot be determined reliably, record `UNKNOWN / RECOVERY_REQUIRED` when format compliance is a required execution gate. Do not infer compliance from the prompt text alone.
+
+
+## Mandatory stop-reason evidence gate
+
+A Worker MUST NOT claim that a production session stopped because of quota, rate limiting, or generation unavailability unless the platform actually returned an explicit corresponding signal.
+
+Required distinction:
+
+- `VERIFIED_QUOTA_LIMIT` — explicit platform quota/usage-limit message or error;
+- `VERIFIED_RATE_LIMIT` — explicit platform rate-limit message or error;
+- `VERIFIED_GENERATION_UNAVAILABLE` — explicit platform statement that generation is unavailable;
+- `UNVERIFIED` — Worker inference, expectation, or assumption without explicit platform evidence.
+
+`UNVERIFIED` MUST NOT be converted into a quota/platform stop reason.
+
+If no explicit platform evidence exists, the Worker must continue when generation remains available. If the Worker cannot reliably determine whether generation is available, record `UNKNOWN / RECOVERY_REQUIRED` and stop rather than inventing a quota state.
+
+Any verified platform stop must preserve the evidence in the canonical batch record.
