@@ -37,7 +37,7 @@ if (!fs.existsSync(BATCH_DIR)) {
     for (const field of [
       "SESSION_ID:", "BATCH_ID:", "TARGET_COUNT:", "COMPLETED_COUNT:",
       "CURRENT_TASK_ID:", "SESSION_STATUS:", "STOP_REASON:", "LAST_RESULT:", "CHECKPOINT:",
-      "WALLPAPER_TYPE:", "OUTPUT_TYPE:", "ASPECT_RATIO:", "ORIENTATION:", "REFERENCE:"
+      "MODULE:", "PRODUCTION_TYPE:", "OUTPUT_TYPE:", "ASPECT_RATIO:", "ORIENTATION:", "REFERENCE_IMAGE:"
     ]) {
       if (!text.includes(field)) fail(label + ": missing session/input field " + field);
     }
