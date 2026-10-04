@@ -289,7 +289,16 @@ for (const token of [
 if (festivalPrompt.includes("1. 使用者當前明確要求\n2. CHARACTER_REFERENCE")) {
   fail("Festival prompt still contains superseded precedence ordering");
 }
-if (failures === 0) pass("Phase 7: Festival authority wording is current");
+if (!festivalPrompt.includes("OUTPUT_TYPE")) {
+  fail("Festival prompt missing current user-facing OUTPUT_TYPE");
+}
+if (!/ASPECT_RATIO 與 ORIENTATION 是技術鎖定欄位/.test(festivalPrompt)) {
+  fail("Festival prompt does not declare ASPECT_RATIO/ORIENTATION as derived technical locks");
+}
+if (/Aspect ratio 與 Wallpaper Type 完全獨立/.test(festivalPrompt)) {
+  fail("Festival prompt still contains superseded independent aspect-ratio input model");
+}
+if (failures === 0) pass("Phase 7: Festival authority and output-type wording is current");
 
 const qaModule = read("00_MASTER/QA_MODULE.md");
 const qaProtocol = read("00_MASTER/QA_PROTOCOL.md");
@@ -430,6 +439,7 @@ const boundaryChecks = [
   ["boundary spec QA downstream", /QA[\s\S]*must not become a production module/i],
   ["boundary spec Delivery isolation", /IMAGE_DELIVERY[\s\S]*must not generate images/i],
   ["Universal protocol LoRA isolation", /Do not load LoRA-specific reference or production rules/i],
+  ["Anime protocol reference isolation", /LoRA Master Images.*forbidden|LoRA Master Images.*forbidden/i],
   ["Festival prompt LoRA isolation", /Do not import LoRA Dataset/i],
   ["LoRA module Wallpaper isolation", /Do not import Wallpaper workflow/i],
   ["LoRA worker uses shared runtime", /does not own a separate Worker system[\s\S]*PRODUCTION_WORKER_RUNTIME\.md/i],
