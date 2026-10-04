@@ -103,6 +103,11 @@ PROMPT_PREVIEW_STATUS:
 GENERATION_RESULT:
 RESULT_COUNT:
 RESULT_REFERENCE:
+GENERATION_ATTEMPT_COUNT:
+CONSECUTIVE_FAILURE_COUNT:
+RECOVERY_STATUS:
+LAST_FAILURE_REASON:
+EVENT_HISTORY:
 CHECKPOINT_STATUS:
 STOP_REASON:
 
@@ -120,7 +125,7 @@ A task uses these logical states:
 
 Failure/recovery states:
 
-`FAILED`, `UNKNOWN / RECOVERY_REQUIRED`, `OUTPUT_COUNT_MISMATCH`, `INVALID_IMAGE_ID`
+`FAILED`, `UNKNOWN / RECOVERY_REQUIRED`, `OUTPUT_COUNT_MISMATCH`, `INVALID_IMAGE_ID`, `ABANDONED`
 
 A Worker must not skip the design/prompt-preview gate.
 
@@ -150,6 +155,11 @@ After each generation attempt, record:
 - `GENERATION_RESULT`: `SUCCESS`, `FAILED`, or `UNKNOWN`;
 - `RESULT_COUNT`;
 - `RESULT_REFERENCE` when available;
+- `GENERATION_ATTEMPT_COUNT`;
+- `CONSECUTIVE_FAILURE_COUNT`;
+- `RECOVERY_STATUS`;
+- `LAST_FAILURE_REASON`;
+- `EVENT_HISTORY`;
 - `CHECKPOINT_STATUS`.
 
 Only `SUCCESS` counts toward `COMPLETED_COUNT`.
@@ -168,7 +178,7 @@ For SUCCESS:
 
 For FAILED:
 
-`TASK FAILED → record failure/recovery state → CHECKPOINT`
+`TASK FAILED → update attempt/failure counters → apply recovery rule → CHECKPOINT`
 
 For UNKNOWN:
 
@@ -184,14 +194,24 @@ Use the first authoritative task that is not safely completed.
 
 - SUCCESS → advance to the next valid task;
 - NOT_STARTED / DESIGN_READY / DESIGN_LOCKED → continue the authoritative task;
-- FAILED → follow the applicable retry/recovery rule;
+- FAILED + RETRY_READY → retry the same task identity;
+- FAILED + RECOVERY_REQUIRED → stop until explicitly recovered;
 - UNKNOWN → stop for recovery;
+- ABANDONED → do not reuse the identity; create a legitimate replacement if coverage is still required;
 - OUTPUT_COUNT_MISMATCH → stop/review;
 - invalid or contradictory record → stop.
 
 Do not reconstruct task state from conversation memory when the batch record exists.
 
-## 10. Batch completion
+## 10. Failure/recovery contract
+
+Failure and recovery behavior is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.
+
+A retry is another generation attempt of the same task and does not create a new `IMAGE_ID`.
+
+Three consecutive FAILED attempts on one task require recovery and stop the session. UNKNOWN always requires recovery and stops the session. ABANDONED is terminal for that task identity and may only be replaced by a new task identity.
+
+## 11. Batch completion
 
 When every task from IMAGE 01 through IMAGE <TARGET_COUNT> has confirmed SUCCESS:
 
@@ -202,7 +222,7 @@ When every task from IMAGE 01 through IMAGE <TARGET_COUNT> has confirmed SUCCESS
 
 No additional image may be silently added to the batch.
 
-## 11. Separation from platform runtime
+## 12. Separation from platform runtime
 
 This record is a persistent production ledger, not a runtime engine.
 
@@ -217,8 +237,8 @@ It does not provide:
 
 Those capabilities require separate architecture and must not be inferred from this record format.
 
-## 12. Minimality principle
+## 13. Minimality principle
 
-**One batch = one record. One task = one image. One checkpoint = one authoritative resume point.**
+**One batch = one record. One task identity = one designed image target. Each retry is an attempt on that same task identity. One checkpoint = one authoritative resume point.**
 
 The record exists only to preserve production identity, design, result, and resume state.
