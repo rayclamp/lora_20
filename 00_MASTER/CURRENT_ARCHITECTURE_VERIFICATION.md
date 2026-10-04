@@ -2,11 +2,11 @@
 
 ## Status
 
-**VERIFIED — Council Round 9**
+**VERIFIED — Council Round 10**
 
-Verified repository commit: `221c02e5a121a271cb3ec0b0bdec8004d9302bba`
+Verified repository commit: `72ca36e2a25e5479eb72c4f5a8db65db41a6b6d3`
 
-Verification workflow run: `37198984512`
+Verification workflow run: `37199663467`
 
 Verification result:
 - `node scripts/validate_architecture.mjs --root .` — PASS
@@ -42,3 +42,8 @@ ACTIVE modules with persistent state must have real module-owned canonical stora
 Round 9 also verified the persisted FAILED / UNKNOWN / ABANDONED / SUCCESS recovery boundaries. The isolated runtime fixture was removed before merge.
 
 Historical Council documents describe prior verification states only. They never substitute for verification of the current HEAD.
+
+
+## Council Round 10 concurrency verification
+
+The current HEAD also passed the Round 10 multi-Worker concurrency verification, including the canonical Claim/Lease/CAS contract, ownership invariants, concurrency self-test, and real GitHub SHA race test. Verification record: `00_MASTER/COUNCIL_ROUND10_CONCURRENCY_VERIFICATION.md`.
