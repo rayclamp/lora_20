@@ -34,7 +34,11 @@ The repository has one shared production execution core. Manual Dispatch and Sys
 
 The Worker Runtime owns Worker lifecycle, task selection, Claim/Lease/CAS, generation outcomes, recovery, and common result recording. Production modules do not create duplicate Worker or Dispatch systems.
 
-System Automation is an internal production capability. It must be defined and validated independently of any external automation provider. External tools or services are integration adapters only and must never become the source of production authority, task semantics, or Worker execution rules.
+System Automation is an internal Wallpaper Production capability. Its automated module scope is limited to UNIVERSAL_WALLPAPER and FESTIVAL_WALLPAPER. It must be defined and validated independently of external integrations.
+
+External tools or services are integration adapters only and must never become the source of production authority, task semantics, Worker execution rules, or Wallpaper Automation module scope.
+
+The shared Worker Runtime may be used by other production domains, but that does not grant System Automation authority over those domains.
 
 `PRODUCTION_DISPATCH_PROTOCOL.md` defines who starts production. `PRODUCTION_WORKER_RUNTIME.md` defines how production work executes. `PRODUCTION_OUTPUT_PROTOCOL.md` defines artifact persistence.
 
