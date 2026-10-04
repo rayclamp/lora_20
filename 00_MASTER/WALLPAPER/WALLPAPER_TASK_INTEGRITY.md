@@ -4,7 +4,7 @@
 
 This document defines the task-integrity rules for the Universal Wallpaper module.
 
-The goal is to prevent a wallpaper task from being redesigned, duplicated, mis-numbered, or generated in the wrong output format during automated or semi-automated production.
+The goal is to prevent a wallpaper task from being redesigned, duplicated, mis-numbered, generated in the wrong output format, or retried without a hard attempt bound during automated or semi-automated production.
 
 GitHub is the persistent source of truth for task identity and task design.
 
@@ -123,7 +123,7 @@ The session-level user choice is `OUTPUT_TYPE`:
 - `DESKTOP_WALLPAPER`
 - `PHONE_WALLPAPER`
 
-The task derives and locks the corresponding technical `ASPECT_RATIO` and `ORIENTATION`. A worker must not require a second user-facing aspect-ratio choice when OUTPUT_TYPE already determines the canonical format.
+The task derives and locks the corresponding technical `ASPECT_RATIO` and `ORIENTATION`. A worker must not require a second user-facing aspect-ratio choice when OUTPUT_TYPE already determines the canonical format. These fields are HARD DESIGN CONSTRAINTS from the beginning of composition, not merely post-generation QA checks.
 
 Minimum fields:
 
@@ -147,29 +147,36 @@ The Worker must preserve the task's declared format.
 
 A request for a desktop 16:9 wallpaper must never be silently converted to a phone 9:16 wallpaper.
 
+Before DESIGN_LOCK, the composition itself must be explicitly designed for the locked format. The final prompt must state the native canvas/orientation requirement and must not describe the requested ratio as a crop, resize, or post-generation conversion. A format mismatch is a task-compliance failure even when an image candidate was returned.
+
 The final executable prompt should repeat the format lock explicitly.
 
 ## 6. OUTPUT COUNT LOCK
 
 The default Universal Wallpaper production rule is:
 
-**ONE TASK = ONE FINAL IMAGE CANDIDATE**
+**ONE TASK = ONE SUCCESSFUL OUTPUT**
 
 Each task should declare:
 
 `EXPECTED_OUTPUT_COUNT: 1`
+`TARGET_SUCCESS_COUNT: 1`
+`MAX_ATTEMPTS_PER_TASK: 3`
+
+`EXPECTED_OUTPUT_COUNT` limits the number of candidates returned by one generation attempt. `TARGET_SUCCESS_COUNT` is the number of validated successful outputs required to complete the task. `MAX_ATTEMPTS_PER_TASK` is a hard upper bound on generation attempts for that task.
 
 The instruction must be reinforced at the generation layer, but actual output count must also be checked by the automation layer when technically possible.
 
 If a single task returns more than one image candidate:
 
 - record `OUTPUT_COUNT_MISMATCH`;
+- count that generation as one attempt;
 - do not automatically treat the extra images as additional IMAGE_IDs;
 - do not rename them into IMAGE 07, IMAGE 08, etc.;
 - do not silently count them as additional completed tasks;
 - route the task to the module's defined recovery/review state.
 
-If one image is returned, the task may continue through the normal generation-result flow.
+If one image is returned, it must still pass the locked output-format/compliance gates before it can count toward `TARGET_SUCCESS_COUNT`.
 
 If generation status or output count cannot be reliably determined, use the module's UNKNOWN / RECOVERY_REQUIRED handling rather than guessing.
 
@@ -262,7 +269,7 @@ RESUME restores these values from the batch record. STOP preserves them in the b
 
 The Worker should use the following sequence:
 
-`READ TASK → VERIFY ID → RESOLVE CHARACTER AUTHORITY → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY OUTFIT ISOLATION → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY OUTPUT COUNT → LOCK PROMPT → SHOW PROMPT → EXECUTE LOCKED PROMPT → RECORD EXECUTION EVENT → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECKPOINT → NEXT TASK`
+`READ TASK → VERIFY ID → RESOLVE CHARACTER AUTHORITY → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY OUTFIT ISOLATION → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY FORMAT-COMPLIANT COMPOSITION → LOCK PROMPT → SHOW PROMPT → EXECUTE LOCKED PROMPT → RECORD EXECUTION EVENT → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECK ATTEMPT BOUND → CHECKPOINT → NEXT TASK / RECOVERY`
 
 A Worker must not start generation if the task identity, design, diversity, reference-decoupling policy, or required format cannot be safely resolved.
 
@@ -342,13 +349,13 @@ Do not silently rewrite history to make the result appear valid.
 Examples:
 
 - wrong IMAGE_ID → `INVALID_IMAGE_ID`
-- wrong aspect ratio → record the actual result and let downstream task-compliance QA classify it
+- wrong aspect ratio → record the actual result as `FAILED / OUTPUT_FORMAT_MISMATCH`; do not count it as successful output
 - multiple outputs → `OUTPUT_COUNT_MISMATCH`
 - unknown generation state → `UNKNOWN / RECOVERY_REQUIRED`
 
 A legitimate replacement task must receive a new task identity/design record.
 
-\n## 13. Failure/recovery integrity\n\nFailure and recovery are governed by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.\n\nAutomation must preserve failure history and enforce: FAILED retry without duplicate IMAGE_ID; three-consecutive-failure stop; UNKNOWN hard stop; ABANDONED identity immutability; and SUCCESS terminality.\n
+\n## 13. Failure/recovery integrity\n\nFailure and recovery are governed by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.\n\nAutomation must preserve failure history and enforce: bounded FAILED retry without duplicate IMAGE_ID; `MAX_ATTEMPTS_PER_TASK` as an absolute attempt ceiling; three-consecutive-failure stop; UNKNOWN hard stop; ABANDONED identity immutability; and SUCCESS terminality.\n
 ## 14. Universal principle
 
 **GitHub remembers the design. Workers execute the design. Automation validates the execution.**
