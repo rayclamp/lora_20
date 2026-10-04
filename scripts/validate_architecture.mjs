@@ -439,7 +439,7 @@ const boundaryChecks = [
   ["boundary spec QA downstream", /QA[\s\S]*must not become a production module/i],
   ["boundary spec Delivery isolation", /IMAGE_DELIVERY[\s\S]*must not generate images/i],
   ["Universal protocol LoRA isolation", /Do not load LoRA-specific reference or production rules/i],
-  ["Anime protocol reference isolation", /LoRA Master Images.*forbidden|LoRA Master Images.*forbidden/i],
+  ["Anime protocol reference isolation", /LoRA Master Images.*forbidden/i],
   ["Festival prompt LoRA isolation", /Do not import LoRA Dataset/i],
   ["LoRA module Wallpaper isolation", /Do not import Wallpaper workflow/i],
   ["LoRA worker uses shared runtime", /does not own a separate Worker system[\s\S]*PRODUCTION_WORKER_RUNTIME\.md/i],
