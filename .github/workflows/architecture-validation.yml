@@ -49,3 +49,5 @@ jobs:
       - name: Run Worker Runtime GitHub CAS probe
         run: node scripts/test_runtime_github_cas.mjs
 
+      - name: Run Worker Runtime canonical context gate probe
+        run: node scripts/test_runtime_context_gates.mjs
