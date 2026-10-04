@@ -42,3 +42,6 @@ jobs:
 
       - name: Run Runtime Verification harness
         run: node scripts/test_runtime_verification.mjs
+
+      - name: Run executable Worker Runtime control-plane probe
+        run: node scripts/test_production_runtime.mjs
