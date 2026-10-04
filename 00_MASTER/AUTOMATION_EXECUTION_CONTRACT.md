@@ -102,7 +102,7 @@ The Worker must not silently fall back to an obsolete path, copied rule from ano
 
 ## Required execution trace
 
-The automated Wallpaper path should record these ordered events when observable:
+The automated Wallpaper path MUST record these ordered events when observable:
 1. AUTOMATION_REQUEST_RECEIVED
 2. CONTEXT_LOADED
 3. MODULE_RESOLVED
