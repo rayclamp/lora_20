@@ -17,7 +17,9 @@ Production modules supply domain-specific rules. The Worker Runtime supplies the
 
 ## Shared execution pipeline
 
-`DISPATCH → RESOLVE MODULE → LOAD MODULE RULES → SELECT TASK → CLAIM → DESIGN → VALIDATE DESIGN → PROMPT → PROMPT PREVIEW → GENERATE → VALIDATE OUTPUT → RECORD RESULT → CHECKPOINT → NEXT TASK`
+`DISPATCH → RESOLVE MODULE → LOAD MODULE RULES → SELECT TASK → CLAIM → DESIGN → VALIDATE DESIGN → PROMPT → PROMPT PREVIEW → CONFIRMATION/EXECUTION DECISION → GENERATE → VALIDATE OUTPUT → RECORD RESULT → CHECKPOINT → NEXT TASK`
+
+For Image Production, DESIGN → VALIDATE DESIGN → PROMPT is system-owned in both MANUAL and AUTOMATED modes. The user supplies the image requirement, not an executable Prompt.
 
 The exact stages may be shortened when a module or dispatch mode does not require a stage, but no module may weaken CORE safety, ownership, or state-integrity rules.
 
@@ -74,8 +76,8 @@ Dispatch answers:
 
 Supported modes:
 
-- MANUAL — a user starts a Worker session directly;
-- AUTOMATED — an external automation layer starts or coordinates Worker execution.
+- MANUAL — a user starts the Image Production session directly. The system designs the image and Prompt, shows it to the user, and waits for explicit generation confirmation;
+- AUTOMATED — the approved System Automation path starts or coordinates Worker execution. The system still designs the image and Prompt.
 
 Both modes use the same Worker Runtime and the same canonical task/ownership rules.
 
@@ -83,11 +85,19 @@ System Automation is an additive entry mode over the shared production core. It 
 
 External automation providers are not part of the Worker Runtime. They may later connect through an explicit System Automation adapter, but they must not define, replace, or fork the Automation or Worker architecture.
 
-## Prompt Preview
+## Prompt Preview and Manual Confirmation
 
 Prompt Preview is a Worker Runtime capability.
 
-MANUAL dispatch requires the executable prompt to be shown to the user before generation.
+For Image Production MANUAL mode, the executable Prompt must be designed and validated by the system, shown to the user, and followed by an explicit USER_GENERATION_CONFIRMATION gate. A valid Prompt alone is never permission to generate.
+
+Manual confirmation states are:
+- DESIGN_READY_FOR_USER_CONFIRMATION;
+- USER_CONFIRMED_GENERATION;
+- USER_REQUESTED_REVISION;
+- USER_DECLINED_GENERATION.
+
+USER_REQUESTED_REVISION returns to DESIGN and requires a new validation/Prompt Preview before generation. USER_DECLINED_GENERATION terminates the current design execution without generation.
 
 AUTOMATED dispatch may satisfy the preview requirement through an automation audit/event record instead of an interactive user display, if the selected automated contract explicitly permits that behavior.
 
@@ -172,9 +182,9 @@ An observable prompt mismatch is an execution-integrity failure and must not be 
 
 ## Mandatory prompt-preview gate
 
-For MANUAL dispatch, generation is forbidden until the complete executable prompt for the current task has actually been shown to the user.
+For MANUAL Image Production, generation is forbidden until the complete system-generated executable Prompt has actually been shown to the user and the user has explicitly confirmed generation.
 
-`PROMPT_PREVIEW_STATUS: SHOWN` is a record of an event; it is not permission by itself. The Worker must perform the preview action before generation.
+`PROMPT_PREVIEW_STATUS: SHOWN` is a record of an event; it is not permission by itself. The Worker must perform the preview action before generation. In MANUAL mode, USER_GENERATION_CONFIRMATION is an additional required gate.
 
 If the executable prompt changes after preview, the Worker must show the complete replacement prompt again before generation.
 
