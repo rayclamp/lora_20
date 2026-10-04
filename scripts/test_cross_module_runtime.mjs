@@ -68,7 +68,7 @@ assert.ok(/不是獨立 Worker 或 Dispatch 系統/.test(festival) && festival.i
 
 const universal = read("00_MASTER/UNIVERSAL_WALLPAPER_WORKER_PROTOCOL.md");
 assert.ok(universal.includes("production module"), "Universal module boundary missing");
-assert.ok(universal.includes("shared runtime"), "Universal shared runtime routing missing");
+assert.ok(universal.includes("PRODUCTION_WORKER_RUNTIME.md") && universal.includes("shared execution contracts"), "Universal shared runtime routing missing");
 
 assert.ok(registry.includes("FESTIVAL_WALLPAPER | ACTIVE"), "Festival status mismatch");
 assert.ok(registry.includes("LORA_PRODUCTION | PAUSED"), "LoRA status mismatch");
