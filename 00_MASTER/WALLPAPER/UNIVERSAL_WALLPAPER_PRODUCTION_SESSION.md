@@ -109,6 +109,18 @@ Decision:
 Do not redesign an existing task from conversation memory.
 
 \n## 7A. Failure / recovery\n\nFailure and recovery are governed by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.\n\n- `FAILED + RETRY_READY` → retry the same task identity and checkpoint the attempt.\n- Three consecutive FAILED attempts → `RECOVERY_REQUIRED` + `STOPPED`; no fourth automatic attempt.\n- `UNKNOWN / RECOVERY_REQUIRED` → STOP; resolve the unknown event before any retry.\n- `ABANDONED` → terminal for that identity; replacement requires a new task identity.\n- `SUCCESS` → terminal; never regenerate the completed task.\n
+## 7B. Execution gates
+
+The following are hard gates, not advisory instructions:
+
+1. Prompt Preview must actually occur before generation.
+2. The design must pass module/batch diversity validation before DESIGN_LOCK.
+3. The declared output format must be preserved.
+4. Actual output format must be validated when technically determinable.
+5. After SUCCESS, the next authoritative task must be resolved when the batch remains incomplete.
+
+A worker must never treat the existence of a field such as `PROMPT_PREVIEW_STATUS: SHOWN` as a substitute for performing the corresponding action.
+
 ## 8. Count integrity
 
 `TARGET_COUNT` is a batch target, not a quota prediction.
