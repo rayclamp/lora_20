@@ -156,16 +156,6 @@ There must be no silent endpoint:
 
 The session continues across explicit RESUME operations until the target is completed, the user stops it, a verified platform stop occurs, generation becomes unavailable, UNKNOWN/recovery occurs, or an execution-critical conflict occurs.
 
-## 6. Continuation
-
-After confirmed SUCCESS:
-
-`CHECKPOINT → NEXT VALID TASK`
-
-The session continues until the requested target is completed, the user stops it, ChatGPT is forcibly stopped, quota/platform availability ends, generation becomes unavailable, or an execution-critical conflict occurs.
-
-A platform interruption is a stop condition only when the platform explicitly reports the interruption. A Worker must not convert an inference about quota or availability into a verified stop reason.
-
 ## 7. Resume
 
 On RESUME, ChatGPT must reread current GitHub state.
