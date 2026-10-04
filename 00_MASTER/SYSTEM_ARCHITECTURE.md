@@ -29,8 +29,13 @@ CORE contains only cross-system rules:
 
 CORE must not define a universal character age, universal Master Image, LoRA dataset policy, festival cultural data, wallpaper-specific workflow, or account-specific authority.
 
+## Image Production System
+The Image Production System is one production domain with two execution-control modes: MANUAL and AUTOMATED. Both modes receive a user image requirement and use the same production design rules to design the image and construct the executable Prompt. MANUAL stops at an explicit user-generation-confirmation gate; AUTOMATED may proceed through its approved automation execution path.
+
+PRODUCTION_DESIGN_PROTOCOL.md is the shared design boundary for this behavior.
+
 ## Production Core
-The repository has one shared production execution core. Manual Dispatch and System Automation are entry modes into the same Worker Runtime.
+The repository has one shared production execution core. Manual and Automated Image Production are entry modes into the same Worker Runtime. Manual does not mean user-authored Prompt: the Image Production System owns design and Prompt construction in both modes.
 
 The Worker Runtime owns Worker lifecycle, task selection, Claim/Lease/CAS, generation outcomes, recovery, and common result recording. Production modules do not create duplicate Worker or Dispatch systems.
 
@@ -40,7 +45,7 @@ External tools or services are integration adapters only and must never become t
 
 The shared Worker Runtime may be used by other production domains, but that does not grant System Automation authority over those domains.
 
-`PRODUCTION_DISPATCH_PROTOCOL.md` defines who starts production. `PRODUCTION_WORKER_RUNTIME.md` defines how production work executes. `PRODUCTION_OUTPUT_PROTOCOL.md` defines artifact persistence.
+`PRODUCTION_DISPATCH_PROTOCOL.md` defines who starts production. `PRODUCTION_DESIGN_PROTOCOL.md` defines the shared user-request to design to Prompt to confirmation boundary. `PRODUCTION_WORKER_RUNTIME.md` defines how production work executes. `PRODUCTION_OUTPUT_PROTOCOL.md` defines artifact persistence.
 
 ## Modules
 UNIVERSAL_WALLPAPER — general anime/realistic wallpaper. ACTIVE and owns persistent batch/task state under MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/.
