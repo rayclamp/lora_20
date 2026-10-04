@@ -5,6 +5,14 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 export const AUTOMATION_SCOPE = new Set(["UNIVERSAL_WALLPAPER", "FESTIVAL_WALLPAPER"]);
+export const REQUIRED_SCENE_INTENT_FIELDS = [
+  "ACTIVITY", "LOCATION", "ACTION", "TIME", "WEATHER",
+  "SOCIAL_CONTEXT", "ENVIRONMENTAL_CUES"
+];
+export const REFERENCE_STATES = new Set([
+  "EXPLICIT_TASK_REFERENCE", "MODULE_APPROVED_REFERENCE", "NO_REFERENCE", "REFERENCE_BLOCKED"
+]);
+export const SCENE_INTENT_STATES = new Set(["EXPLICIT", "RESOLVED", "MISSING", "CONFLICT", "BLOCKED"]);
 
 export class JsonStateStore {
   constructor(filePath) { this.filePath = filePath; }
@@ -157,12 +165,36 @@ export class ProductionWorkerRuntime {
     return clone(s);
   }
 
-  designAndLockPrompt(prompt) {
+  designAndLockPrompt(prompt, context = {}) {
     const s = this.mutateState((s) => {
       if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED") throw new Error("DESIGN_REQUIRES_CLAIM");
+      const referenceState = context.reference?.status ?? "NO_REFERENCE";
+      if (!REFERENCE_STATES.has(referenceState)) throw new Error("REFERENCE_STATE_INVALID");
+      if (referenceState === "REFERENCE_BLOCKED") throw new Error("REFERENCE_BLOCKED");
+      const sceneStatus = context.sceneIntent?.status;
+      if (!SCENE_INTENT_STATES.has(sceneStatus)) throw new Error("SCENE_INTENT_STATUS_REQUIRED");
+      if (sceneStatus === "MISSING" || sceneStatus === "CONFLICT" || sceneStatus === "BLOCKED") {
+        throw new Error("SCENE_INTENT_BLOCKED");
+      }
+      const intent = context.sceneIntent?.fields ?? {};
+      for (const field of REQUIRED_SCENE_INTENT_FIELDS) {
+        if (intent[field] === undefined || intent[field] === null || intent[field] === "") {
+          throw new Error("SCENE_INTENT_INCOMPLETE");
+        }
+      }
       s.events.push({ type: "REFERENCE_POLICY_LOADED", at: this.clock() });
-      s.events.push({ type: "REFERENCE_AUTHORITY_RESOLVED", at: this.clock(), status: "RESOLVED" });
-      s.events.push({ type: "SCENE_INTENT_RESOLVED", at: this.clock(), status: "RESOLVED" });
+      s.events.push({
+        type: "REFERENCE_AUTHORITY_RESOLVED", at: this.clock(),
+        status: referenceState,
+        referenceId: context.reference?.id ?? "NOT_OBSERVABLE",
+        provenance: context.reference?.provenance ?? "NOT_OBSERVABLE"
+      });
+      s.events.push({
+        type: "SCENE_INTENT_RESOLVED", at: this.clock(),
+        status: sceneStatus,
+        provenance: context.sceneIntent?.provenance ?? "NOT_OBSERVABLE",
+        fields: intent
+      });
       s.events.push({ type: "PRESENTATION_DESIGNED", at: this.clock() });
       s.events.push({ type: "DESIGN_VALIDATED", at: this.clock(), status: "PASS" });
       s.promptHash = sha256(prompt);
