@@ -3,6 +3,8 @@
 ## Status
 PAUSED.
 
+Activation gate: `00_MASTER/LORA_ACTIVATION_READINESS.md`. LoRA must remain PAUSED until that gate is satisfied; completion of the Make automation is a mandatory prerequisite.
+
 This module is not executable until explicitly activated in both MODULE_REGISTRY.md and RUNTIME_STATE.md.
 
 ## Production role
