@@ -42,6 +42,8 @@ Before generation, each wallpaper task must have a persistent design record cont
 - clothing
 - accessories
 - hairstyle arrangement
+- reference outfit policy
+- reference pose policy
 - clothing
 - accessories
 - shoes
@@ -193,6 +195,12 @@ A Worker MUST NOT satisfy a multi-image batch merely by changing the background 
 
 Before DESIGN_LOCK, the Worker must perform a batch diversity check. If the requested quantity is large, use a deliberate rotation/coverage plan rather than random repetition.
 
+For realistic person-reference tasks, the design record must also explicitly contain:
+- `REFERENCE_OUTFIT_POLICY`
+- `REFERENCE_POSE_POLICY`
+
+These fields must be resolved before DESIGN_LOCK.
+
 The design record must contain an explicit `SHOES` field for wallpaper tasks where footwear is visible. Footwear must not be hidden inside the CLOTHING field when shoe variation is a requested series requirement.
 
 ### 9. Generation boundary
@@ -201,7 +209,7 @@ The Worker should use the following sequence:
 
 `READ TASK → VERIFY ID → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY OUTPUT COUNT → SHOW PROMPT → GENERATE → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECKPOINT → NEXT TASK`
 
-A Worker must not start generation if the task identity, design, or required format cannot be safely resolved.
+A Worker must not start generation if the task identity, design, diversity, reference-decoupling policy, or required format cannot be safely resolved.
 
 ## 10. Prompt preview and session checkpoint
 
