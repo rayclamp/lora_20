@@ -176,7 +176,7 @@ for (const rawTarget of authorityTargets) {
 }
 if (failures === 0) pass("Phase 3: Authority Matrix canonical paths resolve");
 
-if (!architecture.includes("CORE → MODULE → MODULE-OWNED DATA / STATE")) fail("Architecture boundary missing");
+if (!architecture.includes("CORE → DISPATCH → SHARED WORKER RUNTIME → PRODUCTION MODULE → MODULE-OWNED DATA / STATE")) fail("Architecture boundary missing");
 if (!architecture.includes("A lower layer cannot activate or override a higher layer.")) fail("Architecture precedence invariant missing");
 if (!consistency.includes("Current-system-only invariant")) fail("Consistency matrix missing current-system-only invariant");
 if (!consistency.includes("Single-rule principle")) fail("Consistency matrix missing single-rule principle");
