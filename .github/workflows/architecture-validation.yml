@@ -22,3 +22,9 @@ jobs:
 
       - name: Run validator self-test
         run: node scripts/test_architecture_validator.mjs
+
+      - name: Validate Universal Wallpaper batch records
+        run: node scripts/validate_universal_batch_records.mjs --root .
+
+      - name: Run Universal Wallpaper batch validator self-test
+        run: node scripts/test_universal_batch_validator.mjs
