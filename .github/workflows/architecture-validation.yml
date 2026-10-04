@@ -31,3 +31,6 @@ jobs:
 
       - name: Run Universal Wallpaper concurrency self-test
         run: node scripts/test_universal_concurrency.mjs
+
+      - name: Run Universal Wallpaper Worker Pool self-test
+        run: node scripts/test_universal_worker_pool.mjs

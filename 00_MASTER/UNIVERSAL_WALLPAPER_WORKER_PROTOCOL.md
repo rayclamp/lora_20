@@ -119,6 +119,10 @@ A Worker that loses ownership MUST NOT generate, release, or overwrite the task.
 
 ### 7B. Queue mode
 
+When Universal Wallpaper uses a queue, the Worker Pool / Scheduler contract is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_WORKER_POOL_PROTOCOL.md`.
+
+The scheduler selects eligible work; it does not grant ownership. Ownership remains authoritative only after the Claim/Lease/CAS protocol succeeds.
+
 When Universal Wallpaper uses a queue:
 1. Read the active Universal Wallpaper batch/goal.
 2. Create the required task records for the requested quantity if the batch has not already been registered.
