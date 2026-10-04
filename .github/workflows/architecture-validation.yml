@@ -60,3 +60,12 @@ jobs:
 
       - name: Run Worker Runtime canonical context resolver probe
         run: node scripts/test_runtime_canonical_context.mjs
+
+      - name: Run Runtime Verification Phase-7 single-worker E2E
+        run: node scripts/test_phase7_single_worker_e2e.mjs
+
+      - name: Run Runtime Verification Phase-8 batch continuation
+        run: node scripts/test_phase8_batch_continuation.mjs
+
+      - name: Run Runtime Verification Phase-9 worker-pool CAS
+        run: node scripts/test_phase9_worker_pool.mjs
