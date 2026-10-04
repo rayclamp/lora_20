@@ -58,6 +58,7 @@ const required = [
   "00_MASTER/SYSTEM_ARCHITECTURE.md",
   "00_MASTER/PRODUCTION_WORKER_RUNTIME.md",
   "00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md",
+  "00_MASTER/PRODUCTION_DESIGN_PROTOCOL.md",
   "00_MASTER/PRODUCTION_OUTPUT_PROTOCOL.md",
   "00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md",
   "00_MASTER/CANONICAL_PATH_REGISTRY.md",
@@ -357,6 +358,27 @@ for (const token of [
 }
 
 if (failures === 0) pass("Phase 10: generic Worker execution safeguards are present");
+const designProtocol = read("00_MASTER/PRODUCTION_DESIGN_PROTOCOL.md");
+for (const token of [
+  "The user supplies the image requirement",
+  "system designs the image",
+  "system Prompt",
+  "MANUAL",
+  "AUTOMATED",
+  "USER_GENERATION_CONFIRMATION",
+  "USER_REQUESTED_REVISION",
+  "USER_DECLINED_GENERATION"
+]) {
+  if (!designProtocol.includes(token)) fail("Production Design Protocol missing manual/automated design boundary: " + token);
+}
+if (!/user-authored Prompt is not required/i.test(designProtocol)) {
+  fail("Production Design Protocol does not explicitly state that user-authored Prompt is not required");
+}
+if (!/user supplies the image requirement, not necessarily an executable prompt/i.test(designProtocol)) {
+  fail("Production Design Protocol does not explicitly separate user requirement from executable Prompt");
+}
+if (failures === 0) pass("Phase 10D: Image Production design/Prompt ownership and manual confirmation boundary are present");
+
 const productionRuntime = read("00_MASTER/PRODUCTION_WORKER_RUNTIME.md");
 const dispatchProtocol = read("00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md");
 const outputProtocol = read("00_MASTER/PRODUCTION_OUTPUT_PROTOCOL.md");
