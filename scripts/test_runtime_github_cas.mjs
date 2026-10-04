@@ -14,6 +14,7 @@ class FakeGitHubContentsClient {
   }
 }
 
+const branch = "runtime-verification/phase-3-control-runtime";
 const initial = { schemaVersion: 1, taskStatus: "QUEUED", ownership: "UNCLAIMED", version: 0, attemptCount: 0, events: [] };
 const client = new FakeGitHubContentsClient(initial);
 const storeA = new GitHubContentsStateStore({ client, owner: "rayclamp", repo: "lora_20", path: "MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/STATE/RV-001.json", branch });
