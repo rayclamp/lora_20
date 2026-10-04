@@ -233,13 +233,19 @@ A desktop 16:9 task must remain landscape 16:9. It must not silently become a po
 
 The final executable prompt should explicitly repeat the format lock.
 
-### Output count
+### Hard format design rule
 
-Default:
+`OUTPUT_TYPE → ASPECT_RATIO → ORIENTATION` is a HARD DESIGN LOCK. The Worker must design the composition natively for that format before DESIGN_LOCK. A desktop 16:9 wallpaper must be conceived as a horizontal 16:9 canvas, not as a portrait/square composition that is expected to be cropped or converted later. The prompt must explicitly state this native-format requirement. Format compliance is part of the generation contract, not merely downstream visual QA.
 
-`ONE TASK = ONE FINAL IMAGE CANDIDATE`
+### Output count and bounded attempts
 
-`EXPECTED_OUTPUT_COUNT: 1`
+`EXPECTED_OUTPUT_COUNT: 1` means one candidate maximum per generation attempt.
+
+`TARGET_SUCCESS_COUNT: 1` means one validated successful output completes the task.
+
+`MAX_ATTEMPTS_PER_TASK: 3` is the hard default ceiling. It counts every generation invocation, including attempts that return an invalid-format candidate. The counter never resets within the task.
+
+If a task returns one invalid-format candidate, that attempt is FAILED and may be retried only after failure analysis/recovery authorization. If the hard ceiling is reached, stop with `RECOVERY_REQUIRED`; never continue indefinitely.
 
 If one task unexpectedly returns multiple image candidates:
 
@@ -260,7 +266,7 @@ Generation success, task coverage, unique candidate count, and downstream QA acc
 
 Before generation:
 
-`READ TASK → VERIFY ID → VERIFY DESIGN → VERIFY FORMAT → VERIFY OUTPUT COUNT → GENERATE`
+`READ TASK → VERIFY ID → VERIFY DESIGN → VERIFY FORMAT LOCK → VERIFY FORMAT-COMPLIANT COMPOSITION → VERIFY OUTPUT COUNT → VERIFY ATTEMPT BUDGET → GENERATE`
 
 After generation:
 
@@ -326,8 +332,8 @@ If the prompt changes after preview, the Worker MUST show the complete changed p
 ### Per-image checkpoint
 
 After each generation attempt:
-- `SUCCESS` → preserve candidate, validate required output format, checkpoint, then continue;
-- `FAILED` → follow retry/recovery policy;
+- `SUCCESS` → preserve candidate, validate required output format, confirm `TARGET_SUCCESS_COUNT` is satisfied, checkpoint, then continue;
+- `FAILED` → increment attempt count, perform failure analysis, and follow bounded retry/recovery policy;
 - `UNKNOWN` → record `UNKNOWN / RECOVERY_REQUIRED` and STOP.
 
 ### Prompt Execution Gate
@@ -370,11 +376,11 @@ Only these conditions permit normal session termination:
 
 For every generated candidate, the Worker/output adapter must verify the actual output format when dimensions or equivalent metadata are available.
 
-A task declared `DESKTOP_WALLPAPER / 16:9 / LANDSCAPE` is not considered format-compliant merely because the prompt says 16:9.
+A task declared `DESKTOP_WALLPAPER / 16:9 / LANDSCAPE` is not considered format-compliant merely because the prompt says 16:9. The design itself must have been locked as a native 16:9 landscape composition before generation.
 
 Actual mismatch must be recorded as a task-compliance failure and must not be silently recorded as a compliant SUCCESS. If actual dimensions cannot be determined reliably, use the applicable UNKNOWN/recovery state rather than guessing.
 
-\n### Failure / Recovery Gate\n\nWorkers MUST follow `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.\n\nFor an explicit `FAILED` result, retry only while `RECOVERY_STATUS: RETRY_READY`; reuse the same TASK_ID / IMAGE_ID and increment the generation-attempt counters. Three consecutive failures require `RECOVERY_REQUIRED` and stop.\n\nFor `UNKNOWN`, stop immediately and never silently regenerate. For `ABANDONED`, never reuse the task identity; a replacement requires a new legitimate TASK_ID / IMAGE_ID. A confirmed `SUCCESS` is terminal and cannot be regenerated under the same task identity.\n
+\n### Failure / Recovery Gate\n\nWorkers MUST follow `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.\n\nFor an explicit `FAILED` result, retry only while `RECOVERY_STATUS: RETRY_READY` AND `GENERATION_ATTEMPT_COUNT < MAX_ATTEMPTS_PER_TASK`; reuse the same TASK_ID / IMAGE_ID and increment the generation-attempt counter. `MAX_ATTEMPTS_PER_TASK` is an absolute ceiling even if failures are not consecutive. Three consecutive failures still require `RECOVERY_REQUIRED` and stop.\n\nFor `UNKNOWN`, stop immediately and never silently regenerate. For `ABANDONED`, never reuse the task identity; a replacement requires a new legitimate TASK_ID / IMAGE_ID. A confirmed `SUCCESS` is terminal and cannot be regenerated under the same task identity.\n
 ## 13. Generation sequence
 
 Before generation confirm:
@@ -400,7 +406,7 @@ The Worker must not:
 - delete or overwrite generated candidates;
 - replace a completed candidate with another attempt.
 
-The Worker only confirms whether the generation operation returned a candidate.
+The Worker confirms whether the generation operation returned a candidate and whether required execution-level output contracts (such as count and determinable format) were satisfied. This is not final visual QA.
 
 ## 15. Generation-result safety
 
