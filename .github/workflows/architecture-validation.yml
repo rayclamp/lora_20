@@ -45,3 +45,7 @@ jobs:
 
       - name: Run executable Worker Runtime control-plane probe
         run: node scripts/test_production_runtime.mjs
+
+      - name: Run Worker Runtime GitHub CAS probe
+        run: node scripts/test_runtime_github_cas.mjs
+
