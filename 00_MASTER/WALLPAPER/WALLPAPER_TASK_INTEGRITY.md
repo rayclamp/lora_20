@@ -77,6 +77,19 @@ For a DESIGN-LOCKED task, the Worker must not:
 
 If the task record is incomplete or contradictory, stop and report the state conflict rather than guessing.
 
+### Character-reference outfit gate
+
+When the requested character is Inaria / 依娜莉亞:
+- load `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`;
+- treat the original/reference outfit in that file as character-reference data only;
+- default `CHARACTER_REFERENCE_OUTFIT_POLICY` to `DO_NOT_INHERIT`;
+- default `WALLPAPER_OUTFIT_MODE` to `INDEPENDENT_REDESIGN`;
+- design the complete wallpaper outfit independently before DESIGN_LOCK.
+
+The Worker MUST NOT use Inaria's original/reference outfit as a default wallpaper outfit, base layer, partial garment source, accessory source, decorative motif source, or color-template source unless the user explicitly requests reuse/preservation.
+
+This gate is distinct from `REFERENCE_OUTFIT_POLICY`, which controls the outfit visible in a user-supplied visual reference image.
+
 ## 4. IMAGE_ID LOCK
 
 An IMAGE_ID identifies one specific designed wallpaper task.
@@ -199,6 +212,10 @@ For realistic person-reference tasks, the design record must also explicitly con
 - `REFERENCE_OUTFIT_POLICY`
 - `REFERENCE_POSE_POLICY`
 
+For explicitly requested Inaria tasks, the design record must also resolve:
+- `CHARACTER_REFERENCE_OUTFIT_POLICY`
+- `WALLPAPER_OUTFIT_MODE`
+
 These fields must be resolved before DESIGN_LOCK.
 
 The design record must contain an explicit `SHOES` field for wallpaper tasks where footwear is visible. Footwear must not be hidden inside the CLOTHING field when shoe variation is a requested series requirement.
@@ -207,7 +224,7 @@ The design record must contain an explicit `SHOES` field for wallpaper tasks whe
 
 The Worker should use the following sequence:
 
-`READ TASK → VERIFY ID → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY OUTPUT COUNT → SHOW PROMPT → GENERATE → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECKPOINT → NEXT TASK`
+`READ TASK → VERIFY ID → RESOLVE CHARACTER AUTHORITY → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY OUTFIT ISOLATION → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY OUTPUT COUNT → SHOW PROMPT → GENERATE → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECKPOINT → NEXT TASK`
 
 A Worker must not start generation if the task identity, design, diversity, reference-decoupling policy, or required format cannot be safely resolved.
 
