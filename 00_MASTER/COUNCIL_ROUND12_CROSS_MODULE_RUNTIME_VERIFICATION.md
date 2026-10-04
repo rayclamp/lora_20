@@ -2,7 +2,7 @@
 
 ## Status
 
-**IN PROGRESS — CI verification pending**
+**PASS — verified on main**
 
 ## Objective
 
@@ -41,4 +41,11 @@ The exact branch commit and corresponding GitHub Actions run must pass:
 
 ## Finalization rule
 
-Only after the exact tested commit and CI run are verified successful may this document be promoted to **PASS**.
+## Verified CI
+
+- PR: `#5`
+- Pre-merge branch commit: `a29c6ce2f5993690a4296fe6503077cc3e4c313f`
+- Pull request workflow run: `37205909543` — SUCCESS
+- Main merge commit: `53304d6b4cec0911ddd24735db1a0768e28dfe7f`
+
+The Round 12 cross-module runtime contract passed before merge. A fresh main-branch architecture validation is required for the final repository baseline.
