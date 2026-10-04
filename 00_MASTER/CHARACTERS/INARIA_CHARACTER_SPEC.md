@@ -13,6 +13,7 @@ It does not override a user-supplied visual person reference for a specific wall
 For Universal Wallpaper:
 - A user-supplied image is the sole visual person reference when one is provided.
 - This character specification is the character-semantic specification when the user explicitly requests Inaria / 依娜莉亞.
+- When a user-supplied person reference exists, the character specification is split by authority: contextual character data may inform scene and lifestyle design, while visual/body specification data must not be used to reconstruct or replace the referenced person's appearance.
 - The character specification must not be treated as a second visual person reference.
 - Task-specific explicit user instructions override optional/default presentation settings in this document.
 - Stable identity characteristics remain applicable unless the user explicitly requests a different character.
@@ -30,6 +31,8 @@ For Universal Wallpaper:
 - Languages: Chinese, English, Japanese
 
 ## 2. Body Specification
+
+**Reference-image contextual-use rule:** When a user-supplied person reference exists for an Inaria wallpaper task, the numeric body data in this section is documentation of Inaria's canonical character profile, but is NOT a prompt-design input for reconstructing the referenced person's body. Preserve the referenced person's actual visual body identity instead. If no person reference is supplied, this section may be used as the default Inaria body baseline.
 
 - Height: 158 cm
 - Weight: 48 kg
@@ -53,7 +56,11 @@ The body specification is an identity constraint for Inaria. Do not silently con
 
 ### Stable identity anchors
 
-When Inaria is explicitly requested, preserve:
+When no task-specific person reference overrides them, these are the default Inaria identity anchors.
+
+When a user-supplied person reference exists, do NOT use these anchors to redraw or replace the referenced person's actual facial/body appearance. The reference image remains the visual identity authority.
+
+When Inaria is explicitly requested without an overriding person reference, preserve:
 - recognizable facial structure and facial proportions;
 - small oval face structure;
 - large gentle eye shape;
@@ -240,7 +247,7 @@ For a task with a supplied reference image, this rule is independent of `REFEREN
 
 ## 13. Reference-Image Relationship
 
-When the user supplies an image and explicitly requests Inaria:
+When the user supplies an image and explicitly identifies it as the realistic Inaria person:
 
 REFERENCE IMAGE
 - sole visual person reference;
@@ -249,9 +256,41 @@ REFERENCE IMAGE
 
 INARIA CHARACTER SPEC
 - establishes that the requested character is Inaria;
-- supplies stable character semantics and identity constraints;
-- supplies default world/personality/preferences and default everyday styling;
+- supplies contextual character data for design: occupation, work context, default world/location, lifestyle, habits, interests, likes, dislikes, personality, preferred environments, and relevant pet/lifestyle context;
+- supplies canonical visual/body specifications only as fallback identity data when no task-specific person reference is supplied;
+- does not override the referenced person's actual appearance;
 - is not a second visual identity image.
+
+### Contextual Character Data vs. Visual Identity Data
+
+When a task contains a person reference, use the Inaria specification primarily for contextual design.
+
+**USE FOR CONTEXT**
+- occupation / work context;
+- default world and location context;
+- lifestyle and everyday environment;
+- interests and hobbies;
+- likes and dislikes;
+- personality and behavioral tendencies;
+- preferred environments;
+- food, flower, and color preferences when relevant to the scene;
+- pet/lifestyle context only when the task's PET_ALLOWED setting permits intentional inclusion.
+
+**DO NOT USE TO RECONSTRUCT THE REFERENCED PERSON**
+- height;
+- weight;
+- BMI;
+- measurements;
+- canonical face shape;
+- canonical eye shape or iris color;
+- canonical hair color or length;
+- canonical bangs;
+- canonical body build;
+- canonical skin tone;
+- original/reference outfit;
+- any other visual identity value that would cause the referenced person's appearance to be replaced or normalized toward the GitHub profile.
+
+These visual/body values remain available as fallback character identity data only when no task-specific person reference exists.
 
 TASK INTENT
 - decides the requested scene, activity, expression, presentation, and wallpaper output.
@@ -262,9 +301,10 @@ The Worker must never resolve this relationship by simply copying the reference 
 
 When the user requests an Inaria wallpaper with a supplied reference image, resolve the task in this order:
 
-1. REFERENCE PERSON — use the uploaded image as the sole visual person reference.
+1. REFERENCE PERSON — use the uploaded image as the sole visual person reference and preserve the actual referenced person's visual identity.
 2. INARIA CHARACTER PROFILE — load this specification because the user explicitly requested Inaria.
-3. PRESENTATION REDESIGN — design hairstyle, complete outfit, accessories, and shoes.
+3. CHARACTER CONTEXT — use occupation, world, lifestyle, habits, interests, likes, dislikes, personality, and relevant preferences to enrich the design; do not use canonical body/face/appearance values to replace the reference person.
+4. PRESENTATION REDESIGN — design hairstyle, complete outfit, accessories, and shoes.
 4. SCENE — design the requested environment and context.
 5. POSE / ACTION — independently design the body pose and action.
 6. EXPRESSION — independently design the facial expression appropriate to the scene/action.
@@ -276,7 +316,7 @@ For an Inaria wallpaper task, use this precedence:
 
 1. Explicit user instruction for the current task
 2. User-supplied visual person reference for visual identity evidence
-3. This Inaria Character Specification for stable character semantics only
+3. This Inaria Character Specification for contextual character semantics when a visual reference exists; canonical visual/body specifications are fallback identity data only when no task-specific visual person reference exists
 4. Applicable Universal Wallpaper rules
 5. Selected Anime or Realistic Wallpaper rules
 6. Optional presentation preferences in this file, excluding the original/reference outfit
