@@ -127,7 +127,7 @@ export class CanonicalContextResolver {
 
   resolveSceneIntent({ module, theme = "", sceneIntent = null } = {}) {
     const context = this.loadCanonicalContext(module);
-    if (!hasStatement(context.sceneProtocol, "THEME != SCENE INTENT")) {
+    if (!(hasStatement(context.sceneProtocol, "THEME ≠ SCENE INTENT") || hasStatement(context.sceneProtocol, "THEME != SCENE INTENT"))) {
       throw new Error("SCENE_PROTOCOL_CONTEXT_INVALID");
     }
 
