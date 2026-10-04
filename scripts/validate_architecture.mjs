@@ -309,7 +309,7 @@ if (failures === 0) pass("Phase 10A: Wallpaper concurrency contract is present")
 
 const worker = read("00_MASTER/GENERATION_WORKER_PROTOCOL.md");
 for (const token of [
-  "claim one valid QUEUED task atomically", "verify Claim/Lease",
+  "claim one valid QUEUED task atomically using the selected module's canonical Claim/Lease/Concurrency protocol", "verify ownership",
   "SUCCESS / FAILED / UNKNOWN", "UNKNOWN requires recovery", "do not self-QA"
 ]) {
   if (!worker.includes(token)) fail("Generic Worker enforcement rule missing: " + token);
