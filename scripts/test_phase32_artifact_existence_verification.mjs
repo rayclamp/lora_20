@@ -21,7 +21,7 @@ function runtime(adapter) {
 }
 {
  const r=runtime({persist({artifact}){return {result:"SUCCESS",verification:"VERIFIED",artifact:{artifactId:"A",uri:"storage://A",sha256:sha256(artifact.bytes)}}},verify({artifact}){return {result:"VERIFIED",verification:"VERIFIED",sha256:artifact.sha256}}});
- const x=r.execute(); console.log("DEBUG",JSON.stringify({result:x.result,status:x.taskStatus,failure:x.lastFailureReason,verification:x.verification,artifact:x.artifact})); assert.equal(x.result,"SUCCESS"); assert.equal(x.artifact.sha256,sha256("IMAGE-BYTES")); console.log("PASS retrievable artifact hash matches generated content");
+ const x=r.execute(); assert.equal(x.result,"SUCCESS"); assert.equal(x.artifact.sha256,sha256("IMAGE-BYTES")); console.log("PASS retrievable artifact hash matches generated content");
 }
 {
  const r=runtime({persist(){return {result:"SUCCESS",verification:"VERIFIED",artifact:{artifactId:"A",uri:"storage://A",sha256:"WRONG"}}},verify(){return {result:"HASH_MISMATCH",verification:"VERIFIED"}}});
