@@ -76,7 +76,7 @@ workerA.authorizeAutomatedGeneration();
 const result = workerA.execute();
 assert.equal(result.taskStatus, "SUCCESS");
 assert.equal(client.state.recovery, "TERMINAL_SUCCESS");
-assert.equal(client.state.ownership, "UNCLAIMED");
+assert.equal(client.state.ownership, "TERMINAL");
 assert.equal(client.state.workerId, "NONE");
 assert.equal(client.state.leaseUntil, null);
 assert.equal(client.state.visualAdherenceResult, "VISUAL_DESIGN_ADHERENCE_PASS");
