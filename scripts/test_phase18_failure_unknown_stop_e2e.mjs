@@ -71,7 +71,7 @@ function makeController(outcome) {
 {
   const { controller, tasks, calls } = makeController("FAILED");
   const result = controller.start();
-  assert.equal(result.action, "RECOVERY_REQUIRED");
+  assert.equal(result.action, "RETRY_READY");
   assert.equal(controller.batchRecord.sessionStatus, "RECOVERY_REQUIRED");
   assert.deepEqual(calls, ["IMAGE-01"]);
   assert.deepEqual(tasks.map(t => t.status), ["QUEUED", "QUEUED"]);
