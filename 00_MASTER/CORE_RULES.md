@@ -4,31 +4,56 @@ CORE contains only rules shared across production modules.
 
 ## 0. GitHub Repository Role — NON-NEGOTIABLE
 
-This repository is a **reference/data database for image production**.
+This repository is the project's **image-production reference and persistence database**.
 
 GitHub is **NOT** the production runtime or control system.
 
 GitHub MUST NOT be used as:
 - Worker controller
 - Task scheduler
-- Queue
-- Session manager
-- Runtime state machine
+- Queue executor
+- Worker lifecycle controller
 - Prompt execution gate
 - Generation controller
 - Retry engine
 - Worker pool manager
-- Production persistence/state system
+- Runtime orchestrator
 
-The Worker reads the required GitHub reference data, designs the requested image(s), and produces the final prompt(s). Image generation is performed by the image-generation system, not controlled by GitHub.
+GitHub **MAY** store production information required for durable continuity of automated production, including:
+- production records
+- designed prompts
+- completed-image records
+- pending-image records
+- checkpoints
+- interruption/recovery information
 
-The canonical production flow is:
+This persistence data is storage only. GitHub does not independently execute, schedule, resume, retry, or control the Worker.
+
+### Production Modes
+
+**Manual production**
+- Read GitHub references.
+- Design the requested images.
+- Return FINAL PROMPTs.
+- No production checkpoint or runtime record is required unless explicitly requested.
+
+**Automated production**
+- Uses the same image-design process as manual production.
+- Executes the designed FINAL PROMPTs through the image-generation system.
+- MUST persist sufficient production information to GitHub so an interrupted production can later determine what has already been completed and continue with the remaining images.
+- Persistence must not change GitHub into an execution controller.
+
+The canonical conceptual flow is:
 
 `User Production Command → Worker → GitHub Reference Data → Image Design → FINAL PROMPT → Image Generator`
 
-GitHub is therefore **read-only reference data during production**, unless the user explicitly requests a repository maintenance/documentation change.
+For automated production, durable recording is added:
 
-Production results, runtime state, tasks, queues, sessions, locks, retries, and worker status MUST NOT be written back to GitHub merely because an image-production request was executed.
+`Automated Production → GitHub Production Record / Checkpoint`
+
+The distinction is:
+
+**GitHub stores information; the Worker/runtime performs actions.**
 
 ## 1. Core Rules
 
@@ -37,11 +62,13 @@ Production results, runtime state, tasks, queues, sessions, locks, retries, and 
 3. Module-specific identity, style, dataset, cultural, and QA rules remain inside their module.
 4. Generation success does not imply visual QA acceptance.
 5. Generation Workers do not perform final QA unless explicitly instructed by the applicable QA workflow.
-6. UNKNOWN state must be recovered, not guessed.
+6. UNKNOWN state must be recovered from authoritative stored information, not guessed.
 7. Current GitHub reference content is authoritative for image-design rules.
 8. User intent cannot silently activate a paused module.
 9. New modules load CORE rather than copying another module's workflow.
-10. GitHub reference files describe **how images should be designed**; they do not describe **how GitHub should control Workers**.
+10. GitHub reference files define **how images should be designed**; they do not define GitHub as the mechanism that **controls Workers**.
+11. Automated production may write durable production/checkpoint information to GitHub when required for interruption recovery.
+12. Manual production does not require automated production persistence.
 
 ## 2. Required Shared Documents
 
