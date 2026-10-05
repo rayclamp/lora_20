@@ -12,13 +12,19 @@ export class ImageProviderAdapter {
     this.transport = transport;
   }
 
-  generate({ prompt, outputType, taskId, traceRunId }) {
+  generate({ prompt, outputType, taskId, traceRunId, executionContext = null }) {
     if (!prompt || !prompt.trim()) throw new Error("EXECUTABLE_PROMPT_REQUIRED");
+    if (!executionContext || typeof executionContext !== "object") {
+      throw new Error("EXECUTION_CONTEXT_REQUIRED");
+    }
+    const executionContextHash = sha256(JSON.stringify(executionContext));
     const result = this.transport.generate({
       prompt,
       outputType,
       taskId,
       traceRunId,
+      executionContext,
+      executionContextHash,
       promptHash: sha256(prompt)
     });
     if (!result || !PROVIDER_RESULT_STATES.has(result.result)) throw new Error("PROVIDER_RESULT_INVALID");
@@ -30,6 +36,8 @@ export class ImageProviderAdapter {
       ...result,
       providerId: this.providerId,
       executedPromptHash: result.executedPromptHash ?? "NOT_OBSERVABLE",
+      executedExecutionContextHash: result.executedExecutionContextHash ?? "NOT_OBSERVABLE",
+      executionContextVerification: result.executionContextVerification ?? "NOT_OBSERVABLE",
       providerRequestId: result.providerRequestId ?? "NOT_OBSERVABLE"
     };
   }
