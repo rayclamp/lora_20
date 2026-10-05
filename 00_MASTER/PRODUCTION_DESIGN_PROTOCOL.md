@@ -107,3 +107,13 @@ Both are validated and locked before generation.
 The execution context binds the Prompt to the concrete reference authority, model identity/version, output type, aspect ratio, generation parameters, and provider parameters. Any revision to either artifact invalidates the previous execution lock and requires re-validation, re-locking, and a new preview/audit event.
 
 The generation Worker must execute the locked pair exactly. It must not reconstruct either artifact from the Design Record or provider defaults.
+
+## 6A. Automated design freshness and provenance
+
+Automated multi-task production MUST prevent accidental reuse of a previous task's design or final Prompt. The design stage must receive authoritative prior-design context when prior successful tasks exist. At minimum:
+
+- exact locked Prompt reuse is forbidden;
+- the design must carry a persisted design fingerprint;
+- module-specific variation fields may be required (for Universal Wallpaper, hairstyle and clothing can be mandatory freshness fields);
+- insufficient variation is a design-validation failure and MUST block generation;
+- conversational memory is not an acceptable source of prior-design state.

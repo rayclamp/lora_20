@@ -125,6 +125,67 @@ function buildExecutionContext(state, context = {}) {
 }
 
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
+function readDesignPath(value, pathSpec) {
+  const aliases = {
+    HAIRSTYLE: ["hairstyle", "HAIRSTYLE", "presentation.hairstyle"],
+    CLOTHING: ["clothing", "CLOTHING", "outfit", "OUTFIT", "presentation.clothing", "presentation.outfit"],
+    OUTFIT: ["outfit", "OUTFIT", "clothing", "CLOTHING", "presentation.outfit", "presentation.clothing"]
+  };
+  const candidates = aliases[pathSpec] ?? [pathSpec];
+  for (const candidate of candidates) {
+    const parts = candidate.split(".");
+    let current = value;
+    for (const part of parts) {
+      if (current === null || current === undefined) break;
+      current = current[part];
+    }
+    if (current !== undefined && current !== null) return current;
+  }
+  return undefined;
+}
+
+function validateDesignFreshness(design, prompt, freshness = {}) {
+  if (!freshness || freshness.enabled !== true) return { status: "NOT_REQUIRED" };
+  const previous = Array.isArray(freshness.previousDesigns) ? freshness.previousDesigns : [];
+  if (previous.length === 0) return { status: "PASS", comparedCount: 0, changedFields: [] };
+
+  const promptHash = sha256(prompt);
+  const exactPromptReuse = previous.find(item => item?.promptHash === promptHash || item?.prompt === prompt);
+  if (exactPromptReuse) {
+    throw new Error("DESIGN_FRESHNESS_PROMPT_REUSE");
+  }
+
+  const variationFields = Array.isArray(freshness.variationFields) && freshness.variationFields.length
+    ? freshness.variationFields
+    : ["HAIRSTYLE", "CLOTHING", "SHOT_SIZE", "VIEWPOINT", "MAIN_ACTION", "SCENE", "WEATHER", "TIME", "LIGHTING"];
+  const minimumChangedFields = Number.isInteger(freshness.minimumChangedFields)
+    ? freshness.minimumChangedFields
+    : 2;
+  const requiredChangedFields = Array.isArray(freshness.requiredChangedFields) ? freshness.requiredChangedFields : [];
+
+  const comparable = previous.filter(item => item?.design && typeof item.design === "object");
+  if (comparable.length === 0) {
+    throw new Error("DESIGN_FRESHNESS_CONTEXT_INCOMPLETE");
+  }
+
+  for (const prior of comparable) {
+    const changed = variationFields.filter(field =>
+      JSON.stringify(readDesignPath(design, field)) !== JSON.stringify(readDesignPath(prior.design, field))
+    );
+    const requiredChanged = requiredChangedFields.filter(field =>
+      JSON.stringify(readDesignPath(design, field)) !== JSON.stringify(readDesignPath(prior.design, field))
+    );
+    if (requiredChangedFields.length > 0 && requiredChanged.length !== requiredChangedFields.length) {
+      continue;
+    }
+    if (changed.length >= minimumChangedFields) {
+      return { status: "PASS", comparedCount: comparable.length, changedFields: changed, requiredChangedFields: requiredChanged };
+    }
+  }
+
+  throw new Error("DESIGN_FRESHNESS_VARIATION_INSUFFICIENT");
+}
+
 
 export class ProductionWorkerRuntime {
   constructor({ store, generator, designer = null, visualEvaluator = null, outputAdapter = null, artifactPersistenceRequired = false, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null, continuationResolver = null, dispatchNextTask = null, leaseDurationMs = 300000 }) {
@@ -237,6 +298,11 @@ export class ProductionWorkerRuntime {
         })
       : null;
     const effectiveContext = canonical ?? context;
+    const designFreshness = validateDesignFreshness(
+      context.design,
+      prompt,
+      context.designFreshness ?? effectiveContext.designFreshness
+    );
     const executionContext = buildExecutionContext(this.requireState(), effectiveContext);
     const executionContextHash = sha256(JSON.stringify(executionContext));
 
@@ -276,7 +342,9 @@ export class ProductionWorkerRuntime {
       if (context.userRequest !== undefined) s.userRequest = String(context.userRequest);
       if (context.design !== undefined) s.design = clone(context.design);
       s.events.push({ type: "PRESENTATION_DESIGNED", at: this.clock() });
-      s.events.push({ type: "DESIGN_VALIDATED", at: this.clock(), status: "PASS" });
+      s.designFreshness = designFreshness;
+      s.designFingerprint = sha256(JSON.stringify(context.design ?? {}));
+      s.events.push({ type: "DESIGN_VALIDATED", at: this.clock(), status: "PASS", designFreshness });
       s.promptHash = sha256(prompt);
       s.lockedPrompt = prompt;
       s.executionContext = clone(executionContext);
