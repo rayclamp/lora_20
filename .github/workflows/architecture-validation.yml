@@ -94,3 +94,5 @@ jobs:
         run: node scripts/test_phase18_failure_unknown_stop_e2e.mjs
       - name: Run Runtime Verification Phase-19 retry and three-failure recovery E2E
         run: node scripts/test_phase19_retry_and_three_failure_e2e.mjs
+      - name: Run Runtime Verification Phase-20 Claim CAS concurrency
+        run: node scripts/test_phase20_claim_cas_concurrency.mjs
