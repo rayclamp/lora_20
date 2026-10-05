@@ -87,19 +87,27 @@ export class AutomaticProductionController {
     const existingRuntime = this.runtimeByTask.get(task.taskId);
     const runtime = existingRuntime ?? this.runtimeFactory(task);
     this.runtimeByTask.set(task.taskId, runtime);
-    if (!existingRuntime) runtime.request({
-      traceRunId: crypto.randomUUID(),
-      automationRunId: this.batchRecord.automationRunId,
-      module: this.batchRecord.module,
-      productionType: this.batchRecord.productionType,
-      outputType: this.batchRecord.outputType,
-      batchId: this.batchRecord.batchId,
-      taskId: task.taskId,
-      // Runtime task scope is one validated output; batch scope is owned by this controller/Batch Record.
-      targetCount: 1,
-      completedCount: 0,
-      mode: "AUTOMATED"
-    });
+    if (!existingRuntime) {
+      try {
+        runtime.request({
+          traceRunId: crypto.randomUUID(),
+          automationRunId: this.batchRecord.automationRunId,
+          module: this.batchRecord.module,
+          productionType: this.batchRecord.productionType,
+          outputType: this.batchRecord.outputType,
+          batchId: this.batchRecord.batchId,
+          taskId: task.taskId,
+          // Runtime task scope is one validated output; batch scope is owned by this controller/Batch Record.
+          targetCount: 1,
+          completedCount: 0,
+          mode: "AUTOMATED"
+        });
+      } catch (error) {
+        // A second controller may discover the same authoritative task while its task
+        // state is already leased. Reuse the existing state and let Claim/CAS fence it.
+        if (error?.message !== "FILE_ALREADY_EXISTS") throw error;
+      }
+    }
     runtime.claim();
     if (!existingRuntime) {
       runtime.designFromRequest(this.userRequest, this.taskDesignContext(task));
