@@ -156,8 +156,12 @@ export class AutomaticProductionController {
     const task = this.taskResolver(this.batchRecord, { taskId: this.batchRecord.currentTaskId, recovery: "RETRY_READY" });
     if (!task || task.taskId !== this.batchRecord.currentTaskId) throw new Error("RETRY_TASK_NOT_RESOLVED");
     if (task.recoveryStatus !== "RETRY_READY") throw new Error("RETRY_TASK_NOT_READY");
-    const runtime = this.runtimeByTask.get(task.taskId);
-    if (!runtime || typeof runtime.resumeAfterFailure !== "function") throw new Error("RETRY_RUNTIME_STATE_MISSING");
+    let runtime = this.runtimeByTask.get(task.taskId);
+    if (!runtime) {
+      runtime = this.runtimeFactory(task);
+      this.runtimeByTask.set(task.taskId, runtime);
+    }
+    if (typeof runtime.resumeAfterFailure !== "function") throw new Error("RETRY_RUNTIME_STATE_MISSING");
     runtime.resumeAfterFailure();
     task.status = "QUEUED";
     task.recoveryStatus = "NONE";
