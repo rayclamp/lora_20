@@ -54,6 +54,10 @@ TARGET_COUNT:
 COMPLETED_COUNT:
 CURRENT_TASK_ID:
 SESSION_STATUS:
+PAUSE_REASON:
+PAUSE_EVIDENCE:
+PAUSE_EVIDENCE_SOURCE:
+PAUSE_EVIDENCE_STATUS:
 TERMINATION_STATUS:
 STOP_REASON:
 STOP_EVIDENCE:
@@ -321,7 +325,7 @@ Failure and recovery behavior is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLP
 
 A retry is another generation attempt of the same task and does not create a new `IMAGE_ID`.
 
-Three consecutive FAILED attempts on one task require recovery and stop the session. UNKNOWN always requires recovery and stops the session. ABANDONED is terminal for that task identity and may only be replaced by a new task identity.
+Three consecutive FAILED attempts on one task terminalize that task and allow an active automated multi-image batch to continue to the next pending task. UNKNOWN always requires recovery and stops the session. ABANDONED is terminal for that task identity and may only be replaced by a new task identity.
 
 ## 11. Batch completion
 
@@ -335,14 +339,29 @@ For automated multi-image Wallpaper, the batch is complete when every planned IM
 
 No additional image may be silently added to the batch.
 
-## 11A. Quota pause and continuation
+## 11A. Production pause and continuation
 
-When explicit platform evidence confirms quota/rate-limit/generation unavailability before the batch is complete:
-- `SESSION_STATUS: QUOTA_PAUSED`
+Temporary production interruptions are batch-level pauses, not per-image FAILED results, when they prevent execution before a generation event is invoked.
+
+Canonical `PAUSE_REASON` values:
+- `QUOTA_PAUSED`
+- `GENERATION_SERVER_PAUSED`
+- `PROMPT_SYSTEM_PAUSED`
+- `PLATFORM_PAUSED`
+
+Examples include exhausted quota/rate limits, an unavailable or unhealthy image-generation server/runtime, and a prompt submission/validation/execution system that cannot accept the locked prompt.
+
+For a verified pause:
+- `SESSION_STATUS: PAUSED`
+- `PAUSE_REASON:` one canonical value above
 - `TERMINATION_STATUS: NON_TERMINAL`
 - preserve all prompt/design/task/attempt/checkpoint state.
 
-`/CONTINUE` must reread the Batch Record and continue from the first authoritative incomplete task. It must never reconstruct state from conversation memory. A terminal batch cannot be resumed.
+A pause before generation does not increment `GENERATION_ATTEMPT_COUNT` or `CONSECUTIVE_FAILURE_COUNT` and does not mark the IMAGE_ID FAILED.
+
+If the cause cannot be reliably determined, use `UNKNOWN / RECOVERY_REQUIRED` rather than inventing a pause reason.
+
+`/CONTINUE` must reread the Batch Record and continue the same authoritative incomplete task after the blocking condition is resolved. It must never reconstruct state from conversation memory. A terminal batch cannot be resumed.
 
 ## 12. Separation from platform runtime
 
@@ -373,7 +392,7 @@ For any stop caused by quota, rate limiting, or generation unavailability, the b
 - `NOT_VERIFIED` — no explicit platform evidence was available;
 - `NOT_APPLICABLE` — stop reason is unrelated to platform availability.
 
-A Worker MUST NOT record `QUOTA_LIMIT_REACHED`, `RATE_LIMITED`, or `GENERATION_UNAVAILABLE` as a verified stop without `STOP_EVIDENCE_STATUS: VERIFIED`.
+A Worker MUST NOT record a platform pause reason as verified without corresponding evidence. `PAUSE_EVIDENCE_STATUS` uses the same evidence discipline as `STOP_EVIDENCE_STATUS`.
 
 If platform availability cannot be reliably determined, use `UNKNOWN / RECOVERY_REQUIRED` rather than inventing a quota or availability state.
 
