@@ -47,8 +47,12 @@ assert.equal(manualGenerator.calls[0].prompt, manualResult.lockedPrompt);
 
 const autoStore = new (await import("./runtime/worker_runtime.mjs")).JsonStateStore(path.join(dir, "auto.json"));
 const autoGenerator = new RecordingGenerationAdapter();
+const autoVisualEvaluator = {
+  evaluate() { return { result: "VISUAL_DESIGN_ADHERENCE_PASS" }; }
+};
 const auto = new ProductionWorkerRuntime({
   store: autoStore, generator: autoGenerator, designer, contextResolver: resolver,
+  visualEvaluator: autoVisualEvaluator,
   workerId: "PHASE7_AUTO"
 });
 auto.request({
