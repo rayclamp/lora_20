@@ -108,3 +108,5 @@ jobs:
         run: node scripts/test_phase25_multi_controller_contention.mjs
       - name: Run Runtime Verification Phase-26 crash-boundary task reconciliation
         run: node scripts/test_phase26_crash_boundary_reconciliation.mjs
+      - name: Run Runtime Verification Phase-27 restart recovery semantics
+        run: node scripts/test_phase27_restart_recovery_semantics.mjs
