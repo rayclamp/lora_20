@@ -339,7 +339,8 @@ export class ProductionWorkerRuntime {
       outputType: next.outputType,
       taskId: next.taskId,
       traceRunId: next.traceRunId,
-      executionContext: next.executionContext
+      executionContext: next.executionContext,
+      executionContextHash: next.executionContextHash
     });
     next.attemptCount++;
     next.result = result.result;
