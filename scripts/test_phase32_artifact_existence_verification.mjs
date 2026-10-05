@@ -13,7 +13,7 @@ function runtime(adapter) {
     artifactPersistenceRequired:true,
     visualAdherenceRequired:false,
     outputAdapter:adapter,
-    generator:{generate(){return {result:"SUCCESS",verification:"VERIFIED",output:{bytes:"IMAGE-BYTES",format:"png"}}}}
+    generator:{generate({outputType}){return {result:"SUCCESS",verification:"VERIFIED",output:{bytes:"IMAGE-BYTES",format:outputType}}}}
   });
   r.request({batchId:"B32",taskId:"IMAGE-01",module:"UNIVERSAL_WALLPAPER",productionType:"AUTOMATED",outputType:"DESKTOP_WALLPAPER",artifactPersistenceRequired:true,visualAdherenceRequired:false});
   r.claim(); r.designAndLockPrompt("LOCKED", {reference:{status:"NO_REFERENCE"},sceneIntent:{status:"EXPLICIT",fields:{ACTIVITY:"TRAVEL",LOCATION:"FOREST",ACTION:"WALKING",TIME:"DAY",WEATHER:"CLEAR",SOCIAL_CONTEXT:"ALONE",ENVIRONMENTAL_CUES:"FOREST_PATH"}}}); r.authorizeAutomatedGeneration();
