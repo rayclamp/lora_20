@@ -14,6 +14,7 @@
 | Generation-result safety | 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md |
 | Wallpaper rules | 00_MASTER/WALLPAPER/ |
 | Universal Wallpaper persistent batch/task records | MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/ + 00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md |
+| Universal Wallpaper automated multi-image execution | 00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_AUTOMATED_BATCH_EXECUTION_SPEC.md |
 | Festival cultural data | FESTIVAL_COSTUME_DATABASE/ |
 | Festival Wallpaper execution protocol | 00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md |
 | LoRA behavior | MODULES/LORA_PRODUCTION/MODULE.md |
