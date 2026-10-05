@@ -132,3 +132,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-35 long batch E2E
         run: node scripts/test_phase35_long_batch_e2e.mjs
+
+      - name: Run Runtime Verification Phase-36 integrated recovery stress
+        run: node scripts/test_phase36_integrated_recovery_stress.mjs
