@@ -8,22 +8,35 @@ This repository is the project's **image-production reference and persistence da
 
 GitHub is **NOT** the production runtime or control system.
 
-### External Control Authority — NON-NEGOTIABLE
+## 0.5 Three-Role System Definition — NON-NEGOTIABLE
 
-Global control commands are issued by the **external control actor (ChatGPT / operator)**, not by GitHub.
+The entire system is defined by three simple roles:
 
-The boundary is:
-- **External Control Actor:** decides and issues control commands such as global stop/resume operations.
-- **Runtime / Control Plane:** receives those commands and actually enforces them over Producers, Workers, Sessions, Batches, and Tasks.
-- **GitHub / Data Plane:** records the resulting state, checkpoints, history, and instructions; it does not interpret those records as commands and does not independently stop, resume, schedule, retry, or control production.
+1. **User — Command Giver**
+   - The user gives instructions.
 
-A GitHub field such as `STATUS=STOPPED`, `GLOBAL_STOP`, `TASK_OWNER`, `LEASE_ID`, or similar is **data only**. Its presence in GitHub never constitutes live control authority.
+2. **ChatGPT — Operator / Producer**
+   - ChatGPT receives the user's instructions.
+   - ChatGPT operates the production system and performs production work.
+   - ChatGPT reads required reference information from GitHub.
+   - ChatGPT writes production results, checkpoints, and records to GitHub.
 
-Canonical rule:
+3. **GitHub — Database**
+   - GitHub provides data for ChatGPT to read.
+   - GitHub stores data recorded by ChatGPT.
+   - GitHub does not independently make decisions, execute commands, operate production, or control ChatGPT.
 
-> **External Control decides. Runtime executes. GitHub records.**
+**Canonical simple rule:**
 
-Global stop is therefore an external control operation. GitHub only receives the resulting state as a record.
+> **User gives commands → ChatGPT operates / produces → GitHub provides data and records data.**
+
+GitHub is a database/reference repository only. Any Runtime, Producer, Worker, State Machine, Scheduler, Retry, Stop, Recovery, or other execution mechanism is an internal implementation used by ChatGPT to perform the user's instructions; these mechanisms do not give GitHub control authority.
+
+### Control Boundary
+
+A global command such as `/STOP_ALL` is issued by the user to ChatGPT. ChatGPT receives and executes that command. GitHub only records the resulting state when ChatGPT tells it to do so.
+
+A GitHub field or file is never itself a live command. For example, `GLOBAL_STOP=TRUE`, `STATUS=STOPPED`, `TASK_OWNER`, or `LEASE_ID` are records only.
 
 GitHub MUST NOT be used as:
 - Worker controller
