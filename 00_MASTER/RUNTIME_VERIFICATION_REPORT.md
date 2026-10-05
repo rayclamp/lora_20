@@ -138,3 +138,49 @@ Final Phase-7/8/9 verification run:
 - Phase-9 worker-pool CAS: PASS
 
 No production automation, Make scenario, LoRA workflow, or real image provider was activated by this verification.
+
+## Phase 10 — Image Provider Adapter Boundary
+
+Verified by `scripts/test_phase10_provider_adapter_boundary.mjs`.
+
+The Runtime now has an explicit provider-neutral Image Provider Adapter boundary. The adapter:
+- accepts only the Worker-locked executable Prompt;
+- propagates the Prompt SHA-256 hash;
+- carries task and trace identity;
+- preserves provider request identity when exposed;
+- preserves output-format metadata;
+- validates provider result states as SUCCESS / FAILED / UNKNOWN;
+- rejects empty Prompts;
+- does not fabricate telemetry when the provider cannot expose it.
+
+Phase 10 proves the executable integration seam with a deterministic transport double. It does **not** claim that a live external image-generation provider is connected.
+
+## CI Evidence — Phase 10
+
+GitHub Actions Run #244:
+- conclusion: SUCCESS
+- Phase-10 provider adapter boundary self-test: PASS
+- existing Phase-6/7/8/9 verification chain remained green.
+
+The verified boundary is therefore:
+
+`USER REQUEST → CANONICAL CONTEXT → SYSTEM DESIGN → SYSTEM PROMPT → AUTHORIZATION → IMAGE PROVIDER ADAPTER → RESULT → CHECKPOINT`
+
+with bounded batch continuation and GitHub-CAS worker concurrency.
+
+## Next Gate — Live Provider Integration
+
+The remaining critical production gap is now explicit:
+
+`LOCKED PROMPT → REAL PROVIDER TRANSPORT → REAL GENERATION RESULT → VERIFIABLE ARTIFACT / TELEMETRY → CHECKPOINT`
+
+No provider has been selected or connected by this verification pass. The system must not silently assume ComfyUI, Make, or any other provider.
+
+A live integration requires:
+1. a concrete image-generation provider/API;
+2. an authorized connection/credential path;
+3. a real transport implementation behind `ImageProviderAdapter`;
+4. provider-specific result verification;
+5. a controlled end-to-end test with one image.
+
+Large-scale production is not the next gate. The first proof target is one real image through the already-verified Worker Runtime path.
