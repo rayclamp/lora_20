@@ -86,3 +86,5 @@ jobs:
 
       - name: Run Runtime Verification Phase-15 automated Universal Wallpaper gate binding
         run: node scripts/test_phase15_universal_wallpaper_gate_binding.mjs
+      - name: Run Runtime Verification Phase-16 automatic authoritative batch continuation
+        run: node scripts/test_phase16_automatic_batch_continuation.mjs
