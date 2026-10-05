@@ -52,9 +52,10 @@ export class AutomaticProductionController {
     }
     if (task.status !== "QUEUED") throw new Error("AUTHORITATIVE_TASK_NOT_QUEUED");
 
-    const runtime = this.runtimeByTask.get(task.taskId) ?? this.runtimeFactory(task);
+    const existingRuntime = this.runtimeByTask.get(task.taskId);
+    const runtime = existingRuntime ?? this.runtimeFactory(task);
     this.runtimeByTask.set(task.taskId, runtime);
-    runtime.request({
+    if (!existingRuntime) runtime.request({
       traceRunId: crypto.randomUUID(),
       automationRunId: this.batchRecord.automationRunId,
       module: this.batchRecord.module,
@@ -68,8 +69,10 @@ export class AutomaticProductionController {
       mode: "AUTOMATED"
     });
     runtime.claim();
-    runtime.designFromRequest(this.userRequest, this.taskDesignContext(task));
-    runtime.authorizeAutomatedGeneration();
+    if (!existingRuntime) {
+      runtime.designFromRequest(this.userRequest, this.taskDesignContext(task));
+      runtime.authorizeAutomatedGeneration();
+    }
 
     const result = runtime.execute();
     this.events.push({ type: "TASK_RESULT", taskId: task.taskId, result: result.result, at: this.clock() });
