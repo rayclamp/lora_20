@@ -482,6 +482,13 @@ export class ProductionWorkerRuntime {
         }
       }
     }
+
+    // Reconcile final failure/uncertainty evidence after every downstream gate.
+    // Visual adherence and artifact persistence can change the provider result.
+    next.failureReason = result.failureReason ?? next.failureReason ?? "NONE";
+    next.lastFailureReason = result.failureReason ?? next.lastFailureReason ?? "NONE";
+    if (result.providerError !== undefined) next.providerError = result.providerError;
+
     if (result.result === "SUCCESS") {
       next.completedCount = (next.completedCount ?? 0) + 1;
       next.taskStatus = "SUCCESS";
