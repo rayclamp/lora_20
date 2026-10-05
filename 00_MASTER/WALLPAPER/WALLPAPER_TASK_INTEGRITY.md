@@ -8,17 +8,19 @@ The goal is to prevent a wallpaper task from being redesigned, duplicated, mis-n
 
 GitHub is the persistent source of truth for task identity and task design.
 
-## 1. One-task-at-a-time design model
+## 1. Batch design-first model
 
-For Universal Wallpaper production, the preferred production flow is:
+For automated multi-image Wallpaper production, the canonical flow is:
 
-`TASK → DESIGN → SAVE DESIGN RECORD → GENERATE → RECORD RESULT → NEXT TASK`
+`BATCH INPUT → DESIGN ALL TASKS → VALIDATE SERIES DIVERSITY → LOCK PROMPT SET → RETURN PROMPTS → GENERATE ONE IMAGE AT A TIME → RECORD RESULT → NEXT TASK`
 
-When a batch requests multiple wallpapers, Workers should design and execute one wallpaper task at a time whenever the active automation supports this model.
+The design phase must complete the entire requested series before the first generation event whenever the batch can be fully designed.
 
-A Worker must not rely on conversational memory of a large batch when an authoritative GitHub task/design record exists.
+A one-task-at-a-time design flow is permitted only when the active execution contract explicitly requires incremental design. It is not the default for automated multi-image Wallpaper.
 
-The purpose is to reduce cross-image design contamination and loss of previously specified scene details.
+The design-first rule exists to prevent cross-image repetition and to preserve deliberate variation in clothing, hairstyle, accessories, shoes, scene, pose, and other presentation variables.
+
+A Worker must not rely on conversational memory when an authoritative GitHub batch/design record exists.
 
 ## 2. Design Record
 
@@ -222,7 +224,17 @@ Identity anchors remain fixed. Natural hair color and hairline remain identity a
 
 A Worker MUST NOT satisfy a multi-image batch merely by changing the background and pose while keeping clothing, hairstyle, shoes, and accessories effectively unchanged across the series.
 
-Before DESIGN_LOCK, the Worker must perform a batch diversity check. If the requested quantity is large, use a deliberate rotation/coverage plan rather than random repetition.
+Before DESIGN_LOCK, the Worker must perform a batch diversity check. For automated multi-image Wallpaper, all planned task designs must be available for this check before the Prompt Set is locked. If the requested quantity is large, use a deliberate rotation/coverage plan rather than random repetition.
+
+Minimum mandatory series variation:
+- CLOTHING / OUTFIT
+- HAIRSTYLE
+- ACCESSORIES
+- SHOES
+- SCENE / ENVIRONMENT
+- POSE
+
+A batch is not design-ready if these six variables are materially duplicated across tasks without an explicit reason.
 
 For realistic person-reference tasks, the design record must also explicitly contain:
 - `REFERENCE_OUTFIT_POLICY`
