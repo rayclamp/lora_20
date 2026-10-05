@@ -24,7 +24,10 @@ Resolve the active module from Runtime State. Do not assume LoRA or Wallpaper. D
 When the module uses a queue: fetch current state, verify the parent module is ACTIVE, claim one valid QUEUED task atomically using the selected module's canonical Claim/Lease/Concurrency protocol, verify ownership, enter generation state, generate, record SUCCESS/FAILED/UNKNOWN, then release according to module rules.
 
 ## Pre-generation
-Apply DRAWING_INSTRUCTIONS.md and ANATOMY_STABILITY.md. Prefer stable hands/feet, natural proportions, clear limb sources, physical object contact, and simple support before decorative complexity.
+Apply DRAWING_INSTRUCTIONS.md and ANATOMY_STABILITY.md. Prefer stable hands/feet, natural proportions, clear limb sources, physical object contact, and simple support before decorative complexity. Verify `PROMPT_LOCK_STATUS: LOCKED` and execute the task's `FINAL_EXECUTABLE_PROMPT` exactly. Do not reconstruct or mutate the Prompt from the design record after lock.
+
+## Prompt execution integrity
+When execution telemetry is available, compare the executed Prompt with the locked Prompt and record `VERIFIED` or `MISMATCH`. If the platform does not expose the executed Prompt payload, record `NOT_OBSERVABLE`. An observable mismatch is an execution-integrity failure and must not be normal task SUCCESS.
 
 ## Outcomes
 SUCCESS / FAILED / UNKNOWN only. UNKNOWN requires recovery and must not be guessed or automatically regenerated.
