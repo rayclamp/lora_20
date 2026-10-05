@@ -249,3 +249,29 @@ The verified control path is now:
 The remaining major production-integrity gap is visual design adherence: proving that the generated image actually follows the locked design intent (for example outfit, action, pose, scene, hairstyle, major props, and reference contamination).
 
 A correct Prompt and correct execution-context handoff do not by themselves prove visual compliance.
+
+
+## Phase 14 — Visual Design Adherence Gate
+
+Status: IMPLEMENTED
+
+The shared Worker Runtime now separates technical generation success from visual design compliance. When enabled, the runtime requires an explicit Visual Design Adherence Evaluator result:
+
+- VISUAL_DESIGN_ADHERENCE_PASS → terminal task SUCCESS;
+- VISUAL_DESIGN_NONCOMPLIANCE → bounded FAILED recovery;
+- VISUAL_DESIGN_UNKNOWN → UNKNOWN / RECOVERY_REQUIRED;
+- evaluator unavailable → UNKNOWN / RECOVERY_REQUIRED.
+
+Verification test:
+scripts/test_phase14_visual_design_adherence.mjs
+
+## Phase 15 — Automated Universal Wallpaper Gate Binding
+
+Status: IMPLEMENTED
+
+Automated Universal Wallpaper now defaults visualAdherenceRequired to true at runtime and the Universal Wallpaper Session, Task Integrity, and Worker contracts explicitly require the final Prompt lock, final Execution Context lock, automation preview/audit, technical validation, and visual adherence PASS.
+
+Verification test:
+scripts/test_phase15_universal_wallpaper_gate_binding.mjs
+
+This closes the Phase 3 integration gap: the visual adherence gate is no longer merely an optional core-runtime capability for automated Universal Wallpaper.
