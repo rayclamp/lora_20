@@ -145,13 +145,22 @@ If the Worker cannot reliably determine whether generation occurred or whether a
 
 UNKNOWN must never be treated as a normal retryable failure.
 
-## 8. Quota / platform interruption
+## 8. Production interruption / pause
 
-A quota, rate-limit, or generation-unavailable stop is valid only when the platform provides explicit evidence.
+A production batch may become temporarily non-executable for reasons other than image-generation failure. These are **PAUSE conditions**, not per-image FAILED results, and therefore do not consume `MAX_ATTEMPTS_PER_TASK` unless a generation event was actually invoked.
 
-When verified:
+Canonical pause reasons include:
+- `QUOTA_PAUSED` — quota/rate limit/usage limit prevents generation;
+- `GENERATION_SERVER_PAUSED` — the image-generation server/runtime is unavailable or unhealthy;
+- `PROMPT_SYSTEM_PAUSED` — the prompt submission/validation/execution system rejects or cannot accept the locked prompt set/task for a system-level reason;
+- `PLATFORM_PAUSED` — another verified platform-level condition prevents production.
 
-SESSION_STATUS: QUOTA_PAUSED
+A pause condition must have sufficient evidence to identify the reason. If the Worker cannot reliably determine the cause, use `UNKNOWN / RECOVERY_REQUIRED` instead of inventing a pause reason.
+
+When a verified pause occurs:
+
+SESSION_STATUS: PAUSED
+PAUSE_REASON: one of the canonical pause reasons above
 TERMINATION_STATUS: NON_TERMINAL
 
 Preserve:
@@ -283,10 +292,11 @@ PRODUCTION PHASE
 → ...
 → final batch summary
 
-Quota interruption:
-→ QUOTA_PAUSED
+Production interruption:
+→ PAUSED
+→ record PAUSE_REASON and evidence
 → preserve checkpoint
-→ /CONTINUE after platform availability returns
+→ /CONTINUE after the blocking condition is resolved
 
 Permanent cancellation:
 → /STOP
@@ -307,6 +317,22 @@ For automated multi-image Wallpaper production, where older Universal Wallpaper 
 this document supersedes those behaviors with:
 - design the complete batch before generation;
 - after three FAILED attempts, terminalize that IMAGE_ID and continue to the next pending image;
-- stop the whole session only for UNKNOWN, verified platform stop, explicit /STOP, execution-critical conflict, or another higher-authority stop condition.
+- pause the whole session for a verified temporary production interruption (quota, generation server, prompt system, or platform);
+- stop the whole session for UNKNOWN, explicit /STOP, execution-critical conflict, or another higher-authority stop condition.
 
 CORE hard constraints, Runtime State, Module activation, Reference Policy, and safety rules remain higher authority.
+
+
+## 16. Pause vs FAILED boundary
+
+A production pause is not an image-generation failure.
+
+If the system blocks before a generation event is invoked, for example because the generation server is unavailable or the prompt system does not accept the locked prompt, then:
+- do not increment GENERATION_ATTEMPT_COUNT;
+- do not increment CONSECUTIVE_FAILURE_COUNT;
+- do not mark the IMAGE_ID FAILED;
+- checkpoint the batch as PAUSED;
+- preserve the locked Prompt Set and current task;
+- /CONTINUE resumes the same authoritative task after the blocking condition is resolved.
+
+If a generation event was actually invoked and returns an explicit failed generation result, it is a normal FAILED attempt and counts toward the three-attempt ceiling.
