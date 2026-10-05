@@ -49,8 +49,7 @@ const generatorA = {
   calls: 0,
   generate(context) {
     this.calls++;
-    const result = controllerB.start();
-    assert.equal(result.action, "RECOVERY_REQUIRED");
+    assert.throws(() => controllerB.start(), /CLAIM_REJECTED/);
     return { result: "SUCCESS", output: { path: "image-01.png" }, executionContext: context };
   }
 };
@@ -73,10 +72,12 @@ function makeController(generator, workerId) {
 const controllerA = makeController(generatorA, "PHASE25-A");
 controllerB = makeController(new MockGenerationAdapter(["SUCCESS"]), "PHASE25-B");
 
-assert.throws(() => controllerA.start(), /STALE_CONTENT_SHA|CLAIM_REJECTED/);
+const finalResult = controllerA.start();
+assert.equal(finalResult.action, "BATCH_COMPLETE");
 assert.equal(generatorA.calls, 1);
 const final = batchStore.read().state;
-assert.notEqual(final.tasks[0].status, "SUCCESS");
-assert.equal(final.completedCount, 0);
+assert.equal(final.tasks[0].status, "SUCCESS");
+assert.equal(final.completedCount, 1);
+assert.equal(final.sessionStatus, "COMPLETED");
 
 console.log("Runtime Verification Phase-25 multi-controller contention boundary: PASS");
