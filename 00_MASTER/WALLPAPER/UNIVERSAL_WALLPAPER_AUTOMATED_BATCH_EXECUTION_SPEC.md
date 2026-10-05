@@ -183,7 +183,29 @@ Do not mark the batch COMPLETED.
 
 Do not restart from IMAGE 01.
 
+## Prompt Persistence Gate
+
+Before Prompt Presentation or Generation, every planned IMAGE_ID MUST have its complete `FINAL_EXECUTABLE_PROMPT` durably persisted in the authoritative Batch Record.
+
+Required task fields:
+- `FINAL_EXECUTABLE_PROMPT` — complete exact prompt text;
+- `PROMPT_PERSISTENCE_STATUS: NOT_PERSISTED | PERSISTED | FAILED`;
+- `PROMPT_PERSISTENCE_VERIFICATION: VERIFIED | NOT_VERIFIABLE | FAILED`;
+- `PROMPT_PERSISTED_AT` when observable;
+- `PROMPT_ARTIFACT_ID` when observable.
+
+A placeholder such as `LOCKED_AND_PRESENTED`, `exact text shown above`, `see previous message`, a summary, excerpt, hash-only value, or conversation-memory reference is NOT a prompt artifact.
+
+Generation is forbidden unless persistence is verified. If persistence cannot be verified, enter `RECOVERY_REQUIRED` and do not generate.
+
+`/CONTINUE` MUST recover the complete prompt from the Batch Record. It MUST NOT reconstruct a missing prompt from conversation memory.
+
 ## 9. /CONTINUE
+
+`/CONTINUE` recovery sequence MUST read the authoritative Batch Record, preserve Session/Batch/Task identity and `GENERATION_ATTEMPT_COUNT`, recover the complete persisted `FINAL_EXECUTABLE_PROMPT`, verify prompt persistence, and only then resolve the next legal runtime action.
+
+If the prompt is missing, placeholder-only, truncated, or unverifiable: do not redesign, do not increment attempts, set `GENERATION_GATE_STATUS=BLOCKED`, `CAN_GENERATE=NO`, `RECOVERY_STATUS=RECOVERY_REQUIRED`, checkpoint, and stop.
+
 
 /CONTINUE is a resumable continuation command for a non-terminal paused batch.
 
