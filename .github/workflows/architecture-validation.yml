@@ -81,3 +81,8 @@ jobs:
 
       - name: Run Runtime Verification Phase-13 execution context lock
         run: node scripts/test_phase13_execution_context_lock.mjs
+      - name: Run Runtime Verification Phase-14 visual design adherence gate
+        run: node scripts/test_phase14_visual_design_adherence.mjs
+
+      - name: Run Runtime Verification Phase-15 automated Universal Wallpaper gate binding
+        run: node scripts/test_phase15_universal_wallpaper_gate_binding.mjs
