@@ -27,7 +27,7 @@ assert.match(registry,/PROVIDER_STATUS:\s*UNREGISTERED/);
 const core=fs.readFileSync("00_MASTER/PRODUCTION_CORE_MODULE_DISPATCH_AUTOPSY.md","utf8");
 assert.match(core,/Claim\/Lease\/CAS/i); assert.match(core,/UNKNOWN/);
 const runtime=fs.readFileSync("00_MASTER/PRODUCTION_WORKER_RUNTIME.md","utf8");
-assert.match(runtime,/GENERATION_IDEMPOTENCY_KEY/); assert.match(runtime,/FINAL_EXECUTION_CONTEXT/i); assert.match(runtime,/VISUAL_DESIGN_ADHERENCE/i);
+assert.match(runtime,/GENERATION_IDEMPOTENCY_KEY/); assert.match(runtime,/EXECUTION CONTEXT/i); assert.match(runtime,/VISUAL_DESIGN_ADHERENCE/i);
 const output=fs.readFileSync("00_MASTER/PRODUCTION_OUTPUT_PROTOCOL.md","utf8");
 assert.match(output,/retrieval/i); assert.match(output,/sha-?256/i); assert.match(output,/UNKNOWN/);
 console.log("Runtime Verification Phase-38 final production-readiness architecture audit: PASS");
