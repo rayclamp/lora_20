@@ -46,7 +46,7 @@ The Image Production System constructs the complete executable Prompt from USER 
 
 The final Prompt is not supplied by the user unless a separate future user-authored-prompt mode is explicitly defined. That mode is not part of the current architecture.
 
-The Worker must validate the Prompt against CORE hard constraints, selected module rules, output-format lock, design lock, reference authority, resolved Scene Intent where applicable, and prompt-integrity requirements.
+The Worker must validate the Prompt against CORE hard constraints, selected module rules, output-format lock, design lock, reference authority, resolved Scene Intent where applicable, and prompt-integrity requirements. After validation, this Prompt becomes the canonical `FINAL_EXECUTABLE_PROMPT` only after `PROMPT_LOCK`. The generation Worker must execute this exact artifact and must not reconstruct a second Prompt from the Design Record.
 
 ## 5. MANUAL mode
 
@@ -58,10 +58,11 @@ The system must:
 1. receive the user's image requirement;
 2. design the image;
 3. construct and validate the complete executable Prompt;
-4. show the complete design/prompt to the user;
-5. stop at the USER_GENERATION_CONFIRMATION gate;
-6. generate only after the user explicitly confirms generation;
-7. record the generation result and checkpoint.
+4. lock the validated Prompt as the canonical `FINAL_EXECUTABLE_PROMPT`;
+5. show the complete locked design/Prompt to the user;
+6. stop at the USER_GENERATION_CONFIRMATION gate;
+7. generate only after the user explicitly confirms generation, using the unchanged locked Prompt;
+8. record the generation result and checkpoint;
 
 A Prompt supplied by the user is not required for Manual mode.
 
@@ -75,7 +76,7 @@ AUTOMATION REQUEST → SYSTEM DESIGN → SYSTEM PROMPT → AUTOMATION AUDIT/PREV
 
 The system still designs the image and constructs the Prompt. Automation changes only the authorization/execution path.
 
-Automated execution must not bypass module routing, module-owned Reference Policy, Scene Intent Resolution, design validation, output-format lock, prompt integrity, generation-result semantics, checkpointing, or continuation/termination rules.
+Automated execution must not bypass module routing, module-owned Reference Policy, Scene Intent Resolution, design validation, output-format lock, final Prompt execution lock, prompt integrity, generation-result semantics, checkpointing, or continuation/termination rules.
 
 ## 7. Confirmation boundary
 
