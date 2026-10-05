@@ -23,10 +23,13 @@ const registration = {
   REGISTRATION_VERSION: "1"
 };
 
+const visualEvaluator = { evaluate() { return { result: "VISUAL_DESIGN_ADHERENCE_PASS" }; } };
+
 const runtime = new ProductionWorkerRuntime({
   store,
   workerId: "PHASE12_WORKER",
   liveExecution: true,
+  visualEvaluator,
   providerRegistration: registration,
   generator: {
     generate(payload) {
