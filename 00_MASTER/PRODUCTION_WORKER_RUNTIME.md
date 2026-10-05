@@ -194,6 +194,8 @@ Therefore:
 
 A provider that cannot honor this contract is not production-eligible for automatic generation.
 
+If the provider transport throws or otherwise returns an execution outcome that cannot be reliably classified, the Worker MUST convert that boundary uncertainty into `UNKNOWN / RECOVERY_REQUIRED`, release the task lease/ownership, and checkpoint the uncertainty. It must not let a raw transport exception escape while leaving the authoritative task in an ambiguous claimed state. Recovery may later retry the same generation attempt using the same idempotency key.
+
 ## Mandatory prompt-preview gate
 
 For MANUAL Image Production, generation is forbidden until the complete system-generated executable Prompt has actually been shown to the user and the user has explicitly confirmed generation.
