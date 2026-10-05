@@ -334,15 +334,20 @@ export class ProductionWorkerRuntime {
     if (this.liveExecution) assertProductionProviderEligible(this.providerRegistration);
     const next = clone(s);
     next.events.push({ type: "GENERATION_EXECUTION", at: this.clock(), attempt: next.attemptCount + 1, claimId });
+    const generationAttempt = next.attemptCount + 1;
+    const generationIdempotencyKey = sha256(`${next.batchId}:${next.taskId}:${generationAttempt}`);
     const result = this.generator.generate({
       prompt: next.lockedPrompt,
       outputType: next.outputType,
       taskId: next.taskId,
       traceRunId: next.traceRunId,
       executionContext: next.executionContext,
-      executionContextHash: next.executionContextHash
+      executionContextHash: next.executionContextHash,
+      generationAttempt,
+      generationIdempotencyKey
     });
     next.attemptCount++;
+    next.generationIdempotencyKey = generationIdempotencyKey;
     next.result = result.result;
     const expectedPromptHash = sha256(next.lockedPrompt);
     const observedPromptHash = result.output?.promptHash;
