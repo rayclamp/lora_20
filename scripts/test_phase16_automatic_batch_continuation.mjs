@@ -84,8 +84,29 @@ const complete = runtime.continueAfterSuccess({
 });
 assert.equal(complete.action, "BATCH_COMPLETE");
 
+const nonSuccessStore = new JsonStateStore(path.join(dir, "NON-SUCCESS.json"));
+const nonSuccessRuntime = new ProductionWorkerRuntime({
+  store: nonSuccessStore,
+  generator: new RecordingGenerationAdapter(),
+  visualEvaluator,
+  designer,
+  contextResolver: resolver,
+  workerId: "PHASE16_NON_SUCCESS_WORKER"
+});
+nonSuccessRuntime.request({
+  traceRunId: "RV-PHASE16-NON-SUCCESS",
+  module: "UNIVERSAL_WALLPAPER",
+  productionType: "AUTOMATED",
+  outputType: "DESKTOP_WALLPAPER",
+  batchId: "RV-PHASE16-BATCH",
+  taskId: "IMAGE-NON-SUCCESS",
+  mode: "AUTOMATED",
+  targetCount: 1,
+  completedCount: 0
+});
+
 assert.throws(
-  () => runtime.continueAfterSuccess({ resolveNextTask: () => null }),
+  () => nonSuccessRuntime.continueAfterSuccess({ resolveNextTask: () => null }),
   /CONTINUATION_REQUIRES_SUCCESS/
 );
 
