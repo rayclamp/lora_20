@@ -180,6 +180,20 @@ A preview event is not execution proof. If the platform exposes no executed-prom
 
 An observable prompt mismatch is an execution-integrity failure and must not be recorded as normal SUCCESS.
 
+### Generation idempotency boundary
+
+Every generation attempt MUST carry a deterministic `GENERATION_IDEMPOTENCY_KEY` derived from the immutable batch/task identity and the generation attempt number. The key must be forwarded unchanged through the Worker Runtime and Image Provider Adapter to the provider transport.
+
+The production provider contract MUST explicitly support the supplied idempotency key. This protects the crash boundary where provider generation may complete but the subsequent GitHub CAS checkpoint fails: recovery may invoke the same generation attempt again, but it must address the same provider operation rather than create an untracked duplicate artifact.
+
+Therefore:
+
+`GENERATION_IDEMPOTENCY_KEY = STABLE(BATCH_ID, TASK_ID, GENERATION_ATTEMPT)`
+
+`PROVIDER_RETRY(SAME_KEY) = SAME_LOGICAL_GENERATION_OPERATION`
+
+A provider that cannot honor this contract is not production-eligible for automatic generation.
+
 ## Mandatory prompt-preview gate
 
 For MANUAL Image Production, generation is forbidden until the complete system-generated executable Prompt has actually been shown to the user and the user has explicitly confirmed generation.
