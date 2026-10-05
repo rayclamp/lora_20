@@ -19,7 +19,7 @@ for(const x of [a.result,b.result]){
  assert.equal(x.result,"SUCCESS"); assert.equal(x.artifact.batchId,"B33"); assert.equal(x.artifact.taskId,x.taskId);
  assert.equal(x.artifact.generationAttempt,1); assert.equal(x.artifact.generationIdempotencyKey,x.generationIdempotencyKey);
  assert.equal(x.artifact.promptHash,x.promptHash); assert.equal(x.artifact.executionContextHash,x.executionContextHash);
- assert.match(x.artifact.uri,/^storage:///);
+ assert.match(x.artifact.uri,/^storage:\/\//);
 }
 assert.notEqual(a.result.artifactId,b.result.artifactId);
 const persisted=a.runtime.requireState().artifact;
