@@ -139,5 +139,8 @@ jobs:
       - name: Run Runtime Verification Phase-37 repeated multi-controller contention
         run: node scripts/test_phase37_multi_controller_contention_long.mjs
 
+      - name: Run Runtime Verification Phase-39 design freshness and user-visible prompt preview
+        run: node scripts/test_phase39_design_freshness_and_prompt_preview.mjs
+
       - name: Run Runtime Verification Phase-38 final architecture audit
         run: node scripts/test_phase38_final_architecture_audit.mjs
