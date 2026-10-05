@@ -78,3 +78,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-12 provider activation integration
         run: node scripts/test_phase12_provider_activation_integration.mjs
+
+      - name: Run Runtime Verification Phase-13 execution context lock
+        run: node scripts/test_phase13_execution_context_lock.mjs
