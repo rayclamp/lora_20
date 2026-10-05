@@ -18,6 +18,7 @@ export class AutomaticProductionController {
     this.userRequest = userRequest;
     this.clock = clock;
     this.events = [];
+    this.runtimeByTask = new Map();
   }
 
   start() {
@@ -51,7 +52,8 @@ export class AutomaticProductionController {
     }
     if (task.status !== "QUEUED") throw new Error("AUTHORITATIVE_TASK_NOT_QUEUED");
 
-    const runtime = this.runtimeFactory(task);
+    const runtime = this.runtimeByTask.get(task.taskId) ?? this.runtimeFactory(task);
+    this.runtimeByTask.set(task.taskId, runtime);
     runtime.request({
       traceRunId: crypto.randomUUID(),
       automationRunId: this.batchRecord.automationRunId,
@@ -88,11 +90,40 @@ export class AutomaticProductionController {
       return { action: "BATCH_COMPLETE", result };
     }
 
-    this.batchRecord.sessionStatus = "RECOVERY_REQUIRED";
+    if (result.result === "FAILED" && result.recovery === "RETRY_READY" && result.attemptCount < result.maxAttempts) {
+      task.status = "FAILED";
+      task.recoveryStatus = "RETRY_READY";
+      task.attemptCount = result.attemptCount;
+      task.consecutiveFailures = result.consecutiveFailures;
+      task.lastFailureReason = result.failureReason ?? "GENERATION_FAILED";
+      this.batchRecord.sessionStatus = "RECOVERY_REQUIRED";
+      this.batchRecord.stopReason = "RETRY_READY";
+      this.batchRecord.currentTaskId = task.taskId;
+      this.events.push({ type: "RECOVERY_REQUIRED", taskId: task.taskId, reason: "RETRY_READY", attemptCount: task.attemptCount, at: this.clock() });
+      return { action: "RETRY_READY", result };
+    }
+
+    this.batchRecord.sessionStatus = "STOPPED";
     this.batchRecord.stopReason = result.result === "UNKNOWN"
       ? "UNKNOWN_RECOVERY_REQUIRED"
-      : "GENERATION_FAILURE_RECOVERY_REQUIRED";
-    this.events.push({ type: "SESSION_TERMINATED", reason: this.batchRecord.sessionStatus, at: this.clock() });
+      : "REPEATED_FAILURE";
+    this.batchRecord.terminationStatus = "TERMINAL";
+    this.events.push({ type: "SESSION_TERMINATED", reason: this.batchRecord.stopReason, at: this.clock() });
     return { action: "RECOVERY_REQUIRED", result };
+  }
+
+  retryCurrentTask() {
+    if (this.batchRecord.sessionStatus !== "RECOVERY_REQUIRED" || this.batchRecord.stopReason !== "RETRY_READY") {
+      throw new Error("RETRY_NOT_READY");
+    }
+    const task = this.taskResolver(this.batchRecord, { taskId: this.batchRecord.currentTaskId, recovery: "RETRY_READY" });
+    if (!task || task.taskId !== this.batchRecord.currentTaskId) throw new Error("RETRY_TASK_NOT_RESOLVED");
+    if (task.recoveryStatus !== "RETRY_READY") throw new Error("RETRY_TASK_NOT_READY");
+    task.status = "QUEUED";
+    task.recoveryStatus = "NONE";
+    this.events.push({ type: "RETRY_AUTHORIZED", taskId: task.taskId, attemptCount: task.attemptCount, at: this.clock() });
+    this.batchRecord.sessionStatus = "ACTIVE";
+    this.batchRecord.stopReason = "NONE";
+    return this.dispatchNext();
   }
 }
