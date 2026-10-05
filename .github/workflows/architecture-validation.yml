@@ -98,3 +98,5 @@ jobs:
         run: node scripts/test_phase20_claim_cas_concurrency.mjs
       - name: Run Runtime Verification Phase-21 Lease expiry recovery
         run: node scripts/test_phase21_lease_expiry_recovery.mjs
+      - name: Run Runtime Verification Phase-22 full production runtime E2E
+        run: node scripts/test_phase22_full_production_runtime_e2e.mjs
