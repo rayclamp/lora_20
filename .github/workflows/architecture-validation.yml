@@ -117,3 +117,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-30 artifact persistence boundary
         run: node scripts/test_phase30_artifact_persistence_boundary.mjs
+
+      - name: Run Runtime Verification Phase-31 controller artifact persistence binding
+        run: node scripts/test_phase31_controller_artifact_persistence.mjs
