@@ -21,7 +21,9 @@ export class AutomaticProductionController {
   }
 
   start() {
-    if (this.batchRecord.sessionStatus !== "ACTIVE") throw new Error("BATCH_NOT_ACTIVE");
+    if (this.batchRecord.sessionStatus !== "ACTIVE" || this.batchRecord.terminationStatus === "TERMINAL") {
+      throw new Error("BATCH_NOT_ACTIVE");
+    }
     this.events.push({ type: "AUTOMATED_BATCH_STARTED", at: this.clock(), batchId: this.batchRecord.batchId });
     return this.dispatchNext();
   }
@@ -78,9 +80,10 @@ export class AutomaticProductionController {
       return { action: "BATCH_COMPLETE", result };
     }
 
-    this.batchRecord.sessionStatus = result.taskStatus.includes("UNKNOWN")
-      ? "RECOVERY_REQUIRED"
-      : "RECOVERY_REQUIRED";
+    this.batchRecord.sessionStatus = "RECOVERY_REQUIRED";
+    this.batchRecord.stopReason = result.result === "UNKNOWN"
+      ? "UNKNOWN_RECOVERY_REQUIRED"
+      : "GENERATION_FAILURE_RECOVERY_REQUIRED";
     this.events.push({ type: "SESSION_TERMINATED", reason: this.batchRecord.sessionStatus, at: this.clock() });
     return { action: "RECOVERY_REQUIRED", result };
   }
