@@ -120,3 +120,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-31 controller artifact persistence binding
         run: node scripts/test_phase31_controller_artifact_persistence.mjs
+
+      - name: Run Runtime Verification Phase-32 artifact existence and retrieval verification
+        run: node scripts/test_phase32_artifact_existence_verification.mjs
