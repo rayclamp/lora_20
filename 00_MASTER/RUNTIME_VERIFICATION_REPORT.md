@@ -306,3 +306,17 @@ Verification test:
 The E2E test starts one automated batch and verifies that IMAGE-01, IMAGE-02, and IMAGE-03 are dispatched sequentially without another user command, each through the shared Worker Runtime, with automated Universal Wallpaper visual adherence enabled, exactly one task identity per output, checkpoint progression, and terminal completion at TARGET_COUNT.
 
 CI execution evidence remains pending for the latest branch commit. Therefore Phase 6 is **implementation PASS / runtime evidence PENDING**.
+
+
+## Phase 7 — Failure / UNKNOWN / STOP Safety
+
+Status: IMPLEMENTED — automated controller recovery fencing added.
+
+`FAILED` now transitions the automated batch to `RECOVERY_REQUIRED` and never advances to another authoritative task automatically. `UNKNOWN` is explicitly recorded as `UNKNOWN_RECOVERY_REQUIRED` and also stops continuation. Terminal `/STOP` is represented by `STOPPED + TERMINATION_STATUS: TERMINAL`, and a terminal batch cannot be restarted by the same controller.
+
+Verification test:
+`scripts/test_phase18_failure_unknown_stop_e2e.mjs`
+
+The test verifies no next-task dispatch after FAILED, no silent retry or advancement after UNKNOWN, and terminal STOP behavior.
+
+CI execution evidence remains pending for the latest branch commit. Therefore Phase 7 is **implementation PASS / runtime evidence PENDING**.
