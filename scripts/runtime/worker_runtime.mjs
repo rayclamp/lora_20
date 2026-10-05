@@ -127,7 +127,7 @@ function buildExecutionContext(state, context = {}) {
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 export class ProductionWorkerRuntime {
-  constructor({ store, generator, designer = null, visualEvaluator = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null, continuationResolver = null, dispatchNextTask = null }) {
+  constructor({ store, generator, designer = null, visualEvaluator = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null, continuationResolver = null, dispatchNextTask = null, leaseDurationMs = 300000 }) {
     this.store = store;
     this.generator = generator;
     this.designer = designer;
@@ -139,6 +139,7 @@ export class ProductionWorkerRuntime {
     this.clock = clock;
     this.workerId = workerId;
     this.contextResolver = contextResolver;
+    this.leaseDurationMs = leaseDurationMs;
   }
 
   request(input) {
@@ -161,6 +162,9 @@ export class ProductionWorkerRuntime {
       ownership: "UNCLAIMED",
       workerId: "NONE",
       claimId: "NONE",
+      claimAcquiredAt: null,
+      leaseUntil: null,
+      leaseDurationMs: input.leaseDurationMs ?? this.leaseDurationMs,
       version: 0,
       attemptCount: 0,
       consecutiveFailures: 0,
@@ -182,13 +186,19 @@ export class ProductionWorkerRuntime {
 
   claim() {
     const s = this.mutateState((s) => {
-      if (s.taskStatus !== "QUEUED" || s.ownership !== "UNCLAIMED") throw new Error("CLAIM_REJECTED");
+      const leaseExpired = s.leaseUntil !== null && s.leaseUntil !== undefined && s.leaseUntil <= this.clock();
+      const reclaimable = s.ownership === "CLAIMED" && leaseExpired;
+      if (s.taskStatus !== "QUEUED" && !reclaimable) throw new Error("CLAIM_REJECTED");
+      if (!reclaimable && s.ownership !== "UNCLAIMED") throw new Error("CLAIM_REJECTED");
       s.events.push({ type: "CONTEXT_LOADED", at: this.clock() });
       s.events.push({ type: "MODULE_RESOLVED", at: this.clock(), module: s.module });
       s.taskStatus = "CLAIMED";
       s.ownership = "CLAIMED";
       s.workerId = this.workerId;
       s.claimId = crypto.randomUUID();
+      s.claimAcquiredAt = this.clock();
+      s.leaseDurationMs = s.leaseDurationMs ?? this.leaseDurationMs;
+      s.leaseUntil = this.clock() + s.leaseDurationMs;
       s.version++;
       s.events.push({ type: "TASK_CLAIMED", at: this.clock(), claimId: s.claimId });
       return s;
@@ -305,8 +315,9 @@ export class ProductionWorkerRuntime {
     const snapshot = this.store.read();
     const s = snapshot?.state ?? snapshot;
     if (!s) throw new Error("RUNTIME_STATE_MISSING");
-    if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED" || s.workerId !== this.workerId || !s.claimId) {
-      throw new Error("EXECUTION_OWNERSHIP_REQUIRED");
+    const leaseExpired = s.leaseUntil !== null && s.leaseUntil !== undefined && s.leaseUntil <= this.clock();
+    if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED" || s.workerId !== this.workerId || !s.claimId || leaseExpired) {
+      throw new Error(leaseExpired ? "LEASE_EXPIRED" : "EXECUTION_OWNERSHIP_REQUIRED");
     }
     if (!s.lockedPrompt) throw new Error("EXECUTION_NOT_READY");
     if (!s.executionContext || !s.executionContextHash) throw new Error("EXECUTION_CONTEXT_LOCK_REQUIRED");
@@ -451,6 +462,22 @@ export class ProductionWorkerRuntime {
     };
   }
 
+  renewLease() {
+    const s = this.mutateState((s) => {
+      if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED" || s.workerId !== this.workerId || !s.claimId) {
+        throw new Error("LEASE_RENEWAL_OWNERSHIP_REQUIRED");
+      }
+      if (s.leaseUntil !== null && s.leaseUntil !== undefined && s.leaseUntil <= this.clock()) {
+        throw new Error("LEASE_EXPIRED");
+      }
+      s.leaseUntil = this.clock() + (s.leaseDurationMs ?? this.leaseDurationMs);
+      s.events.push({ type: "LEASE_RENEWED", at: this.clock(), leaseUntil: s.leaseUntil, claimId: s.claimId });
+      s.version++;
+      return s;
+    });
+    return clone(s);
+  }
+
   resumeAfterFailure() {
     const s = this.mutateState((s) => {
       if (s.recovery !== "RETRY_READY") throw new Error("RETRY_NOT_READY");
@@ -458,6 +485,8 @@ export class ProductionWorkerRuntime {
       s.ownership = "UNCLAIMED";
       s.workerId = "NONE";
       s.claimId = "NONE";
+      s.claimAcquiredAt = null;
+      s.leaseUntil = null;
       s.version++;
       s.events.push({ type: "NEXT_TASK_RESOLVED", at: this.clock(), action: "RETRY_SAME_TASK" });
       return s;
