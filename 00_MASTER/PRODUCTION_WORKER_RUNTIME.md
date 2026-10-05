@@ -17,7 +17,7 @@ Production modules supply domain-specific rules. The Worker Runtime supplies the
 
 ## Shared execution pipeline
 
-`DISPATCH → RESOLVE MODULE → LOAD MODULE RULES → SELECT TASK → CLAIM → DESIGN → VALIDATE DESIGN → PROMPT → PROMPT PREVIEW → CONFIRMATION/EXECUTION DECISION → GENERATE → VALIDATE OUTPUT → RECORD RESULT → CHECKPOINT → NEXT TASK`
+`DISPATCH → RESOLVE MODULE → LOAD MODULE RULES → SELECT TASK → CLAIM → DESIGN → VALIDATE DESIGN → BUILD FINAL EXECUTABLE PROMPT → PROMPT LOCK → PROMPT PREVIEW → CONFIRMATION/EXECUTION DECISION → EXECUTE LOCKED PROMPT → VALIDATE OUTPUT → RECORD RESULT → CHECKPOINT → NEXT TASK`
 
 For Image Production, DESIGN → VALIDATE DESIGN → PROMPT is system-owned in both MANUAL and AUTOMATED modes. The user supplies the image requirement, not an executable Prompt.
 
@@ -36,6 +36,7 @@ The Worker Runtime owns:
 - SUCCESS / FAILED / UNKNOWN handling;
 - recovery gates;
 - common prompt-execution contract;
+- immutable final Prompt execution-lock contract;
 - prompt execution event/telemetry contract;
 - common generation recording;
 - continuation / stop conditions.
@@ -169,7 +170,7 @@ The Worker must not reinterpret a normal assistant-turn boundary as quota exhaus
 
 ## Mandatory prompt-execution gate
 
-For every generation event, the final executable prompt must be locked before invocation.
+For every generation event, the final executable prompt must be locked before invocation. After lock, the Worker MUST execute that exact locked artifact and MUST NOT reconstruct, summarize, expand, shorten, translate, append, prepend, substitute, or otherwise mutate it. Any Prompt revision invalidates the prior lock and requires a new validation → lock → preview cycle.
 
 The runtime must track, when supported:
 - `PROMPT_EXECUTION_STATUS`;
