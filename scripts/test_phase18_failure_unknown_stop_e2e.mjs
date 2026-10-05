@@ -84,9 +84,10 @@ function makeController(outcome) {
   const { controller, calls } = makeController("UNKNOWN");
   const result = controller.start();
   assert.equal(result.action, "RECOVERY_REQUIRED");
-  assert.equal(controller.batchRecord.sessionStatus, "RECOVERY_REQUIRED");
+  assert.equal(controller.batchRecord.sessionStatus, "STOPPED");
+  assert.equal(controller.batchRecord.terminationStatus, "TERMINAL");
   assert.deepEqual(calls, ["IMAGE-01"]);
-  assert.equal(controller.events.at(-1).reason, "RECOVERY_REQUIRED");
+  assert.equal(controller.events.at(-1).reason, "UNKNOWN_RECOVERY_REQUIRED");
 }
 
 // Explicit STOP is terminal and cannot be resurrected by another start.
