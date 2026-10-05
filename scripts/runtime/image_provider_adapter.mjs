@@ -12,7 +12,7 @@ export class ImageProviderAdapter {
     this.transport = transport;
   }
 
-  generate({ prompt, outputType, taskId, traceRunId, executionContext = null }) {
+  generate({ prompt, outputType, taskId, traceRunId, executionContext = null, generationAttempt = null, generationIdempotencyKey = null }) {
     if (!prompt || !prompt.trim()) throw new Error("EXECUTABLE_PROMPT_REQUIRED");
     if (!executionContext || typeof executionContext !== "object") {
       throw new Error("EXECUTION_CONTEXT_REQUIRED");
@@ -25,7 +25,9 @@ export class ImageProviderAdapter {
       traceRunId,
       executionContext,
       executionContextHash,
-      promptHash: sha256(prompt)
+      promptHash: sha256(prompt),
+      generationAttempt,
+      generationIdempotencyKey
     });
     if (!result || !PROVIDER_RESULT_STATES.has(result.result)) throw new Error("PROVIDER_RESULT_INVALID");
     if (result.result === "SUCCESS" && !result.output) throw new Error("PROVIDER_SUCCESS_OUTPUT_REQUIRED");
