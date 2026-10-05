@@ -2,6 +2,14 @@
 
 The repository is the project's **image-production reference and persistence database**, not an execution engine.
 
+## Control-Plane Boundary — NON-NEGOTIABLE
+
+The external control actor (ChatGPT / operator) is the source of control commands. Runtime is responsible for enforcing those commands. GitHub is only the data/persistence plane.
+
+**External Control decides → Runtime executes → GitHub records.**
+
+A global stop/resume command is never a GitHub command. GitHub may record the resulting state, but a GitHub field or file never independently causes production to stop, resume, retry, schedule, or change ownership.
+
 ## Core Architecture
 
 `User Production Command → Worker → GitHub References → Prompt Design → Image Generation`
