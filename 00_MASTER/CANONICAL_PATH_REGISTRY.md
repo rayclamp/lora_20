@@ -7,6 +7,8 @@ Workers and automation must resolve these paths exactly. A missing file is a con
 ## Bootstrap
 - Repository bootstrap: START_HERE.md
 - Fresh-Worker repository discovery and canonical startup: START_HERE.md
+- Repository discovery method: enumerate the complete accessible repository set first; keyword/name repository search is supplemental only and cannot establish canonical identity
+- Bootstrap identity verification: exact root START_HERE.md + INARIA AI STUDIO identity + 00_MASTER/CANONICAL_PATH_REGISTRY.md + requested-module routing verification
 
 ## Core
 - System architecture: 00_MASTER/SYSTEM_ARCHITECTURE.md
