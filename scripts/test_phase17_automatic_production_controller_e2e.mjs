@@ -27,19 +27,34 @@ const authoritativeTasks = [
 ];
 const calls = [];
 
+class MemoryBatchStore {
+  constructor(state) { this.state = JSON.parse(JSON.stringify(state)); this.sha = "batch-1"; this.writes = 0; }
+  read() { return { state: JSON.parse(JSON.stringify(this.state)), sha: this.sha }; }
+  compareAndSwap(expectedSha, state) {
+    if (expectedSha !== this.sha) throw new Error("STALE_BATCH_SHA");
+    this.state = JSON.parse(JSON.stringify(state));
+    this.sha = "batch-" + (++this.writes + 1);
+    return this.read();
+  }
+}
+
+const initialBatchRecord = {
+  batchId: "RV-PHASE17-BATCH",
+  automationRunId: "RV-PHASE17-AUTO",
+  module: "UNIVERSAL_WALLPAPER",
+  productionType: "AUTOMATED",
+  outputType: "DESKTOP_WALLPAPER",
+  targetCount: 3,
+  completedCount: 0,
+  currentTaskId: "NONE",
+  checkpointVersion: 0,
+  sessionStatus: "ACTIVE"
+};
+const batchStore = new MemoryBatchStore(initialBatchRecord);
+
 const controller = new AutomaticProductionController({
-  batchRecord: {
-    batchId: "RV-PHASE17-BATCH",
-    automationRunId: "RV-PHASE17-AUTO",
-    module: "UNIVERSAL_WALLPAPER",
-    productionType: "AUTOMATED",
-    outputType: "DESKTOP_WALLPAPER",
-    targetCount: 3,
-    completedCount: 0,
-    currentTaskId: "NONE",
-    checkpointVersion: 0,
-    sessionStatus: "ACTIVE"
-  },
+  batchRecord: initialBatchRecord,
+  batchStore,
   taskResolver: (batch) => authoritativeTasks.find(t => t.status === "QUEUED") ?? null,
   taskDesignContext: () => ({ theme: "TRAVEL", sceneIntent }),
   userRequest: "Create a varied travel wallpaper for Inaria.",
