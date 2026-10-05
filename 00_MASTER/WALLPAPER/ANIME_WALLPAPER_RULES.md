@@ -13,7 +13,7 @@ If the user requests REALISTIC WALLPAPER, do not use this file.
 The reference image supplied in the current request is the primary visual reference for the current task when an explicit task reference exists.
 Use the selected module Reference Policy to determine whether a visual reference is legally available.
 Do not silently replace the supplied reference with another repository asset.
-LoRA Master Images and other references owned by another production module are forbidden unless the selected module's Reference Policy explicitly authorizes that exact source; character-name matching is never sufficient.
+LoRA Master Images are forbidden. Other references owned by another production module are forbidden unless the selected module's Reference Policy explicitly authorizes that exact source; character-name matching is never sufficient.
 Do not force the reference image's camera angle, pose, framing, or exact composition onto every generated image.
 
 ## 2A. Inaria character authority

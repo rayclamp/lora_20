@@ -548,3 +548,40 @@ A Theme is not a complete executable scene. Before DESIGN_LOCK, resolve and reco
 ## 22. Automated execution trace
 
 Automated Universal Wallpaper runs must follow 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md. The trace must distinguish upstream automation input, Worker context loading, Scene Intent resolution, presentation design, prompt assembly, execution, result, and checkpoint. Missing telemetry must be recorded as NOT_OBSERVABLE rather than inferred.
+
+
+## 23. Automated Universal Wallpaper hard-gate binding
+
+When PRODUCTION_TYPE: AUTOMATED is active, the Universal Wallpaper Worker MUST bind the task to all shared production-control gates.
+
+At task creation/runtime request:
+- visualAdherenceRequired MUST resolve to true;
+- an evaluator MUST be configured before generation;
+- absence of an evaluator is a generation-blocking recovery condition, not permission to bypass the gate.
+
+Before generation, the Worker MUST verify:
+
+DESIGN_LOCK → FINAL_EXECUTABLE_PROMPT LOCK → FINAL_EXECUTION_CONTEXT LOCK → PROMPT PREVIEW/AUDIT → AUTOMATION EXECUTION AUTHORIZATION → GENERATE
+
+After technical generation, the Worker MUST verify:
+
+TECHNICAL_OUTPUT_VALIDATION → VISUAL_DESIGN_ADHERENCE_EVALUATION → TASK_SUCCESS / FAILED / UNKNOWN
+
+The evaluator must compare the artifact with the locked Design Record. It is not downstream LoRA QA and must not become a second production queue.
+
+For Automated Universal Wallpaper:
+- VISUAL_DESIGN_ADHERENCE_PASS → eligible for terminal TASK_SUCCESS;
+- VISUAL_DESIGN_NONCOMPLIANCE → bounded FAILED recovery;
+- VISUAL_DESIGN_UNKNOWN → UNKNOWN / RECOVERY_REQUIRED;
+- evaluator unavailable → UNKNOWN / RECOVERY_REQUIRED.
+
+The Worker MUST NOT downgrade VISUAL_ADHERENCE_REQUIRED to false to avoid an evaluator failure.
+
+
+## 24. Automatic continuation execution binding
+
+For an Automated Universal Wallpaper task, after the current task reaches terminal SUCCESS and its checkpoint is persisted, the runtime continuation path MUST resolve the next incomplete task from the authoritative Batch Record and dispatch it through the existing Production Dispatch / Worker Runtime path when `COMPLETED_COUNT < TARGET_COUNT`.
+
+The continuation handler is not a second scheduler or queue. It is a post-success control transition attached to the existing execution checkpoint.
+
+If the continuation resolver or dispatch handoff is unavailable while the batch remains incomplete, the system MUST enter an explicit recovery/error state rather than silently idle.

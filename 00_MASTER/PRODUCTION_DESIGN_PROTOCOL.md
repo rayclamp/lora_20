@@ -44,7 +44,7 @@ The exact design variables are owned by the selected production module.
 
 The Image Production System constructs the complete executable Prompt from USER INTENT + CORE RULES + SELECTED MODULE RULES + RESOLVED CONTEXT + DESIGN RECORD.
 
-The final Prompt is not supplied by the user unless a separate future user-authored-prompt mode is explicitly defined. That mode is not part of the current architecture.
+The final Prompt is not supplied by the user unless a separate future user-authored-prompt mode is explicitly defined. That mode is not part of the current architecture.\n\nUser-authored Prompt is not required.
 
 The Worker must validate the Prompt against CORE hard constraints, selected module rules, output-format lock, design lock, reference authority, resolved Scene Intent where applicable, and prompt-integrity requirements. After validation, this Prompt becomes the canonical `FINAL_EXECUTABLE_PROMPT` only after `PROMPT_LOCK`. The generation Worker must execute this exact artifact and must not reconstruct a second Prompt from the Design Record.
 
@@ -96,3 +96,15 @@ The system must preserve the latest design/prompt state when confirmation is pen
 This protocol does not perform image generation itself; define Anime or Realistic content rules; define Festival cultural data; define LoRA production; define QA; define Make orchestration; or define Codex QA execution.
 
 It is a shared design/authorization boundary for the Image Production System.
+
+## Final Prompt + Execution Context Lock
+
+The canonical executable artifact is now a pair:
+1. FINAL_EXECUTABLE_PROMPT
+2. FINAL_EXECUTION_CONTEXT
+
+Both are validated and locked before generation.
+
+The execution context binds the Prompt to the concrete reference authority, model identity/version, output type, aspect ratio, generation parameters, and provider parameters. Any revision to either artifact invalidates the previous execution lock and requires re-validation, re-locking, and a new preview/audit event.
+
+The generation Worker must execute the locked pair exactly. It must not reconstruct either artifact from the Design Record or provider defaults.

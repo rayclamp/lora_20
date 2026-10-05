@@ -181,6 +181,22 @@ A preview event is not execution proof. If the platform exposes no executed-prom
 
 An observable prompt mismatch is an execution-integrity failure and must not be recorded as normal SUCCESS.
 
+### Generation idempotency boundary
+
+Every generation attempt MUST carry a deterministic `GENERATION_IDEMPOTENCY_KEY` derived from the immutable batch/task identity and the generation attempt number. The key must be forwarded unchanged through the Worker Runtime and Image Provider Adapter to the provider transport.
+
+The production provider contract MUST explicitly support the supplied idempotency key. This protects the crash boundary where provider generation may complete but the subsequent GitHub CAS checkpoint fails: recovery may invoke the same generation attempt again, but it must address the same provider operation rather than create an untracked duplicate artifact.
+
+Therefore:
+
+`GENERATION_IDEMPOTENCY_KEY = STABLE(BATCH_ID, TASK_ID, GENERATION_ATTEMPT)`
+
+`PROVIDER_RETRY(SAME_KEY) = SAME_LOGICAL_GENERATION_OPERATION`
+
+A provider that cannot honor this contract is not production-eligible for automatic generation.
+
+If the provider transport throws or otherwise returns an execution outcome that cannot be reliably classified, the Worker MUST convert that boundary uncertainty into `UNKNOWN / RECOVERY_REQUIRED`, release the task lease/ownership, and checkpoint the uncertainty. It must not let a raw transport exception escape while leaving the authoritative task in an ambiguous claimed state. Recovery may later retry the same generation attempt using the same idempotency key.
+
 ## Mandatory prompt-preview gate
 
 For MANUAL Image Production, generation is forbidden until the complete system-generated executable Prompt has actually been shown to the user and the user has explicitly confirmed generation.
@@ -234,3 +250,39 @@ For wallpaper production, a broad Theme/Scene input MUST pass Scene Intent Resol
 A missing canonical rule, unresolved required Scene Intent, or conflicting context is a context/design gate failure and blocks generation. The Worker must not silently substitute an obsolete rule path or invent upstream provenance.
 
 Automated execution must record the trace events defined by 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md whenever observable. Unknown automation telemetry remains NOT_OBSERVABLE/UNKNOWN and is never fabricated.
+
+## Final Execution Context Lock
+
+After the final Prompt is validated, the Worker must also construct and lock the complete generation execution context.
+
+The locked context must include, at minimum:
+- reference authority and reference identifiers;
+- model identity/version;
+- OUTPUT_TYPE;
+- ASPECT_RATIO;
+- generation parameters;
+- provider-specific parameters.
+
+The runtime records an execution-context hash alongside the Prompt hash.
+
+Generation is forbidden when:
+- the execution context is missing;
+- the execution-context hash does not match the persisted context;
+- the Worker would need to reconstruct context from defaults.
+
+The provider adapter receives the exact locked execution context. If provider telemetry is exposed, the runtime records VERIFIED or MISMATCH; otherwise it records NOT_OBSERVABLE.
+
+Prompt integrity and execution-context integrity are separate controls. Neither one proves visual adherence.
+## Visual Design Adherence Gate
+
+Generation success does not mean task success. After technical output validation, image-production tasks that require design compliance must pass a separate Visual Design Adherence Evaluator.
+
+The evaluator compares the generated artifact against the locked Design Record for applicable fields such as outfit, hairstyle, action, pose, scene, viewpoint, shot size, and required major props. Only an explicit VISUAL_DESIGN_ADHERENCE_PASS satisfies this gate.
+
+The evaluator may return VISUAL_DESIGN_NONCOMPLIANCE or VISUAL_DESIGN_UNKNOWN. Noncompliance enters bounded task recovery. Unknown requires recovery/review and must not be converted to PASS.
+
+The Worker must not self-declare visual adherence. The evaluator is an adapter boundary and must not create a second Worker Runtime, Dispatch system, or task queue.
+
+TASK_SUCCESS therefore requires GENERATION_SUCCESS + TECHNICAL_OUTPUT_VALIDATION_PASS + VISUAL_DESIGN_ADHERENCE_PASS.
+
+Visual adherence is distinct from downstream LoRA QA and from Prompt/Execution-Context integrity.

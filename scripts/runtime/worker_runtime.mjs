@@ -1,0 +1,643 @@
+#!/usr/bin/env node
+
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { CanonicalContextResolver } from "./canonical_context_resolver.mjs";
+import { assertProductionProviderEligible } from "./provider_registry_gate.mjs";
+
+export const AUTOMATION_SCOPE = new Set(["UNIVERSAL_WALLPAPER", "FESTIVAL_WALLPAPER"]);
+export const REQUIRED_SCENE_INTENT_FIELDS = [
+  "ACTIVITY", "LOCATION", "ACTION", "TIME", "WEATHER",
+  "SOCIAL_CONTEXT", "ENVIRONMENTAL_CUES"
+];
+export const REFERENCE_STATES = new Set([
+  "EXPLICIT_TASK_REFERENCE", "MODULE_APPROVED_REFERENCE", "NO_REFERENCE", "REFERENCE_BLOCKED"
+]);
+export const SCENE_INTENT_STATES = new Set(["EXPLICIT", "RESOLVED", "MISSING", "CONFLICT", "BLOCKED"]);
+
+export class JsonStateStore {
+  constructor(filePath) { this.filePath = filePath; }
+  read() {
+    if (!fs.existsSync(this.filePath)) return null;
+    return JSON.parse(fs.readFileSync(this.filePath, "utf8"));
+  }
+  write(state) {
+    fs.mkdirSync(path.dirname(this.filePath), { recursive: true });
+    const tmp = this.filePath + ".tmp";
+    fs.writeFileSync(tmp, JSON.stringify(state, null, 2) + "\n", "utf8");
+    fs.renameSync(tmp, this.filePath);
+  }
+  mutate(mutator) {
+    const current = this.read();
+    if (!current) throw new Error("RUNTIME_STATE_MISSING");
+    const next = mutator(clone(current));
+    this.write(next);
+    return next;
+  }
+}
+
+export class GitHubContentsStateStore {
+  constructor({ client, owner, repo, path: filePath, branch = "main" }) {
+    this.client = client;
+    this.owner = owner;
+    this.repo = repo;
+    this.filePath = filePath;
+    this.branch = branch;
+  }
+
+  read() {
+    const item = this.client.getContents({
+      owner: this.owner, repo: this.repo, path: this.filePath, ref: this.branch
+    });
+    if (!item) return null;
+    return { state: JSON.parse(Buffer.from(item.content, "base64").toString("utf8")), sha: item.sha };
+  }
+
+  write(state) {
+    throw new Error("CAS_REQUIRED");
+  }
+
+  create(state, message = "runtime: create task state") {
+    const payload = Buffer.from(JSON.stringify(state, null, 2) + "\n", "utf8").toString("base64");
+    const result = this.client.updateContents({
+      owner: this.owner,
+      repo: this.repo,
+      path: this.filePath,
+      branch: this.branch,
+      content: payload,
+      message
+    });
+    return { state: clone(state), sha: result.content.sha ?? result.sha };
+  }
+
+  compareAndSwap(expectedSha, state, message = "runtime: checkpoint state") {
+    const payload = Buffer.from(JSON.stringify(state, null, 2) + "\n", "utf8").toString("base64");
+    const result = this.client.updateContents({
+      owner: this.owner,
+      repo: this.repo,
+      path: this.filePath,
+      branch: this.branch,
+      sha: expectedSha,
+      content: payload,
+      message
+    });
+    return { state: clone(state), sha: result.content.sha ?? result.sha };
+  }
+
+  mutate(mutator, message = "runtime: checkpoint state") {
+    const current = this.read();
+    if (!current) throw new Error("RUNTIME_STATE_MISSING");
+    const next = mutator(clone(current.state));
+    return this.compareAndSwap(current.sha, next, message);
+  }
+}
+
+export class MockGenerationAdapter {
+  constructor(outcomes = ["SUCCESS"]) { this.outcomes = [...outcomes]; this.calls = 0; }
+  generate({ prompt, outputType }) {
+    this.calls++;
+    const outcome = this.outcomes.length ? this.outcomes.shift() : "SUCCESS";
+    if (outcome === "UNKNOWN") return { result: "UNKNOWN", verification: "NOT_OBSERVABLE", output: null };
+    if (outcome === "FAILED") return { result: "FAILED", verification: "VERIFIED", failureReason: "MOCK_GENERATION_FAILURE", output: null };
+    if (outcome === "FORMAT_MISMATCH") return { result: "FAILED", verification: "VERIFIED", output: { format: "WRONG_FORMAT" } };
+    return { result: "SUCCESS", verification: "VERIFIED", output: { format: outputType, promptHash: sha256(prompt) } };
+  }
+}
+
+export function sha256(value) {
+  return crypto.createHash("sha256").update(String(value)).digest("hex");
+}
+
+function buildExecutionContext(state, context = {}) {
+  return {
+    REFERENCE_AUTHORITY: context.reference?.provenance ?? "NOT_OBSERVABLE",
+    REFERENCE_IDS: Array.isArray(context.reference?.ids)
+      ? [...context.reference.ids]
+      : (context.reference?.id ? [context.reference.id] : []),
+    MODEL_ID: context.modelId ?? "NOT_PROVIDED",
+    MODEL_VERSION: context.modelVersion ?? "NOT_PROVIDED",
+    OUTPUT_TYPE: state.outputType ?? "NOT_PROVIDED",
+    ASPECT_RATIO: context.aspectRatio ?? "NOT_PROVIDED",
+    GENERATION_PARAMETERS: clone(context.generationParameters ?? {}),
+    PROVIDER_PARAMETERS: clone(context.providerParameters ?? {})
+  };
+}
+
+function clone(value) { return JSON.parse(JSON.stringify(value)); }
+
+export class ProductionWorkerRuntime {
+  constructor({ store, generator, designer = null, visualEvaluator = null, outputAdapter = null, artifactPersistenceRequired = false, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null, continuationResolver = null, dispatchNextTask = null, leaseDurationMs = 300000 }) {
+    this.store = store;
+    this.generator = generator;
+    this.designer = designer;
+    this.visualEvaluator = visualEvaluator;
+    this.outputAdapter = outputAdapter;
+    this.artifactPersistenceRequired = artifactPersistenceRequired;
+    this.liveExecution = liveExecution;
+    this.providerRegistration = providerRegistration;
+    this.continuationResolver = continuationResolver;
+    this.dispatchNextTask = dispatchNextTask;
+    this.clock = clock;
+    this.workerId = workerId;
+    this.contextResolver = contextResolver;
+    this.leaseDurationMs = leaseDurationMs;
+  }
+
+  request(input) {
+    if (!AUTOMATION_SCOPE.has(input.module)) throw new Error("AUTOMATION_SCOPE_BLOCKED");
+    if (!input.batchId || !input.taskId) throw new Error("MISSING_TASK_IDENTITY");
+    const state = {
+      schemaVersion: 1,
+      traceRunId: input.traceRunId ?? crypto.randomUUID(),
+      automationRunId: input.automationRunId ?? "NOT_OBSERVABLE",
+      module: input.module,
+      productionType: input.productionType,
+      outputType: input.outputType,
+      targetSuccessCount: input.targetSuccessCount ?? 1,
+      targetCount: input.targetCount ?? 1,
+      completedCount: input.completedCount ?? 0,
+      artifactPersistenceRequired: input.artifactPersistenceRequired ?? false,
+      maxAttempts: input.maxAttempts ?? 3,
+      batchId: input.batchId,
+      taskId: input.taskId,
+      taskStatus: "QUEUED",
+      ownership: "UNCLAIMED",
+      workerId: "NONE",
+      claimId: "NONE",
+      claimAcquiredAt: null,
+      leaseUntil: null,
+      leaseDurationMs: input.leaseDurationMs ?? this.leaseDurationMs,
+      version: 0,
+      attemptCount: 0,
+      consecutiveFailures: 0,
+      promptPreview: "NOT_RECORDED",
+      result: "NOT_STARTED",
+      recovery: "NONE",
+      mode: input.mode ?? "AUTOMATED",
+      visualAdherenceRequired: input.visualAdherenceRequired ?? (input.module === "UNIVERSAL_WALLPAPER" && input.mode === "AUTOMATED"),
+      userRequest: input.userRequest ?? "NOT_PROVIDED",
+      design: null,
+      generationAuthorization: input.mode === "MANUAL" ? "WAITING_USER_CONFIRMATION" : "WAITING_AUTOMATION_EXECUTION",
+      checkpointVersion: 0,
+      events: [{ type: input.mode === "MANUAL" ? "USER_REQUEST_RECEIVED" : "AUTOMATION_REQUEST_RECEIVED", at: this.clock(), traceRunId: input.traceRunId ?? "GENERATED" }]
+    };
+    if (typeof this.store.create === "function") this.store.create(state, "runtime: create task state");
+    else this.store.write(state);
+    return clone(state);
+  }
+
+  claim() {
+    const s = this.mutateState((s) => {
+      const leaseExpired = s.leaseUntil !== null && s.leaseUntil !== undefined && s.leaseUntil <= this.clock();
+      const reclaimable = s.ownership === "CLAIMED" && leaseExpired;
+      if (s.taskStatus !== "QUEUED" && !reclaimable) throw new Error("CLAIM_REJECTED");
+      if (!reclaimable && s.ownership !== "UNCLAIMED") throw new Error("CLAIM_REJECTED");
+      s.events.push({ type: "CONTEXT_LOADED", at: this.clock() });
+      s.events.push({ type: "MODULE_RESOLVED", at: this.clock(), module: s.module });
+      s.taskStatus = "CLAIMED";
+      s.ownership = "CLAIMED";
+      s.workerId = this.workerId;
+      s.claimId = crypto.randomUUID();
+      s.claimAcquiredAt = this.clock();
+      s.leaseDurationMs = s.leaseDurationMs ?? this.leaseDurationMs;
+      s.leaseUntil = this.clock() + s.leaseDurationMs;
+      s.version++;
+      s.events.push({ type: "TASK_CLAIMED", at: this.clock(), claimId: s.claimId });
+      return s;
+    });
+    return clone(s);
+  }
+
+  designFromRequest(userRequest, context = {}) {
+    if (!this.designer || typeof this.designer.design !== "function") throw new Error("SYSTEM_DESIGNER_REQUIRED");
+    const state = this.requireState();
+    const canonical = this.contextResolver
+      ? this.contextResolver.resolve({
+          module: state.module,
+          reference: context.reference,
+          referenceRequired: context.referenceRequired ?? false,
+          theme: context.theme ?? "",
+          sceneIntent: context.sceneIntent
+        })
+      : context;
+    const designed = this.designer.design({ userRequest, state, context: canonical });
+    if (!designed || typeof designed.prompt !== "string" || !designed.prompt.trim()) throw new Error("SYSTEM_PROMPT_REQUIRED");
+    return this.designAndLockPrompt(designed.prompt, { ...canonical, design: designed.design, userRequest });
+  }
+
+  designAndLockPrompt(prompt, context = {}) {
+    const canonical = this.contextResolver
+      ? this.contextResolver.resolve({
+          module: this.requireState().module,
+          reference: context.reference,
+          referenceRequired: context.referenceRequired ?? false,
+          theme: context.theme ?? "",
+          sceneIntent: context.sceneIntent
+        })
+      : null;
+    const effectiveContext = canonical ?? context;
+    const executionContext = buildExecutionContext(this.requireState(), effectiveContext);
+    const executionContextHash = sha256(JSON.stringify(executionContext));
+
+    const s = this.mutateState((s) => {
+      if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED") throw new Error("DESIGN_REQUIRES_CLAIM");
+      const referenceState = effectiveContext.reference?.status ?? "NO_REFERENCE";
+      if (!REFERENCE_STATES.has(referenceState)) throw new Error("REFERENCE_STATE_INVALID");
+      if (referenceState === "REFERENCE_BLOCKED") throw new Error("REFERENCE_BLOCKED");
+      const sceneStatus = effectiveContext.sceneIntent?.status;
+      if (!SCENE_INTENT_STATES.has(sceneStatus)) throw new Error("SCENE_INTENT_STATUS_REQUIRED");
+      if (sceneStatus === "MISSING" || sceneStatus === "CONFLICT" || sceneStatus === "BLOCKED") {
+        throw new Error("SCENE_INTENT_BLOCKED");
+      }
+      const intent = effectiveContext.sceneIntent?.fields ?? {};
+      for (const field of REQUIRED_SCENE_INTENT_FIELDS) {
+        if (intent[field] === undefined || intent[field] === null || intent[field] === "") {
+          throw new Error("SCENE_INTENT_INCOMPLETE");
+        }
+      }
+      s.events.push({ type: "REFERENCE_POLICY_LOADED", at: this.clock() });
+      s.events.push({
+        type: "REFERENCE_AUTHORITY_RESOLVED", at: this.clock(),
+        status: referenceState,
+        referenceId: effectiveContext.reference?.id ?? "NOT_OBSERVABLE",
+        provenance: effectiveContext.reference?.provenance ?? "NOT_OBSERVABLE",
+        policyPath: effectiveContext.reference?.policyPath ?? "NOT_OBSERVABLE",
+        verification: effectiveContext.reference?.verification ?? "NOT_OBSERVABLE"
+      });
+      s.events.push({
+        type: "SCENE_INTENT_RESOLVED", at: this.clock(),
+        status: sceneStatus,
+        provenance: effectiveContext.sceneIntent?.provenance ?? "NOT_OBSERVABLE",
+        fieldProvenance: effectiveContext.sceneIntent?.fieldProvenance ?? {},
+        protocolPath: effectiveContext.sceneIntent?.sceneProtocolPath ?? "NOT_OBSERVABLE",
+        fields: intent
+      });
+      if (context.userRequest !== undefined) s.userRequest = String(context.userRequest);
+      if (context.design !== undefined) s.design = clone(context.design);
+      s.events.push({ type: "PRESENTATION_DESIGNED", at: this.clock() });
+      s.events.push({ type: "DESIGN_VALIDATED", at: this.clock(), status: "PASS" });
+      s.promptHash = sha256(prompt);
+      s.lockedPrompt = prompt;
+      s.executionContext = clone(executionContext);
+      s.executionContextHash = executionContextHash;
+      s.promptPreview = "RECORDED";
+      s.events.push({ type: "PROMPT_ASSEMBLED", at: this.clock(), promptHash: s.promptHash });
+      s.promptPreview = "SHOWN";
+      s.events.push({ type: "PROMPT_PREVIEW_RECORDED", at: this.clock(), promptHash: s.promptHash });
+      return s;
+    });
+    return clone(s);
+  }
+
+  confirmManualGeneration() {
+    const s = this.mutateState((s) => {
+      if (s.mode !== "MANUAL") throw new Error("MANUAL_CONFIRMATION_NOT_APPLICABLE");
+      if (s.promptPreview !== "SHOWN") throw new Error("PROMPT_PREVIEW_REQUIRED");
+      s.generationAuthorization = "USER_CONFIRMED_GENERATION";
+      s.events.push({ type: "USER_GENERATION_CONFIRMED", at: this.clock() });
+      s.version++;
+      return s;
+    });
+    return clone(s);
+  }
+
+  authorizeAutomatedGeneration() {
+    const s = this.mutateState((s) => {
+      if (s.mode !== "AUTOMATED") throw new Error("AUTOMATION_AUTHORIZATION_NOT_APPLICABLE");
+      if (s.promptPreview !== "SHOWN") throw new Error("PROMPT_PREVIEW_REQUIRED");
+      s.generationAuthorization = "AUTOMATION_EXECUTION_AUTHORIZED";
+      s.events.push({ type: "AUTOMATION_EXECUTION_AUTHORIZED", at: this.clock() });
+      s.version++;
+      return s;
+    });
+    return clone(s);
+  }
+
+  execute() {
+    const snapshot = this.store.read();
+    const s = snapshot?.state ?? snapshot;
+    if (!s) throw new Error("RUNTIME_STATE_MISSING");
+    const leaseExpired = s.leaseUntil !== null && s.leaseUntil !== undefined && s.leaseUntil <= this.clock();
+    if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED" || s.workerId !== this.workerId || !s.claimId || leaseExpired) {
+      throw new Error(leaseExpired ? "LEASE_EXPIRED" : "EXECUTION_OWNERSHIP_REQUIRED");
+    }
+    if (!s.lockedPrompt) throw new Error("EXECUTION_NOT_READY");
+    if (!s.executionContext || !s.executionContextHash) throw new Error("EXECUTION_CONTEXT_LOCK_REQUIRED");
+    if (sha256(JSON.stringify(s.executionContext)) !== s.executionContextHash) throw new Error("EXECUTION_CONTEXT_LOCK_INVALID");
+    if (s.promptPreview !== "SHOWN") throw new Error("PROMPT_PREVIEW_REQUIRED");
+    const authorized = s.mode === "MANUAL"
+      ? s.generationAuthorization === "USER_CONFIRMED_GENERATION"
+      : s.generationAuthorization === "AUTOMATION_EXECUTION_AUTHORIZED";
+    if (!authorized) throw new Error("GENERATION_AUTHORIZATION_REQUIRED");
+    if (s.attemptCount >= s.maxAttempts) throw new Error("MAX_ATTEMPTS_REACHED");
+
+    const claimId = s.claimId;
+    const expectedSha = snapshot?.sha;
+    if (this.liveExecution) assertProductionProviderEligible(this.providerRegistration);
+    const next = clone(s);
+    next.events.push({ type: "GENERATION_EXECUTION", at: this.clock(), attempt: next.attemptCount + 1, claimId });
+    const generationAttempt = next.attemptCount + 1;
+    const generationIdempotencyKey = sha256(`${next.batchId}:${next.taskId}:${generationAttempt}`);
+    let result;
+    try {
+      result = this.generator.generate({
+        prompt: next.lockedPrompt,
+        outputType: next.outputType,
+        taskId: next.taskId,
+        traceRunId: next.traceRunId,
+        executionContext: next.executionContext,
+        executionContextHash: next.executionContextHash,
+        generationAttempt,
+        generationIdempotencyKey
+      });
+    } catch (error) {
+      result = {
+        result: "UNKNOWN",
+        verification: "NOT_OBSERVABLE",
+        failureReason: "PROVIDER_TRANSPORT_UNCERTAIN",
+        providerError: error instanceof Error ? error.message : String(error),
+        output: null
+      };
+    }
+    next.attemptCount++;
+    next.generationIdempotencyKey = generationIdempotencyKey;
+    next.result = result.result;
+    const expectedPromptHash = sha256(next.lockedPrompt);
+    const observedPromptHash = result.output?.promptHash;
+    if (result.result === "SUCCESS" && observedPromptHash && observedPromptHash !== expectedPromptHash) {
+      result.result = "FAILED";
+      result.verification = "VERIFIED";
+      result.failureReason = "EXECUTED_PROMPT_MISMATCH";
+      next.result = "FAILED";
+    }
+    const formatMismatch = result.result === "SUCCESS" && result.output?.format && result.output.format !== next.outputType;
+    if (formatMismatch) {
+      result.result = "FAILED";
+      result.verification = "VERIFIED";
+      result.failureReason = "OUTPUT_FORMAT_MISMATCH";
+      next.result = "FAILED";
+    }
+    const expectedExecutionContextHash = next.executionContextHash;
+    const observedExecutionContextHash = result.executedExecutionContextHash ?? "NOT_OBSERVABLE";
+    if (observedExecutionContextHash !== "NOT_OBSERVABLE") {
+      next.executionContextVerification =
+        observedExecutionContextHash === expectedExecutionContextHash ? "VERIFIED" : "MISMATCH";
+    } else {
+      next.executionContextVerification = result.executionContextVerification ?? "NOT_OBSERVABLE";
+    }
+    if (next.executionContextVerification === "MISMATCH") {
+      result.result = "FAILED";
+      result.verification = "VERIFIED";
+      result.failureReason = "EXECUTION_CONTEXT_MISMATCH";
+      next.result = "FAILED";
+    }
+    next.failureReason = result.failureReason ?? "NONE";
+    next.lastFailureReason = result.failureReason ?? "NONE";
+    next.providerError = result.providerError ?? "NONE";
+    next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification, failureReason: result.failureReason ?? "NONE", executionContextVerification: next.executionContextVerification });
+
+    if (result.result === "SUCCESS" && next.visualAdherenceRequired) {
+      if (!this.visualEvaluator || typeof this.visualEvaluator.evaluate !== "function") {
+        result.result = "UNKNOWN";
+        result.verification = "NOT_OBSERVABLE";
+        result.failureReason = "VISUAL_ADHERENCE_EVALUATOR_REQUIRED";
+        next.result = "UNKNOWN";
+      } else {
+        const visual = this.visualEvaluator.evaluate({
+          artifact: result.output,
+          design: next.design,
+          taskId: next.taskId,
+          traceRunId: next.traceRunId
+        });
+        next.visualAdherenceResult = visual.result;
+        if (visual.result !== "VISUAL_DESIGN_ADHERENCE_PASS") {
+          result.result = visual.result === "VISUAL_DESIGN_NONCOMPLIANCE" ? "FAILED" : "UNKNOWN";
+          result.verification = visual.result === "VISUAL_DESIGN_NONCOMPLIANCE" ? "VERIFIED" : "NOT_OBSERVABLE";
+          result.failureReason = "VISUAL_DESIGN_ADHERENCE_GATE";
+          next.result = result.result;
+        }
+      }
+    }
+
+    const artifactRequired = next.artifactPersistenceRequired === true || this.artifactPersistenceRequired === true;
+    if (result.result === "SUCCESS" && artifactRequired) {
+      if (!this.outputAdapter || typeof this.outputAdapter.persist !== "function") {
+        result.result = "UNKNOWN";
+        result.verification = "NOT_OBSERVABLE";
+        result.failureReason = "OUTPUT_ARTIFACT_PERSISTENCE_ADAPTER_REQUIRED";
+        next.result = "UNKNOWN";
+      } else {
+        try {
+          const persisted = this.outputAdapter.persist({
+            artifact: result.output,
+            batchId: next.batchId,
+            taskId: next.taskId,
+            generationAttempt,
+            generationIdempotencyKey,
+            promptHash: next.promptHash,
+            executionContextHash: next.executionContextHash,
+            traceRunId: next.traceRunId
+          });
+          if (!persisted || persisted.result !== "SUCCESS" || !persisted.artifact) {
+            result.result = persisted?.result === "FAILED" ? "FAILED" : "UNKNOWN";
+            result.verification = persisted?.result === "FAILED" ? (persisted.verification ?? "VERIFIED") : "NOT_OBSERVABLE";
+            result.failureReason = persisted?.failureReason ?? "OUTPUT_ARTIFACT_PERSISTENCE_UNVERIFIED";
+            next.result = result.result;
+          } else {
+            const artifact = persisted.artifact;
+            const requiredArtifactFields = ["artifactId", "uri", "sha256"];
+            if (requiredArtifactFields.some((field) => !artifact[field])) {
+              result.result = "UNKNOWN";
+              result.verification = "NOT_OBSERVABLE";
+              result.failureReason = "OUTPUT_ARTIFACT_RECORD_INVALID";
+              next.result = "UNKNOWN";
+            } else {
+              let retrieval = null;
+              if (typeof this.outputAdapter.verify === "function") {
+                retrieval = this.outputAdapter.verify({ artifact, expectedSha256: artifact.sha256 });
+              }
+              const retrievalResult = retrieval?.result ?? artifact.retrievalVerification ?? "NOT_OBSERVABLE";
+              if (retrievalResult === "HASH_MISMATCH") {
+                result.result = "FAILED";
+                result.verification = "VERIFIED";
+                result.failureReason = "OUTPUT_ARTIFACT_HASH_MISMATCH";
+                next.result = "FAILED";
+              } else if (retrievalResult === "NOT_FOUND") {
+                result.result = retrieval?.verification === "VERIFIED" ? "FAILED" : "UNKNOWN";
+                result.verification = retrieval?.verification ?? "NOT_OBSERVABLE";
+                result.failureReason = "OUTPUT_ARTIFACT_NOT_RETRIEVABLE";
+                next.result = result.result;
+              } else if (retrievalResult === "UNCERTAIN" || retrievalResult === "NOT_OBSERVABLE") {
+                result.result = "UNKNOWN";
+                result.verification = "NOT_OBSERVABLE";
+                result.failureReason = "OUTPUT_ARTIFACT_RETRIEVAL_UNCERTAIN";
+                next.result = "UNKNOWN";
+              } else if (retrievalResult === "VERIFIED" || retrievalResult === "RETRIEVABLE") {
+                if (retrieval?.sha256 && retrieval.sha256 !== artifact.sha256) {
+                  result.result = "FAILED";
+                  result.verification = "VERIFIED";
+                  result.failureReason = "OUTPUT_ARTIFACT_HASH_MISMATCH";
+                  next.result = "FAILED";
+                }
+              }
+              if (result.result !== "SUCCESS") {
+                // Preserve failure/uncertainty and skip terminal success.
+              } else {
+              next.artifact = {
+                ...clone(artifact),
+                batchId: next.batchId,
+                taskId: next.taskId,
+                generationAttempt,
+                generationIdempotencyKey,
+                promptHash: next.promptHash,
+                executionContextHash: next.executionContextHash
+              };
+              }
+              next.events.push({
+                type: "ARTIFACT_PERSISTED",
+                at: this.clock(),
+                artifactId: artifact.artifactId,
+                uri: artifact.uri,
+                sha256: artifact.sha256,
+                generationAttempt,
+                generationIdempotencyKey
+              });
+            }
+          }
+        } catch (error) {
+          result.result = "UNKNOWN";
+          result.verification = "NOT_OBSERVABLE";
+          result.failureReason = "OUTPUT_ARTIFACT_PERSISTENCE_UNCERTAIN";
+          result.providerError = error instanceof Error ? error.message : String(error);
+          next.result = "UNKNOWN";
+        }
+      }
+    }
+
+    // Reconcile final failure/uncertainty evidence after every downstream gate.
+    // Visual adherence and artifact persistence can change the provider result.
+    next.failureReason = result.failureReason ?? next.failureReason ?? "NONE";
+    next.lastFailureReason = result.failureReason ?? next.lastFailureReason ?? "NONE";
+    if (result.providerError !== undefined) next.providerError = result.providerError;
+
+    if (result.result === "SUCCESS") {
+      next.completedCount = (next.completedCount ?? 0) + 1;
+      next.taskStatus = "SUCCESS";
+      next.ownership = "TERMINAL";
+      next.workerId = "NONE";
+      next.claimId = "NONE";
+      next.claimAcquiredAt = null;
+      next.leaseUntil = null;
+      next.recovery = "TERMINAL_SUCCESS";
+      next.consecutiveFailures = 0;
+    } else if (result.result === "UNKNOWN") {
+      next.taskStatus = "UNKNOWN / RECOVERY_REQUIRED";
+      next.ownership = "RELEASED";
+      next.workerId = "NONE";
+      next.claimId = "NONE";
+      next.claimAcquiredAt = null;
+      next.leaseUntil = null;
+      next.recovery = "RECOVERY_REQUIRED";
+    } else {
+      next.taskStatus = next.attemptCount >= next.maxAttempts ? "FAILED / RECOVERY_REQUIRED" : "FAILED";
+      next.recovery = next.attemptCount >= next.maxAttempts ? "RECOVERY_REQUIRED" : "RETRY_READY";
+      next.consecutiveFailures++;
+      next.ownership = "RELEASED";
+      next.workerId = "NONE";
+      next.claimId = "NONE";
+      next.claimAcquiredAt = null;
+      next.leaseUntil = null;
+    }
+    next.version++;
+    next.checkpointVersion++;
+    next.events.push({ type: "CHECKPOINT", at: this.clock(), checkpointVersion: next.checkpointVersion });
+
+    if (expectedSha && typeof this.store.compareAndSwap === "function") {
+      this.store.compareAndSwap(expectedSha, next, "runtime: execution checkpoint");
+    } else {
+      this.store.write(next);
+    }
+    if (next.taskStatus === "SUCCESS" && next.mode === "AUTOMATED" && next.completedCount !== undefined && next.targetCount !== undefined && next.completedCount < next.targetCount) {
+      if (typeof this.continuationResolver !== "function" || typeof this.dispatchNextTask !== "function") {
+        throw new Error("AUTOMATIC_CONTINUATION_HANDLER_REQUIRED");
+      }
+      const continuation = this.continueAfterSuccess({ resolveNextTask: this.continuationResolver });
+      if (continuation.action === "DISPATCH_NEXT_TASK") this.dispatchNextTask(continuation.nextTask, continuation);
+    }
+    return clone(next);
+  }
+
+  continueAfterSuccess({ resolveNextTask }) {
+    const state = this.requireState();
+    if (state.taskStatus !== "SUCCESS") throw new Error("CONTINUATION_REQUIRES_SUCCESS");
+    if (typeof resolveNextTask !== "function") throw new Error("AUTHORITATIVE_TASK_RESOLVER_REQUIRED");
+    const next = resolveNextTask({
+      batchId: state.batchId,
+      completedTaskId: state.taskId,
+      completedCount: state.completedCount ?? 1,
+      targetCount: state.targetCount ?? 1
+    });
+    if (!next) {
+      return { action: "BATCH_COMPLETE", batchId: state.batchId, completedTaskId: state.taskId };
+    }
+    if (!next.taskId) throw new Error("AUTHORITATIVE_TASK_ID_REQUIRED");
+    return {
+      action: "DISPATCH_NEXT_TASK",
+      batchId: state.batchId,
+      completedTaskId: state.taskId,
+      nextTaskId: next.taskId,
+      nextTask: clone(next)
+    };
+  }
+
+  renewLease() {
+    const s = this.mutateState((s) => {
+      if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED" || s.workerId !== this.workerId || !s.claimId) {
+        throw new Error("LEASE_RENEWAL_OWNERSHIP_REQUIRED");
+      }
+      if (s.leaseUntil !== null && s.leaseUntil !== undefined && s.leaseUntil <= this.clock()) {
+        throw new Error("LEASE_EXPIRED");
+      }
+      s.leaseUntil = this.clock() + (s.leaseDurationMs ?? this.leaseDurationMs);
+      s.events.push({ type: "LEASE_RENEWED", at: this.clock(), leaseUntil: s.leaseUntil, claimId: s.claimId });
+      s.version++;
+      return s;
+    });
+    return clone(s);
+  }
+
+  resumeAfterFailure() {
+    const s = this.mutateState((s) => {
+      if (s.recovery !== "RETRY_READY") throw new Error("RETRY_NOT_READY");
+      s.taskStatus = "QUEUED";
+      s.ownership = "UNCLAIMED";
+      s.workerId = "NONE";
+      s.claimId = "NONE";
+      s.claimAcquiredAt = null;
+      s.leaseUntil = null;
+      s.version++;
+      s.events.push({ type: "NEXT_TASK_RESOLVED", at: this.clock(), action: "RETRY_SAME_TASK" });
+      return s;
+    });
+    return clone(s);
+  }
+
+  mutateState(mutator) {
+    if (typeof this.store.mutate === "function") {
+      const result = this.store.mutate(mutator);
+      return result.state ?? result;
+    }
+    const s = this.requireState();
+    const next = mutator(clone(s));
+    this.store.write(next);
+    return next;
+  }
+
+  requireState() {
+    const raw = this.store.read();
+    const s = raw?.state ?? raw;
+    if (!s) throw new Error("RUNTIME_STATE_MISSING");
+    return s;
+  }
+}

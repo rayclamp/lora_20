@@ -494,3 +494,44 @@ Resume eligibility invariant:
 RESUME_ELIGIBLE = session/recovery rules allow + TERMINATION_STATUS != TERMINAL
 
 A terminal batch has permanently lost execution eligibility even though its record remains readable.
+
+
+## 20. Automatic continuation record invariant
+
+For `PRODUCTION_TYPE: AUTOMATED`, after a task reaches terminal `SUCCESS`:
+
+`CHECKPOINT → RESOLVE_NEXT_AUTHORITATIVE_TASK`
+
+is mandatory when `COMPLETED_COUNT < TARGET_COUNT`.
+
+The next task must be selected from the authoritative Batch Record. The continuation event should preserve:
+- `COMPLETED_TASK_ID`;
+- `NEXT_TASK_ID` or `BATCH_COMPLETE`;
+- `BATCH_ID`;
+- `CONTINUATION_SOURCE: AUTHORITATIVE_BATCH_RECORD`.
+
+The continuation mechanism must not create a second queue, infer the next task from chat history, or silently create a replacement task identity.
+
+If the authoritative Batch Record cannot resolve the next task, the batch enters an explicit recovery/error state rather than silently idling.
+
+
+## 17. Artifact persistence contract
+
+When the production destination requires durable image storage, the batch record must declare:
+
+`ARTIFACT_PERSISTENCE_REQUIRED: YES`
+
+The automatic controller propagates this requirement into every Worker Runtime task. A task with this requirement may reach terminal SUCCESS only after a verifiable artifact record is persisted.
+
+For a persisted artifact, the task record should preserve:
+- `ARTIFACT_ID`
+- `ARTIFACT_URI`
+- `ARTIFACT_SHA256`
+- `ARTIFACT_BATCH_ID`
+- `ARTIFACT_TASK_ID`
+- `ARTIFACT_GENERATION_ATTEMPT`
+- `ARTIFACT_GENERATION_IDEMPOTENCY_KEY`
+- `ARTIFACT_PROMPT_HASH`
+- `ARTIFACT_EXECUTION_CONTEXT_HASH`
+
+Persistence uncertainty is `UNKNOWN / RECOVERY_REQUIRED`; a missing or malformed artifact record must never be treated as SUCCESS.

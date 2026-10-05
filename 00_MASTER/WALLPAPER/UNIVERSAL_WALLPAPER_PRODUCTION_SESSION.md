@@ -268,3 +268,56 @@ Task handling during terminal batch stop:
 
 STOPPED + TERMINATION_STATUS: NON_TERMINAL = potentially resumable.
 STOPPED + TERMINATION_STATUS: TERMINAL = permanently terminated, never resumable.
+
+
+## 7E. Automated Universal Wallpaper Control Gates
+
+For `PRODUCTION_TYPE: AUTOMATED`, Universal Wallpaper execution MUST enable the shared runtime visual-adherence gate.
+
+The authoritative automated task contract MUST persist:
+- `VISUAL_ADHERENCE_REQUIRED: true`;
+- `FINAL_EXECUTABLE_PROMPT`;
+- `FINAL_EXECUTION_CONTEXT`;
+- `PROMPT_LOCK_STATUS: LOCKED`;
+- `EXECUTION_CONTEXT_LOCK_STATUS: LOCKED`;
+- `PROMPT_HASH`;
+- `EXECUTION_CONTEXT_HASH`;
+- `VISUAL_DESIGN_ADHERENCE_RESULT` when evaluation occurs.
+
+Automated generation is forbidden unless all of the following gates have passed:
+
+1. Design Validation / DESIGN_LOCK;
+2. Final Prompt Lock;
+3. Final Execution Context Lock;
+4. Automation Prompt Preview/Audit;
+5. Exact locked Prompt + Context execution authorization;
+6. Technical output validation;
+7. `VISUAL_DESIGN_ADHERENCE_PASS`.
+
+Therefore:
+
+`AUTOMATED UNIVERSAL WALLPAPER TASK_SUCCESS = DESIGN_VALIDATION_PASS + PROMPT_LOCK + EXECUTION_CONTEXT_LOCK + EXECUTION_AUTHORIZATION + TECHNICAL_OUTPUT_VALIDATION_PASS + VISUAL_DESIGN_ADHERENCE_PASS`.
+
+`VISUAL_DESIGN_NONCOMPLIANCE` is a bounded FAILED recovery state. `VISUAL_DESIGN_UNKNOWN` is `UNKNOWN / RECOVERY_REQUIRED` and MUST stop.
+
+The user does not need to manually confirm each automated image. The persisted preview/audit event satisfies visibility; it does not weaken any execution-integrity or visual-adherence gate.
+
+`VISUAL_ADHERENCE_REQUIRED` MUST NOT be set to false for an Automated Universal Wallpaper task as a shortcut around the evaluator. If the evaluator is unavailable, generation cannot reach normal TASK_SUCCESS.
+
+
+## 7F. Automatic authoritative batch continuation
+
+For an `AUTOMATED` Universal Wallpaper batch, a terminal `SUCCESS` MUST trigger authoritative next-task resolution without requiring a new user command.
+
+The continuation operation is bounded to:
+1. confirm the current task has terminal `SUCCESS`;
+2. checkpoint the completed task;
+3. resolve the next incomplete task from the authoritative Batch Record;
+4. dispatch that task through the existing Production Dispatch / Worker Runtime path;
+5. if no incomplete task remains, mark the batch `COMPLETED`.
+
+The continuation resolver MUST NOT use conversation memory, an in-memory guessed sequence, or a second queue as the source of truth.
+
+A successful task MUST NOT remain intentionally idle while the batch is still incomplete unless an explicit stop/recovery condition exists.
+
+This is continuation control, not a new scheduler or queue service.

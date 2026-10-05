@@ -35,6 +35,7 @@ function fixture(overrides = {}) {
     worker: "NONE",
     claim: "NONE",
     stateVersion: 0,
+    maxAttempts: 3,
     ...overrides,
   };
 
@@ -53,7 +54,8 @@ LAST_RESULT: ${task.result}
 CHECKPOINT: RECORDED
 
 ## BATCH INPUT
-WALLPAPER_TYPE: ANIME WALLPAPER
+MODULE: UNIVERSAL_WALLPAPER
+PRODUCTION_TYPE: ANIME
 OUTPUT_TYPE: DESKTOP_WALLPAPER
 ASPECT_RATIO: 16:9
 ORIENTATION: LANDSCAPE
@@ -62,7 +64,7 @@ SCENE: TEST
 WEATHER: CLEAR
 TIME: DAY
 PET_ALLOWED: NO
-REFERENCE: TEST
+REFERENCE_IMAGE: TEST
 
 ## TASKS
 
@@ -103,7 +105,7 @@ PROMPT_PREVIEW_STATUS: SHOWN
 GENERATION_RESULT: ${task.result}
 RESULT_COUNT: ${task.resultCount}
 TARGET_SUCCESS_COUNT: 1
-MAX_ATTEMPTS_PER_TASK: 3
+MAX_ATTEMPTS_PER_TASK: ${task.maxAttempts}
 RESULT_REFERENCE: TEST
 GENERATION_ATTEMPT_COUNT: ${task.attempts}
 CONSECUTIVE_FAILURE_COUNT: ${task.consecutiveFailures}
@@ -148,7 +150,7 @@ root = fixture({ taskStatus:"UNKNOWN / RECOVERY_REQUIRED", result:"UNKNOWN", att
 expect("UNKNOWN requires recovery and stops", root, true);
 fs.rmSync(root, { recursive: true, force: true });
 
-root = fixture({ taskStatus:"ABANDONED", result:"FAILED", attempts:1, consecutiveFailures:1, recovery:"ABANDONED", sessionStatus:"STOPPED", stopReason:"USER_STOP", lastFailure:"USER_ABANDONED", eventHistory:"GENERATION_FAILED attempt=1; TASK_ABANDONED" });
+root = fixture({ taskStatus:"ABANDONED", result:"FAILED", attempts:1, consecutiveFailures:1, recovery:"ABANDONED", sessionStatus:"STOPPED", stopReason:"USER_STOP", terminationStatus:"TERMINAL", lastFailure:"USER_ABANDONED", eventHistory:"GENERATION_FAILED attempt=1; TASK_ABANDONED" });
 expect("ABANDONED task is terminal and preserved", root, true);
 fs.rmSync(root, { recursive: true, force: true });
 

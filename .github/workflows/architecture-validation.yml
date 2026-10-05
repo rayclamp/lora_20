@@ -2,9 +2,9 @@ name: Architecture Validation
 
 on:
   push:
-    branches: [main]
+    branches: [main, runtime-verification/phase-3-control-runtime]
   pull_request:
-    branches: [main]
+    branches: [main, runtime-verification/phase-3-control-runtime]
   workflow_dispatch:
 
 jobs:
@@ -42,3 +42,102 @@ jobs:
 
       - name: Run Runtime Verification harness
         run: node scripts/test_runtime_verification.mjs
+
+      - name: Run executable Worker Runtime control-plane probe
+        run: node scripts/test_production_runtime.mjs
+
+      - name: Run Worker Runtime GitHub CAS probe
+        run: node scripts/test_runtime_github_cas.mjs
+
+      - name: Run Worker Runtime canonical context gate probe
+        run: node scripts/test_runtime_context_gates.mjs
+
+      - name: Run Worker Runtime execution CAS probe
+        run: node scripts/test_runtime_execution_cas.mjs
+
+      - name: Run canonical context resolver self-test
+        run: node scripts/test_canonical_context_resolver.mjs
+
+      - name: Run Worker Runtime canonical context resolver probe
+        run: node scripts/test_runtime_canonical_context.mjs
+
+      - name: Run Runtime Verification Phase-7 single-worker E2E
+        run: node scripts/test_phase7_single_worker_e2e.mjs
+
+      - name: Run Runtime Verification Phase-8 batch continuation
+        run: node scripts/test_phase8_batch_continuation.mjs
+
+      - name: Run Runtime Verification Phase-9 worker-pool CAS
+        run: node scripts/test_phase9_worker_pool.mjs
+
+      - name: Run Runtime Verification Phase-10 provider adapter boundary
+        run: node scripts/test_phase10_provider_adapter_boundary.mjs
+
+      - name: Run Runtime Verification Phase-12 provider activation gate
+        run: node scripts/test_phase12_provider_activation_gate.mjs
+
+      - name: Run Runtime Verification Phase-12 provider activation integration
+        run: node scripts/test_phase12_provider_activation_integration.mjs
+
+      - name: Run Runtime Verification Phase-13 execution context lock
+        run: node scripts/test_phase13_execution_context_lock.mjs
+      - name: Run Runtime Verification Phase-14 visual design adherence gate
+        run: node scripts/test_phase14_visual_design_adherence.mjs
+
+      - name: Run Runtime Verification Phase-15 automated Universal Wallpaper gate binding
+        run: node scripts/test_phase15_universal_wallpaper_gate_binding.mjs
+      - name: Run Runtime Verification Phase-16 automatic authoritative batch continuation
+        run: node scripts/test_phase16_automatic_batch_continuation.mjs
+      - name: Run Runtime Verification Phase-17 automated production controller E2E
+        run: node scripts/test_phase17_automatic_production_controller_e2e.mjs
+      - name: Run Runtime Verification Phase-18 failure UNKNOWN STOP safety
+        run: node scripts/test_phase18_failure_unknown_stop_e2e.mjs
+      - name: Run Runtime Verification Phase-19 retry and three-failure recovery E2E
+        run: node scripts/test_phase19_retry_and_three_failure_e2e.mjs
+      - name: Run Runtime Verification Phase-20 Claim CAS concurrency
+        run: node scripts/test_phase20_claim_cas_concurrency.mjs
+      - name: Run Runtime Verification Phase-21 Lease expiry recovery
+        run: node scripts/test_phase21_lease_expiry_recovery.mjs
+      - name: Run Runtime Verification Phase-22 full production runtime E2E
+        run: node scripts/test_phase22_full_production_runtime_e2e.mjs
+      - name: Run Runtime Verification Phase-23 GitHub-authoritative runtime integration
+        run: node scripts/test_phase23_github_authoritative_runtime_integration.mjs
+      - name: Run Runtime Verification Phase-24 controller authority and restart E2E
+        run: node scripts/test_phase24_controller_authority_restart_e2e.mjs
+      - name: Run Runtime Verification Phase-25 multi-controller contention
+        run: node scripts/test_phase25_multi_controller_contention.mjs
+      - name: Run Runtime Verification Phase-26 crash-boundary task reconciliation
+        run: node scripts/test_phase26_crash_boundary_reconciliation.mjs
+      - name: Run Runtime Verification Phase-27 restart recovery semantics
+        run: node scripts/test_phase27_restart_recovery_semantics.mjs
+      - name: Run Runtime Verification Phase-28 generation idempotency boundary
+        run: node scripts/test_phase28_generation_idempotency_boundary.mjs
+      - name: Run Runtime Verification Phase-29 provider transport uncertainty
+        run: node scripts/test_phase29_provider_transport_uncertainty.mjs
+
+      - name: Run Runtime Verification Phase-30 artifact persistence boundary
+        run: node scripts/test_phase30_artifact_persistence_boundary.mjs
+
+      - name: Run Runtime Verification Phase-31 controller artifact persistence binding
+        run: node scripts/test_phase31_controller_artifact_persistence.mjs
+
+      - name: Run Runtime Verification Phase-32 artifact existence and retrieval verification
+        run: node scripts/test_phase32_artifact_existence_verification.mjs
+
+      - name: Run Runtime Verification Phase-33 artifact traceability
+        run: node scripts/test_phase33_artifact_traceability.mjs
+
+      - name: Run Runtime Verification Phase-34 artifact crash restart recovery
+        run: node scripts/test_phase34_artifact_restart_recovery.mjs
+
+      - name: Run Runtime Verification Phase-35 long batch E2E
+        run: node scripts/test_phase35_long_batch_e2e.mjs
+
+      - name: Run Runtime Verification Phase-36 integrated recovery stress
+        run: node scripts/test_phase36_integrated_recovery_stress.mjs
+
+      - name: Run Runtime Verification Phase-37 repeated multi-controller contention
+        run: node scripts/test_phase37_multi_controller_contention_long.mjs
+
+      - name: Run Runtime Verification Phase-38 final architecture audit
+        run: node scripts/test_phase38_final_architecture_audit.mjs
