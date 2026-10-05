@@ -57,16 +57,21 @@ A retry is a new generation attempt of the same task, not a new task. It reuses 
 
 A retry must reuse the authoritative design and executable prompt unless an explicit design update is committed before the retry.
 
-## 4. Repeated-failure stop rule
+## 4. Repeated-failure terminal task rule
 
 If the same task reaches **3 consecutive FAILED generation attempts**, or reaches `MAX_ATTEMPTS_PER_TASK` total generation attempts (whichever occurs first):
 
 - do not start another attempt;
-- set `RECOVERY_STATUS: RECOVERY_REQUIRED`;
-- set the session to `STOPPED`;
-- use `STOP_REASON: REPEATED_FAILURE`;
+- set `TASK_STATUS: FAILED`;
+- set `RECOVERY_STATUS: TERMINAL_FAILED`;
+- preserve the full failure history;
 - checkpoint the state;
-- require explicit recovery/retry direction before another attempt.
+- do not regenerate this IMAGE_ID;
+- for an active automated multi-image Wallpaper batch, immediately resolve the next pending IMAGE_ID.
+
+Three failed attempts terminate the current image task, not the entire batch.
+
+The whole batch must stop only for UNKNOWN, verified platform stop, explicit user /STOP, execution-critical conflict, or another higher-authority stop condition.
 
 A successful attempt resets `CONSECUTIVE_FAILURE_COUNT` to `0` and immediately completes the task because `TARGET_SUCCESS_COUNT: 1` is satisfied.
 
@@ -151,9 +156,9 @@ Minimum event vocabulary:
 
 ## 10. Boundary
 
-This protocol does not provide:
+This protocol defines the retry decision boundary but does not itself invoke generation events. The execution layer performs the next authorized attempt.
 
-- automatic retries;
+This protocol does not provide:
 - distributed locking;
 - Claim/Lease/CAS;
 - automatic scheduler;
@@ -165,7 +170,7 @@ Those remain separate future capabilities.
 
 ## 11. Universal principle
 
-**FAILED may retry only under explicit recovery rules and within a hard attempt ceiling. UNKNOWN must stop. Three consecutive failures require recovery. The absolute attempt ceiling can stop earlier or at the same time. ABANDONED identities are never silently reused. SUCCESS is terminal.**
+**FAILED may retry only under explicit recovery rules and within a hard attempt ceiling. UNKNOWN must stop. Three consecutive failures terminalize the current IMAGE_ID and, in automated multi-image Wallpaper, execution continues to the next pending IMAGE_ID. ABANDONED identities are never silently reused. SUCCESS is terminal.**
 
 ## 12. Explicit user STOP is terminal
 
