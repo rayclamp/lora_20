@@ -301,7 +301,7 @@ export class ProductionWorkerRuntime {
     const designFreshness = validateDesignFreshness(
       context.design,
       prompt,
-      effectiveContext.designFreshness ?? context.designFreshness
+      context.designFreshness ?? effectiveContext.designFreshness
     );
     const executionContext = buildExecutionContext(this.requireState(), effectiveContext);
     const executionContextHash = sha256(JSON.stringify(executionContext));
