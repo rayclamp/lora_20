@@ -303,3 +303,21 @@ Therefore:
 The user does not need to manually confirm each automated image. The persisted preview/audit event satisfies visibility; it does not weaken any execution-integrity or visual-adherence gate.
 
 `VISUAL_ADHERENCE_REQUIRED` MUST NOT be set to false for an Automated Universal Wallpaper task as a shortcut around the evaluator. If the evaluator is unavailable, generation cannot reach normal TASK_SUCCESS.
+
+
+## 7F. Automatic authoritative batch continuation
+
+For an `AUTOMATED` Universal Wallpaper batch, a terminal `SUCCESS` MUST trigger authoritative next-task resolution without requiring a new user command.
+
+The continuation operation is bounded to:
+1. confirm the current task has terminal `SUCCESS`;
+2. checkpoint the completed task;
+3. resolve the next incomplete task from the authoritative Batch Record;
+4. dispatch that task through the existing Production Dispatch / Worker Runtime path;
+5. if no incomplete task remains, mark the batch `COMPLETED`.
+
+The continuation resolver MUST NOT use conversation memory, an in-memory guessed sequence, or a second queue as the source of truth.
+
+A successful task MUST NOT remain intentionally idle while the batch is still incomplete unless an explicit stop/recovery condition exists.
+
+This is continuation control, not a new scheduler or queue service.
