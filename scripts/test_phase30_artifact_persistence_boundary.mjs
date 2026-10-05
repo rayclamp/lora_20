@@ -50,7 +50,8 @@ function makeRuntime({ adapter, generator } = {}) {
     batchId: "RV-PHASE30-BATCH",
     taskId: "IMAGE-01",
     mode: "AUTOMATED",
-    artifactPersistenceRequired: true
+    artifactPersistenceRequired: true,
+    visualAdherenceRequired: false
   });
   runtime.claim();
   runtime.designAndLockPrompt("LOCKED PROMPT", context());
