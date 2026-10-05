@@ -38,3 +38,15 @@ Do not activate modules, change Goal targets without authorization, overwrite va
 ### Cross-module isolation
 A generic Worker is module-neutral. It must not import another module's reference, queue, prompt, rules, Goal, Batch, Task, Worker state, identity authority, dataset authority, or QA authority.
 Do not import another module's rules, state, identity authority, dataset authority, or QA authority. It may only load the protocol and state belonging to the currently resolved active module.
+
+## Final Execution Context Requirement
+
+Before generation, the Worker must have both:
+- PROMPT_LOCK_STATUS: LOCKED;
+- a valid locked execution context with a matching execution-context hash.
+
+The execution context includes reference authority/IDs, model identity/version, output type, aspect ratio, generation parameters, and provider parameters.
+
+The provider adapter must receive the exact locked Prompt and exact locked execution context. It must not infer missing values or silently substitute provider defaults.
+
+When execution-context telemetry is available, the runtime must compare it against the locked context. MISMATCH is not normal task SUCCESS. When telemetry is unavailable, record NOT_OBSERVABLE.
