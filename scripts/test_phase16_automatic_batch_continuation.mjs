@@ -27,9 +27,12 @@ const authoritativeTasks = [
 
 const store = new JsonStateStore(path.join(dir, "IMAGE-01.json"));
 const generator = new RecordingGenerationAdapter();
+const dispatched = [];
 const visualEvaluator = { evaluate() { return { result: "VISUAL_DESIGN_ADHERENCE_PASS" }; } };
 const runtime = new ProductionWorkerRuntime({
-  store, generator, visualEvaluator, designer, contextResolver: resolver, workerId: "PHASE16_WORKER"
+  store, generator, visualEvaluator, designer, contextResolver: resolver, workerId: "PHASE16_WORKER",
+  continuationResolver: () => authoritativeTasks.find(t => t.status === "QUEUED") ?? null,
+  dispatchNextTask: (task) => dispatched.push(task.taskId)
 });
 
 runtime.request({
@@ -41,6 +44,7 @@ runtime.request({
   taskId: "IMAGE-01",
   mode: "AUTOMATED",
   targetCount: 3,
+  targetCount: 3,
   completedCount: 0
 });
 runtime.claim();
@@ -50,6 +54,8 @@ const result = runtime.execute();
 
 assert.equal(result.taskStatus, "SUCCESS");
 assert.equal(result.visualAdherenceRequired, true);
+assert.equal(result.completedCount, 1);
+assert.deepEqual(dispatched, ["IMAGE-02"]);
 
 const firstNext = runtime.continueAfterSuccess({
   resolveNextTask: ({ batchId, completedTaskId }) => {
