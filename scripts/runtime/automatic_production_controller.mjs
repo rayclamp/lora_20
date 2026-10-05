@@ -204,25 +204,32 @@ export class AutomaticProductionController {
         }
       };
       runtime.designFromRequest(this.userRequest, designContext);
-      const designedState = runtime.store.read()?.state ?? runtime.store.read();
-      const preview = {
-        batchId: this.batchRecord.batchId,
-        taskId: task.taskId,
-        prompt: designedState?.lockedPrompt,
-        promptHash: designedState?.promptHash,
-        design: designedState?.design
-      };
       if (this.requireUserVisiblePromptPreview && typeof this.promptPreviewSink !== "function") {
         throw new Error("AUTOMATED_USER_VISIBLE_PROMPT_PREVIEW_SINK_REQUIRED");
       }
       if (typeof this.promptPreviewSink === "function") {
+        const designedState = typeof runtime.requireState === "function"
+          ? runtime.requireState()
+          : (runtime.store?.read ? (runtime.store.read()?.state ?? runtime.store.read()) : null);
+        if (!designedState?.lockedPrompt || !designedState?.promptHash) {
+          throw new Error("AUTOMATED_USER_VISIBLE_PROMPT_PREVIEW_STATE_REQUIRED");
+        }
+        const preview = {
+          batchId: this.batchRecord.batchId,
+          taskId: task.taskId,
+          prompt: designedState.lockedPrompt,
+          promptHash: designedState.promptHash,
+          design: designedState.design
+        };
         const visible = this.promptPreviewSink(preview);
         if (visible === false) throw new Error("AUTOMATED_USER_VISIBLE_PROMPT_PREVIEW_REJECTED");
-        runtime.mutateState((s) => {
-          s.promptPreviewDelivery = "USER_VISIBLE";
-          s.events.push({ type: "PROMPT_PREVIEW_USER_VISIBLE", at: this.clock(), promptHash: s.promptHash });
-          return s;
-        });
+        if (typeof runtime.mutateState === "function") {
+          runtime.mutateState((s) => {
+            s.promptPreviewDelivery = "USER_VISIBLE";
+            s.events.push({ type: "PROMPT_PREVIEW_USER_VISIBLE", at: this.clock(), promptHash: s.promptHash });
+            return s;
+          });
+        }
       }
       runtime.authorizeAutomatedGeneration();
     }
