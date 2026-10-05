@@ -289,3 +289,20 @@ Verification test:
 The test verifies successful-task continuation, authoritative next-task selection, terminal batch completion, and rejection of continuation from a non-success task.
 
 CI execution evidence is not yet available for this branch commit; therefore Phase 5 is **implementation PASS / runtime evidence PENDING**, not falsely reported as fully executed PASS.
+
+
+## Phase 6 — Automated Production Controller End-to-End
+
+Status: IMPLEMENTED — controller entry path and E2E verification added.
+
+New runtime entry:
+`scripts/runtime/automatic_production_controller.mjs`
+
+The controller owns batch-level continuation only. The authoritative Batch Record remains the source of task identity/status; the existing Worker Runtime remains responsible for Claim, design, prompt/context locks, generation, technical validation, visual adherence, and task result semantics.
+
+Verification test:
+`scripts/test_phase17_automatic_production_controller_e2e.mjs`
+
+The E2E test starts one automated batch and verifies that IMAGE-01, IMAGE-02, and IMAGE-03 are dispatched sequentially without another user command, each through the shared Worker Runtime, with automated Universal Wallpaper visual adherence enabled, exactly one task identity per output, checkpoint progression, and terminal completion at TARGET_COUNT.
+
+CI execution evidence remains pending for the latest branch commit. Therefore Phase 6 is **implementation PASS / runtime evidence PENDING**.
