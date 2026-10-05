@@ -453,16 +453,33 @@ export class ProductionWorkerRuntime {
               result.failureReason = "OUTPUT_ARTIFACT_RECORD_INVALID";
               next.result = "UNKNOWN";
             } else {
-              if (artifact.sourceSha256 && artifact.sourceSha256 !== artifact.sha256) {
-                result.result = "UNKNOWN";
-                result.verification = "NOT_OBSERVABLE";
+              let retrieval = null;
+              if (typeof this.outputAdapter.verify === "function") {
+                retrieval = this.outputAdapter.verify({ artifact, expectedSha256: artifact.sha256 });
+              }
+              const retrievalResult = retrieval?.result ?? artifact.retrievalVerification ?? "NOT_OBSERVABLE";
+              if (retrievalResult === "HASH_MISMATCH") {
+                result.result = "FAILED";
+                result.verification = "VERIFIED";
                 result.failureReason = "OUTPUT_ARTIFACT_HASH_MISMATCH";
-                next.result = "UNKNOWN";
-              } else if (artifact.retrievalVerification === "NOT_FOUND") {
+                next.result = "FAILED";
+              } else if (retrievalResult === "NOT_FOUND") {
+                result.result = retrieval?.verification === "VERIFIED" ? "FAILED" : "UNKNOWN";
+                result.verification = retrieval?.verification ?? "NOT_OBSERVABLE";
+                result.failureReason = "OUTPUT_ARTIFACT_NOT_RETRIEVABLE";
+                next.result = result.result;
+              } else if (retrievalResult === "UNCERTAIN" || retrievalResult === "NOT_OBSERVABLE") {
                 result.result = "UNKNOWN";
                 result.verification = "NOT_OBSERVABLE";
-                result.failureReason = "OUTPUT_ARTIFACT_NOT_RETRIEVABLE";
+                result.failureReason = "OUTPUT_ARTIFACT_RETRIEVAL_UNCERTAIN";
                 next.result = "UNKNOWN";
+              } else if (retrievalResult === "VERIFIED" || retrievalResult === "RETRIEVABLE") {
+                if (retrieval?.sha256 && retrieval.sha256 !== artifact.sha256) {
+                  result.result = "FAILED";
+                  result.verification = "VERIFIED";
+                  result.failureReason = "OUTPUT_ARTIFACT_HASH_MISMATCH";
+                  next.result = "FAILED";
+                }
               }
               if (result.result !== "SUCCESS") {
                 // Preserve failure/uncertainty and skip terminal success.
