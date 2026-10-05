@@ -9,6 +9,7 @@ export class AutomaticProductionController {
     taskResolver,
     taskDesignContext,
     userRequest,
+    batchStore = null,
     clock = () => Date.now()
   }) {
     this.batchRecord = batchRecord;
@@ -16,16 +17,40 @@ export class AutomaticProductionController {
     this.taskResolver = taskResolver;
     this.taskDesignContext = taskDesignContext;
     this.userRequest = userRequest;
+    this.batchStore = batchStore;
     this.clock = clock;
     this.events = [];
     this.runtimeByTask = new Map();
   }
 
+  loadAuthoritativeBatch() {
+    if (!this.batchStore || typeof this.batchStore.read !== "function") {
+      throw new Error("AUTHORITATIVE_BATCH_STORE_REQUIRED");
+    }
+    const current = this.batchStore.read();
+    if (!current?.state) throw new Error("BATCH_RECORD_MISSING");
+    this.batchRecord = current.state;
+    this.batchSha = current.sha;
+    return this.batchRecord;
+  }
+
+  checkpointBatch(message = "production: checkpoint batch record") {
+    if (!this.batchStore || typeof this.batchStore.compareAndSwap !== "function") {
+      throw new Error("AUTHORITATIVE_BATCH_STORE_REQUIRED");
+    }
+    const saved = this.batchStore.compareAndSwap(this.batchSha, this.batchRecord, message);
+    this.batchRecord = saved.state;
+    this.batchSha = saved.sha;
+    return this.batchRecord;
+  }
+
   start() {
+    this.loadAuthoritativeBatch();
     if (this.batchRecord.sessionStatus !== "ACTIVE" || this.batchRecord.terminationStatus === "TERMINAL") {
       throw new Error("BATCH_NOT_ACTIVE");
     }
     this.events.push({ type: "AUTOMATED_BATCH_STARTED", at: this.clock(), batchId: this.batchRecord.batchId });
+    this.checkpointBatch("production: batch started");
     return this.dispatchNext();
   }
 
@@ -34,13 +59,16 @@ export class AutomaticProductionController {
     this.batchRecord.stopReason = reason;
     this.batchRecord.terminationStatus = "TERMINAL";
     this.events.push({ type: "SESSION_TERMINATED", reason, at: this.clock() });
+    this.checkpointBatch("production: session stopped");
     return { action: "STOPPED", reason };
   }
 
   dispatchNext() {
+    this.loadAuthoritativeBatch();
     if (this.batchRecord.completedCount >= this.batchRecord.targetCount) {
       this.batchRecord.sessionStatus = "COMPLETED";
       this.events.push({ type: "SESSION_TERMINATED", reason: "COMPLETED", at: this.clock() });
+      this.checkpointBatch("production: batch completed");
       return { action: "BATCH_COMPLETE" };
     }
 
@@ -48,6 +76,7 @@ export class AutomaticProductionController {
     if (!task) {
       this.batchRecord.sessionStatus = "RECOVERY_REQUIRED";
       this.events.push({ type: "SESSION_TERMINATED", reason: "AUTHORITATIVE_TASK_UNRESOLVED", at: this.clock() });
+      this.checkpointBatch("production: task resolution recovery");
       return { action: "RECOVERY_REQUIRED" };
     }
     if (task.status !== "QUEUED") throw new Error("AUTHORITATIVE_TASK_NOT_QUEUED");
@@ -83,6 +112,7 @@ export class AutomaticProductionController {
       this.batchRecord.currentTaskId = task.taskId;
       this.batchRecord.checkpointVersion++;
       this.events.push({ type: "CHECKPOINT", taskId: task.taskId, completedCount: this.batchRecord.completedCount, at: this.clock() });
+      this.checkpointBatch("production: task success checkpoint");
 
       if (this.batchRecord.completedCount < this.batchRecord.targetCount) {
         return this.dispatchNext();
@@ -90,6 +120,7 @@ export class AutomaticProductionController {
 
       this.batchRecord.sessionStatus = "COMPLETED";
       this.events.push({ type: "SESSION_TERMINATED", reason: "COMPLETED", at: this.clock() });
+      this.checkpointBatch("production: batch completed");
       return { action: "BATCH_COMPLETE", result };
     }
 
@@ -103,6 +134,7 @@ export class AutomaticProductionController {
       this.batchRecord.stopReason = "RETRY_READY";
       this.batchRecord.currentTaskId = task.taskId;
       this.events.push({ type: "RECOVERY_REQUIRED", taskId: task.taskId, reason: "RETRY_READY", attemptCount: task.attemptCount, at: this.clock() });
+      this.checkpointBatch("production: retry ready checkpoint");
       return { action: "RETRY_READY", result };
     }
 
@@ -112,10 +144,12 @@ export class AutomaticProductionController {
       : "REPEATED_FAILURE";
     this.batchRecord.terminationStatus = "TERMINAL";
     this.events.push({ type: "SESSION_TERMINATED", reason: this.batchRecord.stopReason, at: this.clock() });
+    this.checkpointBatch("production: recovery required checkpoint");
     return { action: "RECOVERY_REQUIRED", result };
   }
 
   retryCurrentTask() {
+    this.loadAuthoritativeBatch();
     if (this.batchRecord.sessionStatus !== "RECOVERY_REQUIRED" || this.batchRecord.stopReason !== "RETRY_READY") {
       throw new Error("RETRY_NOT_READY");
     }
@@ -130,6 +164,7 @@ export class AutomaticProductionController {
     this.events.push({ type: "RETRY_AUTHORIZED", taskId: task.taskId, attemptCount: task.attemptCount, at: this.clock() });
     this.batchRecord.sessionStatus = "ACTIVE";
     this.batchRecord.stopReason = "NONE";
+    this.checkpointBatch("production: retry authorized");
     return this.dispatchNext();
   }
 }
