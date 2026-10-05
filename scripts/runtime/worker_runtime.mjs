@@ -99,6 +99,7 @@ export class MockGenerationAdapter {
     this.calls++;
     const outcome = this.outcomes.length ? this.outcomes.shift() : "SUCCESS";
     if (outcome === "UNKNOWN") return { result: "UNKNOWN", verification: "NOT_OBSERVABLE", output: null };
+    if (outcome === "FAILED") return { result: "FAILED", verification: "VERIFIED", failureReason: "MOCK_GENERATION_FAILURE", output: null };
     if (outcome === "FORMAT_MISMATCH") return { result: "FAILED", verification: "VERIFIED", output: { format: "WRONG_FORMAT" } };
     return { result: "SUCCESS", verification: "VERIFIED", output: { format: outputType, promptHash: sha256(prompt) } };
   }
