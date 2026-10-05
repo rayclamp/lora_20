@@ -72,9 +72,20 @@ A normal design turn ending after Prompt Preview is not a generation failure and
 
 Automated Image Production means:
 
-AUTOMATION REQUEST → SYSTEM DESIGN → SYSTEM PROMPT → AUTOMATION AUDIT/PREVIEW → GENERATION
+AUTOMATION REQUEST → SYSTEM DESIGN → SYSTEM PROMPT → PROMPT SET LOCK → MANDATORY PROMPT PRESENTATION GATE → GENERATION
 
-The system still designs the image and constructs the Prompt. Automation changes only the authorization/execution path.
+The system still designs the image and constructs the Prompt. Automation changes only the confirmation/execution path; it does NOT authorize skipping prompt presentation.
+
+For automated multi-image production, generation is prohibited until the complete locked FINAL_EXECUTABLE_PROMPT for every planned image has been presented to the user. The presentation gate is satisfied only when the complete prompts are actually visible to the user, not when the Worker merely stores, audits, or reports that prompts exist.
+
+Required gate state:
+- PROMPT_PRESENTATION_STATUS = SHOWN
+- GENERATION_GATE_STATUS = READY
+- CAN_GENERATE = YES
+
+If any gate condition is absent, CAN_GENERATE = NO and the generation operation must not be invoked.
+
+Automated mode does not require user confirmation after the presentation gate. Manual mode additionally requires explicit user confirmation.
 
 Automated execution must not bypass module routing, module-owned Reference Policy, Scene Intent Resolution, design validation, output-format lock, final Prompt execution lock, prompt integrity, generation-result semantics, checkpointing, or continuation/termination rules.
 
