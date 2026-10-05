@@ -25,8 +25,9 @@ const results = [];
 for (const taskId of tasks) {
   const store = new JsonStateStore(path.join(dir, taskId + ".json"));
   const generator = new RecordingGenerationAdapter();
+  const visualEvaluator = { evaluate() { return { result: "VISUAL_DESIGN_ADHERENCE_PASS" }; } };
   const runtime = new ProductionWorkerRuntime({
-    store, generator, designer, contextResolver: resolver, workerId: "PHASE8_WORKER"
+    store, generator, designer, contextResolver: resolver, visualEvaluator, workerId: "PHASE8_WORKER"
   });
   runtime.request({
     traceRunId: "RV-PHASE8-" + taskId, module: "UNIVERSAL_WALLPAPER", productionType: "ANIME",
