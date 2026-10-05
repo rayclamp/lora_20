@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { CanonicalContextResolver } from "./canonical_context_resolver.mjs";
+import { assertProductionProviderEligible } from "./provider_registry_gate.mjs";
 
 export const AUTOMATION_SCOPE = new Set(["UNIVERSAL_WALLPAPER", "FESTIVAL_WALLPAPER"]);
 export const REQUIRED_SCENE_INTENT_FIELDS = [
@@ -110,10 +111,12 @@ export function sha256(value) {
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 export class ProductionWorkerRuntime {
-  constructor({ store, generator, designer = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null }) {
+  constructor({ store, generator, designer = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null }) {
     this.store = store;
     this.generator = generator;
     this.designer = designer;
+    this.liveExecution = liveExecution;
+    this.providerRegistration = providerRegistration;
     this.clock = clock;
     this.workerId = workerId;
     this.contextResolver = contextResolver;
@@ -289,9 +292,15 @@ export class ProductionWorkerRuntime {
 
     const claimId = s.claimId;
     const expectedSha = snapshot?.sha;
+    if (this.liveExecution) assertProductionProviderEligible(this.providerRegistration);
     const next = clone(s);
     next.events.push({ type: "GENERATION_EXECUTION", at: this.clock(), attempt: next.attemptCount + 1, claimId });
-    const result = this.generator.generate({ prompt: next.lockedPrompt, outputType: next.outputType });
+    const result = this.generator.generate({
+      prompt: next.lockedPrompt,
+      outputType: next.outputType,
+      taskId: next.taskId,
+      traceRunId: next.traceRunId
+    });
     next.attemptCount++;
     next.result = result.result;
     const expectedPromptHash = sha256(next.lockedPrompt);
