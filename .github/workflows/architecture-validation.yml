@@ -129,3 +129,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-34 artifact crash restart recovery
         run: node scripts/test_phase34_artifact_restart_recovery.mjs
+
+      - name: Run Runtime Verification Phase-35 long batch E2E
+        run: node scripts/test_phase35_long_batch_e2e.mjs
