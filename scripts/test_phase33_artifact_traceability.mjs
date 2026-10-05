@@ -21,7 +21,7 @@ for(const x of [a.result,b.result]){
  assert.equal(x.artifact.promptHash,x.promptHash); assert.equal(x.artifact.executionContextHash,x.executionContextHash);
  assert.match(x.artifact.uri,/^storage:\/\//);
 }
-assert.notEqual(a.result.artifactId,b.result.artifactId);
+assert.notEqual(a.result.artifact.artifactId,b.result.artifact.artifactId);
 const persisted=a.runtime.requireState().artifact;
 assert.deepEqual({batchId:persisted.batchId,taskId:persisted.taskId,generationAttempt:persisted.generationAttempt,generationIdempotencyKey:persisted.generationIdempotencyKey,promptHash:persisted.promptHash,executionContextHash:persisted.executionContextHash},
  {batchId:"B33",taskId:"IMAGE-01",generationAttempt:1,generationIdempotencyKey:a.result.generationIdempotencyKey,promptHash:a.result.promptHash,executionContextHash:a.result.executionContextHash});
