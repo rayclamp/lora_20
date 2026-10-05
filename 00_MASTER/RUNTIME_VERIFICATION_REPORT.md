@@ -218,3 +218,34 @@ Phase 12 verifies:
 Current provider state remains `UNREGISTERED`.
 
 Phase 12 does not activate a real provider or claim live image generation.
+
+## Phase 13 — Final Execution Context Lock
+
+Verified by `scripts/test_phase13_execution_context_lock.mjs`.
+
+The Worker now locks the generation execution context together with the final Prompt. The locked context records:
+- reference authority and reference identifiers;
+- model identity/version;
+- OUTPUT_TYPE;
+- ASPECT_RATIO;
+- generation parameters;
+- provider parameters.
+
+The runtime records an execution-context hash and passes the exact locked context to the provider boundary.
+
+The verification proves:
+1. the locked context is persisted with the task;
+2. the context hash matches the persisted context;
+3. the exact context reaches the generation boundary;
+4. post-lock context tampering is rejected before generation;
+5. execution-context verification remains distinct from visual design adherence.
+
+## Current Production-Integrity Boundary
+
+The verified control path is now:
+
+`USER REQUEST → CANONICAL CONTEXT → SYSTEM DESIGN → FINAL PROMPT + FINAL EXECUTION CONTEXT → LOCK → AUTHORIZATION → IMAGE PROVIDER ADAPTER → RESULT → CHECKPOINT`
+
+The remaining major production-integrity gap is visual design adherence: proving that the generated image actually follows the locked design intent (for example outfit, action, pose, scene, hairstyle, major props, and reference contamination).
+
+A correct Prompt and correct execution-context handoff do not by themselves prove visual compliance.
