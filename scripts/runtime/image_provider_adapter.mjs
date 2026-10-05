@@ -17,6 +17,12 @@ export class ImageProviderAdapter {
     if (!executionContext || typeof executionContext !== "object") {
       throw new Error("EXECUTION_CONTEXT_REQUIRED");
     }
+    if (!Number.isInteger(generationAttempt) || generationAttempt < 1) {
+      throw new Error("GENERATION_ATTEMPT_REQUIRED");
+    }
+    if (!generationIdempotencyKey || typeof generationIdempotencyKey !== "string") {
+      throw new Error("GENERATION_IDEMPOTENCY_KEY_REQUIRED");
+    }
     const executionContextHash = sha256(JSON.stringify(executionContext));
     const result = this.transport.generate({
       prompt,
