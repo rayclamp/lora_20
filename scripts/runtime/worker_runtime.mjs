@@ -360,6 +360,8 @@ export class ProductionWorkerRuntime {
       result.failureReason = "EXECUTION_CONTEXT_MISMATCH";
       next.result = "FAILED";
     }
+    next.failureReason = result.failureReason ?? "NONE";
+    next.lastFailureReason = result.failureReason ?? "NONE";
     next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification, failureReason: result.failureReason ?? "NONE", executionContextVerification: next.executionContextVerification });
 
     if (result.result === "SUCCESS" && next.visualAdherenceRequired) {
