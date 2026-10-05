@@ -15,7 +15,17 @@ A Worker MUST resolve the Canonical Repository before loading production rules. 
 
 ## Fresh-Worker Repository Discovery
 
-When the repository name is not already known, the Worker MUST use the available GitHub repository-discovery capability to enumerate repositories accessible to the current GitHub connection.
+When the repository name is not already known, the Worker MUST resolve the Canonical Repository by **enumerating repositories accessible to the current GitHub connection**, then verifying repository identity. Repository discovery is **NOT** a keyword/name search task.
+
+### Discovery algorithm (mandatory)
+
+1. Enumerate the complete accessible-repository set exposed by the current GitHub connection. If the repository-list operation is paginated, follow all continuation pages until the accessible set is exhausted. Do not treat a keyword search result as the repository inventory.
+2. For each enumerated candidate, inspect the root bootstrap metadata. The preferred first check is the exact root path `START_HERE.md`; if absent, the candidate is not a valid canonical bootstrap candidate.
+3. A candidate qualifies only if its `START_HERE.md` identifies the project as `INARIA AI STUDIO` **and** the repository contains `00_MASTER/CANONICAL_PATH_REGISTRY.md`.
+4. After a candidate passes the identity check, read its `00_MASTER/CANONICAL_PATH_REGISTRY.md` and verify that the registry is internally consistent with the bootstrap and contains the Universal Wallpaper routing required by the requested module.
+5. Only after the above verification may the candidate be selected as Canonical Repository.
+6. Repository-name similarity, description similarity, search ranking, stars, recency, historical familiarity, or a partial file match are never sufficient for selection.
+7. A repository search may be used only as a supplemental diagnostic after enumeration; it MUST NOT replace enumeration and MUST NOT establish canonical identity.
 
 For each candidate repository, inspect its root bootstrap/readme metadata and identify the repository containing this exact project identity:
 
