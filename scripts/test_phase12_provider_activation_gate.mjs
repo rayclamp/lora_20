@@ -13,6 +13,7 @@ const base = {
   CREDENTIAL_SOURCE: "NOT_REQUIRED",
   SUPPORTED_OUTPUT_TYPES: ["DESKTOP_WALLPAPER"],
   RESULT_VERIFICATION_POLICY: "TEST_VERIFIED",
+  IDEMPOTENCY_SUPPORT: "REQUIRED_KEY",
   REGISTRATION_VERSION: "1"
 };
 
@@ -33,6 +34,11 @@ assert.throws(
 assert.throws(
   () => assertProductionProviderEligible({ ...base, SUPPORTED_OUTPUT_TYPES: [] }),
   /PROVIDER_OUTPUT_TYPES_REQUIRED/
+);
+
+assert.throws(
+  () => assertProductionProviderEligible({ ...base, IDEMPOTENCY_SUPPORT: "NONE" }),
+  /PROVIDER_IDEMPOTENCY_SUPPORT_REQUIRED/
 );
 
 console.log("Runtime Verification Phase-12 provider activation gate: PASS");
