@@ -2,9 +2,9 @@ name: Architecture Validation
 
 on:
   push:
-    branches: [main]
+    branches: [main, runtime-verification/phase-3-control-runtime]
   pull_request:
-    branches: [main]
+    branches: [main, runtime-verification/phase-3-control-runtime]
   workflow_dispatch:
 
 jobs:
