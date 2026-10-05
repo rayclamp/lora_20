@@ -7,7 +7,7 @@
 
 本指令用於手動設計特殊節日桌布系列。
 
-本文件是 Festival Wallpaper 的內容/設計生產規範，不是獨立 Worker 或 Dispatch 系統。若 Festival 任務進入正式生產執行，使用共用 `00_MASTER/PRODUCTION_WORKER_RUNTIME.md` 與 `00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md`；本文件只提供 Festival-specific identity/data/design constraints。
+本文件是 Festival Wallpaper 的內容與設計規範，不是獨立 Worker、Dispatch 或 Runtime 系統。若 Festival 任務進入自動化生產，依 `00_MASTER/SYSTEM_ARCHITECTURE.md` 與 `00_MASTER/PRODUCTION_RECORD_SCHEMA.md` 的共用自動化架構執行；本文件只提供 Festival-specific identity/data/design constraints。
 
 本指令負責：
 1. 從 GitHub Festival Database 讀取正式節慶資料。
@@ -240,9 +240,6 @@ GitHub 負責：
 節慶文化本身具有明確色彩時，優先遵守節慶資料。
 
 ## 11. COMPOSITION RULES
-
-不得使用已淘汰的：
-`00_MASTER/WALLPAPER_COMPOSITION.md`
 
 依 Wallpaper Type 路由：
 - Anime → `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
@@ -482,7 +479,7 @@ Realistic Wallpaper 特別避免極端廣角造成臉、手、腳變形。
 使用者意圖不得直接覆蓋系統執行條件、模組狀態、CORE 硬性規則或其他更高層級的安全與一致性限制。
 
 ### 2. SYSTEM / RUNTIME / MODULE AUTHORITY
-系統架構、RUNTIME_STATE、MODULE_REGISTRY、AUTHORITY_MATRIX 與目前啟用模組的執行規則決定「WHETHER / HOW」：是否可以執行、由哪個模組執行、使用哪些流程與狀態。
+系統架構、目前適用的模組規範與 ChatGPT 的內部生產機制決定「WHETHER / HOW」：是否可以執行、由哪個模組處理、使用哪些流程與狀態。
 
 PAUSED 模組不得因使用者要求而被啟用。
 
@@ -510,7 +507,7 @@ CORE_RULES、DRAWING_INSTRUCTIONS、ANATOMY_STABILITY、IMAGE_GENERATION_SAFETY_
 - Visual Focus
 - Decorative Creativity
 
-不得使用創意覆蓋文化資料、模組限制、Runtime 狀態或 CORE 硬性規則。
+不得使用創意覆蓋文化資料、模組限制、目前生產狀態或 CORE 硬性規則。
 
 ### Authority principle
 
@@ -621,7 +618,6 @@ FESTIVAL_RECOGNITION:
 CULTURAL_REASON:
 
 WALLPAPER_VALUE:
-LORA_VALUE:
 
 STABILITY_CHECK:
 
@@ -743,20 +739,6 @@ real-human rendering
 - No unnecessary mannequin-like repetition
 - No systematic face-angle bias
 - No systematic distant-full-body bias
-
-## 33. LORA_VALUE
-
-若圖片具有 LoRA 候選價值，可說明：
-- Face clarity
-- Hair clarity
-- Body proportion clarity
-- Clothing clarity
-- Hand stability
-- Occlusion
-- Character identity value
-- Visual diversity value
-
-但本指令本身不是 LoRA Production Module，不得自行加入 LoRA Dataset。
 
 ## 34. WALLPAPER_VALUE
 
