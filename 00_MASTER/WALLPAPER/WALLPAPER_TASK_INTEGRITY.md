@@ -366,3 +366,43 @@ Automation must preserve failure history and enforce: bounded FAILED retry witho
 **GitHub remembers the design. Workers execute the design. Automation validates the execution.**
 
 Conversation memory is not the authoritative record for an existing wallpaper task.
+
+
+## Final execution and visual-adherence integrity gates
+
+Every Universal Wallpaper task that runs in AUTOMATED mode must persist the complete execution artifact pair:
+
+- FINAL_EXECUTABLE_PROMPT
+- FINAL_EXECUTION_CONTEXT
+
+The pair is immutable after lock. The task must also persist:
+
+- PROMPT_LOCK_STATUS: LOCKED
+- EXECUTION_CONTEXT_LOCK_STATUS: LOCKED
+- PROMPT_HASH
+- EXECUTION_CONTEXT_HASH
+- VISUAL_ADHERENCE_REQUIRED: true
+
+The execution context binds the task to the exact reference authority/IDs, model identity/version, OUTPUT_TYPE, ASPECT_RATIO, generation parameters, and provider parameters. A worker must never reconstruct these values from provider defaults after lock.
+
+The execution contract is:
+
+LOCKED_PROMPT + LOCKED_EXECUTION_CONTEXT → GENERATE
+
+An observable Prompt mismatch or execution-context mismatch is not normal SUCCESS.
+
+### Visual Design Adherence
+
+For Automated Universal Wallpaper, generation SUCCESS is only an intermediate technical result. The task is terminal SUCCESS only when the independent Visual Design Adherence Evaluator returns VISUAL_DESIGN_ADHERENCE_PASS.
+
+The evaluator checks the generated artifact against the locked Design Record for applicable presentation fields, including outfit, hairstyle, action, pose, scene, viewpoint, shot size, and required major props.
+
+- VISUAL_DESIGN_NONCOMPLIANCE → FAILED / RETRY_READY while the attempt budget permits;
+- VISUAL_DESIGN_UNKNOWN → UNKNOWN / RECOVERY_REQUIRED;
+- evaluator unavailable → UNKNOWN / RECOVERY_REQUIRED, never silent PASS.
+
+The Worker must not self-declare visual adherence, and downstream LoRA QA remains a separate system.
+
+Therefore:
+
+TASK_SUCCESS = GENERATION_SUCCESS + TECHNICAL_OUTPUT_VALIDATION_PASS + VISUAL_DESIGN_ADHERENCE_PASS
