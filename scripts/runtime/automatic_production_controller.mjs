@@ -163,6 +163,7 @@ export class AutomaticProductionController {
           // Runtime task scope is one validated output; batch scope is owned by this controller/Batch Record.
           targetCount: 1,
           completedCount: 0,
+          artifactPersistenceRequired: this.batchRecord.artifactPersistenceRequired === true,
           mode: "AUTOMATED"
         });
       } catch (error) {
