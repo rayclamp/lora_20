@@ -91,9 +91,13 @@ If a person reference is required by the Session Contract but is missing, unread
 
 ### 5.0 Fresh-Worker repository bootstrap
 
-Before reading any production rule, a fresh Worker MUST resolve the Canonical Repository using `START_HERE.md` bootstrap semantics. If the repository name is not already known, enumerate repositories accessible to the current GitHub connection, inspect candidate root bootstrap/readme metadata, and select exactly one repository containing the INARIA AI STUDIO bootstrap identity and `00_MASTER/CANONICAL_PATH_REGISTRY.md`. Zero matches or multiple matches are `CANONICAL_REPOSITORY_NOT_RESOLVED` / `CANONICAL_REPOSITORY_AMBIGUOUS` and require STOP → CHECKPOINT. Do not ask the user for a repository URL merely because the repository name was not initially known when repository discovery is available.
+Before reading any production rule, a fresh Worker MUST resolve the Canonical Repository using `START_HERE.md` bootstrap semantics. **Repository discovery means complete accessible-repository enumeration, not keyword/name search.** If the repository name is not already known, enumerate the full repository set exposed by the current GitHub connection and follow all pagination/continuation until the accessible set is exhausted. Then, for each candidate, inspect the exact root `START_HERE.md`, verify `INARIA AI STUDIO`, verify `00_MASTER/CANONICAL_PATH_REGISTRY.md`, and read that registry to confirm canonical routing for the requested module.
 
-After repository resolution, record `repository_full_name` and default branch in runtime state, then resolve all canonical paths inside that repository. Do not search historical or alternate repositories.
+A repository search is supplemental only and MUST NOT be used as the repository inventory or as proof of canonical identity. Repository-name similarity, description similarity, search ranking, historical familiarity, or partial matches are never sufficient.
+
+Select exactly one verified candidate. Zero verified matches = `CANONICAL_REPOSITORY_NOT_RESOLVED`; multiple verified matches = `CANONICAL_REPOSITORY_AMBIGUOUS`. Both require STOP → CHECKPOINT. Do not ask the user for a repository URL merely because the repository name was not initially known when repository enumeration is available.
+
+After repository resolution, record `repository_full_name` and default branch in runtime state. Do not search historical or alternate repositories.
 
 Before designing or generating, read the latest applicable:
 1. `START_HERE.md`
