@@ -127,11 +127,13 @@ function buildExecutionContext(state, context = {}) {
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 export class ProductionWorkerRuntime {
-  constructor({ store, generator, designer = null, visualEvaluator = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null, continuationResolver = null, dispatchNextTask = null, leaseDurationMs = 300000 }) {
+  constructor({ store, generator, designer = null, visualEvaluator = null, outputAdapter = null, artifactPersistenceRequired = false, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null, continuationResolver = null, dispatchNextTask = null, leaseDurationMs = 300000 }) {
     this.store = store;
     this.generator = generator;
     this.designer = designer;
     this.visualEvaluator = visualEvaluator;
+    this.outputAdapter = outputAdapter;
+    this.artifactPersistenceRequired = artifactPersistenceRequired;
     this.liveExecution = liveExecution;
     this.providerRegistration = providerRegistration;
     this.continuationResolver = continuationResolver;
@@ -155,6 +157,7 @@ export class ProductionWorkerRuntime {
       targetSuccessCount: input.targetSuccessCount ?? 1,
       targetCount: input.targetCount ?? 1,
       completedCount: input.completedCount ?? 0,
+      artifactPersistenceRequired: input.artifactPersistenceRequired ?? false,
       maxAttempts: input.maxAttempts ?? 3,
       batchId: input.batchId,
       taskId: input.taskId,
@@ -413,6 +416,69 @@ export class ProductionWorkerRuntime {
           result.verification = visual.result === "VISUAL_DESIGN_NONCOMPLIANCE" ? "VERIFIED" : "NOT_OBSERVABLE";
           result.failureReason = "VISUAL_DESIGN_ADHERENCE_GATE";
           next.result = result.result;
+        }
+      }
+    }
+
+    const artifactRequired = next.artifactPersistenceRequired === true || this.artifactPersistenceRequired === true;
+    if (result.result === "SUCCESS" && artifactRequired) {
+      if (!this.outputAdapter || typeof this.outputAdapter.persist !== "function") {
+        result.result = "UNKNOWN";
+        result.verification = "NOT_OBSERVABLE";
+        result.failureReason = "OUTPUT_ARTIFACT_PERSISTENCE_ADAPTER_REQUIRED";
+        next.result = "UNKNOWN";
+      } else {
+        try {
+          const persisted = this.outputAdapter.persist({
+            artifact: result.output,
+            batchId: next.batchId,
+            taskId: next.taskId,
+            generationAttempt,
+            generationIdempotencyKey,
+            promptHash: next.promptHash,
+            executionContextHash: next.executionContextHash,
+            traceRunId: next.traceRunId
+          });
+          if (!persisted || persisted.result !== "SUCCESS" || !persisted.artifact) {
+            result.result = persisted?.result === "FAILED" ? "FAILED" : "UNKNOWN";
+            result.verification = persisted?.result === "FAILED" ? (persisted.verification ?? "VERIFIED") : "NOT_OBSERVABLE";
+            result.failureReason = persisted?.failureReason ?? "OUTPUT_ARTIFACT_PERSISTENCE_UNVERIFIED";
+            next.result = result.result;
+          } else {
+            const artifact = persisted.artifact;
+            const requiredArtifactFields = ["artifactId", "uri", "sha256"];
+            if (requiredArtifactFields.some((field) => !artifact[field])) {
+              result.result = "UNKNOWN";
+              result.verification = "NOT_OBSERVABLE";
+              result.failureReason = "OUTPUT_ARTIFACT_RECORD_INVALID";
+              next.result = "UNKNOWN";
+            } else {
+              next.artifact = {
+                ...clone(artifact),
+                batchId: next.batchId,
+                taskId: next.taskId,
+                generationAttempt,
+                generationIdempotencyKey,
+                promptHash: next.promptHash,
+                executionContextHash: next.executionContextHash
+              };
+              next.events.push({
+                type: "ARTIFACT_PERSISTED",
+                at: this.clock(),
+                artifactId: artifact.artifactId,
+                uri: artifact.uri,
+                sha256: artifact.sha256,
+                generationAttempt,
+                generationIdempotencyKey
+              });
+            }
+          }
+        } catch (error) {
+          result.result = "UNKNOWN";
+          result.verification = "NOT_OBSERVABLE";
+          result.failureReason = "OUTPUT_ARTIFACT_PERSISTENCE_UNCERTAIN";
+          result.providerError = error instanceof Error ? error.message : String(error);
+          next.result = "UNKNOWN";
         }
       }
     }
