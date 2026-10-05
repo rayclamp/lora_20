@@ -10,6 +10,8 @@ export class AutomaticProductionController {
     taskDesignContext,
     userRequest,
     batchStore = null,
+    promptPreviewSink = null,
+    requireUserVisiblePromptPreview = false,
     clock = () => Date.now()
   }) {
     this.batchRecord = batchRecord;
@@ -18,6 +20,8 @@ export class AutomaticProductionController {
     this.taskDesignContext = taskDesignContext;
     this.userRequest = userRequest;
     this.batchStore = batchStore;
+    this.promptPreviewSink = promptPreviewSink;
+    this.requireUserVisiblePromptPreview = requireUserVisiblePromptPreview;
     this.clock = clock;
     this.events = [];
     this.runtimeByTask = new Map();
@@ -174,7 +178,52 @@ export class AutomaticProductionController {
     }
     runtime.claim();
     if (!existingRuntime) {
-      runtime.designFromRequest(this.userRequest, this.taskDesignContext(task));
+      const baseDesignContext = this.taskDesignContext(task) ?? {};
+      const priorDesigns = Array.isArray(baseDesignContext.designFreshness?.previousDesigns)
+        ? [...baseDesignContext.designFreshness.previousDesigns]
+        : [];
+      for (const [priorTaskId, priorRuntime] of this.runtimeByTask.entries()) {
+        if (priorTaskId === task.taskId || typeof priorRuntime?.store?.read !== "function") continue;
+        const priorSnapshot = priorRuntime.store.read();
+        const priorState = priorSnapshot?.state ?? priorSnapshot;
+        if (priorState?.design && priorState?.taskStatus === "SUCCESS") {
+          priorDesigns.push({
+            taskId: priorState.taskId,
+            design: priorState.design,
+            prompt: priorState.lockedPrompt ?? null,
+            promptHash: priorState.promptHash ?? null
+          });
+        }
+      }
+      const designContext = {
+        ...baseDesignContext,
+        designFreshness: {
+          enabled: baseDesignContext.designFreshness?.enabled === true,
+          ...(baseDesignContext.designFreshness ?? {}),
+          previousDesigns: priorDesigns
+        }
+      };
+      runtime.designFromRequest(this.userRequest, designContext);
+      const designedState = runtime.store.read()?.state ?? runtime.store.read();
+      const preview = {
+        batchId: this.batchRecord.batchId,
+        taskId: task.taskId,
+        prompt: designedState?.lockedPrompt,
+        promptHash: designedState?.promptHash,
+        design: designedState?.design
+      };
+      if (this.requireUserVisiblePromptPreview && typeof this.promptPreviewSink !== "function") {
+        throw new Error("AUTOMATED_USER_VISIBLE_PROMPT_PREVIEW_SINK_REQUIRED");
+      }
+      if (typeof this.promptPreviewSink === "function") {
+        const visible = this.promptPreviewSink(preview);
+        if (visible === false) throw new Error("AUTOMATED_USER_VISIBLE_PROMPT_PREVIEW_REJECTED");
+        runtime.mutateState((s) => {
+          s.promptPreviewDelivery = "USER_VISIBLE";
+          s.events.push({ type: "PROMPT_PREVIEW_USER_VISIBLE", at: this.clock(), promptHash: s.promptHash });
+          return s;
+        });
+      }
       runtime.authorizeAutomatedGeneration();
     }
 
