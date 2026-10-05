@@ -34,37 +34,77 @@ A GitHub field or file is never itself a live command. For example, `GLOBAL_STOP
 
 ## Core Architecture
 
-`User Production Command → Worker → GitHub References → Prompt Design → Image Generation`
+`User → ChatGPT → internal production mechanisms → GitHub`
 
-GitHub stores reusable reference material.
+ChatGPT uses internal production mechanisms as needed to perform the user's command. These may include prompt design, generation execution, task handling, retry handling, stop/resume handling, and checkpointing. They are implementation mechanisms of ChatGPT, not independent top-level system roles.
 
-For automated production, GitHub may also store durable production records and checkpoints so interrupted work can be recovered. These records are storage/persistence only; GitHub does not execute, schedule, resume, retry, or orchestrate the Worker.
+GitHub provides reusable reference data to ChatGPT and stores durable production records written by ChatGPT.
 
 ## Manual Production
 
-`User Command → Worker → Read References → Design Prompt(s) → Return Prompt(s)`
+`User Command → ChatGPT → Read References → Design Prompt(s) → Return Prompt(s)`
 
 Manual production does not require production-state persistence unless explicitly requested.
 
 ## Automated Production
 
-`User Command → Worker → Read References → Design Prompt(s) → Image Generation → Persist Production Record / Checkpoint`
+`User Command → ChatGPT → Create Session/Batch → Read References → Design ALL Prompt(s) → Persist Locked Prompt Set → Return Prompt Set → Execute Prompt(s) → Persist Results/Checkpoints → Complete`
 
-If production is interrupted, the Worker/runtime reads the persisted production information and continues the remaining work.
+The automated workflow has two distinct phases:
+
+### Phase A — Design
+
+1. ChatGPT creates a unique `SESSION_ID` for the current production session.
+2. ChatGPT creates a unique `BATCH_ID` within that session.
+3. ChatGPT reads the applicable GitHub reference data.
+4. ChatGPT designs **all prompts for the requested batch before image generation begins**.
+5. ChatGPT records the completed prompt set and associated production data in GitHub.
+6. The locked prompt set becomes the stored execution input for that batch.
+7. ChatGPT returns the complete prompt set to the user.
+
+### Phase B — Execution
+
+1. ChatGPT executes the stored prompts according to the active production instruction.
+2. ChatGPT records task results, errors, retries, interruptions, and checkpoints in the Production Record.
+3. If execution is interrupted, ChatGPT uses the persisted Production Record to determine what has already been recorded and what remains.
+4. ChatGPT must not redesign a stored locked prompt merely because execution is being resumed.
+5. When the batch is complete, ChatGPT records the final completion state.
+
+**Important boundary:** GitHub does not create the Session, start the Batch, execute prompts, decide retries, or resume production. GitHub only stores the identifiers, prompts, states, results, errors, and checkpoints produced by ChatGPT.
+
+## Production Records
+
+Automated production records are stored under:
+
+`PRODUCTION_RECORDS/<PRODUCTION_TYPE>/<SESSION_ID>/<BATCH_ID>/`
+
+The standard record set is:
+
+- `SESSION_CONTRACT.md` — fixed contract and user-requested production parameters.
+- `BATCH_RECORD.md` — current batch-level state, counters, checkpoint, and completion summary.
+- `TASK_QUEUE.md` — per-task current status and task metadata.
+- `PROMPT_SET.md` — complete locked prompts used as the execution input.
+- `EXECUTION_LOG.md` — append-only historical record of execution events, errors, retries, stops, recovery, and completion.
+
+The detailed data schema is defined in `00_MASTER/PRODUCTION_RECORD_SCHEMA.md`.
 
 ## Strict Boundary
 
 GitHub does **not** control:
-- Worker lifecycle
-- repository discovery when the repository is explicitly supplied
+- Session creation
+- Batch creation
+- Worker/runtime lifecycle
 - prompt execution gates
 - queues
 - scheduling
 - retries
+- stop/resume
 - orchestration
+- image generation
 
 GitHub **does** provide:
 - canonical image-design references
-- automated-production persistence/checkpoint data needed for recovery
+- persisted production records
+- checkpoints and historical execution records needed for continuity
 
-Manual and automated production share the same design process; automation adds image execution and durable production recording.
+Manual and automated production share the same design rules; automation adds image execution and durable production recording.
