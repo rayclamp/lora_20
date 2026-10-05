@@ -131,6 +131,11 @@ DIVERSITY_VALIDATION_STATUS:
 FINAL_EXECUTABLE_PROMPT:
 NEGATIVE_STABILITY_PROMPT:
 PROMPT_PREVIEW_STATUS:
+PROMPT_PRESENTATION_STATUS:
+PROMPT_PRESENTATION_CHECKPOINT:
+PROMPT_PRESENTATION_VERIFICATION:
+GENERATION_GATE_STATUS:
+CAN_GENERATE:
 GENERATION_AUTHORIZATION_STATUS:
 PROMPT_EXECUTION_STATUS:
 EXECUTED_PROMPT_REFERENCE:
@@ -181,7 +186,22 @@ Before generation:
 
 `PROMPT_PREVIEW_STATUS: SHOWN`
 
+For AUTOMATED mode, the Prompt Preview is also a mandatory external presentation gate:
+- `PROMPT_PRESENTATION_STATUS: NOT_SHOWN | SHOWN | FAILED`
+- `PROMPT_PRESENTATION_CHECKPOINT:` records when the complete locked prompt set was presented
+- `PROMPT_PRESENTATION_VERIFICATION: VERIFIED | NOT_VERIFIABLE | FAILED`
+- `GENERATION_GATE_STATUS: BLOCKED | READY`
+- `CAN_GENERATE: YES | NO`
+
 The stored `FINAL_EXECUTABLE_PROMPT` must be the same system-generated prompt shown to the user and used for generation.
+
+`PROMPT_PRESENTATION_STATUS: SHOWN` is valid only after the complete `FINAL_EXECUTABLE_PROMPT` for every planned IMAGE_ID has actually been presented to the user. A hidden/internal prompt, summary, excerpt, hash, or self-reported state does not satisfy the gate.
+
+For AUTOMATED mode, user confirmation is not required. However, generation is forbidden until: `PROMPT_SET_STATUS=LOCKED` + `PROMPT_PRESENTATION_STATUS=SHOWN` + `GENERATION_GATE_STATUS=READY` + `CAN_GENERATE=YES`.
+
+If any prerequisite is missing, `CAN_GENERATE` MUST remain `NO` and no generation event may be invoked.
+
+If any prompt changes after presentation, invalidate the presentation gate and present the complete changed prompt set again before generation.
 
 The user is not required to provide the Prompt. The Prompt is system-owned and must be constructed by the Image Production System from the user requirement and applicable production rules. In MANUAL mode, generation is forbidden until explicit USER_CONFIRMED_GENERATION is recorded.
 
@@ -201,6 +221,27 @@ Required batch-level state:
 A failed generation never authorizes silent redesign. Any legitimate prompt revision requires revalidation and a new Prompt Set Lock before generation of that task.
 
 For `IMAGE_COUNT > 1`, the design pass must explicitly validate at minimum: CLOTHING/OUTFIT, HAIRSTYLE, ACCESSORIES, SHOES, SCENE/ENVIRONMENT, and POSE diversity.
+
+## 6C. Mandatory Prompt Presentation Gate
+
+For every automated Universal Wallpaper batch, Prompt Presentation is a hard generation prerequisite, not an optional preview.
+
+Required lifecycle:
+
+DESIGNING → VALIDATED → LOCKED → PROMPT_PRESENTATION_STATUS: SHOWN → GENERATION_GATE_STATUS: READY → CAN_GENERATE: YES → GENERATING
+
+The Worker MUST present the complete locked FINAL_EXECUTABLE_PROMPT for every planned IMAGE_ID before the first generation event of the batch.
+
+The Worker MUST NOT:
+- generate before all planned prompts are presented;
+- replace presentation with a statement such as "prompt ready" or "prompt locked";
+- present only summaries/excerpts instead of the complete prompt;
+- mark PROMPT_PRESENTATION_STATUS: SHOWN without actually presenting the complete prompts;
+- interpret AUTOMATED mode as permission to skip prompt presentation.
+
+Automated mode differs from Manual mode only in confirmation: after the mandatory presentation gate passes, Automated mode may proceed automatically without waiting for user confirmation.
+
+This gate exists so the user can inspect the exact executable design before runtime execution and so cross-batch prompt similarity can be audited.
 
 ## 6B. Session count vs task output count
 
