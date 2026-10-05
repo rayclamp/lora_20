@@ -33,6 +33,7 @@ Only VERIFIED is eligible for production image-generation execution.
 - CREDENTIAL_SOURCE
 - SUPPORTED_OUTPUT_TYPES
 - RESULT_VERIFICATION_POLICY
+- IDEMPOTENCY_SUPPORT
 - REGISTRATION_VERSION
 
 Credentials/secrets must never be stored in this registry or committed to GitHub.
@@ -46,6 +47,7 @@ Credentials/secrets must never be stored in this registry or committed to GitHub
 5. Provider-specific request construction belongs behind ImageProviderAdapter.
 6. The Worker-owned locked Prompt remains authoritative; providers must receive that exact Prompt.
 7. Provider result metadata must be mapped without fabricating unavailable telemetry.
+8. Production providers must support the Worker Runtime required-key idempotency contract.
 
 ## Current State
 
@@ -62,6 +64,8 @@ Before changing PROVIDER_STATUS to AUTHORIZED or VERIFIED, define:
 - authorized credential path;
 - transport implementation;
 - output/result verification;
+- required-key generation idempotency support;
+- artifact persistence/output adapter contract;
 - one controlled real-image E2E test.
 
 No production image generation is activated by registering a provider alone.
