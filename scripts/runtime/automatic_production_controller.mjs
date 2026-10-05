@@ -55,6 +55,7 @@ export class AutomaticProductionController {
   }
 
   stop(reason = "USER_STOP") {
+    this.loadAuthoritativeBatch();
     this.batchRecord.sessionStatus = "STOPPED";
     this.batchRecord.stopReason = reason;
     this.batchRecord.terminationStatus = "TERMINAL";
