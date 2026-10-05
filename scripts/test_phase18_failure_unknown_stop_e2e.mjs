@@ -3,14 +3,25 @@
 import assert from "node:assert/strict";
 import { AutomaticProductionController } from "./runtime/automatic_production_controller.mjs";
 
+
+class MemoryBatchStore {
+  constructor(state) { this.state = JSON.parse(JSON.stringify(state)); this.sha = "batch-1"; this.writes = 0; }
+  read() { return { state: JSON.parse(JSON.stringify(this.state)), sha: this.sha }; }
+  compareAndSwap(expectedSha, state) {
+    if (expectedSha !== this.sha) throw new Error("STALE_BATCH_SHA");
+    this.state = JSON.parse(JSON.stringify(state));
+    this.sha = "batch-" + (++this.writes + 1);
+    return this.read();
+  }
+}
+
 function makeController(outcome) {
   const tasks = [
     { taskId: "IMAGE-01", status: "QUEUED" },
     { taskId: "IMAGE-02", status: "QUEUED" }
   ];
   const calls = [];
-  const controller = new AutomaticProductionController({
-    batchRecord: {
+  const initialBatchRecord = { {
       batchId: "RV-PHASE18-BATCH",
       automationRunId: "RV-PHASE18-AUTO",
       module: "UNIVERSAL_WALLPAPER",
@@ -21,7 +32,11 @@ function makeController(outcome) {
       currentTaskId: "NONE",
       checkpointVersion: 0,
       sessionStatus: "ACTIVE"
-    },
+    };
+  const batchStore = new MemoryBatchStore(initialBatchRecord);
+  const controller = new AutomaticProductionController({
+    batchRecord: initialBatchRecord,
+    batchStore,
     taskResolver: batch => tasks.find(t => t.status === "QUEUED") ?? null,
     taskDesignContext: () => ({
       theme: "TRAVEL",
