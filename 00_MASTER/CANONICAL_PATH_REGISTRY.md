@@ -4,6 +4,10 @@
 This is the canonical routing table for production-critical rule documents.
 Workers and automation must resolve these paths exactly. A missing file is a context-load failure; do not guess an alternate path.
 
+## Bootstrap
+- Repository bootstrap: START_HERE.md
+- Fresh-Worker repository discovery and canonical startup: START_HERE.md
+
 ## Core
 - System architecture: 00_MASTER/SYSTEM_ARCHITECTURE.md
 - Dispatch: 00_MASTER/PRODUCTION_DISPATCH_PROTOCOL.md
