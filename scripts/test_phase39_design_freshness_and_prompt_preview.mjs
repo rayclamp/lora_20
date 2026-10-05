@@ -48,7 +48,8 @@ const controller = new AutomaticProductionController({
   promptPreviewSink: (preview) => { order.push("PREVIEW"); previews.push(preview); assert.ok(preview.prompt); assert.ok(preview.promptHash); return true; },
   runtimeFactory: (task) => new ProductionWorkerRuntime({
     store: new JsonStateStore(path.join(dir, task.taskId + ".json")),
-    generator: new Generator(), designer, contextResolver: resolver, workerId: "PHASE39_WORKER",\n    visualEvaluator: { evaluate: () => ({ result: "VISUAL_DESIGN_ADHERENCE_PASS" }) }
+    generator: new Generator(), designer, contextResolver: resolver, workerId: "PHASE39_WORKER",
+    visualEvaluator: { evaluate: () => ({ result: "VISUAL_DESIGN_ADHERENCE_PASS" }) }
   })
 });
 const result = controller.start();
