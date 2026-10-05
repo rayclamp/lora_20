@@ -44,13 +44,17 @@ const result = adapter.generate({
   outputType: "DESKTOP_WALLPAPER",
   taskId: "IMAGE-01",
   traceRunId: "RV-PHASE10",
-  executionContext
+  executionContext,
+  generationAttempt: 1,
+  generationIdempotencyKey: "RV-PHASE10-IDEMPOTENCY-1"
 });
 
 assert.equal(received.prompt, prompt);
 assert.equal(received.promptHash, sha256(prompt));
 assert.equal(received.taskId, "IMAGE-01");
 assert.equal(received.traceRunId, "RV-PHASE10");
+assert.equal(received.generationAttempt, 1);
+assert.equal(received.generationIdempotencyKey, "RV-PHASE10-IDEMPOTENCY-1");
 assert.deepEqual(received.executionContext, executionContext);
 assert.equal(received.executionContextHash, sha256(JSON.stringify(executionContext)));
 assert.equal(result.executedPromptHash, sha256(prompt));
