@@ -126,10 +126,11 @@ function buildExecutionContext(state, context = {}) {
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 export class ProductionWorkerRuntime {
-  constructor({ store, generator, designer = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null }) {
+  constructor({ store, generator, designer = null, visualEvaluator = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null }) {
     this.store = store;
     this.generator = generator;
     this.designer = designer;
+    this.visualEvaluator = visualEvaluator;
     this.liveExecution = liveExecution;
     this.providerRegistration = providerRegistration;
     this.clock = clock;
@@ -162,6 +163,7 @@ export class ProductionWorkerRuntime {
       result: "NOT_STARTED",
       recovery: "NONE",
       mode: input.mode ?? "AUTOMATED",
+      visualAdherenceRequired: input.visualAdherenceRequired ?? false,
       userRequest: input.userRequest ?? "NOT_PROVIDED",
       design: null,
       generationAuthorization: input.mode === "MANUAL" ? "WAITING_USER_CONFIRMATION" : "WAITING_AUTOMATION_EXECUTION",
@@ -356,6 +358,28 @@ export class ProductionWorkerRuntime {
     }
     next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification, failureReason: result.failureReason ?? "NONE", executionContextVerification: next.executionContextVerification });
 
+    if (result.result === "SUCCESS" && next.visualAdherenceRequired) {
+      if (!this.visualEvaluator || typeof this.visualEvaluator.evaluate !== "function") {
+        result.result = "UNKNOWN";
+        result.verification = "NOT_OBSERVABLE";
+        result.failureReason = "VISUAL_ADHERENCE_EVALUATOR_REQUIRED";
+        next.result = "UNKNOWN";
+      } else {
+        const visual = this.visualEvaluator.evaluate({
+          artifact: result.output,
+          design: next.design,
+          taskId: next.taskId,
+          traceRunId: next.traceRunId
+        });
+        next.visualAdherenceResult = visual.result;
+        if (visual.result !== "VISUAL_DESIGN_ADHERENCE_PASS") {
+          result.result = visual.result === "VISUAL_DESIGN_NONCOMPLIANCE" ? "FAILED" : "UNKNOWN";
+          result.verification = visual.result === "VISUAL_DESIGN_NONCOMPLIANCE" ? "VERIFIED" : "NOT_OBSERVABLE";
+          result.failureReason = "VISUAL_DESIGN_ADHERENCE_GATE";
+          next.result = result.result;
+        }
+      }
+    }
     if (result.result === "SUCCESS") {
       next.taskStatus = "SUCCESS";
       next.ownership = "TERMINAL";
