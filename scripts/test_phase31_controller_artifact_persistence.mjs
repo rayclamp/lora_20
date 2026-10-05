@@ -39,6 +39,7 @@ function makeController({ outputAdapter }) {
     store: new JsonStateStore(path.join(dir, "IMAGE-01.json")),
     workerId: "PHASE31-WORKER",
     designer: new DeterministicWallpaperDesigner(),
+    visualEvaluator: { evaluate: () => ({ result: "VISUAL_DESIGN_ADHERENCE_PASS" }) },
     visualAdherenceRequired: false,
     outputAdapter,
     generator: {
