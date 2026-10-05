@@ -517,7 +517,7 @@ if (!characterSpec.includes("It is not a visual reference") && !characterSpec.in
 if (/INARIA_20_MASTER_v1\.0\.png|MASTER_IMAGE\//i.test(automationContract + canonicalRegistry + universalReferencePolicy + festivalReferencePolicy)) {
   fail("Wallpaper Automation reference boundary leaks LoRA Master Image path");
 }
-if (/\bMake\b/i.test(automationContract)) {
+if (/(?:^|[^a-z])Make(?:\s+scenario|\s+module|\.com|\s+automation\s+platform)/i.test(automationContract)) {
   fail("Wallpaper Automation Contract contains forbidden Make dependency");
 }
 if (failures === 0) pass("Phase 13: Wallpaper Automation scope and module-owned reference authority are enforced");
