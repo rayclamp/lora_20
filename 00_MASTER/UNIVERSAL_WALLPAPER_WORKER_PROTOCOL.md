@@ -139,8 +139,9 @@ In automated batch mode:
 1. Read the active batch record and Session Contract.
 2. Design all requested IMAGE_ID tasks before the first generation event.
 3. Validate series diversity and lock the complete Prompt Set.
-4. Return/persist all locked prompts.
-5. Generate one image at a time using the exact locked prompt for that IMAGE_ID.
+4. Enter the Mandatory Prompt Presentation Gate: present the complete exact locked prompt set to the user.
+5. Set PROMPT_PRESENTATION_STATUS: SHOWN, GENERATION_GATE_STATUS: READY, and CAN_GENERATE: YES only after the complete prompt set has actually been presented.
+6. Generate one image at a time using the exact locked prompt for that IMAGE_ID.
 6. Record the result and checkpoint before resolving the next task.
 7. After SUCCESS, continue to the next pending task.
 8. After terminal FAILED at the attempt ceiling, skip that IMAGE_ID and continue to the next pending task.
@@ -327,9 +328,24 @@ Simplify unstable designs before generation.
 
 Detailed session contract: `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md`
 
-### Prompt Preview Gate
+### Mandatory Prompt Presentation Gate
 
-Before every generation, the Worker MUST show the complete executable prompt for the current task to the user. The Worker must not silently generate first and disclose the prompt afterward. The shown prompt must be the prompt actually used.
+Before the first generation event of an automated multi-image batch, the Worker MUST show the complete exact FINAL_EXECUTABLE_PROMPT for every planned IMAGE_ID to the user. The Worker must not silently generate first, disclose the prompt afterward, or replace the prompt with a summary/status message.
+
+This is a HARD generation gate:
+- PROMPT_SET_STATUS must be LOCKED;
+- every planned task must have a complete FINAL_EXECUTABLE_PROMPT;
+- PROMPT_PRESENTATION_STATUS must become SHOWN only after the complete prompt set has actually been presented;
+- GENERATION_GATE_STATUS must be READY;
+- CAN_GENERATE must be YES.
+
+If any condition is not satisfied, generation is prohibited.
+
+Automated mode does not require user confirmation after this gate. The gate is for observability and execution integrity, not manual authorization.
+
+For single-image or manual flows, the same complete-prompt presentation requirement applies before generation; Manual mode additionally requires explicit user confirmation.
+
+If the prompt changes after presentation, the gate is invalidated and the complete changed prompt must be presented again.
 
 `PROMPT_PREVIEW_STATUS: SHOWN` may only be written after the preview action actually occurred. It is not a self-attestation that permits generation.
 
@@ -394,6 +410,8 @@ For an explicit `FAILED` result, retry only while `RECOVERY_STATUS: RETRY_READY`
 
 For `UNKNOWN`, stop immediately and never silently regenerate. For `ABANDONED`, never reuse the task identity; a replacement requires a new legitimate TASK_ID / IMAGE_ID. A confirmed `SUCCESS` is terminal and cannot be regenerated under the same task identity.
 
+After three explicit FAILED generation attempts, terminalize only the current IMAGE_ID as TERMINAL_FAILED and continue to the next pending IMAGE_ID when the batch remains executable. Do not stop the whole batch solely because one IMAGE_ID reached its attempt ceiling.
+
 ## 13. Generation sequence
 
 Before generation confirm:
@@ -407,7 +425,8 @@ Before generation confirm:
 - when a person reference exists, contextual Inaria data is separated from canonical visual/body identity data before prompt construction;
 - the Universal Wallpaper Reference Policy has been loaded and the visual reference authority is resolved or explicitly recorded as NO_REFERENCE;
 - unstable actions have been simplified;
-- the executable prompt has been shown to the user.
+- the complete executable prompt has been shown to the user;
+- for automated multi-image batches, the complete Prompt Set has been presented and CAN_GENERATE=YES.
 
 After generation, confirm the result, record it, checkpoint when applicable, and continue only when the next task is safely resolvable.
 
