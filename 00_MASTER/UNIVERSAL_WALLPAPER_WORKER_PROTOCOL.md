@@ -133,15 +133,20 @@ If runtime worker state is required, use the current Worker Pool/runtime-state m
 
 When Universal Wallpaper is executed directly by ChatGPT without a queue, the canonical task source is the batch record defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_BATCH_RECORD_SPEC.md` at `MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/<BATCH_ID>.md`.
 
-In this mode:
-1. Read the active batch record.
-2. Resolve exactly one authoritative IMAGE_ID / TASK_ID.
-3. If the task is not yet designed, create its design record according to the current rules.
-4. Lock the design before generation.
-5. Build and validate the exact executable prompt.
-6. In MANUAL mode, show the complete system-generated prompt and wait for explicit user generation confirmation.
-6. Generate one image.
-7. Record the result and checkpoint before moving on.
+For automated multi-image Wallpaper, follow `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_AUTOMATED_BATCH_EXECUTION_SPEC.md`.
+
+In automated batch mode:
+1. Read the active batch record and Session Contract.
+2. Design all requested IMAGE_ID tasks before the first generation event.
+3. Validate series diversity and lock the complete Prompt Set.
+4. Return/persist all locked prompts.
+5. Generate one image at a time using the exact locked prompt for that IMAGE_ID.
+6. Record the result and checkpoint before resolving the next task.
+7. After SUCCESS, continue to the next pending task.
+8. After terminal FAILED at the attempt ceiling, skip that IMAGE_ID and continue to the next pending task.
+9. UNKNOWN, explicit /STOP, verified platform stop, or execution-critical conflict stops the batch.
+
+For MANUAL single-image confirmation flow, show the complete system-generated prompt and wait for explicit user generation confirmation before generation.
 
 Do not require Claim/Lease/CAS merely because the generic Worker protocol mentions queue mode.
 
@@ -318,7 +323,7 @@ Simplify unstable designs before generation.
 
 ## 12. Single-image production loop
 
-`DESIGN → APPLY RULES → STABILITY CHECK → LOCK PROMPT → SHOW PROMPT → EXECUTE LOCKED PROMPT → RECORD EXECUTION EVENT → CONFIRM RESULT → RECORD → CHECKPOINT → NEXT TASK`
+`BATCH DESIGN → SERIES VALIDATION → PROMPT SET LOCK → GENERATE ONE TASK → RECORD EXECUTION EVENT → CONFIRM RESULT → RECORD → CHECKPOINT → NEXT TASK`
 
 Detailed session contract: `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md`
 
@@ -357,13 +362,13 @@ An observable mismatch is an execution-integrity failure and must not be treated
 
 ### Continuation Gate
 
-After a confirmed SUCCESS, the Worker MUST immediately resolve the next authoritative task when:
+For automated multi-image batches, after a confirmed SUCCESS or terminal FAILED task, the Worker MUST immediately resolve the next authoritative pending task when:
 
 `SESSION_STATUS = ACTIVE` AND `COMPLETED_COUNT < TARGET_COUNT` AND no stop/recovery condition exists.
 
 The Worker MUST NOT silently end an incomplete ACTIVE session merely because the current image succeeded.
 
-If the current generation environment cannot invoke another image-generation event after returning the candidate, the Worker must persist an explicit resumable turn-boundary state and let RESUME restore the next authoritative task. The boundary must never be represented as quota exhaustion or generation failure without explicit evidence.
+If the current generation environment cannot invoke another image-generation event after returning the candidate, the Worker must persist an explicit resumable turn-boundary state and let /CONTINUE restore the next authoritative task. The boundary must never be represented as quota exhaustion or generation failure without explicit evidence.
 
 Only these conditions permit normal session termination:
 - `COMPLETED_COUNT = TARGET_COUNT`;
