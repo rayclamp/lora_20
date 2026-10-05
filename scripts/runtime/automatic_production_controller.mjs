@@ -50,8 +50,9 @@ export class AutomaticProductionController {
       outputType: this.batchRecord.outputType,
       batchId: this.batchRecord.batchId,
       taskId: task.taskId,
-      targetCount: this.batchRecord.targetCount,
-      completedCount: this.batchRecord.completedCount,
+      // Runtime task scope is one validated output; batch scope is owned by this controller/Batch Record.
+      targetCount: 1,
+      completedCount: 0,
       mode: "AUTOMATED"
     });
     runtime.claim();
