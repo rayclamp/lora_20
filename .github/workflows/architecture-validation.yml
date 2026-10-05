@@ -92,3 +92,5 @@ jobs:
         run: node scripts/test_phase17_automatic_production_controller_e2e.mjs
       - name: Run Runtime Verification Phase-18 failure UNKNOWN STOP safety
         run: node scripts/test_phase18_failure_unknown_stop_e2e.mjs
+      - name: Run Runtime Verification Phase-19 retry and three-failure recovery E2E
+        run: node scripts/test_phase19_retry_and_three_failure_e2e.mjs
