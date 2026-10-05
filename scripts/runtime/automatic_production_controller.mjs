@@ -198,7 +198,7 @@ export class AutomaticProductionController {
       const designContext = {
         ...baseDesignContext,
         designFreshness: {
-          enabled: baseDesignContext.designFreshness?.enabled ?? true,
+          enabled: baseDesignContext.designFreshness?.enabled === true,
           ...(baseDesignContext.designFreshness ?? {}),
           previousDesigns: priorDesigns
         }
