@@ -123,3 +123,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-32 artifact existence and retrieval verification
         run: node scripts/test_phase32_artifact_existence_verification.mjs
+
+      - name: Run Runtime Verification Phase-33 artifact traceability
+        run: node scripts/test_phase33_artifact_traceability.mjs
