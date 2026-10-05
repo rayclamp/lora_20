@@ -233,3 +233,26 @@ For wallpaper production, a broad Theme/Scene input MUST pass Scene Intent Resol
 A missing canonical rule, unresolved required Scene Intent, or conflicting context is a context/design gate failure and blocks generation. The Worker must not silently substitute an obsolete rule path or invent upstream provenance.
 
 Automated execution must record the trace events defined by 00_MASTER/AUTOMATION_EXECUTION_CONTRACT.md whenever observable. Unknown automation telemetry remains NOT_OBSERVABLE/UNKNOWN and is never fabricated.
+
+## Final Execution Context Lock
+
+After the final Prompt is validated, the Worker must also construct and lock the complete generation execution context.
+
+The locked context must include, at minimum:
+- reference authority and reference identifiers;
+- model identity/version;
+- OUTPUT_TYPE;
+- ASPECT_RATIO;
+- generation parameters;
+- provider-specific parameters.
+
+The runtime records an execution-context hash alongside the Prompt hash.
+
+Generation is forbidden when:
+- the execution context is missing;
+- the execution-context hash does not match the persisted context;
+- the Worker would need to reconstruct context from defaults.
+
+The provider adapter receives the exact locked execution context. If provider telemetry is exposed, the runtime records VERIFIED or MISMATCH; otherwise it records NOT_OBSERVABLE.
+
+Prompt integrity and execution-context integrity are separate controls. Neither one proves visual adherence.
