@@ -106,8 +106,40 @@ tamperedState.executionContext.ASPECT_RATIO = "4:3";
 tamperStore.write(tamperedState);
 assert.throws(() => tampered.execute(), /EXECUTION_CONTEXT_LOCK_INVALID/);
 
+const mismatchStore = new JsonStateStore(path.join(dir, "mismatch.json"));
+const mismatch = new ProductionWorkerRuntime({
+  store: mismatchStore,
+  workerId: "PHASE13_MISMATCH",
+  generator: {
+    generate(payload) {
+      return {
+        result: "SUCCESS",
+        verification: "VERIFIED",
+        executedExecutionContextHash: "WRONG_CONTEXT_HASH",
+        output: { format: payload.outputType, promptHash: sha256(payload.prompt) }
+      };
+    }
+  }
+});
+mismatch.request({
+  module: "UNIVERSAL_WALLPAPER",
+  productionType: "AUTOMATED",
+  outputType: "DESKTOP_WALLPAPER",
+  batchId: "PHASE13-MISMATCH-BATCH",
+  taskId: "PHASE13-MISMATCH-TASK",
+  mode: "AUTOMATED"
+});
+mismatch.claim();
+mismatch.designAndLockPrompt(prompt, context());
+mismatch.authorizeAutomatedGeneration();
+const mismatchResult = mismatch.execute();
+assert.equal(mismatchResult.result, "FAILED");
+assert.equal(mismatchResult.executionContextVerification, "MISMATCH");
+assert.equal(mismatchResult.recovery, "RETRY_READY");
+
 console.log("Runtime Verification Phase-13 execution context lock: PASS");
 console.log("PASS locked model/reference/output/aspect-ratio context");
 console.log("PASS execution-context hash propagation");
 console.log("PASS runtime blocks post-lock context tampering");
 console.log("PASS provider boundary receives the exact locked execution context");
+console.log("PASS observable execution-context mismatch is fenced as FAILED");
