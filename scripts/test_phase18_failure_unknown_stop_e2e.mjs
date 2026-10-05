@@ -21,7 +21,7 @@ function makeController(outcome) {
     { taskId: "IMAGE-02", status: "QUEUED" }
   ];
   const calls = [];
-  const initialBatchRecord = { {
+  const initialBatchRecord = {
       batchId: "RV-PHASE18-BATCH",
       automationRunId: "RV-PHASE18-AUTO",
       module: "UNIVERSAL_WALLPAPER",
@@ -32,7 +32,7 @@ function makeController(outcome) {
       currentTaskId: "NONE",
       checkpointVersion: 0,
       sessionStatus: "ACTIVE"
-    };
+  };
   const batchStore = new MemoryBatchStore(initialBatchRecord);
   const controller = new AutomaticProductionController({
     batchRecord: initialBatchRecord,
