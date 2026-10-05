@@ -8,6 +8,23 @@ This repository is the project's **image-production reference and persistence da
 
 GitHub is **NOT** the production runtime or control system.
 
+### External Control Authority — NON-NEGOTIABLE
+
+Global control commands are issued by the **external control actor (ChatGPT / operator)**, not by GitHub.
+
+The boundary is:
+- **External Control Actor:** decides and issues control commands such as global stop/resume operations.
+- **Runtime / Control Plane:** receives those commands and actually enforces them over Producers, Workers, Sessions, Batches, and Tasks.
+- **GitHub / Data Plane:** records the resulting state, checkpoints, history, and instructions; it does not interpret those records as commands and does not independently stop, resume, schedule, retry, or control production.
+
+A GitHub field such as `STATUS=STOPPED`, `GLOBAL_STOP`, `TASK_OWNER`, `LEASE_ID`, or similar is **data only**. Its presence in GitHub never constitutes live control authority.
+
+Canonical rule:
+
+> **External Control decides. Runtime executes. GitHub records.**
+
+Global stop is therefore an external control operation. GitHub only receives the resulting state as a record.
+
 GitHub MUST NOT be used as:
 - Worker controller
 - Task scheduler
