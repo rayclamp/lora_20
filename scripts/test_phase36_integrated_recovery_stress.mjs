@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+import assert from "node:assert/strict";
+import fs from "node:fs"; import os from "node:os"; import path from "node:path";
+import { JsonStateStore, ProductionWorkerRuntime, sha256 } from "./runtime/worker_runtime.mjs";
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),"phase36-")), store=new JsonStateStore(path.join(dir,"task.json")); let attempt=0, providerKeys=[];
+const adapter={persist({artifact,generationIdempotencyKey}){return {result:"SUCCESS",verification:"VERIFIED",artifact:{artifactId:"A36",uri:"storage://A36",sha256:sha256(artifact.bytes),retrievalVerification:"VERIFIED",generationIdempotencyKey}}},verify({artifact}){return {result:"VERIFIED",verification:"VERIFIED",sha256:artifact.sha256}}};
+const r=new ProductionWorkerRuntime({store,workerId:"P36",visualAdherenceRequired:false,artifactPersistenceRequired:true,outputAdapter:adapter,generator:{generate({generationIdempotencyKey}){attempt++;providerKeys.push(generationIdempotencyKey);if(attempt===1)return {result:"FAILED",verification:"VERIFIED",output:null};if(attempt===2)throw new Error("TRANSPORT_TIMEOUT");return {result:"SUCCESS",verification:"VERIFIED",output:{bytes:"P36",format:"png"}}}}});
+r.request({batchId:"B36",taskId:"IMAGE-01",mode:"AUTOMATED",module:"UNIVERSAL_WALLPAPER",productionType:"AUTOMATED",outputType:"DESKTOP_WALLPAPER",maxAttemptsPerTask:3,artifactPersistenceRequired:true,visualAdherenceRequired:false}); r.claim(); r.designAndLockPrompt("P36",{reference:{status:"NO_REFERENCE"},sceneIntent:{status:"EXPLICIT",fields:{ACTIVITY:"TRAVEL",LOCATION:"CITY",ACTION:"WALKING",TIME:"DAY",WEATHER:"CLEAR",SOCIAL_CONTEXT:"ALONE",ENVIRONMENTAL_CUES:"STREET"}}}); r.authorizeAutomatedGeneration();
+let x=r.execute(); assert.equal(x.result,"FAILED"); assert.equal(x.taskStatus,"FAILED"); r.claim(); r.authorizeAutomatedGeneration(); x=r.execute(); assert.equal(x.result,"UNKNOWN"); assert.equal(x.taskStatus,"UNKNOWN / RECOVERY_REQUIRED"); assert.equal(x.ownership,"RELEASED");
+assert.equal(providerKeys[0],providerKeys[1],"retry after uncertain provider boundary must preserve deterministic operation identity");
+console.log("Runtime Verification Phase-36 integrated failure/UNKNOWN/idempotency recovery boundary: PASS");
