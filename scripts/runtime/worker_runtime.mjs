@@ -108,6 +108,21 @@ export function sha256(value) {
   return crypto.createHash("sha256").update(String(value)).digest("hex");
 }
 
+function buildExecutionContext(state, context = {}) {
+  return {
+    REFERENCE_AUTHORITY: context.reference?.provenance ?? "NOT_OBSERVABLE",
+    REFERENCE_IDS: Array.isArray(context.reference?.ids)
+      ? [...context.reference.ids]
+      : (context.reference?.id ? [context.reference.id] : []),
+    MODEL_ID: context.modelId ?? "NOT_PROVIDED",
+    MODEL_VERSION: context.modelVersion ?? "NOT_PROVIDED",
+    OUTPUT_TYPE: state.outputType ?? "NOT_PROVIDED",
+    ASPECT_RATIO: context.aspectRatio ?? "NOT_PROVIDED",
+    GENERATION_PARAMETERS: clone(context.generationParameters ?? {}),
+    PROVIDER_PARAMETERS: clone(context.providerParameters ?? {})
+  };
+}
+
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 export class ProductionWorkerRuntime {
@@ -202,6 +217,8 @@ export class ProductionWorkerRuntime {
         })
       : null;
     const effectiveContext = canonical ?? context;
+    const executionContext = buildExecutionContext(this.requireState(), effectiveContext);
+    const executionContextHash = sha256(JSON.stringify(executionContext));
 
     const s = this.mutateState((s) => {
       if (s.taskStatus !== "CLAIMED" || s.ownership !== "CLAIMED") throw new Error("DESIGN_REQUIRES_CLAIM");
@@ -242,6 +259,8 @@ export class ProductionWorkerRuntime {
       s.events.push({ type: "DESIGN_VALIDATED", at: this.clock(), status: "PASS" });
       s.promptHash = sha256(prompt);
       s.lockedPrompt = prompt;
+      s.executionContext = clone(executionContext);
+      s.executionContextHash = executionContextHash;
       s.promptPreview = "RECORDED";
       s.events.push({ type: "PROMPT_ASSEMBLED", at: this.clock(), promptHash: s.promptHash });
       s.promptPreview = "SHOWN";
@@ -283,6 +302,8 @@ export class ProductionWorkerRuntime {
       throw new Error("EXECUTION_OWNERSHIP_REQUIRED");
     }
     if (!s.lockedPrompt) throw new Error("EXECUTION_NOT_READY");
+    if (!s.executionContext || !s.executionContextHash) throw new Error("EXECUTION_CONTEXT_LOCK_REQUIRED");
+    if (sha256(JSON.stringify(s.executionContext)) !== s.executionContextHash) throw new Error("EXECUTION_CONTEXT_LOCK_INVALID");
     if (s.promptPreview !== "SHOWN") throw new Error("PROMPT_PREVIEW_REQUIRED");
     const authorized = s.mode === "MANUAL"
       ? s.generationAuthorization === "USER_CONFIRMED_GENERATION"
@@ -299,7 +320,8 @@ export class ProductionWorkerRuntime {
       prompt: next.lockedPrompt,
       outputType: next.outputType,
       taskId: next.taskId,
-      traceRunId: next.traceRunId
+      traceRunId: next.traceRunId,
+      executionContext: next.executionContext
     });
     next.attemptCount++;
     next.result = result.result;
@@ -318,7 +340,14 @@ export class ProductionWorkerRuntime {
       result.failureReason = "OUTPUT_FORMAT_MISMATCH";
       next.result = "FAILED";
     }
-    next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification, failureReason: result.failureReason ?? "NONE" });
+    next.executionContextVerification = result.executionContextVerification ?? "NOT_OBSERVABLE";
+    if (result.executionContextVerification === "MISMATCH") {
+      result.result = "FAILED";
+      result.verification = "VERIFIED";
+      result.failureReason = "EXECUTION_CONTEXT_MISMATCH";
+      next.result = "FAILED";
+    }
+    next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification, failureReason: result.failureReason ?? "NONE", executionContextVerification: next.executionContextVerification });
 
     if (result.result === "SUCCESS") {
       next.taskStatus = "SUCCESS";
