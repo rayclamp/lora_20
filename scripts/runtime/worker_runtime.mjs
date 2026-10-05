@@ -179,6 +179,17 @@ export class ProductionWorkerRuntime {
       checkpointVersion: 0,
       events: [{ type: input.mode === "MANUAL" ? "USER_REQUEST_RECEIVED" : "AUTOMATION_REQUEST_RECEIVED", at: this.clock(), traceRunId: input.traceRunId ?? "GENERATED" }]
     };
+    const existing = typeof this.store.read === "function" ? this.store.read() : null;
+    if (existing) {
+      const existingState = existing.state ?? existing;
+      if (existingState.batchId !== input.batchId || existingState.taskId !== input.taskId || existingState.module !== input.module) {
+        throw new Error("TASK_IDENTITY_CONFLICT");
+      }
+      if (existingState.automationRunId !== (input.automationRunId ?? "NOT_OBSERVABLE")) {
+        throw new Error("AUTOMATION_RUN_ID_CONFLICT");
+      }
+      return clone(existingState);
+    }
     if (typeof this.store.create === "function") this.store.create(state, "runtime: create task state");
     else this.store.write(state);
     return clone(state);
