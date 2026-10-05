@@ -65,8 +65,13 @@ assert.equal(result.output.format, "DESKTOP_WALLPAPER");
 assert.equal(result.providerRequestId, "REQ-001");
 
 assert.throws(
-  () => adapter.generate({ prompt: "", outputType: "DESKTOP_WALLPAPER", taskId: "IMAGE-01", traceRunId: "RV-PHASE10", executionContext }),
+  () => adapter.generate({ prompt: "", outputType: "DESKTOP_WALLPAPER", taskId: "IMAGE-01", traceRunId: "RV-PHASE10", executionContext, generationAttempt: 1, generationIdempotencyKey: "RV-PHASE10-IDEMPOTENCY-1" }),
   /EXECUTABLE_PROMPT_REQUIRED/
+);
+
+assert.throws(
+  () => adapter.generate({ prompt, outputType: "DESKTOP_WALLPAPER", taskId: "IMAGE-01", traceRunId: "RV-PHASE10", executionContext }),
+  /GENERATION_ATTEMPT_REQUIRED/
 );
 
 console.log("Runtime Verification Phase-10 provider adapter boundary: PASS");
