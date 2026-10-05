@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
-import { GitHubContentsBatchRecordStore } from "./batch_record_store.mjs";
+import { GitHubBatchRecordStore } from "./batch_record_store.mjs";
 import { GitHubContentsStateStore, ProductionWorkerRuntime, MockGenerationAdapter } from "./runtime/worker_runtime.mjs";
 import { DeterministicWallpaperDesigner } from "./runtime/production_designer.mjs";
 import { AutomaticProductionController } from "./runtime/automatic_production_controller.mjs";
@@ -27,7 +27,7 @@ class FakeGitHubContentsClient {
 const client = new FakeGitHubContentsClient();
 const batchPath = "MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/BATCHES/RV-PHASE24.json";
 const taskPath = "MODULES/UNIVERSAL_WALLPAPER/PRODUCTION/STATE/RV-PHASE24-IMAGE-01.json";
-const batchStore = new GitHubContentsBatchRecordStore({ client, owner: "rayclamp", repo: "lora_20", path: batchPath, branch: "runtime-verification/phase-3-control-runtime" });
+const batchStore = new GitHubBatchRecordStore({ client, owner: "rayclamp", repo: "lora_20", path: batchPath, branch: "runtime-verification/phase-3-control-runtime" });
 
 const initialBatch = {
   batchId: "RV-PHASE24-BATCH", automationRunId: "RV-PHASE24-AUTO",
