@@ -135,3 +135,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-36 integrated recovery stress
         run: node scripts/test_phase36_integrated_recovery_stress.mjs
+
+      - name: Run Runtime Verification Phase-37 repeated multi-controller contention
+        run: node scripts/test_phase37_multi_controller_contention_long.mjs
