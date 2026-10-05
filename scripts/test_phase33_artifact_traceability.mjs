@@ -9,7 +9,7 @@ const fields={ACTIVITY:"TRAVEL",LOCATION:"CITY",ACTION:"WALKING",TIME:"DAY",WEAT
 function run(taskId){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),"phase33-"));
  const runtime=new ProductionWorkerRuntime({store:new JsonStateStore(path.join(dir,"task.json")),workerId:"P33",visualAdherenceRequired:false,artifactPersistenceRequired:true,
-  generator:{generate({prompt}){return {result:"SUCCESS",verification:"VERIFIED",output:{bytes:taskId,format:"png",promptHash:sha256(prompt)}}}},
+  generator:{generate({prompt,outputType}){return {result:"SUCCESS",verification:"VERIFIED",output:{bytes:taskId,format:outputType,promptHash:sha256(prompt)}}}},
   outputAdapter:{persist({artifact,batchId,taskId,generationAttempt,generationIdempotencyKey,promptHash,executionContextHash}){return {result:"SUCCESS",verification:"VERIFIED",artifact:{artifactId:"A-"+taskId,uri:"storage://"+taskId,sha256:sha256(artifact.bytes),retrievalVerification:"VERIFIED",sourceTask:taskId,batchId,taskId,generationAttempt,generationIdempotencyKey,promptHash,executionContextHash}}},verify({artifact}){return {result:"VERIFIED",verification:"VERIFIED",sha256:artifact.sha256}}}});
  runtime.request({batchId:"B33",taskId,mode:"AUTOMATED",module:"UNIVERSAL_WALLPAPER",productionType:"AUTOMATED",outputType:"DESKTOP_WALLPAPER",artifactPersistenceRequired:true,visualAdherenceRequired:false});
  runtime.claim(); runtime.designAndLockPrompt("PROMPT-"+taskId,{reference:{status:"NO_REFERENCE"},sceneIntent:{status:"EXPLICIT",fields}}); runtime.authorizeAutomatedGeneration(); return {runtime,result:runtime.execute()};
