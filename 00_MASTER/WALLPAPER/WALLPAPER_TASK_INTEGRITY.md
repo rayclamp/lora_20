@@ -281,7 +281,7 @@ RESUME restores these values from the batch record. STOP preserves them in the b
 
 The Worker should use the following sequence:
 
-`READ TASK → VERIFY ID → RESOLVE CHARACTER AUTHORITY → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY OUTFIT ISOLATION → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY FORMAT-COMPLIANT COMPOSITION → BUILD FINAL EXECUTABLE PROMPT → LOCK PROMPT → SHOW LOCKED PROMPT → EXECUTE LOCKED PROMPT → RECORD EXECUTION EVENT → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECK ATTEMPT BOUND → CHECKPOINT → NEXT TASK / RECOVERY`
+`READ TASK → VERIFY ID → RESOLVE CHARACTER AUTHORITY → VERIFY DESIGN → VERIFY DESIGN DIVERSITY → VERIFY OUTFIT ISOLATION → VERIFY DESIGN LOCK → VERIFY FORMAT LOCK → VERIFY FORMAT-COMPLIANT COMPOSITION → BUILD FINAL EXECUTABLE PROMPT → LOCK PROMPT → MANDATORY PROMPT PRESENTATION GATE → SET CAN_GENERATE=YES → EXECUTE LOCKED PROMPT → RECORD EXECUTION EVENT → VERIFY RESULT COUNT → VERIFY ACTUAL FORMAT → RECORD RESULT → CHECK ATTEMPT BOUND → CHECKPOINT → NEXT TASK / RECOVERY`
 
 A Worker must not start generation if the task identity, design, diversity, reference-decoupling policy, or required format cannot be safely resolved.
 
@@ -304,6 +304,14 @@ A Worker must not claim QUOTA_LIMITED, RATE_LIMITED, or GENERATION_UNAVAILABLE w
 ## 10A. Prompt execution integrity
 
 `FINAL_EXECUTABLE_PROMPT` is the canonical task prompt. `PROMPT_PREVIEW_STATUS: SHOWN` is only a preview event and does not prove that the generation operation executed that exact prompt.
+
+For automated multi-image Wallpaper, Prompt Presentation is a hard pre-generation invariant. The complete locked FINAL_EXECUTABLE_PROMPT for every planned IMAGE_ID must be actually shown to the user before the first generation event.
+
+Required generation gate: PROMPT_SET_STATUS=LOCKED + PROMPT_PRESENTATION_STATUS=SHOWN + GENERATION_GATE_STATUS=READY + CAN_GENERATE=YES.
+
+If the complete prompt set has not been presented, CAN_GENERATE MUST remain NO and the Worker must not invoke generation. Automated mode does not require user confirmation after the gate; it only removes the confirmation step.
+
+A prompt summary, excerpt, hash, internal preview, or Worker statement that a prompt is ready does not satisfy Prompt Presentation.
 
 Before generation:
 - lock the final prompt;
@@ -371,7 +379,7 @@ A legitimate replacement task must receive a new task identity/design record.
 
 Failure and recovery are governed by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.
 
-Automation must preserve failure history and enforce: bounded FAILED retry without duplicate IMAGE_ID; `MAX_ATTEMPTS_PER_TASK` as an absolute attempt ceiling; three-consecutive-failure stop; UNKNOWN hard stop; ABANDONED identity immutability; and SUCCESS terminality.
+Automation must preserve failure history and enforce: bounded FAILED retry without duplicate IMAGE_ID; `MAX_ATTEMPTS_PER_TASK` as an absolute per-task attempt ceiling; after three explicit FAILED attempts terminalize only that IMAGE_ID and continue to the next pending task when executable; UNKNOWN hard stop; ABANDONED identity immutability; and SUCCESS terminality.
 
 ## 14. Universal principle
 
