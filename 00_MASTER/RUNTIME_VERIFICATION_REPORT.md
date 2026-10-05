@@ -275,3 +275,17 @@ Verification test:
 scripts/test_phase15_universal_wallpaper_gate_binding.mjs
 
 This closes the Phase 3 integration gap: the visual adherence gate is no longer merely an optional core-runtime capability for automated Universal Wallpaper.
+
+
+## Phase 5 — Level-2 Automatic Production Continuation
+
+Status: IMPLEMENTED — runtime-level control path added.
+
+The Worker Runtime now persists `TARGET_COUNT` and `COMPLETED_COUNT`, increments the completed count only after terminal task SUCCESS, and can invoke an authoritative continuation resolver plus existing dispatch handoff after the successful checkpoint. The resolver is explicitly separated from scheduling/queue infrastructure.
+
+Verification test:
+`scripts/test_phase16_automatic_batch_continuation.mjs`
+
+The test verifies successful-task continuation, authoritative next-task selection, terminal batch completion, and rejection of continuation from a non-success task.
+
+CI execution evidence is not yet available for this branch commit; therefore Phase 5 is **implementation PASS / runtime evidence PENDING**, not falsely reported as fully executed PASS.
