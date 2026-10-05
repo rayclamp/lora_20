@@ -576,3 +576,12 @@ For Automated Universal Wallpaper:
 - evaluator unavailable → UNKNOWN / RECOVERY_REQUIRED.
 
 The Worker MUST NOT downgrade VISUAL_ADHERENCE_REQUIRED to false to avoid an evaluator failure.
+
+
+## 24. Automatic continuation execution binding
+
+For an Automated Universal Wallpaper task, after the current task reaches terminal SUCCESS and its checkpoint is persisted, the runtime continuation path MUST resolve the next incomplete task from the authoritative Batch Record and dispatch it through the existing Production Dispatch / Worker Runtime path when `COMPLETED_COUNT < TARGET_COUNT`.
+
+The continuation handler is not a second scheduler or queue. It is a post-success control transition attached to the existing execution checkpoint.
+
+If the continuation resolver or dispatch handoff is unavailable while the batch remains incomplete, the system MUST enter an explicit recovery/error state rather than silently idle.
