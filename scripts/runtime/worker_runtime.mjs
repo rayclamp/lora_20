@@ -340,8 +340,15 @@ export class ProductionWorkerRuntime {
       result.failureReason = "OUTPUT_FORMAT_MISMATCH";
       next.result = "FAILED";
     }
-    next.executionContextVerification = result.executionContextVerification ?? "NOT_OBSERVABLE";
-    if (result.executionContextVerification === "MISMATCH") {
+    const expectedExecutionContextHash = next.executionContextHash;
+    const observedExecutionContextHash = result.executedExecutionContextHash ?? "NOT_OBSERVABLE";
+    if (observedExecutionContextHash !== "NOT_OBSERVABLE") {
+      next.executionContextVerification =
+        observedExecutionContextHash === expectedExecutionContextHash ? "VERIFIED" : "MISMATCH";
+    } else {
+      next.executionContextVerification = result.executionContextVerification ?? "NOT_OBSERVABLE";
+    }
+    if (next.executionContextVerification === "MISMATCH") {
       result.result = "FAILED";
       result.verification = "VERIFIED";
       result.failureReason = "EXECUTION_CONTEXT_MISMATCH";
