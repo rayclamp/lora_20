@@ -139,6 +139,13 @@ export class AutomaticProductionController {
       return { action: "RETRY_READY", result };
     }
 
+    if (result.taskStatus === "FAILED" || result.result === "FAILED") {
+      task.status = "FAILED";
+      task.recoveryStatus = "TERMINAL";
+      task.attemptCount = result.attemptCount;
+      task.consecutiveFailures = result.consecutiveFailures;
+      task.lastFailureReason = result.failureReason ?? "GENERATION_FAILED";
+    }
     this.batchRecord.sessionStatus = "STOPPED";
     this.batchRecord.stopReason = result.result === "UNKNOWN"
       ? "UNKNOWN_RECOVERY_REQUIRED"
