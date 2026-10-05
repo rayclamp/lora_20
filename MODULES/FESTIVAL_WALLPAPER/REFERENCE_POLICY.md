@@ -10,7 +10,7 @@ It defines visual person-reference authority only. Festival cultural data, scene
 
 Festival Wallpaper owns this reference policy.
 
-System Automation, Dispatch, and the Shared Worker Runtime may enforce this policy, but they must not invent or substitute a visual reference.
+ChatGPT's internal production mechanisms may apply this policy, but they must not invent or substitute a visual reference.
 
 The Inaria Character Specification at `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` is a **character-semantic authority**. It is not a visual reference asset.
 
@@ -33,7 +33,7 @@ The selected source and provenance must be recorded.
 
 ## Forbidden behavior
 
-The Worker / Automation Engine MUST NOT:
+The production mechanism MUST NOT:
 
 - search another production module for a reference;
 - use a LoRA Master Image as a Festival Wallpaper reference;
