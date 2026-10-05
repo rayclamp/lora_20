@@ -338,9 +338,19 @@ Simplify unstable designs before generation.
 
 Detailed session contract: `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_PRODUCTION_SESSION.md`
 
+### Mandatory Prompt Persistence Gate
+
+Before any automated generation event, the Worker MUST persist the complete exact `FINAL_EXECUTABLE_PROMPT` for every planned IMAGE_ID into the authoritative Batch Record and verify that it can be read back intact.
+
+A placeholder, summary, excerpt, hash, `LOCKED_AND_PRESENTED`, `exact text shown above`, `see previous message`, or conversation-memory reference is not persistence.
+
+Required state before generation: `PROMPT_SET_STATUS=LOCKED`, complete prompts exist, `PROMPT_PERSISTENCE_STATUS=PERSISTED`, and `PROMPT_PERSISTENCE_VERIFICATION=VERIFIED`.
+
+If persistence is missing or unverifiable, generation is prohibited and the Worker must checkpoint `RECOVERY_REQUIRED` without redesigning or regenerating.
+
 ### Mandatory Prompt Presentation Gate
 
-Before the first generation event of an automated multi-image batch, the Worker MUST show the complete exact FINAL_EXECUTABLE_PROMPT for every planned IMAGE_ID to the user. The Worker must not silently generate first, disclose the prompt afterward, or replace the prompt with a summary/status message.
+Before the first generation event of an automated multi-image batch, the Worker MUST show the complete exact FINAL_EXECUTABLE_PROMPT for every planned IMAGE_ID to the user. The exact same persisted prompt artifact must be the prompt presented and the payload intended for generation. The Worker must not silently generate first, disclose the prompt afterward, or replace the prompt with a summary/status message.
 
 This is a HARD generation gate:
 - PROMPT_SET_STATUS must be LOCKED;
