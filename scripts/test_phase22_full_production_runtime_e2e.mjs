@@ -8,6 +8,8 @@ import { JsonStateStore, ProductionWorkerRuntime, MockGenerationAdapter, sha256 
 import { DeterministicWallpaperDesigner } from "./runtime/production_designer.mjs";
 import { AutomaticProductionController } from "./runtime/automatic_production_controller.mjs";
 
+class MemoryBatchStore { constructor(state){this.state=JSON.parse(JSON.stringify(state));this.sha="batch-1";this.writes=0;} read(){return {state:JSON.parse(JSON.stringify(this.state)),sha:this.sha};} compareAndSwap(expectedSha,state){if(expectedSha!==this.sha)throw new Error("STALE_BATCH_SHA");this.state=JSON.parse(JSON.stringify(state));this.sha="batch-"+(++this.writes+1);return this.read();} }
+
 const sceneIntent = {
   status: "EXPLICIT",
   fields: {
@@ -25,13 +27,16 @@ function makeController(outcomes) {
   ];
   const generator = new MockGenerationAdapter(outcomes);
   const runtimes = new Map();
+  const initialBatchRecord = {
+    batchId: "RV-PHASE22-BATCH", automationRunId: "RV-PHASE22-AUTO",
+    module: "UNIVERSAL_WALLPAPER", productionType: "AUTOMATED",
+    outputType: "DESKTOP_WALLPAPER", targetCount: 3, completedCount: 0,
+    currentTaskId: "NONE", checkpointVersion: 0, sessionStatus: "ACTIVE"
+  };
+  const batchStore = new MemoryBatchStore(initialBatchRecord);
   const controller = new AutomaticProductionController({
-    batchRecord: {
-      batchId: "RV-PHASE22-BATCH", automationRunId: "RV-PHASE22-AUTO",
-      module: "UNIVERSAL_WALLPAPER", productionType: "AUTOMATED",
-      outputType: "DESKTOP_WALLPAPER", targetCount: 3, completedCount: 0,
-      currentTaskId: "NONE", checkpointVersion: 0, sessionStatus: "ACTIVE"
-    },
+    batchRecord: initialBatchRecord,
+    batchStore,
     taskResolver: (batch, hint) => hint?.taskId
       ? tasks.find(t => t.taskId === hint.taskId) ?? null
       : tasks.find(t => t.status === "QUEUED") ?? null,
@@ -56,7 +61,7 @@ function makeController(outcomes) {
       return runtime;
     }
   });
-  return { controller, tasks, generator, runtimes };
+  return { controller, tasks, generator, runtimes, batchStore };
 }
 
 // Full happy path with one bounded FAILED recovery in the middle.
