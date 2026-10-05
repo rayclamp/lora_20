@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
-import { GitHubBatchRecordStore } from "./batch_record_store.mjs";
+import { GitHubBatchRecordStore } from "./runtime/batch_record_store.mjs";
 import { GitHubContentsStateStore, ProductionWorkerRuntime, MockGenerationAdapter } from "./runtime/worker_runtime.mjs";
 import { DeterministicWallpaperDesigner } from "./runtime/production_designer.mjs";
 import { AutomaticProductionController } from "./runtime/automatic_production_controller.mjs";
