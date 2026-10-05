@@ -56,6 +56,20 @@ Typical fields:
 
 The contract records what production was requested. It does not execute or enforce the request.
 
+
+## 3.1 SESSION_SCOPE and Access Semantics
+
+SESSION_SCOPE records the intended scope/context of the production record. It is descriptive persistence data, not an access-control mechanism.
+
+The access rule is:
+
+- Default: the active ChatGPT context operates only the Session it created.
+- Explicit User authorization may identify a different SESSION_ID for reading, stopping, resuming, continuing, or otherwise operating that Session.
+- A SESSION_ID alone does not grant permission.
+- GitHub does not enforce Session access.
+
+When a cross-Session operation is explicitly authorized by the User, the action should be recorded in EXECUTION_LOG.md so the historical record shows that the target Session was intentionally accessed from another ChatGPT context.
+
 ## 4. BATCH_RECORD.md
 
 Purpose: preserve the current batch-level checkpoint.
