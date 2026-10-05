@@ -413,6 +413,29 @@ export class ProductionWorkerRuntime {
     return clone(next);
   }
 
+  continueAfterSuccess({ resolveNextTask }) {
+    const state = this.requireState();
+    if (state.taskStatus !== "SUCCESS") throw new Error("CONTINUATION_REQUIRES_SUCCESS");
+    if (typeof resolveNextTask !== "function") throw new Error("AUTHORITATIVE_TASK_RESOLVER_REQUIRED");
+    const next = resolveNextTask({
+      batchId: state.batchId,
+      completedTaskId: state.taskId,
+      completedCount: state.completedCount ?? 1,
+      targetCount: state.targetCount ?? 1
+    });
+    if (!next) {
+      return { action: "BATCH_COMPLETE", batchId: state.batchId, completedTaskId: state.taskId };
+    }
+    if (!next.taskId) throw new Error("AUTHORITATIVE_TASK_ID_REQUIRED");
+    return {
+      action: "DISPATCH_NEXT_TASK",
+      batchId: state.batchId,
+      completedTaskId: state.taskId,
+      nextTaskId: next.taskId,
+      nextTask: clone(next)
+    };
+  }
+
   resumeAfterFailure() {
     const s = this.mutateState((s) => {
       if (s.recovery !== "RETRY_READY") throw new Error("RETRY_NOT_READY");
