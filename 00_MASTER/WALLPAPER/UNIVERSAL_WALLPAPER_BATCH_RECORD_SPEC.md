@@ -535,3 +535,15 @@ For a persisted artifact, the task record should preserve:
 - `ARTIFACT_EXECUTION_CONTEXT_HASH`
 
 Persistence uncertainty is `UNKNOWN / RECOVERY_REQUIRED`; a missing or malformed artifact record must never be treated as SUCCESS.
+
+## 7C. Design freshness record
+
+Each automated task should persist:
+
+- DESIGN_FINGERPRINT;
+- DESIGN_FRESHNESS_STATUS;
+- PRIOR_DESIGN_TASK_IDS when prior tasks were compared;
+- DESIGN_VARIATION_FIELDS;
+- PROMPT_PREVIEW_DELIVERY_STATUS.
+
+For a multi-image automated batch, a new task MUST NOT reuse an identical locked Prompt from a prior successful task. When the module declares required variation fields such as HAIRSTYLE and CLOTHING, those fields must change according to the configured freshness policy before generation.
