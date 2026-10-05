@@ -72,3 +72,9 @@ jobs:
 
       - name: Run Runtime Verification Phase-10 provider adapter boundary
         run: node scripts/test_phase10_provider_adapter_boundary.mjs
+
+      - name: Run Runtime Verification Phase-12 provider activation gate
+        run: node scripts/test_phase12_provider_activation_gate.mjs
+
+      - name: Run Runtime Verification Phase-12 provider activation integration
+        run: node scripts/test_phase12_provider_activation_integration.mjs
