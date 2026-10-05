@@ -32,6 +32,20 @@ A global command such as `/STOP_ALL` is issued by the user to ChatGPT. ChatGPT r
 
 A GitHub field or file is never itself a live command. For example, `GLOBAL_STOP=TRUE`, `STATUS=STOPPED`, `TASK_OWNER`, or `LEASE_ID` are records only.
 
+
+## Session Access Policy
+
+A production Session belongs to the ChatGPT context that created it by default, but Session ownership is not an absolute cross-context prohibition.
+
+- A new ChatGPT context does not automatically discover or operate other Sessions.
+- The mere presence of a Session record in GitHub does not make that Session available for automatic takeover.
+- If the User explicitly identifies and authorizes a target SESSION_ID, ChatGPT may read that Session's Production Record and operate it according to the User's command.
+- SESSION_ID is only an identifier. It is not an access token, lock, lease, or permission credential.
+- GitHub does not grant or enforce Session access authority.
+- Therefore, /STOP without a target Session applies only to the active/current Session context. A command explicitly naming another Session, such as /STOP <SESSION_ID> or /RESUME <SESSION_ID>, may target that Session when the User has explicitly authorized it.
+
+This policy preserves both default Session isolation and User-authorized cross-Session control.
+
 ## Core Architecture
 
 `User → ChatGPT → internal production mechanisms → GitHub`
