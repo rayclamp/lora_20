@@ -285,3 +285,15 @@ The Worker must not self-declare visual adherence. The evaluator is an adapter b
 TASK_SUCCESS therefore requires GENERATION_SUCCESS + TECHNICAL_OUTPUT_VALIDATION_PASS + VISUAL_DESIGN_ADHERENCE_PASS.
 
 Visual adherence is distinct from downstream LoRA QA and from Prompt/Execution-Context integrity.
+
+## Mandatory automated design-freshness gate
+
+For AUTOMATED production, when the selected module enables design freshness, the Worker MUST compare the new design against authoritative prior task designs before Prompt Lock. Exact Prompt reuse is forbidden. Module-specific required variation fields and a minimum changed-field threshold may be configured. If the previous-design context is required but incomplete, or the new design does not meet the configured variation threshold, the Worker MUST stop before generation with a design-freshness failure.
+
+The freshness gate is a design-integrity control, not a visual-quality guarantee. It prevents the system from knowingly submitting the same design artifact repeatedly.
+
+## Automated user-visible Prompt Preview
+
+Automated execution does not require user confirmation, but Universal Wallpaper production MUST support a user-visible Prompt Preview delivery boundary before generation when the active integration requires preview visibility. The controller exposes the exact locked Prompt and Prompt hash through promptPreviewSink before it authorizes generation. The sink MUST receive the same locked artifact that the generator will receive. Preview visibility and generation authorization remain separate: USER_VISIBLE_PREVIEW → AUTOMATION_EXECUTION_AUTHORIZED → EXECUTE_LOCKED_PROMPT.
+
+PROMPT_PREVIEW_RECORDED alone is an audit event; it MUST NOT be described as user-visible display.
