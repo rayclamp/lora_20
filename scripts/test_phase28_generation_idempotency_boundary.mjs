@@ -32,6 +32,7 @@ let firstCall = true;
 const runtime = new ProductionWorkerRuntime({
   store,
   workerId: "PHASE28-WORKER",
+  visualEvaluator: { evaluate() { return { result: "VISUAL_DESIGN_ADHERENCE_PASS" }; } },
   generator: {
     generate(payload) {
       calls.push(payload.generationIdempotencyKey);
