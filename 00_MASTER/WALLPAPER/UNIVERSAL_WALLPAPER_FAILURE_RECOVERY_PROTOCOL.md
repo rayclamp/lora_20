@@ -133,7 +133,7 @@ On resume, resolve the authoritative task state:
 | `NOT_STARTED` | continue design/execution |
 | `DESIGN_READY` / `DESIGN_LOCKED` | continue authoritative task |
 | `FAILED + RETRY_READY + ATTEMPT_COUNT < MAX_ATTEMPTS` | retry same task identity |
-| `FAILED + RECOVERY_REQUIRED` | STOP until explicit recovery direction |
+| `FAILED + TERMINAL_FAILED` | skip this IMAGE_ID and continue to the next pending task |
 | `UNKNOWN / RECOVERY_REQUIRED` | STOP; resolve UNKNOWN first |
 | `ABANDONED` | do not reuse; create legitimate replacement if batch still needs coverage |
 | `SUCCESS` | do not regenerate; advance to next valid task |
