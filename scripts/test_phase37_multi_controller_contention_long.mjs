@@ -5,7 +5,7 @@ import { JsonStateStore, ProductionWorkerRuntime, sha256 } from "./runtime/worke
 const root=fs.mkdtempSync(path.join(os.tmpdir(),"phase37-"));
 for(let i=1;i<=10;i++){
  const id="IMAGE-"+String(i).padStart(2,"0"), store=new JsonStateStore(path.join(root,id+".json"));
- const make=(workerId)=>new ProductionWorkerRuntime({store,workerId,visualAdherenceRequired:false,generator:{generate({prompt}){return {result:"SUCCESS",verification:"VERIFIED",output:{bytes:id,format:"png",promptHash:sha256(prompt)}}}}});
+ const make=(workerId)=>new ProductionWorkerRuntime({store,workerId,visualAdherenceRequired:false,generator:{generate({prompt,outputType}){return {result:"SUCCESS",verification:"VERIFIED",output:{bytes:id,format:outputType,promptHash:sha256(prompt)}}}}});
  const a=make("CONTROLLER-A-"+i), b=make("CONTROLLER-B-"+i);
  const req={batchId:"B37",taskId:id,mode:"AUTOMATED",module:"UNIVERSAL_WALLPAPER",productionType:"AUTOMATED",outputType:"DESKTOP_WALLPAPER",visualAdherenceRequired:false};
  a.request(req); b.request(req); a.claim();
