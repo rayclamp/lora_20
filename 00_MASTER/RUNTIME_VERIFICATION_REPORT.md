@@ -184,3 +184,13 @@ A live integration requires:
 5. a controlled end-to-end test with one image.
 
 Large-scale production is not the next gate. The first proof target is one real image through the already-verified Worker Runtime path.
+
+## Phase 11 — Live Provider Readiness Gate
+
+The repository now contains the canonical `00_MASTER/IMAGE_PROVIDER_REGISTRY.md`.
+
+The provider boundary is fail-closed: a provider must be explicitly registered, authorized, and then verified by a controlled real-generation test. Only `VERIFIED` is production-eligible. No provider fallback or silent ComfyUI/Make selection is permitted.
+
+Current provider state: `UNREGISTERED`.
+
+Therefore the system intentionally does not claim live image generation. The next executable gate is exactly one real-image E2E through the already-verified Worker Runtime and Image Provider Adapter.
