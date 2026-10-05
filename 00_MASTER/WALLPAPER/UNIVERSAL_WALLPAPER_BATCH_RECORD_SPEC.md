@@ -54,9 +54,16 @@ TARGET_COUNT:
 COMPLETED_COUNT:
 CURRENT_TASK_ID:
 SESSION_STATUS:
+TERMINATION_STATUS:
 STOP_REASON:
+STOP_EVIDENCE:
+STOP_EVIDENCE_SOURCE:
+STOP_EVIDENCE_STATUS:
 LAST_RESULT:
 CHECKPOINT:
+PROMPT_SET_STATUS:
+FAILED_COUNT:
+PENDING_COUNT:
 
 ## BATCH INPUT
 WALLPAPER_TYPE:
@@ -176,7 +183,22 @@ The user is not required to provide the Prompt. The Prompt is system-owned and m
 
 If the prompt changes after preview, update the record and show the new complete prompt again before generation.
 
-## 6A. Session count vs task output count
+## 6A. Batch design phase and Prompt Set Lock
+
+For automated multi-image Wallpaper production, the batch must complete the design phase before the first generation event.
+
+Required batch-level state:
+- `PROMPT_SET_STATUS: DESIGNING | VALIDATED | LOCKED`
+- `DESIGN_PHASE_COMPLETE: YES | NO`
+- `PROMPT_SET_LOCKED_AT:` when observable
+
+`PROMPT_SET_STATUS: LOCKED` means all planned IMAGE_ID tasks have validated designs and locked `FINAL_EXECUTABLE_PROMPT` artifacts. Generation must use those exact locked prompts.
+
+A failed generation never authorizes silent redesign. Any legitimate prompt revision requires revalidation and a new Prompt Set Lock before generation of that task.
+
+For `IMAGE_COUNT > 1`, the design pass must explicitly validate at minimum: CLOTHING/OUTFIT, HAIRSTYLE, ACCESSORIES, SHOES, SCENE/ENVIRONMENT, and POSE diversity.
+
+## 6B. Session count vs task output count
 
 `TARGET_COUNT` / `IMAGE_COUNT` is the number of wallpaper tasks required by the production session.
 
@@ -293,6 +315,8 @@ Do not reconstruct task state from conversation memory when the batch record exi
 
 ## 10. Failure/recovery contract
 
+For automated multi-image Wallpaper, the canonical behavior is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_AUTOMATED_BATCH_EXECUTION_SPEC.md`. A terminally failed image after the maximum attempts is skipped for execution purposes and the Worker proceeds to the next pending task. It is not counted as successful output.
+
 Failure and recovery behavior is defined by `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_FAILURE_RECOVERY_PROTOCOL.md`.
 
 A retry is another generation attempt of the same task and does not create a new `IMAGE_ID`.
@@ -301,14 +325,24 @@ Three consecutive FAILED attempts on one task require recovery and stop the sess
 
 ## 11. Batch completion
 
-When every task from IMAGE 01 through IMAGE <TARGET_COUNT> has confirmed SUCCESS:
+For automated multi-image Wallpaper, the batch is complete when every planned IMAGE_ID has a terminal coverage result:
+- `SUCCESS`, or
+- `FAILED` after `MAX_ATTEMPTS_PER_TASK` is exhausted.
 
-`SESSION_STATUS: COMPLETED`
-`STOP_REASON: COMPLETED`
+`PENDING_COUNT = 0` → `SESSION_STATUS: COMPLETED`.
 
-`COMPLETED_COUNT = TARGET_COUNT`
+`COMPLETED_COUNT` counts only successful images. `FAILED_COUNT` counts terminally failed images. Failed images do not satisfy the success target, but they are resolved and are not regenerated.
 
 No additional image may be silently added to the batch.
+
+## 11A. Quota pause and continuation
+
+When explicit platform evidence confirms quota/rate-limit/generation unavailability before the batch is complete:
+- `SESSION_STATUS: QUOTA_PAUSED`
+- `TERMINATION_STATUS: NON_TERMINAL`
+- preserve all prompt/design/task/attempt/checkpoint state.
+
+`/CONTINUE` must reread the Batch Record and continue from the first authoritative incomplete task. It must never reconstruct state from conversation memory. A terminal batch cannot be resumed.
 
 ## 12. Separation from platform runtime
 
