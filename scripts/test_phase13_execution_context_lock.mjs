@@ -38,10 +38,13 @@ const dir = fs.mkdtempSync(path.join(os.tmpdir(), "phase13-runtime-"));
 const store = new JsonStateStore(path.join(dir, "task.json"));
 let received = null;
 
+const visualEvaluator = { evaluate() { return { result: "VISUAL_DESIGN_ADHERENCE_PASS" }; } };
+
 const runtime = new ProductionWorkerRuntime({
   store,
   workerId: "PHASE13_WORKER",
   liveExecution: false,
+  visualEvaluator,
   generator: {
     generate(payload) {
       received = payload;
