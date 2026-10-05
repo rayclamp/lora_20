@@ -163,7 +163,7 @@ export class ProductionWorkerRuntime {
       result: "NOT_STARTED",
       recovery: "NONE",
       mode: input.mode ?? "AUTOMATED",
-      visualAdherenceRequired: input.visualAdherenceRequired ?? false,
+      visualAdherenceRequired: input.visualAdherenceRequired ?? (input.module === "UNIVERSAL_WALLPAPER" && input.mode === "AUTOMATED"),
       userRequest: input.userRequest ?? "NOT_PROVIDED",
       design: null,
       generationAuthorization: input.mode === "MANUAL" ? "WAITING_USER_CONFIRMATION" : "WAITING_AUTOMATION_EXECUTION",
