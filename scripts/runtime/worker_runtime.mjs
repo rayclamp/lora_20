@@ -453,6 +453,20 @@ export class ProductionWorkerRuntime {
               result.failureReason = "OUTPUT_ARTIFACT_RECORD_INVALID";
               next.result = "UNKNOWN";
             } else {
+              if (artifact.sourceSha256 && artifact.sourceSha256 !== artifact.sha256) {
+                result.result = "UNKNOWN";
+                result.verification = "NOT_OBSERVABLE";
+                result.failureReason = "OUTPUT_ARTIFACT_HASH_MISMATCH";
+                next.result = "UNKNOWN";
+              } else if (artifact.retrievalVerification === "NOT_FOUND") {
+                result.result = "UNKNOWN";
+                result.verification = "NOT_OBSERVABLE";
+                result.failureReason = "OUTPUT_ARTIFACT_NOT_RETRIEVABLE";
+                next.result = "UNKNOWN";
+              }
+              if (result.result !== "SUCCESS") {
+                // Preserve failure/uncertainty and skip terminal success.
+              } else {
               next.artifact = {
                 ...clone(artifact),
                 batchId: next.batchId,
@@ -462,6 +476,7 @@ export class ProductionWorkerRuntime {
                 promptHash: next.promptHash,
                 executionContextHash: next.executionContextHash
               };
+              }
               next.events.push({
                 type: "ARTIFACT_PERSISTED",
                 at: this.clock(),
