@@ -74,8 +74,9 @@ function makeController(outcome) {
   assert.equal(result.action, "RETRY_READY");
   assert.equal(controller.batchRecord.sessionStatus, "RECOVERY_REQUIRED");
   assert.deepEqual(calls, ["IMAGE-01"]);
-  assert.deepEqual(tasks.map(t => t.status), ["QUEUED", "QUEUED"]);
+  assert.deepEqual(tasks.map(t => t.status), ["FAILED", "QUEUED"]);
   assert.equal(controller.events.filter(e => e.type === "TASK_RESULT").length, 1);
+  assert.equal(tasks[0].recoveryStatus, "RETRY_READY");
 }
 
 // UNKNOWN must stop immediately and must never be silently retried.
