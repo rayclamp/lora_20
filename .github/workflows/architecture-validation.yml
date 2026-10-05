@@ -88,3 +88,5 @@ jobs:
         run: node scripts/test_phase15_universal_wallpaper_gate_binding.mjs
       - name: Run Runtime Verification Phase-16 automatic authoritative batch continuation
         run: node scripts/test_phase16_automatic_batch_continuation.mjs
+      - name: Run Runtime Verification Phase-17 automated production controller E2E
+        run: node scripts/test_phase17_automatic_production_controller_e2e.mjs
