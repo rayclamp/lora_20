@@ -151,6 +151,8 @@ export class ProductionWorkerRuntime {
       productionType: input.productionType,
       outputType: input.outputType,
       targetSuccessCount: input.targetSuccessCount ?? 1,
+      targetCount: input.targetCount ?? 1,
+      completedCount: input.completedCount ?? 0,
       maxAttempts: input.maxAttempts ?? 3,
       batchId: input.batchId,
       taskId: input.taskId,
@@ -383,6 +385,7 @@ export class ProductionWorkerRuntime {
       }
     }
     if (result.result === "SUCCESS") {
+      next.completedCount = (next.completedCount ?? 0) + 1;
       next.taskStatus = "SUCCESS";
       next.ownership = "TERMINAL";
       next.workerId = "NONE";
