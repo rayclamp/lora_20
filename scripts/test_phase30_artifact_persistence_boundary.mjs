@@ -39,7 +39,8 @@ function makeRuntime({ adapter, generator } = {}) {
       }
     },
     outputAdapter: adapter,
-    artifactPersistenceRequired: true
+    artifactPersistenceRequired: true,
+    visualAdherenceRequired: false
   });
   runtime.request({
     traceRunId: "RV-PHASE30-TRACE",
