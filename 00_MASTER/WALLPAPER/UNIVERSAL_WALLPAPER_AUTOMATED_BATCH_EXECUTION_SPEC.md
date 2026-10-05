@@ -6,7 +6,7 @@ This is the canonical execution extension for multi-image Universal Wallpaper au
 
 It defines the behavior agreed for Goal 2:
 
-USER REQUEST → DESIGN ALL IMAGES → LOCK PROMPT SET → RETURN ALL PROMPTS → GENERATE → CHECKPOINT → NEXT IMAGE
+USER REQUEST → DESIGN ALL IMAGES → LOCK PROMPT SET → MANDATORY PROMPT PRESENTATION GATE → GENERATE → CHECKPOINT → NEXT IMAGE
 
 This document applies only to automated multi-image Wallpaper production. It does not activate paused modules, define visual QA, or replace CORE safety rules.
 
@@ -20,8 +20,13 @@ For an automated batch with IMAGE_COUNT > 1:
 4. Validate series diversity before locking.
 5. Build and validate every task's FINAL_EXECUTABLE_PROMPT.
 6. Lock the complete Prompt Set.
-7. Return the complete Prompt Set to the user.
-8. Only then begin image generation.
+7. Enter the Mandatory Prompt Presentation Gate.
+8. Show the complete, exact locked Prompt Set to the user. This is mandatory in AUTOMATED mode; user confirmation is NOT required.
+9. Set PROMPT_PRESENTATION_STATUS: SHOWN only after the complete Prompt Set has actually been presented.
+10. Set GENERATION_GATE_STATUS: READY and CAN_GENERATE: YES only after the presentation gate passes.
+11. Only then begin image generation.
+
+Generation is forbidden while PROMPT_PRESENTATION_STATUS != SHOWN or CAN_GENERATE != YES. A Worker must not treat an internal audit, hidden prompt construction, or a state field as equivalent to actually showing the complete prompts to the user.
 
 The production Worker must not design IMAGE 02 only after IMAGE 01 has already generated when the batch design phase can be completed before execution.
 
@@ -281,7 +286,11 @@ DESIGN PHASE
 → validate diversity
 → build all prompts
 → PROMPT_SET_LOCK
-→ return all prompts
+→ MANDATORY PROMPT PRESENTATION GATE
+→ show the complete locked Prompt Set
+→ PROMPT_PRESENTATION_STATUS=SHOWN
+→ GENERATION_GATE_STATUS=READY
+→ CAN_GENERATE=YES
 
 PRODUCTION PHASE
 → IMAGE 01
@@ -322,6 +331,19 @@ this document supersedes those behaviors with:
 
 CORE hard constraints, Runtime State, Module activation, Reference Policy, and safety rules remain higher authority.
 
+
+## Prompt Presentation Gate and FAILED boundary
+
+The Prompt Presentation Gate is a hard pre-generation invariant for automated Wallpaper production.
+
+Required transition:
+PROMPT_SET_STATUS=LOCKED → PROMPT_PRESENTATION_STATUS=SHOWN → GENERATION_GATE_STATUS=READY → CAN_GENERATE=YES → GENERATION
+
+The gate is satisfied only when the complete FINAL_EXECUTABLE_PROMPT for every planned IMAGE_ID has been visibly presented to the user. Presenting only a summary, prompt status, hash, excerpt, or internal state is insufficient.
+
+Automated mode does not require user confirmation after presentation. The gate exists for prompt observability, reproducibility, and auditability.
+
+If the Worker cannot present the complete locked Prompt Set, it must remain blocked and must not invoke image generation. If the prompt changes, presentation is invalidated and the changed complete prompt must be shown again before generation.
 
 ## 16. Pause vs FAILED boundary
 
