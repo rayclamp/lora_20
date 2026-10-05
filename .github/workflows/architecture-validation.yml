@@ -126,3 +126,6 @@ jobs:
 
       - name: Run Runtime Verification Phase-33 artifact traceability
         run: node scripts/test_phase33_artifact_traceability.mjs
+
+      - name: Run Runtime Verification Phase-34 artifact crash restart recovery
+        run: node scripts/test_phase34_artifact_restart_recovery.mjs
