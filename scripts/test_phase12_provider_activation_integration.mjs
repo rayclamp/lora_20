@@ -20,6 +20,7 @@ const registration = {
   CREDENTIAL_SOURCE: "NOT_REQUIRED",
   SUPPORTED_OUTPUT_TYPES: ["DESKTOP_WALLPAPER"],
   RESULT_VERIFICATION_POLICY: "TEST_VERIFIED",
+  IDEMPOTENCY_SUPPORT: "REQUIRED_KEY",
   REGISTRATION_VERSION: "1"
 };
 
@@ -79,6 +80,8 @@ assert.equal(received.prompt, prompt);
 assert.equal(received.outputType, "DESKTOP_WALLPAPER");
 assert.equal(received.taskId, "PHASE12-TASK");
 assert.equal(received.traceRunId, "PHASE12-TRACE");
+assert.equal(typeof received.generationIdempotencyKey, "string");
+assert.equal(received.generationAttempt, 1);
 
 const blocked = new ProductionWorkerRuntime({
   store: new JsonStateStore(path.join(dir, "blocked.json")),
