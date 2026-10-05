@@ -256,3 +256,16 @@ Generation is forbidden when:
 The provider adapter receives the exact locked execution context. If provider telemetry is exposed, the runtime records VERIFIED or MISMATCH; otherwise it records NOT_OBSERVABLE.
 
 Prompt integrity and execution-context integrity are separate controls. Neither one proves visual adherence.
+## Visual Design Adherence Gate
+
+Generation success does not mean task success. After technical output validation, image-production tasks that require design compliance must pass a separate Visual Design Adherence Evaluator.
+
+The evaluator compares the generated artifact against the locked Design Record for applicable fields such as outfit, hairstyle, action, pose, scene, viewpoint, shot size, and required major props. Only an explicit VISUAL_DESIGN_ADHERENCE_PASS satisfies this gate.
+
+The evaluator may return VISUAL_DESIGN_NONCOMPLIANCE or VISUAL_DESIGN_UNKNOWN. Noncompliance enters bounded task recovery. Unknown requires recovery/review and must not be converted to PASS.
+
+The Worker must not self-declare visual adherence. The evaluator is an adapter boundary and must not create a second Worker Runtime, Dispatch system, or task queue.
+
+TASK_SUCCESS therefore requires GENERATION_SUCCESS + TECHNICAL_OUTPUT_VALIDATION_PASS + VISUAL_DESIGN_ADHERENCE_PASS.
+
+Visual adherence is distinct from downstream LoRA QA and from Prompt/Execution-Context integrity.
