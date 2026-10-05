@@ -7,6 +7,12 @@
 - Generation safety: 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md
 - Core rules: 00_MASTER/CORE_RULES.md
 - Generation rules: 00_MASTER/GENERATION_RULES.md
+- Production record schema: 00_MASTER/PRODUCTION_RECORD_SCHEMA.md
+
+## Production Records
+- Root: PRODUCTION_RECORDS/
+- Canonical automated batch path: PRODUCTION_RECORDS/<PRODUCTION_TYPE>/<SESSION_ID>/<BATCH_ID>/
+- Standard records: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md, EXECUTION_LOG.md
 
 ## Wallpaper
 - Anime: 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
