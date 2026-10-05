@@ -391,6 +391,7 @@ export class ProductionWorkerRuntime {
     }
     next.failureReason = result.failureReason ?? "NONE";
     next.lastFailureReason = result.failureReason ?? "NONE";
+    next.providerError = result.providerError ?? "NONE";
     next.events.push({ type: "GENERATION_RESULT", at: this.clock(), result: result.result, verification: result.verification, failureReason: result.failureReason ?? "NONE", executionContextVerification: next.executionContextVerification });
 
     if (result.result === "SUCCESS" && next.visualAdherenceRequired) {
