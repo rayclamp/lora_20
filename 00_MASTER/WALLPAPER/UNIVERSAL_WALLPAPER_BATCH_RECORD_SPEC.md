@@ -129,6 +129,10 @@ WALLPAPER_OUTFIT_MODE:
 DIVERSITY_ROLE:
 DIVERSITY_VALIDATION_STATUS:
 FINAL_EXECUTABLE_PROMPT:
+PROMPT_PERSISTENCE_STATUS:
+PROMPT_PERSISTENCE_VERIFICATION:
+PROMPT_PERSISTED_AT:
+PROMPT_ARTIFACT_ID:
 NEGATIVE_STABILITY_PROMPT:
 PROMPT_PREVIEW_STATUS:
 PROMPT_PRESENTATION_STATUS:
@@ -193,11 +197,19 @@ For AUTOMATED mode, the Prompt Preview is also a mandatory external presentation
 - `GENERATION_GATE_STATUS: BLOCKED | READY`
 - `CAN_GENERATE: YES | NO`
 
-The stored `FINAL_EXECUTABLE_PROMPT` must be the same system-generated prompt shown to the user and used for generation.
+The stored `FINAL_EXECUTABLE_PROMPT` must be the complete, exact system-generated prompt shown to the user and intended for generation. It is a persistent artifact, not a pointer to conversation history.
+
+`PROMPT_PERSISTENCE_STATUS` values: `NOT_PERSISTED | PERSISTED | FAILED`.
+`PROMPT_PERSISTENCE_VERIFICATION` values: `VERIFIED | NOT_VERIFIABLE | FAILED`.
+`PROMPT_ARTIFACT_ID` identifies the persisted prompt artifact when available; it never substitutes for storing the full prompt text.
+
+The following are NOT valid persisted prompt artifacts: `LOCKED_AND_PRESENTED`, `exact text shown above`, `see previous message`, conversation-memory references, summaries, excerpts, or hash-only values.
+
+A task cannot become generation-ready unless the complete prompt text is present and `PROMPT_PERSISTENCE_STATUS=PERSISTED` with `PROMPT_PERSISTENCE_VERIFICATION=VERIFIED`.
 
 `PROMPT_PRESENTATION_STATUS: SHOWN` is valid only after the complete `FINAL_EXECUTABLE_PROMPT` for every planned IMAGE_ID has actually been presented to the user. A hidden/internal prompt, summary, excerpt, hash, or self-reported state does not satisfy the gate.
 
-For AUTOMATED mode, user confirmation is not required. However, generation is forbidden until: `PROMPT_SET_STATUS=LOCKED` + `PROMPT_PRESENTATION_STATUS=SHOWN` + `GENERATION_GATE_STATUS=READY` + `CAN_GENERATE=YES`.
+For AUTOMATED mode, user confirmation is not required. However, generation is forbidden until: `PROMPT_SET_STATUS=LOCKED` + every planned task has a complete persisted `FINAL_EXECUTABLE_PROMPT` + `PROMPT_PERSISTENCE_STATUS=PERSISTED` + `PROMPT_PERSISTENCE_VERIFICATION=VERIFIED` + `PROMPT_PRESENTATION_STATUS=SHOWN` + `GENERATION_GATE_STATUS=READY` + `CAN_GENERATE=YES`.
 
 If any prerequisite is missing, `CAN_GENERATE` MUST remain `NO` and no generation event may be invoked.
 
@@ -228,7 +240,7 @@ For every automated Universal Wallpaper batch, Prompt Presentation is a hard gen
 
 Required lifecycle:
 
-DESIGNING → VALIDATED → LOCKED → PROMPT_PRESENTATION_STATUS: SHOWN → GENERATION_GATE_STATUS: READY → CAN_GENERATE: YES → GENERATING
+DESIGNING → VALIDATED → LOCKED → PROMPT_PERSISTENCE: VERIFIED → PROMPT_PRESENTATION_STATUS: SHOWN → GENERATION_GATE_STATUS: READY → CAN_GENERATE: YES → GENERATING
 
 The Worker MUST present the complete locked FINAL_EXECUTABLE_PROMPT for every planned IMAGE_ID before the first generation event of the batch.
 
@@ -342,6 +354,10 @@ For UNKNOWN:
 Never advance to the next task before the current task has a recorded terminal result.
 
 ## 9. Resume rule
+
+On RESUME or `/CONTINUE`, reread the batch record and restore the authoritative task state. The Worker MUST recover the complete persisted `FINAL_EXECUTABLE_PROMPT` from the batch record before generation. Conversation memory MUST NOT be used to reconstruct a missing prompt.
+
+If `FINAL_EXECUTABLE_PROMPT` is missing, placeholder-only, truncated, or cannot be read back as the complete artifact, set `LOCKED_PROMPT_IDENTITY: UNKNOWN`, `GENERATION_GATE_STATUS: BLOCKED`, `CAN_GENERATE: NO`, `RECOVERY_STATUS: RECOVERY_REQUIRED`, preserve the attempt counter, and stop. Do not redesign or regenerate.
 
 On RESUME, reread the batch record.
 
