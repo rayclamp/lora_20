@@ -71,7 +71,8 @@ function makeRuntime({ adapter, generator } = {}) {
           artifact: {
             artifactId: "ARTIFACT-01",
             uri: "storage://RV-PHASE30-BATCH/IMAGE-01.png",
-            sha256: sha256("mock-image")
+            sha256: sha256("mock-image"),
+            retrievalVerification: "VERIFIED"
           }
         };
       }
