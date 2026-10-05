@@ -404,6 +404,8 @@ export class ProductionWorkerRuntime {
       next.ownership = "TERMINAL";
       next.workerId = "NONE";
       next.claimId = "NONE";
+      next.claimAcquiredAt = null;
+      next.leaseUntil = null;
       next.recovery = "TERMINAL_SUCCESS";
       next.consecutiveFailures = 0;
     } else if (result.result === "UNKNOWN") {
@@ -411,6 +413,8 @@ export class ProductionWorkerRuntime {
       next.ownership = "RELEASED";
       next.workerId = "NONE";
       next.claimId = "NONE";
+      next.claimAcquiredAt = null;
+      next.leaseUntil = null;
       next.recovery = "RECOVERY_REQUIRED";
     } else {
       next.taskStatus = next.attemptCount >= next.maxAttempts ? "FAILED / RECOVERY_REQUIRED" : "FAILED";
@@ -419,6 +423,8 @@ export class ProductionWorkerRuntime {
       next.ownership = "RELEASED";
       next.workerId = "NONE";
       next.claimId = "NONE";
+      next.claimAcquiredAt = null;
+      next.leaseUntil = null;
     }
     next.version++;
     next.checkpointVersion++;
