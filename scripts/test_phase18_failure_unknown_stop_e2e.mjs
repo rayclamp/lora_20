@@ -1,0 +1,87 @@
+#!/usr/bin/env node
+
+import assert from "node:assert/strict";
+import { AutomaticProductionController } from "./runtime/automatic_production_controller.mjs";
+
+function makeController(outcome) {
+  const tasks = [
+    { taskId: "IMAGE-01", status: "QUEUED" },
+    { taskId: "IMAGE-02", status: "QUEUED" }
+  ];
+  const calls = [];
+  const controller = new AutomaticProductionController({
+    batchRecord: {
+      batchId: "RV-PHASE18-BATCH",
+      automationRunId: "RV-PHASE18-AUTO",
+      module: "UNIVERSAL_WALLPAPER",
+      productionType: "AUTOMATED",
+      outputType: "DESKTOP_WALLPAPER",
+      targetCount: 2,
+      completedCount: 0,
+      currentTaskId: "NONE",
+      checkpointVersion: 0,
+      sessionStatus: "ACTIVE"
+    },
+    taskResolver: batch => tasks.find(t => t.status === "QUEUED") ?? null,
+    taskDesignContext: () => ({
+      theme: "TRAVEL",
+      sceneIntent: {
+        status: "EXPLICIT",
+        fields: {
+          ACTIVITY: "TRAVEL", LOCATION: "CITY_STREET", ACTION: "WALKING",
+          TIME: "DAY", WEATHER: "CLEAR", SOCIAL_CONTEXT: "ALONE",
+          ENVIRONMENTAL_CUES: "URBAN_SCENERY"
+        }
+      }
+    }),
+    userRequest: "Create a travel wallpaper.",
+    runtimeFactory: task => {
+      calls.push(task.taskId);
+      return {
+        request() {},
+        claim() {},
+        designFromRequest() {},
+        authorizeAutomatedGeneration() {},
+        execute() {
+          if (outcome === "UNKNOWN") return { result: "UNKNOWN", taskStatus: "UNKNOWN / RECOVERY_REQUIRED" };
+          return { result: "FAILED", taskStatus: "FAILED", recovery: "RETRY_READY" };
+        }
+      };
+    }
+  });
+  return { controller, tasks, calls };
+}
+
+// FAILED must stop the batch and must never dispatch IMAGE-02.
+{
+  const { controller, tasks, calls } = makeController("FAILED");
+  const result = controller.start();
+  assert.equal(result.action, "RECOVERY_REQUIRED");
+  assert.equal(controller.batchRecord.sessionStatus, "RECOVERY_REQUIRED");
+  assert.deepEqual(calls, ["IMAGE-01"]);
+  assert.deepEqual(tasks.map(t => t.status), ["QUEUED", "QUEUED"]);
+  assert.equal(controller.events.filter(e => e.type === "TASK_RESULT").length, 1);
+}
+
+// UNKNOWN must stop immediately and must never be silently retried.
+{
+  const { controller, calls } = makeController("UNKNOWN");
+  const result = controller.start();
+  assert.equal(result.action, "RECOVERY_REQUIRED");
+  assert.equal(controller.batchRecord.sessionStatus, "RECOVERY_REQUIRED");
+  assert.deepEqual(calls, ["IMAGE-01"]);
+  assert.equal(controller.events.at(-1).reason, "RECOVERY_REQUIRED");
+}
+
+// A terminally stopped/inactive batch cannot restart.
+{
+  const { controller } = makeController("FAILED");
+  controller.batchRecord.sessionStatus = "STOPPED";
+  controller.batchRecord.terminationStatus = "TERMINAL";
+  assert.throws(() => controller.start(), /BATCH_NOT_ACTIVE/);
+}
+
+console.log("Runtime Verification Phase-18 failure/UNKNOWN/STOP safety: PASS");
+console.log("PASS FAILED never auto-advances to the next task");
+console.log("PASS UNKNOWN never auto-retries or advances");
+console.log("PASS terminal STOPPED batch cannot restart");
