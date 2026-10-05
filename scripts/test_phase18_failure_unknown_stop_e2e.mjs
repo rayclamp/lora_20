@@ -73,12 +73,15 @@ function makeController(outcome) {
   assert.equal(controller.events.at(-1).reason, "RECOVERY_REQUIRED");
 }
 
-// A terminally stopped/inactive batch cannot restart.
+// Explicit STOP is terminal and cannot be resurrected by another start.
 {
-  const { controller } = makeController("FAILED");
-  controller.batchRecord.sessionStatus = "STOPPED";
-  controller.batchRecord.terminationStatus = "TERMINAL";
+  const { controller, calls } = makeController("FAILED");
+  const stopped = controller.stop("USER_STOP");
+  assert.equal(stopped.action, "STOPPED");
+  assert.equal(controller.batchRecord.sessionStatus, "STOPPED");
+  assert.equal(controller.batchRecord.terminationStatus, "TERMINAL");
   assert.throws(() => controller.start(), /BATCH_NOT_ACTIVE/);
+  assert.deepEqual(calls, []);
 }
 
 console.log("Runtime Verification Phase-18 failure/UNKNOWN/STOP safety: PASS");
