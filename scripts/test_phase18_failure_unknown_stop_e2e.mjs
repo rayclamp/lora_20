@@ -59,7 +59,7 @@ function makeController(outcome) {
         authorizeAutomatedGeneration() {},
         execute() {
           if (outcome === "UNKNOWN") return { result: "UNKNOWN", taskStatus: "UNKNOWN / RECOVERY_REQUIRED" };
-          return { result: "FAILED", taskStatus: "FAILED", recovery: "RETRY_READY" };
+          return { result: "FAILED", taskStatus: "FAILED", recovery: "RETRY_READY", attemptCount: 1, maxAttempts: 3, consecutiveFailures: 1, failureReason: "TEST_FAILURE" };
         }
       };
     }
