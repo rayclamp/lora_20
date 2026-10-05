@@ -10,6 +10,7 @@ export const PROVIDER_REQUIRED_FIELDS = [
   "CREDENTIAL_SOURCE",
   "SUPPORTED_OUTPUT_TYPES",
   "RESULT_VERIFICATION_POLICY",
+  "IDEMPOTENCY_SUPPORT",
   "REGISTRATION_VERSION"
 ];
 
@@ -30,6 +31,9 @@ export function assertProductionProviderEligible(registration) {
   }
   if (!Array.isArray(registration.SUPPORTED_OUTPUT_TYPES) || registration.SUPPORTED_OUTPUT_TYPES.length === 0) {
     throw new Error("PROVIDER_OUTPUT_TYPES_REQUIRED");
+  }
+  if (registration.IDEMPOTENCY_SUPPORT !== "REQUIRED_KEY") {
+    throw new Error("PROVIDER_IDEMPOTENCY_SUPPORT_REQUIRED");
   }
   return true;
 }
