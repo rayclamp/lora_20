@@ -336,16 +336,27 @@ export class ProductionWorkerRuntime {
     next.events.push({ type: "GENERATION_EXECUTION", at: this.clock(), attempt: next.attemptCount + 1, claimId });
     const generationAttempt = next.attemptCount + 1;
     const generationIdempotencyKey = sha256(`${next.batchId}:${next.taskId}:${generationAttempt}`);
-    const result = this.generator.generate({
-      prompt: next.lockedPrompt,
-      outputType: next.outputType,
-      taskId: next.taskId,
-      traceRunId: next.traceRunId,
-      executionContext: next.executionContext,
-      executionContextHash: next.executionContextHash,
-      generationAttempt,
-      generationIdempotencyKey
-    });
+    let result;
+    try {
+      result = this.generator.generate({
+        prompt: next.lockedPrompt,
+        outputType: next.outputType,
+        taskId: next.taskId,
+        traceRunId: next.traceRunId,
+        executionContext: next.executionContext,
+        executionContextHash: next.executionContextHash,
+        generationAttempt,
+        generationIdempotencyKey
+      });
+    } catch (error) {
+      result = {
+        result: "UNKNOWN",
+        verification: "NOT_OBSERVABLE",
+        failureReason: "PROVIDER_TRANSPORT_UNCERTAIN",
+        providerError: error instanceof Error ? error.message : String(error),
+        output: null
+      };
+    }
     next.attemptCount++;
     next.generationIdempotencyKey = generationIdempotencyKey;
     next.result = result.result;
