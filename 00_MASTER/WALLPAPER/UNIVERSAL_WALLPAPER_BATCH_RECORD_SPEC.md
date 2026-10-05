@@ -494,3 +494,22 @@ Resume eligibility invariant:
 RESUME_ELIGIBLE = session/recovery rules allow + TERMINATION_STATUS != TERMINAL
 
 A terminal batch has permanently lost execution eligibility even though its record remains readable.
+
+
+## 20. Automatic continuation record invariant
+
+For `PRODUCTION_TYPE: AUTOMATED`, after a task reaches terminal `SUCCESS`:
+
+`CHECKPOINT → RESOLVE_NEXT_AUTHORITATIVE_TASK`
+
+is mandatory when `COMPLETED_COUNT < TARGET_COUNT`.
+
+The next task must be selected from the authoritative Batch Record. The continuation event should preserve:
+- `COMPLETED_TASK_ID`;
+- `NEXT_TASK_ID` or `BATCH_COMPLETE`;
+- `BATCH_ID`;
+- `CONTINUATION_SOURCE: AUTHORITATIVE_BATCH_RECORD`.
+
+The continuation mechanism must not create a second queue, infer the next task from chat history, or silently create a replacement task identity.
+
+If the authoritative Batch Record cannot resolve the next task, the batch enters an explicit recovery/error state rather than silently idling.
