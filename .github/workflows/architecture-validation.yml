@@ -112,3 +112,5 @@ jobs:
         run: node scripts/test_phase27_restart_recovery_semantics.mjs
       - name: Run Runtime Verification Phase-28 generation idempotency boundary
         run: node scripts/test_phase28_generation_idempotency_boundary.mjs
+      - name: Run Runtime Verification Phase-29 provider transport uncertainty
+        run: node scripts/test_phase29_provider_transport_uncertainty.mjs
