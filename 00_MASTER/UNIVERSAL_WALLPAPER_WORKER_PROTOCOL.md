@@ -89,6 +89,12 @@ If a person reference is required by the Session Contract but is missing, unread
 
 ## 5. GitHub authority and routing
 
+### 5.0 Fresh-Worker repository bootstrap
+
+Before reading any production rule, a fresh Worker MUST resolve the Canonical Repository using `START_HERE.md` bootstrap semantics. If the repository name is not already known, enumerate repositories accessible to the current GitHub connection, inspect candidate root bootstrap/readme metadata, and select exactly one repository containing the INARIA AI STUDIO bootstrap identity and `00_MASTER/CANONICAL_PATH_REGISTRY.md`. Zero matches or multiple matches are `CANONICAL_REPOSITORY_NOT_RESOLVED` / `CANONICAL_REPOSITORY_AMBIGUOUS` and require STOP → CHECKPOINT. Do not ask the user for a repository URL merely because the repository name was not initially known when repository discovery is available.
+
+After repository resolution, record `repository_full_name` and default branch in runtime state, then resolve all canonical paths inside that repository. Do not search historical or alternate repositories.
+
 Before designing or generating, read the latest applicable:
 1. `START_HERE.md`
 2. `00_MASTER/MODULE_REGISTRY.md`
