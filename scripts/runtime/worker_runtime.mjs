@@ -126,13 +126,15 @@ function buildExecutionContext(state, context = {}) {
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 export class ProductionWorkerRuntime {
-  constructor({ store, generator, designer = null, visualEvaluator = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null }) {
+  constructor({ store, generator, designer = null, visualEvaluator = null, clock = () => Date.now(), workerId = "RUNTIME_WORKER", contextResolver = null, liveExecution = false, providerRegistration = null, continuationResolver = null, dispatchNextTask = null }) {
     this.store = store;
     this.generator = generator;
     this.designer = designer;
     this.visualEvaluator = visualEvaluator;
     this.liveExecution = liveExecution;
     this.providerRegistration = providerRegistration;
+    this.continuationResolver = continuationResolver;
+    this.dispatchNextTask = dispatchNextTask;
     this.clock = clock;
     this.workerId = workerId;
     this.contextResolver = contextResolver;
@@ -409,6 +411,13 @@ export class ProductionWorkerRuntime {
       this.store.compareAndSwap(expectedSha, next, "runtime: execution checkpoint");
     } else {
       this.store.write(next);
+    }
+    if (next.taskStatus === "SUCCESS" && next.mode === "AUTOMATED" && next.completedCount !== undefined && next.targetCount !== undefined && next.completedCount < next.targetCount) {
+      if (typeof this.continuationResolver !== "function" || typeof this.dispatchNextTask !== "function") {
+        throw new Error("AUTOMATIC_CONTINUATION_HANDLER_REQUIRED");
+      }
+      const continuation = this.continueAfterSuccess({ resolveNextTask: this.continuationResolver });
+      if (continuation.action === "DISPATCH_NEXT_TASK") this.dispatchNextTask(continuation.nextTask, continuation);
     }
     return clone(next);
   }
