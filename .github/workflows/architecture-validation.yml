@@ -102,3 +102,5 @@ jobs:
         run: node scripts/test_phase22_full_production_runtime_e2e.mjs
       - name: Run Runtime Verification Phase-23 GitHub-authoritative runtime integration
         run: node scripts/test_phase23_github_authoritative_runtime_integration.mjs
+      - name: Run Runtime Verification Phase-24 controller authority and restart E2E
+        run: node scripts/test_phase24_controller_authority_restart_e2e.mjs
