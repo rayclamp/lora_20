@@ -50,7 +50,9 @@ export class AutomaticProductionController {
       throw new Error("BATCH_NOT_ACTIVE");
     }
     this.events.push({ type: "AUTOMATED_BATCH_STARTED", at: this.clock(), batchId: this.batchRecord.batchId });
-    this.checkpointBatch("production: batch started");
+    // ACTIVE is already authoritative batch state. Do not write a redundant start checkpoint:
+    // another controller may concurrently own the task, and an unnecessary write would rotate
+    // the Batch Record SHA and fence the legitimate controller mid-execution.
     return this.dispatchNext();
   }
 
