@@ -75,7 +75,7 @@ function makeController({ outputAdapter }) {
         return {
           result: "SUCCESS",
           verification: "VERIFIED",
-          artifact: { artifactId: "A31", uri: "storage://A31", sha256: "artifact-hash" }
+          artifact: { artifactId: "A31", uri: "storage://A31", sha256: "artifact-hash", retrievalVerification: "VERIFIED" }
         };
       }
     }
