@@ -66,6 +66,59 @@ export class AutomaticProductionController {
     return { action: "STOPPED", reason };
   }
 
+  reconcilePersistedTaskState(task, runtime) {
+    if (!runtime?.store || typeof runtime.store.read !== "function") return null;
+    const snapshot = runtime.store.read();
+    if (!snapshot) return null;
+    const state = snapshot.state ?? snapshot;
+    if (state.batchId !== this.batchRecord.batchId || state.taskId !== task.taskId) {
+      throw new Error("TASK_IDENTITY_CONFLICT");
+    }
+
+    if (state.taskStatus === "SUCCESS") {
+      if (task.status === "SUCCESS") return { action: "ALREADY_RECONCILED" };
+      task.status = "SUCCESS";
+      task.recoveryStatus = "NONE";
+      task.attemptCount = state.attemptCount ?? task.attemptCount ?? 0;
+      task.consecutiveFailures = 0;
+      task.lastFailureReason = "NONE";
+      this.batchRecord.completedCount++;
+      this.batchRecord.currentTaskId = task.taskId;
+      this.batchRecord.checkpointVersion++;
+      if (this.batchRecord.completedCount >= this.batchRecord.targetCount) {
+        this.batchRecord.sessionStatus = "COMPLETED";
+        this.batchRecord.stopReason = "NONE";
+      }
+      this.checkpointBatch("production: reconcile persisted task success");
+      return { action: this.batchRecord.sessionStatus === "COMPLETED" ? "BATCH_COMPLETE" : "TASK_RECONCILED" };
+    }
+
+    if (state.taskStatus === "FAILED" && state.recovery === "RETRY_READY") {
+      task.status = "FAILED";
+      task.recoveryStatus = "RETRY_READY";
+      task.attemptCount = state.attemptCount ?? task.attemptCount ?? 0;
+      task.consecutiveFailures = state.consecutiveFailures ?? task.consecutiveFailures ?? 0;
+      task.lastFailureReason = state.lastFailureReason ?? state.failureReason ?? "GENERATION_FAILED";
+      this.batchRecord.sessionStatus = "RECOVERY_REQUIRED";
+      this.batchRecord.stopReason = "RETRY_READY";
+      this.batchRecord.currentTaskId = task.taskId;
+      this.checkpointBatch("production: reconcile persisted retry state");
+      return { action: "RETRY_READY" };
+    }
+
+    if (String(state.taskStatus).startsWith("UNKNOWN")) {
+      this.batchRecord.sessionStatus = "STOPPED";
+      this.batchRecord.stopReason = "UNKNOWN_RECOVERY_REQUIRED";
+      this.batchRecord.terminationStatus = "TERMINAL";
+      task.status = "UNKNOWN";
+      task.recoveryStatus = "RECOVERY_REQUIRED";
+      this.checkpointBatch("production: reconcile persisted unknown state");
+      return { action: "RECOVERY_REQUIRED" };
+    }
+
+    return null;
+  }
+
   dispatchNext() {
     this.loadAuthoritativeBatch();
     if (this.batchRecord.completedCount >= this.batchRecord.targetCount) {
@@ -87,6 +140,16 @@ export class AutomaticProductionController {
     const existingRuntime = this.runtimeByTask.get(task.taskId);
     const runtime = existingRuntime ?? this.runtimeFactory(task);
     this.runtimeByTask.set(task.taskId, runtime);
+
+    const reconciled = this.reconcilePersistedTaskState(task, runtime);
+    if (reconciled) {
+      if (reconciled.action === "BATCH_COMPLETE") {
+        this.events.push({ type: "SESSION_TERMINATED", reason: "COMPLETED", at: this.clock() });
+        return { action: "BATCH_COMPLETE" };
+      }
+      return reconciled;
+    }
+
     if (!existingRuntime) {
       try {
         runtime.request({
