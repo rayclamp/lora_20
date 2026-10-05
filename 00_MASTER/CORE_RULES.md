@@ -85,6 +85,23 @@ The distinction is:
 
 **GitHub stores information; the Worker/runtime performs actions.**
 
+
+## 0.6 SESSION ACCESS POLICY — NON-NEGOTIABLE
+
+Session access is controlled by User authorization through the active ChatGPT context, not by GitHub and not by the mere existence or knowledge of a SESSION_ID.
+
+1. ChatGPT MUST create a new SESSION_ID when starting a new production session.
+2. By default, a ChatGPT context may read and operate only the Session it created in that context.
+3. A new ChatGPT context MUST NOT automatically discover, inspect, resume, stop, continue, or otherwise operate another Session merely because its records exist in GitHub.
+4. Cross-Session access is permitted when the User explicitly identifies and authorizes the target SESSION_ID. After such authorization, ChatGPT may read and operate that specified Session according to the user's command and the production protocols.
+5. A SESSION_ID is an identifier, not an access credential or permission token. Knowing an ID alone does not grant authority.
+6. GitHub does not grant, deny, or independently enforce Session access. It only stores the Session's records.
+7. Commands such as /STOP SESSION_ID or /RESUME SESSION_ID are User commands to ChatGPT. GitHub records the resulting state; it does not execute the command.
+
+Canonical Session Access Rule:
+
+> Default = current Session only. Explicit User authorization = permitted access to the specified Session. SESSION_ID alone = no authority.
+
 ## 1. Core Rules
 
 1. CORE hard rules cannot be weakened by a module.
