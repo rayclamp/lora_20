@@ -194,3 +194,27 @@ The provider boundary is fail-closed: a provider must be explicitly registered, 
 Current provider state: `UNREGISTERED`.
 
 Therefore the system intentionally does not claim live image generation. The next executable gate is exactly one real-image E2E through the already-verified Worker Runtime and Image Provider Adapter.
+
+
+## Phase 12 — Provider Activation Enforcement
+
+Phase 12 adds an executable fail-closed provider activation boundary without selecting a real provider.
+
+Implemented:
+- `scripts/runtime/provider_registry_gate.mjs`
+- `scripts/test_phase12_provider_activation_gate.mjs`
+- `scripts/test_phase12_provider_activation_integration.mjs`
+- Worker Runtime forwarding of `taskId` and `traceRunId` to the provider boundary
+- CI execution of both Phase-12 probes
+- `00_MASTER/RUNTIME_VERIFICATION_PHASE12.md`
+
+Phase 12 verifies:
+1. only a complete `STATUS: VERIFIED` provider registration can pass the production gate;
+2. `UNREGISTERED`, `REGISTERED`, `AUTHORIZED`, and `BLOCKED` states are fail-closed;
+3. the exact locked Prompt reaches the provider boundary;
+4. task and trace identity reach the provider boundary;
+5. a non-VERIFIED provider is rejected before transport invocation.
+
+Current provider state remains `UNREGISTERED`.
+
+Phase 12 does not activate a real provider or claim live image generation.
