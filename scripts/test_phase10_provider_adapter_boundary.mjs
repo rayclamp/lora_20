@@ -36,6 +36,8 @@ const result = adapter.generate({
 
 assert.equal(received.prompt, prompt);
 assert.equal(received.promptHash, sha256(prompt));
+assert.equal(received.taskId, "IMAGE-01");
+assert.equal(received.traceRunId, "RV-PHASE10");
 assert.equal(result.executedPromptHash, sha256(prompt));
 assert.equal(result.output.promptHash, sha256(prompt));
 assert.equal(result.output.format, "DESKTOP_WALLPAPER");
