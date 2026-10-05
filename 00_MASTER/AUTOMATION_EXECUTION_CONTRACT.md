@@ -143,3 +143,26 @@ External automation services are optional integration adapters outside this cont
 They are not required for System Automation, do not define its runtime semantics, and do not own production authority.
 
 No external provider-specific knowledge belongs in the System Automation execution path.
+
+## Batch State Authority
+
+The Automatic Production Controller is an orchestration entry component, not a persistent state authority.
+
+For every automated batch:
+- the canonical Batch Record is authoritative;
+- controller state is only a working snapshot;
+- every batch transition that affects resume, completion, recovery, or termination must be persisted through the canonical batch-record store using CAS;
+- a controller restart must reload the authoritative Batch Record before making a transition;
+- a controller must not infer current batch state from conversational memory or stale in-memory objects;
+- stale controller snapshots must be rejected by CAS rather than overwriting a newer Batch Record.
+
+A controller may retain an in-memory runtime map as an optimization, but loss of that map must not make an authoritative retry unrecoverable. The controller must be able to rehydrate the Worker Runtime from the canonical task state.
+
+Therefore:
+
+`CONTROLLER MEMORY ≠ AUTHORITY`
+
+`GITHUB BATCH RECORD = BATCH AUTHORITY`
+
+`GITHUB TASK STATE = TASK EXECUTION AUTHORITY`
+
