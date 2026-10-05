@@ -28,6 +28,14 @@ export class AutomaticProductionController {
     return this.dispatchNext();
   }
 
+  stop(reason = "USER_STOP") {
+    this.batchRecord.sessionStatus = "STOPPED";
+    this.batchRecord.stopReason = reason;
+    this.batchRecord.terminationStatus = "TERMINAL";
+    this.events.push({ type: "SESSION_TERMINATED", reason, at: this.clock() });
+    return { action: "STOPPED", reason };
+  }
+
   dispatchNext() {
     if (this.batchRecord.completedCount >= this.batchRecord.targetCount) {
       this.batchRecord.sessionStatus = "COMPLETED";
