@@ -166,3 +166,13 @@ Therefore:
 
 `GITHUB TASK STATE = TASK EXECUTION AUTHORITY`
 
+
+## Design freshness and Prompt visibility
+
+Automated Wallpaper execution MUST carry authoritative prior-design context for multi-task sessions. The Worker must reject exact Prompt reuse and enforce any module-declared variation fields before generation. The controller must not rely on conversational history to determine whether a new design is genuinely new.
+
+Automated execution does not require interactive user confirmation. However, when user-visible Prompt Preview is enabled for the active integration, the controller MUST deliver the exact locked Prompt to the preview sink before automation authorization and generation. The preview sink is a visibility boundary, not a confirmation gate.
+
+Required order:
+
+DESIGN → DESIGN_FRESHNESS_GATE → PROMPT_LOCK → USER_VISIBLE_PROMPT_PREVIEW (when enabled) → AUTOMATION_EXECUTION_AUTHORIZED → GENERATION
