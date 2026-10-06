@@ -7,6 +7,7 @@
 - Generation safety: 00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md
 - Core rules: 00_MASTER/CORE_RULES.md
 - Generation rules: 00_MASTER/GENERATION_RULES.md
+- Generation worker protocol: 00_MASTER/GENERATION_WORKER_PROTOCOL.md
 - Production record schema: 00_MASTER/PRODUCTION_RECORD_SCHEMA.md
 
 ## Production Records
