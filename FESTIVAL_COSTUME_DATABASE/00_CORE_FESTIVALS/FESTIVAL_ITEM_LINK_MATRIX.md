@@ -63,4 +63,4 @@ Traditional items should be preferred. Modern items are supplemental and should 
 
 ## COVERAGE STATUS
 
-The accessory, shoe, and headwear catalogs form an expanded candidate pool. The matrix itself does not store per-item source citations, and catalog inclusion is not proof of cultural verification. Treat an item as verified only when its item record contains explicit SOURCE_REFERENCES and VERIFICATION_STATUS: VERIFIED. This pool is not an exhaustive representation of every local/regional variant.
+The accessory, shoe, and headwear catalogs form an expanded candidate pool. The matrix itself does not store per-item source citations, and catalog inclusion is not proof of cultural verification. Treat an item as verified only when its catalog row and matching complete item record both contain explicit SOURCE_REFERENCES and VERIFICATION_STATUS: VERIFIED, and all required item-record fields have been reviewed. Current catalog rows are candidate summaries; `UNVERIFIED` / `NOT_RECORDED` means the item must not be treated as culturally verified for production. This pool is not an exhaustive representation of every local/regional variant.
