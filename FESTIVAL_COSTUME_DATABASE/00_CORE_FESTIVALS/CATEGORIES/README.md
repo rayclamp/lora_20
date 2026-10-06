@@ -27,6 +27,8 @@ Workers should not load every category automatically. Read only the categories n
 - Record `CULTURAL_SENSITIVITY` when relevant, using `LOW`, `MEDIUM`, `HIGH`, or `VERY HIGH`.
 - Record `RECOGNIZABILITY` as `LOW`, `MEDIUM`, `HIGH`, or `VERY HIGH`.
 - Do not treat visual similarity as proof of cultural association.
+- Each `ITEM_CATALOG.md` row must include `VERIFICATION_STATUS` and `SOURCE_REFERENCES`.
+- Catalog entries are candidate summaries, not complete item records. Keep a row `UNVERIFIED` until a complete record and explicit source evidence have been reviewed.
 
 ## SCOPE
 
