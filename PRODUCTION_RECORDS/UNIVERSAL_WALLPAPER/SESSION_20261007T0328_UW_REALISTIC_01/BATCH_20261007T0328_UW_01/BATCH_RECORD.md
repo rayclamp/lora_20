@@ -14,3 +14,7 @@ CURRENT_TASK: TASK_001
 NEXT_TASK: NONE
 CHECKPOINT: PROMPT_SET_LOCKED; blocked before generation by Level 2 delivery-integrity requirement
 CREATED_AT: 2026-10-07T03:28:00+08:00
+
+RESUME_CHECKPOINT: 2026-10-07T03:29:00+08:00
+RESUME_STATUS: BLOCKED
+RESUME_REASON: Level 2 actual-generator delivery integrity remains unverifiable; no generation call initiated.
