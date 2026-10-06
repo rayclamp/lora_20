@@ -11,3 +11,6 @@ BATCH_ID: BATCH_20261006_UW_REALISTIC_1821_02
 2026-10-06T18:22:00+08:00 — TASK_001 ATTEMPT_2 FAILED: unrelated bedroom composition
 2026-10-06T18:22:00+08:00 — TASK_001 ATTEMPT_3 FAILED: unrelated bedroom composition
 2026-10-06T18:22:00+08:00 — TASK_001 DEFERRED after 3 attempts
+
+2026-10-06T18:23:00+08:00 — TASK_002 GENERATION INVOCATION BLOCKED: image-generation rate limit reached
+2026-10-06T18:23:00+08:00 — BATCH PAUSED_RATE_LIMIT; no further generation attempts permitted in this turn
