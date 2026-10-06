@@ -21,7 +21,7 @@ Standard records:
 
 ## 3. SESSION_CONTRACT.md
 Typical fields: SESSION_ID, BATCH_ID, SESSION_SCOPE, MODULE, PRODUCTION_TYPE, CHARACTER, IMAGE_COUNT, TARGET_SUCCESS_COUNT, OUTPUT_TYPE, ASPECT_RATIO, user constraints, and design/execution boundary.
-ORIENTATION is not a required production field and must not be reintroduced as a separate control when it duplicates OUTPUT_TYPE/ASPECT_RATIO.
+OUTPUT_TYPE identifies the target class (`DESKTOP` or `PHONE`); ASPECT_RATIO specifies the exact ratio (for example, `16:9` or `9:16`). Do not encode the ratio inside OUTPUT_TYPE (for example, `DESKTOP_16_9`) and do not add ORIENTATION as a separate control.
 
 ## 4. BATCH_RECORD.md
 Record: SESSION_ID, BATCH_ID, MODULE, PRODUCTION_TYPE, IMAGE_COUNT, TARGET_SUCCESS_COUNT, BATCH_STATUS, COMPLETED_COUNT, UNVERIFIED_COUNT, FAILED_COUNT, DEFERRED_COUNT, BLOCKED_COUNT, PENDING_COUNT, ATTEMPT_COUNT, CURRENT_TASK, NEXT_TASK, CHECKPOINT, and termination/completion information. These state counts must remain separate; do not combine failed, deferred, blocked, and unverified Tasks into one ambiguous counter.
