@@ -46,3 +46,16 @@ BATCH_ID: BATCH_20261006_UW_REALISTIC_1836_03
 - NEXT_TASK: TASK_001
 - NOTE: Generation tool was invoked on resume but remained unavailable due to rate limit. No image output was created. No task success recorded.
 - CHECKPOINT: SAVED
+
+
+## 2026-10-06T18:36:00+08:00
+- EVENT: TASK_001_QA_FAILURE
+- TASK_ID: TASK_001
+- IMAGE_ID: IMAGE_001
+- ATTEMPTS: 2
+- STATUS: QA_FAILED
+- REASON: Generated images did not match the LOCKED PROMPT_001 scene/action/outfit requirements. The outputs were different indoor scenes and reused the source outfit/pose characteristics.
+- NO_SUCCESS_RECORDED: TRUE
+- NO_PROMPT_MODIFICATION: TRUE
+- BATCH_STATUS: PAUSED_QA_FAILURE
+- CHECKPOINT: SAVED
