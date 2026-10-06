@@ -16,7 +16,7 @@ This is a reusable candidate catalog, not proof that every row has been independ
 | HEAD_STPATRICK_FLATCAP_001 | Traditional Irish-style wool cap | F008 | Ireland | MEDIUM |
 | HEAD_CARNIVAL_VENETIAN_001 | Venetian carnival mask/headpiece | F009 | Venice/Italy | HIGH |
 | HEAD_OKTOBERFEST_FELT_001 | Bavarian Trachten felt hat | F010 | Bavaria/Germany | HIGH |
-| HEAD_DAYDEAD_FLOWER_001 | Large marigold/flower crown | F011,F044 | Mexico/Latin America | HIGH |
+| HEAD_DAYDEAD_FLOWER_001 | Large marigold/flower crown | F011 | Mexico | HIGH |
 | HEAD_DIWALI_MAANGTIKKA_001 | Maang tikka forehead ornament | F012 | South Asia | HIGH |
 | HEAD_DIWALI_DUPATTA_001 | Embellished dupatta drape over hair | F012,F015,F016 | South Asia | MEDIUM |
 | HEAD_NOWRUZ_SCARF_001 | Persian patterned head scarf | F017 | Iran/Central Asia | MEDIUM |
