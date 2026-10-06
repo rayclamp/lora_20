@@ -6,3 +6,6 @@ BATCH_ID: BATCH_20261006T2344_TRAVEL_12
 - 2026-10-06T23:44:00+08:00 — GITHUB_RULES_READ — applicable current main rules read.
 - 2026-10-06T23:44:00+08:00 — BATCH_DESIGNED — 12 complete prompts designed as a whole batch with deliberate diversity.
 - 2026-10-06T23:44:00+08:00 — PROMPT_SET_LOCKED — PROMPT_COUNT=12 equals IMAGE_COUNT=12; one-to-one PROMPT_ID/TASK_ID/PROMPT_VERSION assigned.
+
+- 2026-10-06T23:44:00+08:00 — GENERATION_STARTED — TASK_001 / PROMPT_001 / v1 after Exact Readback and Integrity Verification.
+- 2026-10-06T23:44:00+08:00 — GENERATION_SUCCESS — TASK_001 / PROMPT_001 / v1; generation returned an image result.
