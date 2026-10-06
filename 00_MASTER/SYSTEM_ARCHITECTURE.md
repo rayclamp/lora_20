@@ -62,36 +62,11 @@ Detailed execution evidence: 00_MASTER/PRODUCTION_RECORD_SCHEMA.md and 00_MASTER
 GitHub does NOT control Session creation, Batch creation, Worker/runtime lifecycle, prompt execution, queues, scheduling, retries, stop/resume, orchestration, or image generation.
 GitHub DOES provide canonical image-design references, persisted production records, checkpoints, and historical execution evidence.
 
-## Production Entry Gate — Canonical Rule Loading
-The /START_AUTO workflow has a mandatory entry gate before Session/Batch execution or any image-generation call.
+## Production Entry Gates
 
-### Gate Order
-1. Receive /START_AUTO and Production Request.
-2. Load the applicable current GitHub Canonical Rules.
-3. Verify that the required rules were successfully loaded and are usable.
-4. If loading/verification fails: set ENTRY_GATE = BLOCKED, record the reason when persistence is available, and perform NO image-generation call.
-5. Only after the gate passes may the Producer create/operate the production Session/Batch and continue to Prompt Design, Prompt Lock, and Generation.
+Before `/START_AUTO`, verify GitHub database access and load the applicable current Canonical Rules. Before `/RESUME_AUTO`, repeat those checks, then recover the existing Session/Batch and checkpoint.
 
-### Hard Invariant
-`CANONICAL_RULE_LOADING = PASS` is a mandatory prerequisite for /START_AUTO Generation.
+If either gate fails, do not generate. Resume must preserve the existing Session/Batch and locked prompts; it must not create replacements or redesign prompts.
 
-A Producer MUST NOT interpret IMAGE_COUNT, Task semantics, Prompt Lock semantics, or other automated-production rules from the user request alone when the applicable Canonical Rules have not been loaded.
+The authoritative shared requirements are in `00_MASTER/CORE_RULES.md`; execution details are in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`.
 
-If GitHub is unavailable, inaccessible, or the required Canonical Rules cannot be verified, the correct outcome is `ENTRY_GATE_BLOCKED`, not fallback image generation.
-
-This is a Producer Runtime precondition. GitHub remains a reference and persistence database and does not itself grant or deny runtime permission.
-
-
-
-## Resume Entry Gate
-
-The /RESUME_AUTO workflow has a mandatory gate before any resumed Generation.
-
-1. Re-verify the current GitHub database connection.
-2. Reload and verify the applicable current Canonical Rules.
-3. Recover the existing Session/Batch and latest persisted checkpoint.
-4. Preserve the existing locked Prompt Set.
-5. Select the first Task that has not reached valid terminal SUCCESS.
-6. If connection or rule loading fails, resume is BLOCKED and no image-generation call may occur.
-
-Resume never creates a replacement Session/Batch and never redesigns a locked prompt. This is a Producer Runtime precondition; GitHub remains a reference and persistence database.
