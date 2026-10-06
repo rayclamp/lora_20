@@ -30,19 +30,18 @@ User Command → ChatGPT → Create Session/Batch → Read References → Design
 
 ### Phase B — Execution
 For every Task:
-TASK → LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → PROMPT_BINDING_CHECK → GENERATION_DECLARATION → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK → LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → PROMPT_BINDING_CHECK → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 Execution states must distinguish GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, GENERATION_FAILED, and SUCCESS.
 A returned image is not automatically a successful Task.
 
 ### Prompt Integrity
 Level 1: exact locked prompt readback and GENERATION_INPUT binding; compare hash/length when available.
-Level 1.5: construct the canonical GENERATION_DECLARATION from the complete validated GENERATION_INPUT, verbatim, immediately before the Generation Call. The declaration is not a new prompt; it is the explicit execution bridge that places the exact locked prompt into the generation context.
 Level 2: when the generation interface exposes verifiable request/input information, record the available generation-call/delivery evidence and bind it to the attempt. When the interface does not expose such evidence, record delivery evidence as UNVERIFIED/NOT_EXPOSED rather than blocking the generation call.
-The absence of transport telemetry does not permit skipping Level 1.5. Prompt display is transparency, not proof of delivery.
+Prompt display is transparency, not proof of delivery, but absence of delivery telemetry is not itself a reason to suppress an otherwise valid generation call.
 
 ### Result Integrity
-Before Task SUCCESS: generation was initiated; Level 1 and Level 1.5 passed; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no Level 1/1.5 prompt-integrity conflict exists.
+Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no Level 1 prompt-binding conflict exists.
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
 If more than one output is returned, the Task cannot be SUCCESS.
 
@@ -51,7 +50,7 @@ IMAGE_RESULT_RECEIVED ≠ TASK_SUCCESS.
 An unverified image result must not be converted to SUCCESS merely because an image exists.
 
 ### Recovery
-Preserve SESSION_ID, BATCH_ID, and locked prompts. Do not redesign. Do not treat unverified results as completed Tasks. Re-run applicable integrity gates before a new attempt. Reconstruct the GENERATION_DECLARATION from the same immutable locked prompt.
+Preserve SESSION_ID, BATCH_ID, and locked prompts. Do not redesign. Do not treat unverified results as completed Tasks. Re-run applicable integrity gates before a new attempt.
 
 ## Production Records
 Canonical path: PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/
