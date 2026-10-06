@@ -61,4 +61,4 @@ Traditional items should be preferred. Modern items are supplemental and should 
 
 ## COVERAGE STATUS
 
-The accessory, shoe, and headwear catalogs have been expanded with festival-linked entries based on web research. This is an expanded reusable pool, not a claim that every local/regional variant is exhaustively represented.
+The accessory, shoe, and headwear catalogs form an expanded candidate pool. The matrix itself does not store per-item source citations, and catalog inclusion is not proof of cultural verification. Treat an item as verified only when its item record contains explicit SOURCE_REFERENCES and VERIFICATION_STATUS: VERIFIED. This pool is not an exhaustive representation of every local/regional variant.
