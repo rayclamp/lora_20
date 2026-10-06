@@ -30,3 +30,12 @@ RESULT_ID: NOT_CREATED
 OUTPUT_COUNT: 0
 DETAIL: The current image-generation interface does not expose sufficient verifiable evidence that the actual generator received the exact locked prompt. Generation is therefore blocked; SUCCESS cannot be claimed.
 CHECKPOINT: 2026-10-07T03:28:00+08:00
+
+EVENT_ID: EVT_20261007T0329_001
+TIMESTAMP: 2026-10-07T03:29:00+08:00
+EVENT_TYPE: RESUMED
+SESSION_ID: SESSION_20261007T0328_UW_REALISTIC_01
+BATCH_ID: BATCH_20261007T0328_UW_01
+TASK_ID: TASK_001
+DETAIL: /RESUME_AUTO revalidated GitHub access, canonical rules, and current Session/Batch records. TASK_001 remains the next applicable Task. Locked Prompt v1 was preserved unchanged. Generation remains blocked because the current image-generation interface does not expose verifiable actual-generator delivery evidence.
+CHECKPOINT: 2026-10-07T03:29:00+08:00
