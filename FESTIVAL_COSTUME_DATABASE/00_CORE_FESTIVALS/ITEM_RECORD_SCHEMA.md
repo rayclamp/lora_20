@@ -45,3 +45,6 @@ Every reusable festival item must follow this structure.
 8. CULTURAL_SENSITIVITY uses LOW / MEDIUM / HIGH / VERY HIGH; use VERY HIGH for items where cultural or religious misrepresentation could be especially harmful.
 9. REALISTIC and ANIME indicate whether the item is suitable for each generation system.
 10. Female-only clothing remains the primary clothing scope; unisex items are allowed where appropriate.
+11. The `ITEM_CATALOG.md` tables are compact candidate indexes, not complete item records; they do not contain every required field in this schema.
+12. Every catalog row must carry `VERIFICATION_STATUS` and `SOURCE_REFERENCES`. Until an item has a complete record with all required fields and reviewed source evidence, its status must remain `UNVERIFIED` and its source field must remain `NOT_RECORDED` when no evidence is recorded.
+13. A catalog row may be changed to `VERIFIED` only when its matching complete item record exists, its source references are explicit, and all required fields have been reviewed. Never infer verification from a catalog summary.
