@@ -56,3 +56,15 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 6. This is a Producer Runtime precondition. It does NOT make GitHub a runtime controller, scheduler, execution gate, or generation controller.
 7. Manual image requests that are not initiated through /START_AUTO remain governed by the applicable manual-production workflow.
 
+
+## 1.2 RESUME ENTRY GATE — NON-NEGOTIABLE
+
+Any automated production initiated by /RESUME_AUTO MUST re-verify the current GitHub database connection and reload the applicable current Canonical Rules before resuming Generation.
+
+1. Existing Session/Batch records may be used only after the current GitHub connection is verified.
+2. The Producer MUST reload and verify the applicable current Canonical Rules before continuing.
+3. If connection verification or rule loading fails, resume is BLOCKED and no Generation call may be made.
+4. Resume MUST use the existing SESSION_ID, BATCH_ID, TASK_QUEUE, and LOCKED PROMPT_SET.
+5. Resume MUST NOT create a replacement Session/Batch or redesign a locked prompt.
+6. Resume selects the first Task that has not reached valid terminal SUCCESS.
+7. This gate is a Producer Runtime precondition; it does not make GitHub a runtime controller.
