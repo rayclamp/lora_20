@@ -21,6 +21,6 @@ REFERENCE_VERIFICATION_STATUS: OBSERVABLE
 CUSTOM_INSTRUCTIONS: NO
 REFERENCE_OUTFIT_POLICY: REPLACE
 REFERENCE_POSE_POLICY: IGNORE
-SESSION_STATUS: ACTIVE
+SESSION_STATUS: BLOCKED
 PROMPT_SET_STATUS: LOCKED
-EXECUTION_BOUNDARY: Producer may design and prepare exact generation inputs; actual generator delivery must be independently verifiable before Task SUCCESS.
+EXECUTION_BOUNDARY: Producer may design and prepare exact generation inputs; actual generator delivery must be independently verifiable before generation/Task SUCCESS. Current runtime cannot expose sufficient generator-delivery evidence, so generation is blocked.
