@@ -1,4 +1,9 @@
-# VERIFIED BODY DECORATION ITEM CATALOG
+# REUSABLE BODY DECORATION ITEM CATALOG
+
+## DATA QUALITY STATUS
+
+This is a reusable candidate catalog, not proof that every row has been independently culturally verified. A row may be treated as verified only when its cultural attribution is supported by an explicit source/reference and its required item-record fields have been reviewed. Do not infer verification from this file's presence or from visual similarity alone.
+
 | ITEM_ID | NAME | FESTIVAL_TAGS | REGION | RECOGNIZABILITY |
 |---|---|---|---|---|
 | BODY_HOLI_COLOR_001 | Holi color powder on skin/clothing | F013 | India/Nepal | HIGH |
