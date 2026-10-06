@@ -90,7 +90,9 @@ The automated workflow has two distinct phases:
 
 Automated production records are stored under:
 
-`PRODUCTION_RECORDS/<PRODUCTION_TYPE>/<SESSION_ID>/<BATCH_ID>/`
+`PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/`
+
+**The active MODULE determines the production-record directory. PRODUCTION_TYPE is only a recorded production attribute and must never be used as a storage-directory name. New sessions must never create roots such as `PRODUCTION_RECORDS/REALISTIC/` or `PRODUCTION_RECORDS/ANIME/`.**
 
 The standard record set is:
 
