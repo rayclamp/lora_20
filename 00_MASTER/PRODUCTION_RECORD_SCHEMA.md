@@ -24,7 +24,7 @@ Typical fields: SESSION_ID, BATCH_ID, SESSION_SCOPE, MODULE, PRODUCTION_TYPE, CH
 ORIENTATION is not a required production field and must not be reintroduced as a separate control when it duplicates OUTPUT_TYPE/ASPECT_RATIO.
 
 ## 4. BATCH_RECORD.md
-Record: SESSION_ID, BATCH_ID, MODULE, PRODUCTION_TYPE, IMAGE_COUNT, TARGET_SUCCESS_COUNT, BATCH_STATUS, completed count, unverified count, failed/deferred/blocked count, attempt count, current/next Task, checkpoint, and termination/completion information.
+Record: SESSION_ID, BATCH_ID, MODULE, PRODUCTION_TYPE, IMAGE_COUNT, TARGET_SUCCESS_COUNT, BATCH_STATUS, COMPLETED_COUNT, UNVERIFIED_COUNT, FAILED_COUNT, DEFERRED_COUNT, BLOCKED_COUNT, PENDING_COUNT, ATTEMPT_COUNT, CURRENT_TASK, NEXT_TASK, CHECKPOINT, and termination/completion information. These state counts must remain separate; do not combine failed, deferred, blocked, and unverified Tasks into one ambiguous counter.
 A Batch MUST NOT be complete while any required Task is unverified, blocked, failed, or unfinished.
 
 ## 5. TASK_QUEUE.md
@@ -71,7 +71,7 @@ Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RE
 Each event should include timestamp with timezone, EVENT_ID, event type, SESSION_ID, BATCH_ID, TASK_ID when applicable, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, result/error information, output count, and checkpoint reference when applicable.
 
 ## 8. Persistence and Recovery
-Records must preserve enough information to determine which Session/Batch, contract, locked prompt, generation attempts, results, verification states, Task states, checkpoint, and historical events apply.
+Records must preserve enough information to determine which Session/Batch, contract, locked prompt, generation attempts, results, verification states, Task states, checkpoint, and historical events apply. All five standard batch records must be present before a Batch can resume: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md, and EXECUTION_LOG.md. If any required record is missing or a locked prompt cannot be read back, mark the Batch BLOCKED for record-integrity recovery; do not invent missing Task state or reconstruct a supposedly locked prompt from memory.
 An unverified image result MUST NOT be silently counted as a completed Task during resume.
 
 ## 9. Completion
