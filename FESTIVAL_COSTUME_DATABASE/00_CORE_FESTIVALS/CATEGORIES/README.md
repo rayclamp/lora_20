@@ -19,9 +19,19 @@ Festival → Tags → Category Items
 
 Workers should not load every category automatically. Read only the categories needed for the requested image.
 
+## SHARED ITEM-RECORD RULES
+
+- Every item must have a stable `ITEM_ID`.
+- Every reusable item must include at least one specific `FESTIVAL` tag.
+- Record `REGION` and `CULTURAL_SCOPE`.
+- Record `CULTURAL_SENSITIVITY` when relevant.
+- Record `RECOGNIZABILITY` as `HIGH`, `MEDIUM`, or `LOW`.
+- Do not treat visual similarity as proof of cultural association.
+
 ## SCOPE
 
 - Female-focused.
 - Unisex items may be recorded when culturally appropriate.
 - Male-only clothing is not separately maintained at this stage.
-- Do not add or remove the current 48 core festivals unless the user explicitly requests a scope change.
+
+The current festival list and fixed festival count are authoritative in `CORE_FESTIVAL_INDEX.md`; this category index does not duplicate that list.
