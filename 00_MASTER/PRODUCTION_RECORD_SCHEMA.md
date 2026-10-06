@@ -18,11 +18,19 @@ A Session or Batch is not created by GitHub. `SESSION_ID` and `BATCH_ID` are ide
 
 ## 2. Canonical Storage Path
 
-`PRODUCTION_RECORDS/<PRODUCTION_TYPE>/<SESSION_ID>/<BATCH_ID>/`
+`PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/`
 
-Example:
+**MODULE determines the storage root. PRODUCTION_TYPE is recorded metadata and must never determine the storage root.**
 
-`PRODUCTION_RECORDS/AUTOMATION_TEST/SESSION_20261006_AUTOTEST_001/BATCH_20261006_AUTOTEST_001/`
+Examples:
+
+`PRODUCTION_RECORDS/UNIVERSAL_WALLPAPER/SESSION_x/BATCH_x/`
+
+`PRODUCTION_RECORDS/FESTIVAL_WALLPAPER/SESSION_x/BATCH_x/`
+
+`PRODUCTION_RECORDS/LORA_PRODUCTION/SESSION_x/BATCH_x/`
+
+A Universal Wallpaper session with `PRODUCTION_TYPE: REALISTIC` or `PRODUCTION_TYPE: ANIME` is still stored under `PRODUCTION_RECORDS/UNIVERSAL_WALLPAPER/`.
 
 Each automated batch normally contains the following five records:
 
