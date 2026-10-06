@@ -24,8 +24,8 @@ Workers should not load every category automatically. Read only the categories n
 - Every item must have a stable `ITEM_ID`.
 - Every reusable item must include at least one specific `FESTIVAL` tag.
 - Record `REGION` and `CULTURAL_SCOPE`.
-- Record `CULTURAL_SENSITIVITY` when relevant.
-- Record `RECOGNIZABILITY` as `HIGH`, `MEDIUM`, or `LOW`.
+- Record `CULTURAL_SENSITIVITY` when relevant, using `LOW`, `MEDIUM`, `HIGH`, or `VERY HIGH`.
+- Record `RECOGNIZABILITY` as `LOW`, `MEDIUM`, `HIGH`, or `VERY HIGH`.
 - Do not treat visual similarity as proof of cultural association.
 
 ## SCOPE
