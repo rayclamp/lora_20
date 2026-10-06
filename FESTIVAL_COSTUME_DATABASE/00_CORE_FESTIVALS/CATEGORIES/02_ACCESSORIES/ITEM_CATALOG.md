@@ -21,8 +21,8 @@ This is a reusable candidate catalog, not proof that every row has been independ
 | ACC_CARNIVAL_MASK_001 | Decorative Venetian-style eye mask | F009 | Venice/Italy | HIGH |
 | ACC_OKTOBERFEST_CHARIVARI_001 | Women's charivari-style decorative chain | F010 | Bavaria/Germany | MEDIUM |
 | ACC_OKTOBERFEST_CAMEO_001 | Traditional-style dirndl necklace / pendant | F010 | Bavaria/Germany | MEDIUM |
-| ACC_DAYDEAD_REBOZO_001 | Mexican rebozo shawl | F011,F044 | Mexico/Latin America | HIGH |
-| ACC_DAYDEAD_EARRINGS_001 | Traditional Mexican floral/metal earrings | F011,F044 | Mexico/Latin America | HIGH |
+| ACC_DAYDEAD_REBOZO_001 | Mexican rebozo shawl | F011 | Mexico | HIGH |
+| ACC_DAYDEAD_EARRINGS_001 | Traditional Mexican floral/metal earrings | F011 | Mexico | HIGH |
 | ACC_DIWALI_JHUMKA_001 | Gold jhumka earrings | F012 | South Asia | HIGH |
 | ACC_DIWALI_CHANDBALI_001 | Chandbali earrings | F012 | South Asia | HIGH |
 | ACC_DIWALI_KUNDAN_001 | Kundan necklace / jewelry set | F012 | South Asia | HIGH |
