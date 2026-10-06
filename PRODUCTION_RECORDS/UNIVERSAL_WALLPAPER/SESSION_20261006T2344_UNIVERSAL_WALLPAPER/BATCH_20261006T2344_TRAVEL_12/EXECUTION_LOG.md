@@ -9,3 +9,7 @@ BATCH_ID: BATCH_20261006T2344_TRAVEL_12
 
 - 2026-10-06T23:44:00+08:00 — GENERATION_STARTED — TASK_001 / PROMPT_001 / v1 after Exact Readback and Integrity Verification.
 - 2026-10-06T23:44:00+08:00 — GENERATION_SUCCESS — TASK_001 / PROMPT_001 / v1; generation returned an image result.
+
+- 2026-10-06T23:44:00+08:00 — GENERATION_STARTED — TASK_002 / PROMPT_002 / v1 after Exact Readback and Integrity Verification.
+- 2026-10-06T23:44:00+08:00 — GENERATION_SUCCESS — TASK_002 / PROMPT_002 / v1; generation returned an image result.
+- 2026-10-06T23:44:00+08:00 — EXECUTION_INTEGRITY_BLOCKED — stopped further generation because the image-generation interface does not expose a verifiable exact GENERATION_INPUT binding; continuing would violate the locked-prompt integrity requirement.
