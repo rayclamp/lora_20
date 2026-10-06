@@ -18,7 +18,7 @@ This is a reusable candidate catalog, not proof that every row has been independ
 | SHOE_IRISH_LEATHER_001 | Traditional Irish leather shoes | F008 | Ireland | MEDIUM |
 | SHOE_CARNIVAL_VENETIAN_001 | Venetian-style leather slippers | F009 | Italy | MEDIUM |
 | SHOE_OKTOBERFEST_WOMEN_001 | Women's Haferlschuh / traditional Bavarian shoes | F010 | Bavaria/Germany | HIGH |
-| SHOE_DAYDEAD_HUARACHE_001 | Mexican huarache sandals | F011,F044 | Mexico/Latin America | HIGH |
+| SHOE_DAYDEAD_HUARACHE_001 | Mexican huarache sandals | F011 | Mexico | HIGH |
 | SHOE_INDIAN_JUTTI_001 | Embroidered jutti / mojari | F012,F013,F015,F016 | South Asia | HIGH |
 | SHOE_INDIAN_SANDAL_001 | Traditional embellished Indian sandals | F012,F015,F016 | South Asia | MEDIUM |
 | SHOE_EID_KHUSSA_001 | Embroidered khussa / traditional flat | F015,F016 | South Asia | HIGH |
