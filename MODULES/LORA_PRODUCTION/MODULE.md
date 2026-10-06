@@ -7,7 +7,7 @@ This module is not executable while its status is PAUSED. Activation requires an
 
 ## Production role
 
-LoRA Production is a **production module**, not an independent runtime, Worker, scheduler, dispatch, or controller. It defines WHAT the LoRA dataset production should create. ChatGPT's internal production mechanisms determine HOW authorized tasks execute. Durable production records are stored under `PRODUCTION_RECORDS/<PRODUCTION_TYPE>/<SESSION_ID>/<BATCH_ID>/`.
+LoRA Production is a **production module**, not an independent runtime, Worker, scheduler, dispatch, or controller. It defines WHAT the LoRA dataset production should create. ChatGPT's internal production mechanisms determine HOW authorized tasks execute. Durable production records are stored under `PRODUCTION_RECORDS/LORA_PRODUCTION/<SESSION_ID>/<BATCH_ID>/`.
 
 ## Purpose
 Build a high-quality age-20 Inaria LoRA training dataset.
