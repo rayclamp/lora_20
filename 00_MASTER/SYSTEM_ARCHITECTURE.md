@@ -81,3 +81,17 @@ If GitHub is unavailable, inaccessible, or the required Canonical Rules cannot b
 
 This is a Producer Runtime precondition. GitHub remains a reference and persistence database and does not itself grant or deny runtime permission.
 
+
+
+## Resume Entry Gate
+
+The /RESUME_AUTO workflow has a mandatory gate before any resumed Generation.
+
+1. Re-verify the current GitHub database connection.
+2. Reload and verify the applicable current Canonical Rules.
+3. Recover the existing Session/Batch and latest persisted checkpoint.
+4. Preserve the existing locked Prompt Set.
+5. Select the first Task that has not reached valid terminal SUCCESS.
+6. If connection or rule loading fails, resume is BLOCKED and no image-generation call may occur.
+
+Resume never creates a replacement Session/Batch and never redesigns a locked prompt. This is a Producer Runtime precondition; GitHub remains a reference and persistence database.
