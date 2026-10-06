@@ -1,7 +1,8 @@
 # CORE FESTIVAL CULTURAL ANCHORS
 
-This file is the verified generation-oriented cultural anchor layer for F001-F048.
-It is intentionally concise. It does not replace region-specific research when a worker designs a culturally specific variant.
+This file is the current generation-oriented working anchor layer for F001-F048. It is not a source-verified cultural reference by itself: the rows do not currently carry individual citations for each anchor. Treat these cues as design guidance only, not proof that every item or regional attribution has been independently verified.
+
+It is intentionally concise and does not replace region-specific source research when a worker designs a culturally specific variant. High-sensitivity contexts require explicit source-backed item records before culturally specific details can be treated as verified.
 
 | ID | Core cultural anchors | Common scene/activity cues | Recognition cues | Sensitivity |
 |---|---|---|---|---|
