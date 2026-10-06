@@ -7,8 +7,10 @@ BATCH_ID: BATCH_20261006_UW_REALISTIC_1658_01
 |---|---|---|---|---|---|
 | 001 | TASK_001 | PROMPT_001 | LOCKED | SUCCESS | /mnt/data/a_bright_airy_photorealistic_indoor_living_dinin.png |
 | 002 | TASK_002 | PROMPT_002 | LOCKED | SUCCESS | /mnt/data/a_wide_cinematic_photoreal_cg_anime_style_scene.png |
-| 003 | TASK_003 | PROMPT_003 | LOCKED | READY | 1 independent 16:9 image |
+| 003 | TASK_003 | PROMPT_003 | LOCKED | RATE_LIMITED | NONE |
 
 PROMPT_COUNT=3
 TASK_COUNT=3
+SUCCESSFUL_TASK_COUNT=2
+SUCCESSFUL_IMAGE_FILE_COUNT=2
 CARDINALITY_RULE: each Task maps to exactly one independent image file.
