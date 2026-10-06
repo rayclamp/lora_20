@@ -201,3 +201,34 @@ User → Runtime Coordinator → Workers → Generation Interface
      Reference + Persistence
 
 A future Runtime Coordinator may implement Claim/Lease coordination. Until that layer is explicitly implemented and defined, Claim/Lease is not a generation prerequisite.
+
+## 3.0 Production Entry Gate — Canonical Rule Loading
+
+The /START_AUTO workflow MUST pass the Canonical Rule Loading Gate before any image-generation call.
+
+### Required sequence
+`/START_AUTO → CANONICAL_RULE_LOADING → ENTRY_GATE → Session/Batch → Prompt Design → Prompt Lock → Generation`
+
+### Gate requirements
+1. Load the applicable current GitHub Canonical Rules.
+2. Load the applicable module and production-type rules required for the requested production.
+3. Verify that the required rules were successfully retrieved and are usable.
+4. Record or report `GITHUB_RULES_LOADED = YES` only when the required rules were actually loaded.
+5. Only after the gate passes may automated production proceed.
+
+### Gate failure
+If required Canonical Rules cannot be loaded, are inaccessible, or cannot be verified:
+- `ENTRY_GATE = BLOCKED`
+- `REASON = CANONICAL_RULE_LOADING_FAILED` (or a more specific failure reason)
+- `GENERATION_ALLOWED = NO`
+- no image-generation call may be made;
+- the Producer MUST NOT fall back to ordinary image-generation behavior;
+- the Producer MUST NOT reinterpret the Production Request as a normal image-generation request.
+
+### Hard invariant
+`CANONICAL_RULE_LOADING = PASS` is a mandatory prerequisite for /START_AUTO Generation.
+
+The gate belongs to the Producer Runtime. It does not make GitHub a runtime controller and does not require a GitHub-side execution lock, Claim API, Lease API, or generation permission API.
+
+### Rationale
+GitHub Canonical Rules define the semantics of automated production, including Task decomposition, output-count semantics, Prompt Lock, and applicable generation constraints. Without those rules, the Producer cannot safely assume that a request such as `IMAGE_COUNT = 12` means twelve independent Tasks. Therefore absence of verified Canonical Rules is a hard pre-generation block.
