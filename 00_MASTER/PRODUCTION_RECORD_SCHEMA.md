@@ -20,8 +20,8 @@ Standard records:
 5. EXECUTION_LOG.md
 
 ## 3. SESSION_CONTRACT.md
-Typical fields: SESSION_ID, BATCH_ID, SESSION_SCOPE, MODULE, PRODUCTION_TYPE, CHARACTER, IMAGE_COUNT, TARGET_SUCCESS_COUNT, OUTPUT_TYPE, ASPECT_RATIO, user constraints, and design/execution boundary.
-OUTPUT_TYPE identifies the target class (`DESKTOP` or `PHONE`); ASPECT_RATIO specifies the exact ratio (for example, `16:9` or `9:16`). Do not encode the ratio inside OUTPUT_TYPE (for example, `DESKTOP_16_9`) and do not add ORIENTATION as a separate control.
+Typical fields: SESSION_ID, BATCH_ID, SESSION_SCOPE, MODULE, PRODUCTION_TYPE, CHARACTER, IMAGE_COUNT, TARGET_SUCCESS_COUNT, OUTPUT_TYPE, user constraints, and design/execution boundary.
+OUTPUT_TYPE is the combined output contract that identifies the target class and exact aspect ratio. Canonical values are `DESKTOP_16_9` and `PHONE_9_16`. Do not add a separate ASPECT_RATIO or ORIENTATION control when OUTPUT_TYPE already expresses the complete output format.
 
 ## 4. BATCH_RECORD.md
 Record: SESSION_ID, BATCH_ID, MODULE, PRODUCTION_TYPE, IMAGE_COUNT, TARGET_SUCCESS_COUNT, BATCH_STATUS, COMPLETED_COUNT, UNVERIFIED_COUNT, FAILED_COUNT, DEFERRED_COUNT, BLOCKED_COUNT, PENDING_COUNT, ATTEMPT_COUNT, CURRENT_TASK, NEXT_TASK, CHECKPOINT, and termination/completion information. These state counts must remain separate; do not combine failed, deferred, blocked, and unverified Tasks into one ambiguous counter.
@@ -54,8 +54,8 @@ Task status semantics:
 - GENERATION_STARTED = generation attempt initiated.
 - IMAGE_RESULT_RECEIVED = image result returned.
 - RESULT_RECEIVED_UNVERIFIED = result exists but required provenance/delivery evidence is missing.
-- EXECUTION_INTEGRITY_UNVERIFIED = actual generator delivery cannot be verified.
-- EXECUTION_INTEGRITY_BLOCKED = generation is blocked by integrity failure or missing required evidence.
+- EXECUTION_INTEGRITY_UNVERIFIED = an applicable evidence field is unavailable or not exposed; this does not by itself mean Generation was forbidden.
+- EXECUTION_INTEGRITY_BLOCKED = generation is blocked by an actual integrity failure such as prompt/input mismatch, not by the mere absence of transport telemetry.
 - GENERATION_FAILED = generation failed without a usable result.
 - RESULT_COUNT_MISMATCH = the actual output count is known and does not equal the Task contract; this is not SUCCESS.
 - SUCCESS = all applicable success-gate conditions passed.
