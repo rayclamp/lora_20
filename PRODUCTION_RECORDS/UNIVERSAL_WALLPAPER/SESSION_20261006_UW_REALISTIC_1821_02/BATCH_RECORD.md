@@ -13,3 +13,6 @@ DEFERRED: 1
 PENDING: 11
 OUTPUT_FILE_COUNT: 0
 TASK_001: DEFERRED after 3 generation attempts; generated candidates did not match locked prompt.
+STATUS: PAUSED_RATE_LIMIT
+NEXT_TASK: TASK_002
+CHECKPOINT_AT: 2026-10-06T18:23:00+08:00
