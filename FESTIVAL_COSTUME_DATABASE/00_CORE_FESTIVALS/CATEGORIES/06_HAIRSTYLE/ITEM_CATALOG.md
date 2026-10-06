@@ -1,4 +1,9 @@
-# VERIFIED HAIRSTYLE ITEM CATALOG
+# REUSABLE HAIRSTYLE ITEM CATALOG
+
+## DATA QUALITY STATUS
+
+This is a reusable candidate catalog, not proof that every row has been independently culturally verified. A row may be treated as verified only when its cultural attribution is supported by an explicit source/reference and its required item-record fields have been reviewed. Do not infer verification from this file's presence or from visual similarity alone.
+
 | ITEM_ID | NAME | FESTIVAL_TAGS | REGION | RECOGNIZABILITY |
 |---|---|---|---|---|
 | HAIR_JP_FEST_UPDO_001 | Japanese festival updo compatible with yukata | F023,F024,F026 | Japan | HIGH |
