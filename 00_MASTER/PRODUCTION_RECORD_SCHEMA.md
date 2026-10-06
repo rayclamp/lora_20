@@ -42,7 +42,6 @@ Each Task should record, as applicable:
 - GENERATION_INPUT_LENGTH
 - LOCKED_PROMPT_HASH
 - GENERATION_INPUT_HASH
-- GENERATION_DECLARATION_STATUS
 - DELIVERY_INTEGRITY_STATUS
 - RESULT_ID / output reference
 - EXPECTED_OUTPUT_COUNT
@@ -56,7 +55,7 @@ Task status semantics:
 - IMAGE_RESULT_RECEIVED = image result returned.
 - RESULT_RECEIVED_UNVERIFIED = result exists but required provenance/delivery evidence is missing.
 - EXECUTION_INTEGRITY_UNVERIFIED = an applicable evidence field is unavailable or not exposed; this does not by itself mean Generation was forbidden.
-- EXECUTION_INTEGRITY_BLOCKED = generation is blocked by an actual integrity failure such as prompt/input mismatch or failure to construct the required GENERATION_DECLARATION, not by the mere absence of transport telemetry.
+- EXECUTION_INTEGRITY_BLOCKED = generation is blocked by an actual integrity failure such as prompt/input mismatch, not by the mere absence of transport telemetry.
 - GENERATION_FAILED = generation failed without a usable result.
 - RESULT_COUNT_MISMATCH = the actual output count is known and does not equal the Task contract; this is not SUCCESS.
 - SUCCESS = all applicable success-gate conditions passed.
@@ -68,7 +67,7 @@ For wallpaper production, EXPECTED_OUTPUT_COUNT = 1. If ACTUAL_OUTPUT_COUNT != 1
 All prompts are designed before generation, persisted before execution, and locked as execution input. Resume does not silently redesign a locked prompt. Revisions require a new prompt version.
 
 ## 7. EXECUTION_LOG.md
-Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_DECLARATION_CREATED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, RETRY, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, SAFETY_BLOCKED, STOPPED, RESUMED, UNKNOWN, DEFERRED, COMPLETED.
+Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, RETRY, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, SAFETY_BLOCKED, STOPPED, RESUMED, UNKNOWN, DEFERRED, COMPLETED.
 Each event should include timestamp with timezone, EVENT_ID, event type, SESSION_ID, BATCH_ID, TASK_ID when applicable, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, result/error information, output count, and checkpoint reference when applicable.
 
 ## 8. Persistence and Recovery
@@ -80,7 +79,7 @@ Completion means all required Tasks have reached valid terminal SUCCESS. A Batch
 
 ## 10. Execution Integrity Reference
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
-Minimum chain: TASK → LOCKED_PROMPT → GENERATION_INPUT → GENERATION_DECLARATION → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS.
+Minimum chain: TASK → LOCKED_PROMPT → GENERATION_INPUT → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS.
 The system must prefer UNVERIFIED/BLOCKED over false SUCCESS when evidence is insufficient.
 
 ## 11. Non-Goals
