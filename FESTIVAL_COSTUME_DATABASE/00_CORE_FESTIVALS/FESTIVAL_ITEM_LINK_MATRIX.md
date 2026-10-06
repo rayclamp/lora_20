@@ -41,7 +41,7 @@ This matrix connects every core festival to the categories currently relevant to
 | F035 | Taiwan Lantern Festival | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,HAIRSTYLE,PROPS,OTHER |
 | F036 | Taiwan Ghost Festival / Zhongyuan | CLOTHING,ACCESSORIES,SHOES,PROPS,OTHER |
 | F037 | Mazu Pilgrimage / Birthday Festival | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
-| F038 | Qingming / Tomb-Sweeping Day | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
+| F038 | Qingming / Tomb-Sweeping Memorial Focus (overlaps F020; not a separate holiday) | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
 | F039 | East Asian Mid-Autumn Festival | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,HAIRSTYLE,PROPS,OTHER |
 | F040 | Valentine's Day / White Day Cultural Season | CLOTHING,ACCESSORIES,SHOES,PROPS |
 | F041 | Bastille Day | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
