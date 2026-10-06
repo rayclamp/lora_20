@@ -9,7 +9,7 @@ A valid production Task is not successful merely because an image result is retu
 
 Minimum execution chain:
 
-TASK_ID → PROMPT_ID → LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK_ID → PROMPT_ID → LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_DECLARATION → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 These are distinct states: prompt preparation/binding, actual generation-call delivery, image-result receipt, and Task success.
 
@@ -88,6 +88,58 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
 
+### Level 1.5 — GENERATION_DECLARATION — MANDATORY EXECUTION BRIDGE
+
+Level 1.5 converts the validated internal generation input into the explicit context that immediately precedes the actual image-generation call.
+
+The Producer MUST:
+1. create a GENERATION_DECLARATION for the current Task;
+2. identify TASK_ID, PROMPT_ID, and PROMPT_VERSION;
+3. state EXECUTION_MODE: EXACT_LOCKED_PROMPT;
+4. explicitly forbid redesign, summarization, reinterpretation, substitution, or use of a task description in place of the prompt;
+5. paste the complete validated GENERATION_INPUT verbatim between explicit delimiters;
+6. immediately call the image-generation interface using that declaration as the execution context;
+7. generate exactly the output count required by the Task contract.
+
+Canonical declaration form:
+
+GENERATION DECLARATION
+
+TASK_ID: [TASK_ID]
+PROMPT_ID: [PROMPT_ID]
+PROMPT_VERSION: [PROMPT_VERSION]
+
+EXECUTION_MODE: EXACT_LOCKED_PROMPT
+
+The following is the exact locked generation prompt.
+
+Do NOT redesign it.
+Do NOT summarize it.
+Do NOT reinterpret it.
+Do NOT replace it with an IMAGE_ID or task description.
+Do NOT use another prompt.
+Do NOT add another scene or character concept.
+
+The Image Generation system must execute exactly the following prompt:
+
+--- BEGIN LOCKED PROMPT ---
+
+[COMPLETE GENERATION_INPUT VERBATIM]
+
+--- END LOCKED PROMPT ---
+
+Immediately after this declaration, generate exactly ONE independent image according to the locked prompt above.
+
+This declaration is NOT a new Prompt. It is an explicit declaration of the already LOCKED_PROMPT for the actual generation call.
+
+Hard rules:
+- Do not replace the full prompt with an ID, hash, summary, or abstract GENERATION_ADAPTER label.
+- Do not create a second redesigned prompt between declaration and generation.
+- Do not insert unrelated user text between the declaration and generation call.
+- If the complete declaration cannot be placed into the actual generation context, do not call the image-generation interface.
+
+Passing Level 1.5 proves that the Producer constructed the correct explicit execution declaration. It does not by itself prove what the external generator actually received.
+
 ### Level 2 — Generator Delivery Evidence
 
 Level 2 is an evidence layer, not a mandatory pre-generation gate.
@@ -151,11 +203,13 @@ Retries and resume use the same locked prompt/version.
 ## 10. Display Rule
 
 The prompt shown to the user before generation MUST be the same GENERATION_INPUT that passed Level 1 Prompt Binding Integrity.
-Displaying the prompt is transparency, not proof of generator delivery.
+The displayed prompt is transparency.
+The GENERATION_DECLARATION is the mandatory execution bridge.
+Do not claim that display alone proves generator delivery.
 
 ## 11. Stop Conditions
 
-Generation MUST stop for the affected Task/Batch when Level 1 binding fails, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
+Generation MUST stop for the affected Task/Batch when Level 1 binding fails, Level 1.5 declaration construction fails, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
 The absence of a GitHub Claim/Lease API is NOT a stop condition for the current Single-Producer workflow.
 
 ## 12. Recovery
