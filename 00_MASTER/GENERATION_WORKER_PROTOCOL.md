@@ -106,7 +106,7 @@ A retry creates a new ATTEMPT_ID and, where supported, a new GENERATION_CALL_ID.
 Receiving an image is not the same as Task success.
 For every attempt, record when applicable: RESULT_ID/output reference, ACTUAL_OUTPUT_COUNT, expected output count, result-to-Task binding, and result-to-generation-call binding.
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
-If more than one image is returned for one Task, the Task MUST NOT be SUCCESS.
+If more than one image is returned for one Task, the Task MUST NOT be SUCCESS. When the actual count is known, record the failure explicitly as RESULT_COUNT_MISMATCH; do not collapse a known count mismatch into RESULT_RECEIVED_UNVERIFIED.
 If a result cannot be reliably bound to the Task or generation call, the Task MUST NOT be SUCCESS.
 
 ## 6. Task Success Gate
@@ -128,7 +128,7 @@ IMAGE_RESULT_RECEIVED is not TASK_SUCCESS.
 The following MUST NOT produce TASK_STATUS = SUCCESS:
 - image exists but prompt delivery is unverified;
 - output count is unknown when count matters;
-- multiple outputs were returned for a one-image Task;
+- multiple outputs were returned for a one-image Task (record RESULT_COUNT_MISMATCH when the count is known);
 - result cannot be bound to the Task or attempt;
 - required generation-call provenance is missing;
 - prompt/input mismatch;
