@@ -61,3 +61,23 @@ Detailed execution evidence: 00_MASTER/PRODUCTION_RECORD_SCHEMA.md and 00_MASTER
 ## Strict Boundary
 GitHub does NOT control Session creation, Batch creation, Worker/runtime lifecycle, prompt execution, queues, scheduling, retries, stop/resume, orchestration, or image generation.
 GitHub DOES provide canonical image-design references, persisted production records, checkpoints, and historical execution evidence.
+
+## Production Entry Gate — Canonical Rule Loading
+The /START_AUTO workflow has a mandatory entry gate before Session/Batch execution or any image-generation call.
+
+### Gate Order
+1. Receive /START_AUTO and Production Request.
+2. Load the applicable current GitHub Canonical Rules.
+3. Verify that the required rules were successfully loaded and are usable.
+4. If loading/verification fails: set ENTRY_GATE = BLOCKED, record the reason when persistence is available, and perform NO image-generation call.
+5. Only after the gate passes may the Producer create/operate the production Session/Batch and continue to Prompt Design, Prompt Lock, and Generation.
+
+### Hard Invariant
+`CANONICAL_RULE_LOADING = PASS` is a mandatory prerequisite for /START_AUTO Generation.
+
+A Producer MUST NOT interpret IMAGE_COUNT, Task semantics, Prompt Lock semantics, or other automated-production rules from the user request alone when the applicable Canonical Rules have not been loaded.
+
+If GitHub is unavailable, inaccessible, or the required Canonical Rules cannot be verified, the correct outcome is `ENTRY_GATE_BLOCKED`, not fallback image generation.
+
+This is a Producer Runtime precondition. GitHub remains a reference and persistence database and does not itself grant or deny runtime permission.
+
