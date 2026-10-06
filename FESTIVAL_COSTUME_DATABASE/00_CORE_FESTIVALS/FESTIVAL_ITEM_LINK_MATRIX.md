@@ -9,9 +9,9 @@ This matrix connects every core festival to the categories currently relevant to
 | F003 | New Year's Day | CLOTHING,PROPS,OTHER |
 | F004 | Lunar New Year / Chinese New Year | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,HAIRSTYLE,PROPS,OTHER |
 | F005 | Valentine's Day | CLOTHING,ACCESSORIES,SHOES,PROPS |
-| F006 | Easter | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
-| F007 | Thanksgiving | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
-| F008 | St. Patrick's Day | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS |
+| F006 | Easter | CLOTHING,ACCESSORIES,SHOES,PROPS |
+| F007 | Thanksgiving | CLOTHING,ACCESSORIES,SHOES,PROPS |
+| F008 | St. Patrick's Day | CLOTHING,ACCESSORIES,SHOES,PROPS |
 | F009 | Carnival | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
 | F010 | Oktoberfest | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
 | F011 | Day of the Dead | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,MAKEUP,BODY_DECORATION,PROPS,OTHER |
@@ -54,6 +54,8 @@ This matrix connects every core festival to the categories currently relevant to
 | F048 | Christmas Eve / Advent Season | CLOTHING,ACCESSORIES,SHOES,HEADWEAR,PROPS,OTHER |
 
 ## RULE
+
+The festival record's `CATEGORY_LINKS` is authoritative. This matrix is a navigation index and must match each festival record's declared category set; it must not silently expand or narrow that set. If a mismatch is found, stop item selection for that festival, report `CATEGORY_LINK_MISMATCH`, and reconcile the record and matrix before production.
 
 A listed category means the worker may look for verified items there. It does not mean every item in that category is culturally appropriate for that festival. Festival tags, region, historical context, and cultural-sensitivity fields must still match.
 
