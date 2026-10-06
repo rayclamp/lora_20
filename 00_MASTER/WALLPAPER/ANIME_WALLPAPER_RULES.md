@@ -59,5 +59,30 @@ The current user PET_ALLOWED parameter controls intentional pet/animal inclusion
 The final prompt must describe reference identity, anime visual characteristics derived from the supplied reference, composition, stable pose/action, clothing/accessories, scene/weather/time, lighting/camera, and required wallpaper format.
 Apply CORE anatomy and generation-stability rules before finalizing the prompt.
 
+
+
+## 8A. Universal Wallpaper footwear authority
+
+When footwear is visible or intentionally designed, the Producer MUST use the canonical Universal Wallpaper footwear allowlist:
+
+`00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md`
+
+Allowed types are:
+- 高跟鞋
+- 娃娃鞋
+- 側面雙扣短靴
+- 短靴
+- 厚底靴
+- 涼鞋
+- 運動鞋
+- 瑪莉珍鞋
+- 拖鞋
+
+Festival Wallpaper footwear catalogs and other module-specific footwear data MUST NOT be treated as Universal Wallpaper options.
+
+`Loafers / 樂福鞋` are not allowed for Universal Wallpaper unless the authoritative Universal allowlist is explicitly changed.
+
+The `SHOES` design field MUST be validated against this allowlist before Prompt Lock.
+
 ## 9. Output boundary
 This rule set defines how an ANIME WALLPAPER request is designed. It does not perform QA and does not replace CORE safety/state rules.
