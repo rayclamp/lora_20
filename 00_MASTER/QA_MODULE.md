@@ -19,7 +19,7 @@ A generation SUCCESS is never retroactively changed because QA later rejects the
 
 Production Module → GENERATION SUCCESS / IMAGE_CREATED → QA → INSPECT → PASS / REVIEW / REPAIR / REJECT
 
-QA may consume outputs from UNIVERSAL_WALLPAPER, LORA_PRODUCTION, and future production modules.
+QA may consume outputs from UNIVERSAL_WALLPAPER and LORA_PRODUCTION only when the applicable QA workflow is activated. FESTIVAL_WALLPAPER outputs are explicitly excluded from QA intake and must never enter the LoRA dataset pipeline. A future production module is not QA-eligible by default; it requires an explicit scope decision and approved source-module contract.
 
 ## CORE dependency
 
@@ -84,7 +84,7 @@ Natural occlusion is not automatically a failure. If anatomy cannot be determine
 
 QA must select criteria from SOURCE_MODULE. It must not use one universal acceptance profile.
 
-Universal Wallpaper may require wallpaper type, reference identity, composition, scene, format, pet permission, and festival rules.
+Universal Wallpaper may require wallpaper type, reference identity, composition, scene, format, and pet permission. FESTIVAL_WALLPAPER is a separate module and its outputs are excluded from QA; do not import Festival Wallpaper outputs or cultural-design batches into QA or LoRA dataset intake.
 
 LoRA Production may require the age-20 reference, dataset diversity, identity consistency, and LoRA-specific dataset rules.
 
