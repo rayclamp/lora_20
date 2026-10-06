@@ -36,6 +36,7 @@ CHARACTER_REFERENCE:
 IMAGE_COUNT:
 WALLPAPER_TYPE:
 OUTPUT_TYPE:
+ASPECT_RATIO:
 
 FESTIVAL:
 REGION / CULTURAL_SCOPE:
@@ -579,7 +580,6 @@ FESTIVAL_ID:
 REGION / CULTURAL_SCOPE:
 OUTPUT_TYPE:
 ASPECT_RATIO:
-ORIENTATION:
 
 OUTFIT_ARCHETYPE:
 
@@ -740,7 +740,7 @@ real-human rendering
 - No systematic face-angle bias
 - No systematic distant-full-body bias
 
-## 34. WALLPAPER_VALUE
+## 33. WALLPAPER_VALUE
 
 每張圖必須具有：
 - Mood
@@ -757,7 +757,7 @@ real-human rendering
 - Subject Placement
 - Visual Balance
 
-## 35. FINAL EXECUTION BOUNDARY
+## 34. FINAL EXECUTION BOUNDARY
 
 完成：
 - FESTIVAL_SELECTION
@@ -778,7 +778,7 @@ real-human rendering
 - 自動執行 QA
 - 自動宣稱圖片已生成
 
-## 36. FINAL COMMAND
+## 35. FINAL COMMAND
 
 先完成所有節日選擇、GitHub 素材分析、ACTION_LIST、SERIES_COMPOSITION_PLAN，再輸出所有桌布的文字構圖與完整 Prompt。
 
