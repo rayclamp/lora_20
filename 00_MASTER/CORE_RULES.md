@@ -39,7 +39,12 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 14. A Task may be SUCCESS only after the applicable Prompt Binding, generation-call, result-count, and result-provenance gates pass.
 15. If required execution evidence is unavailable, record the affected evidence as UNVERIFIED; do not invent evidence or success.
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
-17. Prompt delivery integrity is distinct from prompt display and internal generation-input preparation. Delivery evidence is recorded when the generation interface exposes it; lack of transport telemetry is not by itself a pre-generation block.
+17. Prompt delivery integrity is distinct from prompt display and internal generation-input preparation.
+18. Before every actual image-generation call, the Producer MUST execute the canonical GENERATION_DECLARATION bridge: the exact validated GENERATION_INPUT MUST be placed verbatim in the immediate generation context, with no redesign, summary, substitution, or indirection.
+19. GENERATION_DECLARATION is not a new prompt and does not modify PROMPT_SET. It is an explicit execution declaration of the already LOCKED_PROMPT.
+20. If the Producer cannot place the complete exact GENERATION_INPUT into the actual generation context, generation MUST NOT be called.
+21. If the generation interface does not expose transport telemetry, record that limitation as UNVERIFIED/NOT_EXPOSED after the call; do not fabricate delivery evidence. Lack of telemetry alone is not permission to omit the GENERATION_DECLARATION.
+22. Prompt display to the user and GENERATION_DECLARATION are separate: display is transparency; declaration is the execution bridge.
 
 ## 2. Required Shared Documents
 - DRAWING_INSTRUCTIONS.md
