@@ -35,3 +35,14 @@ BATCH_ID: BATCH_20261006_UW_REALISTIC_1836_03
 - NEXT_TASK: TASK_001
 - NOTE: Image-generation tool invocation was unavailable; no image was created and no generation attempt was counted.
 - CHECKPOINT: SAVED
+
+
+## 2026-10-06T18:36:00+08:00
+- EVENT: TASK_001_GENERATION_TOOL_RATE_LIMIT
+- TASK_ID: TASK_001
+- IMAGE_ID: IMAGE_001
+- GENERATION_RESULT: NOT_CREATED
+- STATUS: PAUSED_RATE_LIMIT
+- NEXT_TASK: TASK_001
+- NOTE: Generation tool was invoked on resume but remained unavailable due to rate limit. No image output was created. No task success recorded.
+- CHECKPOINT: SAVED
