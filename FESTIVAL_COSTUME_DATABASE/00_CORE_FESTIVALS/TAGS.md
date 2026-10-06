@@ -10,8 +10,8 @@
 6. Tags describe cultural association and visual-generation usefulness.
 7. Similar-looking items remain separate when their cultural meaning differs.
 8. Generic FESTIVE is not a substitute for a specific festival association.
-9. CULTURAL_SENSITIVITY should be recorded when inaccurate mixing could matter.
-10. RECOGNIZABILITY should use HIGH, MEDIUM, or LOW.
+9. CULTURAL_SENSITIVITY should be recorded when inaccurate mixing could matter and uses LOW / MEDIUM / HIGH / VERY HIGH.
+10. RECOGNIZABILITY uses LOW / MEDIUM / HIGH / VERY HIGH; reserve VERY HIGH for exceptionally diagnostic items.
 
 ## Categories
 
