@@ -153,6 +153,26 @@ Retries and resume use the same locked prompt/version.
 The prompt shown to the user before generation MUST be the same GENERATION_INPUT that passed Level 1 Prompt Binding Integrity.
 Displaying the prompt is transparency, not proof of generator delivery.
 
+## 10.1 Pre-generation Prompt Extraction and Immediate Execution
+
+After Level 1 Prompt Binding Integrity passes, the Producer MUST extract the complete exact `GENERATION_INPUT` that will be used for the current generation event and place that exact Prompt content into the ChatGPT conversation immediately before the Generation Call.
+
+The displayed Prompt is the execution Prompt for that generation event. Immediately after displaying it, the Producer MUST send/use that same exact Prompt content for the image-generation interface.
+
+The Producer MUST NOT, between Prompt extraction/display and the Generation Call:
+- redesign the Prompt;
+- reconstruct the Prompt from task metadata;
+- summarize or shorten the Prompt;
+- translate or rewrite the Prompt;
+- add, remove, prepend, or append Prompt content;
+- substitute another Prompt.
+
+Required execution sequence:
+
+`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → PROMPT_BINDING_CHECK → EXTRACT EXACT PROMPT → DISPLAY EXACT PROMPT IN CHAT → IMMEDIATELY GENERATE USING THAT SAME PROMPT → RECORD RESULT`
+
+The Chat display does not by itself prove that the generation interface received the exact Prompt. If generator-side delivery telemetry is unavailable, retain the applicable `UNVERIFIED` / `NOT_EXPOSED` evidence state.
+
 ## 11. Stop Conditions
 
 Generation MUST stop for the affected Task/Batch when Level 1 binding fails, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
