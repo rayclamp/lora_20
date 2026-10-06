@@ -54,13 +54,21 @@ PET:
 
 不再使用「電腦桌布 / 手機桌布」作為 WALLPAPER_TYPE。
 
+### OUTPUT_TYPE
+
+有效值：
+- `DESKTOP`
+- `PHONE`
+
+此欄位只表示桌布目標裝置類型，不得把比例編碼進欄位值。
+
 ### ASPECT_RATIO
 
 有效值：
 - `16:9`
 - `9:16`
 
-Aspect ratio 與 Wallpaper Type 完全獨立。
+此欄位單獨指定圖片比例。不得使用 `DESKTOP_16_9` 等把裝置類型與比例重複寫入的值，也不得另設 `ORIENTATION`。Aspect ratio 與 Wallpaper Type 完全獨立。
 
 ## 2. CHARACTER_REFERENCE
 
