@@ -88,12 +88,14 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
 
-### Level 2 — Prompt Delivery Integrity
+### Level 2 — Generator Delivery Evidence
 
-The system must distinguish internal prompt preparation from confirmation that the actual image-generation interface received the same prompt.
-If the interface exposes verifiable request/input information, record GENERATION_CALL_ID and the delivered input identity when available.
-If the interface does not expose enough information to verify actual delivery, the state is EXECUTION_INTEGRITY_UNVERIFIED.
-It MUST NOT be reported as EXECUTION_INTEGRITY_PASS merely because ChatGPT displayed or prepared the prompt.
+Level 2 is an evidence layer, not a mandatory pre-generation gate.
+1. If the image-generation interface exposes verifiable request/input information, record GENERATION_CALL_ID and the available delivered-input identity.
+2. If the interface does not expose transport/request evidence, record `DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED` (or an equivalent `UNVERIFIED` evidence state).
+3. Lack of Level 2 telemetry MUST NOT prevent a valid Generation Call after Level 1 passes.
+4. Level 2 evidence may strengthen execution provenance, but it must not be fabricated.
+5. Level 2 absence must not be represented as `EXECUTION_INTEGRITY_BLOCKED` when the generation call itself was validly initiated.
 
 ## 4. Generation Call Identity
 
@@ -115,7 +117,7 @@ A Task may be SUCCESS only when all applicable requirements pass:
 1. Exact locked-prompt readback.
 2. Level 1 Prompt Binding Integrity.
 3. Generation call actually initiated for that Task.
-4. Required delivery-integrity evidence is available; otherwise use UNVERIFIED, not SUCCESS.
+4. If Level 2 delivery evidence is exposed by the interface, it must be recorded consistently; if it is not exposed, do not invent it and do not block success solely for its absence.
 5. Result received.
 6. Output count matches the Task contract.
 7. Result identity/binding is available when required.
@@ -126,14 +128,14 @@ IMAGE_RESULT_RECEIVED is not TASK_SUCCESS.
 ## 7. False-Success Prevention
 
 The following MUST NOT produce TASK_STATUS = SUCCESS:
-- image exists but prompt delivery is unverified;
+- image exists but a required Level 1 prompt binding check failed;
 - output count is unknown when count matters;
 - multiple outputs were returned for a one-image Task (record RESULT_COUNT_MISMATCH when the count is known);
 - result cannot be bound to the Task or attempt;
-- required generation-call provenance is missing;
+- required generation-call provenance that the interface actually exposes is missing;
 - prompt/input mismatch;
 - generation was blocked;
-- the prompt was only displayed and actual delivery cannot be established.
+- the prompt was only displayed and no Generation Call was initiated.
 
 Use explicit states such as RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, and GENERATION_FAILED.
 
@@ -153,7 +155,7 @@ Displaying the prompt is transparency, not proof of generator delivery.
 
 ## 11. Stop Conditions
 
-Generation MUST stop for the affected Task/Batch when Level 1 binding fails, required delivery evidence is unavailable, output count violates the contract, result provenance cannot be established, or execution evidence is contradictory.
+Generation MUST stop for the affected Task/Batch when Level 1 binding fails, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
 The absence of a GitHub Claim/Lease API is NOT a stop condition for the current Single-Producer workflow.
 
 ## 12. Recovery
