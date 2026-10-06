@@ -12,5 +12,14 @@
 10. Do not import props, accessories, or style rules from another module.
 11. Module-specific dataset rules remain inside the module.
 12. Generation Workers do not self-QA.
+13. A returned image is not automatically a successful Task.
+14. One Task must produce exactly the output count required by the active Task contract; wallpaper defaults to one independent image.
+15. Locked prompts are immutable during generation, retry, and resume.
+16. The exact locked prompt must be bound to GENERATION_INPUT before generation.
+17. Prompt Binding Integrity and actual generator delivery integrity are separate checks.
+18. If required actual-generator delivery cannot be verified, the Task must remain UNVERIFIED/BLOCKED and must not be SUCCESS.
+19. Result count and result-to-Task provenance must be recorded before SUCCESS.
+20. Generation Workers do not perform visual QA.
 
+Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
 No age-specific identity or LoRA-specific dataset rule belongs here.
