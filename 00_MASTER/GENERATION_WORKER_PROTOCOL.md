@@ -232,3 +232,17 @@ The gate belongs to the Producer Runtime. It does not make GitHub a runtime cont
 
 ### Rationale
 GitHub Canonical Rules define the semantics of automated production, including Task decomposition, output-count semantics, Prompt Lock, and applicable generation constraints. Without those rules, the Producer cannot safely assume that a request such as `IMAGE_COUNT = 12` means twelve independent Tasks. Therefore absence of verified Canonical Rules is a hard pre-generation block.
+
+
+## 12.1 RESUME ENTRY GATE
+
+Before a /RESUME_AUTO Generation attempt, the Producer MUST:
+
+1. re-verify the current GitHub database connection;
+2. reload and verify the applicable current Canonical Rules;
+3. recover the existing Session/Batch, Task Queue, Checkpoint, and locked Prompt Set;
+4. select the first Task that has not reached valid terminal SUCCESS.
+
+If connection verification or Canonical Rule Loading fails, resume is BLOCKED and no Generation call may occur.
+
+Resume MUST NOT create a replacement Session/Batch, reset attempt counts, or modify/redesign a locked prompt.
