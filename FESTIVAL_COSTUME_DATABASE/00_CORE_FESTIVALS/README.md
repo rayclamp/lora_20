@@ -1,17 +1,21 @@
-# Festival Costume Database — Core Festivals
+# Core Festival Database
 
-This directory contains the core festival reference database for the Inaria special-festival wallpaper system.
+This directory contains the canonical festival reference data for the Festival Wallpaper module.
 
-## Current scope
+## Retrieval flow
 
-- Core festival group: Group 00
-- Current fixed festival count: 48
-- Scope: highly recognizable festivals commonly celebrated across countries and regions
-- Current database focus: female clothing and culturally appropriate unisex items
-- Male-only clothing is not separately maintained at this stage
+`CORE_FESTIVAL_INDEX → FESTIVAL RECORD → TAGS / CULTURAL ANCHORS → RELEVANT CATEGORY ITEMS`
 
-## Database relationship
+Read only the festival records and category catalogs needed for the requested design; do not load every category automatically.
 
-Festival → Tags → Category Items
+## Canonical references
 
-See CORE_FESTIVAL_INDEX.md for the current festival index and TAGS.md for reusable tag rules.
+- Festival list and fixed scope: `CORE_FESTIVAL_INDEX.md`
+- Reusable tags: `TAGS.md`
+- Cultural constraints and anchors: `FESTIVAL_CULTURAL_ANCHORS.md`
+- Festival-to-item links: `FESTIVAL_ITEM_LINK_MATRIX.md`
+- Festival record schema: `FESTIVAL_RECORD_SCHEMA.md`
+- Item record schema: `ITEM_RECORD_SCHEMA.md`
+- Category index and shared item-record rules: `CATEGORIES/README.md`
+
+This README is a navigation entry, not a duplicate source of festival counts, scope rules, or item inventories.
