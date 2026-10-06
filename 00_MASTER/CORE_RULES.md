@@ -47,7 +47,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 - IMAGE_GENERATION_SAFETY_SPEC.md
 - GENERATION_WORKER_PROTOCOL.md
 
-## 1.1 CANONICAL RULE LOADING GATE — NON-NEGOTIABLE
+## 3.1 /START_AUTO ENTRY GATE — NON-NEGOTIABLE
 1. Any automated production initiated by /START_AUTO MUST first load the applicable current GitHub Canonical Rules before any image-generation call.
 2. Successful Canonical Rule Loading is a mandatory Production Entry Gate prerequisite.
 3. If the Producer cannot access, load, or verify the applicable Canonical Rules, it MUST enter ENTRY_GATE_BLOCKED and MUST NOT call the image-generation interface.
@@ -57,7 +57,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 7. Manual image requests that are not initiated through /START_AUTO remain governed by the applicable manual-production workflow.
 
 
-## 1.2 RESUME ENTRY GATE — NON-NEGOTIABLE
+## 3.2 /RESUME_AUTO ENTRY GATE — NON-NEGOTIABLE
 
 Any automated production initiated by /RESUME_AUTO MUST re-verify the current GitHub database connection and reload the applicable current Canonical Rules before resuming Generation.
 
