@@ -22,6 +22,8 @@ Missing required input → QA_INPUT_INCOMPLETE.
 
 ## 2. Authority order
 
+**Source-module scope gate:** `FESTIVAL_WALLPAPER` is excluded from this QA pipeline. Do not inspect, classify, repair, or route Festival Wallpaper outputs through this protocol, and never send them into the LoRA dataset pipeline. If a task identifies `SOURCE_MODULE=FESTIVAL_WALLPAPER`, stop with `QA_SOURCE_MODULE_OUT_OF_SCOPE` and preserve the original candidate unchanged.
+
 1. explicit current task requirements;
 2. CORE rules;
 3. source-module protocol/rules;
