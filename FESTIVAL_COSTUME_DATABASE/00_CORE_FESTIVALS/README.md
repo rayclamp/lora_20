@@ -18,4 +18,10 @@ Read only the festival records and category catalogs needed for the requested de
 - Item record schema: `ITEM_RECORD_SCHEMA.md`
 - Category index and shared item-record rules: `CATEGORIES/README.md`
 
+## Current data-quality boundary
+
+The 10 `ITEM_CATALOG.md` files are candidate indexes. Their current rows are explicitly `UNVERIFIED` with `SOURCE_REFERENCES: NOT_RECORDED`; the repository tree currently contains no separate complete per-item records. Therefore, no catalog row may be treated as source-verified until a matching complete item record is created and reviewed against `ITEM_RECORD_SCHEMA.md`.
+
+`FESTIVAL_CULTURAL_ANCHORS.md` is working generation guidance, not independent source verification. The 48 festival files and matrix are structurally present, but that does not mean all cultural claims or candidate items have been externally verified.
+
 This README is a navigation entry, not a duplicate source of festival counts, scope rules, or item inventories.
