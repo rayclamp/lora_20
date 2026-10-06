@@ -304,6 +304,18 @@ When useful, task-level style directions such as editorial, cinematic, bridal, o
 
 Apply CORE anatomy and generation-stability rules before finalizing the prompt.
 
+
+
+## 13A. Universal Wallpaper footwear authority
+
+When footwear is visible or intentionally designed, the Producer MUST use the canonical Universal Wallpaper footwear allowlist at `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md`.
+
+Allowed types are: 高跟鞋、娃娃鞋、側面雙扣短靴、短靴、厚底靴、涼鞋、運動鞋、瑪莉珍鞋、拖鞋。
+
+Festival Wallpaper footwear catalogs and other module-specific footwear data MUST NOT be treated as Universal Wallpaper options. `Loafers / 樂福鞋` are not allowed for Universal Wallpaper unless the authoritative Universal allowlist is explicitly changed.
+
+The `SHOES` design field MUST be validated against this allowlist before Prompt Lock.
+
 ## 14. Priority order
 For conflicts within a realistic-person prompt, use this priority order:
 
