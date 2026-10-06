@@ -53,7 +53,7 @@ Workers should:
 | F035 | Taiwan Lantern Festival | 台灣燈會／台灣燈節 |
 | F036 | Taiwan Ghost Festival / Zhongyuan Festival | 台灣中元節／鬼月 |
 | F037 | Mazu Pilgrimage / Mazu Birthday Festival | 媽祖遶境／媽祖誕辰祭典 |
-| F038 | Qingming / Tomb-Sweeping Day | 清明／掃墓節 |
+| F038 | Qingming / Tomb-Sweeping Memorial Focus (overlaps F020; not a separate holiday) | 清明掃墓祭祖場景（專題） |
 | F039 | East Asian Mid-Autumn Festival | 東亞中秋節 |
 | F040 | Valentine's Day / White Day Cultural Season | 情人節／白色情人節文化季 |
 | F041 | Bastille Day | 法國國慶日 |
