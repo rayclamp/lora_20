@@ -1,6 +1,6 @@
 # OTHER
 
-Fallback category for verified festival elements that do not fit another category.
+Candidate category for festival elements that do not fit another category. Catalog inclusion alone does not mean an element is verified; follow the shared verification rules.
 
 ## Catalog
 
