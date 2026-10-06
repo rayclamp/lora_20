@@ -54,6 +54,10 @@ It is intentionally concise. It does not replace region-specific research when a
 | F047 | St. Nicholas imagery, winter European festive setting, sweets/gifts | family/community visit, gift/sweets tradition | HIGH | MEDIUM |
 | F048 | Advent wreath/candles, Christmas Eve table, church-season decoration, winter festive wear | candle lighting, Christmas Eve gathering | HIGH | MEDIUM |
 
+## SCALE NOTE
+
+`Sensitivity` uses LOW / MEDIUM / HIGH / VERY HIGH. VERY HIGH marks cultural or religious contexts where inaccurate mixing or portrayal is especially consequential.
+
 ## USE
 
 - These anchors define recognizable generation cues.
