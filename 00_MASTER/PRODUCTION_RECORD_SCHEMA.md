@@ -57,10 +57,11 @@ Task status semantics:
 - EXECUTION_INTEGRITY_UNVERIFIED = actual generator delivery cannot be verified.
 - EXECUTION_INTEGRITY_BLOCKED = generation is blocked by integrity failure or missing required evidence.
 - GENERATION_FAILED = generation failed without a usable result.
+- RESULT_COUNT_MISMATCH = the actual output count is known and does not equal the Task contract; this is not SUCCESS.
 - SUCCESS = all applicable success-gate conditions passed.
 
 IMAGE_RESULT_RECEIVED must never be treated as SUCCESS by itself.
-For wallpaper production, EXPECTED_OUTPUT_COUNT = 1. If ACTUAL_OUTPUT_COUNT != 1, the Task cannot be SUCCESS.
+For wallpaper production, EXPECTED_OUTPUT_COUNT = 1. If ACTUAL_OUTPUT_COUNT != 1, the Task cannot be SUCCESS. When the actual count is known, the mismatch must be explicitly recorded as RESULT_COUNT_MISMATCH rather than being hidden solely under a generic unverified-result state.
 
 ## 6. PROMPT_SET.md
 All prompts are designed before generation, persisted before execution, and locked as execution input. Resume does not silently redesign a locked prompt. Revisions require a new prompt version.
