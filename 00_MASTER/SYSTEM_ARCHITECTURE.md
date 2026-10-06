@@ -37,11 +37,11 @@ A returned image is not automatically a successful Task.
 
 ### Prompt Integrity
 Level 1: exact locked prompt readback and GENERATION_INPUT binding; compare hash/length when available.
-Level 2: establish, when the interface supports it, that the actual generation call received the same input. Displaying the prompt or preparing GENERATION_INPUT does not prove actual delivery.
-If required delivery evidence is unavailable, DELIVERY_INTEGRITY = UNVERIFIED and the Task MUST NOT be SUCCESS.
+Level 2: when the generation interface exposes verifiable request/input information, record the available generation-call/delivery evidence and bind it to the attempt. When the interface does not expose such evidence, record delivery evidence as UNVERIFIED/NOT_EXPOSED rather than blocking the generation call.
+Prompt display is transparency, not proof of delivery, but absence of delivery telemetry is not itself a reason to suppress an otherwise valid generation call.
 
 ### Result Integrity
-Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no execution-integrity conflict exists.
+Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no Level 1 prompt-binding conflict exists.
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
 If more than one output is returned, the Task cannot be SUCCESS.
 
