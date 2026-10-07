@@ -22,7 +22,7 @@ ACTUAL_OUTPUT_COUNT: 1
 PROMPT_CONSUMED: YES
 PROMPT_TERMINATION_REASON: SINGLE_GENERATION_COMPLETED_WITH_EXECUTION_EVIDENCE_UNVERIFIED
 
-| 2 | TASK_02 | PROMPT_02 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO |
+| 2 | TASK_02 | PROMPT_02 | v1 | LOCKED | GENERATION_READY | READY | 1 | 0 | NO |
 | 3 | TASK_03 | PROMPT_03 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO |
 | 4 | TASK_04 | PROMPT_04 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO |
 | 5 | TASK_05 | PROMPT_05 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO |
@@ -38,3 +38,6 @@ TASK_05 — 晴天／晚上：台灣城市屋頂花園晚間休閒
 TASK_06 — 雨天／晚上：台灣住家窗邊閱讀
 
 All tasks are independent single-image desktop 16:9 outputs. No collage, grid, storyboard, contact sheet, or multi-panel output.
+
+CURRENT_TASK: TASK_02
+ATTEMPT_ID: ATTEMPT_02
