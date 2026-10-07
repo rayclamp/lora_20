@@ -1,12 +1,12 @@
 # PROMPT_SET.md
 
-PROMPT_SET_STATUS: DESIGNED
-PROMPT_SET_LOCKED: NO
-LOCKED_AT: NOT_YET
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
+LOCKED_AT: 2026-10-08T05:03:00+08:00
 
 ## PROMPT_01 — TASK_01
 PROMPT_VERSION: v1
-PROMPT_STATUS: DESIGNED
+PROMPT_STATUS: LOCKED
 
 Use the uploaded reference image as the sole visual person reference for Inaria / 依娜莉亞. Preserve the referenced person's recognizable facial structure, facial-feature proportions, natural skin tone, hairline, natural hair color, recognizable body build, and natural body proportions. Do not replace the person with another identity, generic influencer face, doll face, or anime face. This is a realistic photographic wallpaper.
 
@@ -26,7 +26,7 @@ Lighting and rendering: refined photorealistic lifestyle photography, natural sk
 
 ## PROMPT_02 — TASK_02
 PROMPT_VERSION: v1
-PROMPT_STATUS: DESIGNED
+PROMPT_STATUS: LOCKED
 
 Use the uploaded reference image as the sole visual person reference for Inaria / 依娜莉亞. Preserve the referenced person's recognizable facial structure, facial-feature proportions, natural skin tone, hairline, natural hair color, recognizable body build, and natural body proportions. Do not replace the person with another identity, generic influencer face, doll face, or anime face. This is a realistic photographic wallpaper.
 
@@ -46,7 +46,7 @@ Lighting and rendering: photorealistic lifestyle editorial photography, soft rai
 
 ## PROMPT_03 — TASK_03
 PROMPT_VERSION: v1
-PROMPT_STATUS: DESIGNED
+PROMPT_STATUS: LOCKED
 
 Use the uploaded reference image as the sole visual person reference for Inaria / 依娜莉亞. Preserve the referenced person's recognizable facial structure, facial-feature proportions, natural skin tone, hairline, natural hair color, recognizable body build, and natural body proportions. Do not replace the person with another identity, generic influencer face, doll face, or anime face. This is a realistic photographic wallpaper.
 
@@ -66,7 +66,7 @@ Lighting and rendering: high-end photorealistic outdoor lifestyle photography, w
 
 ## PROMPT_04 — TASK_04
 PROMPT_VERSION: v1
-PROMPT_STATUS: DESIGNED
+PROMPT_STATUS: LOCKED
 
 Use the uploaded reference image as the sole visual person reference for Inaria / 依娜莉亞. Preserve the referenced person's recognizable facial structure, facial-feature proportions, natural skin tone, hairline, natural hair color, recognizable body build, and natural body proportions. Do not replace the person with another identity, generic influencer face, doll face, or anime face. This is a realistic photographic wallpaper.
 
@@ -86,7 +86,7 @@ Lighting and rendering: photorealistic cinematic street photography, warm dusk s
 
 ## PROMPT_05 — TASK_05
 PROMPT_VERSION: v1
-PROMPT_STATUS: DESIGNED
+PROMPT_STATUS: LOCKED
 
 Use the uploaded reference image as the sole visual person reference for Inaria / 依娜莉亞. Preserve the referenced person's recognizable facial structure, facial-feature proportions, natural skin tone, hairline, natural hair color, recognizable body build, and natural body proportions. Do not replace the person with another identity, generic influencer face, doll face, or anime face. This is a realistic photographic wallpaper.
 
@@ -106,7 +106,7 @@ Lighting and rendering: refined photorealistic evening lifestyle photography, so
 
 ## PROMPT_06 — TASK_06
 PROMPT_VERSION: v1
-PROMPT_STATUS: DESIGNED
+PROMPT_STATUS: LOCKED
 
 Use the uploaded reference image as the sole visual person reference for Inaria / 依娜莉亞. Preserve the referenced person's recognizable facial structure, facial-feature proportions, natural skin tone, hairline, natural hair color, recognizable body build, and natural body proportions. Do not replace the person with another identity, generic influencer face, doll face, or anime face. This is a realistic photographic wallpaper.
 
