@@ -6,3 +6,6 @@ BATCH_ID: BATCH-20261008-0127-UNIVRW-01
 - 2026-10-08T01:27:00+08:00 | EVENT: CANONICAL_RULE_LOADING_PASS | required shared + realistic wallpaper + universal reference + footwear + Inaria character rules loaded
 - 2026-10-08T01:27:00+08:00 | EVENT: DESIGN_COMPLETE | PROMPT_COUNT=9
 - 2026-10-08T01:27:00+08:00 | EVENT: PROMPT_SET_LOCKED | PROMPT_SET_STATUS=LOCKED
+
+- 2026-10-08T01:28:00+08:00 | EVENT: PROMPT_REVISION | PROMPT_SET_V1 retained immutable; created PROMPT_SET_V2.md because v1 did not independently encode the explicit reference policy in Tasks 002-009.
+- 2026-10-08T01:28:00+08:00 | EVENT: PROMPT_SET_LOCKED | PROMPT_SET_VERSION=v2 | PROMPT_COUNT=9
