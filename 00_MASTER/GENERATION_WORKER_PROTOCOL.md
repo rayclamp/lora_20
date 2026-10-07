@@ -173,6 +173,30 @@ Required execution sequence:
 
 The Chat display does not by itself prove that the generation interface received the exact Prompt. If generator-side delivery telemetry is unavailable, retain the applicable `UNVERIFIED` / `NOT_EXPOSED` evidence state.
 
+
+### 10.2 Task-Scoped Prompt Display — Additive Execution Rule
+
+For every Task and every Generation attempt, the Producer MUST independently repeat the Prompt Display step for that Task's current locked Prompt. This rule adds a per-Task execution requirement; it does not replace or restructure the existing Session/Batch/Task, Prompt Lock, Level 1, Level 2, Generation Call, Result Verification, or Task Success architecture.
+
+After the current Task passes Level 1 Prompt Binding Integrity, the Producer MUST:
+1. re-identify the current `TASK_ID` and its associated `PROMPT_ID`;
+2. use that Task's exact `GENERATION_INPUT`, already verified against its `LOCKED_PROMPT`;
+3. display the complete exact Prompt in the ChatGPT conversation;
+4. immediately initiate that Task's Generation Call using the same Prompt, without intervening edits.
+
+Prompt Display is Task-scoped, never satisfied by a Session-level or global flag. The following MUST NOT be used to skip the current Task's display step:
+- a Prompt is already present anywhere in the conversation;
+- the previous Task displayed its Prompt;
+- another Task or attempt displayed the same or similar text;
+- the Session previously completed a Prompt Display step.
+
+The invariant for each Task is:
+
+`CURRENT TASK LOCKED_PROMPT = VERIFIED GENERATION_INPUT = CURRENT TASK DISPLAYED PROMPT = PROMPT USED FOR THE IMMEDIATE GENERATION CALL`
+
+This rule does not claim that chat display alone proves generator-side delivery. Level 2 remains an evidence layer: record `NOT_EXPOSED` / `UNVERIFIED` when delivery telemetry is unavailable, and do not fabricate delivery evidence or block a valid call solely because telemetry is absent.
+
+
 ## 11. Stop Conditions
 
 Generation MUST stop for the affected Task/Batch when Level 1 binding fails, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
