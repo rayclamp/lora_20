@@ -29,3 +29,10 @@ GENERATION_CALL: NOT_INITIATED
 POLICY_INTERRUPTION_COUNT: 0
 CHECKPOINT: CHECKPOINT_001
 ACTION: STOP
+
+## EVENT_004
+TIMESTAMP: 2026-10-08T06:13:00+08:00
+EVENT_TYPE: RESUME_AUTO_RECOVERY_CHECK
+DETAIL: Current Session/Batch records were re-read directly from GitHub. No new Session, Batch, Production Request, or Prompt was created. TASK_01 remains EXECUTION_INTEGRITY_BLOCKED with PROMPT_CONSUMED=NO; TASK_02 through TASK_07 remain PENDING. CHECKPOINT_001 remains the latest checkpoint.
+RECOVERY_DECISION: STOP
+REASON: The required generation hard gate still cannot prove PROMPT_PAYLOAD = GENERATION_INPUT_FROZEN with the available image-generation interface. No generation call is initiated, and no retry/resubmit/regeneration is performed.
