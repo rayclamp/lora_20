@@ -12,3 +12,20 @@ DETAIL: Current repository rayclamp/lora_20 and required canonical rules were fr
 TIMESTAMP: 2026-10-08T06:12:00+08:00
 EVENT_TYPE: PROMPT_SET_LOCKED
 DETAIL: Seven Task prompts were persisted, read back in full, verified for Task/Prompt consistency, then locked as v1. TASK_QUEUE was subsequently read back with all seven Prompt statuses LOCKED.
+
+## EVENT_003
+TIMESTAMP: 2026-10-08T06:12:00+08:00
+EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+SESSION_ID: UW_AUTO_20261008_0612_01
+BATCH_ID: BATCH_001
+TASK_ID: TASK_01
+PROMPT_ID: PROMPT_01
+PROMPT_VERSION: v1
+ATTEMPT_ID: NONE
+GENERATION_CALL_ID: NONE
+DETAIL: Exact Locked Prompt readback was verified. EXACT_BINDING and GENERATION_INPUT_FROZEN were verified at length 2265. However, the available image-generation interface does not expose a verifiable Prompt Payload field that can be explicitly bound to GENERATION_INPUT_FROZEN; its prompt argument is deprecated and the interface requires it to remain null/inferred. Therefore PROMPT_PAYLOAD = GENERATION_INPUT_FROZEN cannot be proven.
+PROMPT_CONSUMED: NO
+GENERATION_CALL: NOT_INITIATED
+POLICY_INTERRUPTION_COUNT: 0
+CHECKPOINT: CHECKPOINT_001
+ACTION: STOP
