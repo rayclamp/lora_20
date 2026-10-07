@@ -150,52 +150,36 @@ Retries and resume use the same locked prompt/version.
 
 ## 10. Display Rule
 
-The prompt shown to the user before generation MUST be the same GENERATION_INPUT that passed Level 1 Prompt Binding Integrity.
-Displaying the prompt is transparency, not proof of generator delivery.
+Prompt Display is a read-only transparency operation added to the existing Generation architecture.
 
-## 10.1 Pre-generation Prompt Extraction and Immediate Execution
+After the current Task's `PROMPT_SET` is locked, the Producer MUST read the current Task's exact locked Prompt directly from the authoritative `PROMPT_SET` and display that complete Prompt in the ChatGPT conversation immediately before the Generation Call.
 
-After Level 1 Prompt Binding Integrity passes, the Producer MUST extract the complete exact `GENERATION_INPUT` that will be used for the current generation event and place that exact Prompt content into the ChatGPT conversation immediately before the Generation Call.
+The Display operation MUST NOT:
+- replace or modify `GENERATION_INPUT`;
+- become a new source for `GENERATION_INPUT`;
+- reconstruct or transform the Prompt;
+- alter the existing `GENERATION_INPUT → GENERATION_CALL` path;
+- make Generation depend on the displayed Chat text.
 
-The displayed Prompt is the execution Prompt for that generation event. Immediately after displaying it, the Producer MUST send/use that same exact Prompt content for the image-generation interface.
+The existing Generation path remains unchanged:
 
-The Producer MUST NOT, between Prompt extraction/display and the Generation Call:
-- redesign the Prompt;
-- reconstruct the Prompt from task metadata;
-- summarize or shorten the Prompt;
-- translate or rewrite the Prompt;
-- add, remove, prepend, or append Prompt content;
-- substitute another Prompt.
+`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_CALL`
 
-Required execution sequence:
+Prompt Display is an independent read-only branch from the already-locked authoritative Prompt:
 
-`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → PROMPT_BINDING_CHECK → EXTRACT EXACT PROMPT → DISPLAY EXACT PROMPT IN CHAT → IMMEDIATELY GENERATE USING THAT SAME PROMPT → RECORD RESULT`
+`PROMPT_SET → PROMPT_LOCK → DISPLAY_PROMPT`
 
-The Chat display does not by itself prove that the generation interface received the exact Prompt. If generator-side delivery telemetry is unavailable, retain the applicable `UNVERIFIED` / `NOT_EXPOSED` evidence state.
+Therefore the complete execution relationship is:
 
+`PROMPT_SET → PROMPT_LOCK → DISPLAY_PROMPT`
 
-### 10.2 Task-Scoped Prompt Display — Additive Execution Rule
+and, independently,
 
-For every Task and every Generation attempt, the Producer MUST independently repeat the Prompt Display step for that Task's current locked Prompt. This rule adds a per-Task execution requirement; it does not replace or restructure the existing Session/Batch/Task, Prompt Lock, Level 1, Level 2, Generation Call, Result Verification, or Task Success architecture.
+`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_CALL`
 
-After the current Task passes Level 1 Prompt Binding Integrity, the Producer MUST:
-1. re-identify the current `TASK_ID` and its associated `PROMPT_ID`;
-2. use that Task's exact `GENERATION_INPUT`, already verified against its `LOCKED_PROMPT`;
-3. display the complete exact Prompt in the ChatGPT conversation;
-4. immediately initiate that Task's Generation Call using the same Prompt, without intervening edits.
+The displayed Prompt MUST be the exact current Task Prompt from `PROMPT_SET`. Displaying the Prompt does not prove generator-side delivery and MUST NOT be used as evidence that the Generation interface received it.
 
-Prompt Display is Task-scoped, never satisfied by a Session-level or global flag. The following MUST NOT be used to skip the current Task's display step:
-- a Prompt is already present anywhere in the conversation;
-- the previous Task displayed its Prompt;
-- another Task or attempt displayed the same or similar text;
-- the Session previously completed a Prompt Display step.
-
-The invariant for each Task is:
-
-`CURRENT TASK LOCKED_PROMPT = VERIFIED GENERATION_INPUT = CURRENT TASK DISPLAYED PROMPT = PROMPT USED FOR THE IMMEDIATE GENERATION CALL`
-
-This rule does not claim that chat display alone proves generator-side delivery. Level 2 remains an evidence layer: record `NOT_EXPOSED` / `UNVERIFIED` when delivery telemetry is unavailable, and do not fabricate delivery evidence or block a valid call solely because telemetry is absent.
-
+Prompt Display is required for every Task and every Generation attempt. A previous Task's display, a Session-level display, or an already-visible Prompt does not satisfy the current Task's display requirement.
 
 ## 11. Stop Conditions
 
