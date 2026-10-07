@@ -1,0 +1,10 @@
+# EXECUTION_LOG
+
+SESSION_ID: SESSION_20261007T2242_UTC8_TRAVELJP_REALISTIC
+BATCH_ID: BATCH_001
+
+2026-10-07T22:42+08:00 | EVENT_ID: EVT_ENTRY_001 | ENTRY_GATE_VERIFIED | GITHUB_DATABASE_CONNECTION=VERIFIED | CANONICAL_RULE_LOADING=PASS
+2026-10-07T22:42+08:00 | EVENT_ID: EVT_DESIGN_001 | DESIGN_COMPLETE | PROMPT_COUNT=9
+2026-10-07T22:42+08:00 | EVENT_ID: EVT_LOCK_001 | PROMPT_SET_LOCKED | PROMPT_SET_STATUS=LOCKED | VERSION=v1
+
+Generation events will be appended per Task only after an actual generation call and result verification. Delivery telemetry will be recorded according to the interface exposure; no unavailable telemetry will be fabricated.
