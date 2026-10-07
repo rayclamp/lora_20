@@ -150,36 +150,43 @@ Retries and resume use the same locked prompt/version.
 
 ## 10. Display Rule
 
-Prompt Display is a read-only transparency operation added to the existing Generation architecture.
+Prompt Display is a read-only transparency operation added to the existing Generation architecture. It MUST NOT create a second prompt path or weaken the binding between the verified generation input and the immediate Generation Call.
 
-After the current Task's `PROMPT_SET` is locked, the Producer MUST read the current Task's exact locked Prompt directly from the authoritative `PROMPT_SET` and display that complete Prompt in the ChatGPT conversation immediately before the Generation Call.
+For the current Task, the Producer MUST execute the following sequence:
+
+`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → LEVEL 1 PROMPT BINDING CHECK → DISPLAY EXACT VERIFIED GENERATION_INPUT → IMMEDIATELY GENERATE USING THAT SAME GENERATION_INPUT → RECORD RESULT`
+
+The displayed Prompt MUST be the complete, exact `GENERATION_INPUT` that has already passed Level 1 Prompt Binding Integrity for the current Task and current Generation attempt.
 
 The Display operation MUST NOT:
 - replace or modify `GENERATION_INPUT`;
 - become a new source for `GENERATION_INPUT`;
-- reconstruct or transform the Prompt;
-- alter the existing `GENERATION_INPUT → GENERATION_CALL` path;
-- make Generation depend on the displayed Chat text.
+- reconstruct, summarize, translate, reorder, add, remove, or transform the Prompt;
+- create a second independent Prompt branch;
+- substitute the user's overall Production Request, /START_AUTO instruction, or any other higher-level instruction for `GENERATION_INPUT`;
+- cause the Generation Call to read from the displayed Chat text instead of the verified `GENERATION_INPUT`.
 
-The existing Generation path remains unchanged:
-
-`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_CALL`
-
-Prompt Display is an independent read-only branch from the already-locked authoritative Prompt:
-
-`PROMPT_SET → PROMPT_LOCK → DISPLAY_PROMPT`
-
-Therefore the complete execution relationship is:
-
-`PROMPT_SET → PROMPT_LOCK → DISPLAY_PROMPT`
-
-and, independently,
+The existing Generation path remains authoritative:
 
 `LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_CALL`
 
-The displayed Prompt MUST be the exact current Task Prompt from `PROMPT_SET`. Displaying the Prompt does not prove generator-side delivery and MUST NOT be used as evidence that the Generation interface received it.
+Display is inserted immediately before the Generation Call as a transparency step on that same verified input:
 
-Prompt Display is required for every Task and every Generation attempt. A previous Task's display, a Session-level display, or an already-visible Prompt does not satisfy the current Task's display requirement.
+`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → PROMPT_BINDING_CHECK → DISPLAY_EXACT_GENERATION_INPUT → GENERATION_CALL(SAME_INPUT)`
+
+The following invariant MUST hold for every Task and every Generation attempt:
+
+`CURRENT TASK LOCKED_PROMPT = VERIFIED GENERATION_INPUT = CURRENT TASK DISPLAYED PROMPT = PROMPT USED FOR THE IMMEDIATE GENERATION CALL`
+
+Therefore:
+1. If `GENERATION_INPUT` has not been created, Generation MUST NOT start.
+2. If `GENERATION_INPUT` is empty, incomplete, or fails Level 1, Generation MUST NOT start.
+3. If the displayed Prompt differs from the verified `GENERATION_INPUT`, Generation MUST NOT start.
+4. After the exact verified Prompt is displayed, the Producer MUST immediately initiate the Generation Call using that same `GENERATION_INPUT`; it MUST NOT fall back to the user's overall request.
+5. Displaying a Prompt alone is never evidence that the Generation interface received it.
+6. Prompt Display is required for every Task and every Generation attempt. A previous Task's display, a Session-level display, or an already-visible Prompt does not satisfy the current Task's display requirement.
+
+This change adds only the required Display-Prompt transparency step to the existing Generation path; it does not redesign, replace, or otherwise alter the underlying prompt preparation, locking, or generation architecture.
 
 ## 11. Stop Conditions
 
