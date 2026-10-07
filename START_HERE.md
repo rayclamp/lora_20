@@ -13,7 +13,12 @@ The Producer MUST perform a fresh GitHub connection/read-and-verify gate at each
 1. **Session startup, before any production planning:** read this entry document, the current canonical path registry, CORE rules, and the applicable generation worker protocol.
 2. **Before task/prompt design:** reconnect and read the current module, production-type, character/reference, and other applicable design rules.
 3. **Before locking or selecting a prompt for generation:** reconnect and read the current Session/Batch, Task Queue, and authoritative locked Prompt Set; verify the exact Task and prompt/version.
-4. **Immediately before every image-generation call:** reconnect and read/verify the current Task state and exact locked prompt. Bind that exact readback through EXACT_BINDING into GENERATION_INPUT_FROZEN. Do not send the user's startup command, Production Request, task list, or a summary as a substitute for the locked prompt.
+4. **Immediately before every image-generation call:** reconnect and read/verify the current Task state and exact locked prompt. Bind that exact readback through EXACT_BINDING into GENERATION_INPUT_FROZEN.
+
+Required pre-generation sequence:
+GITHUB_CONNECT_VERIFY → CURRENT_TASK_READ → LOCKED_PROMPT_READBACK → PROMPT_INTEGRITY_VERIFY → EXACT_BINDING → GENERATION_INPUT_FROZEN → GENERATION_CALL
+
+GENERATION_INPUT_FROZEN MUST be text-for-text identical to the current LOCKED_PROMPT. Once frozen, it is immutable until GENERATION_CALL completes. No redesign, reinterpretation, reconstruction, summarization, translation, reordering, addition, removal, substitution, or context-based prompt generation is permitted between freezing and the generation call. The ONLY Prompt Input permitted for GENERATION_CALL is GENERATION_INPUT_FROZEN. Do not send the user's startup command, Production Request, task list, or a summary as a substitute for the locked prompt.
 5. **After a generation result, before recording it:** reconnect and read the current authoritative record state; then persist the actual result, output count, call/result identity, and verification state; read back the write to verify it.
 6. **On interruption, stop, or resume:** reconnect first; read the current Session/Batch, all required batch records, latest execution log, and checkpoint; classify and persist the actual interruption state; verify the write before continuing or reporting recovery state.
 7. **Before moving to the next Task and before declaring completion:** reconnect, read the latest authoritative state, verify the preceding write, and only then select the next Task or determine completion.
