@@ -42,6 +42,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 17. Each locked Prompt may be submitted to image generation exactly once. Image QA failure, generation failure, service failure, quota exhaustion, or interruption never authorizes a second generation call for the same Prompt/version.
 18. Only verified AI-policy/safety/content-policy interruptions may increment the per-Prompt Policy Interruption Counter. After three consecutive countable Policy/Safety interruptions across explicit user-authorized continuations, the Prompt is terminally skipped. Non-policy system/resource/GitHub errors do not count.
 19. Automated production must persist the state/evidence produced by each discrete production step to GitHub and verify the write before proceeding to the next step. Failure to read/write/verify required current GitHub state is a hard stop.
+20. The generation handoff is immutable: LOCKED_PROMPT → EXACT_READBACK → EXACT_BINDING → GENERATION_INPUT_FROZEN → GENERATION_CALL. GENERATION_INPUT_FROZEN must be text-for-text identical to the current locked prompt and is the only Prompt Input permitted for the generation call. No command, request, reference, rule, runtime context, redesign, summary, translation, reconstruction, addition, removal, or substitution may replace or modify it after freezing.
 
 ## 2. Required Shared Documents
 - DRAWING_INSTRUCTIONS.md
