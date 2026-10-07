@@ -9,7 +9,7 @@ A valid production Task is not successful merely because an image result is retu
 
 Minimum execution chain:
 
-TASK_ID → PROMPT_ID → LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK_ID → PROMPT_ID → LOCKED_PROMPT → EXACT_READBACK → EXACT_BINDING → GENERATION_INPUT_FROZEN → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 These are distinct states: prompt preparation/binding, actual generation-call delivery, image-result receipt, and Task success.
 
@@ -98,10 +98,16 @@ GitHub remains a database and persistence layer, not a runtime controller.
 ### Level 1 — Prompt Binding Integrity
 
 1. Read the task's locked prompt exactly from the authoritative PROMPT_SET.
-2. Create GENERATION_INPUT from that exact readback.
-3. GENERATION_INPUT MUST equal the complete locked prompt text-for-text.
-4. When available, compare LOCKED_PROMPT_LENGTH, GENERATION_INPUT_LENGTH, LOCKED_PROMPT_HASH, and GENERATION_INPUT_HASH.
-5. Any mismatch blocks generation.
+2. Perform EXACT_READBACK of the complete locked prompt.
+3. Perform EXACT_BINDING directly from that exact readback; do not regenerate or reconstruct the prompt.
+4. Create GENERATION_INPUT_FROZEN from EXACT_BINDING.
+5. GENERATION_INPUT_FROZEN MUST equal the complete locked prompt text-for-text.
+6. When available, compare LOCKED_PROMPT_LENGTH, GENERATION_INPUT_FROZEN_LENGTH, LOCKED_PROMPT_HASH, and GENERATION_INPUT_FROZEN_HASH.
+7. Once GENERATION_INPUT_FROZEN is established, it is immutable until GENERATION_CALL completes.
+8. From EXACT_BINDING through GENERATION_CALL, the Producer MUST NOT redesign, reinterpret, reconstruct, summarize, translate, reorder, add, remove, substitute, or regenerate any prompt content.
+9. START_AUTO, /RESUME_AUTO, the Production Request, Task Queue prose, GitHub rules, reference data, prior context, and runtime reasoning MUST NOT be used as a substitute or additional generation prompt.
+10. The ONLY Prompt Input permitted for GENERATION_CALL is the current Task's GENERATION_INPUT_FROZEN.
+11. Any mismatch, overwrite, loss, empty input, or inability to prove this exact handoff blocks generation.
 
 ### Level 2 — Generator Delivery Evidence
 
@@ -209,7 +215,9 @@ For wallpaper production, one Task equals one independent image. No collage, con
 ## 9. Prompt Immutability
 
 After PROMPT_SET_LOCKED, do not redesign, summarize, translate, reorder, add, remove, or silently substitute prompt content.
-Retries and resume use the same locked prompt/version.
+After EXACT_READBACK, do not transform the prompt before or during EXACT_BINDING.
+GENERATION_INPUT_FROZEN is the immutable execution handoff and must remain byte/text-for-text identical to the locked prompt until GENERATION_CALL completes.
+Retries and resume use the same locked prompt/version; no retry may create a second Generation Call.
 
 ## 10. Stop Conditions
 
