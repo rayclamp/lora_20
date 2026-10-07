@@ -1,0 +1,37 @@
+# SESSION_CONTRACT.md
+
+SESSION_ID: SES-20261008-0041-UNI-REALISTIC
+BATCH_ID: BATCH-20261008-0041-001
+SESSION_SCOPE: /START_AUTO single-producer automated wallpaper production
+MODULE: UNIVERSAL_WALLPAPER
+PRODUCTION_TYPE: REALISTIC
+CHARACTER: INARIA
+IMAGE_COUNT: 9
+TARGET_SUCCESS_COUNT: 9
+OUTPUT_TYPE: DESKTOP_16_9
+THEME: 上班族日常
+SCENE: 台灣
+SEASON: 冬天
+WEATHER: 晴天、雨天
+TIME: 白天、黃昏、晚上
+PET_ALLOWED: NO
+REFERENCE_SOURCE_TYPE: EXPLICIT_TASK_REFERENCE
+REFERENCE_AUTHORITY_STATUS: RESOLVED
+REFERENCE_PROVENANCE: Current-chat uploaded image / 寫實範本03(1).png
+REFERENCE_ID: file_00000000c76c8209b8b5dc229157cdfc
+REFERENCE_VERIFICATION_STATUS: OBSERVABLE_IN_CURRENT_CONTEXT
+CUSTOM_INSTRUCTIONS: NONE
+
+DESIGN/EXECUTION BOUNDARY:
+- Uploaded image is the sole visual person reference.
+- Source outfit is replaced; source pose is ignored.
+- Inaria character specification supplies contextual character semantics only because a visual reference is supplied.
+- PET_ALLOWED=NO.
+- Universal Wallpaper footwear allowlist applies.
+- Producer does not perform Visual QA.
+
+ENTRY GATE:
+GITHUB_DATABASE_CONNECTION: VERIFIED
+CANONICAL_RULE_LOADING: PASS
+
+STATUS: ACTIVE
