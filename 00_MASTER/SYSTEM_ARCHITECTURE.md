@@ -29,13 +29,13 @@ User Command → ChatGPT → Create Session/Batch → Read References → Design
 
 ### Phase B — Execution
 For every Task:
-TASK → LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → PROMPT_BINDING_CHECK → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK → LOCKED_PROMPT → EXACT_READBACK → EXACT_BINDING → GENERATION_INPUT_FROZEN → PROMPT_BINDING_CHECK → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 Execution states must distinguish GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, GENERATION_FAILED, and SUCCESS.
 A returned image is not automatically a successful Task.
 
 ### Prompt Integrity
-Level 1: exact locked prompt readback and GENERATION_INPUT binding; compare hash/length when available.
+Level 1: exact locked prompt readback, EXACT_BINDING, and GENERATION_INPUT_FROZEN binding; compare hash/length when available. GENERATION_INPUT_FROZEN is immutable and is the sole Prompt Input to the generation call.
 Level 2: when the generation interface exposes verifiable request/input information, record the available generation-call/delivery evidence and bind it to the attempt. When the interface does not expose such evidence, record delivery evidence as UNVERIFIED/NOT_EXPOSED rather than blocking the generation call.
 
 ### Result Integrity
