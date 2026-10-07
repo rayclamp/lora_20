@@ -76,7 +76,24 @@ Producer owns the runtime execution of its authorized Session/Batch; GitHub stor
 
 This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, Result Integrity, Retry, Pause/Resume, or Task Success requirements defined below.
 
-## 3. Prompt Execution Integrity
+## 3. Continuous GitHub Step Gate and Persistence
+
+Automated production is a GitHub-dependent lifecycle.
+
+For EVERY discrete production step, the Producer MUST complete:
+GITHUB_CONNECT_VERIFY → CURRENT_DATA_READ/RECOVERY → EXECUTE_ONE_STEP → GITHUB_RECORD → GITHUB_RECORD_VERIFY → NEXT_STEP
+
+Discrete steps include repository/rule discovery, reference loading, Session/Batch creation, Task creation, prompt design, prompt persistence, prompt locking, Task selection, prompt readback, generation-input binding, generation-call initiation, result receipt, result verification, QA recording when applicable, Task status transition, checkpointing, interruption classification, stopping, transition to the next Task, and batch completion.
+
+An earlier GitHub read MUST NOT be treated as a permanent connection for later steps. Before each discrete step, verify current GitHub accessibility and read the current authoritative data required for that step.
+
+Information produced by each discrete step MUST be persisted to the authoritative Production Records in GitHub before the Producer proceeds to the next step. After each write, the Producer MUST verify that the intended state was persisted.
+
+If required current data cannot be read, required state cannot be written, or a write cannot be verified: STOP. Do not continue from memory, cache, stale context, or guesswork. Do not call image generation. If the failure itself cannot be persisted, report GITHUB_RECORDING_FAILED.
+
+GitHub remains a database and persistence layer, not a runtime controller.
+
+## 4. Prompt Execution Integrity
 
 ### Level 1 — Prompt Binding Integrity
 
@@ -86,18 +103,64 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 4. When available, compare LOCKED_PROMPT_LENGTH, GENERATION_INPUT_LENGTH, LOCKED_PROMPT_HASH, and GENERATION_INPUT_HASH.
 5. Any mismatch blocks generation.
 
-Passing Level 1 proves only that ChatGPT prepared the correct input.
-
 ### Level 2 — Generator Delivery Evidence
 
 Level 2 is an evidence layer, not a mandatory pre-generation gate.
-1. If the image-generation interface exposes verifiable request/input information, record GENERATION_CALL_ID and the available delivered-input identity.
-2. If the interface does not expose transport/request evidence, record `DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED` (or an equivalent `UNVERIFIED` evidence state).
+1. If the interface exposes verifiable request/input information, record GENERATION_CALL_ID and available delivered-input identity.
+2. If transport evidence is not exposed, record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED or equivalent UNVERIFIED state.
 3. Lack of Level 2 telemetry MUST NOT prevent a valid Generation Call after Level 1 passes.
-4. Level 2 evidence may strengthen execution provenance, but it must not be fabricated.
-5. Level 2 absence must not be represented as `EXECUTION_INTEGRITY_BLOCKED` when the generation call itself was validly initiated.
+4. Level 2 evidence must never be fabricated.
 
-## 4. Generation Call Identity
+## 5. One-Prompt-One-Generation Rule — NON-NEGOTIABLE
+
+Each locked Prompt may be submitted to the image-generation interface EXACTLY ONCE.
+
+Once a generation call has been initiated for a Prompt, that Prompt is permanently consumed. The Producer MUST NOT retry, regenerate, resubmit, duplicate, revise, redesign, or otherwise execute the same Prompt/version again for any reason, including generation failure, service failure, image mismatch, wrong scene/style/composition, anatomy problems, output-count mismatch, GitHub failure, network failure, quota/rate-limit exhaustion, interruption, resume, or user dissatisfaction.
+
+A Task may have multiple lifecycle continuation Attempts only while no image-generation call has yet been initiated for that Prompt. Once the generation call is initiated, there can be no second Generation Call for that Prompt/version.
+
+## 6. Interruption Classification and Three-Interruption Rule
+
+Interruption counting is NOT a general retry counter.
+
+Only verified AI-policy/safety/content-policy interruption events may increment the Prompt's Policy Interruption Counter. Examples include POLICY_BLOCK, SAFETY_BLOCK, CONTENT_POLICY_BLOCK, or an equivalent explicit policy/safety rejection from the generation system.
+
+The following are NOT countable Policy interruptions: generation service/interface/model errors, quota exhaustion, rate limits, daily limits, GitHub connection/write/service errors, system/runtime errors, and unknown interruptions.
+
+The Producer MUST NOT classify an unknown or inferred problem as Policy/Safety. A countable Policy/Safety interruption requires an actual policy/safety rejection signal from the applicable system; visual suspicion or Producer judgment alone is insufficient.
+
+For the same Prompt/Task, countable Policy/Safety interruptions are tracked across explicit user-authorized continuation sessions:
+- initial /START_AUTO execution blocked by Policy/Safety = count 1;
+- first user-authorized continuation blocked by Policy/Safety = count 2;
+- second user-authorized continuation blocked by Policy/Safety = count 3;
+- after count 3, mark PROMPT_SKIPPED_POLICY_LIMIT and proceed to the next applicable Prompt/Task.
+
+The Producer MUST NOT automatically perform continuation attempts. Non-countable interruptions do not increment the Policy Interruption Counter. The counter is per Prompt/Task and MUST be persisted to GitHub and preserved across continuation.
+
+The three-attempt rule NEVER authorizes three image generations. It applies only to continuation of an interrupted pre-generation operation/policy decision. If a Prompt reaches three consecutive countable Policy/Safety interruptions, no further continuation, redesign, or generation of that Prompt is permitted.
+
+## 7. Generation Call Identity
+
+Every actual generation attempt is a distinct execution event. Record when available: SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, timestamps, and delivery-integrity state.
+
+ATTEMPT_ID may represent a lifecycle continuation attempt before generation is initiated, but it MUST NOT justify a second Generation Call for the same Prompt/version.
+
+## 8. Result Identity and Output Count
+
+Receiving an image is not the same as Task success. Record RESULT_ID/output reference, ACTUAL_OUTPUT_COUNT, expected output count, result-to-Task binding, and result-to-generation-call binding when applicable.
+For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
+If more than one image is returned for one Task, record RESULT_COUNT_MISMATCH and do not generate the Prompt again.
+If a result cannot be reliably bound to the Task or generation call, the Task MUST NOT be SUCCESS.
+
+## 9. Task Success Gate
+
+A Task may be SUCCESS only when all applicable requirements pass: exact locked-prompt readback; Level 1 binding; generation call initiated; exposed delivery evidence recorded consistently; result received; output count matches; result binding is available; and no execution-integrity conflict exists.
+
+Image QA status may be recorded as PASS, FAIL, or UNVERIFIED, but QA failure does not authorize regeneration.
+
+IMAGE_RESULT_RECEIVED is not TASK_SUCCESS.
+
+## 10. False-Success Prevention
 
 Every actual generation attempt is a distinct execution event.
 Record when available: SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, start/end timestamps, and delivery-integrity state.
