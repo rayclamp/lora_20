@@ -39,7 +39,6 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 14. A Task may be SUCCESS only after the applicable Prompt Binding, generation-call, result-count, and result-provenance gates pass.
 15. If required execution evidence is unavailable, record the affected evidence as UNVERIFIED; do not invent evidence or success.
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
-17. Prompt delivery integrity is distinct from prompt display and internal generation-input preparation. Delivery evidence is recorded when the generation interface exposes it; lack of transport telemetry is not by itself a pre-generation block.
 
 ## 2. Required Shared Documents
 - DRAWING_INSTRUCTIONS.md
