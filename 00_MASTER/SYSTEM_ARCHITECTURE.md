@@ -26,7 +26,6 @@ User Command → ChatGPT → Create Session/Batch → Read References → Design
 4. Design all prompts before generation.
 5. Persist the complete prompt set.
 6. Lock the prompt set.
-7. Return the prompt set to the user when the active production instruction requires display.
 
 ### Phase B — Execution
 For every Task:
@@ -38,7 +37,6 @@ A returned image is not automatically a successful Task.
 ### Prompt Integrity
 Level 1: exact locked prompt readback and GENERATION_INPUT binding; compare hash/length when available.
 Level 2: when the generation interface exposes verifiable request/input information, record the available generation-call/delivery evidence and bind it to the attempt. When the interface does not expose such evidence, record delivery evidence as UNVERIFIED/NOT_EXPOSED rather than blocking the generation call.
-Prompt display is transparency, not proof of delivery, but absence of delivery telemetry is not itself a reason to suppress an otherwise valid generation call.
 
 ### Result Integrity
 Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no Level 1 prompt-binding conflict exists.
@@ -69,4 +67,3 @@ Before `/START_AUTO`, verify GitHub database access and load the applicable curr
 If either gate fails, do not generate. Resume must preserve the existing Session/Batch and locked prompts; it must not create replacements or redesign prompts.
 
 The authoritative shared requirements are in `00_MASTER/CORE_RULES.md`; execution details are in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`.
-
