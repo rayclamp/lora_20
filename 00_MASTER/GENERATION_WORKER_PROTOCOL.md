@@ -135,7 +135,7 @@ The following MUST NOT produce TASK_STATUS = SUCCESS:
 - required generation-call provenance that the interface actually exposes is missing;
 - prompt/input mismatch;
 - generation was blocked;
-- the prompt was only displayed and no Generation Call was initiated.
+- the generation call was not initiated.
 
 Use explicit states such as RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, and GENERATION_FAILED.
 
@@ -148,52 +148,12 @@ For wallpaper production, one Task equals one independent image. No collage, con
 After PROMPT_SET_LOCKED, do not redesign, summarize, translate, reorder, add, remove, or silently substitute prompt content.
 Retries and resume use the same locked prompt/version.
 
-## 10. Display Rule
-
-Prompt Display is a read-only transparency operation added to the existing Generation architecture. It MUST NOT create a second prompt path or weaken the binding between the verified generation input and the immediate Generation Call.
-
-For the current Task, the Producer MUST execute the following sequence:
-
-`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → LEVEL 1 PROMPT BINDING CHECK → DISPLAY EXACT VERIFIED GENERATION_INPUT → IMMEDIATELY GENERATE USING THAT SAME GENERATION_INPUT → RECORD RESULT`
-
-The displayed Prompt MUST be the complete, exact `GENERATION_INPUT` that has already passed Level 1 Prompt Binding Integrity for the current Task and current Generation attempt.
-
-The Display operation MUST NOT:
-- replace or modify `GENERATION_INPUT`;
-- become a new source for `GENERATION_INPUT`;
-- reconstruct, summarize, translate, reorder, add, remove, or transform the Prompt;
-- create a second independent Prompt branch;
-- substitute the user's overall Production Request, /START_AUTO instruction, or any other higher-level instruction for `GENERATION_INPUT`;
-- cause the Generation Call to read from the displayed Chat text instead of the verified `GENERATION_INPUT`.
-
-The existing Generation path remains authoritative:
-
-`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_CALL`
-
-Display is inserted immediately before the Generation Call as a transparency step on that same verified input:
-
-`LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → PROMPT_BINDING_CHECK → DISPLAY_EXACT_GENERATION_INPUT → GENERATION_CALL(SAME_INPUT)`
-
-The following invariant MUST hold for every Task and every Generation attempt:
-
-`CURRENT TASK LOCKED_PROMPT = VERIFIED GENERATION_INPUT = CURRENT TASK DISPLAYED PROMPT = PROMPT USED FOR THE IMMEDIATE GENERATION CALL`
-
-Therefore:
-1. If `GENERATION_INPUT` has not been created, Generation MUST NOT start.
-2. If `GENERATION_INPUT` is empty, incomplete, or fails Level 1, Generation MUST NOT start.
-3. If the displayed Prompt differs from the verified `GENERATION_INPUT`, Generation MUST NOT start.
-4. After the exact verified Prompt is displayed, the Producer MUST immediately initiate the Generation Call using that same `GENERATION_INPUT`; it MUST NOT fall back to the user's overall request.
-5. Displaying a Prompt alone is never evidence that the Generation interface received it.
-6. Prompt Display is required for every Task and every Generation attempt. A previous Task's display, a Session-level display, or an already-visible Prompt does not satisfy the current Task's display requirement.
-
-This change adds only the required Display-Prompt transparency step to the existing Generation path; it does not redesign, replace, or otherwise alter the underlying prompt preparation, locking, or generation architecture.
-
-## 11. Stop Conditions
+## 10. Stop Conditions
 
 Generation MUST stop for the affected Task/Batch when Level 1 binding fails, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
 The absence of a GitHub Claim/Lease API is NOT a stop condition for the current Single-Producer workflow.
 
-## 12. Recovery
+## 11. Recovery
 
 Resume uses the same SESSION_ID, BATCH_ID, and locked PROMPT_SET.
 Do not redesign prompts.
@@ -202,12 +162,12 @@ Re-run the applicable integrity gates before a new attempt.
 
 If a Single-Producer session is interrupted, the next authorized Producer context may continue only when the user explicitly authorizes access to the existing Session/Batch, consistent with CORE session-access rules.
 
-## 13. Visual QA Boundary
+## 12. Visual QA Boundary
 
 This protocol does not perform visual QA.
 Face identity, anatomy, hands/feet, composition, artistic quality, prompt visual compliance, and LoRA quality belong to the separate QA workflow.
 
-## 14. Evidence Rule
+## 13. Evidence Rule
 
 Execution records must preserve enough evidence to answer:
 - which locked prompt was intended;
@@ -219,7 +179,7 @@ Execution records must preserve enough evidence to answer:
 
 If evidence is insufficient, prefer UNVERIFIED/BLOCKED over false SUCCESS.
 
-## 15. Architecture Boundary Summary
+## 14. Architecture Boundary Summary
 
 CURRENT:
 
