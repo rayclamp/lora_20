@@ -11,4 +11,5 @@
 
 All six locked prompts were read back exactly from GitHub main before execution. Generation input must equal the complete readback text for its Task. Level 2 delivery telemetry is recorded according to the current image-generation interface.
 
-TASK_001 ATTEMPT_001: Generation result was returned, but the delivered generation request did not equal the locked prompt; the observed request omitted/changed locked constraints. RESULT NOT BOUND. Do not count as success.
+TASK_001 ATTEMPT_001: Generation result was returned, but the delivered generation request did not equal the locked prompt; RESULT NOT BOUND. Do not count as success.
+TASK_001 ATTEMPT_002: Generation result was returned, but the delivered generation request again did not equal the locked prompt; RESULT NOT BOUND. Do not count as success.
