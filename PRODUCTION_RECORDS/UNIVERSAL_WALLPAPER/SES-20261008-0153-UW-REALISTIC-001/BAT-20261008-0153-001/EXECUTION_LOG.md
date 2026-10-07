@@ -27,3 +27,17 @@ BATCH_ID: BAT-20261008-0153-001
 PROMPT_SET_SHA: 18b97228f351b7840da1150fc50549ac7253d99e
 PROMPT_COUNT: 6
 DETAIL: Exact GitHub readback verified; locked prompt text is the execution source.
+
+EVENT_ID: EVT-004
+EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+TIMESTAMP: 2026-10-08T01:54:00+08:00
+SESSION_ID: SES-20261008-0153-UW-REALISTIC-001
+BATCH_ID: BAT-20261008-0153-001
+TASK_ID: TASK_001
+PROMPT_ID: PROMPT_001
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_001
+GENERATION_CALL_ID: gen_id 4b235a9f-46d4-47ef-8900-0589897d9113
+RESULT_ID: file_00000000a0908209b9b96438c1e30aee
+DETAIL: Returned image was not generated from the exact LOCKED_PROMPT. Observed generator metadata prompt field was empty and the delivered visual request did not preserve the locked task constraints. Result is not bound to TASK_001 and is not SUCCESS.
+CHECKPOINT: CP-002 / TASK_001_INTEGRITY_BLOCKED
