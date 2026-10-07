@@ -39,6 +39,9 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 14. A Task may be SUCCESS only after the applicable Prompt Binding, generation-call, result-count, and result-provenance gates pass.
 15. If required execution evidence is unavailable, record the affected evidence as UNVERIFIED; do not invent evidence or success.
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
+17. Each locked Prompt may be submitted to image generation exactly once. Image QA failure, generation failure, service failure, quota exhaustion, or interruption never authorizes a second generation call for the same Prompt/version.
+18. Only verified AI-policy/safety/content-policy interruptions may increment the per-Prompt Policy Interruption Counter. After three consecutive countable Policy/Safety interruptions across explicit user-authorized continuations, the Prompt is terminally skipped. Non-policy system/resource/GitHub errors do not count.
+19. Automated production must persist the state/evidence produced by each discrete production step to GitHub and verify the write before proceeding to the next step. Failure to read/write/verify required current GitHub state is a hard stop.
 
 ## 2. Required Shared Documents
 - DRAWING_INSTRUCTIONS.md
