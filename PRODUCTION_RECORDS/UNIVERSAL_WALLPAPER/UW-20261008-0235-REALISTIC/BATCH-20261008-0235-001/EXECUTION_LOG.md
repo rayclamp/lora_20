@@ -55,3 +55,32 @@ RESULT_BINDING_STATUS: BOUND_TO_CURRENT_TASK
 DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 TASK_STATUS: RESULT_RECEIVED_UNVERIFIED
 NOTE: The returned single image is a multi-panel/collage presentation, which is not a valid one-task/one-independent-wallpaper output. No automatic retry was initiated; the attempt/result is preserved for downstream QA/recovery.
+
+
+## GENERATION_STARTED / IMAGE_RESULT_RECEIVED / RESULT_RECEIVED_UNVERIFIED / STOPPED
+TIMESTAMP: 2026-10-08T02:35:00+08:00
+EVENT_ID: EVT-005
+SESSION_ID: UW-20261008-0235-REALISTIC
+BATCH_ID: BATCH-20261008-0235-001
+TASK_ID: TASK_003
+PROMPT_ID: PROMPT_003
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_003_001
+GENERATION_CALL_ID: NOT_EXPOSED
+EVENT: IMAGE_RESULT_RECEIVED
+RESULT_ID: file_000000003c448209824d1cc9fbbfe369
+ACTUAL_OUTPUT_COUNT: 1
+EXPECTED_OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_CURRENT_TASK
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+TASK_STATUS: RESULT_RECEIVED_UNVERIFIED
+NOTE: The returned single image is a multi-panel/collage presentation, violating the Universal Wallpaper one-task/one-independent-image output contract. No automatic retry was initiated.
+
+## STOPPED
+TIMESTAMP: 2026-10-08T02:35:00+08:00
+EVENT_ID: EVT-006
+SESSION_ID: UW-20261008-0235-REALISTIC
+BATCH_ID: BATCH-20261008-0235-001
+EVENT: STOPPED
+CURRENT_TASK: TASK_004
+REASON: The image-generation interface repeatedly returned multi-panel/collage outputs for independent wallpaper Tasks 002 and 003. Continuing would risk further invalid output and would not satisfy the locked one-task/one-image contract. Existing attempts/results are preserved; no automatic retry was initiated.
