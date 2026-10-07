@@ -20,11 +20,11 @@ Standard records:
 5. EXECUTION_LOG.md
 
 ## 3. SESSION_CONTRACT.md
-Typical fields: SESSION_ID, BATCH_ID, SESSION_SCOPE, MODULE, PRODUCTION_TYPE, CHARACTER, IMAGE_COUNT, TARGET_SUCCESS_COUNT, OUTPUT_TYPE, user constraints, and design/execution boundary.
+Typical fields: SESSION_ID, BATCH_ID, SESSION_SCOPE, MODULE, PRODUCTION_TYPE, CHARACTER, IMAGE_COUNT, OUTPUT_TYPE, user constraints, and design/execution boundary.
 OUTPUT_TYPE is the combined output contract that identifies the target class and exact aspect ratio. Canonical values are `DESKTOP_16_9` and `PHONE_9_16`. Do not add a separate ASPECT_RATIO or ORIENTATION control when OUTPUT_TYPE already expresses the complete output format.
 
 ## 4. BATCH_RECORD.md
-Record: SESSION_ID, BATCH_ID, MODULE, PRODUCTION_TYPE, IMAGE_COUNT, TARGET_SUCCESS_COUNT, BATCH_STATUS, COMPLETED_COUNT, UNVERIFIED_COUNT, FAILED_COUNT, DEFERRED_COUNT, BLOCKED_COUNT, PENDING_COUNT, ATTEMPT_COUNT, CURRENT_TASK, NEXT_TASK, CHECKPOINT, and termination/completion information. These state counts must remain separate; do not combine failed, deferred, blocked, and unverified Tasks into one ambiguous counter.
+Record: SESSION_ID, BATCH_ID, MODULE, PRODUCTION_TYPE, IMAGE_COUNT, BATCH_STATUS, COMPLETED_COUNT, UNVERIFIED_COUNT, FAILED_COUNT, DEFERRED_COUNT, BLOCKED_COUNT, PENDING_COUNT, ATTEMPT_COUNT, CURRENT_TASK, NEXT_TASK, CHECKPOINT, and termination/completion information. These state counts must remain separate; do not combine failed, deferred, blocked, and unverified Tasks into one ambiguous counter.
 A Batch MUST NOT be complete while any required Task is unverified, blocked, failed, or unfinished.
 
 ## 5. TASK_QUEUE.md
@@ -39,9 +39,10 @@ Each Task should record, as applicable:
 - ATTEMPT_ID / attempt count
 - GENERATION_CALL_ID
 - LOCKED_PROMPT_LENGTH
-- GENERATION_INPUT_LENGTH
+- GENERATION_INPUT_FROZEN_LENGTH
 - LOCKED_PROMPT_HASH
-- GENERATION_INPUT_HASH
+- GENERATION_INPUT_FROZEN_HASH
+- EXACT_BINDING_STATUS
 - DELIVERY_INTEGRITY_STATUS
 - RESULT_ID / output reference
 - EXPECTED_OUTPUT_COUNT
@@ -70,6 +71,10 @@ For wallpaper production, EXPECTED_OUTPUT_COUNT = 1. If ACTUAL_OUTPUT_COUNT != 1
 ## 6. PROMPT_SET.md
 All prompts are designed before generation, persisted before execution, and locked as execution input. Resume does not silently redesign a locked prompt. Revisions require a new prompt version.
 
+The Prompt Set lock metadata is authoritative and must be internally consistent: when PROMPT_SET_STATUS = LOCKED, PROMPT_SET_LOCKED MUST = YES. A persisted locked Prompt Set with PROMPT_SET_LOCKED = NO is invalid record state and must be corrected before execution/resume.
+
+Each executable Task must preserve the handoff evidence fields EXACT_READBACK, EXACT_BINDING_STATUS, GENERATION_INPUT_FROZEN_LENGTH, and GENERATION_INPUT_FROZEN_HASH when applicable. GENERATION_INPUT_FROZEN is derived only from the current Task's exact locked-prompt readback and is the sole generation Prompt Input.
+
 ## 7. EXECUTION_LOG.md
 Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, POLICY_BLOCKED, SAFETY_BLOCKED, INTERRUPTION_CLASSIFIED, PROMPT_SKIPPED_POLICY_LIMIT, STOPPED, RESUMED, UNKNOWN, DEFERRED, COMPLETED. RETRY events MUST NOT be used to represent a second generation call for the same locked Prompt.
 Each event should include timestamp with timezone, EVENT_ID, event type, SESSION_ID, BATCH_ID, TASK_ID when applicable, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, result/error information, output count, interruption class/counter when applicable, prompt-consumed state, and checkpoint reference when applicable.
@@ -83,7 +88,7 @@ Completion means all required Tasks have reached valid terminal SUCCESS. A Batch
 
 ## 10. Execution Integrity Reference
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
-Minimum chain: TASK → LOCKED_PROMPT → GENERATION_INPUT → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS.
+Minimum chain: TASK → LOCKED_PROMPT → EXACT_READBACK → EXACT_BINDING → GENERATION_INPUT_FROZEN → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS.
 The system must prefer UNVERIFIED/BLOCKED over false SUCCESS when evidence is insufficient.
 
 ## 11. Non-Goals
