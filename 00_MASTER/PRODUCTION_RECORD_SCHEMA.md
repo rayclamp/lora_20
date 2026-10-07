@@ -49,6 +49,10 @@ Each Task should record, as applicable:
 - RESULT_BINDING_STATUS
 - error/defer/safety information
 - task-specific checkpoint information
+- POLICY_INTERRUPTION_COUNT
+- INTERRUPTION_CLASS / INTERRUPTION_HISTORY
+- PROMPT_CONSUMED
+- PROMPT_TERMINATION_REASON
 
 Task status semantics:
 - GENERATION_STARTED = generation attempt initiated.
@@ -67,8 +71,8 @@ For wallpaper production, EXPECTED_OUTPUT_COUNT = 1. If ACTUAL_OUTPUT_COUNT != 1
 All prompts are designed before generation, persisted before execution, and locked as execution input. Resume does not silently redesign a locked prompt. Revisions require a new prompt version.
 
 ## 7. EXECUTION_LOG.md
-Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, RETRY, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, SAFETY_BLOCKED, STOPPED, RESUMED, UNKNOWN, DEFERRED, COMPLETED.
-Each event should include timestamp with timezone, EVENT_ID, event type, SESSION_ID, BATCH_ID, TASK_ID when applicable, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, result/error information, output count, and checkpoint reference when applicable.
+Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, POLICY_BLOCKED, SAFETY_BLOCKED, INTERRUPTION_CLASSIFIED, PROMPT_SKIPPED_POLICY_LIMIT, STOPPED, RESUMED, UNKNOWN, DEFERRED, COMPLETED. RETRY events MUST NOT be used to represent a second generation call for the same locked Prompt.
+Each event should include timestamp with timezone, EVENT_ID, event type, SESSION_ID, BATCH_ID, TASK_ID when applicable, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, result/error information, output count, interruption class/counter when applicable, prompt-consumed state, and checkpoint reference when applicable.
 
 ## 8. Persistence and Recovery
 Records must preserve enough information to determine which Session/Batch, contract, locked prompt, generation attempts, results, verification states, Task states, checkpoint, and historical events apply. All five standard batch records must be present before a Batch can resume: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md, and EXECUTION_LOG.md. If any required record is missing or a locked prompt cannot be read back, mark the Batch BLOCKED for record-integrity recovery; do not invent missing Task state or reconstruct a supposedly locked prompt from memory.
@@ -84,3 +88,39 @@ The system must prefer UNVERIFIED/BLOCKED over false SUCCESS when evidence is in
 
 ## 11. Non-Goals
 This schema does not define a GitHub scheduler, task lock, worker manager, retry engine, Session manager, or execution controller. Those remain internal ChatGPT production mechanisms.
+
+## 12. One-Prompt-One-Generation and Policy Interruption Records
+
+Each locked Prompt/version may have at most ONE actual Generation Call.
+
+Lifecycle continuation attempts before generation may be recorded, but once a Generation Call is initiated the Prompt is permanently consumed and no second Generation Call is permitted for that Prompt/version.
+
+For Policy/Safety interruption handling, persist at Task level:
+- POLICY_INTERRUPTION_COUNT
+- INTERRUPTION_CLASS
+- INTERRUPTION_HISTORY
+- PROMPT_CONSUMED
+- PROMPT_TERMINATION_REASON
+
+Only verified Policy/Safety interruptions increment POLICY_INTERRUPTION_COUNT.
+
+Generation service errors, quota/rate limits, GitHub failures, system/runtime errors, and unknown interruptions do not increment the Policy counter.
+
+After three consecutive verified Policy/Safety interruptions across explicit user-authorized continuations, set:
+- TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT
+- PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS
+
+The Producer must not automatically retry or regenerate. Image QA is recorded as evidence for the single generated image and is never a regeneration trigger.
+
+## 13. Per-Step Persistence Requirement
+
+Automated production records must preserve the state produced by each discrete production step before the next step begins.
+
+At minimum, each step must have a corresponding authoritative record/event showing:
+1. current GitHub access was verified;
+2. required current data was read when applicable;
+3. the step was executed;
+4. the resulting state/data was written;
+5. the write was verified.
+
+If the required GitHub record cannot be written or verified, the Producer must stop and must not continue from memory, cache, stale context, or guessed state. If the failure cannot itself be persisted, report GITHUB_RECORDING_FAILED.
