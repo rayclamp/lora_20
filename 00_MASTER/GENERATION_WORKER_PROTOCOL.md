@@ -107,7 +107,7 @@ GitHub remains a database and persistence layer, not a runtime controller.
 8. From EXACT_BINDING through GENERATION_CALL, the Producer MUST NOT redesign, reinterpret, reconstruct, summarize, translate, reorder, add, remove, substitute, or regenerate any prompt content.
 9. START_AUTO, /RESUME_AUTO, the Production Request, Task Queue prose, GitHub rules, reference data, prior context, and runtime reasoning MUST NOT be used as a substitute or additional generation prompt.
 10. The ONLY Prompt Input permitted for GENERATION_CALL is the current Task's GENERATION_INPUT_FROZEN.
-11. Any mismatch, overwrite, loss, empty input, or inability to prove this exact handoff blocks generation.
+11. Block generation if the prompt is missing, empty, associated with the wrong Task, or cannot be supplied as a usable instruction. Lack of hidden payload/transport telemetry alone is not a blocking condition; record NOT_EXPOSED/UNVERIFIED.
 
 ### Level 2 — Generator Delivery Evidence
 
@@ -216,7 +216,7 @@ For wallpaper production, one Task equals one independent image. No collage, con
 
 After PROMPT_SET_LOCKED, do not redesign, summarize, translate, reorder, add, remove, or silently substitute prompt content.
 After EXACT_READBACK, do not transform the prompt before or during EXACT_BINDING.
-GENERATION_INPUT_FROZEN is the immutable execution handoff and must remain byte/text-for-text identical to the locked prompt until GENERATION_CALL completes.
+Use the complete original Locked Prompt as the generation instruction. Do not intentionally alter its requirements. Hidden API payload byte/character equality is not a mandatory gate; if unavailable, record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED/UNVERIFIED.
 Retries and resume use the same locked prompt/version; no retry may create a second Generation Call.
 
 ## 10. Stop Conditions
