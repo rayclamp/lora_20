@@ -10,17 +10,17 @@ Automated production MUST actively connect to the current GitHub repository and 
 
 The Producer MUST perform a fresh GitHub connection/read-and-verify gate at each of these boundaries:
 
-1. **Session startup, before any production planning:** read this entry document, the current canonical path registry, CORE rules, and the applicable generation worker protocol.
-2. **Before task/prompt design:** reconnect and read the current module, production-type, character/reference, and other applicable design rules.
-3. **Before locking or selecting a prompt for generation:** reconnect and read the current Session/Batch, Task Queue, and authoritative locked Prompt Set; verify the exact Task and prompt/version.
-4. **Immediately before every image-generation call:** reconnect and read/verify the current Task state and exact locked prompt.
+1. **Session startup:** reconnect and read the current entry document, canonical path registry, core rules, applicable worker protocol, and the rules required by the current Production Request.
+2. **Before task/prompt design:** reconnect and read the current applicable module, production-type, character/reference, and other design rules.
+3. **Before prompt persistence or selection:** reconnect and read the current Session/Batch, Task Queue, and authoritative Prompt Set state.
+4. **Immediately before every image-generation call:** reconnect and read the current Task state and its current locked prompt.
 
 Required pre-generation sequence:
-GITHUB_CONNECT_VERIFY → CURRENT_TASK_READ → LOCKED_PROMPT_READBACK → PROMPT_NONEMPTY_AND_TASK_MATCH_CHECK → USE_ORIGINAL_PROMPT_AS_GENERATION_INSTRUCTION → GENERATION_CALL
+GITHUB_CONNECT_VERIFY → CURRENT_TASK_READ → CURRENT_LOCKED_PROMPT_READ → PROMPT_NONEMPTY_AND_TASK_MATCH_CHECK → USE_CURRENT_LOCKED_PROMPT_DIRECTLY → GENERATION_CALL
 
-Read the complete, non-empty Locked Prompt for the current Task and use its original text as the generation instruction. Do not intentionally redesign, summarize, translate, omit, or replace its requirements. Do not substitute the startup command, Production Request, task list, or unrelated context for the prompt. If the interface does not expose actual payload telemetry, record NOT_EXPOSED/UNVERIFIED; lack of hidden payload evidence alone MUST NOT block an otherwise valid generation call. Block only if the prompt is missing, empty, associated with the wrong Task, or cannot be supplied as a usable instruction.
-5. **After a generation result, before recording it:** reconnect and read the current authoritative record state; then persist the actual result, output count, call/result identity, and verification state; read back the write to verify it.
-6. **On interruption, stop, or resume:** reconnect first; read the current Session/Batch, all required batch records, latest execution log, and checkpoint; classify and persist the actual interruption state; verify the write before continuing or reporting recovery state.
+Read the complete current locked prompt for the current Task and use it directly as the generation instruction. Do not redesign, summarize, translate, omit, add to, reorder, or otherwise modify it before generation. Do not substitute the startup command, Production Request, task list, or unrelated context for the prompt. No frozen-input hash, frozen-input length, byte-for-byte transport proof, or hidden payload telemetry is required as a generation gate. If the interface exposes delivery evidence, record it; if it does not, record NOT_EXPOSED/UNVERIFIED. Lack of hidden transport evidence alone MUST NOT block a valid generation call. Block only if the prompt is missing, empty, associated with the wrong Task, or cannot be supplied as a usable instruction.
+5. **After a generation result, before recording it:** reconnect and read the current authoritative record state; persist the actual result and required execution evidence; read back the write to verify it.
+6. **On interruption, stop, or before an explicitly authorized resume:** reconnect first; read the current Session/Batch, Task, checkpoint, execution record, and prompt state; classify and persist the actual interruption state; verify the write before continuing.
 7. **Before moving to the next Task and before declaring completion:** reconnect, read the latest authoritative state, verify the preceding write, and only then select the next Task or determine completion.
 
 A connection/read/write verification from an earlier stage MUST NOT be reused as proof for a later stage. Each gate must be completed at the point specified above.
@@ -33,7 +33,7 @@ If GitHub cannot be reached, required files cannot be read, current state cannot
 - Do NOT design from memory, cached context, stale records, or guesses.
 - Do NOT create or substitute a prompt from the startup command or Production Request.
 - Do NOT call the image-generation interface.
-- Do NOT reinterpret, reconstruct, summarize, translate, reorder, add to, remove from, or otherwise transform a locked prompt before GENERATION_CALL.
+- Do NOT reinterpret, reconstruct, summarize, translate, reorder, add to, remove from, or otherwise modify a locked prompt before GENERATION_CALL.
 - Do NOT advance to another Task or claim the Batch is complete.
 - If possible, persist a precise blocked/error event to GitHub. If GitHub itself is unavailable and that event cannot be persisted, report `GITHUB_RECORDING_FAILED` and explicitly state that the authoritative record could not be updated.
 - Continue only after GitHub access and the required current state are successfully re-verified.
@@ -57,7 +57,7 @@ GitHub is the authoritative reference and persistence database. It does **not** 
 `read requested references → design image → write Prompt → return Prompt`
 
 **Automated**
-`connect/read/verify GitHub → read applicable references → design prompt → reconnect/read/verify current task state → persist and lock prompt → reconnect/read/verify locked prompt → use the original prompt as the generation instruction → execute generation → reconnect/read current record state → persist result/checkpoint → read back and verify write → reconnect before next step`
+`connect/read/verify GitHub → read applicable references → design Tasks/Prompts → persist and lock Prompt Set → for each Task reconnect/read current state → read current locked prompt → generate once → reconnect/read current record state → persist result/checkpoint → read back and verify → reconnect before next Task`
 
 Manual and automated production use the same design process. Automated mode adds execution and durable persistence so interrupted production can continue without losing completed work.
 
@@ -70,4 +70,4 @@ Before any /START_AUTO generation, the Producer MUST read and obey:
 - the applicable module and production-type rules
 - the applicable current Session/Batch records when resuming
 
-The detailed step gate is defined in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`. Missing authoritative rules or a missing/empty/wrong-Task prompt blocks generation. Unavailable hidden payload telemetry must be recorded as NOT_EXPOSED/UNVERIFIED and is not, by itself, a reason to block.
+The detailed step gate is defined in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`. Missing authoritative rules or a missing/empty/wrong-Task prompt blocks generation. Unavailable delivery telemetry must not, by itself, block a valid generation call.
