@@ -9,7 +9,7 @@ A valid production Task is not successful merely because an image result is retu
 
 Minimum execution chain:
 
-TASK_ID → PROMPT_ID → LOCKED_PROMPT → CURRENT_PROMPT_READBACK → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK_ID → PROMPT_ID → CURRENT_LOCKED_PROMPT → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 These are distinct states: prompt preparation/binding, actual generation-call delivery, image-result receipt, and Task success.
 
@@ -34,7 +34,7 @@ Task ownership during Single-Producer execution is a Producer Runtime responsibi
 The Producer MUST:
 1. operate only within its authorized/current Session and Batch;
 2. select the next applicable Task from the persisted Task Queue;
-3. verify that the Task has not already reached valid terminal SUCCESS;
+3. verify that the Task has not already reached a valid terminal state;
 4. execute the applicable Prompt Integrity and Generation rules;
 5. persist the resulting state and evidence to GitHub.
 
@@ -84,7 +84,7 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 2. Confirm the prompt is non-empty and associated with the current Task.
 3. Use that current locked prompt directly as the generation instruction.
 4. Do not redesign, summarize, translate, omit, replace, or silently alter the prompt before generation.
-5. This readiness check does not require frozen-input hashes, transport telemetry, or a byte-for-byte proof of the hidden generator payload.
+5. This readiness check does not require hidden transport evidence.
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
 
@@ -156,7 +156,7 @@ The absence of a GitHub Claim/Lease API is NOT a stop condition for the current 
 
 Resume uses the same SESSION_ID, BATCH_ID, and locked PROMPT_SET.
 Do not redesign prompts.
-Do not treat unverified results as completed Tasks.
+Do not treat unverified results as terminal Tasks.
 Re-run the applicable state/integrity gates before continuing with an unconsumed Task. A consumed prompt/version is never a new attempt.
 
 If a Single-Producer session is interrupted, the next authorized Producer context may continue only when the user explicitly authorizes access to the existing Session/Batch, consistent with CORE session-access rules.
@@ -237,7 +237,7 @@ Before a /RESUME_AUTO Generation attempt, the Producer MUST:
 1. re-verify the current GitHub database connection;
 2. reload and verify the applicable current Canonical Rules;
 3. recover the existing Session/Batch, Task Queue, Checkpoint, and locked Prompt Set;
-4. select the first Task that has not reached valid terminal SUCCESS.
+4. select the first Task that has not reached a valid terminal state.
 
 If connection verification or Canonical Rule Loading fails, resume is BLOCKED and no Generation call may occur.
 
