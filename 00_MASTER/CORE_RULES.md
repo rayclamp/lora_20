@@ -39,10 +39,6 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 14. A Task may be SUCCESS only after the applicable Prompt Binding, generation-call, result-count, and result-provenance gates pass.
 15. If required execution evidence is unavailable, record the affected evidence as UNVERIFIED; do not invent evidence or success.
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
-17. Each locked Prompt may be submitted to image generation exactly once. Image QA failure, generation failure, service failure, quota exhaustion, or interruption never authorizes a second generation call for the same Prompt/version.
-18. Only verified AI-policy/safety/content-policy interruptions may increment the per-Prompt Policy Interruption Counter. After three consecutive countable Policy/Safety interruptions across explicit user-authorized continuations, the Prompt is terminally skipped. Non-policy system/resource/GitHub errors do not count.
-19. Automated production must persist the state/evidence produced by each discrete production step to GitHub and verify the write before proceeding to the next step. Failure to read/write/verify required current GitHub state is a hard stop.
-20. The generation handoff is: LOCKED_PROMPT → EXACT_READBACK → TASK/PROMPT ASSOCIATION CHECK → GENERATION_INPUT_READY → GENERATION_CALL. Read the current Task's complete, non-empty Locked Prompt and use that original text as the generation instruction. Do not intentionally redesign, summarize, translate, omit, or replace prompt content. Hidden transport/API payload telemetry or character-for-character proof is NOT a prerequisite for calling the generation tool when the interface does not expose it; record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED or UNVERIFIED. Block only when the prompt cannot be read, is empty/missing, or cannot be associated with the current Task, or when the tool cannot be given a usable instruction.
 
 ## 2. Required Shared Documents
 - DRAWING_INSTRUCTIONS.md
