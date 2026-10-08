@@ -164,45 +164,131 @@ Operational principle:
 
 Body-proportion preservation remains separate from pose design: pose may change, but the underlying person must remain physically consistent.
 
-## 5. Realistic skin and human appearance
-The result must read as a realistic human photograph / photorealistic scene unless the user explicitly requests another realistic rendering style.
+## 5. Real human appearance — photographic reality standard
+REALISTIC means the person must read as a **real human being photographed by a real camera**, not as a rendered character, digital illustration, AI beauty portrait, or artificially perfected face.
 
-Preserve natural skin color and believable skin-tone variation.
-Skin may appear clean, luminous, and professionally photographed, but must not be artificially whitened or excessively beautified.
+The reference person's actual identity and natural appearance are more important than conventional beauty.
 
-Preserve natural skin texture appropriate to the shot:
-- fine skin texture
-- natural pores when visible at the given camera distance and resolution
-- subtle natural lines and age-related detail where present
-- realistic facial micro-detail
-- natural hair texture
-- believable human surface variation
+### Human identity preservation
+- Preserve the person's real face shape, bone structure, facial-feature proportions, eye shape and expression character, eyebrows, nose, lips, jawline, chin, hairline, natural hair color, skin color, and natural age appearance.
+- Preserve subtle natural facial asymmetry and individual characteristics.
+- Do not "improve" the face by making it more symmetrical, sharper, younger, prettier, or more conventionally attractive.
+- Do not replace the person with an influencer face, model face, celebrity-like face, AI-beauty face, doll face, or generic standardized attractive face.
+- Do not redesign the person into another character.
+- Do not use beauty enhancement as a reason to change recognizable facial geometry.
 
-Do not force visible pores in close detail when the selected lens, distance, depth of field, lighting, or image scale would naturally soften them.
+### Real skin
+Skin must look like actual human skin captured by a camera:
+- natural pores when appropriate to the shot;
+- fine skin texture;
+- subtle tonal variation;
+- slight natural unevenness;
+- natural redness and small color variations;
+- realistic highlights and shadows;
+- believable facial micro-detail.
 
-Avoid:
-- plastic or wax-like skin
-- excessive beauty-filter smoothing
-- synthetic porcelain skin
-- unnaturally uniform skin tone
-- loss of all natural facial texture
+Do NOT make skin:
+- perfectly uniform;
+- excessively smooth;
+- plastic;
+- wax-like;
+- porcelain-like;
+- artificially white;
+- digitally airbrushed.
+
+Do not force exaggerated pores or skin detail when the camera distance, lens, depth of field, lighting, or resolution would naturally soften them.
+
+### Real hair
+Hair must behave like real human hair:
+- natural fiber structure;
+- realistic density;
+- natural distribution;
+- believable strand grouping;
+- subtle irregularity and slight natural disorder.
+
+Do not make every strand unnaturally sharp, individually outlined, perfectly arranged, or digitally sculpted.
+
+### Real body
+Preserve the person's actual body proportions and physical build:
+- skeletal proportions;
+- torso length;
+- shoulder width;
+- waist and hip relationship;
+- limb lengths;
+- natural leg proportions;
+- natural body silhouette;
+- natural posture.
+
+Do not deliberately increase height, narrow the waist, lengthen the legs or arms, enlarge body parts, or create a fashion-model body that is not supported by the reference.
+
+### Real clothing and material
+Clothing must behave like physical material:
+- believable fabric thickness;
+- realistic weight;
+- natural folds and compression;
+- real seams and garment construction;
+- plausible contact with the body;
+- physically believable shadowing and occlusion;
+- consistent response to the same light source.
+
+### Real photographic capture
+The image should feel as though it was captured by a high-quality full-frame camera rather than rendered.
+
+Use realistic photographic behavior:
+- natural optical depth of field;
+- plausible focus falloff;
+- believable background blur;
+- realistic exposure;
+- natural light falloff;
+- subtle shadow variation;
+- coherent lens perspective;
+- realistic environmental depth.
+
+Avoid excessive sharpness, excessive HDR appearance, artificial clarity, hyper-clean edges, or overprocessed detail.
+
+### One physical light environment
+The person and environment must belong to the same photographic space.
+
+Skin, hair, clothing, background, shadows, and highlights must respond consistently to the same lighting system. Avoid a cut-out, pasted-on, composited, or separately rendered appearance.
+
+### Overall photographic restraint
+The target is:
+**natural, credible, human, camera-captured, refined but not over-perfect.**
+
+High-end photography, cinematic photography, editorial photography, bridal photography, elegant styling, and refined color grading are allowed. However, beauty, luxury, cinematic treatment, or artistic polish must never override human realism.
+
+The desired result is a believable real photograph of a real person — not an AI-generated person made to look photographic.
 
 ## 6. Realistic visual direction
-REALISTIC does not mean raw documentary photography or the absence of professional styling.
-Professional makeup, controlled lighting, cinematic lighting, editorial photography, bridal photography, magazine aesthetics, and refined color grading are allowed when requested.
+The visual direction must prioritize **photographic realism over artificial perfection**.
 
-Prioritize:
-- natural human facial structure
-- realistic skin texture
-- natural hair
-- physically plausible clothing and fabric
-- realistic lighting and shadows
-- believable environmental depth
-- natural body proportions
+Preferred characteristics:
+- authentic human facial structure;
+- real skin texture and tonal variation;
+- natural hair behavior;
+- physically plausible clothing and materials;
+- coherent lighting;
+- believable shadows and reflections;
+- natural depth and perspective;
+- restrained professional photographic finishing.
 
-Avoid anime facial proportions, illustration line-art treatment, excessive beauty-filter smoothing, exaggerated fashion-model proportions, and intentionally elongated limbs.
+Avoid:
+- anime or illustration facial proportions;
+- doll-like facial geometry;
+- generic AI-beauty faces;
+- excessive skin smoothing;
+- porcelain or plastic skin;
+- hyper-symmetrical facial features;
+- exaggerated eye size;
+- unnaturally sharp facial edges;
+- excessive HDR;
+- overprocessed micro-detail;
+- fashion-model body distortion;
+- intentionally elongated limbs.
 
-Professional styling may improve presentation, but it must not alter identity anchors or body proportions.
+Professional styling is allowed only when it remains subordinate to identity and photographic realism.
+
+**The system should not chase "perfect image quality" at the expense of believable human appearance.**
 
 ## 7. Photography and perspective
 Select a camera setup appropriate to the composition, including when useful: camera distance, focal length/lens character, perspective, depth of field, camera height, and viewpoint.
