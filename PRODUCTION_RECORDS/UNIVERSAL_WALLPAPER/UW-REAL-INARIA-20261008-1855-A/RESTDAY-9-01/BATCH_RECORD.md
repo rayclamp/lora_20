@@ -5,15 +5,15 @@ BATCH_ID: RESTDAY-9-01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 9
-BATCH_STATUS: DESIGN_AND_PERSISTENCE
+BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
-FAILED_COUNT: 0
+FAILED_COUNT: 1
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 9
-ATTEMPT_COUNT: 0
-CURRENT_TASK: T01
-NEXT_TASK: T01
-CHECKPOINT: Canonical rules loaded; task prompts drafted; waiting on prompt-set write/readback verification before generation.
+PENDING_COUNT: 8
+ATTEMPT_COUNT: 1
+CURRENT_TASK: T02
+NEXT_TASK: T02
+CHECKPOINT: Prompt Set read back successfully. T01 generation call returned a tool rate-limit error and no image; T01 marked GENERATION_FAILED and prompt version consumed to prevent duplicate submission. Next eligible Task: T02.
 OUTPUT_CONTRACT: One independent 16:9 desktop image per Task.
