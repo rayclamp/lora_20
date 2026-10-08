@@ -5,11 +5,14 @@ EXPECTED_OUTPUT_COUNT: 1 per wallpaper Task
 
 | ORDER | TASK_ID | PROMPT_ID | VERSION | PROMPT_STATUS | TASK_STATUS | GENERATION_STATUS |
 |---|---|---|---|---|---|---|
-| 1 | TASK_01 | PROMPT_01 | v1 | LOCKED | GENERATION_STARTED | GENERATION_STARTED |
-| 2 | TASK_02 | PROMPT_02 | v1 | LOCKED | PENDING | NOT_STARTED |
-| 3 | TASK_03 | PROMPT_03 | v1 | LOCKED | PENDING | NOT_STARTED |
-| 4 | TASK_04 | PROMPT_04 | v1 | LOCKED | PENDING | NOT_STARTED |
-| 5 | TASK_05 | PROMPT_05 | v1 | LOCKED | PENDING | NOT_STARTED |
-| 6 | TASK_06 | PROMPT_06 | v1 | LOCKED | PENDING | NOT_STARTED |
+| 1 | TASK_01 | PROMPT_01 | v1 | LOCKED | GENERATION_FAILED | FAILED |
+| 2 | TASK_02 | PROMPT_02 | v1 | LOCKED | DEFERRED | DEFERRED |
+| 3 | TASK_03 | PROMPT_03 | v1 | LOCKED | DEFERRED | DEFERRED |
+| 4 | TASK_04 | PROMPT_04 | v1 | LOCKED | DEFERRED | DEFERRED |
+| 5 | TASK_05 | PROMPT_05 | v1 | LOCKED | DEFERRED | DEFERRED |
+| 6 | TASK_06 | PROMPT_06 | v1 | LOCKED | DEFERRED | DEFERRED |
 
 All Tasks are independent. One Task = one image.
+
+TASK_01: GENERATION_FAILED — image_gen interface returned a platform rate-limit error; no image result received.
+TASK_02–TASK_06: DEFERRED — generation interface unavailable for this message after platform rate-limit error; prompts remain locked and unconsumed.
