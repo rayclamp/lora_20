@@ -20,10 +20,6 @@
 18. If actual-generator delivery telemetry is not exposed by the current interface, record that limitation as evidence state; it is not a pre-generation block. A valid generation call may proceed after Level 1 Prompt Binding passes.
 19. Result count and result-to-Task provenance must be recorded before SUCCESS.
 20. Generation Workers do not perform visual QA.
-21. Each locked Prompt may be generated exactly once. No retry, regeneration, resubmission, or second Generation Call is permitted for the same Prompt/version.
-22. Image QA, when explicitly used for recording, only classifies the single generated result as PASS, FAIL, or UNVERIFIED and never triggers regeneration.
-23. Only verified Policy/Safety interruptions count toward the per-Prompt three-interruption limit. Generation service errors, quota/rate limits, GitHub failures, system/runtime errors, and unknown interruptions do not count.
-24. After three consecutive verified Policy/Safety interruptions across explicit user-authorized continuations, the Prompt is permanently skipped with PROMPT_SKIPPED_POLICY_LIMIT.
 
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
 No age-specific identity or LoRA-specific dataset rule belongs here.
