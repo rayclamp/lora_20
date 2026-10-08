@@ -2,72 +2,122 @@
 
 Simple image-production reference and persistence database.
 
-Production commands explicitly supply the repository and required paths/settings.
+GitHub is the authoritative reference and persistence database. ChatGPT is the Producer and runtime operator.
 
-## 0. Mandatory GitHub Connection Gate — NON-NEGOTIABLE
+## 1. GitHub Entry
 
-Automated production MUST actively connect to the current GitHub repository and successfully read the authoritative data required for the current stage. Mentioning GitHub, recalling previously read content, or relying on cached/stale context does NOT count as a successful connection.
+Before automated production, actively connect to the current GitHub repository and load the authoritative rules and current records required for the stage.
 
-The Producer MUST perform a fresh GitHub connection/read-and-verify gate at each of these boundaries:
+When current GitHub data is required:
+1. reconnect;
+2. read the current authoritative data;
+3. verify that the read succeeded and is usable.
 
-1. **Session startup:** reconnect and read the current entry document, canonical path registry, core rules, applicable worker protocol, and the rules required by the current Production Request.
-2. **Before task/prompt design:** reconnect and read the current applicable module, production-type, character/reference, and other design rules.
-3. **Before prompt persistence or selection:** reconnect and read the current Session/Batch, Task Queue, and authoritative Prompt Set state.
-4. **Immediately before every image-generation call:** reconnect and read the current Task state and its current locked prompt.
+When durable production state is created:
+1. write it to GitHub;
+2. read it back;
+3. verify the write.
 
-Required pre-generation sequence:
-GITHUB_CONNECT_VERIFY → CURRENT_TASK_READ → CURRENT_LOCKED_PROMPT_READ → PROMPT_NONEMPTY_AND_TASK_MATCH_CHECK → USE_CURRENT_LOCKED_PROMPT_DIRECTLY → GENERATION_CALL
+If GitHub access, required reads, required writes, or write verification fails, STOP. Do not continue from memory, cache, stale state, or guesses.
 
-Read the complete current locked prompt for the current Task and use it directly as the generation instruction. Do not redesign, summarize, translate, omit, add to, reorder, or otherwise modify it before generation. Do not substitute the startup command, Production Request, task list, or unrelated context for the prompt. No frozen-input hash, frozen-input length, byte-for-byte transport proof, or hidden payload telemetry is required as a generation gate. If the interface exposes delivery evidence, record it; if it does not, record NOT_EXPOSED/UNVERIFIED. Lack of hidden transport evidence alone MUST NOT block a valid generation call. Block only if the prompt is missing, empty, associated with the wrong Task, or cannot be supplied as a usable instruction.
-5. **After a generation result, before recording it:** reconnect and read the current authoritative record state; persist the actual result and required execution evidence; read back the write to verify it.
-6. **On interruption, stop, or before an explicitly authorized resume:** reconnect first; read the current Session/Batch, Task, checkpoint, execution record, and prompt state; classify and persist the actual interruption state; verify the write before continuing.
-7. **Before moving to the next Task and before declaring completion:** reconnect, read the latest authoritative state, verify the preceding write, and only then select the next Task or determine completion.
+## 2. Production Request
 
-A connection/read/write verification from an earlier stage MUST NOT be reused as proof for a later stage. Each gate must be completed at the point specified above.
+Automated production accepts:
+- MODULE
+- PRODUCTION_TYPE
+- CHARACTER
+- IMAGE_COUNT
+- OUTPUT_TYPE
+- THEME / FESTIVAL_SCOPE
+- SCENE
+- SEASON
+- WEATHER
+- TIME
+- PET_ALLOWED
+- REFERENCE_IMAGE
+- CUSTOM_INSTRUCTIONS
 
-### Fail-Closed Rule
+IMAGE_COUNT is the number of independent Tasks to execute. It is not a success target.
 
-If GitHub cannot be reached, required files cannot be read, current state cannot be verified, a required write fails, or the write cannot be read back and verified:
+## 3. Session / Batch
 
-- STOP the current production workflow immediately.
-- Do NOT design from memory, cached context, stale records, or guesses.
-- Do NOT create or substitute a prompt from the startup command or Production Request.
-- Do NOT call the image-generation interface.
-- Do NOT reinterpret, reconstruct, summarize, translate, reorder, add to, remove from, or otherwise modify a locked prompt before GENERATION_CALL.
-- Do NOT advance to another Task or claim the Batch is complete.
-- If possible, persist a precise blocked/error event to GitHub. If GitHub itself is unavailable and that event cannot be persisted, report `GITHUB_RECORDING_FAILED` and explicitly state that the authoritative record could not be updated.
-- Continue only after GitHub access and the required current state are successfully re-verified.
+/START_AUTO creates a new SESSION_ID and BATCH_ID.
 
-These are mandatory Producer Runtime gates, not advisory reminders. A successful previous read, a planned connection, or a textual claim that GitHub was read is insufficient.
+A Batch contains:
+- SESSION_CONTRACT.md
+- BATCH_RECORD.md
+- TASK_QUEUE.md
+- PROMPT_SET.md
+- EXECUTION_LOG.md
 
-## 1. Repository Role
+All Tasks are designed before generation. The complete Prompt Set is persisted and locked before execution begins.
 
-GitHub stores:
-- character references
-- drawing/anatomy rules
-- wallpaper/festival/LoRA references
-- QA references
-- automated-production records and checkpoints required for interruption recovery
+## 4. Task and Prompt Design
 
-GitHub is the authoritative reference and persistence database. It does **not** independently control runtime, Worker lifecycle, queues, scheduling, retries, or orchestration. This boundary does not weaken the mandatory per-stage GitHub connection, read, write, and verification gates above.
+One Task = one independent image.
 
-## 2. Worker Flow
+For wallpaper production:
+EXPECTED_OUTPUT_COUNT = 1
 
-**Manual**
-`read requested references → design image → write Prompt → return Prompt`
+Each Task receives one locked Prompt/version. After the Prompt Set is locked, its prompts are not redesigned or silently altered.
 
-**Automated**
-`connect/read/verify GitHub → read applicable references → design Tasks/Prompts → persist and lock Prompt Set → for each Task reconnect/read current state → read current locked prompt → generate once → reconnect/read current record state → persist result/checkpoint → read back and verify → reconnect before next Task`
+## 5. Task Execution
 
-Manual and automated production use the same design process. Automated mode adds execution and durable persistence so interrupted production can continue without losing completed work.
+CURRENT_TASK → CURRENT_LOCKED_PROMPT → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS
 
-## 3. Required Protocol
+Immediately before each generation call, reconnect to GitHub and read the current Task and current locked Prompt.
 
-Before any /START_AUTO generation, the Producer MUST read and obey:
-- `00_MASTER/CANONICAL_PATH_REGISTRY.md`
-- `00_MASTER/CORE_RULES.md`
-- `00_MASTER/GENERATION_WORKER_PROTOCOL.md`
-- the applicable module and production-type rules
-- the applicable current Session/Batch records when resuming
+Use the current complete locked Prompt directly as the generation instruction. Do not redesign, summarize, translate, omit, add to, reorder, or substitute it.
 
-The detailed step gate is defined in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`. Missing authoritative rules or a missing/empty/wrong-Task prompt blocks generation. Unavailable delivery telemetry must not, by itself, block a valid generation call.
+Each locked Prompt/version may have at most one actual Generation Call.
+
+The Producer does not automatically retry or regenerate a consumed Prompt/version.
+
+## 6. Result Recording
+
+After a generation result or execution failure:
+1. reconnect to GitHub;
+2. read the current authoritative record state;
+3. record the actual result, failure, interruption, and evidence;
+4. read back and verify the write.
+
+Image QA is a separate workflow. Automated generation records the result and execution state; QA does not trigger regeneration.
+
+## 7. Next Task
+
+Before selecting the next Task, reconnect and verify the latest authoritative state.
+
+Continue until every required Task has reached a valid terminal state.
+
+Do not require every Task to be successful.
+
+## 8. Terminal States and Completion
+
+A Task is terminal only when its final state is explicitly recorded as one of the valid terminal outcomes defined by PRODUCTION_RECORD_SCHEMA.md.
+
+A Batch is BATCH_COMPLETED when:
+- every required Task has reached a valid terminal state; and
+- the Batch completion record has been written and verified.
+
+Success count does not determine Batch completion.
+
+## 9. Stop / Resume
+
+/START_AUTO starts a new automated Session.
+
+If an interruption requires continuation, use /RESUME_AUTO. Resume must reconnect to GitHub, reload the applicable rules, recover the existing Session/Batch and locked Prompt Set, and continue only with Tasks that have not reached a valid terminal state.
+
+/STOP immediately stops new generation and persists a checkpoint when GitHub is available.
+
+## 10. Architecture Boundary
+
+GitHub provides reference data and durable production records.
+
+GitHub does not independently control runtime, scheduling, Worker lifecycle, queues, retries, resume, orchestration, or image generation.
+
+Current runtime ownership:
+
+User → ChatGPT Producer → Generation Interface
+                         ↓
+                      GitHub
+                 Reference + Persistence
