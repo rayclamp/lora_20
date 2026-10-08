@@ -39,10 +39,7 @@ Each Task should record, as applicable:
 - ATTEMPT_ID / attempt count
 - GENERATION_CALL_ID
 - LOCKED_PROMPT_LENGTH
-- GENERATION_INPUT_FROZEN_LENGTH (optional local evidence)
 - LOCKED_PROMPT_HASH
-- GENERATION_INPUT_FROZEN_HASH (optional local evidence)
-- EXACT_BINDING_STATUS
 - DELIVERY_INTEGRITY_STATUS
 - RESULT_ID / output reference
 - EXPECTED_OUTPUT_COUNT
@@ -73,7 +70,7 @@ All prompts are designed before generation, persisted before execution, and lock
 
 The Prompt Set lock metadata is authoritative and must be internally consistent: when PROMPT_SET_STATUS = LOCKED, PROMPT_SET_LOCKED MUST = YES. A persisted locked Prompt Set with PROMPT_SET_LOCKED = NO is invalid record state and must be corrected before execution/resume.
 
-Each executable Task must record that the complete, non-empty Locked Prompt was read and associated with the current Task before generation. Record EXACT_READBACK and EXACT_BINDING_STATUS where supported. Length/hash are optional local integrity evidence, not mandatory runtime gates. If the generation interface does not expose actual payload telemetry, record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED or UNVERIFIED; this alone does not prohibit generation. The selected original Locked Prompt remains the intended generation instruction.
+Each executable Task must record that the current complete, non-empty Locked Prompt was read and associated with the current Task before generation. This is a current-state/readiness check, not a separate transport or frozen-input gate. If the generation interface does not expose actual payload telemetry, record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED or UNVERIFIED; this alone does not prohibit generation. The selected original Locked Prompt remains the generation instruction.
 
 ## 7. EXECUTION_LOG.md
 Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, POLICY_BLOCKED, SAFETY_BLOCKED, INTERRUPTION_CLASSIFIED, PROMPT_SKIPPED_POLICY_LIMIT, STOPPED, RESUMED, UNKNOWN, DEFERRED, COMPLETED. RETRY events MUST NOT be used to represent a second generation call for the same locked Prompt.
@@ -88,7 +85,7 @@ Completion means all required Tasks have reached valid terminal SUCCESS. A Batch
 
 ## 10. Execution Integrity Reference
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
-Minimum chain: TASK → LOCKED_PROMPT → EXACT_READBACK → EXACT_BINDING → GENERATION_INPUT_FROZEN → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS.
+Minimum chain: TASK → LOCKED_PROMPT → CURRENT_PROMPT_READBACK → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS.
 The system must record unavailable evidence honestly and must not claim verification that did not occur. Missing hidden payload telemetry alone does not require BLOCKED; use NOT_EXPOSED/UNVERIFIED and assess the actual result. Use BLOCKED when the prompt is missing, empty, associated with the wrong Task, or cannot be supplied as a usable generation instruction.
 
 ## 11. Non-Goals
