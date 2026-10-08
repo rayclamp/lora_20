@@ -29,17 +29,16 @@ User Command → ChatGPT → Create Session/Batch → Read References → Design
 
 ### Phase B — Execution
 For every Task:
-TASK → LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → PROMPT_BINDING_CHECK → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK → LOCKED_PROMPT → CURRENT_PROMPT_READBACK → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 Execution states must distinguish GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, GENERATION_FAILED, and SUCCESS.
 A returned image is not automatically a successful Task.
 
-### Prompt Integrity
-Level 1: exact locked prompt readback and GENERATION_INPUT binding; compare hash/length when available.
-Level 2: when the generation interface exposes verifiable request/input information, record the available generation-call/delivery evidence and bind it to the attempt. When the interface does not expose such evidence, record delivery evidence as UNVERIFIED/NOT_EXPOSED rather than blocking the generation call.
+### Prompt Readiness
+Before generation, read the current complete locked prompt, confirm it is non-empty and associated with the current Task, and use it directly as the generation instruction. Do not redesign, summarize, translate, omit, replace, or silently alter it. Hidden transport telemetry is evidence only; if unavailable, record UNVERIFIED/NOT_EXPOSED rather than blocking the generation call.
 
 ### Result Integrity
-Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no Level 1 prompt-binding conflict exists.
+Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no prompt-readiness conflict exists.
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
 If more than one output is returned, the Task cannot be SUCCESS.
 
