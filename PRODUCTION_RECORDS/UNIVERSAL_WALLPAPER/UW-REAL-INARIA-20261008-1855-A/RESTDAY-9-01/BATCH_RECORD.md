@@ -12,8 +12,8 @@ FAILED_COUNT: 1
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 8
-ATTEMPT_COUNT: 1
+ATTEMPT_COUNT: 2
 CURRENT_TASK: T02
 NEXT_TASK: T02
-CHECKPOINT: Prompt Set read back successfully. T01 generation call returned a tool rate-limit error and no image; T01 marked GENERATION_FAILED and prompt version consumed to prevent duplicate submission. Next eligible Task: T02.
+CHECKPOINT: T01 terminal GENERATION_FAILED. T02 locked prompt read directly from GitHub and validated non-empty/task-matched; prompt marked consumed before single generation call.
 OUTPUT_CONTRACT: One independent 16:9 desktop image per Task.
