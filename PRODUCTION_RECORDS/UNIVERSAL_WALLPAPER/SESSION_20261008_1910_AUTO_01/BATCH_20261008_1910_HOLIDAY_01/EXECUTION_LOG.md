@@ -28,3 +28,24 @@ GENERATION_CALLS: 0
 - One Generation Call maximum per locked Prompt/version.
 - No automatic retries or regeneration.
 - Generation result is recorded separately from visual QA.
+
+## GENERATION_FAILED — TASK_UW_R_001
+EVENT_ID: EVT_SESSION_20261008_1910_AUTO_01_T001_FAIL
+TIMESTAMP: 2026-10-08T19:10:00+08:00
+EVENT_TYPE: GENERATION_FAILED
+TASK_ID: TASK_UW_R_001
+PROMPT_ID: P01
+PROMPT_VERSION: v1.0
+ATTEMPT_ID: ATTEMPT_001
+GENERATION_CALL_ID: NOT_EXPOSED
+PROMPT_CONSUMED: YES
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+RESULT_ID: NONE
+ACTUAL_OUTPUT_COUNT: 0
+EXPECTED_OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: NOT_APPLICABLE_NO_RESULT
+ERROR_CLASS: GENERATION_INTERFACE_RATE_LIMIT
+ERROR: The image-generation interface could not be invoked because the runtime reported a rate-limit condition.
+TASK_STATUS: GENERATION_FAILED
+BATCH_STATUS: STOPPED
+CONTINUATION: No further generation calls in this request; a new user request is required before attempting the image-generation interface again.
