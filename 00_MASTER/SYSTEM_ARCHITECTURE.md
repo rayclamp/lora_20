@@ -35,8 +35,8 @@ Execution states must distinguish GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RES
 A returned image is not automatically a successful Task.
 
 ### Prompt Integrity
-Level 1: exact locked prompt readback, EXACT_BINDING, and GENERATION_INPUT_FROZEN binding; compare hash/length when available. GENERATION_INPUT_FROZEN is immutable and is the sole Prompt Input to the generation call.
-Level 2: when the generation interface exposes verifiable request/input information, record the available generation-call/delivery evidence and bind it to the attempt. When the interface does not expose such evidence, record delivery evidence as UNVERIFIED/NOT_EXPOSED rather than blocking the generation call.
+Level 1: read the complete, non-empty Locked Prompt for the current Task, verify Task/Prompt association, and explicitly use the original prompt as the generation instruction. Length/hash checks may be used as local supporting evidence but are not mandatory runtime gates.
+Level 2: when the generation interface exposes verifiable request/input information, record the available delivery evidence. When it does not, record delivery evidence as UNVERIFIED/NOT_EXPOSED. Missing hidden payload telemetry alone MUST NOT block generation; block only when the prompt is missing, empty, mismatched to the current Task, or cannot be supplied as a usable instruction.
 
 ### Result Integrity
 Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no Level 1 prompt-binding conflict exists.
