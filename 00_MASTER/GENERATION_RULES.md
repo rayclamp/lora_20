@@ -15,9 +15,9 @@
 13. A returned image is not automatically a successful Task.
 14. One Task must produce exactly the output count required by the active Task contract; wallpaper defaults to one independent image.
 15. Locked prompts are immutable during generation, retry, and resume.
-16. The exact locked prompt must be bound to GENERATION_INPUT before generation.
-17. Prompt Binding Integrity and actual generator delivery evidence are separate.
-18. If actual-generator delivery telemetry is not exposed by the current interface, record that limitation as evidence state; it is not a pre-generation block. A valid generation call may proceed after Level 1 Prompt Binding passes.
+16. Before generation, read the current complete locked prompt, confirm it is non-empty and associated with the current Task, and use it directly as the generation instruction.
+17. Do not redesign, summarize, translate, omit, replace, or silently alter a locked prompt before generation.
+18. Actual-generator delivery telemetry is evidence only. If it is not exposed by the current interface, record that limitation as evidence state; it is not a pre-generation block.
 19. Result count and result-to-Task provenance must be recorded before SUCCESS.
 20. Generation Workers do not perform visual QA.
 
