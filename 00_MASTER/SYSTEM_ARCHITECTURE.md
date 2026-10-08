@@ -29,7 +29,7 @@ User Command → ChatGPT → Create Session/Batch → Read References → Design
 
 ### Phase B — Execution
 For every Task:
-TASK → LOCKED_PROMPT → CURRENT_PROMPT_READBACK → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK → CURRENT_LOCKED_PROMPT → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 Execution states must distinguish GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, GENERATION_FAILED, and SUCCESS.
 A returned image is not automatically a successful Task.
@@ -39,6 +39,8 @@ Before generation, read the current complete locked prompt, confirm it is non-em
 
 ### Result Integrity
 Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no prompt-readiness conflict exists.
+
+A Task does not need to be SUCCESS for the Batch to complete. The Batch completes when every required Task has a valid terminal state.
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
 If more than one output is returned, the Task cannot be SUCCESS.
 
