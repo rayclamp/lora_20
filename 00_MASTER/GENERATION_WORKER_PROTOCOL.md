@@ -101,7 +101,7 @@ Level 2 is an evidence layer, not a mandatory pre-generation gate.
 
 Every actual generation attempt is a distinct execution event.
 Record when available: SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, start/end timestamps, and delivery-integrity state.
-A retry creates a new ATTEMPT_ID and, where supported, a new GENERATION_CALL_ID. The locked prompt does not change during retry.
+For the current Single-Producer /START_AUTO workflow, a consumed locked prompt/version MUST NOT be retried, regenerated, or resubmitted. A generation failure is recorded and the affected Task is stopped according to the applicable terminal/error rules.
 
 ## 5. Result Identity and Output Count
 
@@ -145,7 +145,7 @@ For wallpaper production, one Task equals one independent image. No collage, con
 ## 9. Prompt Immutability
 
 After PROMPT_SET_LOCKED, do not redesign, summarize, translate, reorder, add, remove, or silently substitute prompt content.
-Retries and resume use the same locked prompt/version.
+The current /START_AUTO workflow does not automatically retry or resume. An explicitly authorized resume may recover the existing Session/Batch and locked Prompt Set, but it MUST NOT re-use a consumed locked prompt/version for another generation call.
 
 ## 10. Stop Conditions
 
@@ -157,7 +157,7 @@ The absence of a GitHub Claim/Lease API is NOT a stop condition for the current 
 Resume uses the same SESSION_ID, BATCH_ID, and locked PROMPT_SET.
 Do not redesign prompts.
 Do not treat unverified results as completed Tasks.
-Re-run the applicable integrity gates before a new attempt.
+Re-run the applicable state/integrity gates before continuing with an unconsumed Task. A consumed prompt/version is never a new attempt.
 
 If a Single-Producer session is interrupted, the next authorized Producer context may continue only when the user explicitly authorizes access to the existing Session/Batch, consistent with CORE session-access rules.
 
