@@ -25,7 +25,7 @@ OUTPUT_TYPE is the combined output contract that identifies the target class and
 
 ## 4. BATCH_RECORD.md
 Record: SESSION_ID, BATCH_ID, MODULE, PRODUCTION_TYPE, IMAGE_COUNT, BATCH_STATUS, COMPLETED_COUNT, UNVERIFIED_COUNT, FAILED_COUNT, DEFERRED_COUNT, BLOCKED_COUNT, PENDING_COUNT, ATTEMPT_COUNT, CURRENT_TASK, NEXT_TASK, CHECKPOINT, and termination/completion information. These state counts must remain separate; do not combine failed, deferred, blocked, and unverified Tasks into one ambiguous counter.
-A Batch MUST NOT be complete while any required Task is unverified, blocked, failed, or unfinished.
+A Batch MUST NOT be complete while any required Task is unfinished or has not reached a valid terminal state.
 
 ## 5. TASK_QUEUE.md
 Each Task should record, as applicable:
@@ -80,8 +80,23 @@ Each event should include timestamp with timezone, EVENT_ID, event type, SESSION
 Records must preserve enough information to determine which Session/Batch, contract, locked prompt, generation attempts, results, verification states, Task states, checkpoint, and historical events apply. All five standard batch records must be present before a Batch can resume: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md, and EXECUTION_LOG.md. If any required record is missing or a locked prompt cannot be read back, mark the Batch BLOCKED for record-integrity recovery; do not invent missing Task state or reconstruct a supposedly locked prompt from memory.
 An unverified image result MUST NOT be silently counted as a completed Task during resume.
 
-## 9. Completion
-Completion means all required Tasks have reached valid terminal SUCCESS. A Batch is not complete merely because all requested image slots received some image output.
+## 9. Terminal States and Completion
+A Task is terminal only when its final state is explicitly recorded as one of the following valid terminal outcomes:
+
+- SUCCESS
+- GENERATION_FAILED
+- RESULT_COUNT_MISMATCH
+- EXECUTION_INTEGRITY_BLOCKED
+- BLOCKED
+- DEFERRED
+- PROMPT_SKIPPED_POLICY_LIMIT
+- STOPPED
+
+RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, GENERATION_STARTED, and other in-progress/evidence states are not terminal.
+
+Completion means every required Task has reached a valid terminal state. A Batch MUST then be recorded as BATCH_COMPLETED.
+
+Batch completion does not require every Task to be SUCCESS, and IMAGE_COUNT is not a success target.
 
 ## 10. Execution Integrity Reference
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
@@ -114,15 +129,10 @@ After three consecutive verified Policy/Safety interruptions across explicit use
 
 The Producer must not automatically retry or regenerate. Image QA is recorded as evidence for the single generated image and is never a regeneration trigger.
 
-## 13. Per-Step Persistence Requirement
+## 13. Persistence Requirement
 
-Automated production records must preserve the state produced by each discrete production step before the next step begins.
+Automated production records must preserve durable state before the workflow advances to the next production stage.
 
-At minimum, each step must have a corresponding authoritative record/event showing:
-1. current GitHub access was verified;
-2. required current data was read when applicable;
-3. the step was executed;
-4. the resulting state/data was written;
-5. the write was verified.
+When current GitHub data is required, connection/read verification must occur at that stage. When durable state is produced, it must be written and read back for verification.
 
 If the required GitHub record cannot be written or verified, the Producer must stop and must not continue from memory, cache, stale context, or guessed state. If the failure cannot itself be persisted, report GITHUB_RECORDING_FAILED.
