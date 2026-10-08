@@ -9,7 +9,7 @@ A valid production Task is not successful merely because an image result is retu
 
 Minimum execution chain:
 
-TASK_ID → PROMPT_ID → LOCKED_PROMPT → EXACT_READBACK → GENERATION_INPUT → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK_ID → PROMPT_ID → LOCKED_PROMPT → CURRENT_PROMPT_READBACK → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 These are distinct states: prompt preparation/binding, actual generation-call delivery, image-result receipt, and Task success.
 
@@ -78,13 +78,13 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 
 ## 3. Prompt Execution Integrity
 
-### Level 1 — Prompt Binding Integrity
+### Level 1 — Prompt Readiness
 
-1. Read the task's locked prompt exactly from the authoritative PROMPT_SET.
-2. Create GENERATION_INPUT from that exact readback.
-3. GENERATION_INPUT MUST equal the complete locked prompt text-for-text.
-4. When available, compare LOCKED_PROMPT_LENGTH, GENERATION_INPUT_LENGTH, LOCKED_PROMPT_HASH, and GENERATION_INPUT_HASH.
-5. Any mismatch blocks generation.
+1. Read the current complete locked prompt from the authoritative PROMPT_SET.
+2. Confirm the prompt is non-empty and associated with the current Task.
+3. Use that current locked prompt directly as the generation instruction.
+4. Do not redesign, summarize, translate, omit, replace, or silently alter the prompt before generation.
+5. This readiness check does not require frozen-input hashes, transport telemetry, or a byte-for-byte proof of the hidden generator payload.
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
 
@@ -114,8 +114,8 @@ If a result cannot be reliably bound to the Task or generation call, the Task MU
 ## 6. Task Success Gate
 
 A Task may be SUCCESS only when all applicable requirements pass:
-1. Exact locked-prompt readback.
-2. Level 1 Prompt Binding Integrity.
+1. Current locked-prompt readback.
+2. Prompt is non-empty and associated with the current Task.
 3. Generation call actually initiated for that Task.
 4. If Level 2 delivery evidence is exposed by the interface, it must be recorded consistently; if it is not exposed, do not invent it and do not block success solely for its absence.
 5. Result received.
@@ -128,12 +128,11 @@ IMAGE_RESULT_RECEIVED is not TASK_SUCCESS.
 ## 7. False-Success Prevention
 
 The following MUST NOT produce TASK_STATUS = SUCCESS:
-- image exists but a required Level 1 prompt binding check failed;
+- image exists but the current locked prompt was missing, empty, or associated with the wrong Task;
 - output count is unknown when count matters;
 - multiple outputs were returned for a one-image Task (record RESULT_COUNT_MISMATCH when the count is known);
 - result cannot be bound to the Task or attempt;
 - required generation-call provenance that the interface actually exposes is missing;
-- prompt/input mismatch;
 - generation was blocked;
 - the generation call was not initiated.
 
@@ -150,7 +149,7 @@ Retries and resume use the same locked prompt/version.
 
 ## 10. Stop Conditions
 
-Generation MUST stop for the affected Task/Batch when Level 1 binding fails, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
+Generation MUST stop for the affected Task/Batch when the current locked prompt is missing, empty, or associated with the wrong Task, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
 The absence of a GitHub Claim/Lease API is NOT a stop condition for the current Single-Producer workflow.
 
 ## 11. Recovery
