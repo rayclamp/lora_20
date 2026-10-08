@@ -36,7 +36,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 11. Automated production may write durable production/checkpoint/execution evidence to GitHub when required for interruption recovery.
 12. Manual production does not require automated production persistence.
 13. An image result alone is never sufficient evidence of Task success.
-14. A Task may be SUCCESS only after the applicable Prompt Binding, generation-call, result-count, and result-provenance gates pass.
+14. A Task may be SUCCESS only after the current locked prompt, generation-call, result-count, and result-provenance requirements pass.
 15. If required execution evidence is unavailable, record the affected evidence as UNVERIFIED; do not invent evidence or success.
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
 
@@ -65,5 +65,5 @@ Any automated production initiated by /RESUME_AUTO MUST re-verify the current Gi
 3. If connection verification or rule loading fails, resume is BLOCKED and no Generation call may be made.
 4. Resume MUST use the existing SESSION_ID, BATCH_ID, TASK_QUEUE, and LOCKED PROMPT_SET.
 5. Resume MUST NOT create a replacement Session/Batch or redesign a locked prompt.
-6. Resume selects the first Task that has not reached valid terminal SUCCESS.
+6. Resume selects the first Task that has not reached a valid terminal state.
 7. This gate is a Producer Runtime precondition; it does not make GitHub a runtime controller.
