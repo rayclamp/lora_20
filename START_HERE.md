@@ -16,9 +16,9 @@ The Producer MUST perform a fresh GitHub connection/read-and-verify gate at each
 4. **Immediately before every image-generation call:** reconnect and read/verify the current Task state and exact locked prompt. Bind that exact readback through EXACT_BINDING into GENERATION_INPUT_FROZEN.
 
 Required pre-generation sequence:
-GITHUB_CONNECT_VERIFY → CURRENT_TASK_READ → LOCKED_PROMPT_READBACK → PROMPT_INTEGRITY_VERIFY → EXACT_BINDING → GENERATION_INPUT_FROZEN → GENERATION_CALL
+GITHUB_CONNECT_VERIFY → CURRENT_TASK_READ → LOCKED_PROMPT_READBACK → PROMPT_NONEMPTY_AND_TASK_MATCH_CHECK → USE_ORIGINAL_PROMPT_AS_GENERATION_INSTRUCTION → GENERATION_CALL
 
-GENERATION_INPUT_FROZEN MUST be text-for-text identical to the current LOCKED_PROMPT. Once frozen, it is immutable until GENERATION_CALL completes. No redesign, reinterpretation, reconstruction, summarization, translation, reordering, addition, removal, substitution, or context-based prompt generation is permitted between freezing and the generation call. The ONLY Prompt Input permitted for GENERATION_CALL is GENERATION_INPUT_FROZEN. Do not send the user's startup command, Production Request, task list, or a summary as a substitute for the locked prompt.
+Read the complete, non-empty Locked Prompt for the current Task and use its original text as the generation instruction. Do not intentionally redesign, summarize, translate, omit, or replace its requirements. Do not substitute the startup command, Production Request, task list, or unrelated context for the prompt. If the interface does not expose actual payload telemetry, record NOT_EXPOSED/UNVERIFIED; lack of hidden payload evidence alone MUST NOT block an otherwise valid generation call. Block only if the prompt is missing, empty, associated with the wrong Task, or cannot be supplied as a usable instruction.
 5. **After a generation result, before recording it:** reconnect and read the current authoritative record state; then persist the actual result, output count, call/result identity, and verification state; read back the write to verify it.
 6. **On interruption, stop, or resume:** reconnect first; read the current Session/Batch, all required batch records, latest execution log, and checkpoint; classify and persist the actual interruption state; verify the write before continuing or reporting recovery state.
 7. **Before moving to the next Task and before declaring completion:** reconnect, read the latest authoritative state, verify the preceding write, and only then select the next Task or determine completion.
@@ -70,4 +70,4 @@ Before any /START_AUTO generation, the Producer MUST read and obey:
 - the applicable module and production-type rules
 - the applicable current Session/Batch records when resuming
 
-The detailed step gate is defined in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`. If any required source is unavailable or unverified, the Entry Gate is BLOCKED and generation is forbidden.
+The detailed step gate is defined in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`. Missing authoritative rules or a missing/empty/wrong-Task prompt blocks generation. Unavailable hidden payload telemetry must be recorded as NOT_EXPOSED/UNVERIFIED and is not, by itself, a reason to block.
