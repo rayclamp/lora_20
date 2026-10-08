@@ -10,3 +10,5 @@ BATCH_ID: RESTDAY-9-01
 
 - 2026-10-08T19:00:00+08:00 — RESUME_CHECK — Read all five records from the same Session/Batch. Confirmed 0 successful Tasks, T01 had a prior explicit image-tool rate-limit error and no returned image; T02–T09 remain pending. No UNKNOWN result indicated by records.
 - 2026-10-08T19:00:00+08:00 — T01 — GENERATION_FAILED — Image tool returned ChatGPTAgentToolRateLimitException; no image returned. Prompt version marked consumed to prevent duplicate submission. Continuing queue at T02.
+
+- 2026-10-08T19:01:00+08:00 — T02 — PRE-GENERATION GATE PASS — Re-fetched current queue and complete locked Prompt Set from main. P02 v1 non-empty and matched T02. Marked prompt consumed and task GENERATING before the one allowed generation call.
