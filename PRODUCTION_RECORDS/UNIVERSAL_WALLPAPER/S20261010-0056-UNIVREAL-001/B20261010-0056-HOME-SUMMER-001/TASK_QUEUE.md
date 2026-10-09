@@ -4,7 +4,7 @@
 |---:|---|---|---|---|---|---|---:|---:|---:|---:|---:|---|
 | 1 | T01 | P01 | v1 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | YES | CONSUMED |
 | 2 | T02 | P02 | v1 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | YES | CONSUMED |
-| 3 | T03 | P03 | v1 | LOCKED | GENERATION_STARTED | GENERATION_STARTED | 1 | 1 | 0 | NO | AVAILABLE |
+| 3 | T03 | P03 | v1 | LOCKED | RESULT_COUNT_MISMATCH | IMAGE_RESULT_RECEIVED | 1 | 1 | 2 | YES | CONSUMED |
 | 4 | T04 | P04 | v1 | LOCKED | PENDING | NOT_STARTED | 0 | 1 | 0 | NO | AVAILABLE |
 | 5 | T05 | P05 | v1 | LOCKED | PENDING | NOT_STARTED | 0 | 1 | 0 | NO | AVAILABLE |
 | 6 | T06 | P06 | v1 | LOCKED | PENDING | NOT_STARTED | 0 | 1 | 0 | NO | AVAILABLE |
@@ -29,8 +29,11 @@ T03 execution metadata:
 - ATTEMPT_ID: A01-T03
 - GENERATION_CALL_ID: GC01-T03
 - DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
-- RESULT_ID: PENDING
-- RESULT_BINDING_STATUS: PENDING
+- RESULT_ID: 4d936162-cc6f-4c51-b9eb-ba5466529586; 99fdaaf3-2478-4dc6-92f9-4d5a1a19a0b8
+- RESULT_BINDING_STATUS: VERIFIED_BY_CURRENT_GENERATION_RESULT
+- PROMPT_TERMINATION_REASON: RESULT_COUNT_MISMATCH
+- ACTUAL_OUTPUT_COUNT: 2
+- Expected one independent image; two image results were returned for this Task. Prompt is consumed and may not be reused.
 
 Global task contract:
 - One Task = one independent image.
