@@ -12,3 +12,8 @@ BATCH_ID: SLEEP-DESKTOP-6-01
   EVENT_TYPE: DESIGN_COMPLETE
   STATUS: DRAFTED
   DETAILS: Six unique tasks and task-specific prompts designed; Prompt Set persistence/readback and lock verification pending.
+- EVENT_ID: EVT-LOCK-1912
+  TIMESTAMP: 2026-10-09T19:12:00+08:00
+  EVENT_TYPE: PROMPT_SET_LOCKED
+  STATUS: VERIFIED
+  DETAILS: PROMPT_SET.md read back from GitHub main; six non-empty task-matched prompts present; PROMPT_SET_STATUS=LOCKED; PROMPT_SET_LOCKED=YES. Queue updated to LOCKED for all six prompts.
