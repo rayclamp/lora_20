@@ -362,7 +362,11 @@ The design stage MUST deliberately vary, as appropriate:
 
 Changing only the background and pose is insufficient when the requested batch is intended to provide varied wallpapers.
 
-For a 12-image travel batch, the Worker should use a deliberate coverage plan so that clothing, hairstyle, footwear, and accessory choices are visibly diversified rather than repeated with minor wording changes.
+Choose the base hairstyle and footwear type according to the specific image theme, scene, activity, clothing, weather, and overall visual intent. Do not force every available type into a batch or use an unsuitable type merely to satisfy a variety quota.
+
+After choosing a suitable base type, the Worker may make restrained, theme-appropriate styling variations without changing the underlying type. For example, long straight hair may include a small side braid or a different parting while remaining long straight hair; Mary Jane shoes may vary in color, material, strap details, or small decorations while remaining Mary Jane shoes. Such variations are optional design choices, not mandatory per-image requirements.
+
+Batch diversity is a visual goal, not a requirement to exhaust a catalog or invent a new base type for every image. Avoid unnecessary repetition when a suitable alternative or a meaningful styling variation naturally fits, but prioritize scene suitability and coherent design over forced difference.
 
 Identity anchors that remain fixed include facial structure, natural hair color/hairline, skin tone, recognizable body build, and natural proportions.
 
