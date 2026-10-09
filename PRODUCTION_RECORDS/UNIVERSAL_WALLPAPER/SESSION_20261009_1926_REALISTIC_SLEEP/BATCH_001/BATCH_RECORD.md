@@ -10,8 +10,8 @@ UNVERIFIED_COUNT: 0
 FAILED_COUNT: 1
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 5
-ATTEMPT_COUNT: 1
+PENDING_COUNT: 4
+ATTEMPT_COUNT: 2
 CURRENT_TASK: TASK_002
-NEXT_TASK: TASK_002
-CHECKPOINT: TASK_001 was submitted once; image tool returned ChatGPTAgentToolRateLimitException. No image returned. Marked GENERATION_FAILED; do not retry. Next eligible task is TASK_002.
+NEXT_TASK: TASK_003
+CHECKPOINT: TASK_001 terminal GENERATION_FAILED (one attempt, no retry). TASK_002 locked prompt read from PROMPT_SET.md; one generation call being initiated.
