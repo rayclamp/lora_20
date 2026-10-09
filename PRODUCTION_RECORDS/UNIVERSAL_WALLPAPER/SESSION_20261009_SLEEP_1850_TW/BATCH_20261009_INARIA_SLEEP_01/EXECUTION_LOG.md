@@ -33,3 +33,14 @@ BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
   EVENT_TYPE: RESUME_RECOVERY_READBACK
   RESULT: PASS
   DETAILS: Re-read all five records from the same SESSION_ID and BATCH_ID. TASK_01 is not successful and remains EXECUTION_INTEGRITY_BLOCKED; one image result exists but input binding is unverified. TASK_02 generation request was refused/blocked; prompt treated as consumed, no retry. TASK_03 is next pending Task. TASK_03–TASK_06 remain pending. Batch may continue only with the next unconsumed locked prompts.
+
+- EVENT_ID: EVT_TASK03_001
+  TIMESTAMP: 2026-10-09T19:06:00+08:00
+  EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+  TASK_ID: TASK_03
+  PROMPT_ID: PROMPT_03
+  PROMPT_VERSION: v1
+  GENERATION_CALL_ID: c2143d50-571a-4ffe-af7f-190124c8d162
+  RESULT: One image was returned, but the generated result does not match the locked task scene (table-side seated sleep); the generation instruction was not transmitted as the full locked prompt. Input/task binding is unverified. Do not retry this consumed prompt.
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
