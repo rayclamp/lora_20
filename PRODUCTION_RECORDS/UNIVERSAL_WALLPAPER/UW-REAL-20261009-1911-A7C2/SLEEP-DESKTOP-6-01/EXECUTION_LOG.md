@@ -17,3 +17,13 @@ BATCH_ID: SLEEP-DESKTOP-6-01
   EVENT_TYPE: PROMPT_SET_LOCKED
   STATUS: VERIFIED
   DETAILS: PROMPT_SET.md read back from GitHub main; six non-empty task-matched prompts present; PROMPT_SET_STATUS=LOCKED; PROMPT_SET_LOCKED=YES. Queue updated to LOCKED for all six prompts.
+- EVENT_ID: EVT-FAIL-01
+  EVENT_TYPE: GENERATION_RESULT
+  TASK_ID: UW-SLEEP-01
+  PROMPT_ID: PROMPT-SLEEP-01
+  STATUS: GENERATION_FAILED
+  ACTUAL_OUTPUT_COUNT: 0
+  ERROR: ChatGPTAgentToolRateLimitException reported by image generation tool; no image result returned.
+  PROMPT_CONSUMED: YES
+  RETRY_ALLOWED: NO
+  NEXT_TASK: UW-SLEEP-02
