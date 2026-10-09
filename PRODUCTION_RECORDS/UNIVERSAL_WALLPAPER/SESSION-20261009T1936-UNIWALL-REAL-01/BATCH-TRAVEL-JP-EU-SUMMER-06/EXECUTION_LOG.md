@@ -21,3 +21,22 @@ BATCH_ID: BATCH-TRAVEL-JP-EU-SUMMER-06
   TASK_COUNT: 6
   READBACK_VERIFICATION: PASS
   DETAILS: All five required records were fetched back successfully; PROMPT_SET.md contains six complete non-empty task-specific prompts and consistent lock metadata. Queue state corrected to QUEUED before any generation call.
+
+- EVENT_ID: EVT-UW-TRAVEL-01-001
+  TIMESTAMP: 2026-10-09T19:38:00+08:00
+  EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+  SESSION_ID: SESSION-20261009T1936-UNIWALL-REAL-01
+  BATCH_ID: BATCH-TRAVEL-JP-EU-SUMMER-06
+  TASK_ID: UW-TRAVEL-01
+  PROMPT_ID: PROMPT-UW-TRAVEL-01
+  PROMPT_VERSION: v1
+  ATTEMPT_ID: ATTEMPT-UW-TRAVEL-01-01
+  GENERATION_CALL_ID: 2f93fb1a-5687-457b-bb2e-980eedafb163
+  RESULT_ID: file_00000000542c82069797661e77fab43a
+  ACTUAL_OUTPUT_COUNT: 1
+  EXPECTED_OUTPUT_COUNT: 1
+  DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+  RESULT_BINDING_STATUS: FAILED_PROMPT_MISMATCH
+  PROMPT_CONSUMED: YES
+  TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
+  DETAILS: An image result was returned, but the generation instruction delivered did not match the current complete locked prompt read from GitHub. The consumed prompt/version will not be retried or regenerated. Result is not SUCCESS.
