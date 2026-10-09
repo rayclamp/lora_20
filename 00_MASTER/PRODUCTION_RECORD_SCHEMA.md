@@ -124,9 +124,9 @@ Persist at Task level, as applicable:
 1. `PROMPT_CONSUMED = YES` and `PROMPT_STATE = CONSUMED` only when an image result is confirmed received for this Task/attempt. No further Generation Call is allowed for that Prompt/version.
 2. A verified Policy/Safety interruption with confirmed no image result leaves `PROMPT_CONSUMED = NO` and the Prompt eligible for an explicitly authorized retry, provided the Task remains non-terminal and the policy-interruption limit has not been reached. Retry must use the exact same locked Prompt/version and Task binding; assign a new `ATTEMPT_ID`.
 3. A confirmed generation failure with confirmed no image result leaves the Prompt unconsumed, but retry/termination follows the separate applicable error-specific rule. Do not count service/runtime errors, quota/rate limits, GitHub failures, or unknown outcomes as Policy/Safety interruptions.
-4. If the outcome is unknown, set `PROMPT_STATE = UNKNOWN` and the applicable recovery-required state. Do not retry, skip, or advance until the outcome is resolved.
+4. If the outcome is unknown, set `PROMPT_CONSUMED = UNKNOWN`, `PROMPT_STATE = UNKNOWN`, and the applicable recovery-required state. Do not retry, skip, or advance until the outcome is resolved.
 5. `PROMPT_STATE = RETIRED` means the Prompt is permanently forbidden from future reuse, regardless of `PROMPT_CONSUMED`. A terminal Task retires its Prompt. Retired Prompts must never be re-queued, reassigned, or used by another Task.
-6. A Prompt is `AVAILABLE` only when no image result was produced, the prior outcome is known, the Task is non-terminal, and no retirement condition applies.
+6. `PROMPT_CONSUMED` is tri-state: `YES` only for a confirmed received image result; `NO` only when no image result is confirmed and the outcome is known to be no-image; `UNKNOWN` when the outcome cannot be determined. A Prompt is `AVAILABLE` only when no image result was produced, the prior outcome is known, the Task is non-terminal, and no retirement condition applies.
 
 ### 12.2 Policy/Safety interruption limit
 
