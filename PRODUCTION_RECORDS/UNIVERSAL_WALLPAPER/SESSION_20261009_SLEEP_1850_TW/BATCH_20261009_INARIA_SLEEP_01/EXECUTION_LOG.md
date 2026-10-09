@@ -44,3 +44,19 @@ BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
   RESULT: One image was returned, but the generated result does not match the locked task scene (table-side seated sleep); the generation instruction was not transmitted as the full locked prompt. Input/task binding is unverified. Do not retry this consumed prompt.
   ACTUAL_OUTPUT_COUNT: 1
   PROMPT_CONSUMED: YES
+
+- EVENT_ID: EVT_TASK04_001
+  TIMESTAMP: 2026-10-09T19:07:00+08:00
+  EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+  TASK_ID: TASK_04
+  PROMPT_ID: PROMPT_04
+  PROMPT_VERSION: v1
+  GENERATION_CALL_ID: bd941c21-508f-4c6f-a3e4-fc49facc96b4
+  RESULT: One image returned, but the result shows a table-side nap rather than the locked floor-cushion sunset scene. The generator interface did not provide a supported method to transmit the full locked prompt verbatim. Input/task binding is unverified; no retry.
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+- EVENT_ID: EVT_STOP_001
+  TIMESTAMP: 2026-10-09T19:08:00+08:00
+  EVENT_TYPE: SAFE_STOP
+  RESULT: STOPPED
+  DETAILS: TASK_01, TASK_03, TASK_04 are EXECUTION_INTEGRITY_BLOCKED; TASK_02 is PROMPT_SKIPPED_POLICY_LIMIT; TASK_05 and TASK_06 are DEFERRED because continuing would risk generating without the required locked prompt. Batch must not be marked BATCH_COMPLETED.
