@@ -9,9 +9,9 @@ COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
-BLOCKED_COUNT: 2
-PENDING_COUNT: 4
-ATTEMPT_COUNT: 2
-CURRENT_TASK: TASK_03
-NEXT_TASK: TASK_03
-CHECKPOINT: TASK_01 input/prompt binding unverified; one image returned but not SUCCESS. TASK_02 generation was refused/blocked and prompt is consumed; no retry. Next eligible Task: TASK_03.
+BLOCKED_COUNT: 3
+PENDING_COUNT: 3
+ATTEMPT_COUNT: 3
+CURRENT_TASK: TASK_04
+NEXT_TASK: TASK_04
+CHECKPOINT: TASK_01 and TASK_03 each returned one image with unverified prompt/task binding; neither is SUCCESS and neither may be retried. TASK_02 was refused/blocked and consumed. Next eligible Task: TASK_04.
