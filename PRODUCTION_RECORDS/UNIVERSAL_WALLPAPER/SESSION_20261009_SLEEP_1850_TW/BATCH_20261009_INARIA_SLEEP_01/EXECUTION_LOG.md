@@ -14,3 +14,16 @@ BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
   TIMESTAMP: 2026-10-09T18:50:00+08:00
   EVENT_TYPE: PROMPT_SET_LOCKED
   DETAILS: Prompt set intended to be persisted and read back before generation. Generation must remain blocked until read-back verification passes.
+
+- EVENT_ID: EVT_TASK01_001
+  TIMESTAMP: 2026-10-09T18:51:00+08:00
+  EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+  TASK_ID: TASK_01
+  PROMPT_ID: PROMPT_01
+  PROMPT_VERSION: v1
+  ATTEMPT_ID: ATTEMPT_01
+  GENERATION_CALL_ID: 570ce625-4401-4e9d-9b11-7052a645bf18
+  RESULT: IMAGE_RESULT_RECEIVED; actual image returned (one image), but the generation instruction sent through the interface did not match the complete locked Prompt Set text. Input/task binding is therefore unverified and this Task is not SUCCESS.
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_TERMINATION_REASON: INPUT_PROMPT_MISMATCH
