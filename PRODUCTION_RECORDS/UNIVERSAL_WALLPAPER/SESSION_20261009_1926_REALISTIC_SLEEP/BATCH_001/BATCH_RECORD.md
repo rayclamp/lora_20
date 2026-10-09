@@ -4,7 +4,7 @@ BATCH_ID: BATCH_001
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
-BATCH_STATUS: PROMPT_DESIGN_AND_PERSISTENCE
+BATCH_STATUS: PROMPT_SET_LOCKED_READY_FOR_EXECUTION
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
@@ -14,4 +14,4 @@ PENDING_COUNT: 6
 ATTEMPT_COUNT: 0
 CURRENT_TASK: TASK_001
 NEXT_TASK: TASK_001
-CHECKPOINT: All six task-specific prompts designed; awaiting GitHub write/readback verification before lock and generation.
+CHECKPOINT: All five standard records were written and read back. PROMPT_SET.md verified non-empty with six Task prompts and consistent LOCKED metadata.
