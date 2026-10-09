@@ -22,4 +22,18 @@ BATCH_ID: B20261010-0056-HOME-SUMMER-001
 - Tasks: T01–T06
 - Timestamp: 2026-10-10T00:56+08:00
 
+## RECORD_WRITE_CONFLICT_RECOVERED
+- Event: RECORD_WRITE_CONFLICT_RECOVERED
+- A TASK_QUEUE update initially returned GitHub 409 due to stale blob SHA.
+- Latest authoritative TASK_QUEUE.md was re-read before retry; no generation occurred during the conflict.
+- Recovery proceeded from the freshly read SHA.
+- Timestamp: 2026-10-10T00:57+08:00
+
+## PROMPT_SET_READBACK_VERIFIED
+- Event: PROMPT_SET_READBACK_VERIFIED
+- All five standard records were read back after creation/update.
+- PROMPT_SET.md was read back and confirmed non-empty, complete for T01–T06, and internally locked.
+- Session/Batch/Task records were reconciled to the locked Prompt Set before execution.
+- Timestamp: 2026-10-10T00:57+08:00
+
 Execution evidence fields not exposed by the image interface will be recorded as NOT_EXPOSED/UNVERIFIED rather than invented.
