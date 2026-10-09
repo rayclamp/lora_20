@@ -48,6 +48,8 @@ Each Task should record, as applicable:
 - POLICY_INTERRUPTION_COUNT
 - INTERRUPTION_CLASS / INTERRUPTION_HISTORY
 - PROMPT_CONSUMED
+- PROMPT_STATE (`AVAILABLE`, `CONSUMED`, `RETIRED`, or `UNKNOWN`)
+- GENERATION_ATTEMPT_COUNT
 - PROMPT_TERMINATION_REASON
 
 Task status semantics:
@@ -104,28 +106,41 @@ The system must record unavailable evidence honestly and must not claim verifica
 ## 11. Non-Goals
 This schema does not define a GitHub scheduler, task lock, worker manager, retry engine, Session manager, or execution controller. Those remain internal ChatGPT production mechanisms.
 
-## 12. One-Prompt-One-Generation and Policy Interruption Records
+## 12. Prompt Consumption, Retry, and Policy Interruption Records
 
-Each locked Prompt/version may have at most ONE actual Generation Call.
+One locked Prompt/version may produce at most ONE successful image result. A Generation Call being initiated does not, by itself, consume the Prompt.
 
-Lifecycle continuation attempts before generation may be recorded, but once a Generation Call is initiated the Prompt is permanently consumed and no second Generation Call is permitted for that Prompt/version.
+Persist at Task level, as applicable:
+- `GENERATION_ATTEMPT_COUNT`
+- `POLICY_INTERRUPTION_COUNT`
+- `INTERRUPTION_CLASS`
+- `INTERRUPTION_HISTORY`
+- `PROMPT_CONSUMED`
+- `PROMPT_STATE` (`AVAILABLE`, `CONSUMED`, `RETIRED`, `UNKNOWN`)
+- `PROMPT_TERMINATION_REASON`
 
-For Policy/Safety interruption handling, persist at Task level:
-- POLICY_INTERRUPTION_COUNT
-- INTERRUPTION_CLASS
-- INTERRUPTION_HISTORY
-- PROMPT_CONSUMED
-- PROMPT_TERMINATION_REASON
+### 12.1 Outcome and prompt-state rules
 
-Only verified Policy/Safety interruptions increment POLICY_INTERRUPTION_COUNT.
+1. `PROMPT_CONSUMED = YES` and `PROMPT_STATE = CONSUMED` only when an image result is confirmed received for this Task/attempt. No further Generation Call is allowed for that Prompt/version.
+2. A verified Policy/Safety interruption with confirmed no image result leaves `PROMPT_CONSUMED = NO` and the Prompt eligible for an explicitly authorized retry, provided the Task remains non-terminal and the policy-interruption limit has not been reached. Retry must use the exact same locked Prompt/version and Task binding; assign a new `ATTEMPT_ID`.
+3. A confirmed generation failure with confirmed no image result leaves the Prompt unconsumed, but retry/termination follows the separate applicable error-specific rule. Do not count service/runtime errors, quota/rate limits, GitHub failures, or unknown outcomes as Policy/Safety interruptions.
+4. If the outcome is unknown, set `PROMPT_STATE = UNKNOWN` and the applicable recovery-required state. Do not retry, skip, or advance until the outcome is resolved.
+5. `PROMPT_STATE = RETIRED` means the Prompt is permanently forbidden from future reuse, regardless of `PROMPT_CONSUMED`. A terminal Task retires its Prompt. Retired Prompts must never be re-queued, reassigned, or used by another Task.
+6. A Prompt is `AVAILABLE` only when no image result was produced, the prior outcome is known, the Task is non-terminal, and no retirement condition applies.
 
-Generation service errors, quota/rate limits, GitHub failures, system/runtime errors, and unknown interruptions do not increment the Policy counter.
+### 12.2 Policy/Safety interruption limit
 
-After three consecutive verified Policy/Safety interruptions across explicit user-authorized continuations, set:
-- TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT
-- PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS
+Only verified Policy/Safety interruptions increment `POLICY_INTERRUPTION_COUNT`. Other error classes have separate handling and must not increment this counter.
 
-The Producer must not automatically retry or regenerate. Image QA is recorded as evidence for the single generated image and is never a regeneration trigger.
+After three consecutive verified Policy/Safety interruptions across explicitly authorized continuations, set:
+- `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`
+- `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`
+- `PROMPT_CONSUMED = NO` if no image was produced
+- `PROMPT_STATE = RETIRED`
+
+The three tests must use the same locked Prompt/version and same Task binding; do not redesign or substitute the prompt between attempts. The third interruption terminates the Task and permanently retires that Prompt, even though it did not produce an image.
+
+The Producer must not automatically retry without authorization. Image QA is evidence for the single generated image and is never a regeneration trigger.
 
 ## 13. Persistence Requirement
 
