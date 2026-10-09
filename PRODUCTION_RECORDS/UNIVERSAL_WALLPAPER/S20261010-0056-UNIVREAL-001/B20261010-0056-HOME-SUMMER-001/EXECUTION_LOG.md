@@ -37,14 +37,12 @@ BATCH_ID: B20261010-0056-HOME-SUMMER-001
 - Timestamp: 2026-10-10T00:57+08:00
 
 ## GENERATION_STARTED
-- Event: GENERATION_STARTED
 - TASK_ID: T01
 - PROMPT_ID: P01
 - PROMPT_VERSION: v1
 - ATTEMPT_ID: A01-T01
 - GENERATION_CALL_ID: GC01-T01
 - DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
-- Timestamp: 2026-10-10T00:57+08:00
 
 ## IMAGE_RESULT_RECEIVED
 - TASK_ID: T01
@@ -57,45 +55,63 @@ BATCH_ID: B20261010-0056-HOME-SUMMER-001
 ## GENERATION_SUCCESS
 - TASK_ID: T01
 - TASK_STATUS: SUCCESS
-- Timestamp: 2026-10-10T00:58+08:00
 
 ## GENERATION_STARTED
-- Event: GENERATION_STARTED
 - TASK_ID: T02
 - PROMPT_ID: P02
 - PROMPT_VERSION: v1
 - ATTEMPT_ID: A01-T02
 - GENERATION_CALL_ID: GC01-T02
 - DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
-- Timestamp: 2026-10-10T00:58+08:00
 
 ## IMAGE_RESULT_RECEIVED
-- Event: IMAGE_RESULT_RECEIVED
 - TASK_ID: T02
-- PROMPT_ID: P02
-- PROMPT_VERSION: v1
-- ATTEMPT_ID: A01-T02
-- GENERATION_CALL_ID: GC01-T02
 - RESULT_ID: 5a3061c3-6406-4147-9646-d6537ba7b267
 - ACTUAL_OUTPUT_COUNT: 1
 - EXPECTED_OUTPUT_COUNT: 1
 - RESULT_BINDING_STATUS: VERIFIED_BY_CURRENT_GENERATION_RESULT
-- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 - PROMPT_CONSUMED: YES
-- PROMPT_STATE: CONSUMED
-
-## RESULT_VERIFIED
-- TASK_ID: T02
-- Current locked prompt was read immediately before generation.
-- Prompt was non-empty and matched T02.
-- Generation call initiated.
-- One image result returned and bound to the current generation result.
-- Output count matched the Task contract.
-- No visual QA performed by Producer.
 
 ## GENERATION_SUCCESS
 - TASK_ID: T02
 - TASK_STATUS: SUCCESS
-- Timestamp: 2026-10-10T00:59+08:00
 
-Execution evidence fields not exposed by the image interface will be recorded as NOT_EXPOSED/UNVERIFIED rather than invented.
+## GENERATION_STARTED
+- TASK_ID: T03
+- PROMPT_ID: P03
+- PROMPT_VERSION: v1
+- ATTEMPT_ID: A01-T03
+- GENERATION_CALL_ID: GC01-T03
+- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+
+## IMAGE_RESULT_RECEIVED
+- TASK_ID: T03
+- PROMPT_ID: P03
+- PROMPT_VERSION: v1
+- ATTEMPT_ID: A01-T03
+- GENERATION_CALL_ID: GC01-T03
+- RESULT_ID: 4d936162-cc6f-4c51-b9eb-ba5466529586; 99fdaaf3-2478-4dc6-92f9-4d5a1a19a0b8
+- ACTUAL_OUTPUT_COUNT: 2
+- EXPECTED_OUTPUT_COUNT: 1
+- RESULT_BINDING_STATUS: VERIFIED_BY_CURRENT_GENERATION_RESULT
+- PROMPT_CONSUMED: YES
+
+## RESULT_COUNT_MISMATCH
+- TASK_ID: T03
+- TASK_STATUS: RESULT_COUNT_MISMATCH
+- Two image results were returned for a one-image wallpaper Task.
+- Prompt was consumed because image results were confirmed received.
+- No visual QA performed.
+
+## RUNTIME_RATE_LIMIT
+- Event: RUNTIME_RATE_LIMIT
+- Image generation interface reported Free-plan image-generation limit reached.
+- No further image-generation calls are permitted until the next user message / applicable reset window.
+- T04–T06 were not generated and remain PENDING.
+- Do not retry or alter locked prompts during this interruption.
+
+## STOPPED
+- Event: STOPPED
+- Reason: image-generation rate limit; generation must not be retried before a subsequent user message.
+- Recovery checkpoint: T04 is next pending Task; T03 is terminal RESULT_COUNT_MISMATCH.
+- Batch is NOT completed.
