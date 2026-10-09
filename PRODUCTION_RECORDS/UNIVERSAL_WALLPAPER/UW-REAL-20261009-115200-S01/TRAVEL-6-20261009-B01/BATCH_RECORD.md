@@ -4,7 +4,7 @@ BATCH_ID: TRAVEL-6-20261009-B01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
-BATCH_STATUS: DESIGN_AND_LOCK_PENDING
+BATCH_STATUS: READY_FOR_EXECUTION
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
@@ -14,4 +14,4 @@ PENDING_COUNT: 6
 ATTEMPT_COUNT: 0
 CURRENT_TASK: UWTR-01
 NEXT_TASK: UWTR-01
-CHECKPOINT: canonical rules loaded; prompts drafted; persist and read-back before generation
+CHECKPOINT: all five records persisted and read back; six locked prompts verified; ready to execute Task 1
