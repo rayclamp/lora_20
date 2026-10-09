@@ -41,6 +41,13 @@ FULL-BODY ≠ DISTANT SHOT.
 Vary viewpoint, shot size, character position, pose, action, hairstyle, outfit, accessories, scene details, and lighting.
 Do not create repetitive mannequin-like images.
 
+### Theme-led hairstyle and footwear styling
+Choose the base hairstyle and footwear type according to the image theme, scene, activity, outfit, weather, and overall visual intent. Do not force every available type into a batch or use an unsuitable type merely to satisfy a variety quota.
+
+After choosing a suitable base type, optional restrained styling variations may be used without changing the underlying type. For example, long straight hair may include a small side braid or a different parting while remaining long straight hair; Mary Jane shoes may vary in color, material, strap details, or small decorations while remaining Mary Jane shoes. These are optional design choices, not mandatory per-image requirements.
+
+Batch diversity is a visual goal, not a requirement to exhaust a catalog or invent a new base type for every image. Avoid unnecessary repetition when a suitable alternative or meaningful styling variation naturally fits, while prioritizing scene suitability and coherent design over forced difference.
+
 ## 5. Character consistency
 The supplied reference identity remains the visual anchor throughout the batch.
 Variation is allowed when compatible with the task, but do not turn the reference person/character into a different character.
