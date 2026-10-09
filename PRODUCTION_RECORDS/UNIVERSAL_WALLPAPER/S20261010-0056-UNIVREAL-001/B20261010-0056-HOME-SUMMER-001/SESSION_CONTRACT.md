@@ -20,13 +20,13 @@ CUSTOM_INSTRUCTIONS: 人物每張圖都穿裙子
 REFERENCE_OUTFIT_POLICY: REPLACE
 REFERENCE_POSE_POLICY: IGNORE
 EXPECTED_OUTPUT_COUNT_PER_TASK: 1
-PROMPT_SET_STATUS: PENDING
-PROMPT_SET_LOCKED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
 
 Design/execution boundary:
 - GitHub is the authoritative reference and persistence database; ChatGPT is the Producer/runtime operator.
 - One Task equals one independent image.
-- All six prompts must be designed and persisted before any generation call.
+- All six prompts were designed, persisted and locked before any generation call.
 - The uploaded image establishes visual identity only. Its outfit, pose, framing and composition are not inherited.
 - Every generated image must depict the character wearing a skirt.
 - No pets or other people.
