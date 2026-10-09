@@ -11,7 +11,7 @@ FAILED_COUNT: 1
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 5
-ATTEMPT_COUNT: 1
-CURRENT_TASK: NONE
-NEXT_TASK: UW-SLEEP-02
-CHECKPOINT: UW-SLEEP-01 generation call attempted once and failed with ChatGPTAgentToolRateLimitException; zero outputs. Prompt v1 consumed and must not be retried. Resume from UW-SLEEP-02.
+ATTEMPT_COUNT: 2
+CURRENT_TASK: UW-SLEEP-02
+NEXT_TASK: UW-SLEEP-03
+CHECKPOINT: UW-SLEEP-01 terminal GENERATION_FAILED; UW-SLEEP-02 authorized from freshly read LOCKED prompt v1. Attempt 02 prepared; generation call pending.
