@@ -27,3 +27,9 @@ BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
   ACTUAL_OUTPUT_COUNT: 1
   PROMPT_CONSUMED: YES
   PROMPT_TERMINATION_REASON: INPUT_PROMPT_MISMATCH
+
+- EVENT_ID: EVT_RESUME_001
+  TIMESTAMP: 2026-10-09T19:05:00+08:00
+  EVENT_TYPE: RESUME_RECOVERY_READBACK
+  RESULT: PASS
+  DETAILS: Re-read all five records from the same SESSION_ID and BATCH_ID. TASK_01 is not successful and remains EXECUTION_INTEGRITY_BLOCKED; one image result exists but input binding is unverified. TASK_02 generation request was refused/blocked; prompt treated as consumed, no retry. TASK_03 is next pending Task. TASK_03–TASK_06 remain pending. Batch may continue only with the next unconsumed locked prompts.
