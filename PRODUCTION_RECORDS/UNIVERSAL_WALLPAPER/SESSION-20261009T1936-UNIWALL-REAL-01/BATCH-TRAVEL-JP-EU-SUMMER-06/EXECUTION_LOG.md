@@ -40,3 +40,22 @@ BATCH_ID: BATCH-TRAVEL-JP-EU-SUMMER-06
   PROMPT_CONSUMED: YES
   TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
   DETAILS: An image result was returned, but the generation instruction delivered did not match the current complete locked prompt read from GitHub. The consumed prompt/version will not be retried or regenerated. Result is not SUCCESS.
+
+- EVENT_ID: EVT-UW-TRAVEL-02-001
+  TIMESTAMP: 2026-10-09T19:39:00+08:00
+  EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+  SESSION_ID: SESSION-20261009T1936-UNIWALL-REAL-01
+  BATCH_ID: BATCH-TRAVEL-JP-EU-SUMMER-06
+  TASK_ID: UW-TRAVEL-02
+  PROMPT_ID: PROMPT-UW-TRAVEL-02
+  PROMPT_VERSION: v1
+  ATTEMPT_ID: ATTEMPT-UW-TRAVEL-02-01
+  GENERATION_CALL_ID: 33242390-365c-417d-b8b6-efc73c95b02c
+  RESULT_ID: file_00000000c8988206baa1f7a36d7037cb
+  ACTUAL_OUTPUT_COUNT: 1
+  EXPECTED_OUTPUT_COUNT: 1
+  DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+  RESULT_BINDING_STATUS: FAILED_PROMPT_MISMATCH
+  PROMPT_CONSUMED: YES
+  TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
+  DETAILS: An image result was returned, but the generation instruction delivered did not match the complete locked prompt read from GitHub. The consumed prompt/version will not be retried or regenerated. Result is not SUCCESS.
