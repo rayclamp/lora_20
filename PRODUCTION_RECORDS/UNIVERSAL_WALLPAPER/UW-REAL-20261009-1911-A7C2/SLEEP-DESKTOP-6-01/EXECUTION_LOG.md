@@ -27,3 +27,11 @@ BATCH_ID: SLEEP-DESKTOP-6-01
   PROMPT_CONSUMED: YES
   RETRY_ALLOWED: NO
   NEXT_TASK: UW-SLEEP-02
+- EVENT_ID: EVT-START-02
+  EVENT_TYPE: TASK_EXECUTION_START
+  TASK_ID: UW-SLEEP-02
+  PROMPT_ID: PROMPT-SLEEP-02
+  PROMPT_VERSION: v1
+  STATUS: IN_PROGRESS
+  ATTEMPT_ID: ATTEMPT-02
+  DETAILS: Queue and full Locked Prompt freshly read from GitHub; task match and non-empty prompt confirmed. Prompt marked consumed at execution start; no retry allowed.
