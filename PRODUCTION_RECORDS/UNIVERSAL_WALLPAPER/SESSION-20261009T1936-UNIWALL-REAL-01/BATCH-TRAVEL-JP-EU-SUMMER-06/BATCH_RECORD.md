@@ -9,10 +9,10 @@ COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
-BLOCKED_COUNT: 2
-PENDING_COUNT: 4
-ATTEMPT_COUNT: 2
-CURRENT_TASK: UW-TRAVEL-02
-NEXT_TASK: UW-TRAVEL-03
-CHECKPOINT: UW-TRAVEL-01 and UW-TRAVEL-02 terminal EXECUTION_INTEGRITY_BLOCKED due to generation-input mismatch; both prompts consumed and not retried. Continue with next unconsumed Task.
+BLOCKED_COUNT: 3
+PENDING_COUNT: 3
+ATTEMPT_COUNT: 3
+CURRENT_TASK: UW-TRAVEL-03
+NEXT_TASK: UW-TRAVEL-04
+CHECKPOINT: UW-TRAVEL-01 through UW-TRAVEL-03 terminal EXECUTION_INTEGRITY_BLOCKED due to generation-input mismatch; consumed prompts will not be retried. Continue with next unconsumed Task.
 TERMINATION_INFORMATION: Not completed.
