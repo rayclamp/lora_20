@@ -34,7 +34,7 @@ Follow the applicable error-specific retry/terminal rule. Do not rewrite the Pro
 
 ### UNKNOWN
 
-If the Worker cannot reliably determine whether an image was generated:
+If the Worker cannot reliably determine whether an image was generated, record `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`:
 
 - do not guess;
 - do not regenerate;
