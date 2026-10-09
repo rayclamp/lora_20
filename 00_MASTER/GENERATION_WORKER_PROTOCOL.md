@@ -101,7 +101,13 @@ Level 2 is an evidence layer, not a mandatory pre-generation gate.
 
 Every actual generation attempt is a distinct execution event.
 Record when available: SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, start/end timestamps, and delivery-integrity state.
-For the current Single-Producer /START_AUTO workflow, a consumed locked prompt/version MUST NOT be retried, regenerated, or resubmitted. A generation failure is recorded and the affected Task is stopped according to the applicable terminal/error rules.
+For the current Single-Producer /START_AUTO workflow, one locked Prompt/version may produce at most one successful image result. Initiating a Generation Call does NOT by itself consume the Prompt. After each attempt, classify the outcome:
+- Confirmed image result received: set `PROMPT_CONSUMED = YES`; never call that Prompt/version again.
+- Verified Policy/Safety interruption with confirmed no image result: keep `PROMPT_CONSUMED = NO`; only an explicitly authorized continuation may retry the exact same locked Prompt/version for the same Task. Do not modify or replace the prompt.
+- Confirmed generation failure with confirmed no image result: keep `PROMPT_CONSUMED = NO`; apply the separate error-specific retry/terminal rule, retaining the same Task and locked Prompt.
+- Unknown outcome: enter recovery and stop. Do not retry, skip, or advance until resolved.
+
+Every actual call has a distinct `ATTEMPT_ID` and execution event. Prompt reuse is governed by both prompt state and Task state: a Prompt that was not consumed by an image may still be permanently retired when its Task reaches a terminal state. After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`, `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`, and retire the Prompt permanently. Policy interruptions, generation-service errors, quota/rate limits, GitHub errors, runtime errors, and unknown outcomes must not be merged into one counter.
 
 ## 5. Result Identity and Output Count
 
@@ -145,7 +151,7 @@ For wallpaper production, one Task equals one independent image. No collage, con
 ## 9. Prompt Immutability
 
 After PROMPT_SET_LOCKED, do not redesign, summarize, translate, reorder, add, remove, or silently substitute prompt content.
-The current /START_AUTO workflow does not automatically retry or resume. An explicitly authorized resume may recover the existing Session/Batch and locked Prompt Set, but it MUST NOT re-use a consumed locked prompt/version for another generation call.
+The current /START_AUTO workflow does not automatically retry without authorization. An explicitly authorized continuation may recover the existing Session/Batch and locked Prompt Set. It may retry the same locked Prompt/version only when the previous attempt is confirmed to have produced no image and the applicable retry rule allows it. A consumed Prompt/version MUST NOT be called again. A retired Prompt MUST NOT be reused even when `PROMPT_CONSUMED = NO`.
 
 ## 10. Stop Conditions
 
@@ -157,7 +163,7 @@ The absence of a GitHub Claim/Lease API is NOT a stop condition for the current 
 Resume uses the same SESSION_ID, BATCH_ID, and locked PROMPT_SET.
 Do not redesign prompts.
 Do not treat unverified results as terminal Tasks.
-Re-run the applicable state/integrity gates before continuing with an unconsumed Task. A consumed prompt/version is never a new attempt.
+Re-run the applicable state/integrity gates before continuing. Continue only if the Task is non-terminal, the Prompt is not consumed or retired, and the prior attempt outcome is known. A retry uses a new `ATTEMPT_ID` but the same `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and exact locked Prompt content. Never retry an UNKNOWN outcome.
 
 If a Single-Producer session is interrupted, the next authorized Producer context may continue only when the user explicitly authorizes access to the existing Session/Batch, consistent with CORE session-access rules.
 
