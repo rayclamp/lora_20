@@ -69,9 +69,15 @@ Immediately before each generation call, reconnect to GitHub and read the curren
 
 Use the current complete locked Prompt directly as the generation instruction. Do not redesign, summarize, translate, omit, add to, reorder, or substitute it.
 
-Each locked Prompt/version may have at most one actual Generation Call.
+One locked Prompt/version may produce at most one successful image result. A Generation Call attempt does not by itself consume the Prompt.
 
-The Producer does not automatically retry or regenerate a consumed Prompt/version.
+After each attempt, classify the outcome before advancing:
+- Confirmed image result received: set `PROMPT_CONSUMED = YES`; do not call that Prompt/version again.
+- Verified Policy/Safety interruption with confirmed no image result: keep `PROMPT_CONSUMED = NO`; an explicitly authorized continuation may retry the exact same locked Prompt/version, without changing its content or Task binding.
+- Confirmed generation failure with confirmed no image result: keep `PROMPT_CONSUMED = NO`; follow the applicable error-specific retry/terminal rule without changing the locked Prompt.
+- Outcome unknown: set the applicable recovery state and stop. Do not retry or skip until the outcome is resolved.
+
+After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`, record `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`, and retire the Prompt from all future use even though no image was produced. Any Task that reaches another valid terminal error/stop state likewise cannot be re-queued or reuse its Prompt. Policy interruptions, service/runtime errors, quota/rate limits, and GitHub errors must remain separately classified and counted.
 
 ## 6. Result Recording
 
