@@ -30,7 +30,7 @@ Then record the task as IMAGE_CREATED according to the current queue protocol.
 
 Record FAILED only when the generation operation explicitly fails.
 
-Follow the existing retry policy. Do not rewrite the Prompt merely because a generation attempt failed.
+Follow the applicable error-specific retry/terminal rule. Do not rewrite the Prompt merely because a generation attempt failed. A confirmed failure with confirmed no image result does not consume the Prompt, but the Task must remain non-terminal and the retry must be explicitly authorized. If the result is unknown, use UNKNOWN recovery rules instead.
 
 ### UNKNOWN
 
@@ -48,7 +48,7 @@ UNKNOWN is not FAILED.
 
 ## 2. No duplicate generation
 
-A generation whose outcome is UNKNOWN must never be automatically generated again.
+A generation whose outcome is UNKNOWN must never be automatically generated again until the outcome is explicitly resolved. A confirmed image result consumes the locked Prompt/version; a confirmed no-image failure does not consume it by itself. A terminal Task retires its Prompt regardless of whether an image was produced.
 
 A successfully generated candidate must never be regenerated merely because the Worker thinks the image could be better.
 
