@@ -4,7 +4,7 @@ BATCH_ID: UB_20261010_HOME_SUMMER_06
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
-BATCH_STATUS: DESIGNING
+BATCH_STATUS: READY_FOR_EXECUTION
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
@@ -14,5 +14,5 @@ PENDING_COUNT: 6
 ATTEMPT_COUNT: 0
 CURRENT_TASK: T01
 NEXT_TASK: T01
-CHECKPOINT: Canonical rules read from main; task and prompt design underway; generation not started.
+CHECKPOINT: Six complete prompts persisted and locked; prompt set readback pending verification; generation not started.
 TERMINATION_INFORMATION: NONE
