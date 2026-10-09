@@ -105,7 +105,7 @@ For the current Single-Producer /START_AUTO workflow, one locked Prompt/version 
 - Confirmed image result received: set `PROMPT_CONSUMED = YES`; never call that Prompt/version again.
 - Verified Policy/Safety interruption with confirmed no image result: keep `PROMPT_CONSUMED = NO`; only an explicitly authorized continuation may retry the exact same locked Prompt/version for the same Task. Do not modify or replace the prompt.
 - Confirmed generation failure with confirmed no image result: keep `PROMPT_CONSUMED = NO`; apply the separate error-specific retry/terminal rule, retaining the same Task and locked Prompt.
-- Unknown outcome: enter recovery and stop. Do not retry, skip, or advance until resolved.
+- Unknown outcome: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, enter recovery, and stop. Do not retry, skip, or advance until resolved.
 
 Every actual call has a distinct `ATTEMPT_ID` and execution event. Prompt reuse is governed by both prompt state and Task state: a Prompt that was not consumed by an image may still be permanently retired when its Task reaches a terminal state. After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`, `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`, and retire the Prompt permanently. Policy interruptions, generation-service errors, quota/rate limits, GitHub errors, runtime errors, and unknown outcomes must not be merged into one counter.
 
