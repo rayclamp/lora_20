@@ -6,13 +6,13 @@ PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
 BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 0
-UNVERIFIED_COUNT: 2
+UNVERIFIED_COUNT: 3
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 4
-ATTEMPT_COUNT: 2
-CURRENT_TASK: T03
-NEXT_TASK: T03
-CHECKPOINT: T01 and T02 each returned one image; prompts consumed. Delivery/payload telemetry is not exposed, so both results are unverified. Proceeding only with independently verified task prompts.
+PENDING_COUNT: 3
+ATTEMPT_COUNT: 3
+CURRENT_TASK: T04
+NEXT_TASK: T04
+CHECKPOINT: T01-T03 each returned one image; prompt versions consumed. Delivery/payload telemetry remains not exposed, so all three results are unverified.
 TERMINATION_INFORMATION: Batch remains incomplete.
