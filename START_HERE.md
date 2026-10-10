@@ -97,7 +97,7 @@ Immediately before each generation call, reconnect to GitHub and read the curren
 
 Use the current complete locked Prompt directly as the generation instruction. Do not redesign, summarize, translate, omit, add to, reorder, or substitute it.
 
-One locked Prompt/version may produce at most one successful image result. A Generation Call attempt does not by itself consume the Prompt.
+One locked Prompt/version may produce at most one confirmed image result. A Generation Call attempt does not by itself consume the Prompt; any confirmed received image consumes the Prompt and is counted, regardless of prompt match or Task success.
 
 After each attempt, classify and persist the outcome before advancing:
 - Confirmed image result received: immediately set `PROMPT_CONSUMED = YES`; record every received image in `ACTUAL_OUTPUT_COUNT` and batch `ACTUAL_IMAGE_COUNT`; set `PROMPT_MATCH_STATUS` independently to `MATCH`, `MISMATCH`, `UNVERIFIED`, or `NOT_ASSESSED`; never call that Prompt/version again.
