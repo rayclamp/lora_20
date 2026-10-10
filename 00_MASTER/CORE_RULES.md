@@ -26,8 +26,8 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 1. CORE hard rules cannot be weakened by a module.
 2. Modules may add stricter rules.
 3. Module-specific identity, style, dataset, cultural, and QA rules remain inside their module.
-4. Generation success does not imply visual QA acceptance.
-5. Generation Workers do not perform final QA unless explicitly instructed by the applicable QA workflow.
+4. Production SUCCESS means the expected image result was received, counted, recorded, and bound to its Task; it does not imply visual QA acceptance.
+5. Generation Workers do not perform visual QA or decide whether an image complies with its prompt. QA is a separate downstream responsibility.
 6. UNKNOWN state must be recovered from authoritative stored information, not guessed.
 7. Current GitHub reference content is authoritative for image-design rules.
 8. User intent cannot silently activate a paused module.
@@ -39,7 +39,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 14. A Task may be SUCCESS only after the current locked prompt, generation-call, result-count, and result-provenance requirements pass.
 15. If required execution evidence is unavailable, record the affected evidence as UNVERIFIED; do not invent evidence or success.
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
-17. Every confirmed received image must be counted and recorded regardless of whether it matches the locked prompt, visually complies, or passes the Task SUCCESS gate. Prompt/input match is a separate evidence field.
+17. Every confirmed received image must be counted and recorded. The Producer reports observable production facts only: image received/count/result binding, or no image plus the confirmed failure reason. The Producer MUST NOT compare the submitted payload against the locked prompt or judge visual compliance. `PROMPT_MATCH_STATUS` is not a Producer-assessed field; leave it `NOT_ASSESSED` or unset. QA owns visual compliance and image-quality decisions.
 18. A production Batch closes when every required Task has a recorded terminal outcome, whether successful or unsuccessful. Do not keep producing or leave the Batch open solely because a result is mismatched or unsuccessful.
 
 ## 2. Required Shared Documents
