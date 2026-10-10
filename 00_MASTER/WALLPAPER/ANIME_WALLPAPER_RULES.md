@@ -48,6 +48,16 @@ After choosing a suitable base type, optional restrained styling variations may 
 
 Batch diversity is a visual goal, not a requirement to exhaust a catalog or invent a new base type for every image. Avoid unnecessary repetition when a suitable alternative or meaningful styling variation naturally fits, while prioritizing scene suitability and coherent design over forced difference.
 
+## 4A. Head direction and gaze diversity
+
+Looking directly at the camera is an optional composition choice, NOT a default or mandatory requirement. Do not add camera-directed gaze to every image simply because the image is a character portrait or wallpaper.
+
+When designing a multi-image batch, consider body / torso orientation, head direction and tilt, and eye-gaze direction as related but distinct variables. Let them align or differ naturally according to the scene, action, expression, and composition. Choices may include looking toward the camera, off-camera, toward an object or activity, into the distance, upward or downward, or a natural side/profile view. These are examples, not a quota or checklist.
+
+Before Prompt Lock, check the batch for unintentional repetition of substantially similar head direction and gaze. If multiple prompts use the same camera-facing head pose without a scene-specific reason, revise the future prompts to create natural and meaningful variation. Do not force angle quotas or unnatural poses, and do not compromise character identity or scene coherence for diversity.
+
+This rule applies to future prompt design only. It does not authorize rewriting, unlocking, replacing, or retroactively correcting a previously locked Prompt Set or historical production record.
+
 ## 5. Character consistency
 The supplied reference identity remains the visual anchor throughout the batch.
 Variation is allowed when compatible with the task, but do not turn the reference person/character into a different character.
