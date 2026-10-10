@@ -91,7 +91,7 @@ Each Task receives one locked Prompt/version. After the Prompt Set is locked, it
 
 ## 6. Task Execution
 
-CURRENT_TASK → CURRENT_LOCKED_PROMPT → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS
+CURRENT_TASK → CURRENT_LOCKED_PROMPT_READINESS → GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS
 
 Immediately before each generation call, reconnect to GitHub and read the current Task and current locked Prompt.
 
@@ -99,12 +99,11 @@ Use the current complete locked Prompt directly as the generation instruction. D
 
 One locked Prompt/version may produce at most one confirmed image result. A Generation Call attempt does not by itself consume the Prompt; any confirmed received image consumes the Prompt and is counted, regardless of prompt match or Task success.
 
-After each attempt, classify and persist the outcome before advancing:
-- Confirmed image result received: immediately set `PROMPT_CONSUMED = YES`; record every received image in `ACTUAL_OUTPUT_COUNT` and batch `ACTUAL_IMAGE_COUNT`; set `PROMPT_MATCH_STATUS` independently to `MATCH`, `MISMATCH`, `UNVERIFIED`, or `NOT_ASSESSED`; never call that Prompt/version again.
-- If an image result was received but the prompt/input match or provenance is mismatched/unverified, do not erase or suppress the image count. After the result and count are durably recorded, terminate the Task as `IMAGE_RESULT_RECORDED` (if the count matches) or `RESULT_COUNT_MISMATCH` (if it does not); keep prompt-match/provenance evidence separate from the terminal outcome.
-- Verified Policy/Safety interruption with confirmed no image result: keep `PROMPT_CONSUMED = NO`; an explicitly authorized continuation may retry the exact same locked Prompt/version, without changing its content or Task binding.
-- Confirmed generation failure with confirmed no image result: keep `PROMPT_CONSUMED = NO`; record the error-specific terminal or authorized-retry outcome without changing the locked Prompt.
-- Outcome unknown: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, enter the applicable recovery state, and stop that Task until the outcome is resolved. Do not guess an image count.
+After each attempt, classify and persist only the production outcome and observable execution facts before advancing:
+- Confirmed image result received: immediately set `PROMPT_CONSUMED = YES`; record every received image in `ACTUAL_OUTPUT_COUNT` and batch `ACTUAL_IMAGE_COUNT`; record result reference/binding and output count; never call that Prompt/version again. If the expected output count and Task/result binding are satisfied, mark the production Task `SUCCESS`; otherwise use `RESULT_COUNT_MISMATCH` or the applicable result-recording state.
+- Confirmed no image result: record the actual error/reason and applicable terminal or authorized-retry outcome; keep `PROMPT_CONSUMED = NO` when the no-image outcome is known.
+- Outcome unknown: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, record the uncertainty, and stop that Task until resolved. Do not guess an image count.
+- The Producer MUST NOT compare the submitted payload against the locked prompt after generation, judge visual prompt compliance, or classify image quality. Do not set `PROMPT_MATCH_STATUS` to `MATCH` or `MISMATCH`; leave it `NOT_ASSESSED` or unset. Image correctness and quality belong to the independent QA workflow.
 
 After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`, record `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`, and retire the Prompt from all future use even though no image was produced. Any Task that reaches another valid terminal error/stop state likewise cannot be re-queued or reuse its Prompt. Policy interruptions, service/runtime errors, quota/rate limits, and GitHub errors must remain separately classified and counted.
 
@@ -113,7 +112,7 @@ After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS =
 After a generation result or execution failure:
 1. reconnect to GitHub;
 2. read the current authoritative record state;
-3. record the actual result/failure, actual output count, prompt-match evidence, and interruption details separately;
+3. record whether an image result was received, the actual output count/result reference, or the confirmed no-image failure reason; record interruption details separately. Do not perform prompt-payload comparison or visual assessment;
 4. update batch actual-image totals without filtering out mismatched or unsuccessful results;
 5. read back and verify the write.
 
@@ -123,7 +122,7 @@ Image QA remains a separate workflow and is currently paused. Automated generati
 
 Before selecting the next Task, reconnect and verify the latest authoritative state.
 
-Continue until every required Task has reached a valid terminal state. A confirmed image result that has been counted and durably recorded is terminal even when prompt match/provenance is unverified; use `IMAGE_RESULT_RECORDED` or `RESULT_COUNT_MISMATCH` as applicable. A confirmed no-image failure must also be terminal or explicitly authorized for retry.
+Continue until every required Task has reached a valid terminal state. A confirmed image result that is bound to its Task and has the expected output count is a production `SUCCESS`; this does not imply QA acceptance. Record actual images even when the output count differs, using `RESULT_COUNT_MISMATCH` as applicable. A confirmed no-image failure must also be recorded with its reason and terminal or explicitly authorized retry state.
 
 Do not require every Task to be successful. When all required Tasks are terminal and the completion record is read back successfully, close the Batch and issue no further generation calls for it.
 
