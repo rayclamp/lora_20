@@ -67,3 +67,14 @@ Any automated production initiated by /RESUME_AUTO MUST re-verify the current Gi
 5. Resume MUST NOT create a replacement Session/Batch or redesign a locked prompt.
 6. Resume selects the first Task that has not reached a valid terminal state.
 7. This gate is a Producer Runtime precondition; it does not make GitHub a runtime controller.
+
+
+## 3.3 /RESUME_AUTO BLOCKING SCOPE — NON-NEGOTIABLE
+
+1. A blocking condition MUST be scoped to the smallest affected unit: evidence field, Task, or Batch.
+2. A Task-local state conflict, missing Task-local readback, or unresolved result MUST NOT automatically stop unrelated Tasks. Isolate the affected Task, preserve its state, and evaluate the next Task independently.
+3. Continue with the next Task only when its own authoritative Task state, complete non-empty locked Prompt, Task-to-Prompt binding, and applicable generation prerequisites can be verified, and it does not depend on the unresolved Task.
+4. An unresolved generation outcome remains unresolved for that Task: do not retry, skip, advance past it as though resolved, or reuse its consumed/retired Prompt. This does not by itself forbid independent later Tasks from running.
+5. Stop the entire Batch only when a verified issue affects Batch-wide identity/contract, global Prompt Set integrity, or result attribution in a way that cannot safely be isolated to a Task.
+6. Visual-quality defects or visual differences from a Prompt are QA observations, not proof of generation-input mismatch. QA findings MUST NOT automatically change execution-integrity status or trigger regeneration.
+7. Missing nonessential delivery telemetry alone is NOT a blocking condition. Record NOT_EXPOSED/UNVERIFIED honestly.
