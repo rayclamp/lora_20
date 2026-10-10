@@ -71,3 +71,17 @@ BATCH_ID: BATCH_001
   TIMESTAMP: 2026-10-10T19:52:00+08:00
   DETAILS: All three Tasks have valid terminal BLOCKED outcomes. Batch is terminally complete by task-state definition, with zero SUCCESS Tasks.
   STATUS: BATCH_COMPLETED
+
+
+- EVENT_ID: EVT_008
+  EVENT_TYPE: RECORD_CORRECTED
+  TIMESTAMP: NOT_EXPOSED
+  REVIEW_DATE: 2026-10-10
+  TASK_ID: ALL_THREE
+  DETAILS: Corrected the effective Task/Batch state under the revised result-counting and completion rules. EVT_004 through EVT_006 are preserved as historical entries, but they asserted prompt/input mismatch without storing the actual submitted payload or a verifiable diff; the effective PROMPT_MATCH_STATUS is therefore UNVERIFIED, not a proven MISMATCH. The user reports that all three generated images visually matched their intended prompts; this is recorded as a user-reported visual assessment and does not claim that automated QA ran. Each Task received one image; ACTUAL_OUTPUT_COUNT=1 for each, PROMPT_CONSUMED=YES, PROMPT_STATE=RETIRED, TASK_STATUS=IMAGE_RESULT_RECORDED. Batch totals: RESULT_RECORDED_COUNT=3, ACTUAL_IMAGE_COUNT=3, COMPLETED_COUNT=0, BLOCKED_COUNT=0, PENDING_COUNT=0.
+  STATUS: READBACK_REQUIRED
+- EVENT_ID: EVT_009
+  EVENT_TYPE: COMPLETED
+  TIMESTAMP: NOT_EXPOSED
+  DETAILS: All three required Tasks have terminal IMAGE_RESULT_RECORDED outcomes. BATCH_STATUS=BATCH_COMPLETED. Stop the production loop; do not generate further images or reuse any locked Prompt in this Batch.
+  STATUS: BATCH_COMPLETED
