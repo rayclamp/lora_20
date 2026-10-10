@@ -155,3 +155,16 @@ User → ChatGPT Producer → Generation Interface
                          ↓
                       GitHub
                  Reference + Persistence
+
+
+## 12. Resume Continuation Scope — Task-Local Blocking
+
+During /RESUME_AUTO, distinguish a problem that affects one Task from a verified problem that affects the entire Batch.
+
+1. A visual-quality or visual-prompt-compliance observation is QA evidence only. QA is currently PAUSED; do not automatically run QA, change Task execution status, or trigger regeneration because of a visual difference.
+2. A problem isolated to one Task MUST NOT automatically block unrelated Tasks.
+3. If a Task's state or result is unresolved, isolate it and preserve its recovery state. Do not retry, skip, or reuse its consumed/retired Prompt while its outcome remains unknown.
+4. After isolating a Task, independently verify the next Task's current state, complete non-empty locked Prompt, Task binding, and applicable execution prerequisites. Continue with that Task if these checks pass and it does not depend on the unresolved Task.
+5. Stop the entire Batch only for a verified Batch-wide issue that cannot safely be isolated, such as an unidentifiable Session/Batch, a globally ambiguous production contract, or a Prompt Set/Task binding conflict that makes the next Task's input or result attribution unsafe.
+6. Missing nonessential transport telemetry alone is not a stop condition. Record NOT_EXPOSED/UNVERIFIED as applicable.
+7. Never mark an unresolved Task as passed, completed, repaired, or skipped merely because other Tasks continue. Record the issue for later recovery.
