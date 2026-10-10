@@ -101,21 +101,22 @@ Level 2 is an evidence layer, not a mandatory pre-generation gate.
 
 Every actual generation attempt is a distinct execution event.
 Record when available: SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, start/end timestamps, and delivery-integrity state.
-For the current Single-Producer /START_AUTO workflow, one locked Prompt/version may produce at most one successful image result. Initiating a Generation Call does NOT by itself consume the Prompt. After each attempt, classify the outcome:
-- Confirmed image result received: set `PROMPT_CONSUMED = YES`; never call that Prompt/version again.
+For the current Single-Producer /START_AUTO workflow, one locked Prompt/version may be used for at most one generation attempt that returns an image result. Initiating a Generation Call does NOT by itself consume the Prompt. After each attempt, classify the outcome:
+- Confirmed image result received: immediately set `PROMPT_CONSUMED = YES`, record the actual output count, set `PROMPT_MATCH_STATUS` independently to MATCH/MISMATCH/UNVERIFIED/NOT_ASSESSED, retire the Prompt when the Task reaches its terminal outcome, and never call that Prompt/version again.
 - Verified Policy/Safety interruption with confirmed no image result: keep `PROMPT_CONSUMED = NO`; only an explicitly authorized continuation may retry the exact same locked Prompt/version for the same Task. Do not modify or replace the prompt.
 - Confirmed generation failure with confirmed no image result: keep `PROMPT_CONSUMED = NO`; apply the separate error-specific retry/terminal rule, retaining the same Task and locked Prompt.
-- Unknown outcome: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, enter recovery, and stop. Do not retry, skip, or advance until resolved.
+- Unknown outcome: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, enter recovery, and stop. Do not retry or skip until resolved.
+- Once the attempt's result or no-result failure is known and durably recorded, the Task must reach an applicable terminal outcome. Do not keep the Batch open solely because an image failed to match the locked prompt or delivery telemetry is unavailable.
 
 Every actual call has a distinct `ATTEMPT_ID` and execution event. Prompt reuse is governed by both prompt state and Task state: a Prompt that was not consumed by an image may still be permanently retired when its Task reaches a terminal state. After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`, `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`, and retire the Prompt permanently. Policy interruptions, generation-service errors, quota/rate limits, GitHub errors, runtime errors, and unknown outcomes must not be merged into one counter.
 
 ## 5. Result Identity and Output Count
 
-Receiving an image is not the same as Task success.
-For every attempt, record when applicable: RESULT_ID/output reference, ACTUAL_OUTPUT_COUNT, expected output count, result-to-Task binding, and result-to-generation-call binding.
+Receiving an image is not the same as Task success, but every confirmed received image must be counted and recorded regardless of success.
+For every attempt, record when applicable: RESULT_ID/output reference, ACTUAL_OUTPUT_COUNT, expected output count, result-to-Task binding, result-to-generation-call binding, and `PROMPT_MATCH_STATUS` (`MATCH`, `MISMATCH`, `UNVERIFIED`, or `NOT_ASSESSED`).
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
-If more than one image is returned for one Task, the Task MUST NOT be SUCCESS. When the actual count is known, record the failure explicitly as RESULT_COUNT_MISMATCH; do not collapse a known count mismatch into RESULT_RECEIVED_UNVERIFIED.
-If a result cannot be reliably bound to the Task or generation call, the Task MUST NOT be SUCCESS.
+If the actual count is known, count every received image once. If the count differs from the Task contract, record `RESULT_COUNT_MISMATCH` as the terminal Task outcome while preserving the actual count. If one or more images were received and recorded but the Task does not pass the SUCCESS gate, use terminal `IMAGE_RESULT_RECORDED` when the count matches, or `RESULT_COUNT_MISMATCH` when it does not. A mismatch between the submitted instruction and locked prompt is evidence to record, not a reason to erase the result or keep the Task open. If the mismatch is not supported by directly available evidence, use `PROMPT_MATCH_STATUS = UNVERIFIED` rather than asserting MISMATCH.
+If a result cannot be reliably bound to the Task or generation call, the Task MUST NOT be SUCCESS; still count a confirmed received image in `ACTUAL_IMAGE_COUNT` and record the binding limitation.
 
 ## 6. Task Success Gate
 
@@ -129,7 +130,7 @@ A Task may be SUCCESS only when all applicable requirements pass:
 7. Result identity/binding is available when required.
 8. No execution-integrity conflict exists.
 
-IMAGE_RESULT_RECEIVED is not TASK_SUCCESS.
+IMAGE_RESULT_RECEIVED is not TASK_SUCCESS. A received result that does not pass the SUCCESS gate must nevertheless reach a terminal outcome after it is counted and durably recorded; use IMAGE_RESULT_RECORDED or RESULT_COUNT_MISMATCH as applicable.
 
 ## 7. False-Success Prevention
 
@@ -142,7 +143,7 @@ The following MUST NOT produce TASK_STATUS = SUCCESS:
 - generation was blocked;
 - the generation call was not initiated.
 
-Use explicit states such as RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, and GENERATION_FAILED.
+Use explicit evidence fields and outcomes such as PROMPT_MATCH_STATUS, DELIVERY_INTEGRITY_STATUS, RESULT_RECEIVED_UNVERIFIED (while recording is incomplete), IMAGE_RESULT_RECORDED (terminal image-result outcome), RESULT_COUNT_MISMATCH, EXECUTION_INTEGRITY_BLOCKED (actual pre-generation block), and GENERATION_FAILED (no image result).
 
 ## 8. One Task = One Independent Image
 
@@ -155,14 +156,14 @@ The current /START_AUTO workflow does not automatically retry without authorizat
 
 ## 10. Stop Conditions
 
-Generation MUST stop for the affected Task/Batch when the current locked prompt is missing, empty, or associated with the wrong Task, the generation interface rejects/fails the call, output count violates the contract, result provenance cannot be established after a result is returned, or execution evidence is contradictory. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
+Do not issue a second Generation Call for a Task after a result is confirmed. A missing/empty/wrong-Task prompt may block generation before a result exists. After an image result is received, count and record it even if prompt-match or provenance evidence is MISMATCH/UNVERIFIED; record the evidence separately and terminate the Task as IMAGE_RESULT_RECORDED or RESULT_COUNT_MISMATCH. A known no-image failure must also be recorded as a terminal outcome under the applicable error rule. Once every required Task has a terminal outcome and the Batch completion record is written and verified, stop the Batch. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
 The absence of a GitHub Claim/Lease API is NOT a stop condition for the current Single-Producer workflow.
 
 ## 11. Recovery
 
 Resume uses the same SESSION_ID, BATCH_ID, and locked PROMPT_SET.
 Do not redesign prompts.
-Do not treat unverified results as terminal Tasks.
+Do not leave a received image in a non-terminal evidence state after its result and actual count have been durably recorded. Use IMAGE_RESULT_RECORDED or RESULT_COUNT_MISMATCH as appropriate; retain unverified provenance as a separate evidence value.
 Re-run the applicable state/integrity gates before continuing. Continue only if the Task is non-terminal, the Prompt is not consumed or retired, and the prior attempt outcome is known. A retry uses a new `ATTEMPT_ID` but the same `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and exact locked Prompt content. Never retry an UNKNOWN outcome.
 
 If a Single-Producer session is interrupted, the next authorized Producer context may continue only when the user explicitly authorizes access to the existing Session/Batch, consistent with CORE session-access rules.
