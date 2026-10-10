@@ -22,7 +22,7 @@ If GitHub access, required reads, required writes, or write verification fails, 
 
 ## 2. Production Request
 
-Automated production accepts:
+Production accepts:
 - MODULE
 - PRODUCTION_TYPE
 - CHARACTER
@@ -37,11 +37,26 @@ Automated production accepts:
 - REFERENCE_IMAGE
 - CUSTOM_INSTRUCTIONS
 
-IMAGE_COUNT is the number of independent Tasks to execute. It is not a success target.
+Supported image-design modules:
+- `UNIVERSAL_WALLPAPER`: general wallpaper design.
+- `FESTIVAL_WALLPAPER`: festival wallpaper design using the festival reference database.
+- `LORA_IMAGE`: LoRA training-image design rules only; not the archived legacy LoRA production system.
+
+When `MODULE=LORA_IMAGE`:
+- Upload the reference person image directly in the current ChatGPT conversation when starting the request. That upload is the visual identity authority for this run; do not search for or require a GitHub-stored character reference.
+- `CHARACTER=INARIA`: use the canonical Inaria character information in CORE for contextual/semantic guidance, while the uploaded image remains the visual identity authority.
+- `CHARACTER=NONE`: do not apply Inaria-specific character information; follow the uploaded reference image and current task instructions.
+- If the required reference image is not attached or cannot be identified, request it before designing or generating.
+- Load `MODULES/LORA_IMAGE/` and the shared CORE rules only. Do not load `ARCHIVE/LEGACY_LORA_PRODUCTION/` as active production rules.
+- Do not assume a fixed target age, fixed character, or fixed reference image for this module.
+
+For other modules, retain their existing module-specific interpretation of the request fields.
+
+IMAGE_COUNT is the number of independent image Tasks when the selected workflow uses task batches. It is not a success target.
 
 ## 3. Session / Batch
 
-/START_AUTO creates a new SESSION_ID and BATCH_ID.
+/START_AUTO creates a new SESSION_ID and BATCH_ID when the automated batch workflow is requested.
 
 A Batch contains:
 - SESSION_CONTRACT.md
@@ -58,6 +73,8 @@ One Task = one independent image.
 
 For wallpaper production:
 EXPECTED_OUTPUT_COUNT = 1
+
+For `LORA_IMAGE`, each Task is also one independent training-image candidate unless a current task contract explicitly states otherwise.
 
 Each Task receives one locked Prompt/version. After the Prompt Set is locked, its prompts are not redesigned or silently altered.
 
