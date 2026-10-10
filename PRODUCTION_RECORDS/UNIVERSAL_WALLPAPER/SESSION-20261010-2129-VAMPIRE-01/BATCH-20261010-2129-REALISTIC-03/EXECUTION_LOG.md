@@ -46,3 +46,6 @@ PROMPT_MATCH_STATUS: NOT_ASSESSED
 
 ## 2026-10-10T21:33:30+08:00 — COMPLETED
 DETAIL: All required Tasks have terminal production results; completion record written. No visual QA performed.
+
+## 2026-10-10T21:34:00+08:00 — RECORD_CORRECTED
+DETAIL: Review of the producer's actual generation invocations established that the calls were not issued with the complete locked prompt text directly. The images remain received results and are preserved/countable, but the production SUCCESS gate cannot be claimed. Corrected all three Task statuses to IMAGE_RESULT_RECORDED and Batch counts to COMPLETED_COUNT=0, RESULT_RECORDED_COUNT=3, ACTUAL_IMAGE_COUNT=3. PROMPT_MATCH_STATUS remains NOT_ASSESSED. No further generation calls.
