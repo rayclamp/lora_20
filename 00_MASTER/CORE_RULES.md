@@ -41,6 +41,8 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
 17. Every confirmed received image must be counted and recorded. The Producer reports observable production facts only: image received/count/result binding, or no image plus the confirmed failure reason. The Producer MUST NOT compare the submitted payload against the locked prompt or judge visual compliance. `PROMPT_MATCH_STATUS` is not a Producer-assessed field; leave it `NOT_ASSESSED` or unset. QA owns visual compliance and image-quality decisions.
 18. A production Batch closes when every required Task has a recorded terminal outcome, whether successful or unsuccessful. Do not keep producing or leave the Batch open solely because a result is mismatched or unsuccessful.
+19. The complete current locked Prompt read from the authoritative PROMPT_SET is the actual image-generation input, not material for the Producer to interpret and rewrite. The Producer MUST submit that full text unchanged in the image-generation interface's designated prompt/input field; a shortened, summarized, reconstructed, translated, or substitute prompt is forbidden after lock.
+20. The rule against routine post-generation payload comparison does not weaken the pre-call direct-submission obligation. Missing hidden-payload telemetry is not a generation gate and does not authorize shortening. Record known deviations as known; record unavailable evidence as NOT_EXPOSED/UNVERIFIED only when the deviation is not known.
 
 ## 2. Required Shared Documents
 - DRAWING_INSTRUCTIONS.md
