@@ -184,3 +184,19 @@ The records support future multi-Worker handoff but do not themselves implement 
 6. A field is a blocking prerequisite only when the current contract explicitly requires it for the specific operation. Missing optional telemetry or nonessential narrative is not a blocking prerequisite.
 7. If a required record for the assigned Task cannot be read or verified, isolate that Task and identify the exact missing prerequisite. Use BATCH_LEVEL_RECOVERY_REQUIRED only for a verified Batch-wide conflict that cannot be isolated.
 8. These rules do not weaken the SUCCESS gate, permit retry of an unknown outcome, reuse a retired Prompt, or grant a recorded image automatic LoRA dataset eligibility.
+
+
+## 16. Historical Record Immutability
+
+Historical production records are experimental evidence and MUST be preserved in their original form. This applies to all modules and includes, but is not limited to, SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md, EXECUTION_LOG.md, locked Prompt versions, task outcomes, and recorded result counts.
+
+Rules:
+
+1. Do not rewrite, overwrite, delete, or retroactively normalize a historical production record merely to make it conform to a newer rule, fix the appearance of an earlier decision, or reflect a later interpretation.
+2. A locked Prompt Set and its prompts are immutable execution history. Any future prompt revision must be saved as a new version or a new production record; do not edit the already locked prompt that was used or intended for execution.
+3. New rules apply prospectively to newly designed prompts and new production tasks. They do not silently change the rules or prompts attributed to completed or previously started tasks.
+4. If a factual recording error must be corrected, preserve the original record and add a separate, timestamped correction / amendment entry that identifies the affected record and field, the original recorded value when available, the corrected value, the reason, and the evidence. Do not erase the original event or make the correction appear to have existed at the original time.
+5. Historical records may be read, analyzed, counted, compared, and referenced. Analysis should be stored separately or appended as a clearly identified addendum; it must not alter the underlying original production evidence.
+6. Before modifying any production-record path, determine whether it is a historical Session/Batch record or an active mutable configuration/rule file. Never treat a historical record as a live rule file.
+
+The purpose of this rule is to preserve traceability, support before/after comparisons, and allow future evaluation of whether a rule change improved production outcomes.
