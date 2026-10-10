@@ -42,3 +42,14 @@ DELIVERY_INTEGRITY_STATUS: UNVERIFIED
 PROMPT_CONSUMED: YES
 PROMPT_STATE: RETIRED
 DETAILS: One image result was received and is counted. The actual generation instruction authored in the tool call did not match the full locked PROMPT_01 text, so this Task is recorded as IMAGE_RESULT_RECORDED, not SUCCESS. The prompt is retired and must never be called again.
+
+
+### EVENT_004 — 2026-10-10T20:33:00+08:00
+EVENT_TYPE: GENERATION_STARTED
+TASK_ID: TASK_02
+PROMPT_ID: PROMPT_02
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_02_01
+GENERATION_CALL_ID: NOT_EXPOSED
+DETAILS: TASK_02 state re-read and confirmed non-terminal; Prompt Set remains locked; TASK_02 prompt will be re-read in full immediately before generation.
+PROMPT_CONSUMED: NO (pending result classification)
