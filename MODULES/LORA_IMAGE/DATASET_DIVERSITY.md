@@ -58,6 +58,20 @@ The current uploaded reference remains the sole visual identity authority. Vary 
 - If existing dataset records are unavailable, design a varied set from the current request rather than claiming to know its coverage.
 - Do not create redundant images simply to satisfy a category checklist. Prefer images that add distinct, useful training information.
 
+
+## Stable traits must remain stable while presentation varies
+
+Diversity is not permission to redesign the subject. Across the dataset, preserve the same reference-supported identity, apparent age, overall build, and relative body-region shapes while varying pose, viewpoint, framing, clothing, hairstyle arrangement, scene, and lighting as appropriate.
+
+When reviewing the set:
+- look for unexplained drift in face shape, facial feature relationships, apparent age, shoulder/arm width, torso/waist width, hip silhouette, thigh/calf thickness, ankle/wrist thickness, and overall build;
+- distinguish genuine body-shape drift from reasonable pose-dependent changes, foreshortening, perspective, occlusion, and clothing effects;
+- do not use a generic idealized, athletic, curvy, or fashion-model body as the normalization target;
+- do not force identical silhouettes across different poses or require every image to expose every body region;
+- prioritize additional candidates that fill useful coverage gaps without amplifying an already-observed identity or body-shape inconsistency.
+
+Dataset-level diversity and consistency are complementary constraints: maximize useful presentation variety only while keeping the subject's stable traits coherent.
+
 ## Priority order
 
 1. Preserve the reference subject's identity and apparent age unless explicitly requested otherwise.
