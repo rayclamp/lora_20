@@ -248,3 +248,16 @@ Before a /RESUME_AUTO Generation attempt, the Producer MUST:
 If connection verification or Canonical Rule Loading fails, resume is BLOCKED and no Generation call may occur.
 
 Resume MUST NOT create a replacement Session/Batch, reset attempt counts, or modify/redesign a locked prompt.
+
+
+## 15. Resume Recovery Scope — Isolate Before Escalating
+
+The stop conditions in this protocol apply to the affected Task unless the evidence establishes a Batch-wide dependency.
+
+1. If the current Task's locked Prompt is missing, empty, or bound to the wrong Task, do not generate that Task. Record the specific failure and isolate it.
+2. If an attempt outcome is unknown, do not retry that Task, reuse its Prompt, or mark it complete. Preserve its recovery state. This unresolved outcome does not automatically prohibit an independent later Task.
+3. Before continuing to a later Task, independently read back its current complete locked Prompt and verify that it is non-empty, bound to that Task, non-consumed, non-retired, and otherwise eligible. Do not infer readiness from another Task's state.
+4. Escalate to Batch-level stop only when a verified conflict affects Batch identity/contract, the global Prompt Set, or result attribution in a way that makes execution of other Tasks unsafe.
+5. Visual QA is separate from execution integrity. A visually imperfect image or partial visual mismatch with the Prompt is not proof that the wrong Prompt was sent. Do not set EXECUTION_INTEGRITY_BLOCKED or stop later Tasks solely on visual QA observations.
+6. Lack of transport telemetry remains NOT_EXPOSED or UNVERIFIED and is not a pre-generation stop condition.
+7. Every isolated Task must remain explicitly recorded for later recovery; continuing other Tasks must never silently convert it to SUCCESS, terminal completion, or a skipped Task.
