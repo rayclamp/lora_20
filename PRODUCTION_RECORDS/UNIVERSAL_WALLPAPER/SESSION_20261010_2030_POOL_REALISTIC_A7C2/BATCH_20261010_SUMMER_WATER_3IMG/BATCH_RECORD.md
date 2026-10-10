@@ -14,8 +14,8 @@ FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 2
-ATTEMPT_COUNT: 1
-CURRENT_TASK: TASK_01
-NEXT_TASK: TASK_01
-CHECKPOINT: TASK_01 image received and recorded; prompt/input mismatch documented; TASK_02 readiness must be checked independently.
+ATTEMPT_COUNT: 2
+CURRENT_TASK: TASK_02
+NEXT_TASK: TASK_02
+CHECKPOINT: TASK_01 result durably recorded; TASK_02 independently verified and generation started.
 TERMINATION_INFORMATION: Not yet terminal.
