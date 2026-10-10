@@ -39,6 +39,8 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 14. A Task may be SUCCESS only after the current locked prompt, generation-call, result-count, and result-provenance requirements pass.
 15. If required execution evidence is unavailable, record the affected evidence as UNVERIFIED; do not invent evidence or success.
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
+17. Every confirmed received image must be counted and recorded regardless of whether it matches the locked prompt, visually complies, or passes the Task SUCCESS gate. Prompt/input match is a separate evidence field.
+18. A production Batch closes when every required Task has a recorded terminal outcome, whether successful or unsuccessful. Do not keep producing or leave the Batch open solely because a result is mismatched or unsuccessful.
 
 ## 2. Required Shared Documents
 - DRAWING_INSTRUCTIONS.md
