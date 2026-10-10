@@ -24,6 +24,38 @@ Conceptual drawing order: fingers/toes → body → background/effects.
 - Sleeves, clothing, props, bags, straps, plants, furniture, background shapes, and effects must never create convincing false limbs.
 
 
+### Whole-body structural continuity and torso–pelvis connection — HARD RULE
+
+The body must read as one continuous, connected human structure, not as independently assembled upper- and lower-body parts. This rule applies to every pose, viewpoint, clothing style, and production module.
+
+Required structural chain:
+- head → neck → shoulder girdle / rib cage;
+- rib cage → waist / lumbar region → pelvis;
+- pelvis → left and right hip joints → thighs → knees → calves → ankles → feet.
+
+Requirements:
+1. Keep the torso, waist, pelvis, and both legs anatomically connected and spatially consistent. No detached-looking upper/lower body, broken or displaced waist, duplicated or misaligned pelvis, impossible torso-to-hip transition, or legs that appear to originate from the wrong location.
+2. The rib cage and pelvis may tilt, rotate, lean, or twist independently within a plausible human range. Their relative angles must still read as a continuous spine-and-waist connection; do not force a rigid straight torso, but do not allow unexplained gaps, abrupt dislocations, or incompatible orientations.
+3. Clothing, hair, skirts, swimwear, belts, furniture, props, shadows, and strong occlusion must not create the appearance that the torso is detached from the pelvis or that the legs are disconnected from the hips.
+4. Preserve plausible body volume and transitions through the waist, abdomen, lower back, hips, and upper thighs. Avoid sudden changes of scale, impossible pinching, disconnected silhouettes, or perspective transitions that make the body appear cut apart.
+5. Plan the body's major masses and connections before adding clothing folds, accessories, dramatic perspective, or decorative effects. If the requested pose makes the torso–pelvis relationship difficult to keep clear, simplify the pose while preserving the scene's intent.
+6. This is broader than limb counting: a figure can have exactly two arms and two legs and still violate this rule if the torso, pelvis, or hip connections are structurally incoherent.
+
+### Seated-pose biomechanics and support — HARD RULE
+
+For every seated pose, explicitly design a coherent relationship among the rib cage, spine/waist, pelvis, hip joints, thighs, seat, and lower legs.
+
+- Establish where the pelvis contacts and is supported by the seat or other surface. Do not place the torso as if seated while the pelvis floats, is displaced, or points in an incompatible direction.
+- Make each thigh visibly or plausibly originate from the correct side of the pelvis. Maintain a coherent pelvis-to-hip-to-thigh relationship even when one thigh is foreshortened, crossed, turned sideways, or partly hidden.
+- Align the torso's lean and rotation with a plausible waist/spinal transition and pelvic orientation. Leaning forward, reclining, or twisting is allowed when the body connection and balance remain believable.
+- Give the body a plausible center of gravity and contact/support relationship with the seat, backrest, floor, and/or feet as appropriate to the pose. Do not require feet to touch the floor if the seat height or pose makes that implausible; the support relationship must nevertheless make sense.
+- Avoid complicated leg crossing, deep curling, extreme torso twist, and heavy clothing occlusion when these combine to obscure the pelvis or make the leg origins ambiguous.
+- Do not treat “sitting naturally,” “stable posture,” or “correct anatomy” as sufficient by themselves. Describe a clear, simple torso/pelvis/leg arrangement in the prompt when the pose is seated.
+- A relaxed or asymmetrical pose is allowed. The target is anatomical continuity and plausible support, not a rigid medical or military posture.
+
+Priority:
+**continuous torso–waist–pelvis–hip structure + plausible support and balance > pose complexity, dramatic twist, or decorative styling.**
+
 ### Hand topology and handedness lock
 Hand correctness must be evaluated as a connected anatomical structure, not as an isolated five-finger count.
 
