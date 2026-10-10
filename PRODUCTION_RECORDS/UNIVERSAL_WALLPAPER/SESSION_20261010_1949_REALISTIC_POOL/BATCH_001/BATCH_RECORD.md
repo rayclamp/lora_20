@@ -4,15 +4,15 @@ BATCH_ID: BATCH_001
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 3
-BATCH_STATUS: IN_PROGRESS
+BATCH_STATUS: BATCH_COMPLETED
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
-BLOCKED_COUNT: 2
-PENDING_COUNT: 1
-ATTEMPT_COUNT: 2
-CURRENT_TASK: TASK_003
-NEXT_TASK: TASK_003
-CHECKPOINT: TASK_001 isolated as EXECUTION_INTEGRITY_BLOCKED due to prompt/input mismatch; continue only after independent Task 002 readiness verification
-TERMINATION_INFORMATION: Tasks 001 and 002 terminal BLOCKED; Task 003 pending; Batch not complete.
+BLOCKED_COUNT: 3
+PENDING_COUNT: 0
+ATTEMPT_COUNT: 3
+CURRENT_TASK: NONE
+NEXT_TASK: NONE
+CHECKPOINT: All three Tasks reached terminal EXECUTION_INTEGRITY_BLOCKED due to generation-input mismatch; prompts retired; no prompt was verified as executed.
+TERMINATION_INFORMATION: BATCH_COMPLETED means all Tasks are terminal, not successful. All three image results are excluded from locked-prompt success attribution.
