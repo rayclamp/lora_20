@@ -77,3 +77,20 @@ ATTEMPT_ID: NONE
 GENERATION_CALL_ID: NONE
 TASK_STATUS: BLOCKED
 REASON: Producer stopped the batch after two consecutive prompt-to-generation integrity failures. TASK_03–TASK_06 remain PENDING and were not generated. No further generation calls will be made in this run.
+
+
+## EVENT 006
+EVENT_ID: EVT_006
+EVENT_TYPE: RESUMED
+TIMESTAMP: 2026-10-10T19:00:00+08:00
+SESSION_ID: SESSION_20261010_INARIA_SUMMER_WATER_1855
+BATCH_ID: BATCH_01
+TASK_ID: TASK_03
+PROMPT_ID: PROMPT_03
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_01
+GENERATION_CALL_ID: GEN_CALL_03
+TASK_STATUS: GENERATION_STARTED
+PROMPT_CONSUMED: NO
+PROMPT_STATE: AVAILABLE
+NOTES: /RESUME_AUTO entry gate passed. All five records read successfully. TASK_01 and TASK_02 are valid terminal EXECUTION_INTEGRITY_BLOCKED states; TASK_03 is the first eligible non-terminal Task. Complete locked PROMPT_03 was read from GitHub and used directly for this attempt. Delivery telemetry remains NOT_EXPOSED if the interface does not provide it.
