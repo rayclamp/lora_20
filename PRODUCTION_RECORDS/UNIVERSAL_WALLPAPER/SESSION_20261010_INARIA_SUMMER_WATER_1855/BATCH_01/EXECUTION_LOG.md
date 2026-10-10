@@ -94,3 +94,37 @@ TASK_STATUS: GENERATION_STARTED
 PROMPT_CONSUMED: NO
 PROMPT_STATE: AVAILABLE
 NOTES: /RESUME_AUTO entry gate passed. All five records read successfully. TASK_01 and TASK_02 are valid terminal EXECUTION_INTEGRITY_BLOCKED states; TASK_03 is the first eligible non-terminal Task. Complete locked PROMPT_03 was read from GitHub and used directly for this attempt. Delivery telemetry remains NOT_EXPOSED if the interface does not provide it.
+
+
+## EVENT 007
+EVENT_ID: EVT_007
+EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+TIMESTAMP: 2026-10-10T19:01:00+08:00
+SESSION_ID: SESSION_20261010_INARIA_SUMMER_WATER_1855
+BATCH_ID: BATCH_01
+TASK_ID: TASK_03
+PROMPT_ID: PROMPT_03
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_01
+GENERATION_CALL_ID: GEN_CALL_03
+RESULT_ID: a4332a69-1928-4116-8a31-02064ba86773
+ACTUAL_OUTPUT_COUNT: 1
+EXPECTED_OUTPUT_COUNT: 1
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
+REASON: Although the complete locked PROMPT_03 was read back immediately before the generation call, the generation interface returned an image following a paraphrased caption rather than the exact locked prompt. Result is preserved, Prompt is consumed and retired, and Task is not SUCCESS.
+
+## EVENT 008
+EVENT_ID: EVT_008
+EVENT_TYPE: STOPPED
+TIMESTAMP: 2026-10-10T19:01:00+08:00
+SESSION_ID: SESSION_20261010_INARIA_SUMMER_WATER_1855
+BATCH_ID: BATCH_01
+TASK_ID: NONE
+PROMPT_ID: NONE
+PROMPT_VERSION: NONE
+ATTEMPT_ID: NONE
+GENERATION_CALL_ID: NONE
+TASK_STATUS: BLOCKED
+REASON: Producer stopped after a third prompt-to-generation integrity failure. TASK_04–TASK_06 remain PENDING and were not generated. No further generation calls will be made in this run.
