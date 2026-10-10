@@ -68,3 +68,16 @@ BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
   BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
   RESULT: BLOCKED
   DETAILS: GitHub entry gate passed. Read START_HERE.md, CORE_RULES.md, SYSTEM_ARCHITECTURE.md, PRODUCTION_RECORD_SCHEMA.md, GENERATION_WORKER_PROTOCOL.md, CANONICAL_PATH_REGISTRY.md, MODULE_REGISTRY.md, GENERATION_RULES.md, IMAGE_GENERATION_SAFETY_SPEC.md, REALISTIC_WALLPAPER_RULES.md, INARIA_CHARACTER_SPEC.md, ANATOMY_STABILITY.md, DRAWING_INSTRUCTIONS.md, and UNIVERSAL_WALLPAPER REFERENCE_POLICY.md from main. All five required batch records were readable and all six locked prompts were present. Recovery validation failed because BATCH_RECORD DEFERRED_COUNT conflicted with TASK_QUEUE (2 deferred Tasks), and TASK_02 was labeled PROMPT_SKIPPED_POLICY_LIMIT without the required three consecutive verified policy/safety interruptions, while recording PROMPT_CONSUMED=YES despite no image result. Per rules, no Task state was inferred or silently corrected; generation stopped pending record-integrity resolution.
+
+- EVENT_ID: EVT_RESUME_TASK02_ISOLATION_20261010_001
+  TIMESTAMP: 2026-10-10T18:42:00+08:00
+  EVENT_TYPE: TASK_LOCAL_RECOVERY_REQUIRED
+  SESSION_ID: SESSION_20261009_SLEEP_1850_TW
+  BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
+  TASK_ID: TASK_02
+  PROMPT_ID: PROMPT_02
+  PROMPT_VERSION: v1
+  PREVIOUS_RECORDED_STATE: PROMPT_SKIPPED_POLICY_LIMIT; PROMPT_CONSUMED=YES
+  VERIFIED_EVIDENCE: One prior generation attempt is recorded as REFUSED_OR_BLOCKED with ACTUAL_OUTPUT_COUNT=0 and RESULT_ID=NONE. No evidence of three consecutive verified policy/safety interruptions is present.
+  CANONICAL_STATE_CORRECTION: TASK_STATUS=TASK_LOCAL_RECOVERY_REQUIRED; GENERATION_STATUS=POLICY_INTERRUPTION_CONFIRMED_NO_IMAGE; PROMPT_CONSUMED=NO. The prompt remains locked and is not modified. Explicit /RESUME_AUTO authorizes continuation; exact same locked prompt may be attempted with a new ATTEMPT_ID because no image result was produced and the policy interruption limit is not reached.
+  BATCH_SCOPE: TASK_01, TASK_03, TASK_04 remain isolated as execution integrity blocked; TASK_05 and TASK_06 remain DEFERRED. These states do not by themselves prevent a safe TASK_02 retry.
