@@ -319,3 +319,17 @@ The Worker must simplify unstable designs before generation.
 
 After generation, the Worker must **not** use these rules as a reason to self-QA, reject, repair, or regenerate the generated candidate. That is the responsibility of the downstream QA/rework pipeline.
 
+## 20. Character body-shape preservation during prompt design
+
+Correct anatomy and broadly natural proportions do not guarantee that the reference person's build has been preserved. During prompt design, explicitly protect the visible body shape when the task is to depict the same person.
+
+- Where the reference provides clear evidence, preserve the person's overall build and the relative width/shape of shoulders, arms, torso, waist, pelvis/hips, thighs, calves, ankles, and wrists.
+- Do not let “natural proportions,” “actual build,” “slim,” “elegant,” or similar general wording stand in for the explicit requirement to preserve the reference-supported body shape.
+- Do not arbitrarily thicken or thin limbs, add muscularity/fullness, reshape the waist/hips, or change the overall silhouette to match a generic beauty or fashion ideal.
+- Pose, clothing, footwear, scene, lighting, and camera changes may cause reasonable visual differences but are not permission to redesign the person's underlying build.
+- Avoid unsupported numeric promises such as an exact percentage of width preservation when the generation interface cannot reliably enforce or measure that value.
+- If the requested pose or framing makes body shape hard to judge, choose a clearer and more stable composition when compatible with the task. Do not contort the pose merely to expose every body region.
+- This is a generation-time instruction only. The Producer must not perform post-generation visual QA, approve/reject the result, or regenerate a consumed prompt. The independent IMAGE_QA process owns acceptance decisions.
+
+Apply 00_MASTER/ANATOMY_STABILITY.md as the authoritative shared standard.
+
