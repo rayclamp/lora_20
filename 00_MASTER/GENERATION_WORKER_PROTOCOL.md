@@ -88,6 +88,24 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
 
+### Mandatory Generation Input Rule — Direct Full-Text Submission
+
+For the actual image-generation call, the Producer MUST use the complete current locked Prompt text read from the authoritative `PROMPT_SET.md` as the generation input itself.
+
+1. The locked Prompt is not merely reference material for the Producer to interpret. It is the exact instruction to submit to the image-generation interface.
+2. Pass the complete Prompt text directly in the image-generation interface's applicable prompt/input field. Do not first create, compose, paraphrase, summarize, shorten, translate, reconstruct from memory, or substitute a second generation instruction.
+3. Do not replace the locked Prompt with a scene summary, a list of key points, a "cleaned-up" version, a shorter prompt, or an instruction that merely says to follow the Prompt Set.
+4. Do not omit sections, constraints, identity requirements, composition details, negative constraints, or other content included in the locked Prompt. Do not add new image-generation requirements to the submitted Prompt after lock.
+5. If the interface requires surrounding tool arguments or structured fields, place the complete locked Prompt unchanged in the designated generation-input field; the existence of those arguments does not authorize rewriting the Prompt.
+6. If the Producer cannot supply the complete locked Prompt as the actual generation input, do not improvise a substitute. Report the specific interface/input limitation and follow the applicable failure rule.
+7. This rule defines the required Producer action; it does not claim that hidden transport telemetry is available or require such telemetry as a generation gate.
+
+Required execution invariant:
+
+`LOCKED_PROMPT_TEXT = TEXT_SUPPLIED_AS_GENERATION_INPUT`
+
+This is an operational requirement, not a claim that the underlying transport has been independently verified. If the Producer knowingly used different or shortened text, record that known execution deviation accurately; do not relabel it as merely NOT_EXPOSED. If the interface does not expose the submitted payload and no deviation is known, record delivery evidence as NOT_EXPOSED or UNVERIFIED without guessing.
+
 ### Level 2 — Generator Delivery Evidence
 
 Level 2 is an evidence layer, not a mandatory pre-generation gate.
