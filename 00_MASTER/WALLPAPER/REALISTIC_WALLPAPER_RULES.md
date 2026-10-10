@@ -370,6 +370,21 @@ Batch diversity is a visual goal, not a requirement to exhaust a catalog or inve
 
 Identity anchors that remain fixed include facial structure, natural hair color/hairline, skin tone, recognizable body build, and natural proportions.
 
+## 10B. Head direction and gaze diversity
+
+For every REALISTIC WALLPAPER prompt, looking directly at the camera is an optional choice, NOT a default or mandatory requirement. Do not add camera-directed gaze merely because it is a portrait or wallpaper.
+
+During multi-image batch design, deliberately consider these as related but distinct presentation variables:
+- body / torso orientation;
+- head direction and tilt;
+- eye-gaze direction.
+
+They may align naturally or differ naturally according to the scene and action. Suitable choices may include looking toward the camera, looking off-camera, looking at an object or activity, looking into the distance, looking upward or downward, or a natural side/profile view. These are examples, not a quota or a mandatory checklist.
+
+Before Prompt Lock, review the batch for unintentional repetition of substantially similar head direction and gaze. If several prompts default to the same camera-facing head pose without a scene-specific reason, revise the future prompts at design time to create natural, meaningful variation. Do not force a particular angle into every image, enforce fixed angle percentages, or sacrifice identity, anatomy, scene coherence, or naturalness for diversity.
+
+This rule changes future prompt design only. It does not authorize rewriting, unlocking, replacing, or retroactively correcting any previously locked Prompt Set or historical production record.
+
 ## 11. Realistic composition
 Use deliberate variation: CLOSE-UP, BUST / HALF-BODY, MEDIUM SHOT, CHARACTER-DOMINANT FULL-BODY, ENVIRONMENTAL FULL-BODY.
 FULL-BODY ≠ DISTANT SHOT.
