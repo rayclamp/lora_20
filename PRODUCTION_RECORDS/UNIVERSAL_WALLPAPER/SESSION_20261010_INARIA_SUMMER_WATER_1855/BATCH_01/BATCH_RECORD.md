@@ -5,14 +5,14 @@ BATCH_ID: BATCH_01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
-BATCH_STATUS: IN_PROGRESS
+BATCH_STATUS: BLOCKED
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
-BLOCKED_COUNT: 2
-PENDING_COUNT: 4
+BLOCKED_COUNT: 3
+PENDING_COUNT: 3
 ATTEMPT_COUNT: 3
-CURRENT_TASK: TASK_03
-NEXT_TASK: TASK_04
-CHECKPOINT: RESUMED after current GitHub rules and all five Batch records were re-read and validated. TASK_01–TASK_02 remain terminal EXECUTION_INTEGRITY_BLOCKED; TASK_03 selected as first non-terminal Task. Exact locked PROMPT_03 was read back and generation attempt started.
+CURRENT_TASK: NONE
+NEXT_TASK: NONE
+CHECKPOINT: TASK_03 result was received after the generation interface did not use the exact locked PROMPT_03. TASK_03 is EXECUTION_INTEGRITY_BLOCKED; its prompt is consumed and retired. Batch stopped again to prevent further prompt-integrity violations. TASK_04–TASK_06 remain PENDING and unattempted.
