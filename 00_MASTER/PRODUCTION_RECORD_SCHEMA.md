@@ -171,3 +171,16 @@ Rules:
 6. EXECUTION_INTEGRITY_BLOCKED requires evidence of an actual execution-integrity failure, such as a missing/empty Prompt, wrong Task binding, or a verified Prompt/input mismatch. Lack of hidden transport telemetry or a visual discrepancy alone is insufficient.
 7. Missing required Batch records or an unreadable current locked Prompt must be recorded accurately. If a specific Task's Prompt cannot be read back, block that Task; escalate to Batch-level recovery only if the missing/conflicting record prevents safe identification or verification of all eligible next Tasks.
 8. The Batch remains incomplete until every required Task reaches a valid terminal state and the completion record is written and verified. Task-local isolation does not mean the Batch is complete.
+
+## 15. Multi-Worker Handoff and Dependency Semantics
+
+The records support future multi-Worker handoff but do not themselves implement a runtime scheduler or Worker controller.
+
+1. Task readiness is evaluated per Task from its current authoritative record, locked Prompt, Prompt-to-Task binding, and explicitly declared prerequisites.
+2. A prior Worker's report is not a substitute for authoritative state, and absence of that report is not a global gate when the next Task can independently be verified.
+3. Missing or contradictory data that affects one Task is TASK_LOCAL_RECOVERY_REQUIRED. A Worker may continue an independent Task only after verifying that Task's own readiness and confirming it does not depend on the unresolved Task.
+4. PROMPT_MATCH_STATUS = UNVERIFIED describes evidence for the image/result associated with that Task. It does not, by itself, block an unrelated Task or prove that a downstream Task is unsafe.
+5. Dependencies MUST be explicit in the applicable Session/Batch contract. Queue order, previous Worker identity, or prior Task failure does not create an implicit dependency.
+6. A field is a blocking prerequisite only when the current contract explicitly requires it for the specific operation. Missing optional telemetry or nonessential narrative is not a blocking prerequisite.
+7. If a required record for the assigned Task cannot be read or verified, isolate that Task and identify the exact missing prerequisite. Use BATCH_LEVEL_RECOVERY_REQUIRED only for a verified Batch-wide conflict that cannot be isolated.
+8. These rules do not weaken the SUCCESS gate, permit retry of an unknown outcome, reuse a retired Prompt, or grant a recorded image automatic LoRA dataset eligibility.
