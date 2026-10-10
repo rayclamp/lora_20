@@ -53,3 +53,20 @@ ATTEMPT_ID: ATTEMPT_02_01
 GENERATION_CALL_ID: NOT_EXPOSED
 DETAILS: TASK_02 state re-read and confirmed non-terminal; Prompt Set remains locked; TASK_02 prompt will be re-read in full immediately before generation.
 PROMPT_CONSUMED: NO (pending result classification)
+
+
+### EVENT_005 — 2026-10-10T20:34:00+08:00
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TASK_ID: TASK_02
+PROMPT_ID: PROMPT_02
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_02_01
+GENERATION_CALL_ID: NOT_EXPOSED
+RESULT_ID: file_000000005390820985d852dad2b648dc
+ACTUAL_OUTPUT_COUNT: 1
+EXPECTED_OUTPUT_COUNT: 1
+PROMPT_MATCH_STATUS: MISMATCH
+DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+DETAILS: One image result was received and is counted. The actual generation instruction authored in the tool call did not match the full locked PROMPT_02 text, so this Task is recorded as IMAGE_RESULT_RECORDED, not SUCCESS. The prompt is retired and must never be called again.
