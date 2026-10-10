@@ -25,3 +25,20 @@ ATTEMPT_ID: ATTEMPT_01_01
 GENERATION_CALL_ID: NOT_EXPOSED
 DETAILS: Current task and locked prompt re-read from main; prompt non-empty and correctly bound. Hidden delivery telemetry is not exposed by the image interface.
 PROMPT_CONSUMED: NO (pending result classification)
+
+
+### EVENT_003 — 2026-10-10T20:32:00+08:00
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TASK_ID: TASK_01
+PROMPT_ID: PROMPT_01
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_01_01
+GENERATION_CALL_ID: NOT_EXPOSED
+RESULT_ID: file_00000000694c8209a964de7462214d2d
+ACTUAL_OUTPUT_COUNT: 1
+EXPECTED_OUTPUT_COUNT: 1
+PROMPT_MATCH_STATUS: MISMATCH
+DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+DETAILS: One image result was received and is counted. The actual generation instruction authored in the tool call did not match the full locked PROMPT_01 text, so this Task is recorded as IMAGE_RESULT_RECORDED, not SUCCESS. The prompt is retired and must never be called again.
