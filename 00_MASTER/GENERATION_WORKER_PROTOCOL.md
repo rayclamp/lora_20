@@ -183,7 +183,7 @@ Execution records must preserve enough evidence to answer:
 - how many outputs were returned;
 - why the Task was or was not successful.
 
-If evidence is insufficient, prefer UNVERIFIED/BLOCKED over false SUCCESS.
+If evidence is insufficient, record the specific evidence as UNVERIFIED whenever the operation's required prerequisites are otherwise satisfied. Use BLOCKED only when a necessary prerequisite for that specific Task or operation is actually missing, invalid, or unverifiable; do not use BLOCKED merely to avoid uncertainty or to propagate another Task's reporting defect.
 
 ## 14. Architecture Boundary Summary
 
