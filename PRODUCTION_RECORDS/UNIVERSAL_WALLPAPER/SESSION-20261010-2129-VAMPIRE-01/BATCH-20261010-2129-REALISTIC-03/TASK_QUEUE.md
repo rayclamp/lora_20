@@ -4,4 +4,4 @@
 |---:|---|---|---|---|---|---:|---:|---|---|---|
 | 1 | TASK-001 | PROMPT-001 | v1 | CONSUMED | SUCCESS | 1 | 1 | YES | CONSUMED | b9be57f5-383a-49e8-ad16-a5709c8b089f |
 | 2 | TASK-002 | PROMPT-002 | v1 | CONSUMED | SUCCESS | 1 | 1 | YES | CONSUMED | 6064f435-ebee-4096-b756-951109247fda |
-| 3 | TASK-003 | PROMPT-003 | v1 | AVAILABLE | PENDING | 1 | 0 | NO | AVAILABLE | — |
+| 3 | TASK-003 | PROMPT-003 | v1 | CONSUMED | SUCCESS | 1 | 1 | YES | CONSUMED | d149df45-bbcd-4983-801d-a4d57f877646 |
