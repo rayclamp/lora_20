@@ -18,3 +18,19 @@ BATCH_ID: BATCH_001
   TIMESTAMP: 2026-10-10T19:49:00+08:00
   DETAILS: PROMPT_SET_STATUS=LOCKED; PROMPT_SET_LOCKED=YES. Readback verification pending.
   STATUS: PENDING_READBACK
+
+- EVENT_ID: EVT_004
+  EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+  TIMESTAMP: 2026-10-10T19:50:00+08:00
+  TASK_ID: TASK_001
+  PROMPT_ID: PROMPT_001
+  PROMPT_VERSION: v1
+  ATTEMPT_ID: ATTEMPT_001
+  GENERATION_CALL_ID: NOT_EXPOSED
+  DETAILS: An image result was returned, but the generation instruction actually submitted did not match the current locked PROMPT_001. Result attribution to the locked prompt therefore failed. Image result exists but is not valid evidence that PROMPT_001 executed.
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: NO
+  PROMPT_STATE: RETIRED
+  TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
+  DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+  RECOVERY: Do not retry or reuse PROMPT_001; isolate Task 001. Evaluate independent later Tasks separately.
