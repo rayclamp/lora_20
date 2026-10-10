@@ -209,3 +209,77 @@ Production Workers do not cross into QA.
 When activated, Codex loads CORE, this protocol, the source-module rules, applicable references, and task metadata.
 
 It must not load unrelated module rules.
+
+
+## 17. Separate Candidate-Level and Dataset-Level QA
+
+These are two different assessments with different inputs and separately persisted outcomes. A candidate-level result MUST NOT be silently reused as a dataset-level result.
+
+### 17.1 Candidate-level assessment
+
+Candidate-level QA evaluates one existing image against that Task's requirements, the correct reference for the same production request, and the applicable acceptance profile.
+
+Required identifiers and evidence:
+- `QA_REVIEW_ID`
+- `TASK_ID` and `CANDIDATE_ID` (or the authoritative existing image/result identifier)
+- `SOURCE_MODULE`
+- `IMAGE_REFERENCE`
+- the current task's uploaded `APPLICABLE_REFERENCE_IMAGE`, when required
+- applicable task requirements and QA profile/version
+- inspection result, evidence, reason codes, affected regions, and reviewer/system provenance
+
+Candidate-level output uses the existing primary result contract: `PASS`, `REVIEW`, `REPAIR`, or `REJECT`. If required evidence is missing, do not invent a PASS; use the applicable incomplete-input or uncertainty state.
+
+### 17.2 Dataset-level assessment
+
+Dataset-level QA evaluates a defined set of candidates intended to represent the same person or character. It supplements, and does not replace, candidate-level inspections.
+
+Required input:
+- `DATASET_ID` and a stable dataset scope/version or snapshot identifier;
+- the selected character option and dataset purpose;
+- the correct reference image supplied for the relevant production request(s), plus provenance identifying which reference applies to which candidates;
+- the complete set of in-scope `CANDIDATE_ID` / `TASK_ID` / image references being compared;
+- existing candidate-level QA results and their versions, where available;
+- applicable LoRA design/acceptance rules and the expected stable traits versus allowed variation;
+- the requested review scope, such as identity, apparent age, body build, limb thickness, body-region ratios, rendering style, near-duplicates, and coverage.
+
+Do not assume every candidate shares one reference if its recorded task contract says otherwise. If candidate-to-reference mapping is missing or ambiguous, record the affected comparison as unresolved.
+
+### 17.3 Dataset-level decision
+
+Record a distinct `DATASET_RESULT` using one of:
+- `PASS`: the reviewed set has sufficiently coherent stable traits and useful, non-redundant variation for the stated dataset purpose; no material unexplained drift remains.
+- `REVIEW`: evidence is ambiguous, incomplete, or insufficient for a reliable set-level decision.
+- `REPAIR`: a separately authorized dataset curation/rework action may address the identified issue; this does not authorize editing or regenerating images within QA itself.
+- `REJECT`: the reviewed set or identified candidates are materially unsuitable for the stated dataset purpose.
+- `NOT_ASSESSED`: the comparison set, applicable reference, candidate mapping, or other required input is unavailable.
+
+Use `NOT_ASSESSED` when a dataset-level comparison cannot actually be performed. Do not substitute a candidate-level PASS, a prompt statement, or a general impression for cross-image evidence.
+
+The dataset-level review must distinguish genuine drift from expected differences caused by pose, perspective, framing, clothing, lighting, or occlusion. It must not require identical silhouettes across different poses. A plausible individual image can still be inconsistent with the same-person dataset; conversely, a visible difference is not by itself proof of drift.
+
+### 17.4 Separate durable dataset QA record
+
+Persist each completed dataset-level review as its own immutable record, separate from production records and individual candidate QA results. Recommended location:
+
+`IMAGE_QA_RECORDS/LORA_IMAGE/<DATASET_ID>/DATASET_QA_RECORD_<QA_REVIEW_ID>.md`
+
+Each record must include:
+- `QA_REVIEW_ID`, `DATASET_ID`, dataset scope/version or snapshot, review timestamp with timezone;
+- `DATASET_RESULT` and concise rationale;
+- reviewer/system identity and the applicable protocol/profile versions;
+- reference image identifiers and candidate-to-reference mapping;
+- the exact reviewed candidate/image IDs and links;
+- candidate-level QA result references, including any missing results;
+- assessed dimensions, concrete observations/evidence, affected candidate IDs, and severity;
+- unresolved or unassessed dimensions and why they could not be judged;
+- near-duplicate findings and dataset coverage observations, where in scope;
+- recommended next action, without silently executing it.
+
+Do not overwrite an earlier dataset review when the candidate set changes or a new review is run. Create a new review record and identify the snapshot/version it assessed. A correction to a record must be a separately timestamped amendment that preserves the original.
+
+### 17.5 Missing evidence and activation boundary
+
+If any required input prevents a reliable dataset-level judgment, preserve the individual candidate outcomes and set the dataset-level result to `NOT_ASSESSED` or `REVIEW`, as appropriate; name the missing evidence explicitly. Do not mark uninspected candidates as PASS.
+
+These definitions specify a future input/output and persistence contract only. They do not prove that an executable runner currently supports set-level comparison or record writing. QA remains **PAUSED** until the independent QA system is explicitly activated under the existing activation requirements. Do not start a QA run as part of this documentation update.
