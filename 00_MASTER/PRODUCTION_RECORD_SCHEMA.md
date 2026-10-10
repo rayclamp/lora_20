@@ -149,3 +149,23 @@ Automated production records must preserve durable state before the workflow adv
 When current GitHub data is required, connection/read verification must occur at that stage. When durable state is produced, it must be written and read back for verification.
 
 If the required GitHub record cannot be written or verified, the Producer must stop and must not continue from memory, cache, stale context, or guessed state. If the failure cannot itself be persisted, report GITHUB_RECORDING_FAILED.
+
+
+## 14. Resume Recovery Scope and Task-Local Blocking
+
+Recovery failures must be classified by scope instead of automatically escalating every discrepancy to Batch-level BLOCKED.
+
+- RECORD_READBACK_PENDING: a required current value has not yet been successfully read back. Retry the read/recovery procedure as appropriate; do not treat this label alone as proof of an integrity violation.
+- TASK_LOCAL_RECOVERY_REQUIRED: a discrepancy or unresolved outcome affects one Task. Preserve the authoritative evidence and isolate that Task from execution until its own recovery rule is satisfied.
+- BATCH_LEVEL_RECOVERY_REQUIRED: use only when a verified problem affects Batch-wide identity, contract, global Prompt Set integrity, or safe result attribution and cannot be isolated to one Task.
+
+Rules:
+
+1. A Task-local conflict MUST NOT automatically set the entire Batch to BLOCKED.
+2. After isolating an affected Task, the Producer MAY continue with a later independent Task only after separately verifying that Task's authoritative state, current complete non-empty locked Prompt, Prompt-to-Task binding, and applicable execution prerequisites.
+3. Continuing an independent Task does not resolve, pass, skip, or repair the isolated Task. Preserve it for later recovery.
+4. UNKNOWN generation outcome remains non-terminal for the affected Task. Never retry or reuse its Prompt while outcome remains unknown. Do not falsely count it as completed. Independent Tasks may proceed only if they do not depend on that unresolved outcome and their own readiness checks pass.
+5. Visual QA observations, including partial visual deviation from a Prompt, anatomy defects, composition issues, or aesthetic concerns, MUST NOT by themselves be classified as EXECUTION_INTEGRITY_BLOCKED. They belong to the separate QA workflow and do not trigger regeneration.
+6. EXECUTION_INTEGRITY_BLOCKED requires evidence of an actual execution-integrity failure, such as a missing/empty Prompt, wrong Task binding, or a verified Prompt/input mismatch. Lack of hidden transport telemetry or a visual discrepancy alone is insufficient.
+7. Missing required Batch records or an unreadable current locked Prompt must be recorded accurately. If a specific Task's Prompt cannot be read back, block that Task; escalate to Batch-level recovery only if the missing/conflicting record prevents safe identification or verification of all eligible next Tasks.
+8. The Batch remains incomplete until every required Task reaches a valid terminal state and the completion record is written and verified. Task-local isolation does not mean the Batch is complete.
