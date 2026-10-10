@@ -170,3 +170,15 @@ During /RESUME_AUTO, distinguish a problem that affects one Task from a verified
 5. Stop the entire Batch only for a verified Batch-wide issue that cannot safely be isolated, such as an unidentifiable Session/Batch, a globally ambiguous production contract, or a Prompt Set/Task binding conflict that makes the next Task's input or result attribution unsafe.
 6. Missing nonessential transport telemetry alone is not a stop condition. Record NOT_EXPOSED/UNVERIFIED as applicable.
 7. Never mark an unresolved Task as passed, completed, repaired, or skipped merely because other Tasks continue. Record the issue for later recovery.
+
+## 13. Multi-Worker Continuity Rule
+
+For future multi-Worker production, a Worker receiving the next assignment must independently verify that Task's authoritative record, complete locked Prompt, Task-to-Prompt binding, Prompt availability, and explicitly declared prerequisites.
+
+- Do not rely solely on the previous Worker's narrative or completion message.
+- Do not block an independent Task because a different Task has missing/incomplete reporting, unverified prompt-match evidence, or a Task-local recovery issue.
+- Missing required data for the assigned Task blocks that Task only, unless a verified Batch-wide conflict makes other Tasks unsafe to identify or execute.
+- Do not invent missing evidence, falsely resolve the affected Task, retry an unknown outcome, or reuse a consumed/retired Prompt.
+- Task dependencies must be explicitly declared; queue order alone does not make one Task dependent on another.
+- Continue independent work only after its own readiness checks pass. Keep result accounting, SUCCESS, QA, and LoRA dataset eligibility separate.
+- This is a repository contract for future runtime implementation, not a claim that Make or a multi-Worker coordinator is already active.
