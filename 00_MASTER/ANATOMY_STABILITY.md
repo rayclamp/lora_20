@@ -341,3 +341,25 @@ These images provide stronger evidence for the character's natural body-proporti
 **FAIL** — clear unnatural leg/torso elongation, abnormal thigh/lower-leg ratio, or obvious fashion-model-style body stretching is visible.
 
 The goal is not to make every image appear to have identical leg length. The goal is to preserve the same underlying natural body proportions across different poses, footwear, cameras, and scenes.
+
+## Character body-shape fidelity and cross-image stability — HARD RULE
+
+Anatomical correctness and plausible proportions are necessary, but they are not sufficient to preserve a specific person's body shape. A figure may remain within a broad range of normal human proportions while still visibly drifting away from the supplied reference or established character baseline.
+
+### Shape-fidelity requirements
+1. When the applicable reference clearly shows a body region, preserve its visible shape and relative dimensions as part of the person's recognizable build. This includes shoulder width; upper-arm and forearm thickness; torso and waist width; pelvis and hip silhouette; thigh and calf width; ankle and wrist thickness; and the relative transitions among these regions.
+2. Do not arbitrarily add or remove apparent body volume, muscularity, fullness, slimness, or contour definition. A result can be anatomically plausible yet still fail shape fidelity if the person's build has materially changed without a task-based reason.
+3. Changing pose, clothing, footwear, scene, lighting, crop, or camera composition does not by itself authorize redesigning the person's build.
+4. Allow differences that are reasonably explained by pose, foreshortening, perspective, occlusion, clothing construction, or lighting. Do not mistake every apparent pixel-width change for a body-shape change; judge the visible anatomy in context.
+5. Do not use beauty styling, fashion-model conventions, athletic styling, or a generic ideal body as a substitute for the actual reference person's build.
+6. If the relevant region is not sufficiently visible or the view is too distorted to judge, do not claim exact preservation. Use only the supported evidence and mark the relevant assessment uncertain when QA is responsible for the decision.
+7. Do not enforce a single silhouette across genuinely different poses. Preserve the underlying build while allowing natural pose-dependent contour changes.
+
+### Cross-image stability
+For a set intended to depict the same person, stable identity and body-shape traits must remain coherent across images. Review not only whether each image looks individually plausible, but also whether the set introduces unexplained changes in facial identity, apparent age, body build, limb thickness, body-region ratios, or rendering style.
+
+A candidate may pass basic anatomy checks and still be unsuitable for a same-person dataset if its visible shape materially conflicts with the established reference or reliable comparison images.
+
+Priority:
+**structural anatomy + reference-supported body-shape fidelity + natural pose-dependent variation > generic beautification or arbitrary redesign.**
+
