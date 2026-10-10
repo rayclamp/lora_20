@@ -136,6 +136,27 @@ First establish correct human structure and character-to-object connections.
 
 Only then add visual complexity, decorative effects, or highly stylized action.
 
+## 19. Whole-body continuity and seated-pose structure
+
+Treat the person as one connected anatomical system, not separate upper- and lower-body pieces.
+
+Before generation, define a clear connection path:
+head/neck → rib cage → waist/lumbar region → pelvis → hip joints → thighs → knees → lower legs → ankles/feet.
+
+For seated, reclining, side-sitting, or strongly twisted poses:
+- establish the pelvis position and its contact/support surface first;
+- connect the waist and rib cage to the pelvis with a plausible spine/soft-tissue transition;
+- connect each thigh to the correct hip location;
+- make torso lean, pelvic tilt/rotation, thigh direction, and the support surface mutually plausible;
+- keep body volume and silhouette continuous through the waist, abdomen, lower back, hips, and upper thighs;
+- simplify the pose if clothing, perspective, crossed legs, or occlusion makes these connections ambiguous.
+
+Do not generate a figure whose torso appears detached from the pelvis, whose waist looks broken or displaced, whose legs appear disconnected from the hips, or whose upper- and lower-body orientations contradict each other without a plausible anatomical transition.
+
+Natural bending, leaning, asymmetry, pelvic tilt, and torso rotation remain allowed. Do not force a rigid upright pose; require continuity, plausible joint relationships, and believable support instead.
+
+A correct limb count alone is not enough. Structural continuity of the torso, pelvis, and hip connections is mandatory.
+
 # SPECIAL STABILITY RULES
 
 ## 1. Wearable object connection
