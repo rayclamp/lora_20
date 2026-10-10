@@ -5,14 +5,14 @@ BATCH_ID: BATCH_01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
-BATCH_STATUS: IN_PROGRESS
+BATCH_STATUS: BLOCKED
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
-BLOCKED_COUNT: 1
-PENDING_COUNT: 5
-ATTEMPT_COUNT: 1
-CURRENT_TASK: TASK_02
-NEXT_TASK: TASK_02
-CHECKPOINT: TASK_01 result received but generation prompt did not match current locked prompt; TASK_01 terminal-blocked; do not count as SUCCESS. Five Tasks remain pending.
+BLOCKED_COUNT: 2
+PENDING_COUNT: 4
+ATTEMPT_COUNT: 2
+CURRENT_TASK: NONE
+NEXT_TASK: NONE
+CHECKPOINT: TASK_01 and TASK_02 each returned an image after a generation call that did not use the exact locked prompt. Both Tasks are EXECUTION_INTEGRITY_BLOCKED, prompts consumed and retired. Batch stopped to prevent further prompt-integrity violations; TASK_03–TASK_06 remain PENDING and have not been attempted.
