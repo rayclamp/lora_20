@@ -60,3 +60,11 @@ BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
   EVENT_TYPE: SAFE_STOP
   RESULT: STOPPED
   DETAILS: TASK_01, TASK_03, TASK_04 are EXECUTION_INTEGRITY_BLOCKED; TASK_02 is PROMPT_SKIPPED_POLICY_LIMIT; TASK_05 and TASK_06 are DEFERRED because continuing would risk generating without the required locked prompt. Batch must not be marked BATCH_COMPLETED.
+
+- EVENT_ID: EVT_RESUME_GATE_20261010_001
+  TIMESTAMP: 2026-10-10T18:40:00+08:00
+  EVENT_TYPE: RESUME_RECOVERY_BLOCKED
+  SESSION_ID: SESSION_20261009_SLEEP_1850_TW
+  BATCH_ID: BATCH_20261009_INARIA_SLEEP_01
+  RESULT: BLOCKED
+  DETAILS: GitHub entry gate passed. Read START_HERE.md, CORE_RULES.md, SYSTEM_ARCHITECTURE.md, PRODUCTION_RECORD_SCHEMA.md, GENERATION_WORKER_PROTOCOL.md, CANONICAL_PATH_REGISTRY.md, MODULE_REGISTRY.md, GENERATION_RULES.md, IMAGE_GENERATION_SAFETY_SPEC.md, REALISTIC_WALLPAPER_RULES.md, INARIA_CHARACTER_SPEC.md, ANATOMY_STABILITY.md, DRAWING_INSTRUCTIONS.md, and UNIVERSAL_WALLPAPER REFERENCE_POLICY.md from main. All five required batch records were readable and all six locked prompts were present. Recovery validation failed because BATCH_RECORD DEFERRED_COUNT conflicted with TASK_QUEUE (2 deferred Tasks), and TASK_02 was labeled PROMPT_SKIPPED_POLICY_LIMIT without the required three consecutive verified policy/safety interruptions, while recording PROMPT_CONSUMED=YES despite no image result. Per rules, no Task state was inferred or silently corrected; generation stopped pending record-integrity resolution.
