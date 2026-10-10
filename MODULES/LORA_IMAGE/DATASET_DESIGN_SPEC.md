@@ -103,6 +103,29 @@ Evaluate diversity across the complete set and, when prior outputs are available
 - Do not create unnecessary near-duplicates merely to fill a category. Prefer candidates that add distinct, useful information.
 - Dataset diversity is cumulative: not every image needs to change every dimension, but the set should not become trapped in a small number of repeated visual patterns.
 
+
+## Stable character traits versus allowed variation
+
+A useful LoRA dataset must preserve the same subject while varying presentation. Do not confuse anatomical plausibility with character-shape fidelity.
+
+### Traits to preserve when supported by the reference
+- recognizable facial identity and apparent age;
+- overall body build and the relative shape/width of shoulders, arms, torso, waist, pelvis/hips, thighs, calves, ankles, and wrists;
+- natural relationships among body regions, including limb-to-torso and thigh-to-calf relationships;
+- the current task's coherent rendering style and level of realism.
+
+### Traits that may vary with the task
+- pose, weight distribution, body orientation, camera viewpoint, and framing;
+- clothing, accessories, footwear, hairstyle arrangement, and scene;
+- expression, gaze, lighting, and environmental conditions.
+
+Allowed variation must not become an excuse for unexplained changes to stable traits. Pose and perspective can alter visible contours; assess the underlying build in context rather than demanding pixel-identical silhouettes.
+
+### Candidate-level versus dataset-level suitability
+A candidate can be anatomically plausible and individually attractive but still be unsuitable for a same-person training set if it materially departs from the reference-supported build or core identity. Conversely, a different apparent contour caused by a clearly different pose, perspective, or occlusion is not automatically a failure.
+
+Use the independent IMAGE_QA rules for acceptance. Generation workers must not self-QA, reject, repair, or regenerate completed candidates.
+
 ## Candidate-design intent and QA separation
 
 Design each candidate to contribute useful training information: clear identity evidence, understandable anatomy, deliberate framing, meaningful presentation, or a distinct but coherent variation. Prefer a simpler stable composition when extra visual complexity does not materially improve dataset coverage.
