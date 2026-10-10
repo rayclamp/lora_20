@@ -39,7 +39,7 @@ Each Task should record, as applicable:
 - ATTEMPT_ID / attempt count
 - GENERATION_CALL_ID
 - DELIVERY_INTEGRITY_STATUS
-- PROMPT_MATCH_STATUS (`MATCH`, `MISMATCH`, `UNVERIFIED`, or `NOT_ASSESSED`)
+- PROMPT_MATCH_STATUS (optional legacy/separate audit field; the Producer MUST NOT assess it and should leave it `NOT_ASSESSED` or unset)
 - RESULT_ID / output reference
 - EXPECTED_OUTPUT_COUNT
 - ACTUAL_OUTPUT_COUNT
@@ -56,15 +56,15 @@ Each Task should record, as applicable:
 Task status semantics:
 - GENERATION_STARTED = generation attempt initiated; non-terminal.
 - IMAGE_RESULT_RECEIVED = an image result has arrived; event/evidence state, not necessarily a terminal Task status.
-- IMAGE_RESULT_RECORDED = a confirmed image result and its actual count have been durably recorded. This is a valid terminal outcome even if prompt-match or delivery evidence is MISMATCH/UNVERIFIED; it is not SUCCESS by itself.
+- IMAGE_RESULT_RECORDED = a confirmed image result and its actual count have been durably recorded, but production SUCCESS could not be assigned (for example, result binding is unresolved). This is terminal and is not QA PASS.
 - RESULT_RECEIVED_UNVERIFIED = a result exists but required evidence/recording is not yet complete; non-terminal until the result is durably recorded or another terminal outcome is established.
 - EXECUTION_INTEGRITY_UNVERIFIED = an applicable evidence field is unavailable or not exposed; this does not by itself mean Generation was forbidden. If an image was received and recorded, keep this as an evidence value and use IMAGE_RESULT_RECORDED as the terminal Task status.
-- EXECUTION_INTEGRITY_BLOCKED = generation could not validly proceed because of an actual pre-generation integrity failure, such as a missing/empty prompt or wrong Task binding. A claimed or verified input mismatch after an image has already been returned must be recorded separately as `PROMPT_MATCH_STATUS`; it does not erase the result or its count.
+- EXECUTION_INTEGRITY_BLOCKED = generation could not validly proceed because of an actual pre-generation readiness failure, such as a missing/empty prompt or wrong Task binding. Do not use this status for post-generation visual judgments or hidden-payload comparisons.
 - GENERATION_FAILED = generation ended without a received image result.
 - RESULT_COUNT_MISMATCH = the actual output count is known and does not equal the Task contract; this is terminal and the actual received images still count toward ACTUAL_IMAGE_COUNT.
-- SUCCESS = all applicable execution-success conditions passed.
+- SUCCESS = production successfully returned and recorded the expected number of images, with the result bound to the Task. SUCCESS is a production result only and does not imply visual correctness, prompt compliance, or QA PASS.
 
-IMAGE_RESULT_RECORDED must never be treated as SUCCESS by itself. For wallpaper production, EXPECTED_OUTPUT_COUNT = 1. Count every confirmed received image exactly once, even when the output count or prompt-match status fails. If ACTUAL_OUTPUT_COUNT != 1, record RESULT_COUNT_MISMATCH; do not erase or suppress the known actual count. Record prompt/input match independently using `PROMPT_MATCH_STATUS = MATCH | MISMATCH | UNVERIFIED | NOT_ASSESSED`. Visual appearance alone must not be used as proof of the exact submitted payload.
+For wallpaper production, EXPECTED_OUTPUT_COUNT = 1. Count every confirmed received image exactly once. If ACTUAL_OUTPUT_COUNT equals the Task contract and the result is bound to that Task, use `SUCCESS`; if the count differs, use `RESULT_COUNT_MISMATCH` while preserving all received images. `PROMPT_MATCH_STATUS` is not a Producer assessment and must remain `NOT_ASSESSED` or unset unless a separately authorized integrity audit owns that field. Visual compliance and image quality belong to QA; production SUCCESS is not QA PASS.
 
 ## 6. PROMPT_SET.md
 All prompts are designed before generation, persisted before execution, and locked as execution input. Resume does not silently redesign a locked prompt. Revisions require a new prompt version.
@@ -96,14 +96,14 @@ A Task is terminal only when its final state is explicitly recorded as one of th
 
 RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, GENERATION_STARTED, and other in-progress/evidence states are not terminal.
 
-Completion means every required Task has reached a valid terminal state. A Batch MUST then be recorded as BATCH_COMPLETED and the Producer MUST stop issuing new generation calls for that Batch. A confirmed image result that has been counted and durably recorded is a terminal IMAGE_RESULT_RECORDED outcome when it does not qualify as SUCCESS. Prompt/input mismatch and unverified delivery evidence are recorded as independent evidence fields; they do not keep a result-bearing Task open.
+Completion means every required Task has reached a valid terminal state. A Batch MUST then be recorded as BATCH_COMPLETED and the Producer MUST stop issuing new generation calls for that Batch. A confirmed image result with the expected count and a reliable Task binding is production SUCCESS. If the result cannot be reliably bound or the count differs, record the applicable terminal result state while preserving the received-image count. Prompt-payload integrity and visual compliance are not Producer acceptance judgments and do not keep a result-bearing Task open.
 
 Batch completion does not require every Task to be SUCCESS, and IMAGE_COUNT is the planned number of independent Tasks, not a success target. ACTUAL_IMAGE_COUNT counts all confirmed received images irrespective of whether they match their locked prompts.
 
 ## 10. Execution Integrity Reference
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
-Minimum chain: TASK → LOCKED_PROMPT → CURRENT_PROMPT_READBACK → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS.
-The system must record unavailable evidence honestly and must not claim verification that did not occur. Missing hidden payload telemetry alone does not require BLOCKED; use NOT_EXPOSED/UNVERIFIED and assess the actual result. Use BLOCKED when the prompt is missing, empty, associated with the wrong Task, or cannot be supplied as a usable generation instruction.
+Minimum chain: TASK → LOCKED_PROMPT_READBACK_AND_READINESS → GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS.
+The Producer verifies before generation that the locked Prompt is available, non-empty, and assigned to the current Task, then uses it as the generation instruction. After the call, the Producer records only observable result facts: image received or not, actual count, result reference/binding, or confirmed failure reason. The Producer MUST NOT compare hidden submitted payload against the locked Prompt or judge visual compliance. Use BLOCKED when the prompt is missing, empty, assigned to the wrong Task, or cannot be supplied as a usable generation instruction.
 
 ## 11. Non-Goals
 This schema does not define a GitHub scheduler, task lock, worker manager, retry engine, Session manager, or execution controller. Those remain internal ChatGPT production mechanisms.
@@ -123,7 +123,7 @@ Persist at Task level, as applicable:
 
 ### 12.1 Outcome and prompt-state rules
 
-1. `PROMPT_CONSUMED = YES` and `PROMPT_STATE = RETIRED` (or `CONSUMED` only while the Task is still active, if that state is used) when an image result is confirmed received for this Task/attempt. The Prompt/version must never be called again. The image is counted even if the submitted instruction mismatched the locked prompt or the image does not visually comply.
+1. `PROMPT_CONSUMED = YES` and `PROMPT_STATE = RETIRED` (or `CONSUMED` only while the Task is still active, if that state is used) when an image result is confirmed received for this Task/attempt. The Prompt/version must never be called again. Count the image without making a prompt-payload or visual-compliance judgment.
 2. A verified Policy/Safety interruption with confirmed no image result leaves `PROMPT_CONSUMED = NO` and the Prompt eligible for an explicitly authorized retry, provided the Task remains non-terminal and the policy-interruption limit has not been reached. Retry must use the exact same locked Prompt/version and Task binding; assign a new `ATTEMPT_ID`.
 3. A confirmed generation failure with confirmed no image result leaves the Prompt unconsumed, but retry/termination follows the separate applicable error-specific rule. Do not count service/runtime errors, quota/rate limits, GitHub failures, or unknown outcomes as Policy/Safety interruptions.
 4. If the outcome is unknown, set `PROMPT_CONSUMED = UNKNOWN`, `PROMPT_STATE = UNKNOWN`, and the applicable recovery-required state. Do not retry, skip, or advance until the outcome is resolved.
