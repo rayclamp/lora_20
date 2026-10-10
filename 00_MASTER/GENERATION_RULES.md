@@ -17,9 +17,12 @@
 15. Locked prompts are immutable during generation, retry, and resume.
 16. Before generation, read the current complete locked prompt, confirm it is non-empty and associated with the current Task, and use it directly as the generation instruction.
 17. Do not redesign, summarize, translate, omit, replace, or silently alter a locked prompt before generation.
-18. Actual-generator delivery telemetry is evidence only. If it is not exposed by the current interface, record that limitation as evidence state; it is not a pre-generation block.
-19. Result count and result-to-Task binding must be recorded before production SUCCESS. If no image is received, record the confirmed failure reason.
-20. Generation Workers must not compare the submitted payload against LOCK PROMPT or perform visual QA; image correctness is decided by the independent QA workflow.
+18. The complete current locked Prompt text is the actual generation input, not reference material to paraphrase. Submit it directly and unchanged in the image-generation interface's designated prompt/input field; never create or use a shortened, summarized, reconstructed, translated, or substitute prompt after lock.
+19. If the interface requires structured arguments, put the complete locked Prompt unchanged in the applicable generation-input field. Missing hidden-payload telemetry does not block generation, but it does not authorize prompt shortening or substitution.
+20. If the Producer knowingly submitted different text, record the known execution deviation honestly. If the submitted payload is not exposed and no deviation is known, record NOT_EXPOSED/UNVERIFIED without claiming exact transport verification.
+21. Actual-generator delivery telemetry is evidence only. If it is not exposed by the current interface, record that limitation as evidence state; it is not a pre-generation block.
+22. Result count and result-to-Task binding must be recorded before production SUCCESS. If no image is received, record the confirmed failure reason.
+23. Generation Workers must not perform routine post-generation hidden-payload equality audits or visual QA. This restriction does not weaken the mandatory pre-call requirement to submit the complete locked Prompt unchanged; image correctness is decided by the independent QA workflow.
 
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
 No age-specific identity or LoRA-specific dataset rule belongs here.
