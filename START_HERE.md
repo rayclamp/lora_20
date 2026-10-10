@@ -54,7 +54,16 @@ For other modules, retain their existing module-specific interpretation of the r
 
 IMAGE_COUNT is the number of independent image Tasks when the selected workflow uses task batches. It is not a success target.
 
-## 3. Session / Batch
+## 3. Independent Image QA
+
+Image inspection is a separate system, not a production module:
+- QA system: `IMAGE_QA/`
+- Current LoRA acceptance profile: `IMAGE_QA/LORA_IMAGE_QA_SPEC.md`
+- Checklist: `IMAGE_QA/LORA_IMAGE_QA_CHECKLIST.md`
+
+QA is currently `PAUSED`. Do not automatically start QA after generation, and do not treat generation success as QA PASS. QA inspects existing candidates and reports a decision; it does not generate, rewrite prompts, or trigger regeneration. FESTIVAL_WALLPAPER outputs are excluded from QA intake.
+
+## 4. Session / Batch
 
 /START_AUTO creates a new SESSION_ID and BATCH_ID when the automated batch workflow is requested.
 
@@ -67,7 +76,7 @@ A Batch contains:
 
 All Tasks are designed before generation. The complete Prompt Set is persisted and locked before execution begins.
 
-## 4. Task and Prompt Design
+## 5. Task and Prompt Design
 
 One Task = one independent image.
 
@@ -78,7 +87,7 @@ For `LORA_IMAGE`, each Task is also one independent training-image candidate unl
 
 Each Task receives one locked Prompt/version. After the Prompt Set is locked, its prompts are not redesigned or silently altered.
 
-## 5. Task Execution
+## 6. Task Execution
 
 CURRENT_TASK → CURRENT_LOCKED_PROMPT → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT → RESULT_VERIFICATION → TASK_STATUS
 
@@ -96,7 +105,7 @@ After each attempt, classify the outcome before advancing:
 
 After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`, record `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`, and retire the Prompt from all future use even though no image was produced. Any Task that reaches another valid terminal error/stop state likewise cannot be re-queued or reuse its Prompt. Policy interruptions, service/runtime errors, quota/rate limits, and GitHub errors must remain separately classified and counted.
 
-## 6. Result Recording
+## 7. Result Recording
 
 After a generation result or execution failure:
 1. reconnect to GitHub;
@@ -104,9 +113,9 @@ After a generation result or execution failure:
 3. record the actual result, failure, interruption, and evidence;
 4. read back and verify the write.
 
-Image QA is a separate workflow. Automated generation records the result and execution state; QA does not trigger regeneration.
+Image QA remains a separate workflow and is currently paused. Automated generation records the result and execution state; QA does not trigger regeneration.
 
-## 7. Next Task
+## 8. Next Task
 
 Before selecting the next Task, reconnect and verify the latest authoritative state.
 
@@ -114,7 +123,7 @@ Continue until every required Task has reached a valid terminal state.
 
 Do not require every Task to be successful.
 
-## 8. Terminal States and Completion
+## 9. Terminal States and Completion
 
 A Task is terminal only when its final state is explicitly recorded as one of the valid terminal outcomes defined by PRODUCTION_RECORD_SCHEMA.md.
 
@@ -124,7 +133,7 @@ A Batch is BATCH_COMPLETED when:
 
 Success count does not determine Batch completion.
 
-## 9. Stop / Resume
+## 10. Stop / Resume
 
 /START_AUTO starts a new automated Session.
 
@@ -132,7 +141,7 @@ If an interruption requires continuation, use /RESUME_AUTO. Resume must reconnec
 
 /STOP immediately stops new generation and persists a checkpoint when GitHub is available.
 
-## 10. Architecture Boundary
+## 11. Architecture Boundary
 
 GitHub provides reference data and durable production records.
 

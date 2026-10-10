@@ -31,9 +31,14 @@
 ## LoRA Image Design
 - Module: MODULES/LORA_IMAGE/MODULE.md
 - Uploaded-reference policy: MODULES/LORA_IMAGE/REFERENCE_POLICY.md
-- Legacy LoRA production and QA files (archive only): ARCHIVE/LEGACY_LORA_PRODUCTION/
+- Archived legacy production rules: ARCHIVE/LEGACY_LORA_PRODUCTION/
 
-## QA
-- Platform: 00_MASTER/QA_MODULE.md, 00_MASTER/QA_PROTOCOL.md
+## Independent Image QA
+- QA governance: 00_MASTER/QA_MODULE.md, 00_MASTER/QA_PROTOCOL.md
+- QA system: IMAGE_QA/MODULE.md
+- LoRA image acceptance profile: IMAGE_QA/LORA_IMAGE_QA_SPEC.md
+- LoRA image inspection checklist: IMAGE_QA/LORA_IMAGE_QA_CHECKLIST.md
+- Archived original LoRA QA files: ARCHIVE/LEGACY_LORA_PRODUCTION/QA/
+
+## QA Tools
 - Codex checklist: 00_MASTER/CODEX_QA_CHECKLIST.md
-- Archived legacy LoRA QA: ARCHIVE/LEGACY_LORA_PRODUCTION/QA/

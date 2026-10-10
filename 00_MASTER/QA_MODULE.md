@@ -4,30 +4,37 @@
 
 **PAUSED**
 
-Preserved for future activation. QA is not currently executed by Production Workers.
+The independent QA system is preserved for future activation. Creating or updating QA specifications does not activate an inspection run, QA automation, or production workers.
 
 ## Purpose
 
-QA is the downstream visual and dataset quality-control layer. Its future primary executor is Codex-assisted image inspection.
+QA is a separate visual-inspection and quality-control system, not part of image generation or production design.
 
 Production answers: was an image successfully generated?
-QA answers: does the generated image satisfy the applicable requirements?
+QA answers: does the existing image satisfy the applicable acceptance criteria?
 
 A generation SUCCESS is never retroactively changed because QA later rejects the image.
 
 ## Architecture
 
-Production Module → GENERATION SUCCESS / IMAGE_CREATED → QA → INSPECT → PASS / REVIEW / REPAIR / REJECT
+Production Module → GENERATION SUCCESS / IMAGE_CREATED → Independent IMAGE_QA → INSPECT → PASS / REVIEW / REPAIR / REJECT
 
-QA may consume outputs from UNIVERSAL_WALLPAPER and LORA_IMAGE only when the applicable QA workflow is activated. FESTIVAL_WALLPAPER outputs are explicitly excluded from QA intake and must never enter the LoRA dataset pipeline. A future production module is not QA-eligible by default; it requires an explicit scope decision and approved source-module contract.
+The independent QA system and its module-specific acceptance profiles are catalogued separately from production modules. The initial LoRA profile is maintained at:
+- `IMAGE_QA/MODULE.md`
+- `IMAGE_QA/LORA_IMAGE_QA_SPEC.md`
+- `IMAGE_QA/LORA_IMAGE_QA_CHECKLIST.md`
+
+QA does not generate images, rewrite prompts, or trigger regeneration. Any repair must be a separate authorized process that preserves the original candidate and audit history.
+
+FESTIVAL_WALLPAPER outputs are explicitly excluded from QA intake and must never enter the LoRA dataset pipeline. No other production module is QA-eligible by default; it requires an explicit scope decision and approved acceptance profile.
 
 ## CORE dependency
 
 QA loads CORE plus:
 1. applicable source-module rules;
-2. approved reference/identity assets;
+2. the correct reference image and identity context for the same task;
 3. task metadata;
-4. QA-specific inspection rules.
+4. the applicable independent QA acceptance profile.
 
 DRAWING_INSTRUCTIONS.md is primarily a generation-time document. QA may use it as supporting evidence, but decisions are based on the generated image and applicable acceptance criteria.
 
@@ -41,7 +48,7 @@ When activated, QA owns:
 - QA state transitions;
 - audit trail.
 
-Production Workers do not own QA decisions.
+Production processes do not own QA decisions.
 
 ## Result semantics
 
@@ -80,16 +87,6 @@ Natural occlusion is not automatically a failure. If anatomy cannot be determine
 11. module-specific requirements;
 12. dataset suitability.
 
-## Module-specific acceptance
-
-QA must select criteria from SOURCE_MODULE. It must not use one universal acceptance profile.
-
-Universal Wallpaper may require wallpaper type, reference identity, composition, scene, format, and pet permission. FESTIVAL_WALLPAPER is a separate module and its outputs are excluded from QA; do not import Festival Wallpaper outputs or cultural-design batches into QA or LoRA dataset intake.
-
-LORA_IMAGE may require comparison with the current user-uploaded reference, dataset diversity, identity consistency, and LORA_IMAGE-specific rules. Do not assume a fixed age or a fixed character reference.
-
-Do not import requirements from another module.
-
 ## Missing/conflicting data
 
 Missing required input: QA_INPUT_INCOMPLETE.
@@ -113,4 +110,4 @@ Before activation, QA must have:
 - report storage;
 - audit trail.
 
-Until then, QA remains PAUSED.
+Until these are confirmed, QA remains PAUSED.
