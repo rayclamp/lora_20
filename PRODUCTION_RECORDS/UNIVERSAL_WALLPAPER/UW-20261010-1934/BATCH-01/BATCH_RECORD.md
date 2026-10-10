@@ -4,15 +4,15 @@ BATCH_ID: BATCH-01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
-BATCH_STATUS: PROMPT_DESIGN_AND_PERSISTENCE
+BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 0
-UNVERIFIED_COUNT: 0
+UNVERIFIED_COUNT: 1
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 6
-ATTEMPT_COUNT: 0
-CURRENT_TASK: T01
-NEXT_TASK: T01
-CHECKPOINT: Core and applicable rules loaded; six prompts being persisted before any generation call.
-TERMINATION_INFORMATION: Not applicable; batch in progress.
+PENDING_COUNT: 5
+ATTEMPT_COUNT: 1
+CURRENT_TASK: T02
+NEXT_TASK: T02
+CHECKPOINT: T01 returned one image result; prompt consumed. Result provenance/delivery evidence is not exposed, so T01 is RESULT_RECEIVED_UNVERIFIED. Continue only after independent read-back of T02 and its locked prompt.
+TERMINATION_INFORMATION: Batch remains incomplete.
