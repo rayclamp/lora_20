@@ -6,9 +6,9 @@ BATCH_ID: BATCH-01
 |---:|---|---|---|---|---|---|---:|---:|---|---|---|---:|---|
 | 1 | T01 | P01 | V1 | CONSUMED | RESULT_RECEIVED_UNVERIFIED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | CONSUMED | NOT_EXPOSED | 1 | fbde38a2-89d6-4730-83b7-53d9f4696fc2 |
 | 2 | T02 | P02 | V1 | CONSUMED | RESULT_RECEIVED_UNVERIFIED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | CONSUMED | NOT_EXPOSED | 1 | a7c77eff-a64b-49d2-9b44-05e62af7bf58 |
-| 3 | T03 | P03 | V1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_EXPOSED | 0 | — |
+| 3 | T03 | P03 | V1 | CONSUMED | RESULT_RECEIVED_UNVERIFIED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | CONSUMED | NOT_EXPOSED | 1 | 81441149-b836-40b3-ba71-ee5cab395b61 |
 | 4 | T04 | P04 | V1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_EXPOSED | 0 | — |
 | 5 | T05 | P05 | V1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_EXPOSED | 0 | — |
 | 6 | T06 | P06 | V1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_EXPOSED | 0 | — |
 
-T01 and T02 each returned one image result; both prompts are consumed and cannot be reused. Result delivery/payload telemetry is not exposed, so both remain RESULT_RECEIVED_UNVERIFIED pending evidence/recovery handling.
+T01-T03 each returned one image result; prompts are consumed and cannot be reused. Payload/delivery telemetry is not exposed; these Tasks remain RESULT_RECEIVED_UNVERIFIED.
