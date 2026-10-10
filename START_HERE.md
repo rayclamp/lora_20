@@ -47,7 +47,9 @@ When `MODULE=LORA_IMAGE`:
 - `CHARACTER=INARIA`: use the canonical Inaria character information in CORE for contextual/semantic guidance, while the uploaded image remains the visual identity authority.
 - `CHARACTER=NONE`: do not apply Inaria-specific character information; follow the uploaded reference image and current task instructions.
 - If the required reference image is not attached or cannot be identified, request it before designing or generating.
-- Load `MODULES/LORA_IMAGE/` and the shared CORE rules only. Do not load `ARCHIVE/LEGACY_LORA_PRODUCTION/` as active production rules.
+- Load `MODULES/LORA_IMAGE/` and all applicable shared CORE rules/documents: `CORE_RULES.md`, `DRAWING_INSTRUCTIONS.md`, `ANATOMY_STABILITY.md`, `GENERATION_RULES.md`, `IMAGE_GENERATION_SAFETY_SPEC.md`, and `GENERATION_WORKER_PROTOCOL.md`. Do not load `ARCHIVE/LEGACY_LORA_PRODUCTION/` as active production rules.
+- Apply the LoRA-specific dataset design rules in `MODULES/LORA_IMAGE/DATASET_DESIGN_SPEC.md`, `DATASET_DIVERSITY.md`, and `CANDIDATE_DESIGN_RULES.md`.
+- When `CHARACTER=INARIA`, load `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` only for contextual/semantic guidance; the uploaded image remains the visual identity authority.
 - Do not assume a fixed target age, fixed character, or fixed reference image for this module.
 
 For other modules, retain their existing module-specific interpretation of the request fields.

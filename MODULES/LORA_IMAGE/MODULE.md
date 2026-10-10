@@ -18,14 +18,30 @@ The startup option `CHARACTER` determines whether Inaria's shared CORE character
 
 This module has no fixed target person or target age. The requested person may change between runs.
 
-## Shared dependencies
+## Required design references
 
-Load applicable shared CORE rules and the documents in this module. Do not copy shared CORE rules into this module merely to duplicate them.
+Load and apply:
+- `00_MASTER/CORE_RULES.md`;
+- `00_MASTER/DRAWING_INSTRUCTIONS.md`;
+- `00_MASTER/ANATOMY_STABILITY.md`;
+- `00_MASTER/GENERATION_RULES.md`;
+- `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md`;
+- `00_MASTER/GENERATION_WORKER_PROTOCOL.md`;
+- `MODULES/LORA_IMAGE/REFERENCE_POLICY.md`;
+- `MODULES/LORA_IMAGE/DATASET_DESIGN_SPEC.md`;
+- `MODULES/LORA_IMAGE/DATASET_DIVERSITY.md`;
+- `MODULES/LORA_IMAGE/CANDIDATE_DESIGN_RULES.md`.
+
+When `CHARACTER=INARIA`, also load `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` for contextual/semantic guidance only, subject to the uploaded-reference authority above.
+
+CORE hard rules cannot be weakened by this module. Do not copy shared CORE rules into LoRA files merely to duplicate them; LoRA files add only dataset-specific design constraints.
 
 ## Legacy isolation
 
 The previous `LORA_PRODUCTION` module is preserved under `ARCHIVE/LEGACY_LORA_PRODUCTION/` for historical reference only. Do not load archived files as active LORA_IMAGE rules.
 
-## Data status
+## Active LoRA design rules
 
-This is the initial module scaffold. Detailed LoRA dataset/design rules will be reviewed and organized in a later step; do not infer missing detailed rules from the archived module.
+The dataset design, diversity, and candidate-design requirements are maintained in the three files listed under Required design references. These files contain the applicable general rules distilled from the archived legacy dataset documents, with fixed-person/age assumptions removed.
+
+The archived directory remains historical reference only. It must not be loaded as an active rule source.

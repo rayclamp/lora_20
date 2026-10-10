@@ -17,6 +17,12 @@ If the image is missing, inaccessible, or ambiguous, ask the user to provide or 
 
 LORA_IMAGE does not permanently bind training to Inaria, age 20, or any other fixed person/age. The current uploaded image and explicit current instructions determine the subject for each run.
 
-## Scope isolation
+## Related active design rules
 
-This policy governs reference selection only. Detailed dataset diversity, composition, anatomy, and image-quality rules will be maintained separately within LORA_IMAGE and will be reviewed in a later step.
+This reference policy is used together with:
+- `MODULES/LORA_IMAGE/DATASET_DESIGN_SPEC.md`;
+- `MODULES/LORA_IMAGE/DATASET_DIVERSITY.md`;
+- `MODULES/LORA_IMAGE/CANDIDATE_DESIGN_RULES.md`;
+- the applicable shared CORE drawing and anatomy rules.
+
+The uploaded image is the visual identity authority; the dataset rules govern useful presentation variation without overriding that identity.

@@ -31,7 +31,10 @@
 ## LoRA Image Design
 - Module: MODULES/LORA_IMAGE/MODULE.md
 - Uploaded-reference policy: MODULES/LORA_IMAGE/REFERENCE_POLICY.md
-- Archived legacy production rules: ARCHIVE/LEGACY_LORA_PRODUCTION/
+- Dataset design specification: MODULES/LORA_IMAGE/DATASET_DESIGN_SPEC.md
+- Dataset diversity rules: MODULES/LORA_IMAGE/DATASET_DIVERSITY.md
+- Candidate design rules: MODULES/LORA_IMAGE/CANDIDATE_DESIGN_RULES.md
+- Archived legacy production rules (historical only): ARCHIVE/LEGACY_LORA_PRODUCTION/
 
 ## Independent Image QA
 - QA governance: 00_MASTER/QA_MODULE.md, 00_MASTER/QA_PROTOCOL.md
