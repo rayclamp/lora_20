@@ -97,6 +97,8 @@ Immediately before each generation call, reconnect to GitHub and read the curren
 
 Use the current complete locked Prompt directly as the generation instruction. Do not redesign, summarize, translate, omit, add to, reorder, or substitute it.
 
+The locked Prompt is the actual generation input, not reference text for the Producer to interpret. Submit its complete text unchanged in the image-generation interface's designated prompt/input field. Do not create a shortened, summarized, reconstructed, translated, cleaned-up, or substitute generation instruction after lock. If structured tool arguments are required, place the complete locked Prompt unchanged in the applicable input field. Missing hidden-payload telemetry does not block generation and does not authorize shortening. If a different or shortened prompt is knowingly used, record that as a known execution deviation; do not describe it only as NOT_EXPOSED.
+
 One locked Prompt/version may produce at most one confirmed image result. A Generation Call attempt does not by itself consume the Prompt; any confirmed received image consumes the Prompt and is counted, regardless of prompt match or Task success.
 
 After each attempt, classify and persist only the production outcome and observable execution facts before advancing:
