@@ -50,3 +50,24 @@ BATCH_ID: BATCH_001
   TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
   DELIVERY_INTEGRITY_STATUS: UNVERIFIED
   RECOVERY: Do not retry or reuse PROMPT_002; isolate Task 002. Task 003 may be evaluated independently.
+
+- EVENT_ID: EVT_006
+  EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+  TIMESTAMP: 2026-10-10T19:52:00+08:00
+  TASK_ID: TASK_003
+  PROMPT_ID: PROMPT_003
+  PROMPT_VERSION: v1
+  ATTEMPT_ID: ATTEMPT_001
+  GENERATION_CALL_ID: NOT_EXPOSED
+  DETAILS: An image result was returned, but the generation instruction submitted did not match the current locked PROMPT_003. Result attribution to the locked prompt failed.
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: NO
+  PROMPT_STATE: RETIRED
+  TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
+  DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+  RECOVERY: Do not retry or reuse PROMPT_003.
+- EVENT_ID: EVT_007
+  EVENT_TYPE: COMPLETED
+  TIMESTAMP: 2026-10-10T19:52:00+08:00
+  DETAILS: All three Tasks have valid terminal BLOCKED outcomes. Batch is terminally complete by task-state definition, with zero SUCCESS Tasks.
+  STATUS: BATCH_COMPLETED
