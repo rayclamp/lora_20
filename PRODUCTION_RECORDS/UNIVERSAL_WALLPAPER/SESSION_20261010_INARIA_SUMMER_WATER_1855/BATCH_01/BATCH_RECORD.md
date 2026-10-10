@@ -5,14 +5,14 @@ BATCH_ID: BATCH_01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
-BATCH_STATUS: BLOCKED
+BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 3
-PENDING_COUNT: 3
-ATTEMPT_COUNT: 3
-CURRENT_TASK: NONE
-NEXT_TASK: NONE
-CHECKPOINT: TASK_03 result was received after the generation interface did not use the exact locked PROMPT_03. TASK_03 is EXECUTION_INTEGRITY_BLOCKED; its prompt is consumed and retired. Batch stopped again to prevent further prompt-integrity violations. TASK_04–TASK_06 remain PENDING and unattempted.
+PENDING_COUNT: 2
+ATTEMPT_COUNT: 4
+CURRENT_TASK: TASK_04
+NEXT_TASK: TASK_05
+CHECKPOINT: TASK_03 remains terminal EXECUTION_INTEGRITY_BLOCKED with its consumed prompt retired; it is intentionally bypassed and will not be retried. TASK_04 prompt was read back from the locked Prompt Set, validated, and generation attempt 1 started. TASK_05–TASK_06 remain pending.
