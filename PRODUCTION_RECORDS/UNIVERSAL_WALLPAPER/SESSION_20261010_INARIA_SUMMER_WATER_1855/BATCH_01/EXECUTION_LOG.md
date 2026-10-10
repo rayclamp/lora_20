@@ -43,3 +43,37 @@ PROMPT_CONSUMED: YES
 PROMPT_STATE: RETIRED
 TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
 REASON: The generation interface call was made with a paraphrased scene description instead of the exact current locked Prompt text. An image result was returned, so this Prompt is consumed and cannot be reused; prompt-to-call integrity failed, so the Task is not SUCCESS. The image is preserved as a returned result and not regenerated.
+
+
+## EVENT 004
+EVENT_ID: EVT_004
+EVENT_TYPE: EXECUTION_INTEGRITY_BLOCKED
+TIMESTAMP: 2026-10-10T18:57:00+08:00
+SESSION_ID: SESSION_20261010_INARIA_SUMMER_WATER_1855
+BATCH_ID: BATCH_01
+TASK_ID: TASK_02
+PROMPT_ID: PROMPT_02
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_01
+GENERATION_CALL_ID: GEN_CALL_02
+RESULT_ID: 58989d64-6c61-44ca-b14c-7518719cb177
+ACTUAL_OUTPUT_COUNT: 1
+EXPECTED_OUTPUT_COUNT: 1
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+TASK_STATUS: EXECUTION_INTEGRITY_BLOCKED
+REASON: The generation interface call was made with a paraphrased scene description instead of the exact current locked Prompt text. An image result was returned, so this Prompt is consumed and cannot be reused; prompt-to-call integrity failed, so the Task is not SUCCESS. The image is preserved as a returned result and not regenerated.
+
+## EVENT 005
+EVENT_ID: EVT_005
+EVENT_TYPE: STOPPED
+TIMESTAMP: 2026-10-10T18:57:00+08:00
+SESSION_ID: SESSION_20261010_INARIA_SUMMER_WATER_1855
+BATCH_ID: BATCH_01
+TASK_ID: NONE
+PROMPT_ID: NONE
+PROMPT_VERSION: NONE
+ATTEMPT_ID: NONE
+GENERATION_CALL_ID: NONE
+TASK_STATUS: BLOCKED
+REASON: Producer stopped the batch after two consecutive prompt-to-generation integrity failures. TASK_03–TASK_06 remain PENDING and were not generated. No further generation calls will be made in this run.
