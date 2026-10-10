@@ -81,3 +81,29 @@ ATTEMPT_ID: ATTEMPT_03_01
 GENERATION_CALL_ID: NOT_EXPOSED
 DETAILS: TASK_03 state re-read and confirmed non-terminal; Prompt Set locked; complete PROMPT_03 will be read back and used as the generation instruction.
 PROMPT_CONSUMED: NO (pending result classification)
+
+
+### EVENT_007 — 2026-10-10T20:36:00+08:00
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TASK_ID: TASK_03
+PROMPT_ID: PROMPT_03
+PROMPT_VERSION: v1
+ATTEMPT_ID: ATTEMPT_03_01
+GENERATION_CALL_ID: NOT_EXPOSED
+RESULT_ID: file_000000005fc482098b8f6888dc5b536b
+ACTUAL_OUTPUT_COUNT: 1
+EXPECTED_OUTPUT_COUNT: 1
+PROMPT_MATCH_STATUS: MISMATCH
+DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+DETAILS: One image result was received and is counted. The actual generation instruction authored in the tool call did not match the full locked PROMPT_03 text, so this Task is recorded as IMAGE_RESULT_RECORDED, not SUCCESS. The prompt is retired and must never be called again.
+
+### EVENT_008 — 2026-10-10T20:37:00+08:00
+EVENT_TYPE: COMPLETED
+TASK_ID: NONE
+PROMPT_ID: NONE
+PROMPT_VERSION: NONE
+ATTEMPT_ID: NONE
+GENERATION_CALL_ID: NONE
+DETAILS: All 3 required Tasks have valid terminal IMAGE_RESULT_RECORDED outcomes. ACTUAL_IMAGE_COUNT=3; COMPLETED_COUNT=0; RESULT_RECORDED_COUNT=3. All locked prompts retired after one image result each. Batch completion state written for read-back verification.
