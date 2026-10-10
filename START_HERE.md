@@ -99,11 +99,12 @@ Use the current complete locked Prompt directly as the generation instruction. D
 
 One locked Prompt/version may produce at most one successful image result. A Generation Call attempt does not by itself consume the Prompt.
 
-After each attempt, classify the outcome before advancing:
-- Confirmed image result received: set `PROMPT_CONSUMED = YES`; do not call that Prompt/version again.
+After each attempt, classify and persist the outcome before advancing:
+- Confirmed image result received: immediately set `PROMPT_CONSUMED = YES`; record every received image in `ACTUAL_OUTPUT_COUNT` and batch `ACTUAL_IMAGE_COUNT`; set `PROMPT_MATCH_STATUS` independently to `MATCH`, `MISMATCH`, `UNVERIFIED`, or `NOT_ASSESSED`; never call that Prompt/version again.
+- If an image result was received but the prompt/input match or provenance is mismatched/unverified, do not erase or suppress the image count. After the result and count are durably recorded, terminate the Task as `IMAGE_RESULT_RECORDED` (if the count matches) or `RESULT_COUNT_MISMATCH` (if it does not); keep prompt-match/provenance evidence separate from the terminal outcome.
 - Verified Policy/Safety interruption with confirmed no image result: keep `PROMPT_CONSUMED = NO`; an explicitly authorized continuation may retry the exact same locked Prompt/version, without changing its content or Task binding.
-- Confirmed generation failure with confirmed no image result: keep `PROMPT_CONSUMED = NO`; follow the applicable error-specific retry/terminal rule without changing the locked Prompt.
-- Outcome unknown: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, enter the applicable recovery state, and stop. Do not retry or skip until the outcome is resolved.
+- Confirmed generation failure with confirmed no image result: keep `PROMPT_CONSUMED = NO`; record the error-specific terminal or authorized-retry outcome without changing the locked Prompt.
+- Outcome unknown: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, enter the applicable recovery state, and stop that Task until the outcome is resolved. Do not guess an image count.
 
 After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`, record `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`, and retire the Prompt from all future use even though no image was produced. Any Task that reaches another valid terminal error/stop state likewise cannot be re-queued or reuse its Prompt. Policy interruptions, service/runtime errors, quota/rate limits, and GitHub errors must remain separately classified and counted.
 
@@ -112,8 +113,9 @@ After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS =
 After a generation result or execution failure:
 1. reconnect to GitHub;
 2. read the current authoritative record state;
-3. record the actual result, failure, interruption, and evidence;
-4. read back and verify the write.
+3. record the actual result/failure, actual output count, prompt-match evidence, and interruption details separately;
+4. update batch actual-image totals without filtering out mismatched or unsuccessful results;
+5. read back and verify the write.
 
 Image QA remains a separate workflow and is currently paused. Automated generation records the result and execution state; QA does not trigger regeneration.
 
@@ -121,9 +123,9 @@ Image QA remains a separate workflow and is currently paused. Automated generati
 
 Before selecting the next Task, reconnect and verify the latest authoritative state.
 
-Continue until every required Task has reached a valid terminal state.
+Continue until every required Task has reached a valid terminal state. A confirmed image result that has been counted and durably recorded is terminal even when prompt match/provenance is unverified; use `IMAGE_RESULT_RECORDED` or `RESULT_COUNT_MISMATCH` as applicable. A confirmed no-image failure must also be terminal or explicitly authorized for retry.
 
-Do not require every Task to be successful.
+Do not require every Task to be successful. When all required Tasks are terminal and the completion record is read back successfully, close the Batch and issue no further generation calls for it.
 
 ## 9. Terminal States and Completion
 
@@ -133,7 +135,7 @@ A Batch is BATCH_COMPLETED when:
 - every required Task has reached a valid terminal state; and
 - the Batch completion record has been written and verified.
 
-Success count does not determine Batch completion.
+Success count does not determine Batch completion. `COMPLETED_COUNT` counts SUCCESS Tasks only; `RESULT_RECORDED_COUNT` and `ACTUAL_IMAGE_COUNT` track recorded image-result Tasks and actual images separately. A completed Batch can have zero SUCCESS Tasks while still having recorded images. Completion must stop the production loop, not merely change the persisted status.
 
 ## 10. Stop / Resume
 
