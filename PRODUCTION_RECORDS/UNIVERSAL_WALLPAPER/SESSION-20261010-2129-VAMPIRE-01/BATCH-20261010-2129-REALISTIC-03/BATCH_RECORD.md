@@ -5,8 +5,8 @@ MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 3
 BATCH_STATUS: BATCH_COMPLETED
-COMPLETED_COUNT: 3
-RESULT_RECORDED_COUNT: 0
+COMPLETED_COUNT: 0
+RESULT_RECORDED_COUNT: 3
 ACTUAL_IMAGE_COUNT: 3
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
@@ -16,4 +16,4 @@ PENDING_COUNT: 0
 ATTEMPT_COUNT: 3
 CURRENT_TASK: NONE
 NEXT_TASK: NONE
-CHECKPOINT: All three Tasks have each returned one image result and have been recorded. Production SUCCESS is not visual QA PASS. Batch closed.
+CHECKPOINT: All three generated images were received and recorded. Corrected terminal status to IMAGE_RESULT_RECORDED because the generation calls were not demonstrably issued with the exact locked prompt text. Do not claim production SUCCESS. No visual QA performed.
