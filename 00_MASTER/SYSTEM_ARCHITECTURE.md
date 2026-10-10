@@ -29,27 +29,26 @@ User Command → ChatGPT → Create Session/Batch → Read References → Design
 
 ### Phase B — Execution
 For every Task:
-TASK → CURRENT_LOCKED_PROMPT → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK → CURRENT_LOCKED_PROMPT_READINESS → GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS
 
-Execution states must distinguish GENERATION_STARTED, IMAGE_RESULT_RECEIVED, RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, GENERATION_FAILED, and SUCCESS.
-A returned image is not automatically a successful Task.
+Execution records must distinguish generation started, image result received, result recording still pending, pre-generation readiness blocked, confirmed no-image failure, output-count mismatch, and production SUCCESS.
+A received image is recorded regardless of visual quality. Production SUCCESS requires the expected output count and reliable result-to-Task binding; it does not mean visual compliance or QA PASS.
 
 ### Prompt Readiness
 Before generation, read the current complete locked prompt, confirm it is non-empty and associated with the current Task, and use it directly as the generation instruction. Do not redesign, summarize, translate, omit, replace, or silently alter it. Hidden transport telemetry is evidence only; if unavailable, record UNVERIFIED/NOT_EXPOSED rather than blocking the generation call.
 
 ### Result Integrity
-Before Task SUCCESS: generation was initiated; a result was received; expected output count equals actual output count; result can be bound to the Task/generation attempt when required; no prompt-readiness conflict exists.
+Before production Task SUCCESS: the current complete, non-empty LOCK PROMPT was read and assigned to the correct Task before generation; generation was initiated; an image result was received; actual output count equals the Task contract; and the result is recorded and bound to the Task. The Producer MUST NOT compare the submitted payload with LOCK PROMPT after generation or judge visual compliance.
 
 A Task does not need to be SUCCESS for the Batch to complete. The Batch completes when every required Task has a valid terminal state.
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
-If more than one output is returned, the Task cannot be SUCCESS.
+If the output count differs from the Task contract, record RESULT_COUNT_MISMATCH and preserve the actual count and all received images. Do not make prompt-payload or visual-compliance judgments in the Producer workflow.
 
 ### False-Success Prevention
-IMAGE_RESULT_RECEIVED ≠ TASK_SUCCESS.
-An unverified image result must not be converted to SUCCESS merely because an image exists.
+Image receipt, production success, and QA acceptance are distinct facts. A received image with the expected count and reliable Task binding may be production SUCCESS; this does not imply QA PASS. If result binding or count remains unresolved, record the applicable result state and preserve all known output facts. Visual compliance is exclusively a QA responsibility.
 
 ### Recovery
-Preserve SESSION_ID, BATCH_ID, and locked prompts. Do not redesign. Do not treat unverified results as completed Tasks. Re-run applicable integrity gates before a new attempt.
+Preserve SESSION_ID, BATCH_ID, and locked prompts. Do not redesign or reuse consumed prompts. Before resuming, verify pre-generation readiness for each eligible Task. After generation, record whether an image was received, actual count, result binding, or confirmed failure reason. Do not perform post-generation prompt-payload comparison or visual QA as part of Producer recovery.
 
 ## Production Records
 Canonical path: PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/
