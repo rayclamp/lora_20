@@ -80,3 +80,13 @@ Any automated production initiated by /RESUME_AUTO MUST re-verify the current Gi
 5. Stop the entire Batch only when a verified issue affects Batch-wide identity/contract, global Prompt Set integrity, or result attribution in a way that cannot safely be isolated to a Task.
 6. Visual-quality defects or visual differences from a Prompt are QA observations, not proof of generation-input mismatch. QA findings MUST NOT automatically change execution-integrity status or trigger regeneration.
 7. Missing nonessential delivery telemetry alone is NOT a blocking condition. Record NOT_EXPOSED/UNVERIFIED honestly.
+
+## 3.4 MULTI-WORKER HANDOFF AND FAILURE ISOLATION — NON-NEGOTIABLE
+
+1. A Worker MUST base execution decisions on the current authoritative Task/Prompt/Batch records and directly available result evidence, not solely on a previous Worker's narrative, completion message, or unverified status claim.
+2. A missing, late, incomplete, or contradictory report from one Worker MUST be scoped to the affected Task/result unless verified evidence shows a Batch-wide identity, contract, Prompt Set, or attribution conflict.
+3. A Worker MUST NOT block an independent Task merely because another Task's result evidence is UNVERIFIED, its predecessor report is missing, or its Task-local record requires recovery. Independently verify the next Task's own state, locked Prompt, binding, and prerequisites before proceeding.
+4. Do not infer success from missing reports. Preserve unresolved Tasks as unresolved; do not retry or reuse a consumed/retired Prompt when the previous outcome is unknown.
+5. A missing field blocks execution only when that field is an explicit necessary prerequisite for the specific operation. Optional telemetry, nonessential narrative, or unrelated Task outcome fields MUST NOT become implicit global gates.
+6. Batch-wide stop is reserved for a verified conflict that makes the identity, contract, prompt assignment, or safe result attribution of other Tasks unreliable and cannot be isolated.
+7. This rule separates continuity from acceptance: continuing independent work does not mark the unresolved Task successful, repair its record, or make its image eligible for LoRA training.
