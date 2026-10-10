@@ -9,7 +9,7 @@ PROMPT_POLICY: Preserve the referenced adult woman's recognizable face, facial g
 ## PROMPT_001 — TASK_001 — v1
 PROMPT_STATUS: LOCKED
 PROMPT_CONSUMED: NO
-PROMPT_STATE: AVAILABLE
+PROMPT_STATE: RETIRED
 Create one photorealistic 16:9 horizontal desktop wallpaper featuring the adult woman from the uploaded reference image as the sole visual identity reference. Preserve her recognizable facial structure and features, eye shape, skin tone, age impression, hairline, long dark hair, natural body silhouette and proportions. The uploaded image is identity evidence only: do not copy its white dress, barefoot styling, standing pose, camera framing, or studio background. Dress her in a tasteful elegant aqua-blue one-piece swimsuit with a light sheer white pool cover-up worn open and tied securely at the waist; simple waterproof sandals may be visible. Scene: a beautiful modern outdoor swimming pool on a clear summer day, turquoise water, pale stone deck, subtle sunlit reflections and a few distant loungers. She stands near the pool edge in a relaxed three-quarter stance, one hand resting naturally on a broad poolside railing and the other relaxed clearly separated at her side; natural shoulders, plausible balance, no complex finger gestures. Medium-long, character-dominant composition with the woman prominent and enough pool environment to establish place. Eye-level camera, natural 50mm perspective, realistic skin texture and fine hair detail, soft bright sunlight, physically plausible shadows, refined summer editorial photography. Correct human anatomy, two hands and two legs, no extra or missing digits, no warped limbs, no body exaggeration. No pets, no text, no logo, no watermark, no border.
 
 ## PROMPT_002 — TASK_002 — v1
