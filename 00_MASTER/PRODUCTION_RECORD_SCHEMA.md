@@ -109,7 +109,7 @@ This schema does not define a GitHub scheduler, task lock, worker manager, retry
 
 ## 12. Prompt Consumption, Retry, and Policy Interruption Records
 
-One locked Prompt/version may produce at most ONE successful image result. A Generation Call being initiated does not, by itself, consume the Prompt.
+One locked Prompt/version may produce at most ONE confirmed image result. A Generation Call being initiated does not, by itself, consume the Prompt; any confirmed received image consumes the Prompt and is counted, regardless of prompt match or Task success.
 
 Persist at Task level, as applicable:
 - `GENERATION_ATTEMPT_COUNT`
