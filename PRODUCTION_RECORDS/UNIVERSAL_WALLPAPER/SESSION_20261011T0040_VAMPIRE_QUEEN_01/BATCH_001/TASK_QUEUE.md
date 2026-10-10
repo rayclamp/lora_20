@@ -4,7 +4,7 @@
 |---|---|---|---|---|---|---|---:|---:|---|---|
 | 1 | VQ01 | P-VQ01 | V1 | LOCKED | SUCCESS | SUCCESS | 1 | 1 | YES | CONSUMED |
 | 2 | VQ02 | P-VQ02 | V1 | LOCKED | SUCCESS | SUCCESS | 1 | 1 | YES | CONSUMED |
-| 3 | VQ03 | P-VQ03 | V1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE |
+| 3 | VQ03 | P-VQ03 | V1 | LOCKED | SUCCESS | SUCCESS | 1 | 1 | YES | CONSUMED |
 | 4 | VQ04 | P-VQ04 | V1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE |
 | 5 | VQ05 | P-VQ05 | V1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE |
 
