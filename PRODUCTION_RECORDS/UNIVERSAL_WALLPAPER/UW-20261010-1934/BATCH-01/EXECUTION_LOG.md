@@ -39,3 +39,20 @@ PROMPT_STATE: CONSUMED
 DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 TASK_STATUS: RESULT_RECEIVED_UNVERIFIED
 RESULT_NOTE: One image visibly returned in the conversation. The interface metadata did not expose the transmitted prompt payload; this field remains NOT_EXPOSED/UNVERIFIED and is not treated as a generation block.
+
+## Event 004
+TIMESTAMP: 2026-10-10T19:36:00+08:00
+EVENT_ID: E004
+EVENT_TYPE: IMAGE_RESULT_RECEIVED
+TASK_ID: T02
+PROMPT_ID: P02
+PROMPT_VERSION: V1
+ATTEMPT_ID: T02-A01
+GENERATION_CALL_ID: a7c77eff-a64b-49d2-9b44-05e62af7bf58
+ACTUAL_OUTPUT_COUNT: 1
+RESULT_ID: a7c77eff-a64b-49d2-9b44-05e62af7bf58
+PROMPT_CONSUMED: YES
+PROMPT_STATE: CONSUMED
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+TASK_STATUS: RESULT_RECEIVED_UNVERIFIED
+RESULT_NOTE: One image visibly returned in the conversation. The interface did not expose transmitted-prompt payload telemetry; this evidence remains NOT_EXPOSED/UNVERIFIED.
