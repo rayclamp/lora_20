@@ -7,24 +7,24 @@ PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: ACTIVE
-COMPLETED_COUNT: 1
+COMPLETED_COUNT: 2
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 1
+ACTUAL_IMAGE_COUNT: 2
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 19
-ATTEMPT_COUNT: 1
-CURRENT_TASK: TASK_02
-NEXT_TASK: TASK_02
+PENDING_COUNT: 18
+ATTEMPT_COUNT: 2
+CURRENT_TASK: TASK_03
+NEXT_TASK: TASK_03
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 REFERENCE_SOURCE_TYPE: EXPLICIT_TASK_REFERENCE
 REFERENCE_ID: file_00000000917c8209811f7981b8ea464a
-LAST_RESULT_ID: file_00000000cf148209b8b351243dd0fcf4
-LAST_RESULT_TASK: TASK_01
-LAST_RESULT_NOTE: One image returned and bound to TASK_01. Known execution deviation: the generation input was a shortened scene description rather than the complete locked Prompt; recorded accurately. Prompt consumed and retired; do not reuse.
+LAST_RESULT_ID: file_00000000bd688209aa46c3f6faf282b4
+LAST_RESULT_TASK: TASK_02
+LAST_RESULT_NOTE: One image returned and bound to TASK_02. Known execution deviation: the generation input was a shortened scene description rather than the complete locked Prompt; recorded accurately. Prompt consumed and retired; do not reuse.
 CREATED_AT: 2026-10-12T03:51:00+08:00
 
 Completion requires all 20 Tasks to reach valid terminal states and a completion record to be written and verified.
