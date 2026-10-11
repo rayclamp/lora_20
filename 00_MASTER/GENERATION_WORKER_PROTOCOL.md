@@ -88,23 +88,18 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
 
-### Mandatory Generation Input Rule — Direct Full-Text Submission
+### Generation Input Rule — Full Prompt Read First; Shortening May Follow
 
-For the actual image-generation call, the Producer MUST use the complete current locked Prompt text read from the authoritative `PROMPT_SET.md` as the generation input itself.
+For every generation call, the Producer MUST read the complete current locked Prompt directly from the authoritative `PROMPT_SET.md`, confirm it is non-empty and bound to the current Task, and only then choose the generation input.
 
-1. The locked Prompt is not merely reference material for the Producer to interpret. It is the exact instruction to submit to the image-generation interface.
-2. Pass the complete Prompt text directly in the image-generation interface's applicable prompt/input field. Do not first create, compose, paraphrase, summarize, shorten, translate, reconstruct from memory, or substitute a second generation instruction.
-3. Do not replace the locked Prompt with a scene summary, a list of key points, a "cleaned-up" version, a shorter prompt, or an instruction that merely says to follow the Prompt Set.
-4. Do not omit sections, constraints, identity requirements, composition details, negative constraints, or other content included in the locked Prompt. Do not add new image-generation requirements to the submitted Prompt after lock.
-5. If the interface requires surrounding tool arguments or structured fields, place the complete locked Prompt unchanged in the designated generation-input field; the existence of those arguments does not authorize rewriting the Prompt.
-6. If the Producer cannot supply the complete locked Prompt as the actual generation input, do not improvise a substitute. Report the specific interface/input limitation and follow the applicable failure rule.
-7. This rule defines the required Producer action; it does not claim that hidden transport telemetry is available or require such telemetry as a generation gate.
+1. **Full read is mandatory.** Do not generate if the complete Prompt cannot be read back or its Task binding is unclear.
+2. **Permitted input modes.** Either submit the complete locked Prompt unchanged, or create a shortened generation input derived only from the exact Prompt just read.
+3. **Shortening standard.** A shortened input must retain the Task-specific scene and intent, identity requirements, pose, expression, clothing, composition, critical constraints, and explicit exclusions wherever those are present. Preserve enough detail to distinguish this Task from other Tasks.
+4. **Forbidden substitutes.** Never invent or reconstruct a replacement from the Session theme, a previous Task, memory, assumptions, or a generic template. Do not silently edit the locked Prompt Set; a shortened input applies only to the current generation call.
+5. **When not safely shorten-able.** If a concise input cannot preserve the essential requirements, use the full Prompt. If the full Prompt cannot be read or bound to the Task, isolate/block that Task rather than improvise.
+6. **Record both facts separately.** Record whether the complete Prompt was read and which input mode was used. If payload telemetry is unavailable, record the evidence limitation honestly; do not claim independent transport verification. Missing telemetry alone is not a generation gate.
 
-Required execution invariant:
-
-`LOCKED_PROMPT_TEXT = TEXT_SUPPLIED_AS_GENERATION_INPUT`
-
-This is an operational requirement, not a claim that the underlying transport has been independently verified. If the Producer knowingly used different or shortened text, record that known execution deviation accurately; do not relabel it as merely NOT_EXPOSED. If the interface does not expose the submitted payload and no deviation is known, record delivery evidence as NOT_EXPOSED or UNVERIFIED without guessing.
+This rule governs the Producer's actual generation-input preparation. It does not authorize editing a locked Prompt Set, reusing a consumed Prompt, or regenerating a Task whose Prompt has already been consumed.
 
 ### Level 2 — Generator Delivery Evidence
 
@@ -166,7 +161,7 @@ For wallpaper production, one Task equals one independent image. No collage, con
 
 ## 9. Prompt Immutability
 
-After PROMPT_SET_LOCKED, do not redesign, summarize, translate, reorder, add, remove, or silently substitute prompt content.
+After PROMPT_SET_LOCKED, do not edit or silently rewrite the locked Prompt Set. The Producer may prepare a shortened generation input only after reading the full locked Prompt for that Task and only under the Generation Input Rule above. Record the selected input mode; do not mistake a one-call shortened input for a change to the locked Prompt Set.
 The current /START_AUTO workflow does not automatically retry without authorization. An explicitly authorized continuation may recover the existing Session/Batch and locked Prompt Set. It may retry the same locked Prompt/version only when the previous attempt is confirmed to have produced no image and the applicable retry rule allows it. A consumed Prompt/version MUST NOT be called again. A retired Prompt MUST NOT be reused even when `PROMPT_CONSUMED = NO`.
 
 ## 10. Stop Conditions
