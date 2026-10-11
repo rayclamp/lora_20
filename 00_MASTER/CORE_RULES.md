@@ -92,3 +92,6 @@ Any automated production initiated by /RESUME_AUTO MUST re-verify the current Gi
 5. A missing field blocks execution only when that field is an explicit necessary prerequisite for the specific operation. Optional telemetry, nonessential narrative, or unrelated Task outcome fields MUST NOT become implicit global gates.
 6. Batch-wide stop is reserved for a verified conflict that makes the identity, contract, prompt assignment, or safe result attribution of other Tasks unreliable and cannot be isolated.
 7. This rule separates continuity from acceptance: continuing independent work does not mark the unresolved Task successful, repair its record, or make its image eligible for LoRA training.
+
+## 2.1 SMALL ACCESSORY RESTRICTION — NON-NEGOTIABLE
+Unless the user explicitly requests otherwise, do not add tiny accessories or decorative objects that are too small to render clearly and are likely to become dirt-like marks, dark specks, stains, or anatomical artifacts. This includes rings and other finger jewelry. Apply the detailed shared rule in DRAWING_INSTRUCTIONS.md. Modules may impose stricter restrictions but must not weaken this core default.
