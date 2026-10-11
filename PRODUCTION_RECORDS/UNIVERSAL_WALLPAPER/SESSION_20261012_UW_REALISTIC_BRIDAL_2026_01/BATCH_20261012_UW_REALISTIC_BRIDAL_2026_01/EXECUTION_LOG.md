@@ -71,3 +71,25 @@ BATCH_ID: BATCH_20261012_UW_REALISTIC_BRIDAL_2026_01
   TIMESTAMP: 2026-10-12T04:25:00+08:00
   EVENT_TYPE: STOPPED
   DETAILS: Stopped before TASK_04 because the generation interface calls made in this run did not use the complete locked prompt text unchanged. This batch-wide execution-input limitation prevents compliant continuation; no further prompts were submitted. Tasks 04–20 remain pending and are not represented as completed.
+
+- EVENT_ID: EVT_008
+  TIMESTAMP: 2026-10-12T04:30:00+08:00
+  EVENT_TYPE: RESUME_CHECK
+  DETAILS: Reconnected to rayclamp/lora_20 main and re-read all six required global rules plus realistic wallpaper and Universal Wallpaper reference policies. Confirmed existing Session/Batch identity and read back all five required batch records. TASK_01–TASK_03 each have one confirmed image, expected count, and recorded Task binding; under the active resume rule they are corrected to production SUCCESS without making any prompt-match or visual-compliance judgment. Their known execution deviations remain recorded, and their prompts remain retired.
+- EVENT_ID: EVT_009
+  TIMESTAMP: 2026-10-12T04:30:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: TASK_04
+  PROMPT_ID: UW_BRIDAL_04
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_TASK_04_01
+  GENERATION_CALL_ID: eb9509fc-02b0-4ada-8bdd-79191a97d84c
+  RESULT_ID: file_0000000079888206b65c9f7ce9504e2e
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_BINDING_STATUS: BOUND_TO_TASK_04
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  TASK_STATUS: SUCCESS
+  DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  DETAILS: One image result was received and bound to TASK_04, matching its expected count. Production status is SUCCESS under the result/count/binding rule. A shortened substitute instruction was submitted rather than the complete locked prompt; this known execution deviation is recorded without prompt-match or visual-quality judgment. The prompt is retired and must not be reused.
