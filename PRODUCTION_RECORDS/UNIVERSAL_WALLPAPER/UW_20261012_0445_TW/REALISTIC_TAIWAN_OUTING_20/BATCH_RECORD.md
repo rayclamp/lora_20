@@ -5,16 +5,16 @@ MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 2
-RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 2
+COMPLETED_COUNT: 3
+RESULT_RECORDED_COUNT: 3
+ACTUAL_IMAGE_COUNT: 3
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 18
-ATTEMPT_COUNT: 2
-CURRENT_TASK: T03
-NEXT_TASK: T03
-CHECKPOINT: T01 and T02 images received and recorded. Both generation calls used paraphrased scene descriptions instead of the complete locked prompts; deviations recorded. Continue only with complete locked prompts submitted verbatim.
+PENDING_COUNT: 17
+ATTEMPT_COUNT: 3
+CURRENT_TASK: T04
+NEXT_TASK: T04
+CHECKPOINT: T01–T03 image results received and recorded. Each of the three generation calls used paraphrased scene descriptions instead of complete locked prompts; known deviations recorded. T04 is next and must be submitted with its full locked prompt.
 TERMINATION: OPEN
