@@ -50,3 +50,24 @@ BATCH_ID: BATCH_20261012_UW_REALISTIC_BRIDAL_2026_01
   TASK_STATUS: IMAGE_RESULT_RECORDED
   DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
   DETAILS: Image result was received and bound to TASK_02. A shortened substitute instruction was submitted instead of the complete locked prompt; this is recorded as a known execution deviation. The prompt is consumed/retired and must not be called again. Task is terminal as IMAGE_RESULT_RECORDED, not SUCCESS.
+
+- EVENT_ID: EVT_006
+  TIMESTAMP: 2026-10-12T04:25:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: TASK_03
+  PROMPT_ID: UW_BRIDAL_03
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_TASK_03_01
+  GENERATION_CALL_ID: c7b12a60-5216-48a7-8719-9d14a70d64e9
+  RESULT_ID: file_000000006e188209a62bf7705f79b9b1
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_BINDING_STATUS: BOUND_TO_TASK_03
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  TASK_STATUS: IMAGE_RESULT_RECORDED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+  DETAILS: Image result was received and bound to TASK_03. A shortened substitute instruction was submitted instead of the complete locked prompt; this is a known execution deviation. Prompt consumed and retired.
+- EVENT_ID: EVT_007
+  TIMESTAMP: 2026-10-12T04:25:00+08:00
+  EVENT_TYPE: STOPPED
+  DETAILS: Stopped before TASK_04 because the generation interface calls made in this run did not use the complete locked prompt text unchanged. This batch-wide execution-input limitation prevents compliant continuation; no further prompts were submitted. Tasks 04–20 remain pending and are not represented as completed.
