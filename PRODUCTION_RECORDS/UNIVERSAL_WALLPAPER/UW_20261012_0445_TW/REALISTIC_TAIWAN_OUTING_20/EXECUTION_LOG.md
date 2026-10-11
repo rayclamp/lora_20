@@ -52,3 +52,21 @@ PROMPT_CONSUMED: YES
 PROMPT_STATE: RETIRED
 DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
 DETAIL: An image result was received and bound to T02. Known deviation: the submitted generation instruction was a paraphrased scene description, not the full locked prompt. This deviation is recorded; the locked prompt is retired and will not be reused.
+
+
+## Event 006 — 2026-10-12T04:49:00+08:00
+EVENT_ID: E006
+EVENT_TYPE: IMAGE_RESULT_RECEIVED
+SESSION_ID: UW_20261012_0445_TW
+BATCH_ID: REALISTIC_TAIWAN_OUTING_20
+TASK_ID: T03
+PROMPT_ID: P_T03
+PROMPT_VERSION: 1
+ATTEMPT_ID: A_T03_01
+GENERATION_CALL_ID: fbb5a304-f80b-4692-bb61-558a4ee821e9
+RESULT_ID: /mnt/data/wide_outdoor_landscape_scene_bright_sunny_golden.png
+OUTPUT_COUNT: 1
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+DETAIL: One image result was received and bound to T03. The generation call used a paraphrased scene description rather than the complete locked prompt. This known execution deviation is recorded. No visual QA performed.
