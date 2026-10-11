@@ -80,10 +80,10 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 
 ### Level 1 — Prompt Readiness
 
-1. Read the current complete locked prompt from the authoritative PROMPT_SET.
-2. Confirm the prompt is non-empty and associated with the current Task.
-3. Use that current locked prompt directly as the generation instruction.
-4. Do not redesign, summarize, translate, omit, replace, or silently alter the prompt before generation.
+1. Read the current complete locked Prompt from the authoritative PROMPT_SET.
+2. Confirm it is non-empty and bound to the current Task.
+3. Only after reading it, choose the generation input under the Generation Input Rule below: use the full Prompt unchanged or a shortened input derived from that exact Prompt.
+4. Do not edit or silently rewrite the locked Prompt Set. Any shortened input must preserve the Task-specific requirements and must not be invented from a theme, prior Task, memory, assumptions, or generic template.
 5. This readiness check does not require hidden transport evidence.
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
