@@ -13,9 +13,9 @@ LOCK_NOTE: All 20 task-specific prompts were designed before generation and are 
 ## T01 — 夏日公園晨遊
 PROMPT_ID: P_T01
 PROMPT_VERSION: 1
-PROMPT_STATUS: LOCKED
-PROMPT_CONSUMED: NO
-PROMPT_STATE: AVAILABLE
+PROMPT_STATUS: RETIRED_AFTER_RESULT
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
 
 PHOTOREALISTIC DESKTOP WALLPAPER, exact 16:9 landscape composition, one independent image. Use the person in the user-uploaded reference image as the sole visual identity reference for Inaria: preserve her recognizable face and bone structure, facial-feature proportions, natural hairline and dark hair color, natural skin tone and age impression, and slim natural body silhouette. Do not copy the source outfit or source pose. Real human photographed by a high-quality full-frame camera; natural skin texture and tonal variation, realistic hair fibers, physically credible clothing, natural optics and perspective, coherent light on person and environment, no AI-doll face, no illustration/anime look, no plastic/airbrushed skin. Taiwan local outing, no pets or other animals. Natural plausible anatomy and balance, exactly five fingers per visible hand and five toes per visible bare foot, stable simple hand poses, hands clearly separated from busy backgrounds, no extra/missing/fused digits, no distorted limbs. Complete new outfit appropriate to the location, season, weather, activity and time; believable fabric, seams and footwear. Bright refined photographic color, natural exposure, no text, logos, watermarks, borders.
 TASK T01 — 夏日公園晨遊
