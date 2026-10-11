@@ -15,3 +15,18 @@ BATCH_ID: BATCH_JP_TRAVEL_20
   TIMESTAMP: 2026-10-12T04:01:00+08:00
   EVENT_TYPE: PROMPT_SET_LOCKED
   DETAILS: PROMPT_SET.md written with LOCKED status and YES flag. Readback verification pending.
+
+- EVENT_ID: E004
+  TIMESTAMP: 2026-10-12T04:02:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: T001
+  PROMPT_ID: P_T001
+  PROMPT_VERSION: v1
+  ATTEMPT_ID: A001
+  GENERATION_CALL_ID: 408c9740-6c33-4764-808a-d4f0cf0da58b
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_ID: /mnt/data/a_bright_airy_springtime_outdoor_scene_a_photore.png
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+  DETAILS: Image result was received, but the generation interface call used a rewritten scene description rather than the complete locked Prompt. Record the known deviation; do not reuse P_T001. Producer did not assess visual compliance.
