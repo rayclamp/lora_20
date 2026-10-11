@@ -4,7 +4,7 @@ BATCH_ID: BATCH_JP_TRAVEL_20
 
 | ORDER | TASK_ID | PROMPT_ID | PROMPT_VERSION | PROMPT_STATUS | TASK_STATUS | GENERATION_STATUS | EXPECTED_OUTPUT_COUNT | ACTUAL_OUTPUT_COUNT | PROMPT_CONSUMED | PROMPT_STATE | PROMPT_MATCH_STATUS |
 |---:|---|---|---|---|---|---|---:|---:|---|---|---|
-| 1 | T001 | P_T001 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
+| 1 | T001 | P_T001 | v1 | RETIRED | IMAGE_RESULT_RECORDED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | RETIRED | NOT_ASSESSED |
 | 2 | T002 | P_T002 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
 | 3 | T003 | P_T003 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
 | 4 | T004 | P_T004 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
@@ -24,3 +24,12 @@ BATCH_ID: BATCH_JP_TRAVEL_20
 | 18 | T018 | P_T018 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
 | 19 | T019 | P_T019 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
 | 20 | T020 | P_T020 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
+
+
+## T001 execution evidence
+- DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+- RESULT_ID: image generation gen_id 408c9740-6c33-4764-808a-d4f0cf0da58b; generated file /mnt/data/a_bright_airy_springtime_outdoor_scene_a_photore.png
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: RETIRED
+- NOTE: The generation interface call used a rewritten scene description rather than the complete locked prompt. This known deviation is recorded honestly; the received image is counted and the locked prompt must not be reused.
