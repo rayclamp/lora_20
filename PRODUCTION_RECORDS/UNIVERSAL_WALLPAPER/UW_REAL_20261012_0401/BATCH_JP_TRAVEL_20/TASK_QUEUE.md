@@ -5,7 +5,7 @@ BATCH_ID: BATCH_JP_TRAVEL_20
 | ORDER | TASK_ID | PROMPT_ID | PROMPT_VERSION | PROMPT_STATUS | TASK_STATUS | GENERATION_STATUS | EXPECTED_OUTPUT_COUNT | ACTUAL_OUTPUT_COUNT | PROMPT_CONSUMED | PROMPT_STATE | PROMPT_MATCH_STATUS |
 |---:|---|---|---|---|---|---|---:|---:|---|---|---|
 | 1 | T001 | P_T001 | v1 | RETIRED | IMAGE_RESULT_RECORDED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | RETIRED | NOT_ASSESSED |
-| 2 | T002 | P_T002 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
+| 2 | T002 | P_T002 | v1 | RETIRED | IMAGE_RESULT_RECORDED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | RETIRED | NOT_ASSESSED |
 | 3 | T003 | P_T003 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
 | 4 | T004 | P_T004 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
 | 5 | T005 | P_T005 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
@@ -33,3 +33,12 @@ BATCH_ID: BATCH_JP_TRAVEL_20
 - PROMPT_CONSUMED: YES
 - PROMPT_STATE: RETIRED
 - NOTE: The generation interface call used a rewritten scene description rather than the complete locked prompt. This known deviation is recorded honestly; the received image is counted and the locked prompt must not be reused.
+
+
+## T002 execution evidence
+- DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+- RESULT_ID: image generation gen_id 4dc2a1c8-f2b7-4a11-8191-6d2efd90119f; generated file /mnt/data/a_wide_cinematic_photorealistic_street_scene_por.png
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: RETIRED
+- NOTE: The generation interface call used a rewritten scene description rather than the complete locked prompt. This known deviation is recorded honestly; do not reuse P_T002.
