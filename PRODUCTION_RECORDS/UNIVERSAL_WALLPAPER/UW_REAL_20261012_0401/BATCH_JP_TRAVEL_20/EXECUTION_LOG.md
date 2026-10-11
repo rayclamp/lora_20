@@ -30,3 +30,22 @@ BATCH_ID: BATCH_JP_TRAVEL_20
   PROMPT_STATE: RETIRED
   DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
   DETAILS: Image result was received, but the generation interface call used a rewritten scene description rather than the complete locked Prompt. Record the known deviation; do not reuse P_T001. Producer did not assess visual compliance.
+
+- EVENT_ID: E005
+  TIMESTAMP: 2026-10-12T04:03:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: T002
+  PROMPT_ID: P_T002
+  PROMPT_VERSION: v1
+  ATTEMPT_ID: A001
+  GENERATION_CALL_ID: 4dc2a1c8-f2b7-4a11-8191-6d2efd90119f
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_ID: /mnt/data/a_wide_cinematic_photorealistic_street_scene_por.png
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+  DETAILS: Image result was received, but the generation interface call used a rewritten scene description rather than the complete locked Prompt. Record the known deviation; do not reuse P_T002. Producer did not assess visual compliance.
+- EVENT_ID: E006
+  TIMESTAMP: 2026-10-12T04:03:00+08:00
+  EVENT_TYPE: STOPPED
+  DETAILS: Halted further generation because the image-generation interface calls were not supplied with the complete locked prompts verbatim. Continuing would violate the locked-prompt execution rule. 18 Tasks remain pending; no further prompts were consumed.
