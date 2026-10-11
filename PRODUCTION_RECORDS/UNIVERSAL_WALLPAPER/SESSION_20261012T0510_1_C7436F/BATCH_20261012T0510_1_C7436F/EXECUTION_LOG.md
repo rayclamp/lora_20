@@ -65,3 +65,24 @@ BATCH_ID: BATCH_20261012T0510_1_C7436F
   DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
   TASK_STATUS: SUCCESS
   DETAILS: One image result received and bound to TASK_002. Known execution deviation: the image-generation call used a shortened English description instead of the full locked PROMPT_002. Recorded as a known deviation; the result is still counted and production SUCCESS is based on received count and task binding. No visual QA performed.
+
+- EVENT_ID: EVT_007
+  TIMESTAMP: 2026-10-12T05:15:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  SESSION_ID: SESSION_20261012T0510_1_C7436F
+  BATCH_ID: BATCH_20261012T0510_1_C7436F
+  TASK_ID: TASK_003
+  PROMPT_ID: PROMPT_003
+  PROMPT_VERSION: v1
+  GENERATION_CALL_ID: 5a264547-495a-441d-b138-0eb00bf51aa0
+  RESULT_ID: 5a264547-495a-441d-b138-0eb00bf51aa0
+  RESULT_REFERENCE: /mnt/data/wide_bright_outdoor_portrait_scene_at_a_seaside_t.png
+  EXPECTED_OUTPUT_COUNT: 1
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_BINDING_STATUS: BOUND_TO_TASK_003
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+  TASK_STATUS: SUCCESS
+  DETAILS: One image result received and bound to TASK_003. The generation call used a shortened English description rather than the full locked prompt. Recorded as known operational deviation; no visual QA performed.
