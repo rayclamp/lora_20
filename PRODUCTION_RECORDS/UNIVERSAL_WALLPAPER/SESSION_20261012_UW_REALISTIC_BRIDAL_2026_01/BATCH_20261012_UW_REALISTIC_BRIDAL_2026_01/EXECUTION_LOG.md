@@ -169,3 +169,21 @@ BATCH_ID: BATCH_20261012_UW_REALISTIC_BRIDAL_2026_01
   DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
   PROMPT_MATCH_STATUS: NOT_ASSESSED
   DETAILS: One image result was received and recorded for TASK_08, matching expected output count and bound to this task's generation attempt. The submitted generation instruction was a shortened substitute rather than the complete locked prompt. This known execution deviation is recorded factually; no prompt-match or visual-quality judgment was performed. Prompt is consumed and retired and must not be reused.
+
+- EVENT_ID: EVT_015
+  TIMESTAMP: 2026-10-12T04:45:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: TASK_09
+  PROMPT_ID: UW_BRIDAL_09
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_TASK_09_01
+  GENERATION_CALL_ID: 7c24213f-4a8e-4e87-8bd7-3481cb8a73d9
+  RESULT_ID: file_000000001e6c8209a3e451e1cbcfa831
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_BINDING_STATUS: BOUND_TO_TASK_09
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  TASK_STATUS: SUCCESS
+  DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  DETAILS: One image result was received and bound to TASK_09's generation attempt, matching the expected output count. The generation call used a shortened substitute instruction rather than the complete locked prompt. This known execution deviation is recorded factually; no prompt-match or visual-quality judgment was performed. Prompt is consumed and retired and must not be reused.
