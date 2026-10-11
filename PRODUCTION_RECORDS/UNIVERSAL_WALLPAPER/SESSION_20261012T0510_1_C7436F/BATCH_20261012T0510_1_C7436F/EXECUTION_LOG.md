@@ -35,3 +35,33 @@ BATCH_ID: BATCH_20261012T0510_1_C7436F
   TASK_STATUS: IMAGE_RESULT_RECORDED
   DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
   DETAILS: A generated image result was received. The actual generation call used a different shortened English description rather than the full locked PROMPT_001, so this is recorded as a known execution deviation. The image is preserved and counted; the prompt will not be reused. No visual QA was performed.
+
+- EVENT_ID: EVT_005
+  TIMESTAMP: 2026-10-12T05:14:00+08:00
+  EVENT_TYPE: RESUMED
+  SESSION_ID: SESSION_20261012T0510_1_C7436F
+  BATCH_ID: BATCH_20261012T0510_1_C7436F
+  TASK_ID: TASK_002
+  PROMPT_ID: PROMPT_002
+  PROMPT_VERSION: v1
+  DETAILS: Re-verified GitHub connection and loaded current Canonical Rules. Recovered all five batch records. TASK_001 had a confirmed received image, count 1, and reliable binding; production status is SUCCESS (not QA PASS). Selected TASK_002 as the first pending independent Task.
+- EVENT_ID: EVT_006
+  TIMESTAMP: 2026-10-12T05:14:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  SESSION_ID: SESSION_20261012T0510_1_C7436F
+  BATCH_ID: BATCH_20261012T0510_1_C7436F
+  TASK_ID: TASK_002
+  PROMPT_ID: PROMPT_002
+  PROMPT_VERSION: v1
+  GENERATION_CALL_ID: c0873c2f-7135-4b9b-8cca-1b44c80a8a8f
+  RESULT_ID: c0873c2f-7135-4b9b-8cca-1b44c80a8a8f
+  RESULT_REFERENCE: /mnt/data/a_bright_airy_photorealistic_indoor_portrait_sce.png
+  EXPECTED_OUTPUT_COUNT: 1
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_BINDING_STATUS: BOUND_TO_TASK_002
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+  TASK_STATUS: SUCCESS
+  DETAILS: One image result received and bound to TASK_002. Known execution deviation: the image-generation call used a shortened English description instead of the full locked PROMPT_002. Recorded as a known deviation; the result is still counted and production SUCCESS is based on received count and task binding. No visual QA performed.
