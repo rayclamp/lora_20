@@ -95,9 +95,11 @@ CURRENT_TASK → CURRENT_LOCKED_PROMPT_READINESS → GENERATION_CALL → IMAGE_R
 
 Immediately before each generation call, reconnect to GitHub and read the current Task and current locked Prompt.
 
-Use the current complete locked Prompt directly as the generation instruction. Do not redesign, summarize, translate, omit, add to, reorder, or substitute it.
+Read the current Task's complete, non-empty locked Prompt directly from the authoritative PROMPT_SET and confirm its Task binding before every generation call. The complete locked Prompt must be read first; only then may the Producer either submit it unchanged or create a shorter generation input derived from that exact Prompt.
 
-The locked Prompt is the actual generation input, not reference text for the Producer to interpret. Submit its complete text unchanged in the image-generation interface's designated prompt/input field. Do not create a shortened, summarized, reconstructed, translated, cleaned-up, or substitute generation instruction after lock. If structured tool arguments are required, place the complete locked Prompt unchanged in the applicable input field. Missing hidden-payload telemetry does not block generation and does not authorize shortening. If a different or shortened prompt is knowingly used, record that as a known execution deviation; do not describe it only as NOT_EXPOSED.
+Shortening is permitted only after the full Prompt has been read. The shortened input must preserve the Task-specific intent and all essential constraints, including the scene, subject/identity requirements, pose, expression, clothing, composition, and explicit exclusions where present. Do not invent a generic replacement from the Session theme, prior Tasks, memory, assumptions, or a template. Do not silently change the locked Prompt Set itself; the shortened text is only the generation input for this single Task.
+
+Record separately whether the full Prompt was read and which input mode was used. If the complete Prompt cannot be read, its Task binding is unclear, or an accurate task-specific shortening cannot be made, do not generate with a substitute; isolate/block that Task and continue only with independently verified Tasks where safe. Missing hidden-payload telemetry alone is not a generation gate; record evidence limits honestly and do not claim transport verification that is unavailable.
 
 One locked Prompt/version may produce at most one confirmed image result. A Generation Call attempt does not by itself consume the Prompt; any confirmed received image consumes the Prompt and is counted, regardless of prompt match or Task success.
 
