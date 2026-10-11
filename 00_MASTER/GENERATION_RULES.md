@@ -22,7 +22,7 @@
 20. If the Producer knowingly submitted different text, record the known execution deviation honestly. If the submitted payload is not exposed and no deviation is known, record NOT_EXPOSED/UNVERIFIED without claiming exact transport verification.
 21. Actual-generator delivery telemetry is evidence only. If it is not exposed by the current interface, record that limitation as evidence state; it is not a pre-generation block.
 22. Result count and result-to-Task binding must be recorded before production SUCCESS. If no image is received, record the confirmed failure reason.
-23. Generation Workers must not perform routine post-generation hidden-payload equality audits or visual QA. This restriction does not weaken the mandatory pre-call requirement to submit the complete locked Prompt unchanged; image correctness is decided by the independent QA workflow.
+23. Generation Workers must not perform routine post-generation hidden-payload equality audits or visual QA. Before generation, the Producer must read the complete locked Prompt and confirm Task binding, then use either the full Prompt unchanged or a shortened input derived only from that exact Prompt under Rules 16–19. Record the selected input mode; image correctness is decided by the independent QA workflow.
 
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
 No age-specific identity or LoRA-specific dataset rule belongs here.
