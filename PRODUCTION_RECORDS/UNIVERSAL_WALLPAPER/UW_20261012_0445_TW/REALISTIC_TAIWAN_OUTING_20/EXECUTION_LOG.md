@@ -16,3 +16,21 @@ DETAIL: Designed 20 distinct Taiwan outing wallpaper prompts before generation; 
 EVENT_ID: E003
 EVENT_TYPE: PROMPT_SET_LOCKED
 DETAIL: PROMPT_SET.md persisted with PROMPT_SET_STATUS=LOCKED and PROMPT_SET_LOCKED=YES. Must read back before any generation.
+
+
+## Event 004 — 2026-10-12T04:46:00+08:00
+EVENT_ID: E004
+EVENT_TYPE: IMAGE_RESULT_RECEIVED
+SESSION_ID: UW_20261012_0445_TW
+BATCH_ID: REALISTIC_TAIWAN_OUTING_20
+TASK_ID: T01
+PROMPT_ID: P_T01
+PROMPT_VERSION: 1
+ATTEMPT_ID: A_T01_01
+GENERATION_CALL_ID: f6b9ee21-7227-4b18-af2d-e7bc172f8751
+RESULT_ID: /mnt/data/a_bright_sunlit_outdoor_park_scene_with_a_shallow.png
+OUTPUT_COUNT: 1
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+DETAIL: An image result was received and bound to T01. Known deviation: the submitted generation instruction was a paraphrased scene description, not the full locked prompt. This deviation is recorded; the locked prompt is retired and will not be reused.
