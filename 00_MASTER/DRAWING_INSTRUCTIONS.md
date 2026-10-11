@@ -333,3 +333,22 @@ Correct anatomy and broadly natural proportions do not guarantee that the refere
 
 Apply 00_MASTER/ANATOMY_STABILITY.md as the authoritative shared standard.
 
+
+## 21. Small accessory and tiny-detail restriction
+
+Unless the user explicitly requests otherwise, do not add tiny accessories or decorative objects that cannot be rendered with clear shape, material, and structure at the intended image scale.
+
+Default exclusions include:
+- rings, bands, and other small finger jewelry;
+- tiny stud earrings, miniature jewelry, and similarly indistinct ear accessories;
+- micro-decorations on fingers, fingernails, or the skin surface;
+- other miniature adornments likely to appear as dirt, dark specks, stains, blurry marks, or anatomical defects.
+
+Generation requirements:
+- Keep fingers and visible skin surfaces clean and natural; do not add unexplained dots, stains, or accessory-like marks.
+- Do not add tiny accessories merely to make a character look more detailed or elegant.
+- Do not replace a prohibited tiny accessory with a dark dot, color spot, or other ambiguous mark.
+- Larger, clearly readable accessories remain allowed when compatible with the selected module's rules and the user's request.
+- If the user explicitly requests a small accessory, design it only when it can be made clearly visible and structurally recognizable; otherwise clarify or simplify the design rather than representing it as an ambiguous mark.
+
+This is a generation-time design restriction shared by all modules, including UNIVERSAL_WALLPAPER, FESTIVAL_WALLPAPER, and LORA_IMAGE. It is not a post-generation QA instruction and does not authorize automatic regeneration.
