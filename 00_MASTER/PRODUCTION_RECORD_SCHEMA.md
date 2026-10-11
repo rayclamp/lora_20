@@ -71,9 +71,9 @@ All prompts are designed before generation, persisted before execution, and lock
 
 The Prompt Set lock metadata is authoritative and must be internally consistent: when PROMPT_SET_STATUS = LOCKED, PROMPT_SET_LOCKED MUST = YES. A persisted locked Prompt Set with PROMPT_SET_LOCKED = NO is invalid record state and must be corrected before execution/resume.
 
-Each executable Task must record that the current complete, non-empty Locked Prompt was read and associated with the current Task before generation. The complete locked Prompt text is the actual generation input: the Producer MUST submit it directly and unchanged in the image-generation interface's designated prompt/input field. The Producer MUST NOT use a shortened, summarized, translated, reconstructed, or substitute prompt after lock. If the interface requires structured arguments, the full locked text must remain unchanged in the applicable generation-input field.
+Each executable Task must record separately that the current complete, non-empty locked Prompt was read and associated with the current Task before generation, and which generation-input mode was used. The Producer may submit the full locked Prompt unchanged or, after reading the full Prompt, prepare a shortened generation input derived only from that exact Prompt. Shortening must preserve the Task-specific intent and essential details (scene, identity requirements, pose, expression, clothing, composition, constraints, and explicit exclusions where applicable). A generic replacement based on Session theme, previous Tasks, memory, assumptions, or a template is forbidden. The locked Prompt Set itself remains immutable.
 
-This is a required Producer action, not a claim that hidden transport has been independently verified and not a new hidden-payload telemetry gate. If the interface does not expose actual payload telemetry, record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED or UNVERIFIED; this alone does not prohibit generation and does not authorize shortening. If a different or shortened prompt is known to have been submitted, record that known execution deviation accurately instead of describing it only as NOT_EXPOSED. If no deviation is known and the actual payload is not exposed, do not claim exact transport verification.
+Record `FULL_PROMPT_READ_STATUS` and `GENERATION_INPUT_MODE` as defined in Section 17. These fields describe separate facts: reading the full Prompt does not prove that the full text was submitted, and a shortened input does not prove that the full Prompt was read first. If the interface does not expose independent payload telemetry, record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED or UNVERIFIED as applicable; do not claim transport verification that is unavailable. Missing telemetry alone does not prohibit generation.
 
 ## 7. EXECUTION_LOG.md
 Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, IMAGE_RESULT_RECORDED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, POLICY_BLOCKED, SAFETY_BLOCKED, INTERRUPTION_CLASSIFIED, PROMPT_SKIPPED_POLICY_LIMIT, STOPPED, RESUMED, UNKNOWN, DEFERRED, RECORD_CORRECTED, COMPLETED. RETRY events MUST NOT be used to represent a second generation call for the same locked Prompt.
@@ -105,7 +105,7 @@ Batch completion does not require every Task to be SUCCESS, and IMAGE_COUNT is t
 ## 10. Execution Integrity Reference
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
 Minimum chain: TASK → LOCKED_PROMPT_READBACK_AND_READINESS → GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS.
-The Producer verifies before generation that the locked Prompt is available, non-empty, and assigned to the current Task, then submits that complete locked text unchanged as the actual generation input. Do not create or use a shortened, summarized, reconstructed, or substitute instruction. After the call, the Producer records observable result facts and honestly records any known execution deviation; unavailable payload telemetry is NOT_EXPOSED/UNVERIFIED and must not be guessed. The Producer MUST NOT perform routine post-generation hidden-payload equality audits or judge visual compliance. Use BLOCKED when the prompt is missing, empty, assigned to the wrong Task, or cannot be supplied as a usable generation instruction.
+The Producer verifies before generation that the complete locked Prompt is available, non-empty, read back, and assigned to the current Task. The Producer then uses either the full Prompt unchanged or a shortened input derived from that exact Prompt under the shortening standard above. Record full-prompt-read status and generation-input mode separately. After the call, record observable result facts and honestly record evidence limits; unavailable payload telemetry is NOT_EXPOSED/UNVERIFIED and must not be guessed. The Producer MUST NOT perform routine post-generation hidden-payload equality audits or judge visual compliance. Use BLOCKED when the prompt is missing, empty, assigned to the wrong Task, or cannot be supplied as a usable generation instruction.
 
 ## 11. Non-Goals
 This schema does not define a GitHub scheduler, task lock, worker manager, retry engine, Session manager, or execution controller. Those remain internal ChatGPT production mechanisms.
@@ -202,3 +202,16 @@ Rules:
 6. Before modifying any production-record path, determine whether it is a historical Session/Batch record or an active mutable configuration/rule file. Never treat a historical record as a live rule file.
 
 The purpose of this rule is to preserve traceability, support before/after comparisons, and allow future evaluation of whether a rule change improved production outcomes.
+
+
+## 17. Full-Prompt Read and Generation-Input Mode Fields
+
+For each generation attempt, record these fields in the Task record and/or corresponding EXECUTION_LOG event where the record format supports them:
+
+- `FULL_PROMPT_READ_STATUS`: `CONFIRMED`, `NOT_CONFIRMED`, or `UNKNOWN`. Use `CONFIRMED` only when the Producer actually read the complete current locked Prompt from the authoritative PROMPT_SET before preparing the input.
+- `GENERATION_INPUT_MODE`: `FULL_LOCKED_PROMPT`, `SHORTENED_FROM_LOCKED_PROMPT`, or `UNKNOWN`. Record the mode actually used for the generation call, not merely the intended mode.
+- `SHORTENED_PROMPT_PRESERVATION_STATUS`: `PRESERVED`, `NOT_VERIFIED`, or `NOT_APPLICABLE`. Use `PRESERVED` only when the shortened input was prepared from the just-read full Prompt and retained the essential Task-specific requirements. Use `NOT_APPLICABLE` when the full locked Prompt was used.
+
+These fields are independent of `DELIVERY_INTEGRITY_STATUS`. They record the Producer's preparation/action and must not be used to claim hidden transport telemetry that the interface does not expose. If a fact cannot be established, use `UNKNOWN` or `NOT_VERIFIED`; do not fill it by inference. A missing field in a historical record must not be retroactively guessed.
+
+The locked Prompt Set remains immutable. A shortened generation input is not a Prompt Set revision, does not authorize reuse of a consumed Prompt, and does not authorize a second generation call for a Task whose Prompt has already been consumed.
