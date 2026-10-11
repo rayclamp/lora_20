@@ -33,3 +33,20 @@ BATCH_ID: BATCH_20261012_UW_REALISTIC_BRIDAL_2026_01
   TASK_STATUS: IMAGE_RESULT_RECORDED
   DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
   DETAILS: Image result was received and bound to TASK_01. A shortened substitute instruction was knowingly submitted instead of the complete locked prompt; this is recorded as a known execution deviation. The prompt is consumed/retired and must not be called again. Task is terminal as IMAGE_RESULT_RECORDED, not SUCCESS.
+
+- EVENT_ID: EVT_005
+  TIMESTAMP: 2026-10-12T04:24:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: TASK_02
+  PROMPT_ID: UW_BRIDAL_02
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_TASK_02_01
+  GENERATION_CALL_ID: c4ced066-1d11-4f12-8a7f-4dde130c14ca
+  RESULT_ID: file_0000000047148206a55f02098dfc048d
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_BINDING_STATUS: BOUND_TO_TASK_02
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  TASK_STATUS: IMAGE_RESULT_RECORDED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+  DETAILS: Image result was received and bound to TASK_02. A shortened substitute instruction was submitted instead of the complete locked prompt; this is recorded as a known execution deviation. The prompt is consumed/retired and must not be called again. Task is terminal as IMAGE_RESULT_RECORDED, not SUCCESS.
