@@ -5,8 +5,8 @@ BATCH_ID: BATCH_20261012T0510_1_C7436F
 
 | ORDER | TASK_ID | PROMPT_ID | PROMPT_VERSION | PROMPT_STATUS | TASK_STATUS | GENERATION_STATUS | EXPECTED_OUTPUT_COUNT | ACTUAL_OUTPUT_COUNT | PROMPT_CONSUMED | PROMPT_STATE |
 |---:|---|---|---|---|---|---|---:|---:|---|---|
-| 1 | TASK_001 | PROMPT_001 | v1 | LOCKED | IMAGE_RESULT_RECORDED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | RETIRED |
-| 2 | TASK_002 | PROMPT_002 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE |
+| 1 | TASK_001 | PROMPT_001 | v1 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | RETIRED |
+| 2 | TASK_002 | PROMPT_002 | v1 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | RETIRED |
 | 3 | TASK_003 | PROMPT_003 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE |
 | 4 | TASK_004 | PROMPT_004 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE |
 | 5 | TASK_005 | PROMPT_005 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE |
@@ -37,3 +37,18 @@ BATCH_ID: BATCH_20261012T0510_1_C7436F
 - PROMPT_STATE: RETIRED
 - ACTUAL_OUTPUT_COUNT: 1
 - TASK_STATUS: IMAGE_RESULT_RECORDED
+
+
+## TASK_002 Result Record
+- RESULT_ID: c0873c2f-7135-4b9b-8cca-1b44c80a8a8f
+- RESULT_REFERENCE: /mnt/data/a_bright_airy_photorealistic_indoor_portrait_sce.png
+- RESULT_BINDING_STATUS: BOUND_TO_TASK_002
+- DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: RETIRED
+- EXPECTED_OUTPUT_COUNT: 1
+- ACTUAL_OUTPUT_COUNT: 1
+- GENERATION_ATTEMPT_COUNT: 1
+- TASK_STATUS: SUCCESS
+- DETAILS: One image result was received and bound to TASK_002. A known execution deviation occurred because the generation interface was called with a shortened English description rather than the full locked prompt. This deviation is recorded as an operational fact and does not negate image receipt, count, binding, or production SUCCESS. No visual QA performed.
