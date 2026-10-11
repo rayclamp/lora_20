@@ -38,3 +38,48 @@ BATCH_ID: EUROPE-REALISTIC-20
   PROMPT_ID: PROMPT_001
   PROMPT_VERSION: 1
   DETAILS: One image result received for the task; production outcome recorded separately from prompt-input integrity.
+
+- EVENT_ID: EVT-006
+  TIMESTAMP: 2026-10-12T04:15:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_002
+  PROMPT_ID: PROMPT_002
+  PROMPT_VERSION: 1
+  GENERATION_CALL_ID: 391ad6da-4718-46ba-995e-d23ee5c150fb
+  RESULT_ID: file_00000000c6748206a77c8a09c05cf426
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+  DETAILS: One image was returned and bound to TASK_002. The submitted generation text was not the complete locked PROMPT_002; a different descriptive text was used. No retry will be made because an image result was received.
+- EVENT_ID: EVT-007
+  TIMESTAMP: 2026-10-12T04:15:00+08:00
+  EVENT_TYPE: GENERATION_SUCCESS
+  TASK_ID: TASK_002
+  PROMPT_ID: PROMPT_002
+  PROMPT_VERSION: 1
+  DETAILS: One image result received for the task; production outcome recorded separately from prompt-input integrity.
+- EVENT_ID: EVT-008
+  TIMESTAMP: 2026-10-12T04:15:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_003
+  PROMPT_ID: PROMPT_003
+  PROMPT_VERSION: 1
+  GENERATION_CALL_ID: 902f35d0-0afc-4bea-80c2-a87c997090b8
+  RESULT_ID: file_0000000054d48206a281f9d53ffa1d03
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+  DETAILS: One image was returned and bound to TASK_003. The submitted generation text was not the complete locked PROMPT_003; a different descriptive text was used. No retry will be made because an image result was received.
+- EVENT_ID: EVT-009
+  TIMESTAMP: 2026-10-12T04:15:00+08:00
+  EVENT_TYPE: GENERATION_SUCCESS
+  TASK_ID: TASK_003
+  PROMPT_ID: PROMPT_003
+  PROMPT_VERSION: 1
+  DETAILS: One image result received for the task; production outcome recorded separately from prompt-input integrity.
+- EVENT_ID: EVT-010
+  TIMESTAMP: 2026-10-12T04:15:00+08:00
+  EVENT_TYPE: STOPPED
+  DETAILS: Batch generation paused after three known prompt-input deviations. No further generation calls issued; remaining 17 tasks remain pending. Recovery is required before proceeding.
