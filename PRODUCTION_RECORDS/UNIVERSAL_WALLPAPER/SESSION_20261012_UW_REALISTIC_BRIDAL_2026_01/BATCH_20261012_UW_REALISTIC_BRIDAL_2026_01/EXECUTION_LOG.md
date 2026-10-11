@@ -16,3 +16,20 @@ BATCH_ID: BATCH_20261012_UW_REALISTIC_BRIDAL_2026_01
   TIMESTAMP: 2026-10-12T04:22:00+08:00
   EVENT_TYPE: PROMPT_SET_LOCKED
   DETAILS: 20 complete prompts persisted in PROMPT_SET.md with PROMPT_SET_STATUS=LOCKED and PROMPT_SET_LOCKED=YES. Awaiting read-back verification before generation.
+
+- EVENT_ID: EVT_004
+  TIMESTAMP: 2026-10-12T04:23:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: TASK_01
+  PROMPT_ID: UW_BRIDAL_01
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_TASK_01_01
+  GENERATION_CALL_ID: e1b4fd1a-270e-4377-88d2-d4b4961b4bb4
+  RESULT_ID: file_00000000245c820994cc625a1fc9c2a1
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_BINDING_STATUS: BOUND_TO_TASK_01
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  TASK_STATUS: IMAGE_RESULT_RECORDED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+  DETAILS: Image result was received and bound to TASK_01. A shortened substitute instruction was knowingly submitted instead of the complete locked prompt; this is recorded as a known execution deviation. The prompt is consumed/retired and must not be called again. Task is terminal as IMAGE_RESULT_RECORDED, not SUCCESS.
