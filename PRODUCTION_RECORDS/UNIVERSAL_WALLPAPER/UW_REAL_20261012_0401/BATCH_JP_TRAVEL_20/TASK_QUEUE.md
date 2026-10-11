@@ -6,7 +6,7 @@ BATCH_ID: BATCH_JP_TRAVEL_20
 |---:|---|---|---|---|---|---|---:|---:|---|---|---|
 | 1 | T001 | P_T001 | v1 | RETIRED | IMAGE_RESULT_RECORDED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | RETIRED | NOT_ASSESSED |
 | 2 | T002 | P_T002 | v1 | RETIRED | IMAGE_RESULT_RECORDED | IMAGE_RESULT_RECEIVED | 1 | 1 | YES | RETIRED | NOT_ASSESSED |
-| 3 | T003 | P_T003 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
+| 3 | T003 | P_T003 | v1 | RETIRED | SUCCESS | SUCCESS | 1 | 1 | YES | RETIRED | NOT_ASSESSED |
 | 4 | T004 | P_T004 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
 | 5 | T005 | P_T005 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
 | 6 | T006 | P_T006 | v1 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | NO | AVAILABLE | NOT_ASSESSED |
@@ -42,3 +42,14 @@ BATCH_ID: BATCH_JP_TRAVEL_20
 - PROMPT_CONSUMED: YES
 - PROMPT_STATE: RETIRED
 - NOTE: The generation interface call used a rewritten scene description rather than the complete locked prompt. This known deviation is recorded honestly; do not reuse P_T002.
+
+
+## T003 execution evidence
+- RESULT_STATUS: SUCCESS
+- GENERATION_CALL_ID: 7c6d2304-456c-439c-86bb-844e56ded48e
+- RESULT_ID: /mnt/data/a_wide_cinematic_photorealistic_cg_like_image_of.png
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: RETIRED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- QA_STATUS: PAUSED
