@@ -133,3 +133,21 @@ BATCH_ID: BATCH_20261012_UW_REALISTIC_BRIDAL_2026_01
   TIMESTAMP: 2026-10-12T04:32:00+08:00
   EVENT_TYPE: STOPPED
   DETAILS: Stopped before TASK_07 because the generation calls during resume again used shortened substitute instructions rather than the complete locked prompt text. This is a repeated known execution-input deviation affecting the current production interface workflow. Tasks 07–20 remain PENDING; no prompts were consumed for those Tasks. This is recorded as a runtime execution limitation, not a visual QA decision.
+
+- EVENT_ID: EVT_013
+  TIMESTAMP: 2026-10-12T04:40:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: TASK_07
+  PROMPT_ID: UW_BRIDAL_07
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_TASK_07_01
+  GENERATION_CALL_ID: fdc29c1e-f192-4873-8685-06c91e5d9280
+  RESULT_ID: file_00000000f5d08209a843975e0c489504
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_BINDING_STATUS: BOUND_TO_TASK_07
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  TASK_STATUS: SUCCESS
+  DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  DETAILS: One image result was received and recorded for TASK_07, matching expected output count and bound to this task's generation attempt. The generation input used was a shortened substitute instruction rather than the full locked prompt. This known execution deviation is recorded factually; no prompt-match or visual-quality judgment was performed. Prompt is consumed and retired and must not be reused.
