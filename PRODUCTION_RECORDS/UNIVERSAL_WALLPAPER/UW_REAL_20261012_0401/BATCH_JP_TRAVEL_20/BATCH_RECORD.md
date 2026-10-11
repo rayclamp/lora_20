@@ -6,14 +6,14 @@ PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 0
-RESULT_RECORDED_COUNT: 1
-ACTUAL_IMAGE_COUNT: 1
+RESULT_RECORDED_COUNT: 2
+ACTUAL_IMAGE_COUNT: 2
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 19
-ATTEMPT_COUNT: 1
-CURRENT_TASK: T002
-NEXT_TASK: T002
-CHECKPOINT: T001 received one image result with a known execution deviation and is terminal IMAGE_RESULT_RECORDED; 19 tasks remain.
+PENDING_COUNT: 18
+ATTEMPT_COUNT: 2
+CURRENT_TASK: T003
+NEXT_TASK: T003
+CHECKPOINT: T001 and T002 each received one image result with a known execution deviation and are terminal IMAGE_RESULT_RECORDED. Production halted before T003 because the image-generation interface calls were not supplied with the complete locked prompts verbatim; 18 tasks remain pending.
