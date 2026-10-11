@@ -77,3 +77,24 @@ BATCH_ID: BATCH_TWJP_STREET_20_01
 - PROMPT_MATCH_STATUS: NOT_ASSESSED
 - DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION — summarized scene text was used instead of complete locked PROMPT_02.
 - DETAILS: Received image recorded; not marked SUCCESS because full locked prompt was not submitted. Prompt/version retired and must not be reused.
+
+
+## Event 007
+- TIMESTAMP: 2026-10-12T05:04:00+08:00
+- EVENT_ID: EVT_SESSION_20261012_0501_UWREAL_STREET20_A7C4_007
+- EVENT_TYPE: IMAGE_RESULT_RECORDED
+- TASK_ID: TASK_03
+- PROMPT_ID: PROMPT_03
+- PROMPT_VERSION: V1
+- ATTEMPT_ID: ATTEMPT_01
+- GENERATION_CALL_ID: gen_id c24cebbe-3ed4-4391-a294-7a405a522e7d
+- RESULT_ID: file_0000000063008206bc62169b6a18ce49
+- OUTPUT_REFERENCE: /mnt/data/wide_bright_outdoor_waterfront_urban_promenade_sc.png
+- EXPECTED_OUTPUT_COUNT: 1
+- ACTUAL_OUTPUT_COUNT: 1
+- TASK_STATUS: IMAGE_RESULT_RECORDED
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: RETIRED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION — summarized scene text was used instead of complete locked PROMPT_03.
+- DETAILS: Image received and counted. Not marked SUCCESS because full locked prompt was not submitted; prompt/version retired.
