@@ -56,3 +56,24 @@ BATCH_ID: BATCH_TWJP_STREET_20_01
 - PROMPT_MATCH_STATUS: NOT_ASSESSED
 - DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION — the actual generation call used a summarized scene instruction instead of the complete locked PROMPT_01 text. This is recorded as a known deviation, not NOT_EXPOSED.
 - DETAILS: Because the complete locked prompt was not submitted unchanged, Task 01 is not marked SUCCESS. The received image is counted and the prompt is retired; no second call may use this prompt/version.
+
+
+## Event 006
+- TIMESTAMP: 2026-10-12T05:03:00+08:00
+- EVENT_ID: EVT_SESSION_20261012_0501_UWREAL_STREET20_A7C4_006
+- EVENT_TYPE: IMAGE_RESULT_RECORDED
+- TASK_ID: TASK_02
+- PROMPT_ID: PROMPT_02
+- PROMPT_VERSION: V1
+- ATTEMPT_ID: ATTEMPT_01
+- GENERATION_CALL_ID: gen_id d6a8cf64-77fa-4c63-ba0c-d9d413b2f51b
+- RESULT_ID: file_00000000e8dc82098af066958ada32f8
+- OUTPUT_REFERENCE: /mnt/data/a_bright_sunlit_street_scene_photograph_with_a_sh.png
+- EXPECTED_OUTPUT_COUNT: 1
+- ACTUAL_OUTPUT_COUNT: 1
+- TASK_STATUS: IMAGE_RESULT_RECORDED
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: RETIRED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- DELIVERY_INTEGRITY_STATUS: KNOWN_EXECUTION_DEVIATION — summarized scene text was used instead of complete locked PROMPT_02.
+- DETAILS: Received image recorded; not marked SUCCESS because full locked prompt was not submitted. Prompt/version retired and must not be reused.
