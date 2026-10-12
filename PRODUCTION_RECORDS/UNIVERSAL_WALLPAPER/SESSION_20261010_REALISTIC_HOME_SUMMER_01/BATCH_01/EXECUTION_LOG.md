@@ -38,3 +38,28 @@ BATCH_ID: BATCH_01
 - TASK_STATUS: IMAGE_RESULT_RECORDED (not SUCCESS because a known generation-input deviation exists; no visual QA or prompt-match assessment performed).
 - PROMPT_MATCH_STATUS: NOT_ASSESSED
 - CHECKPOINT: isolate TASK_01 as a terminal recorded result; next independently eligible Task is TASK_02 after its own prompt and reference-input readiness checks.
+
+## 2026-10-12 — TASK_02_RESULT_RECORDED_WITH_KNOWN_INPUT_DEVIATION
+- SESSION_ID: SESSION_20261010_REALISTIC_HOME_SUMMER_01
+- BATCH_ID: BATCH_01
+- TASK_ID: TASK_02
+- PROMPT_ID: PROMPT_02
+- PROMPT_VERSION: 1
+- EVENT_TYPE: IMAGE_RESULT_RECORDED
+- ATTEMPT_ID: ATTEMPT_01
+- GENERATION_CALL_ID: NOT_EXPOSED
+- FULL_PROMPT_READ_STATUS: YES (the complete locked PROMPT_02 was read from GitHub before the call).
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION_SUBSTITUTE_INPUT; the call used a newly authored short summary rather than the full locked prompt or a verified faithful shortening.
+- DELIVERY_STATUS: IMAGE_RECEIVED
+- ACTUAL_IMAGE_COUNT: 1
+- RESULT_ID: file_000000007b7082099646db7d9277c2e2
+- TASK_BINDING_STATUS: VERIFIED (one image returned from the generation call initiated for TASK_02).
+- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+- REFERENCE_AVAILABILITY_STATUS: AVAILABLE; original request-era reference is present in the authorized Library as 泳池畔的夏日微笑.png.
+- REFERENCE_VERIFICATION_STATUS: VERIFIED by filename and timestamp correspondence with the original Session request.
+- REFERENCE_INPUT_STATUS: NOT_PASSED_TO_GENERATOR for this call.
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: RETIRED; do not call PROMPT_02 again.
+- TASK_STATUS: IMAGE_RESULT_RECORDED; known input deviation; no visual QA or prompt-match assessment performed.
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- CHECKPOINT: TASK_01 and TASK_02 have recorded image results with known input deviations. Continue only with TASK_03 after verifying its complete locked prompt and passing the original reference image to the generator.
