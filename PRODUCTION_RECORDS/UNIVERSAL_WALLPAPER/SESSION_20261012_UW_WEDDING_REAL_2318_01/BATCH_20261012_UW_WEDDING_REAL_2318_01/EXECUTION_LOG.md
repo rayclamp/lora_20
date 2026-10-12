@@ -74,3 +74,8 @@ FULL_PROMPT_READ_STATUS: CONFIRMED
 GENERATION_INPUT_MODE: KNOWN_DEVIATION
 DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 DETAIL: One image result was received. The actual generation call used a shortened scene description rather than the full locked prompt. Known deviation recorded honestly; this prompt/version is consumed and retired. Further generation paused to avoid repeating the input-integrity failure.
+
+EVENT_ID: EVT_007
+EVENT_TYPE: RECORD_CORRECTION
+TIMESTAMP: 2026-10-12T23:23:00+08:00
+DETAIL: Correction to EVT_003 and EVT_005: although the complete locked prompts were read, the actual generation calls used shorter scene descriptions, not the full locked prompt text. Corrected Task fields are GENERATION_INPUT_MODE=KNOWN_DEVIATION for TASK_001 and TASK_002. Both received image results are preserved and counted; both prompts are consumed and retired. No further generation calls were made after the repeated deviation. Batch remains incomplete with 18 pending Tasks.
