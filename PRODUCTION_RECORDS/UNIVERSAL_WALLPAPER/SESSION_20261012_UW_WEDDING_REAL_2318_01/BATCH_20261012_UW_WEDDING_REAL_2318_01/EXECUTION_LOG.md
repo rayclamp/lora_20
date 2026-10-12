@@ -55,3 +55,22 @@ FULL_PROMPT_READ_STATUS: CONFIRMED
 GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
 DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 DETAIL: Full locked prompt read from PROMPTS/TASK_002.md and supplied verbatim to generation interface.
+
+EVENT_ID: EVT_006
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TIMESTAMP: 2026-10-12T23:22:00+08:00
+TASK_ID: TASK_002
+PROMPT_ID: PROMPT_002_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_002_01
+GENERATION_CALL_ID: GC_TASK_002_01
+RESULT_ID: efdc2aff-3269-4747-962b-4821432b2f79
+RESULT_REFERENCE: /mnt/data/a_dreamy_high_end_photorealistic_scene_in_a_brig.png
+ACTUAL_OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_AND_GENERATION_CALL
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+DETAIL: One image result was received. The actual generation call used a shortened scene description rather than the full locked prompt. Known deviation recorded honestly; this prompt/version is consumed and retired. Further generation paused to avoid repeating the input-integrity failure.
