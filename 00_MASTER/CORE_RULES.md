@@ -95,3 +95,13 @@ Any automated production initiated by /RESUME_AUTO MUST re-verify the current Gi
 
 ## 2.1 SMALL ACCESSORY RESTRICTION — NON-NEGOTIABLE
 Unless the user explicitly requests otherwise, do not add tiny accessories or decorative objects that are too small to render clearly and are likely to become dirt-like marks, dark specks, stains, or anatomical artifacts. This includes rings and other finger jewelry. Apply the detailed shared rule in DRAWING_INSTRUCTIONS.md. Modules may impose stricter restrictions but must not weaken this core default.
+
+## 1.1 PRODUCER NO-QA BOUNDARY — CURRENT OVERRIDING RULE
+
+During production, the Producer MUST NOT perform any post-generation QA or image/prompt comparison. This prohibition includes visually inspecting the generated image to judge prompt compliance, image quality, anatomy, identity, composition, style, dataset suitability, or whether the result should be accepted.
+
+The Producer's post-generation duties are limited to observable production facts: confirm whether an image result was received; record the number of images actually returned; bind the result to the correct Task and generation event when possible; consume and retire the prompt after any confirmed image receipt; update production records and verify the write.
+
+Any confirmed image receipt counts as exactly one successfully produced Task output, regardless of visual compliance or how many image files the generator returns for that Task. Record the actual returned image count separately. QA is a separate downstream process and must never change production counts, production success, prompt-consumption state, or trigger regeneration.
+
+This rule overrides any older wording in CORE that could be interpreted as requiring the Producer to inspect, compare, accept, reject, or QA a generated image.
