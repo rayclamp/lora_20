@@ -33,3 +33,22 @@ ERROR: NONE
 OUTPUT_COUNT: 0
 PROMPT_CONSUMED: NO
 CHECKPOINT: Ready to begin TASK_001 after immediate pre-generation read-back.
+
+
+## Event 003
+TIMESTAMP: 2026-10-12T18:41:00+08:00
+EVENT_ID: SESSION_20261012T1839_BRIDAL20_X91C_EVT_003
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TASK_ID: TASK_001
+PROMPT_ID: PROMPT_001
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_001
+GENERATION_CALL_ID: GEN_20261012_TASK001_001
+RESULT: Confirmed one image result received in the current generation context; image gen_id c728964f-0d89-4a17-b554-922b8bbeb70e; output file /mnt/data/a_bright_romantic_outdoor_garden_wedding_scene_in.png.
+ERROR: Known generation-input deviation: submitted generation text was a shortened rewording rather than the full locked Prompt. FULL_PROMPT_READ_STATUS=CONFIRMED; GENERATION_INPUT_MODE=SHORTENED_FROM_LOCKED_PROMPT; SHORTENED_PROMPT_PRESERVATION_STATUS=NOT_VERIFIED; DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED. No post-generation visual or prompt-compliance judgment made.
+OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_001
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+TASK_STATUS: SUCCESS (production result/count/binding recorded; not QA PASS)
+CHECKPOINT: Proceed only after fresh GitHub read-back for TASK_002.
