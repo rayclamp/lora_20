@@ -42,3 +42,16 @@ FULL_PROMPT_READ_STATUS: CONFIRMED
 GENERATION_INPUT_MODE: KNOWN_DEVIATION
 DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 DETAIL: One image result was received. The actual image-generation call did not receive the complete locked prompt verbatim; it received a shorter scene description. This known deviation is recorded, not represented as FULL_LOCKED_PROMPT. Prompt is consumed/retired and will not be reused. No visual QA performed.
+
+EVENT_ID: EVT_005
+EVENT_TYPE: GENERATION_STARTED
+TIMESTAMP: 2026-10-12T23:21:00+08:00
+TASK_ID: TASK_002
+PROMPT_ID: PROMPT_002_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_002_01
+GENERATION_CALL_ID: GC_TASK_002_01
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+DETAIL: Full locked prompt read from PROMPTS/TASK_002.md and supplied verbatim to generation interface.
