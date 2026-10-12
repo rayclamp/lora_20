@@ -17,15 +17,15 @@ GitHub provides reusable reference data and stores durable production records.
 User Command → ChatGPT → Read References → Design Prompt(s) → Return Prompt(s)
 
 ## Automated Production
-User Command → ChatGPT → Create Session/Batch → Read References → Design ALL Prompt(s) → Persist Locked Prompt Set → Execute Prompt(s) → Persist Results/Checkpoints → Complete
+User Command → ChatGPT → Create Session/Batch → Read References → Design ALL Prompts → Write one PROMPTS/<TASK_ID>.md per Task → Verify and lock prompt files + manifest → Execute each Task from its own file → Persist Results/Checkpoints → Complete
 
 ### Phase A — Design
 1. Create unique SESSION_ID.
 2. Create unique BATCH_ID.
 3. Read applicable reference data.
 4. Design all prompts before generation.
-5. Persist the complete prompt set.
-6. Lock the prompt set.
+5. Create one dedicated `PROMPTS/<TASK_ID>.md` file for each Task, with explicit prompt-text delimiters and Task/prompt metadata.
+6. Create `PROMPT_SET.md` as a manifest/index only; verify one-to-one Task-to-file mapping and all prompt files, then lock the manifest and files.
 
 ### Phase B — Execution
 For every Task:
@@ -35,7 +35,7 @@ Execution records must distinguish generation started, image result received, re
 A received image is recorded regardless of visual quality. Production SUCCESS requires the expected output count and reliable result-to-Task binding; it does not mean visual compliance or QA PASS.
 
 ### Prompt Readiness
-Before generation, read the current complete locked Prompt and confirm it is non-empty and associated with the current Task. Submit the entire locked Prompt verbatim as the generation input. Shortening, summarizing, paraphrasing, translating, reordering, rewriting, omitting, adding to, polishing, or otherwise altering any part of the locked Prompt is forbidden. Do not invent a replacement from the Session theme, previous Tasks, memory, assumptions, or a generic template. If the complete Prompt cannot be read or bound to the Task, or cannot be supplied unchanged, isolate/block that Task rather than improvise. Record `GENERATION_INPUT_MODE = FULL_LOCKED_PROMPT`. Hidden transport telemetry is evidence only; if unavailable, record UNVERIFIED/NOT_EXPOSED and do not claim verification.
+For a new-format Batch, use `PROMPT_SET.md` only to locate the current Task's dedicated `PROMPTS/<TASK_ID>.md` file. Read the complete locked Prompt text between `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT`, and confirm it is non-empty and associated with the current Task. Submit the entire locked Prompt verbatim as the generation input. Shortening, summarizing, paraphrasing, translating, reordering, rewriting, omitting, adding to, polishing, or otherwise altering any part of the locked Prompt is forbidden. Do not invent a replacement from the Session theme, previous Tasks, memory, assumptions, or a generic template. If the complete Prompt cannot be read or bound to the Task, or cannot be supplied unchanged, isolate/block that Task rather than improvise. Record `GENERATION_INPUT_MODE = FULL_LOCKED_PROMPT`. Hidden transport telemetry is evidence only; if unavailable, record UNVERIFIED/NOT_EXPOSED and do not claim verification.
 
 ### Result Integrity
 Before production Task SUCCESS: the current complete, non-empty LOCK PROMPT was read and assigned to the correct Task before generation; generation was initiated; an image result was received; actual output count equals the Task contract; and the result is recorded and bound to the Task. The Producer MUST NOT compare the submitted payload with LOCK PROMPT after generation or judge visual compliance.
@@ -53,7 +53,7 @@ Preserve SESSION_ID, BATCH_ID, and locked prompts. Do not redesign or reuse cons
 ## Production Records
 Canonical path: PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/
 MODULE determines the production-record directory. PRODUCTION_TYPE is metadata and must never become the storage root.
-Standard records: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md, EXECUTION_LOG.md.
+Standard records: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md (manifest/index only), EXECUTION_LOG.md. Every executable Task in a new-format Batch additionally requires its own `PROMPTS/<TASK_ID>.md` file. Existing combined-file Batches remain legacy and are not silently migrated.
 Detailed execution evidence: 00_MASTER/PRODUCTION_RECORD_SCHEMA.md and 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
 
 ## Strict Boundary
@@ -64,6 +64,6 @@ GitHub DOES provide canonical image-design references, persisted production reco
 
 Before `/START_AUTO`, verify GitHub database access and load the applicable current Canonical Rules. Before `/RESUME_AUTO`, repeat those checks, then recover the existing Session/Batch and checkpoint.
 
-If either gate fails, do not generate. Resume must preserve the existing Session/Batch and locked prompts; it must not create replacements or redesign prompts.
+If either gate fails, do not generate. Resume must preserve the existing Session/Batch and locked prompts; it must not create replacements or redesign prompts. For new-format Batches, recover each Task's dedicated prompt file through the manifest. Do not silently migrate existing legacy Batches.
 
 The authoritative shared requirements are in `00_MASTER/CORE_RULES.md`; execution details are in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`.
