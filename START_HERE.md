@@ -42,6 +42,8 @@ Supported image-design modules:
 - `FESTIVAL_WALLPAPER`: festival wallpaper design using the festival reference database.
 - `LORA_IMAGE`: LoRA training-image design rules only; not the archived legacy LoRA production system.
 
+For `MODULE=LORA_IMAGE`, set the Batch-level `OUTPUT_TYPE=MIXED_PER_TASK`. Each Task independently selects and records `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9`; a Batch may mix portrait 9:16 and landscape 16:9 with no fixed quota or required split. The Task's locked prompt must be designed for its recorded format. This exception applies only to LORA_IMAGE; other modules retain their existing `OUTPUT_TYPE` behavior.
+
 When `MODULE=LORA_IMAGE`:
 - Upload the reference person image directly in the current ChatGPT conversation when starting the request. That upload is the visual identity authority for this run; do not search for or require a GitHub-stored character reference.
 - `CHARACTER=INARIA`: use the canonical Inaria character information in CORE for contextual/semantic guidance, while the uploaded image remains the visual identity authority.
@@ -87,6 +89,8 @@ For wallpaper production:
 EXPECTED_OUTPUT_COUNT = 1
 
 For `LORA_IMAGE`, each Task is also one independent training-image candidate unless a current task contract explicitly states otherwise.
+
+For `LORA_IMAGE`, each Task's `TASK_OUTPUT_TYPE` must also be recorded in its Task metadata, prompt-file metadata, and manifest metadata, and must agree with the locked prompt's intended composition. Do not add separate `ASPECT_RATIO` or `ORIENTATION` controls.
 
 Each Task receives one dedicated locked prompt file and one prompt version. Each file must include `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, `PROMPT_STATUS=LOCKED`, and explicit `BEGIN_LOCKED_PROMPT_TEXT` / `END_LOCKED_PROMPT_TEXT` delimiters around the exact prompt body. After locking, neither the prompt text nor its file mapping may be silently altered.
 
