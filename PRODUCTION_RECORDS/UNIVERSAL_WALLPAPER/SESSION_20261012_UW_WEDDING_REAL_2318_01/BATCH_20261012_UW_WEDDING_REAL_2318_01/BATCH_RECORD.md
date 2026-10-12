@@ -11,9 +11,9 @@ UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 19
+PENDING_COUNT: 18
 UNFINISHED_COUNT: 20
 ATTEMPT_COUNT: 0
-CURRENT_TASK: TASK_001
-NEXT_TASK: TASK_001
+CURRENT_TASK: TASK_003
+NEXT_TASK: TASK_003
 CHECKPOINT: All 20 prompt files and manifest read-back verified. TASK_001 and TASK_002 each produced one image with a known generation-input deviation; both are terminal IMAGE_RESULT_RECORDED and prompts retired. Further generation paused to prevent repeated deviation.
