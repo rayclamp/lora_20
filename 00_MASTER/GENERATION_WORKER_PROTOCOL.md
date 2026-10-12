@@ -158,14 +158,14 @@ The current /START_AUTO workflow does not automatically retry without authorizat
 
 ## 10. Stop Conditions
 
-Do not issue a second Generation Call for a Task after a result is confirmed. A missing/empty/wrong-Task prompt may block generation before a result exists. After an image result is received, record the result, output count, and Task binding; mark production SUCCESS when the expected count and binding are satisfied, or RESULT_COUNT_MISMATCH when they are not. If no image is received, record the confirmed reason and applicable terminal state. The Producer MUST NOT assess payload-vs-lock equality or visual compliance. Once every required Task has a terminal outcome and the Batch completion record is written and verified, stop the Batch. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
+Do not issue a second Generation Call for a Task after a result is confirmed. A missing/empty/wrong-Task prompt may block generation before a result exists. After an image result is received, record the result, actual output count, and Task binding; once the received result is durably recorded against the Task, mark production SUCCESS and count that Task once. Do not downgrade it or assign RESULT_COUNT_MISMATCH solely because multiple files were returned. If no image is received, record the confirmed reason and applicable terminal state. The Producer MUST NOT assess payload-vs-lock equality or visual compliance. Once every required Task has a terminal outcome and the Batch completion record is written and verified, stop the Batch. The absence of transport/delivery telemetry is NOT a stop condition for the current Single-Producer workflow.
 The absence of a GitHub Claim/Lease API is NOT a stop condition for the current Single-Producer workflow.
 
 ## 11. Recovery
 
 Resume uses the same SESSION_ID, BATCH_ID, and locked PROMPT_SET.
 Do not redesign prompts.
-Do not leave a received image in a non-terminal evidence state after its result and actual count have been durably recorded. Use IMAGE_RESULT_RECORDED or RESULT_COUNT_MISMATCH as appropriate; retain unverified provenance as a separate evidence value.
+Do not leave a received image in a non-terminal evidence state after its result and actual count have been durably recorded. Use SUCCESS once the received result is durably recorded against the Task; use IMAGE_RESULT_RECORDED or a recovery state only when result recording or attribution remains incomplete. Retain unverified provenance as a separate evidence value.
 Re-run the applicable state/integrity gates before continuing. Continue only if the Task is non-terminal, the Prompt is not consumed or retired, and the prior attempt outcome is known. A retry uses a new `ATTEMPT_ID` but the same `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and exact locked Prompt content. Never retry an UNKNOWN outcome.
 
 If a Single-Producer session is interrupted, the next authorized Producer context may continue only when the user explicitly authorizes access to the existing Session/Batch, consistent with CORE session-access rules.
