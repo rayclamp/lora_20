@@ -113,3 +113,29 @@ REFERENCE_VERIFICATION_STATUS: VERIFIED_BY_CONTRACT_PATH_AND_RUNTIME_FILE_EXISTE
 REFERENCE_INPUT_STATUS: NOT_EXPOSED / UNVERIFIED
 PROMPT_MATCH_STATUS: NOT_ASSESSED
 CHECKPOINT: Continue only after fresh GitHub read-back for TASK_004.
+
+
+## Event 007
+TIMESTAMP: 2026-10-12T18:45:00+08:00
+EVENT_ID: SESSION_20261012T1839_BRIDAL20_X91C_EVT_007
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TASK_ID: TASK_004
+PROMPT_ID: PROMPT_004
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_001
+GENERATION_CALL_ID: GEN_20261012_TASK004_001
+RESULT: One image result returned in the current generation context; image gen_id 6904f1ae-14a4-4948-95e4-4cec8b087251; output file /mnt/data/a_bright_romantic_outdoor_wedding_style_portrait.png.
+ERROR: Known generation-input deviation: submitted text was unrelated to the complete locked PROMPT_004 and was not a shortening derived from it. The complete locked Prompt had been read and Task binding confirmed before the call, but the actual generation input did not preserve the locked task intent. Do not regenerate this consumed prompt. Prompt compliance remains NOT_ASSESSED; no visual QA performed. Reference file is available in runtime at /mnt/data/寫實範本03(2).png and matches the path recorded in SESSION_CONTRACT; whether it was passed into this generation call is NOT_EXPOSED/UNVERIFIED.
+OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_004
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+TASK_STATUS: SUCCESS for result receipt/count/binding only; not QA PASS
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_INPUT_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+REFERENCE_AVAILABILITY_STATUS: AVAILABLE
+REFERENCE_VERIFICATION_STATUS: VERIFIED_BY_CONTRACT_PATH_AND_RUNTIME_FILE_EXISTENCE
+REFERENCE_INPUT_STATUS: NOT_EXPOSED / UNVERIFIED
+PROMPT_MATCH_STATUS: NOT_ASSESSED
+CHECKPOINT: Continue only after fresh GitHub read-back for TASK_005.
