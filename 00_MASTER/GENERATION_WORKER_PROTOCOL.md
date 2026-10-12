@@ -136,35 +136,16 @@ Every actual call has a distinct `ATTEMPT_ID` and execution event. Prompt reuse 
 
 ## 5. Result Identity and Output Count
 
-Receiving an image is not the same as Task success, but every confirmed received image must be counted and recorded regardless of success.
-For every attempt, record when applicable: whether a result was received, RESULT_ID/output reference, ACTUAL_OUTPUT_COUNT, expected output count, result-to-Task binding, result-to-generation-call binding, and the actual no-image failure reason. `PROMPT_MATCH_STATUS` is not a Producer judgment field; leave it `NOT_ASSESSED` or unset. The Producer must not infer prompt transmission integrity from the appearance of the image.
-For wallpaper production, EXPECTED_OUTPUT_COUNT = 1.
-If the actual count is known, count every received image once. If the count differs from the Task contract, record `RESULT_COUNT_MISMATCH` as the terminal Task outcome while preserving the actual count. If the result is received, its Task binding is recorded, and the count matches the Task contract, mark production `SUCCESS`. This status confirms successful production/result recording only; it does not assert that the image visually follows the prompt or passes QA. Do not compare prompt payloads or make prompt-match judgments as part of Producer execution.
+Receiving one or more images for a Task counts as one successful Task output once the result is durably recorded against that Task. For every attempt, record whether a result was received, RESULT_ID/output reference(s), ACTUAL_OUTPUT_COUNT, expected/planned count, result-to-Task and result-to-generation-call binding when available, and the actual no-image failure reason. `PROMPT_MATCH_STATUS` is not a Producer judgment field; leave it `NOT_ASSESSED` or unset. The Producer must not inspect the image or infer prompt transmission integrity from its appearance. For wallpaper production, the planned output remains one independent image. Count each Task at most once in successful Task output totals, while ACTUAL_IMAGE_COUNT includes every confirmed image file received. Multiple returned files do not cause RESULT_COUNT_MISMATCH or downgrade production SUCCESS. Do not compare prompt payloads or make prompt-match judgments as part of Producer execution.
 If a result cannot be reliably bound to the Task or generation call, the Task MUST NOT be SUCCESS; still count a confirmed received image in `ACTUAL_IMAGE_COUNT` and record the binding limitation.
 
 ## 6. Task Success Gate
 
-A production Task may be `SUCCESS` when all production facts are confirmed:
-1. The current complete, non-empty locked Prompt was read and bound to the Task before generation.
-2. A generation call was initiated for that Task.
-3. An image result was actually received.
-4. The actual output count matches the Task contract.
-5. The result is recorded and bound to the Task.
-
-Hidden payload telemetry and visual prompt compliance are not Producer acceptance gates. A production `SUCCESS` means the requested generation operation returned and recorded the expected result; it does not mean QA PASS. If an image is received but the count differs, record `RESULT_COUNT_MISMATCH` while preserving all received images. If no image is received, record the confirmed failure reason and applicable no-image terminal state.
+A production Task is `SUCCESS` when at least one image is confirmed received and that result is durably recorded against the Task. The complete locked Prompt must have been read and bound before generation, and a generation call must have been initiated. Actual returned-file count need not equal the planned count for the Task to count as one successful Task output. Record the exact actual count separately and preserve all returned files. Hidden payload telemetry and visual prompt compliance are not Producer acceptance gates. `SUCCESS` does not mean QA PASS. If no image is received, record the confirmed failure reason and applicable no-image terminal state.
 
 ## 7. False-Success Prevention
 
-The following MUST NOT produce TASK_STATUS = SUCCESS:
-- image exists but the current locked prompt was missing, empty, or associated with the wrong Task;
-- output count is unknown when count matters;
-- multiple outputs were returned for a one-image Task (record RESULT_COUNT_MISMATCH when the count is known);
-- result cannot be bound to the Task or attempt;
-- required generation-call provenance that the interface actually exposes is missing;
-- generation was blocked;
-- the generation call was not initiated.
-
-Use result/failure fields and outcomes such as DELIVERY_INTEGRITY_STATUS when telemetry is available, RESULT_RECEIVED_UNVERIFIED while recording is incomplete, SUCCESS for a received and correctly counted/bound result, RESULT_COUNT_MISMATCH when the actual count differs, EXECUTION_INTEGRITY_BLOCKED for an actual pre-generation readiness failure, and GENERATION_FAILED for a confirmed no-image outcome. `PROMPT_MATCH_STATUS` is reserved for a separately authorized integrity audit and MUST NOT be assessed by the Producer.
+The following MUST NOT produce TASK_STATUS = SUCCESS: no image was received; the result was not durably recorded against the Task; or the Task's prompt was missing/empty/wrongly bound before generation. Multiple returned files do not prevent SUCCESS and must be recorded as the actual output count. Missing optional delivery telemetry or visual prompt compliance does not prevent SUCCESS. Use RESULT_RECEIVED_UNVERIFIED while recording is incomplete, SUCCESS when an image receipt is durably recorded against the Task, EXECUTION_INTEGRITY_BLOCKED for an actual pre-generation readiness failure, and GENERATION_FAILED for a confirmed no-image outcome. Do not use RESULT_COUNT_MISMATCH solely because multiple files were returned. `PROMPT_MATCH_STATUS` MUST NOT be assessed by the Producer.
 
 ## 8. One Task = One Independent Image
 
