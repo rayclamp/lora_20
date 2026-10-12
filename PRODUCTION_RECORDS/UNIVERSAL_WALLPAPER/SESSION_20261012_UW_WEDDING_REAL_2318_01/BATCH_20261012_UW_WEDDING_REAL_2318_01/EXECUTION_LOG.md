@@ -23,3 +23,22 @@ FULL_PROMPT_READ_STATUS: READ_BACK_VERIFIED
 GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
 DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 DETAIL: Full locked prompt text read from PROMPTS/TASK_001.md and prepared verbatim for image generation. Hidden payload telemetry is not exposed by the generation interface.
+
+EVENT_ID: EVT_004
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TIMESTAMP: 2026-10-12T23:20:00+08:00
+TASK_ID: TASK_001
+PROMPT_ID: PROMPT_001_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_001_01
+GENERATION_CALL_ID: GC_TASK_001_01
+RESULT_ID: f5c4421f-2181-4783-9167-c04dce13b361
+RESULT_REFERENCE: /mnt/data/a_bright_dreamy_outdoor_wedding_bridal_portrait_s.png
+ACTUAL_OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_AND_GENERATION_CALL
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+DETAIL: One image result was received. The actual image-generation call did not receive the complete locked prompt verbatim; it received a shorter scene description. This known deviation is recorded, not represented as FULL_LOCKED_PROMPT. Prompt is consumed/retired and will not be reused. No visual QA performed.
