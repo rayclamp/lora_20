@@ -11,7 +11,7 @@ These rules guide prompt design before generation. They are not a post-generatio
 - believable hand-to-object contact and physically connected wearables;
 - meaningful pose/action variation;
 - useful clothing, accessory, hairstyle-arrangement, and footwear variation without changing the person's core identity arbitrarily;
-- deliberate framing and viewpoint variation;
+- deliberate framing and viewpoint variation;\n- an explicit per-Task output-format choice: portrait 9:16 or landscape 16:9, with composition designed for that format;
 - a scene that supports the subject instead of obscuring important identity/anatomy information.
 
 ## Avoid designing
@@ -58,3 +58,8 @@ Interpret apparent shape changes in context: pose, perspective, lens/viewpoint, 
 If a body region is hidden, cropped out, or not reliably comparable, do not claim it was preserved or assessed. Keep the prompt grounded in visible reference evidence and prioritize a composition that makes important body regions readable when the task requires them.
 
 This is a generation-design requirement only. The Producer generates the image and records the observable result; it does not self-QA, self-reject, repair, or regenerate. Post-generation acceptance and cross-image consistency belong to the independent IMAGE_QA system, which remains governed by its own activation status.
+
+
+## Output format
+
+For each candidate prompt, select and record `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9` independently. Do not inherit one fixed format across the entire LORA_IMAGE Batch. Both formats may appear in one Batch, with no fixed quota or required split. Keep the locked prompt consistent with the recorded choice, and do not claim that prompt wording guarantees exact pixel dimensions if the image-generation interface does not expose that control.
