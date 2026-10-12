@@ -9,7 +9,7 @@ A valid production Task is not successful merely because an image result is retu
 
 Minimum execution chain:
 
-TASK_ID → PROMPT_ID → CURRENT_LOCKED_PROMPT → PROMPT_NONEMPTY_AND_TASK_MATCH → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
+TASK_ID → PROMPT_SET_MANIFEST_LOOKUP → PROMPTS/<TASK_ID>.md → CURRENT_LOCKED_PROMPT_READINESS → GENERATION_CALL → RESULT_RECEIVED → RESULT_VERIFICATION → TASK_STATUS
 
 These are distinct states: prompt preparation/binding, actual generation-call delivery, image-result receipt, and Task success.
 
@@ -76,11 +76,23 @@ Producer owns the runtime execution of its authorized Session/Batch; GitHub stor
 
 This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, Result Integrity, Retry, Pause/Resume, or Task Success requirements defined below.
 
+## 2A. Per-Task Prompt File Layout and Authority
+
+For every new Batch, store each Task's complete locked Prompt in its own file at `PROMPTS/<TASK_ID>.md` (for example, `PROMPTS/TASK_001.md`). `PROMPT_SET.md` is a manifest/index only: it maps each `TASK_ID` to its prompt file and records `PROMPT_ID`, `PROMPT_VERSION`, and lock/state metadata, but MUST NOT contain full prompt bodies for new Batches.
+
+Each per-Task prompt file must contain `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and `PROMPT_STATUS=LOCKED`, plus clearly delimited prompt text using `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT`. Only the text inside those delimiters is the generation input. The text inside them must be passed verbatim, without including the file's metadata or delimiters.
+
+Before generation, resolve the current Task through the manifest and open only its mapped `PROMPTS/<TASK_ID>.md` file. Never select prompt text by position in a combined document, copy it from another Task, or infer it from the manifest. If the file is missing, unreadable, mismatched, or the delimiters are ambiguous, block/isolate that Task rather than reconstructing the prompt.
+
+New production flows MUST create and verify all per-Task prompt files before locking the Batch manifest and beginning execution. The manifest must list one and only one prompt-file path for every executable Task; each file must map to exactly one Task. `PROMPT_SET.md` remains a required manifest, not a prompt-body container.
+
+Existing Batches created under the former combined-file layout are historical/legacy records. Do not silently migrate, overwrite, or rewrite their locked prompt content. Continue them only under their existing authoritative record format unless an explicit migration is authorized and separately recorded.
+
 ## 3. Prompt Execution Integrity
 
 ### Level 1 — Prompt Readiness
 
-1. Read the current complete locked Prompt from the authoritative PROMPT_SET.
+1. Read the current Task's complete locked Prompt from its authoritative `PROMPTS/<TASK_ID>.md` file, located through the `PROMPT_SET.md` manifest.
 2. Confirm it is non-empty and bound to the current Task.
 3. Submit the complete locked Prompt verbatim as the generation input for the current Task.
 4. Do not shorten, summarize, paraphrase, translate, reorder, rewrite, omit, add to, polish, or otherwise alter any part of the locked Prompt. No derived or replacement input is permitted.
@@ -90,7 +102,7 @@ Passing Level 1 proves only that ChatGPT prepared the correct input.
 
 ### Generation Input Rule — Complete Locked Prompt Must Be Passed Verbatim
 
-For every generation call, the Producer MUST read the complete current locked Prompt directly from the authoritative `PROMPT_SET.md`, confirm it is non-empty and bound to the current Task, and submit that entire text verbatim as the generation input.
+For every generation call, the Producer MUST read the complete current locked Prompt directly from the authoritative per-Task file `PROMPTS/<TASK_ID>.md`, using `PROMPT_SET.md` only to locate and verify the Task-to-file mapping, confirm it is non-empty and bound to the current Task, and submit that entire text verbatim as the generation input.
 
 1. **Full read is mandatory.** Do not generate if the complete Prompt cannot be read back or its Task binding is unclear.
 2. **Exact-text rule.** The generation input MUST be the complete locked Prompt exactly as stored. Do not shorten, summarize, paraphrase, translate, reorder, rewrite, omit, add to, polish, or otherwise transform any part of it.
@@ -253,7 +265,7 @@ Before a /RESUME_AUTO Generation attempt, the Producer MUST:
 
 1. re-verify the current GitHub database connection;
 2. reload and verify the applicable current Canonical Rules;
-3. recover the existing Session/Batch, Task Queue, Checkpoint, and locked Prompt Set;
+3. recover the existing Session/Batch, Task Queue, Checkpoint, prompt manifest, and the assigned Task's authoritative prompt file;
 4. select the first Task that has not reached a valid terminal state.
 
 If connection verification or Canonical Rule Loading fails, resume is BLOCKED and no Generation call may occur.
@@ -277,7 +289,7 @@ The stop conditions in this protocol apply to the affected Task unless the evide
 
 This section defines record-level handoff behavior for a future Runtime Coordinator and multiple Workers. It does not claim that a multi-worker coordinator or Claim/Lease runtime has already been implemented.
 
-1. **Read authoritative state first.** A receiving Worker MUST reconnect to GitHub and read the current Session/Batch, Task Queue, and the complete locked Prompt for the Task it is assigned. A prior Worker's narrative is supplemental evidence, not the sole authority.
+1. **Read authoritative state first.** A receiving Worker MUST reconnect to GitHub and read the current Session/Batch, Task Queue, prompt manifest, and the complete prompt text from `PROMPTS/<TASK_ID>.md` for the Task it is assigned (or the documented legacy source for an existing Batch). A prior Worker's narrative is supplemental evidence, not the sole authority.
 2. **Gate only on the assigned Task's prerequisites.** Verify that the assigned Task is eligible, non-terminal, correctly bound to its own complete non-empty locked Prompt, and that the Prompt is neither consumed nor retired. Verify any explicitly declared dependency that this Task actually requires.
 3. **Do not inherit unrelated failures.** A prior Worker's missing report, incomplete optional telemetry, or Task-local recovery state MUST NOT block an independent Task whose own prerequisites can be verified.
 4. **Isolate record defects.** If the assigned Task's required state or Prompt cannot be verified, record/isolate that Task and state the exact missing or conflicting prerequisite. Do not fabricate a value. Then the coordinator/Producer may consider another independent Task after independently verifying its readiness.
