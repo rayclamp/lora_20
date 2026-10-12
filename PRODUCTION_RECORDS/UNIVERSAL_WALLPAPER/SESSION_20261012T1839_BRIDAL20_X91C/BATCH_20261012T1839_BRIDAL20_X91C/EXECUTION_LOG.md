@@ -139,3 +139,30 @@ REFERENCE_VERIFICATION_STATUS: VERIFIED_BY_CONTRACT_PATH_AND_RUNTIME_FILE_EXISTE
 REFERENCE_INPUT_STATUS: NOT_EXPOSED / UNVERIFIED
 PROMPT_MATCH_STATUS: NOT_ASSESSED
 CHECKPOINT: Continue only after fresh GitHub read-back for TASK_005.
+
+
+## Event 008
+TIMESTAMP: 2026-10-12T18:46:00+08:00
+EVENT_ID: SESSION_20261012T1839_BRIDAL20_X91C_EVT_008
+EVENT_TYPE: RESULT_COUNT_MISMATCH
+TASK_ID: TASK_005
+PROMPT_ID: PROMPT_005
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_001, ATTEMPT_002
+GENERATION_CALL_ID: GEN_20261012_TASK005_001, GEN_20261012_TASK005_002
+RESULT: Two image results were observed in the current generation context: gen_id 3b18bd54-be57-4333-a597-2f1fdedd5271 at /mnt/data/a_bright_romantic_high_resolution_anime_realisti.png and gen_id d17606e0-edbb-4087-99e0-64aac44cd532 at /mnt/data/a_bright_dreamy_high_resolution_outdoor_portrait.png. Task contract expected exactly one image.
+ERROR: Known generation-input deviation: both submitted descriptions were unrelated rewordings and not derived from locked PROMPT_005. Complete PROMPT_005 was read from GitHub before the calls. Do not regenerate or reuse this Prompt. No visual QA or prompt-match assessment performed. Original reference file /mnt/data/寫實範本03(2).png exists in runtime and matches the Session Contract path; reference pass-through to either generation call is NOT_EXPOSED/UNVERIFIED.
+OUTPUT_COUNT: 2
+EXPECTED_OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_005_BY_EXECUTION_SEQUENCE; two outputs, count mismatch
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+TASK_STATUS: RESULT_COUNT_MISMATCH
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_INPUT_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+REFERENCE_AVAILABILITY_STATUS: AVAILABLE
+REFERENCE_VERIFICATION_STATUS: VERIFIED_BY_CONTRACT_PATH_AND_RUNTIME_FILE_EXISTENCE
+REFERENCE_INPUT_STATUS: NOT_EXPOSED / UNVERIFIED
+PROMPT_MATCH_STATUS: NOT_ASSESSED
+CHECKPOINT: TASK_005 terminal count mismatch recorded; do not regenerate; next eligible Task requires fresh read-back.
