@@ -23,6 +23,8 @@ Standard records:
 Typical fields: SESSION_ID, BATCH_ID, SESSION_SCOPE, MODULE, PRODUCTION_TYPE, CHARACTER, IMAGE_COUNT, OUTPUT_TYPE, user constraints, and design/execution boundary.
 OUTPUT_TYPE is the combined output contract that identifies the target class and exact aspect ratio. Canonical values are `DESKTOP_16_9` and `PHONE_9_16`. Do not add a separate ASPECT_RATIO or ORIENTATION control when OUTPUT_TYPE already expresses the complete output format.
 
+**LORA_IMAGE exception:** the Batch-level `OUTPUT_TYPE` may be `MIXED_PER_TASK` to indicate that each Task independently selects its own format. This value is valid only for `MODULE=LORA_IMAGE`; other modules retain the existing two canonical values and their current Batch-level interpretation. For every LORA_IMAGE Task, record `TASK_OUTPUT_TYPE` as exactly one of `DESKTOP_16_9` or `PHONE_9_16`. This is the only per-Task format control; do not add `ASPECT_RATIO` or `ORIENTATION`. The Task's locked prompt must be designed consistently with its recorded value.
+
 ## 4. BATCH_RECORD.md
 Record: SESSION_ID, BATCH_ID, MODULE, PRODUCTION_TYPE, IMAGE_COUNT, BATCH_STATUS, COMPLETED_COUNT, RESULT_RECORDED_COUNT, ACTUAL_IMAGE_COUNT, UNVERIFIED_COUNT, FAILED_COUNT, DEFERRED_COUNT, BLOCKED_COUNT, PENDING_COUNT, ATTEMPT_COUNT, CURRENT_TASK, NEXT_TASK, CHECKPOINT, and termination/completion information. These state counts must remain separate; do not combine failed, deferred, blocked, and unverified Tasks into one ambiguous counter. `COMPLETED_COUNT` counts Tasks with at least one confirmed image result durably recorded against the Task, once per Task. `RESULT_RECORDED_COUNT` is reserved for terminal image-result records that cannot be attributed/recorded sufficiently to count as successful Task outputs; do not use it merely because multiple files were returned or QA has not occurred. `ACTUAL_IMAGE_COUNT` is the total number of individual image files actually received across all Tasks.
 A Batch MUST NOT be complete while any required Task is unfinished or has not reached a valid terminal state. It MUST close once every required Task has reached a valid terminal outcome and the completion record is written and verified; unsuccessful outcomes do not keep the Batch open.
@@ -31,6 +33,7 @@ A Batch MUST NOT be complete while any required Task is unfinished or has not re
 Each Task should record, as applicable:
 - ORDER
 - TASK_ID
+- TASK_OUTPUT_TYPE (required for LORA_IMAGE; one of DESKTOP_16_9 or PHONE_9_16)
 - PROMPT_ID
 - PROMPT_VERSION
 - PROMPT_STATUS
@@ -70,6 +73,8 @@ For wallpaper production, EXPECTED_OUTPUT_COUNT = 1 as the planned output per Ta
 For every new Batch, each Task's prompt is stored in its own file at `PROMPTS/<TASK_ID>.md` (for example, `PROMPTS/TASK_001.md`). `PROMPT_SET.md` is a manifest/index only: it maps each Task to exactly one prompt file and records prompt metadata, but MUST NOT contain full prompt bodies. Design all prompts before execution, persist and verify every per-Task file, then lock the manifest and prompt files before generation. Resume does not silently redesign a locked prompt. Revisions require a new prompt version.
 
 The Prompt Set lock metadata is authoritative and must be internally consistent: when PROMPT_SET_STATUS = LOCKED, PROMPT_SET_LOCKED MUST = YES. A persisted locked Prompt Set with PROMPT_SET_LOCKED = NO is invalid record state and must be corrected before execution/resume.
+
+For `MODULE=LORA_IMAGE`, include `TASK_OUTPUT_TYPE` in each Task's queue entry, prompt-file metadata, and manifest metadata. The Batch contract uses `OUTPUT_TYPE=MIXED_PER_TASK`; the per-Task field selects the requested format. Do not infer a Task's format from another Task or from a global wallpaper-style Batch format.
 
 Each executable Task must have one authoritative prompt file `PROMPTS/<TASK_ID>.md` in a new-format Batch, mapped from `PROMPT_SET.md`. That file must record `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and `PROMPT_STATUS=LOCKED`, with the exact prompt text delimited by `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT`. The manifest must not duplicate full prompt bodies. Before generation, read the complete, non-empty locked Prompt text from that file and verify its Task binding. The Producer MUST submit the entire locked Prompt verbatim as the generation input. Shortening, summarizing, paraphrasing, translating, reordering, rewriting, omitting, adding to, polishing, or otherwise transforming any part of the Prompt is forbidden. A replacement based on Session theme, previous Tasks, memory, assumptions, or a template is also forbidden. Only the text inside the explicit prompt delimiters is the generation input; do not include file metadata or delimiters. If the per-Task file is missing, unreadable, mismatched, ambiguously delimited, or the exact text cannot be supplied unchanged, do not generate that Task; isolate/block it and record the specific failure. Existing Batches created with the former combined-file layout remain legacy records and must not be silently migrated.
 
