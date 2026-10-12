@@ -105,7 +105,7 @@ Record whether the full Prompt was read and set `GENERATION_INPUT_MODE = FULL_LO
 One locked Prompt/version may produce at most one confirmed image result. A Generation Call attempt does not by itself consume the Prompt; any confirmed received image consumes the Prompt and is counted, regardless of prompt match or Task success.
 
 After each attempt, classify and persist only the production outcome and observable execution facts before advancing:
-- Confirmed image result received: immediately set `PROMPT_CONSUMED = YES`; record every received image in `ACTUAL_OUTPUT_COUNT` and batch `ACTUAL_IMAGE_COUNT`; record result reference/binding and output count; never call that Prompt/version again. If the expected output count and Task/result binding are satisfied, mark the production Task `SUCCESS`; otherwise use `RESULT_COUNT_MISMATCH` or the applicable result-recording state.
+- Confirmed image result received: immediately set `PROMPT_CONSUMED = YES` and retire the Prompt/version permanently; record every returned image in `ACTUAL_OUTPUT_COUNT` and batch `ACTUAL_IMAGE_COUNT`; record available result references/binding; never call that Prompt/version again. Once the result is durably recorded against its Task, mark the Task `SUCCESS` exactly once, even if multiple files were returned.
 - Confirmed no image result: record the actual error/reason and applicable terminal or authorized-retry outcome; keep `PROMPT_CONSUMED = NO` when the no-image outcome is known.
 - Outcome unknown: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, record the uncertainty, and stop that Task until resolved. Do not guess an image count.
 - The Producer MUST NOT compare the submitted payload against the locked prompt after generation, judge visual prompt compliance, or classify image quality. Do not set `PROMPT_MATCH_STATUS` to `MATCH` or `MISMATCH`; leave it `NOT_ASSESSED` or unset. Image correctness and quality belong to the independent QA workflow.
@@ -127,7 +127,7 @@ Image QA remains a separate workflow and is currently paused. Automated generati
 
 Before selecting the next Task, reconnect and verify the latest authoritative state.
 
-Continue until every required Task has reached a valid terminal state. A confirmed image result that is bound to its Task and has the expected output count is a production `SUCCESS`; this does not imply QA acceptance. Record actual images even when the output count differs, using `RESULT_COUNT_MISMATCH` as applicable. A confirmed no-image failure must also be recorded with its reason and terminal or explicitly authorized retry state.
+Continue until every required Task has reached a valid terminal state. Any confirmed image result that is durably recorded against its Task is a production `SUCCESS`, counted once per Task regardless of how many files were returned; this does not imply QA acceptance. Record the actual number of returned files separately. A confirmed no-image failure must also be recorded with its reason and terminal or explicitly authorized retry state.
 
 Do not require every Task to be successful. When all required Tasks are terminal and the completion record is read back successfully, close the Batch and issue no further generation calls for it.
 
@@ -139,7 +139,7 @@ A Batch is BATCH_COMPLETED when:
 - every required Task has reached a valid terminal state; and
 - the Batch completion record has been written and verified.
 
-Success count does not determine Batch completion. `COMPLETED_COUNT` counts SUCCESS Tasks only; `RESULT_RECORDED_COUNT` and `ACTUAL_IMAGE_COUNT` track recorded image-result Tasks and actual images separately. A completed Batch can have zero SUCCESS Tasks while still having recorded images. Completion must stop the production loop, not merely change the persisted status.
+Success count does not determine Batch completion. `COMPLETED_COUNT` counts each Task with a confirmed image result durably recorded against it once; `ACTUAL_IMAGE_COUNT` counts every actual image file received. `RESULT_RECORDED_COUNT` is reserved for result-bearing Tasks whose recording/attribution is not yet sufficient for SUCCESS, not for extra files or missing QA. Completion must stop the production loop, not merely change the persisted status.
 
 ## 10. Stop / Resume
 
