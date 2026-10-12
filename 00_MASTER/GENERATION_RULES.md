@@ -26,3 +26,9 @@
 
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
 No age-specific identity or LoRA-specific dataset rule belongs here.
+
+## Producer No-QA Rule — Current Override
+
+After generation, the Producer MUST NOT inspect or evaluate the image for QA, including prompt compliance, visual quality, identity, anatomy, composition, style, or dataset suitability. Do not compare the image with the locked prompt and do not decide whether the image is acceptable.
+
+Record only whether an image was received, the actual number of returned images, result/Task attribution, prompt consumption, and durable record status. Any confirmed image receipt counts as one successful Task output; record multiple returned files separately in the actual image count. QA belongs exclusively to a separate downstream QA process and must not trigger regeneration or change production success.
