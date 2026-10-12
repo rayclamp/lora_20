@@ -41,7 +41,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
 17. Every confirmed received image must be counted and recorded. The Producer reports observable production facts only: image received/count/result binding, or no image plus the confirmed failure reason. The Producer MUST NOT compare the submitted payload against the locked prompt or judge visual compliance. `PROMPT_MATCH_STATUS` is not a Producer-assessed field; leave it `NOT_ASSESSED` or unset. QA owns visual compliance and image-quality decisions.
 18. A production Batch closes when every required Task has a recorded terminal outcome, whether successful or unsuccessful. Do not keep producing or leave the Batch open solely because a result is mismatched or unsuccessful.
-19. Before each generation call, the Producer MUST read the complete, current, non-empty locked Prompt from the authoritative PROMPT_SET and verify its binding to the current Task. Reading the complete Prompt first is mandatory.
+19. Before each generation call in a new-format Batch, the Producer MUST use `PROMPT_SET.md` only to locate the current Task's dedicated file `PROMPTS/<TASK_ID>.md`, then read the complete, current, non-empty locked Prompt text from that file and verify its binding to the current Task. `PROMPT_SET.md` is a manifest/index only and MUST NOT contain full prompt bodies in new Batches. Reading the complete Prompt first is mandatory.
 20. After reading the complete current locked Prompt, the Producer MUST submit that entire Prompt verbatim as the generation input. The Producer MUST NOT shorten, summarize, paraphrase, translate, reorder, rewrite, omit, add to, polish, or otherwise alter any part of the locked Prompt when preparing the generation call. The exact complete Prompt text is the only permitted generation input for that Task. If it cannot be read completely, bound to the current Task, or supplied unchanged, do not generate that Task; record and isolate the specific failure. Missing hidden-payload telemetry must be recorded honestly and must not be misrepresented as verified transport.
 
 ## 2. Required Shared Documents
@@ -67,7 +67,7 @@ Any automated production initiated by /RESUME_AUTO MUST re-verify the current Gi
 1. Existing Session/Batch records may be used only after the current GitHub connection is verified.
 2. The Producer MUST reload and verify the applicable current Canonical Rules before continuing.
 3. If connection verification or rule loading fails, resume is BLOCKED and no Generation call may be made.
-4. Resume MUST use the existing SESSION_ID, BATCH_ID, TASK_QUEUE, and LOCKED PROMPT_SET.
+4. Resume MUST use the existing SESSION_ID, BATCH_ID, TASK_QUEUE, PROMPT_SET manifest, and the assigned Task's authoritative prompt file. New-format Batches use `PROMPTS/<TASK_ID>.md`; do not replace or redesign locked prompts.
 5. Resume MUST NOT create a replacement Session/Batch or redesign a locked prompt.
 6. Resume selects the first Task that has not reached a valid terminal state.
 7. This gate is a Producer Runtime precondition; it does not make GitHub a runtime controller.
@@ -77,15 +77,15 @@ Any automated production initiated by /RESUME_AUTO MUST re-verify the current Gi
 
 1. A blocking condition MUST be scoped to the smallest affected unit: evidence field, Task, or Batch.
 2. A Task-local state conflict, missing Task-local readback, or unresolved result MUST NOT automatically stop unrelated Tasks. Isolate the affected Task, preserve its state, and evaluate the next Task independently.
-3. Continue with the next Task only when its own authoritative Task state, complete non-empty locked Prompt, Task-to-Prompt binding, and applicable generation prerequisites can be verified, and it does not depend on the unresolved Task.
+3. Continue with the next Task only when its own authoritative Task state, complete non-empty locked Prompt from its authoritative per-Task file (or documented legacy source for an existing Batch), Task-to-Prompt binding, and applicable generation prerequisites can be verified, and it does not depend on the unresolved Task.
 4. An unresolved generation outcome remains unresolved for that Task: do not retry, skip, advance past it as though resolved, or reuse its consumed/retired Prompt. This does not by itself forbid independent later Tasks from running.
-5. Stop the entire Batch only when a verified issue affects Batch-wide identity/contract, global Prompt Set integrity, or result attribution in a way that cannot safely be isolated to a Task.
+5. Stop the entire Batch only when a verified issue affects Batch-wide identity/contract, global prompt-manifest integrity or per-Task prompt-file mapping, or result attribution in a way that cannot safely be isolated to a Task.
 6. Visual-quality defects or visual differences from a Prompt are QA observations, not proof of generation-input mismatch. QA findings MUST NOT automatically change execution-integrity status or trigger regeneration.
 7. Missing nonessential delivery telemetry alone is NOT a blocking condition. Record NOT_EXPOSED/UNVERIFIED honestly.
 
 ## 3.4 MULTI-WORKER HANDOFF AND FAILURE ISOLATION — NON-NEGOTIABLE
 
-1. A Worker MUST base execution decisions on the current authoritative Task/Prompt/Batch records and directly available result evidence, not solely on a previous Worker's narrative, completion message, or unverified status claim.
+1. A Worker MUST base execution decisions on the current authoritative Task record, per-Task prompt file (or documented legacy prompt source for an existing Batch), and Batch records and directly available result evidence, not solely on a previous Worker's narrative, completion message, or unverified status claim.
 2. A missing, late, incomplete, or contradictory report from one Worker MUST be scoped to the affected Task/result unless verified evidence shows a Batch-wide identity, contract, Prompt Set, or attribution conflict.
 3. A Worker MUST NOT block an independent Task merely because another Task's result evidence is UNVERIFIED, its predecessor report is missing, or its Task-local record requires recovery. Independently verify the next Task's own state, locked Prompt, binding, and prerequisites before proceeding.
 4. Do not infer success from missing reports. Preserve unresolved Tasks as unresolved; do not retry or reuse a consumed/retired Prompt when the previous outcome is unknown.
