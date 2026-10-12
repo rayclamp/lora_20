@@ -288,3 +288,10 @@ After generation, the Producer records only observable production facts: whether
 Any confirmed image receipt consumes and permanently retires that locked Prompt/version for further generation. Visual compliance and quality belong to an independent downstream QA process. QA must not change production success/counts, block the next independent Task, or trigger regeneration.
 
 This section overrides older statements in this protocol that make production SUCCESS depend on output-count equality or that could be interpreted as authorizing the Producer to inspect, compare, or judge generated images. Preserve actual output counts and result evidence even when multiple images are returned.
+
+
+## LORA_IMAGE Per-Task Output Format
+
+For `MODULE=LORA_IMAGE`, the Batch may declare `OUTPUT_TYPE=MIXED_PER_TASK`. Before executing each Task, read that Task's `TASK_OUTPUT_TYPE` from its authoritative Task record and prompt-file metadata; the value must be exactly `PHONE_9_16` or `DESKTOP_16_9`. Ensure the locked prompt is designed for the same portrait 9:16 or landscape 16:9 composition. Do not inherit the preceding Task's format or apply one global format to every Task in this module. If the Task metadata and locked prompt conflict, isolate that Task and record the specific inconsistency rather than silently rewriting a locked prompt. Other modules retain their existing Batch-level `OUTPUT_TYPE` behavior.
+
+This is a prompt-design and record-integrity rule, not a claim that the generation interface can enforce exact pixel dimensions from prompt text. Use an explicit format control only if the current interface actually exposes one; otherwise record the requested format without claiming verified dimensions.
