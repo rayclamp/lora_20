@@ -19,4 +19,4 @@ ATTEMPT_COUNT: 8
 CURRENT_TASK: TASK_008
 NEXT_TASK: TASK_008
 CHECKPOINT: TASK_007_IMAGE_RESULT_RECORDED_AND_VERIFIED; one image received and bound to TASK_007; known generation-input deviation recorded; TASK_008 next after fresh read-back.
-TERMINATION_INFORMATION: Not terminated. Execution remains in progress; TASK_001 and TASK_002 have recorded image results; TASK_003 through TASK_020 remain pending. Known generation-input deviations for TASK_001 and TASK_002 are recorded.
+TERMINATION_INFORMATION: Not terminated. Execution remains in progress; TASK_001, TASK_002, TASK_003, TASK_004, and TASK_006 through TASK_007 have one image result each; TASK_005 has two image results and terminal RESULT_COUNT_MISMATCH; TASK_008 through TASK_020 remain pending. Known generation-input deviations are recorded for Tasks 001 through 007; no prompt compliance or visual QA was assessed.
