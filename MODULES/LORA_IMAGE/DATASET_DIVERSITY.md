@@ -87,9 +87,9 @@ Do not automatically import wallpaper outfit rules, festival costume facts, or a
 
 ## Portrait and Landscape Format Diversity
 
-- Treat output format as an explicit diversity dimension. For each Task, independently choose `PHONE_9_16` (portrait 9:16) or `DESKTOP_16_9` (landscape 16:9).
+- Treat output format as an explicit diversity dimension. For each Task, randomly choose independently between `PHONE_9_16` (portrait 9:16) and `DESKTOP_16_9` (landscape 16:9).
 - Format is selected per Task, so one Batch may mix portrait and landscape prompts. Do not let a single Batch-level format silently override these per-Task choices.
-- Do not impose a fixed count, ratio, or 50/50 quota. Choices should be independent rather than engineered to hit a predetermined split.
+- Do not impose a fixed count, ratio, or 50/50 quota. Choices must be random and independent, not engineered to hit a predetermined split.
 - Record the choice as `TASK_OUTPUT_TYPE` in the Task metadata and design the prompt's subject placement, negative space, environment, and crop for the chosen format.
 - Format diversity is not a substitute for shot-size diversity; continue to vary close-ups, busts, half-body, medium, and full-body views.
 - This rule governs the requested design format. Do not promise that a prompt guarantees exact generated pixel dimensions when the generation interface does not expose such control.
