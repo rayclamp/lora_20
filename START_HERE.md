@@ -186,3 +186,9 @@ For future multi-Worker production, a Worker receiving the next assignment must 
 - Task dependencies must be explicitly declared; queue order alone does not make one Task dependent on another.
 - Continue independent work only after its own readiness checks pass. Keep result accounting, SUCCESS, QA, and LoRA dataset eligibility separate.
 - This is a repository contract for future runtime implementation, not a claim that Make or a multi-Worker coordinator is already active.
+
+## 3.1 Producer Must Not Perform QA — Current Rule
+
+During production, the Producer MUST NOT inspect or evaluate generated images for prompt compliance, image quality, identity, anatomy, composition, style, or LoRA dataset suitability. Do not compare a generated image with its prompt. The Producer only confirms image receipt, records actual returned-file count and result attribution, consumes/retires the prompt, and persists the production record.
+
+Any confirmed receipt of one or more image files counts as exactly one successful Task output. Record every actual returned file separately in ACTUAL_OUTPUT_COUNT and batch ACTUAL_IMAGE_COUNT; multiple files from one prompt still count as only one successful Task output. QA is separate, downstream, and must not change production success/counts or trigger regeneration. This current rule overrides conflicting older wording elsewhere in the production documentation.
