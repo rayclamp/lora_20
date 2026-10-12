@@ -137,9 +137,9 @@ These are design-time requirements. Final image acceptance, PASS/REVIEW/REPAIR/R
 
 Image format is a required dataset-diversity dimension, alongside framing, viewpoint, pose, clothing, hairstyle, and scene.
 
-- Independently select one canonical output format for each Task during prompt design: `PHONE_9_16` (portrait 9:16) or `DESKTOP_16_9` (landscape 16:9).
+- Randomly select one canonical output format independently for each Task during prompt design: `PHONE_9_16` (portrait 9:16) or `DESKTOP_16_9` (landscape 16:9).
 - The choice is per Task, not per Batch. A single LORA_IMAGE Batch may contain both formats.
-- Make the choice independently and without a fixed quota or required 50/50 split. Do not force a Batch to a single format; do not claim randomness if the choice was manually fixed.
+- Make the choice independently and without a fixed quota or required 50/50 split. Do not force a Batch to a single format or engineer choices to hit a predetermined split; the format choice itself must be randomized per Task.
 - Record the selected canonical value in that Task's metadata as `TASK_OUTPUT_TYPE`, and explicitly design the locked prompt's composition for that format. The chosen format must be consistent between the metadata and prompt.
 - Portrait and landscape should lead to genuinely suitable framing and composition, not simply the same composition described with a different ratio label.
 - Do not add separate `ASPECT_RATIO` or `ORIENTATION` controls. `TASK_OUTPUT_TYPE` uses the existing canonical `OUTPUT_TYPE` values.
