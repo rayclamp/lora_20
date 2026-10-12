@@ -87,3 +87,29 @@ PROMPT_CONSUMED: YES
 PROMPT_STATE: RETIRED
 TASK_STATUS: SUCCESS (production result/count/binding recorded; not QA PASS)
 CHECKPOINT: Proceed only after fresh GitHub read-back for TASK_003.
+
+
+## Event 006
+TIMESTAMP: 2026-10-12T18:44:00+08:00
+EVENT_ID: SESSION_20261012T1839_BRIDAL20_X91C_EVT_006
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TASK_ID: TASK_003
+PROMPT_ID: PROMPT_003
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_001
+GENERATION_CALL_ID: GEN_20261012_TASK003_001
+RESULT: One image result returned in the current generation context; image gen_id 9f478c45-c6c1-4f51-8c09-32966e7f7fd7; output file /mnt/data/a_bright_dreamy_high_resolution_indoor_portrait.png.
+ERROR: Known generation-input deviation: the submitted generation text was an unrelated reworded scene description, not a shortening derived from the complete locked PROMPT_003. The complete locked PROMPT_003 had been read and Task binding confirmed before the call, but the actual generation input did not preserve the locked task intent. Do not regenerate this consumed prompt. Prompt compliance remains NOT_ASSESSED; no visual QA performed. Reference file is available in the current runtime at /mnt/data/寫實範本03(2).png and matches the path recorded in SESSION_CONTRACT; whether it was passed into this generation call is NOT_EXPOSED/UNVERIFIED.
+OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_003
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+TASK_STATUS: SUCCESS for result receipt/count/binding only; not QA PASS
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_INPUT_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+REFERENCE_AVAILABILITY_STATUS: AVAILABLE
+REFERENCE_VERIFICATION_STATUS: VERIFIED_BY_CONTRACT_PATH_AND_RUNTIME_FILE_EXISTENCE
+REFERENCE_INPUT_STATUS: NOT_EXPOSED / UNVERIFIED
+PROMPT_MATCH_STATUS: NOT_ASSESSED
+CHECKPOINT: Continue only after fresh GitHub read-back for TASK_004.
