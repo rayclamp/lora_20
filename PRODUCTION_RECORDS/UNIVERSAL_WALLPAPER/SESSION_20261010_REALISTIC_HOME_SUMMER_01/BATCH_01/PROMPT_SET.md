@@ -9,8 +9,8 @@ LOCK_NOTE: Six complete independent prompts, one per Task. These prompt bodies a
 ## PROMPT_01 — TASK_01 — Sunny morning — reading by the window
 PROMPT_VERSION: 1
 PROMPT_STATUS: LOCKED
-PROMPT_CONSUMED: NO
-PROMPT_STATE: AVAILABLE
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
 
 Create ONE independent realistic desktop wallpaper image in exact 16:9 landscape format. Use the user-uploaded reference photograph as the sole visual identity authority for the same adult woman. Preserve her recognizable facial structure, eye shape and expression character, nose, lips, jawline, hairline, natural dark hair color, skin tone, age appearance, natural body build and proportions. Real human photographed by a professional full-frame camera; natural skin texture, believable hair and fabric, no plastic smoothing, no doll/influencer face, no illustration. REFERENCE_OUTFIT_POLICY: REPLACE. REFERENCE_POSE_POLICY: IGNORE. Do not copy the source outfit, pose, limb placement, framing, or background. Scene: her own calm modern home on a bright clear summer morning, seated comfortably in an armchair beside a sunlit window, quietly reading an open paperback held naturally with both hands separated and anatomically clear. Fresh green trees visible outside, soft sunlight and gentle realistic shadows, peaceful lived-in interior. Outfit: complete new summer outfit, pale sky-blue short-sleeved blouse tucked into a white above-mid-thigh pleated short skirt, simple white sandals. Hair styled in a loose low ponytail with a small blue ribbon; understated earrings. Medium-wide character-dominant framing, face clearly recognizable, natural posture and believable support. Both legs comfortably positioned and clearly traceable; no crossed or twisted legs. Exactly two arms/hands and two legs/feet, natural hands and fingers, no extra limbs. No pets, no text, no watermark, no logo. Premium natural photography, restrained color grading.
 
