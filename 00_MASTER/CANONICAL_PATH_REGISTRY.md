@@ -15,7 +15,8 @@
 - Canonical automated batch path: PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/
 - The storage directory is determined by MODULE, not PRODUCTION_TYPE.
 - REALISTIC and ANIME are PRODUCTION_TYPE values and must never create separate production-record roots.
-- Standard records: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md, EXECUTION_LOG.md
+- Standard batch records: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md (manifest/index only), EXECUTION_LOG.md.
+- Authoritative per-Task prompt files for new Batches: `PROMPTS/TASK_001.md`, `PROMPTS/TASK_002.md`, etc. Each Task has exactly one dedicated prompt file; `PROMPT_SET.md` MUST NOT contain full prompt bodies for new Batches.
 
 ## Wallpaper
 - Anime: 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
