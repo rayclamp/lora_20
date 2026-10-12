@@ -52,3 +52,19 @@ PROMPT_CONSUMED: YES
 PROMPT_STATE: RETIRED
 TASK_STATUS: SUCCESS (production result/count/binding recorded; not QA PASS)
 CHECKPOINT: Proceed only after fresh GitHub read-back for TASK_002.
+
+
+## Event 004
+TIMESTAMP: 2026-10-12T18:42:00+08:00
+EVENT_ID: SESSION_20261012T1839_BRIDAL20_X91C_EVT_004
+EVENT_TYPE: RECORD_CORRECTED
+TASK_ID: TASK_002
+PROMPT_ID: PROMPT_002
+PROMPT_VERSION: V1
+ATTEMPT_ID: NONE
+GENERATION_CALL_ID: NONE
+RESULT: Corrected an accidental duplicate TASK_001 block inserted under a TASK_002 heading during the prior queue update. Preserved TASK_001's recorded result and restored one canonical block per Task; current queue read-back required before continuing.
+ERROR: Local record-edit error, corrected by updating active queue record.
+OUTPUT_COUNT: 0
+PROMPT_CONSUMED: NO
+CHECKPOINT: Verify queue structure and Task_002 binding before generation.
