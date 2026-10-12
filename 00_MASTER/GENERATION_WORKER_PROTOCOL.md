@@ -82,24 +82,23 @@ This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, R
 
 1. Read the current complete locked Prompt from the authoritative PROMPT_SET.
 2. Confirm it is non-empty and bound to the current Task.
-3. Only after reading it, choose the generation input under the Generation Input Rule below: use the full Prompt unchanged or a shortened input derived from that exact Prompt.
-4. Do not edit or silently rewrite the locked Prompt Set. Any shortened input must preserve the Task-specific requirements and must not be invented from a theme, prior Task, memory, assumptions, or generic template.
+3. Submit the complete locked Prompt verbatim as the generation input for the current Task.
+4. Do not shorten, summarize, paraphrase, translate, reorder, rewrite, omit, add to, polish, or otherwise alter any part of the locked Prompt. No derived or replacement input is permitted.
 5. This readiness check does not require hidden transport evidence.
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
 
-### Generation Input Rule — Full Prompt Read First; Shortening May Follow
+### Generation Input Rule — Complete Locked Prompt Must Be Passed Verbatim
 
-For every generation call, the Producer MUST read the complete current locked Prompt directly from the authoritative `PROMPT_SET.md`, confirm it is non-empty and bound to the current Task, and only then choose the generation input.
+For every generation call, the Producer MUST read the complete current locked Prompt directly from the authoritative `PROMPT_SET.md`, confirm it is non-empty and bound to the current Task, and submit that entire text verbatim as the generation input.
 
 1. **Full read is mandatory.** Do not generate if the complete Prompt cannot be read back or its Task binding is unclear.
-2. **Permitted input modes.** Either submit the complete locked Prompt unchanged, or create a shortened generation input derived only from the exact Prompt just read.
-3. **Shortening standard.** A shortened input must retain the Task-specific scene and intent, identity requirements, pose, expression, clothing, composition, critical constraints, and explicit exclusions wherever those are present. Preserve enough detail to distinguish this Task from other Tasks.
-4. **Forbidden substitutes.** Never invent or reconstruct a replacement from the Session theme, a previous Task, memory, assumptions, or a generic template. Do not silently edit the locked Prompt Set; a shortened input applies only to the current generation call.
-5. **When not safely shorten-able.** If a concise input cannot preserve the essential requirements, use the full Prompt. If the full Prompt cannot be read or bound to the Task, isolate/block that Task rather than improvise.
-6. **Record both facts separately.** Record whether the complete Prompt was read and which input mode was used. If payload telemetry is unavailable, record the evidence limitation honestly; do not claim independent transport verification. Missing telemetry alone is not a generation gate.
+2. **Exact-text rule.** The generation input MUST be the complete locked Prompt exactly as stored. Do not shorten, summarize, paraphrase, translate, reorder, rewrite, omit, add to, polish, or otherwise transform any part of it.
+3. **No substitute or reconstruction.** Never replace the locked Prompt with content inferred from the Session theme, a previous Task, memory, assumptions, a generic template, or a model-generated restatement.
+4. **Failure behavior.** If the Prompt cannot be read completely, bound to the current Task, or supplied unchanged, do not generate that Task. Isolate/block it and record the specific failure; do not improvise.
+5. **Record the actual mode.** Record `GENERATION_INPUT_MODE = FULL_LOCKED_PROMPT` only when that exact full-text input was prepared for the call. If a known deviation occurred, record it honestly; if the interface does not expose transport evidence, record the evidence limitation and do not claim independent transport verification. Missing telemetry alone is not a generation gate.
 
-This rule governs the Producer's actual generation-input preparation. It does not authorize editing a locked Prompt Set, reusing a consumed Prompt, or regenerating a Task whose Prompt has already been consumed.
+This rule forbids transformation of the generation input; it does not prohibit designing or revising a prompt before it is formally locked. Once locked, changes require an explicitly created new prompt version and must never overwrite the locked version used or intended for execution.
 
 ### Level 2 — Generator Delivery Evidence
 
@@ -161,7 +160,7 @@ For wallpaper production, one Task equals one independent image. No collage, con
 
 ## 9. Prompt Immutability
 
-After PROMPT_SET_LOCKED, do not edit or silently rewrite the locked Prompt Set. The Producer may prepare a shortened generation input only after reading the full locked Prompt for that Task and only under the Generation Input Rule above. Record the selected input mode; do not mistake a one-call shortened input for a change to the locked Prompt Set.
+After PROMPT_SET_LOCKED, neither the locked Prompt Set nor the generation input may be edited or silently rewritten. The Producer MUST pass the complete locked Prompt verbatim to the generation interface. No shortening, summarization, paraphrasing, translation, reordering, omission, addition, polishing, or other transformation is permitted. Record `GENERATION_INPUT_MODE = FULL_LOCKED_PROMPT` when the exact full-text input is prepared. Any desired prompt revision must be designed as a new version through the formal prompt-design process; never overwrite or alter the locked version used or intended for execution.
 The current /START_AUTO workflow does not automatically retry without authorization. An explicitly authorized continuation may recover the existing Session/Batch and locked Prompt Set. It may retry the same locked Prompt/version only when the previous attempt is confirmed to have produced no image and the applicable retry rule allows it. A consumed Prompt/version MUST NOT be called again. A retired Prompt MUST NOT be reused even when `PROMPT_CONSUMED = NO`.
 
 ## 10. Stop Conditions
