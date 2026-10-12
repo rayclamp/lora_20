@@ -45,3 +45,8 @@ The previous `LORA_PRODUCTION` module is preserved under `ARCHIVE/LEGACY_LORA_PR
 The dataset design, diversity, and candidate-design requirements are maintained in the three files listed under Required design references. These files contain the applicable general rules distilled from the archived legacy dataset documents, with fixed-person/age assumptions removed.
 
 The archived directory remains historical reference only. It must not be loaded as an active rule source.
+
+
+## Per-Task output format
+
+For `LORA_IMAGE`, output format is selected independently for each Task: `PHONE_9_16` (portrait 9:16) or `DESKTOP_16_9` (landscape 16:9). A Batch may mix both formats; no fixed quota or 50/50 split is required. Record the choice as `TASK_OUTPUT_TYPE` and ensure the locked prompt is designed for the same format. The module-specific Batch contract exception and record fields are defined in `00_MASTER/PRODUCTION_RECORD_SCHEMA.md`. Do not add separate `ASPECT_RATIO` or `ORIENTATION` controls.
