@@ -10,10 +10,10 @@ UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 5
-RESULT_RECORDED_COUNT: 1
-ACTUAL_IMAGE_COUNT: 1
-ATTEMPT_COUNT: 1
+PENDING_COUNT: 4
+RESULT_RECORDED_COUNT: 2
+ACTUAL_IMAGE_COUNT: 2
+ATTEMPT_COUNT: 2
 CURRENT_TASK: NONE
 NEXT_TASK: TASK_02
-CHECKPOINT: TASK_01 has one received image recorded with a known generation-input deviation; PROMPT_01 retired and TASK_01 terminal as IMAGE_RESULT_RECORDED. Original reference image located in authorized Library. Continue with TASK_02 only after its full locked prompt and reference input readiness are verified; QA remains PAUSED.
+CHECKPOINT: TASK_01 and TASK_02 each have one received image recorded with known generation-input deviations; PROMPT_01 and PROMPT_02 are retired, both Tasks terminal as IMAGE_RESULT_RECORDED. Original reference image located in authorized Library. Continue with TASK_03 only after its complete locked prompt is read and the original reference image is passed to the generator; QA remains PAUSED.
