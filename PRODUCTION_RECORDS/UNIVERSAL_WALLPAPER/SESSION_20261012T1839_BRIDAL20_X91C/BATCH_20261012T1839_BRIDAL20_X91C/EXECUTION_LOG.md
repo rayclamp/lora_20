@@ -166,3 +166,29 @@ REFERENCE_VERIFICATION_STATUS: VERIFIED_BY_CONTRACT_PATH_AND_RUNTIME_FILE_EXISTE
 REFERENCE_INPUT_STATUS: NOT_EXPOSED / UNVERIFIED
 PROMPT_MATCH_STATUS: NOT_ASSESSED
 CHECKPOINT: TASK_005 terminal count mismatch recorded; do not regenerate; next eligible Task requires fresh read-back.
+
+
+## Event 009
+TIMESTAMP: 2026-10-12T18:47:00+08:00
+EVENT_ID: SESSION_20261012T1839_BRIDAL20_X91C_EVT_009
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TASK_ID: TASK_006
+PROMPT_ID: PROMPT_006
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_001
+GENERATION_CALL_ID: GEN_20261012_TASK006_001
+RESULT: One image result received in the current generation context; gen_id 0c0a2338-8d80-425f-b0bc-956134716d24; output file /mnt/data/a_bright_dreamy_outdoor_wedding_bridal_photo_scen.png.
+ERROR: Known generation-input deviation: submitted text was an unrelated paraphrase, not a shortening derived from the full locked PROMPT_006. Full PROMPT_006 was read from GitHub and Task binding verified before the call. Do not regenerate this consumed prompt. No visual QA or prompt-compliance assessment performed. Original reference file /mnt/data/寫實範本03(2).png exists in runtime and matches the Session Contract path; whether it was passed into this generation call is NOT_EXPOSED/UNVERIFIED.
+OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_006_BY_EXECUTION_SEQUENCE
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+TASK_STATUS: SUCCESS for image receipt/count/binding only; not QA PASS
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_INPUT_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+REFERENCE_AVAILABILITY_STATUS: AVAILABLE
+REFERENCE_VERIFICATION_STATUS: VERIFIED_BY_CONTRACT_PATH_AND_RUNTIME_FILE_EXISTENCE
+REFERENCE_INPUT_STATUS: NOT_EXPOSED / UNVERIFIED
+PROMPT_MATCH_STATUS: NOT_ASSESSED
+CHECKPOINT: Continue only after fresh GitHub read-back for TASK_007.
