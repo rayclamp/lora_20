@@ -5,8 +5,8 @@ PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 BATCH_STATUS: ACTIVE
 COMPLETED_COUNT: 0
-RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 0
+RESULT_RECORDED_COUNT: 1
+ACTUAL_IMAGE_COUNT: 1
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
@@ -16,4 +16,4 @@ UNFINISHED_COUNT: 20
 ATTEMPT_COUNT: 0
 CURRENT_TASK: TASK_001
 NEXT_TASK: TASK_001
-CHECKPOINT: All 20 dedicated Task prompt files and manifest were read back and verified. Task 001 generation attempt started; result pending.
+CHECKPOINT: All 20 prompt files and manifest read-back verified. TASK_001 produced one image, but a known generation-input deviation was recorded; TASK_001 is terminal IMAGE_RESULT_RECORDED. Continue only with independently verified remaining Tasks.
