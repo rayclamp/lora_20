@@ -26,7 +26,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 1. CORE hard rules cannot be weakened by a module.
 2. Modules may add stricter rules.
 3. Module-specific identity, style, dataset, cultural, and QA rules remain inside their module.
-4. Production SUCCESS means the expected image result was received, counted, recorded, and bound to its Task; it does not imply visual QA acceptance.
+4. Production SUCCESS means at least one image was confirmed received and the result was durably recorded against its Task. Each such Task counts as one successful Task output, regardless of prompt compliance or actual returned-file count; record actual file count separately. SUCCESS does not imply visual QA acceptance.
 5. Generation Workers do not perform visual QA or decide whether an image complies with its prompt. QA is a separate downstream responsibility.
 6. UNKNOWN state must be recovered from authoritative stored information, not guessed.
 7. Current GitHub reference content is authoritative for image-design rules.
@@ -35,10 +35,10 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 10. GitHub reference files define how images should be designed; they do not define GitHub as the mechanism that controls Workers.
 11. Automated production may write durable production/checkpoint/execution evidence to GitHub when required for interruption recovery.
 12. Manual production does not require automated production persistence.
-13. An image result alone is never sufficient evidence of Task success.
-14. A Task may be SUCCESS only after the current locked prompt, generation-call, result-count, and result-provenance requirements pass.
+13. A confirmed image receipt plus durable result recording against the Task is sufficient for production success; QA is separate.
+14. A Task may be SUCCESS once at least one image is confirmed received and durably recorded against that Task. Output-count equality and visual compliance are not success gates; actual returned-file count is recorded separately.
 15. If required execution evidence is unavailable, record the affected evidence as UNVERIFIED; do not invent evidence or success.
-16. One Task equals the output count specified by its contract; wallpaper production defaults to exactly one independent image.
+16. One Task represents one planned image output. Once one or more image files are confirmed received for that Task, count exactly one successful Task output; record the actual number of returned files separately. Wallpaper prompts are designed for one independent image, but multiple returned files do not increase the Task output count.
 17. Every confirmed received image must be counted and recorded. The Producer reports observable production facts only: image received/count/result binding, or no image plus the confirmed failure reason. The Producer MUST NOT compare the submitted payload against the locked prompt or judge visual compliance. `PROMPT_MATCH_STATUS` is not a Producer-assessed field; leave it `NOT_ASSESSED` or unset. QA owns visual compliance and image-quality decisions.
 18. A production Batch closes when every required Task has a recorded terminal outcome, whether successful or unsuccessful. Do not keep producing or leave the Batch open solely because a result is mismatched or unsuccessful.
 19. Before each generation call in a new-format Batch, the Producer MUST use `PROMPT_SET.md` only to locate the current Task's dedicated file `PROMPTS/<TASK_ID>.md`, then read the complete, current, non-empty locked Prompt text from that file and verify its binding to the current Task. `PROMPT_SET.md` is a manifest/index only and MUST NOT contain full prompt bodies in new Batches. Reading the complete Prompt first is mandatory.
