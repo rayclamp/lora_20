@@ -215,3 +215,15 @@ For each generation attempt, record these fields in the Task record and/or corre
 These fields are independent of `DELIVERY_INTEGRITY_STATUS`. They record the Producer's preparation/action and must not be used to claim hidden transport telemetry that the interface does not expose. If a fact cannot be established, use `UNKNOWN` or `NOT_VERIFIED`; do not fill it by inference. A missing field in a historical record must not be retroactively guessed.
 
 The locked Prompt Set and the generation input must preserve the exact same complete Prompt text. No shortened or derived generation input is permitted. Prompt immutability does not authorize reuse of a consumed Prompt or a second generation call for a Task whose Prompt has already been consumed.
+
+## 18. Current Producer No-QA and Task Output Counting Rule — Overrides Older Conflicts
+
+The Producer MUST NOT perform post-generation QA. The Producer must not visually inspect or evaluate the image, compare it with the locked prompt, judge prompt compliance, image quality, identity, anatomy, composition, style, or dataset suitability. The Producer records observable production facts only.
+
+Any confirmed receipt of one or more images for a Task counts as exactly ONE successfully produced Task output and increments COMPLETED_COUNT by one, provided the received result is durably recorded against that Task. This remains true when the generator returns two or more image files, or when a later independent QA process may find a visual defect. Record the actual number of returned files in the Task's ACTUAL_OUTPUT_COUNT and include every confirmed received file in batch ACTUAL_IMAGE_COUNT.
+
+Do not use RESULT_COUNT_MISMATCH solely because ACTUAL_OUTPUT_COUNT differs from EXPECTED_OUTPUT_COUNT when an image has been received. Multiple files from one prompt are recorded as actual output facts, but do not create additional successful Task outputs. RESULT_COUNT_MISMATCH is not a reason to downgrade a confirmed image-producing Task under this rule.
+
+Once any image is confirmed received, set PROMPT_CONSUMED = YES and retire the Prompt/version so it can never be used again. QA is a separate downstream process. QA status must not alter production success/counts, prompt-consumption state, or trigger regeneration.
+
+This section supersedes earlier schema wording that requires the actual output count to equal the expected count for SUCCESS, classifies extra images as RESULT_COUNT_MISMATCH, or permits Producer-side visual or prompt-compliance assessment. Historical Batch records remain immutable; apply this rule to new execution and use a separately recorded correction only when correcting a verified factual recording error.
