@@ -73,10 +73,11 @@ A Batch contains:
 - SESSION_CONTRACT.md
 - BATCH_RECORD.md
 - TASK_QUEUE.md
-- PROMPT_SET.md
+- PROMPT_SET.md (manifest/index only for new Batches)
+- PROMPTS/TASK_001.md, PROMPTS/TASK_002.md, etc. (one authoritative prompt file per Task)
 - EXECUTION_LOG.md
 
-All Tasks are designed before generation. The complete Prompt Set is persisted and locked before execution begins.
+All Task prompts are designed before generation. For every new Batch, each Task's complete prompt is saved to its own `PROMPTS/<TASK_ID>.md` file. `PROMPT_SET.md` contains only the Task-to-file manifest and prompt metadata, never full prompt bodies. Verify every file and the one-to-one mapping, then lock the manifest and prompt files before execution begins. Existing combined-file Batches remain legacy and must not be silently migrated.
 
 ## 5. Task and Prompt Design
 
@@ -87,17 +88,17 @@ EXPECTED_OUTPUT_COUNT = 1
 
 For `LORA_IMAGE`, each Task is also one independent training-image candidate unless a current task contract explicitly states otherwise.
 
-Each Task receives one locked Prompt/version. After the Prompt Set is locked, its prompts are not redesigned or silently altered.
+Each Task receives one dedicated locked prompt file and one prompt version. Each file must include `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, `PROMPT_STATUS=LOCKED`, and explicit `BEGIN_LOCKED_PROMPT_TEXT` / `END_LOCKED_PROMPT_TEXT` delimiters around the exact prompt body. After locking, neither the prompt text nor its file mapping may be silently altered.
 
 ## 6. Task Execution
 
 CURRENT_TASK → CURRENT_LOCKED_PROMPT_READINESS → GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS
 
-Immediately before each generation call, reconnect to GitHub and read the current Task and current locked Prompt.
+Immediately before each generation call, reconnect to GitHub and read the current Task and `PROMPT_SET.md` manifest, then open that Task's dedicated `PROMPTS/<TASK_ID>.md` file.
 
-Read the current Task's complete, non-empty locked Prompt directly from the authoritative PROMPT_SET and confirm its Task binding before every generation call. Submit that entire locked Prompt verbatim as the generation input.
+For a new-format Batch, use `PROMPT_SET.md` only to resolve the current Task's dedicated prompt file. Read the complete, non-empty locked Prompt text from inside that file's explicit delimiters and confirm its Task binding before every generation call. Submit that entire locked Prompt verbatim as the generation input.
 
-Any transformation of the locked Prompt is forbidden, including shortening, summarizing, paraphrasing, translating, reordering, rewriting, omitting, adding to, polishing, or otherwise changing any text. Do not invent a replacement from the Session theme, prior Tasks, memory, assumptions, or a template. The exact complete locked Prompt is the only permitted generation input for its Task.
+Any transformation of the locked Prompt is forbidden, including shortening, summarizing, paraphrasing, translating, reordering, rewriting, omitting, adding to, polishing, or otherwise changing any text. Do not invent a replacement from the Session theme, prior Tasks, memory, assumptions, or a template. Only the text between `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT` in that Task's file is the permitted generation input; do not include the file metadata or delimiters.
 
 Record whether the full Prompt was read and set `GENERATION_INPUT_MODE = FULL_LOCKED_PROMPT` only when the entire exact text was prepared for the call. If the complete Prompt cannot be read, its Task binding is unclear, or it cannot be supplied unchanged, do not generate with a substitute; isolate/block that Task and continue only with independently verified Tasks where safe. Missing hidden-payload telemetry alone is not a generation gate; record evidence limits honestly and do not claim transport verification that is unavailable.
 
@@ -144,7 +145,7 @@ Success count does not determine Batch completion. `COMPLETED_COUNT` counts SUCC
 
 /START_AUTO starts a new automated Session.
 
-If an interruption requires continuation, use /RESUME_AUTO. Resume must reconnect to GitHub, reload the applicable rules, recover the existing Session/Batch and locked Prompt Set, and continue only with Tasks that have not reached a valid terminal state.
+If an interruption requires continuation, use /RESUME_AUTO. Resume must reconnect to GitHub, reload the applicable rules, recover the existing Session/Batch, prompt manifest, and each eligible Task's authoritative prompt file, and continue only with Tasks that have not reached a valid terminal state. Existing combined-file Batches remain legacy and must not be silently migrated.
 
 /STOP immediately stops new generation and persists a checkpoint when GitHub is available.
 
@@ -169,14 +170,14 @@ During /RESUME_AUTO, distinguish a problem that affects one Task from a verified
 1. A visual-quality or visual-prompt-compliance observation is QA evidence only. QA is currently PAUSED; do not automatically run QA, change Task execution status, or trigger regeneration because of a visual difference.
 2. A problem isolated to one Task MUST NOT automatically block unrelated Tasks.
 3. If a Task's state or result is unresolved, isolate it and preserve its recovery state. Do not retry, skip, or reuse its consumed/retired Prompt while its outcome remains unknown.
-4. After isolating a Task, independently verify the next Task's current state, complete non-empty locked Prompt, Task binding, and applicable execution prerequisites. Continue with that Task if these checks pass and it does not depend on the unresolved Task.
+4. After isolating a Task, independently verify the next Task's current state, complete non-empty locked Prompt from its dedicated file (or the documented legacy source for an existing Batch), Task binding, and applicable execution prerequisites. Continue with that Task if these checks pass and it does not depend on the unresolved Task.
 5. Stop the entire Batch only for a verified Batch-wide issue that cannot safely be isolated, such as an unidentifiable Session/Batch, a globally ambiguous production contract, or a Prompt Set/Task binding conflict that makes the next Task's input or result attribution unsafe.
 6. Missing nonessential transport telemetry alone is not a stop condition. Record NOT_EXPOSED/UNVERIFIED as applicable.
 7. Never mark an unresolved Task as passed, completed, repaired, or skipped merely because other Tasks continue. Record the issue for later recovery.
 
 ## 13. Multi-Worker Continuity Rule
 
-For future multi-Worker production, a Worker receiving the next assignment must independently verify that Task's authoritative record, complete locked Prompt, Task-to-Prompt binding, Prompt availability, and explicitly declared prerequisites.
+For future multi-Worker production, a Worker receiving the next assignment must independently verify that Task's authoritative record, complete locked Prompt from its dedicated file (or the documented legacy source for an existing Batch), Task-to-Prompt binding, Prompt availability, and explicitly declared prerequisites.
 
 - Do not rely solely on the previous Worker's narrative or completion message.
 - Do not block an independent Task because a different Task has missing/incomplete reporting, unverified prompt-match evidence, or a Task-local recovery issue.
