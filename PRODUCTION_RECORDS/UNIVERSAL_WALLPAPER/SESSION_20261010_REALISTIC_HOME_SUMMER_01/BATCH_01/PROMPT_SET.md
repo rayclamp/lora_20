@@ -19,8 +19,8 @@ Create ONE independent realistic desktop wallpaper image in exact 16:9 landscape
 ## PROMPT_02 — TASK_02 — Rainy afternoon — tea beside the window
 PROMPT_VERSION: 1
 PROMPT_STATUS: LOCKED
-PROMPT_CONSUMED: NO
-PROMPT_STATE: AVAILABLE
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
 
 Create ONE independent realistic desktop wallpaper image in exact 16:9 landscape format. Use the user-uploaded reference photograph as the sole visual identity authority for the same adult woman. Preserve recognizable facial geometry and feature proportions, eye expression, hairline, natural dark hair color, skin tone, apparent age and natural body proportions. Authentic camera-captured human realism with fine natural skin texture and believable hair/fabric; avoid plastic skin, airbrushing, doll face or generic beauty-template face. REFERENCE_OUTFIT_POLICY: REPLACE. REFERENCE_POSE_POLICY: IGNORE. Design a wholly new pose and complete outfit; do not copy source clothing, pose, body arrangement, framing, or background. Scene: a cozy home living room during a summer rain in the afternoon, raindrops clearly visible on the window, cool overcast daylight, warm wooden details and a small houseplant placed away from the hands. She sits upright at a low table, one hand resting flat on the tabletop well clear of objects, the other hand gently supporting a ceramic teacup by its body; cup and handle remain one coherent object. Expression relaxed and reflective as she watches the rain. Outfit: soft cream knit short-sleeved top, dusty-blue above-mid-thigh short skirt, simple indoor slippers. Hair in a neat half-up style with a small pale-blue clip. Medium shot, three-quarter view, natural perspective and subtle depth of field. Clear hand separation and believable body support; legs natural and uncrossed. Exactly two hands, two legs, anatomically plausible fingers and toes. No pets, no text, no watermark, no logo.
 
