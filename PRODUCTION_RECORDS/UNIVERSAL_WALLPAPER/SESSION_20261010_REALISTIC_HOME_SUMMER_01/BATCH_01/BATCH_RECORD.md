@@ -4,14 +4,16 @@ BATCH_ID: BATCH_01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 6
-BATCH_STATUS: DESIGNING
+BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 6
-ATTEMPT_COUNT: 0
+PENDING_COUNT: 5
+RESULT_RECORDED_COUNT: 1
+ACTUAL_IMAGE_COUNT: 1
+ATTEMPT_COUNT: 1
 CURRENT_TASK: NONE
-NEXT_TASK: TASK_01
-CHECKPOINT: Gate 0 passed; six tasks and prompts being prepared.
+NEXT_TASK: TASK_02
+CHECKPOINT: TASK_01 has one received image recorded with a known generation-input deviation; PROMPT_01 retired and TASK_01 terminal as IMAGE_RESULT_RECORDED. Original reference image located in authorized Library. Continue with TASK_02 only after its full locked prompt and reference input readiness are verified; QA remains PAUSED.
