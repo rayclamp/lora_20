@@ -62,4 +62,4 @@ This is a generation-design requirement only. The Producer generates the image a
 
 ## Output format
 
-For each candidate prompt, select and record `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9` independently. Do not inherit one fixed format across the entire LORA_IMAGE Batch. Both formats may appear in one Batch, with no fixed quota or required split. Keep the locked prompt consistent with the recorded choice, and do not claim that prompt wording guarantees exact pixel dimensions if the image-generation interface does not expose that control.
+For each candidate prompt, randomly select and record `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9` independently. Do not inherit one fixed format across the entire LORA_IMAGE Batch. Both formats may appear in one Batch, with no fixed quota or required split. Keep the locked prompt consistent with the recorded choice, and do not claim that prompt wording guarantees exact pixel dimensions if the image-generation interface does not expose that control.
