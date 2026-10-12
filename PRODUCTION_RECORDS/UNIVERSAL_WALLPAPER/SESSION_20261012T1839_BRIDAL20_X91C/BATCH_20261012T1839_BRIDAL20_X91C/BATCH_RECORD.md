@@ -18,5 +18,5 @@ PENDING_COUNT: 18
 ATTEMPT_COUNT: 2
 CURRENT_TASK: TASK_003
 NEXT_TASK: TASK_003
-CHECKPOINT: TASK_002_IMAGE_RESULT_RECORDED; known input deviations on TASK_001 and TASK_002 documented; continue with independent TASK_003
-TERMINATION_INFORMATION: Not terminated. Prompt design and lock verification pending.
+CHECKPOINT: TASK_002_IMAGE_RESULT_RECORDED_AND_VERIFIED; TASK_003 is next after fresh Task/Prompt read-back.
+TERMINATION_INFORMATION: Not terminated. Execution remains in progress; TASK_001 and TASK_002 have recorded image results; TASK_003 through TASK_020 remain pending. Known generation-input deviations for TASK_001 and TASK_002 are recorded.
