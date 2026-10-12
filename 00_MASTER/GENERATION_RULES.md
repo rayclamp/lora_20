@@ -12,8 +12,8 @@
 10. Do not import props, accessories, or style rules from another module.
 11. Module-specific dataset rules remain inside the module.
 12. Generation Workers do not self-QA or judge visual prompt compliance.
-13. A production Task is successful when the expected image result is received, counted, recorded, and bound to its Task; this does not imply QA acceptance.
-14. One Task must produce exactly the output count required by the active Task contract; wallpaper defaults to one independent image.
+13. A production Task is successful when at least one image is confirmed received and durably recorded against its Task; this does not imply QA acceptance. Each Task counts once, and actual returned-file count is recorded separately.
+14. One Task is one planned image output. Any confirmed image receipt counts as one successful Task output even if multiple files are returned; record the actual file count separately. Wallpaper prompts default to one independent image.
 15. Locked prompts are immutable during generation, retry, and resume.
 16. For a new-format Batch, use `PROMPT_SET.md` only as the manifest to locate `PROMPTS/<TASK_ID>.md`, then read the complete, non-empty locked Prompt text inside that file's explicit delimiters and confirm it is bound to the current Task. `PROMPT_SET.md` must not contain full prompt bodies. Existing combined-file Batches remain legacy and must not be silently migrated. Reading the full Prompt first is mandatory.
 17. After reading it, the Producer MUST submit the entire complete locked Prompt verbatim as the generation input for that Task.
