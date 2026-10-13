@@ -70,3 +70,23 @@ PROMPT_CONSUMED: YES
 PROMPT_STATE: RETIRED
 DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
 DETAIL: One image result was received and bound to T03. The generation call used a paraphrased scene description rather than the complete locked prompt. This known execution deviation is recorded. No visual QA performed.
+
+
+## Event 007 — 2026-10-13T20:53:00+08:00
+EVENT_ID: E007
+EVENT_TYPE: END_AUTO_FINAL_CHECK
+SESSION_ID: UW_20261012_0445_TW
+BATCH_ID: REALISTIC_TAIWAN_OUTING_20
+BATCH_STATUS: IN_PROGRESS
+SESSION_STATUS: CLOSED_INCOMPLETE
+TARGET_IMAGE_COUNT: 20
+SUCCESSFUL_TASK_COUNT: 3
+ACTUAL_IMAGE_COUNT: 3
+REMAINING_TASK_COUNT: 17
+FAILED_TASK_COUNT: 0
+DEFERRED_TASK_COUNT: 0
+UNKNOWN_TASK_COUNT: 0
+LAST_COMPLETED_TASK: T03
+NEXT_PENDING_TASK: T04
+UNFINISHED_REQUIRED_WORK: YES
+DETAIL: User requested END_AUTO for this task chat. Final authoritative check found T01-T03 SUCCESS with image results recorded; T04-T20 remain PENDING. Batch is not marked completed. This closes only this chat's responsibility and preserves the existing Session/Batch and all records. No generation was started.
