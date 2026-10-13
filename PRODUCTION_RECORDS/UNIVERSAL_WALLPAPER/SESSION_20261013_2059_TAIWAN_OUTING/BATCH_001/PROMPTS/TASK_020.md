@@ -1,0 +1,17 @@
+TASK_ID: TASK_020
+PROMPT_ID: UW-REAL-020-20261013
+PROMPT_VERSION: 1.0
+PROMPT_STATUS: LOCKED
+
+BEGIN_LOCKED_PROMPT_TEXT
+Photorealistic desktop wallpaper, one independent photograph, landscape 16:9 composition, high-resolution natural full-frame camera look. Use the user-uploaded photograph in this conversation as the sole visual identity reference for the woman: preserve her recognizable facial structure, facial-feature proportions, eye shape, eyebrows, nose, lips, jawline, hairline, natural dark hair color, skin tone, age impression, and recognizable natural body proportions. Keep her identity natural and recognizable; no generic influencer face, no doll face, no anime appearance, no face reshaping, no artificial whitening, no plastic skin, no excessive smoothing, no exaggerated model proportions. Preserve subtle real skin texture and natural hair behavior. The reference image is identity evidence only: REPLACE the source outfit completely; IGNORE the source pose and independently create the new pose described below. Natural human anatomy, two arms and two legs, plausible joints, believable center of gravity, natural hands with five fingers each, no fused or extra digits. Hands must have a clear task and remain readable; avoid awkward overlap. Real fabric construction, plausible folds and body contact. The woman is an adult Taiwanese woman. No pets or other animals. No text, logo, watermark, border, collage, panels, or graphic overlays. The entire person and environment share one coherent photographic lighting setup.
+
+SCENE TITLE: 山腳公園落羽松步道・秋日夕照.
+POSE AND ACTION: standing on the path with one hand holding a small folded paper map and the other arm relaxed. Make the pose physically comfortable and distinct from the reference photograph's straight standing pose.
+HAIRSTYLE: long straight hair with a small water-blue side clip; retain the reference person's natural hairline and dark hair color.
+COMPLETE NEW OUTFIT: white blouse, water-blue A-line skirt, white Mary Jane flats. This is a complete newly designed outfit and must not reuse the reference dress.
+CAMERA AND COMPOSITION: character-dominant full-body, three-quarter view, gaze toward the path ahead. Landscape 16:9 desktop wallpaper with thoughtful negative space, natural lens perspective, no wide-angle body distortion, sharp natural facial detail, realistic depth of field.
+ENVIRONMENT: clear autumn sunset, golden foliage, park pond glimpsed between trees, gentle warm light. Location type: Taiwan park; season: autumn; time: dusk. The weather is clear and sunny where appropriate; for dusk/night scenes use a clear sky and practical environmental lighting, not literal sunlight at night.
+LIGHTING AND COLOR: physically coherent natural daylight or scene-appropriate warm-white practical lighting. Realistic exposure, soft shadow transitions, fair natural skin tone without bleaching, balanced water-blue / white / navy accents, natural greens and coastal/mountain colors. Avoid oversaturated blue, purple cast, crushed shadows, heavy HDR, artificial glow, or cinematic darkness.
+PHOTOGRAPHIC REALISM: the result must look like a credible photograph of a real person captured in the stated Taiwanese outdoor setting, not an illustration or a rendered character. Preserve recognizable identity and body proportions while changing only the presentation variables explicitly designed for this scene.
+END_LOCKED_PROMPT_TEXT
