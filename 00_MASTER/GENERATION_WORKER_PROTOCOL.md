@@ -100,6 +100,10 @@ Existing Batches created under the former combined-file layout are historical/le
 
 Passing Level 1 proves only that ChatGPT prepared the correct input.
 
+### Chat Handoff Rule — Post the Complete Prompt Before Generation
+
+After rereading and confirming the complete locked Prompt for the current Task, the Producer MUST post the entire locked Prompt text in the chat conversation before calling the image-generation tool. The Producer MUST then use that same complete Prompt, unchanged and verbatim, as the generation input for the immediately following generation call. Posting the Prompt in chat does not replace the generation call and does not authorize any change to the locked Prompt or any other existing execution rule.
+
 ### Generation Input Rule — Complete Locked Prompt Must Be Passed Verbatim
 
 For every generation call, the Producer MUST read the complete current locked Prompt directly from the authoritative per-Task file `PROMPTS/<TASK_ID>.md`, using `PROMPT_SET.md` only to locate and verify the Task-to-file mapping, confirm it is non-empty and bound to the current Task, and submit that entire text verbatim as the generation input.
