@@ -69,3 +69,25 @@ BATCH_ID: B20261013T2036_BRIDAL20
   GENERATION_INPUT_MODE: KNOWN_DEVIATION
   DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
   DETAILS: An image result was received. The actual generation input deviated from the current locked prompt; this is recorded explicitly. The prompt is consumed and will not be reused. No visual QA was performed.
+
+- TIMESTAMP: 2026-10-13T20:44:00+08:00
+  EVENT_ID: EVT_TASK004_RESULT_001
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: TASK_004
+  PROMPT_ID: P_BRIDAL20_004
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_001
+  GENERATION_CALL_ID: f6aa2f38-183c-499a-a7d9-2062c0f7ccf2
+  RESULT_ID: f6aa2f38-183c-499a-a7d9-2062c0f7ccf2
+  RESULT_REFERENCE: /mnt/data/a_wide_cinematic_high_resolution_photo_realisti.png
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  GENERATION_INPUT_MODE: KNOWN_DEVIATION
+  DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+  DETAILS: An image result was received. The actual generation input deviated from the current locked prompt; this is recorded explicitly. The prompt is consumed and will not be reused. No visual QA was performed.
+- TIMESTAMP: 2026-10-13T20:44:30+08:00
+  EVENT_ID: EVT_STOP_PROTOCOL_001
+  EVENT_TYPE: STOPPED
+  DETAILS: Stopped further generation because repeated generation calls did not use the exact locked prompt body. Remaining Tasks remain pending and their prompts are not consumed. Resume only after the prompt-to-tool handoff method can be executed reliably.
