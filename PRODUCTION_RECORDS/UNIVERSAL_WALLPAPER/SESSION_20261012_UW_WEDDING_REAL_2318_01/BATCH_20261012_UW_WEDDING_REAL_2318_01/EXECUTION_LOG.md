@@ -145,3 +145,9 @@ GENERATION_INPUT_MODE: KNOWN_DEVIATION
 DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 PROMPT_MATCH_STATUS: NOT_ASSESSED
 DETAIL: One image was received and recorded. No visual QA performed.
+
+EVENT_ID: EVT_012
+EVENT_TYPE: RESUME_PAUSED
+TIMESTAMP: 2026-10-14T04:03:00+08:00
+TASK_ID: TASK_005
+DETAIL: Paused the current resume run after repeated known generation-input deviations for TASK_003 and TASK_004. Both received images and retired prompts were recorded. No further generation call will be made in this run because the current execution path has not reliably passed the intended prompt input. TASK_005 remains pending and unconsumed; resume again only after the prompt-delivery method can reliably use the freshly read Task-specific locked prompt or a verified shortening.
