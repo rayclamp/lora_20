@@ -79,3 +79,36 @@ EVENT_ID: EVT_007
 EVENT_TYPE: RECORD_CORRECTION
 TIMESTAMP: 2026-10-12T23:23:00+08:00
 DETAIL: Correction to EVT_003 and EVT_005: although the complete locked prompts were read, the actual generation calls used shorter scene descriptions, not the full locked prompt text. Corrected Task fields are GENERATION_INPUT_MODE=KNOWN_DEVIATION for TASK_001 and TASK_002. Both received image results are preserved and counted; both prompts are consumed and retired. No further generation calls were made after the repeated deviation. Batch remains incomplete with 18 pending Tasks.
+
+EVENT_ID: EVT_008
+EVENT_TYPE: GENERATION_STARTED
+TIMESTAMP: 2026-10-14T04:00:00+08:00
+TASK_ID: TASK_003
+PROMPT_ID: PROMPT_003_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_003_01
+GENERATION_CALL_ID: GC_TASK_003_01
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+DETAIL: The current Task 003 locked prompt was freshly read in full, but the actual generation call used a different scene description instead of that prompt or a faithful shortening. This is a known input deviation. No further call will reuse this prompt/version.
+
+EVENT_ID: EVT_009
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TIMESTAMP: 2026-10-14T04:00:30+08:00
+TASK_ID: TASK_003
+PROMPT_ID: PROMPT_003_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_003_01
+GENERATION_CALL_ID: GC_TASK_003_01
+RESULT_ID: 4ca08c66-a4c7-4b54-8428-0d76aa162b50
+RESULT_REFERENCE: /mnt/data/a_bright_dreamy_romantic_outdoor_wedding_bridal.png
+ACTUAL_OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_AND_GENERATION_CALL_WITH_KNOWN_INPUT_DEVIATION
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+PROMPT_MATCH_STATUS: NOT_ASSESSED
+DETAIL: One image was received and recorded. The prompt was not faithfully supplied to the generation interface. No visual QA performed.
