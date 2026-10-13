@@ -51,3 +51,21 @@ BATCH_ID: B20261013T2036_BRIDAL20
   GENERATION_INPUT_MODE: KNOWN_DEVIATION
   DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
   DETAILS: An image result was received. The actual generation input deviated from the current locked prompt; this is recorded explicitly. The prompt is consumed and will not be reused. No visual QA was performed.
+
+- TIMESTAMP: 2026-10-13T20:43:00+08:00
+  EVENT_ID: EVT_TASK003_RESULT_001
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  TASK_ID: TASK_003
+  PROMPT_ID: P_BRIDAL20_003
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_001
+  GENERATION_CALL_ID: 3cfe22f0-d348-4ed8-9ca5-7ef366a0b0e4
+  RESULT_ID: 3cfe22f0-d348-4ed8-9ca5-7ef366a0b0e4
+  RESULT_REFERENCE: /mnt/data/a_wide_high_resolution_cinematic_photoreal_cg_l.png
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: RETIRED
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  GENERATION_INPUT_MODE: KNOWN_DEVIATION
+  DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+  DETAILS: An image result was received. The actual generation input deviated from the current locked prompt; this is recorded explicitly. The prompt is consumed and will not be reused. No visual QA was performed.
