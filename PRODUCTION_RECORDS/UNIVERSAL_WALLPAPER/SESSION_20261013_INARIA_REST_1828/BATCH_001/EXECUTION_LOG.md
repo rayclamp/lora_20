@@ -65,3 +65,26 @@ BATCH_ID: BATCH_001
   EXPECTED_OUTPUT_COUNT: 1
   PROMPT_CONSUMED: NO
   STATUS: GENERATION_INITIATED
+
+- TIMESTAMP: 2026-10-13T18:45:00+08:00
+  EVENT_ID: EVT_TASK_002_RESULT
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  SESSION_ID: SESSION_20261013_INARIA_REST_1828
+  BATCH_ID: BATCH_001
+  TASK_ID: TASK_002
+  PROMPT_ID: INARIA_REST_002
+  PROMPT_VERSION: 1.0
+  ATTEMPT_ID: ATTEMPT_001
+  GENERATION_CALL_ID: CALL_TASK_002_001
+  RESULT_ID: 9be15ab5-59b3-479f-82d8-3e9b966443d5
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: CONSUMED
+  DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+  GENERATION_INPUT_MODE: NOT_FULL_LOCKED_PROMPT
+  KNOWN_DEVIATION: The generation input was shortened/rewritten rather than the full locked prompt. The result is recorded honestly; this prompt must not be reused.
+- TIMESTAMP: 2026-10-13T18:45:00+08:00
+  EVENT_ID: EVT_BATCH_STOP_001
+  EVENT_TYPE: STOPPED
+  DETAILS: Production paused after two confirmed image results were generated from inputs that did not match the full locked prompt text. No additional generation calls will be made in this execution until the delivery workflow can preserve exact locked prompt text.
+  STATUS: STOPPED_INTEGRITY_DEVIATION
