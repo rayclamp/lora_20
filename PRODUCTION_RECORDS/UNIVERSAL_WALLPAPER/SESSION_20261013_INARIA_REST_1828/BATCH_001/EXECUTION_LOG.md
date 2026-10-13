@@ -133,3 +133,25 @@ BATCH_ID: BATCH_001
   EVENT_TYPE: STOPPED
   DETAILS: Production paused again after TASK_003 because the generation call did not receive the full locked prompt verbatim. The image result is preserved and recorded; no additional generation calls will be made in this execution.
   STATUS: STOPPED_INTEGRITY_DEVIATION
+
+- TIMESTAMP: 2026-10-14T04:22:00+08:00
+  EVENT_ID: EVT_RESUME_AUTO_20261014
+  EVENT_TYPE: RESUMED
+  DETAILS: Reconnected to rayclamp/lora_20 main and reloaded current core, path registry, drawing, architecture, worker protocol, schema, generation rules, applicable universal wallpaper reference, anatomy, safety, and character documents. Re-read all five existing Batch records. Existing Session/Batch preserved. TASK_001–TASK_003 are terminal with recorded images. TASK_004 independently verified eligible; its dedicated locked prompt was fully read and matched to the manifest.
+  STATUS: READBACK_VERIFIED
+- TIMESTAMP: 2026-10-14T04:22:00+08:00
+  EVENT_ID: EVT_TASK_004_START
+  EVENT_TYPE: GENERATION_STARTED
+  SESSION_ID: SESSION_20261013_INARIA_REST_1828
+  BATCH_ID: BATCH_001
+  TASK_ID: TASK_004
+  PROMPT_ID: INARIA_REST_004
+  PROMPT_VERSION: 1.0
+  ATTEMPT_ID: ATTEMPT_001
+  GENERATION_CALL_ID: CALL_TASK_004_001
+  FULL_PROMPT_READ_STATUS: VERIFIED
+  GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
+  DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+  EXPECTED_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: NO
+  STATUS: GENERATION_INITIATED
