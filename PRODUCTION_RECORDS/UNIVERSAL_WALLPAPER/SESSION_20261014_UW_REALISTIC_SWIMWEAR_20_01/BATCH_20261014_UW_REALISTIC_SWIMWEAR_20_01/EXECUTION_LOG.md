@@ -10,3 +10,8 @@ BATCH_ID: BATCH_20261014_UW_REALISTIC_SWIMWEAR_20_01
   EVENT_ID: EVENT_002
   EVENT_TYPE: DESIGN_STARTED
   DETAILS: 20 independent desktop 16:9 realistic swimwear prompts; each Task planned for one image. No generation has started.
+
+- TIMESTAMP: 2026-10-14T04:15:00+08:00
+  EVENT_ID: EVENT_003
+  EVENT_TYPE: PROMPT_SET_LOCKED
+  DETAILS: Created and read back all 20 dedicated prompt files; verified non-empty text delimiters, locked metadata, 20 manifest mappings, and 20 queue entries. PROMPT_SET_STATUS=LOCKED; PROMPT_SET_LOCKED=YES. Per-task prompt text remains immutable.
