@@ -151,3 +151,42 @@ EVENT_TYPE: RESUME_PAUSED
 TIMESTAMP: 2026-10-14T04:03:00+08:00
 TASK_ID: TASK_005
 DETAIL: Paused the current resume run after repeated known generation-input deviations for TASK_003 and TASK_004. Both received images and retired prompts were recorded. No further generation call will be made in this run because the current execution path has not reliably passed the intended prompt input. TASK_005 remains pending and unconsumed; resume again only after the prompt-delivery method can reliably use the freshly read Task-specific locked prompt or a verified shortening.
+
+EVENT_ID: EVT_013
+EVENT_TYPE: RESUMED
+TIMESTAMP: 2026-10-14T04:04:00+08:00
+TASK_ID: TASK_005
+DETAIL: Reconnected to main and reread current core/module rules, Session Contract, Batch Record, Prompt Set, Task Queue, Execution Log, and the dedicated TASK_005 prompt. Prompt Set remains LOCKED; TASK_005 was pending and available before this attempt.
+
+EVENT_ID: EVT_014
+EVENT_TYPE: GENERATION_STARTED
+TIMESTAMP: 2026-10-14T04:04:30+08:00
+TASK_ID: TASK_005
+PROMPT_ID: PROMPT_005_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_005_01
+GENERATION_CALL_ID: c61307ac-27c8-4c06-acdb-1c636d6ab3f3
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+DETAIL: The complete locked TASK_005 prompt was read and posted, but the actual image-generation call received a different scene description rather than the full locked prompt. This is a known deviation; no claim of exact delivery is made.
+
+EVENT_ID: EVT_015
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TIMESTAMP: 2026-10-14T04:04:45+08:00
+TASK_ID: TASK_005
+PROMPT_ID: PROMPT_005_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_005_01
+GENERATION_CALL_ID: c61307ac-27c8-4c06-acdb-1c636d6ab3f3
+RESULT_ID: c61307ac-27c8-4c06-acdb-1c636d6ab3f3
+RESULT_REFERENCE: /mnt/data/a_bright_romantic_outdoor_wedding_bridal_portrait.png
+ACTUAL_OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_AND_GENERATION_CALL_WITH_KNOWN_INPUT_DEVIATION
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+PROMPT_MATCH_STATUS: NOT_ASSESSED
+DETAIL: One image result was received and durably associated with TASK_005. Prompt/version is consumed and retired. No visual QA performed.
