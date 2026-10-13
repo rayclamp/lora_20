@@ -1,0 +1,17 @@
+TASK_ID: TASK_017
+PROMPT_ID: UW-REAL-017-20261013
+PROMPT_VERSION: 1.0
+PROMPT_STATUS: LOCKED
+
+BEGIN_LOCKED_PROMPT_TEXT
+Photorealistic desktop wallpaper, one independent photograph, landscape 16:9 composition, high-resolution natural full-frame camera look. Use the user-uploaded photograph in this conversation as the sole visual identity reference for the woman: preserve her recognizable facial structure, facial-feature proportions, eye shape, eyebrows, nose, lips, jawline, hairline, natural dark hair color, skin tone, age impression, and recognizable natural body proportions. Keep her identity natural and recognizable; no generic influencer face, no doll face, no anime appearance, no face reshaping, no artificial whitening, no plastic skin, no excessive smoothing, no exaggerated model proportions. Preserve subtle real skin texture and natural hair behavior. The reference image is identity evidence only: REPLACE the source outfit completely; IGNORE the source pose and independently create the new pose described below. Natural human anatomy, two arms and two legs, plausible joints, believable center of gravity, natural hands with five fingers each, no fused or extra digits. Hands must have a clear task and remain readable; avoid awkward overlap. Real fabric construction, plausible folds and body contact. The woman is an adult Taiwanese woman. No pets or other animals. No text, logo, watermark, border, collage, panels, or graphic overlays. The entire person and environment share one coherent photographic lighting setup.
+
+SCENE TITLE: 山間茶園觀景點・夏日清晨.
+POSE AND ACTION: standing beside a low wooden fence, fingertips resting lightly on the top rail, shoulders relaxed. Make the pose physically comfortable and distinct from the reference photograph's straight standing pose.
+HAIRSTYLE: long straight hair with a soft half-up style; retain the reference person's natural hairline and dark hair color.
+COMPLETE NEW OUTFIT: white collared top, navy skirt, comfortable sneakers. This is a complete newly designed outfit and must not reuse the reference dress.
+CAMERA AND COMPOSITION: environmental full-body, three-quarter side view, looking over tea fields. Landscape 16:9 desktop wallpaper with thoughtful negative space, natural lens perspective, no wide-angle body distortion, sharp natural facial detail, realistic depth of field.
+ENVIRONMENT: clear bright morning, green terraced tea fields, distant mountains. Location type: Taiwan mountain; season: summer; time: day. The weather is clear and sunny where appropriate; for dusk/night scenes use a clear sky and practical environmental lighting, not literal sunlight at night.
+LIGHTING AND COLOR: physically coherent natural daylight or scene-appropriate warm-white practical lighting. Realistic exposure, soft shadow transitions, fair natural skin tone without bleaching, balanced water-blue / white / navy accents, natural greens and coastal/mountain colors. Avoid oversaturated blue, purple cast, crushed shadows, heavy HDR, artificial glow, or cinematic darkness.
+PHOTOGRAPHIC REALISM: the result must look like a credible photograph of a real person captured in the stated Taiwanese outdoor setting, not an illustration or a rendered character. Preserve recognizable identity and body proportions while changing only the presentation variables explicitly designed for this scene.
+END_LOCKED_PROMPT_TEXT
