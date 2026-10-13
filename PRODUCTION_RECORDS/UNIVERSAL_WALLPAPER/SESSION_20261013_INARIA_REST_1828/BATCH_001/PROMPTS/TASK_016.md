@@ -1,7 +1,7 @@
 TASK_ID: TASK_016
 PROMPT_ID: INARIA_REST_016
 PROMPT_VERSION: 1.0
-PROMPT_STATUS: DRAFT
+PROMPT_STATUS: LOCKED
 
 BEGIN_LOCKED_PROMPT_TEXT
 Create one single photorealistic 16:9 landscape desktop wallpaper featuring the adult woman Inaria. Use the user-uploaded reference image as the sole visual identity reference, preserving recognizable facial identity and natural appearance. Do not copy its outfit or pose. She must be fully clothed in a tasteful skirt outfit with a midi, knee-length, or long skirt. Keep long dark blue-black hair and neat bangs consistent with the reference. Scene: Evening shopping arcade. In a covered shopping arcade at night, Inaria walks past softly illuminated shopfronts and warm reflections on the pavement. Outfit: powder-blue blouse, charcoal pleated midi skirt, elegant ankle boots. High-end realistic lifestyle photography, natural lighting, lifelike skin and hair texture, natural proportions, coherent torso-pelvis connection, plausible joints and balance, stable natural hands and feet, believable fabric folds, refined colors and a realistic environment. Character remains the main focus in a landscape 16:9 desktop wallpaper composition. No pets or animals, text, logos, watermark, anime, illustration, plastic skin, exaggerated proportions, lingerie-like outfit, duplicated limbs, or malformed hands.
