@@ -1,15 +1,18 @@
 TASK_ID: TASK_004
 PROMPT_ID: P_BRIDAL20_004
 PROMPT_VERSION: V1
-PROMPT_STATUS: LOCKED
-PROMPT_CONSUMED: NO
-PROMPT_STATE: AVAILABLE
+PROMPT_STATUS: RETIRED
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
 REFERENCE_SOURCE_TYPE: EXPLICIT_TASK_REFERENCE
 REFERENCE_AUTHORITY_STATUS: RESOLVED
 REFERENCE_PROVENANCE: User-uploaded image in initiating request
-FULL_PROMPT_READ_STATUS: NOT_CONFIRMED
-GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
-DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+RESULT_ID: f6aa2f38-183c-499a-a7d9-2062c0f7ccf2
+ACTUAL_OUTPUT_COUNT: 1
+PROMPT_TERMINATION_REASON: KNOWN_GENERATION_INPUT_DEVIATION
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
 
 BEGIN_LOCKED_PROMPT_TEXT
 Create ONE independent photorealistic wedding portrait wallpaper in a horizontal 16:9 desktop composition. Use the person in the user-uploaded reference image as the sole visual identity reference. Preserve her recognizable facial structure, facial-feature proportions, natural skin tone, apparent age, hairline, natural dark hair color, body build, and natural body proportions; retain subtle individual asymmetry and a gentle, natural expression. She must remain recognizably the same person, not a generic beauty or doll-like face. Real camera photography, lifelike skin texture, realistic hair strands, physically plausible fabric, natural hands and feet, coherent anatomy, believable perspective, refined editorial bridal photography, premium romantic atmosphere, clean high-resolution detail.
