@@ -14,9 +14,9 @@ FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 17
-ATTEMPT_COUNT: 3
-CURRENT_TASK: NONE
-NEXT_TASK: TASK_004
-CHECKPOINT: TASK_003 image received and recorded. Known generation-input deviation recorded because the actual submitted text was rewritten. Production stopped again; TASK_001–TASK_003 results recorded, 17 Tasks remain pending.
+ATTEMPT_COUNT: 4
+CURRENT_TASK: TASK_004
+NEXT_TASK: TASK_005
+CHECKPOINT: Resumed existing Batch after fresh rule and state readback. TASK_004 prompt file independently read and validated; generation call is being initiated with its complete locked text. TASK_001–TASK_003 results and historical deviations remain preserved.
 TERMINATION_INFORMATION: Not terminated.
 UPDATED_AT: 2026-10-13T18:28:00+08:00
