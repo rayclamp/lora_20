@@ -7,17 +7,17 @@ PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 1
+COMPLETED_COUNT: 2
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 1
+ACTUAL_IMAGE_COUNT: 2
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 19
-ATTEMPT_COUNT: 1
-CURRENT_TASK: TASK_001
-NEXT_TASK: TASK_002
-CHECKPOINT: TASK_001 image result received. Known deviation: generation tool input did not match the complete locked prompt. Do not reuse TASK_001 prompt.
+PENDING_COUNT: 18
+ATTEMPT_COUNT: 2
+CURRENT_TASK: TASK_002
+NEXT_TASK: TASK_003
+CHECKPOINT: TASK_001 and TASK_002 each returned an image, but both generation calls used abbreviated text rather than the complete locked prompt. Both delivery deviations are recorded. Stop further generation until the execution method can submit exact locked prompt text.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
