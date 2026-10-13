@@ -16,4 +16,4 @@ UNFINISHED_COUNT: 20
 ATTEMPT_COUNT: 4
 CURRENT_TASK: TASK_005
 NEXT_TASK: TASK_005
-CHECKPOINT: All 20 prompt files and manifest read-back verified. TASK_001 and TASK_002 each produced one image with a known generation-input deviation; both are terminal IMAGE_RESULT_RECORDED and prompts retired. TASK_003 also returned one image after a known generation-input deviation; its prompt is consumed/retired and the result is recorded. 16 Tasks remain pending. Continue only after independently reading each next Task prompt.
+CHECKPOINT: Resume stopped after repeated known generation-input deviations on TASK_003 and TASK_004. Their image results are recorded, prompts consumed/retired, and no retries are allowed. Do not issue further generation calls in this run because the current execution path has not reliably passed the intended prompt input. 16 Tasks remain pending; next candidate TASK_005 requires a fresh recovery run and independently verified prompt delivery.
