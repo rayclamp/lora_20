@@ -7,17 +7,17 @@ PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 2
+COMPLETED_COUNT: 3
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 2
+ACTUAL_IMAGE_COUNT: 3
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 18
-ATTEMPT_COUNT: 2
-CURRENT_TASK: TASK_002
-NEXT_TASK: TASK_003
-CHECKPOINT: RESUME_AUTO validated current repository rules and Batch records. TASK_001 and TASK_002 are completed image results with known delivery deviations and will not be rerun. TASK_003 is the next pending Task; its complete locked prompt was freshly read and mapped. Continue only using the exact full prompt text.
+PENDING_COUNT: 17
+ATTEMPT_COUNT: 3
+CURRENT_TASK: TASK_003
+NEXT_TASK: TASK_004
+CHECKPOINT: TASK_003 generation returned one image (a1af3ff2-e03a-4042-bde7-dc0ee6ded182). The full locked prompt was read from PROMPTS/TASK_003.md and a shortened input derived from it was submitted. Delivery integrity is UNVERIFIED because internal payload verification is not exposed. Prompt consumed; do not rerun. TASK_004 is next pending.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
