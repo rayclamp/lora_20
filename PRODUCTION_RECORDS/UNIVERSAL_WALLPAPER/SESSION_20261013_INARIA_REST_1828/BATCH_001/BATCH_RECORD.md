@@ -14,9 +14,9 @@ FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 18
-ATTEMPT_COUNT: 2
-CURRENT_TASK: NONE
-NEXT_TASK: TASK_003
-CHECKPOINT: TASK_001 and TASK_002 images received and recorded. Both had known generation-input deviations; generation stopped to prevent further integrity violations. 18 Tasks remain pending.
+ATTEMPT_COUNT: 3
+CURRENT_TASK: TASK_003
+NEXT_TASK: TASK_004
+CHECKPOINT: Resumed same Batch after fresh GATE 0 and record readback. TASK_003 locked prompt read and bound verbatim; generation initiated. TASK_001 and TASK_002 input deviations remain recorded.
 TERMINATION_INFORMATION: Not terminated.
 UPDATED_AT: 2026-10-13T18:28:00+08:00
