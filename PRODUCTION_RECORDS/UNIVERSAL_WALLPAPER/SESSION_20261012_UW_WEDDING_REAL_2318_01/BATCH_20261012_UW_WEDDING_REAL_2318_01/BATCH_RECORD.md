@@ -4,16 +4,16 @@ MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 BATCH_STATUS: ACTIVE
-COMPLETED_COUNT: 0
+COMPLETED_COUNT: 1
 RESULT_RECORDED_COUNT: 4
-ACTUAL_IMAGE_COUNT: 4
+ACTUAL_IMAGE_COUNT: 5
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 16
+PENDING_COUNT: 15
 UNFINISHED_COUNT: 20
-ATTEMPT_COUNT: 4
-CURRENT_TASK: TASK_005
-NEXT_TASK: TASK_005
-CHECKPOINT: Resume stopped after repeated known generation-input deviations on TASK_003 and TASK_004. Their image results are recorded, prompts consumed/retired, and no retries are allowed. Do not issue further generation calls in this run because the current execution path has not reliably passed the intended prompt input. 16 Tasks remain pending; next candidate TASK_005 requires a fresh recovery run and independently verified prompt delivery.
+ATTEMPT_COUNT: 5
+CURRENT_TASK: TASK_006
+NEXT_TASK: TASK_006
+CHECKPOINT: TASK_005 generated one image and is recorded SUCCESS; its prompt is consumed/retired. The generation interface received a different scene description rather than the full locked prompt, so GENERATION_INPUT_MODE=KNOWN_DEVIATION. Do not reuse TASK_005 prompt. 15 Tasks remain pending; next candidate TASK_006 requires fresh prompt read and correct full-prompt delivery.
