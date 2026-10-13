@@ -190,3 +190,42 @@ GENERATION_INPUT_MODE: KNOWN_DEVIATION
 DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
 PROMPT_MATCH_STATUS: NOT_ASSESSED
 DETAIL: One image result was received and durably associated with TASK_005. Prompt/version is consumed and retired. No visual QA performed.
+
+EVENT_ID: EVT_016
+EVENT_TYPE: GENERATION_STARTED
+TIMESTAMP: 2026-10-14T04:05:00+08:00
+TASK_ID: TASK_006
+PROMPT_ID: PROMPT_006_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_006_01
+GENERATION_CALL_ID: 501fb217-05fa-4ae5-b991-759a8d0e56a1
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+DETAIL: The complete locked TASK_006 prompt was read and posted before generation, but the actual generation call used a different scene description instead of the locked prompt. This is a known deviation; exact prompt delivery is not claimed.
+
+EVENT_ID: EVT_017
+EVENT_TYPE: IMAGE_RESULT_RECORDED
+TIMESTAMP: 2026-10-14T04:05:30+08:00
+TASK_ID: TASK_006
+PROMPT_ID: PROMPT_006_WEDDING_20261012
+PROMPT_VERSION: V1
+ATTEMPT_ID: ATTEMPT_TASK_006_01
+GENERATION_CALL_ID: 501fb217-05fa-4ae5-b991-759a8d0e56a1
+RESULT_ID: 501fb217-05fa-4ae5-b991-759a8d0e56a1
+RESULT_REFERENCE: /mnt/data/a_wide_cinematic_highly_detailed_romantic_outdo.png
+ACTUAL_OUTPUT_COUNT: 1
+RESULT_BINDING_STATUS: BOUND_TO_TASK_AND_GENERATION_CALL_WITH_KNOWN_INPUT_DEVIATION
+PROMPT_CONSUMED: YES
+PROMPT_STATE: RETIRED
+FULL_PROMPT_READ_STATUS: CONFIRMED
+GENERATION_INPUT_MODE: KNOWN_DEVIATION
+DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+PROMPT_MATCH_STATUS: NOT_ASSESSED
+DETAIL: One image result was received and recorded. The prompt/version is consumed and retired. No visual QA performed.
+
+EVENT_ID: EVT_018
+EVENT_TYPE: RESUME_PAUSED
+TIMESTAMP: 2026-10-14T04:06:00+08:00
+TASK_ID: TASK_007
+DETAIL: Paused further generation after another confirmed generation-input deviation on TASK_006. TASK_006 result and consumed/retired prompt are preserved. TASK_007 remains pending and unconsumed. Resume only after the generation-call construction process can reliably submit the full locked prompt from its dedicated file.
