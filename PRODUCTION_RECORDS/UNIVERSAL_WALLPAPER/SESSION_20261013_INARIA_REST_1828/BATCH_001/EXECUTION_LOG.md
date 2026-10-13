@@ -88,3 +88,25 @@ BATCH_ID: BATCH_001
   EVENT_TYPE: STOPPED
   DETAILS: Production paused after two confirmed image results were generated from inputs that did not match the full locked prompt text. No additional generation calls will be made in this execution until the delivery workflow can preserve exact locked prompt text.
   STATUS: STOPPED_INTEGRITY_DEVIATION
+
+- TIMESTAMP: 2026-10-13T18:50:00+08:00
+  EVENT_ID: EVT_RESUME_AUTO_001
+  EVENT_TYPE: RESUME_RECOVERY
+  DETAILS: Reconnected to rayclamp/lora_20 main; re-read mandatory core rules, canonical path registry, worker protocol, record schema, generation rules, applicable realistic wallpaper/reference/anatomy/drawing/safety/character rules, and all five Batch records. Existing Session/Batch preserved. TASK_003 is first eligible queued Task. Prior TASK_001/TASK_002 deviations remain documented and are not retried.
+  STATUS: READBACK_VERIFIED
+- TIMESTAMP: 2026-10-13T18:51:00+08:00
+  EVENT_ID: EVT_TASK_003_START
+  EVENT_TYPE: GENERATION_STARTED
+  SESSION_ID: SESSION_20261013_INARIA_REST_1828
+  BATCH_ID: BATCH_001
+  TASK_ID: TASK_003
+  PROMPT_ID: INARIA_REST_003
+  PROMPT_VERSION: 1.0
+  ATTEMPT_ID: ATTEMPT_001
+  GENERATION_CALL_ID: CALL_TASK_003_001
+  FULL_PROMPT_READ_STATUS: VERIFIED
+  GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
+  DELIVERY_INTEGRITY_STATUS: UNVERIFIED
+  EXPECTED_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: NO
+  STATUS: GENERATION_INITIATED
