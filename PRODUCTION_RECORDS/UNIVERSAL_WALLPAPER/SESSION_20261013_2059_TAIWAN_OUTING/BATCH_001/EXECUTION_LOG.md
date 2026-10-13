@@ -51,3 +51,32 @@ BATCH_ID: BATCH_001
   PROMPT_STATE: USED_WITH_KNOWN_DELIVERY_DEVIATION
   DETAILS: One image result was received. No visual QA performed. The task's prompt-delivery deviation is recorded explicitly.
   STATUS: RECORDED_PENDING_READBACK
+
+- EVENT_ID: EVT-006
+  TIMESTAMP: 2026-10-13T21:01:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  SESSION_ID: SESSION_20261013_2059_TAIWAN_OUTING
+  BATCH_ID: BATCH_001
+  TASK_ID: TASK_002
+  PROMPT_ID: UW-REAL-002-20261013
+  PROMPT_VERSION: 1.0
+  ATTEMPT_ID: ATTEMPT_002
+  GENERATION_CALL_ID: e1cbebba-ec2b-40ad-b2ec-a78afe898b3f
+  RESULT_ID: e1cbebba-ec2b-40ad-b2ec-a78afe898b3f
+  RESULT_PATH: /mnt/data/wide_outdoor_landscape_photo_a_bright_crisp_moun.png
+  OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: USED_WITH_KNOWN_DELIVERY_DEVIATION
+  FULL_PROMPT_READ_STATUS: VERIFIED
+  GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT_PREPARED
+  DELIVERY_INTEGRITY_STATUS: KNOWN_DEVIATION
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  DETAILS: An image result was received, but the actual tool input was abbreviated and did not match the complete locked prompt verbatim. No visual QA performed. Stop further generation because the exact locked-prompt delivery requirement was not met twice.
+  STATUS: RECORDED_PENDING_READBACK
+- EVENT_ID: EVT-007
+  TIMESTAMP: 2026-10-13T21:01:00+08:00
+  EVENT_TYPE: STOPPED
+  SESSION_ID: SESSION_20261013_2059_TAIWAN_OUTING
+  BATCH_ID: BATCH_001
+  DETAILS: Further generation halted after repeated known generation-input deviations. Remaining prompts are preserved and must not be silently rewritten or treated as executed.
+  STATUS: STOPPED
