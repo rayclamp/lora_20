@@ -80,3 +80,11 @@ BATCH_ID: BATCH_001
   BATCH_ID: BATCH_001
   DETAILS: Further generation halted after repeated known generation-input deviations. Remaining prompts are preserved and must not be silently rewritten or treated as executed.
   STATUS: STOPPED
+
+- EVENT_ID: EVT-008
+  TIMESTAMP: 2026-10-13T21:12:00+08:00
+  EVENT_TYPE: RESUME_VALIDATION
+  SESSION_ID: SESSION_20261013_2059_TAIWAN_OUTING
+  BATCH_ID: BATCH_001
+  DETAILS: Reconnected to rayclamp/lora_20 main; re-read START_HERE, CORE_RULES, DRAWING_INSTRUCTIONS, CANONICAL_PATH_REGISTRY, SYSTEM_ARCHITECTURE, GENERATION_WORKER_PROTOCOL, PRODUCTION_RECORD_SCHEMA, GENERATION_RULES, MODULE_REGISTRY, INARIA_CHARACTER_SPEC, ANATOMY_STABILITY, IMAGE_GENERATION_SAFETY_SPEC, REALISTIC_WALLPAPER_RULES, UNIVERSAL_WALLPAPER REFERENCE_POLICY, and the five existing Batch records. Verified locked manifest and Task 003 mapping/prompt. Tasks 001-002 remain consumed and are not eligible for rerun. Task 003 is pending and eligible.
+  STATUS: VERIFIED
