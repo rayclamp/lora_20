@@ -6,7 +6,7 @@ MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 OUTPUT_TYPE: DESKTOP_16_9
-BATCH_STATUS: STOPPED
+BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 2
 RESULT_RECORDED_COUNT: 0
 ACTUAL_IMAGE_COUNT: 2
@@ -18,6 +18,6 @@ PENDING_COUNT: 18
 ATTEMPT_COUNT: 2
 CURRENT_TASK: TASK_002
 NEXT_TASK: TASK_003
-CHECKPOINT: TASK_001 and TASK_002 each returned an image, but both generation calls used abbreviated text rather than the complete locked prompt. Both delivery deviations are recorded. Stop further generation until the execution method can submit exact locked prompt text.
+CHECKPOINT: RESUME_AUTO validated current repository rules and Batch records. TASK_001 and TASK_002 are completed image results with known delivery deviations and will not be rerun. TASK_003 is the next pending Task; its complete locked prompt was freshly read and mapped. Continue only using the exact full prompt text.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
