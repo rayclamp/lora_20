@@ -224,3 +224,47 @@ Do not use RESULT_COUNT_MISMATCH solely because ACTUAL_OUTPUT_COUNT differs from
 Once any image is confirmed received, set PROMPT_CONSUMED = YES and retire the Prompt/version so it can never be used again. QA is a separate downstream process. QA status must not alter production success/counts, prompt-consumption state, or trigger regeneration.
 
 This section supersedes earlier schema wording that requires the actual output count to equal the expected count for SUCCESS, classifies extra images as RESULT_COUNT_MISMATCH, or permits Producer-side visual or prompt-compliance assessment. Historical Batch records remain immutable; apply this rule to new execution and use a separately recorded correction only when correcting a verified factual recording error.
+
+## 19. Current Task-Level Retry, Prompt State, and Completion Policy — Overrides Conflicting Older Rules
+This section is the current authoritative policy for new production and resume records. It supersedes conflicting earlier wording in this schema that requires one call per locked Prompt/version or forbids all retries.
+
+### 19.1 Completion rule
+- If one or more image files are confirmed received for a Task, mark that Task SUCCESS once the receipt is durably attributed to it. COMPLETED_COUNT increases by one for that Task, regardless of the number of files received.
+- Record the actual number of received files in ACTUAL_OUTPUT_COUNT and include them in ACTUAL_IMAGE_COUNT.
+- Never retry a Task after image receipt. QA observations, appearance, prompt-compliance concerns, or extra returned files do not undo production success and do not trigger regeneration.
+
+### 19.2 Retry rule
+- Retry only a known failed attempt for which no image was received. Do not retry a result-bearing Task.
+- The initial attempt is not a retry. After an initial confirmed no-image failure, retry the same Task using the same complete authoritative locked Prompt text. Do not edit the locked prompt or its Task mapping.
+- Every attempt must have a distinct ATTEMPT_ID and GENERATION_CALL_ID where available, plus a timestamp, outcome, interruption/error class, image receipt state, and retry ordinal.
+- Count retry failures separately from the initial attempt. After three retry attempts have each failed with a confirmed no-image outcome, mark the Task terminal (GENERATION_FAILED or another applicable specific terminal state), record retry exhaustion and the reason, and never start that Task again.
+- If a retry produces one or more images, the Task is SUCCESS; no further retry is allowed.
+
+### 19.3 Unknown outcomes and safety/policy blocks
+- If an attempt's outcome is unknown, preserve PROMPT_CONSUMED=UNKNOWN and the applicable recovery state. Do not retry while the outcome remains unknown.
+- Record policy/safety blocks and service/runtime/quota/rate-limit failures accurately. Retry must not be used to evade policy or safety restrictions. A permitted retry that fails with a confirmed no-image outcome counts toward the three failed retries.
+- A Task reaching retry exhaustion is Task-local. Continue unrelated Tasks if they are independently executable and do not rely on the unresolved Task.
+
+### 19.4 Prompt-state interpretation under retries
+For new records, distinguish Task-level retry eligibility from prompt immutability:
+- The locked prompt text and Task-to-prompt mapping remain immutable.
+- A confirmed no-image failure with a known outcome may permit another attempt for the same Task, using the same unchanged locked prompt, until the retry limit is reached.
+- After confirmed image receipt, an unknown outcome, or terminal retry exhaustion, no further attempt is allowed for that Task.
+- PROMPT_CONSUMED records image receipt, not merely whether a generation call was made: YES = image received; NO = known no-image outcome; UNKNOWN = outcome unresolved.
+- Update PROMPT_STATE definitions/usage so RETIRED is not set merely because a first attempt was made when a known no-image retry is allowed. Use AVAILABLE only for a retryable known-failure state within the same Task; use CONSUMED after image receipt, UNKNOWN while the outcome is unresolved, and RETIRED after retry exhaustion or another terminal no-retry condition. A prompt must never be reassigned to a different Task.
+
+### 19.5 Required record fields and events
+For each Task, persist at least:
+- GENERATION_ATTEMPT_COUNT (all calls, including the initial attempt);
+- RETRY_ATTEMPT_COUNT (retry calls only);
+- RETRY_FAILURE_COUNT (retry attempts with confirmed no-image failures);
+- LAST_ATTEMPT_ID and LAST_GENERATION_CALL_ID where available;
+- PROMPT_CONSUMED, PROMPT_STATE, PROMPT_TERMINATION_REASON;
+- TASK_STATUS, GENERATION_STATUS, ACTUAL_OUTPUT_COUNT, and the current error/interruption class.
+
+For each attempt, append a separate GENERATION_STARTED and terminal result event as applicable. Use a retry-specific event such as RETRY_STARTED when a retry begins, and record RETRY_FAILED for a confirmed no-image retry failure. A confirmed image receipt must be recorded as IMAGE_RESULT_RECEIVED / GENERATION_SUCCESS and must never be followed by another attempt for that Task. When RETRY_FAILURE_COUNT=3, record RETRY_LIMIT_REACHED and the Task's terminal state. Do not overwrite previous attempt events.
+
+### 19.6 Persistence failures
+Keep generation outcome separate from GitHub persistence state. A confirmed image receipt remains a fact even if its record write/readback fails. Recover the persistence record without regenerating. Do not advance to another Task until required durable state is recovered if the current workflow requires persistence before advancing; however, do not relabel a received image as no-image and do not repeat its generation call.
+
+This policy applies prospectively. Preserve historical records and do not rewrite old Batch execution evidence.
