@@ -3,11 +3,25 @@
 SESSION_ID: SESSION_20261014_2245
 BATCH_ID: BATCH_STREET_20_001
 MODULE: UNIVERSAL_WALLPAPER
-STATUS: DESIGN_LOCK_PENDING_EXECUTION
-PLANNED_TASK_COUNT: 20
-EXPECTED_OUTPUT_COUNT_PER_TASK: 1
+PRODUCTION_TYPE: REALISTIC
+IMAGE_COUNT: 20
+BATCH_STATUS: INITIALIZATION_COMPLETED
+COMPLETED_COUNT: 0
+RESULT_RECORDED_COUNT: 0
+ACTUAL_IMAGE_COUNT: 0
+UNVERIFIED_COUNT: 0
+FAILED_COUNT: 0
+DEFERRED_COUNT: 0
+BLOCKED_COUNT: 0
+PENDING_COUNT: 20
+ATTEMPT_COUNT: 0
+CURRENT_TASK: NONE
+NEXT_TASK: TASK_001
+CHECKPOINT: INITIALIZATION_VERIFIED_NO_GENERATION_ATTEMPTED
 OUTPUT_TYPE: DESKTOP_16_9
 THEME: Street photography, Taiwan and Japan, summer/autumn, sunny daytime
 PET_ALLOWED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
 
-Prompt design and per-Task prompt files are prepared before generation. Each Task has one locked prompt file. Image receipt and persistence status must be recorded separately. No post-generation QA.
+Initialization recovery verified all 20 per-Task prompt files and the prompt manifest. No image generation calls have been made in this Batch. Task execution remains pending and is not started by this initialization recovery.
