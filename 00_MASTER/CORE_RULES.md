@@ -79,7 +79,7 @@ Any automated production initiated by /RESUME_AUTO MUST re-verify the current Gi
 
 1. A blocking condition MUST be scoped to the smallest affected unit: evidence field, Task, or Batch.
 2. A Task-local state conflict, missing Task-local readback, or unresolved result MUST NOT automatically stop unrelated Tasks. Isolate the affected Task, preserve its state, and evaluate the next Task independently.
-3. Continue with the next Task only when its own authoritative Task state, complete non-empty locked Prompt from its authoritative per-Task file (or documented legacy source for an existing Batch), Task-to-Prompt binding, and applicable generation prerequisites can be verified, and it does not depend on the unresolved Task.
+3. For an eligible Task, read its assigned authoritative locked Prompt. The only prompt-related pre-generation check is whether the complete Prompt was successfully read; do not add a separate content, metadata, or Task-binding validation gate.
 4. An unresolved generation outcome remains unresolved for that Task: do not retry, skip, advance past it as though resolved, or reuse its consumed/retired Prompt. This does not by itself forbid independent later Tasks from running.
 5. Stop the entire Batch only when a verified issue affects Batch-wide identity/contract, global prompt-manifest integrity or per-Task prompt-file mapping, or result attribution in a way that cannot safely be isolated to a Task.
 6. Visual-quality defects or visual differences from a Prompt are QA observations, not proof of generation-input mismatch. QA findings MUST NOT automatically change execution-integrity status or trigger regeneration.
