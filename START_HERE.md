@@ -96,37 +96,32 @@ Each Task receives one dedicated locked prompt file and one prompt version. Each
 
 ## 6. Task Execution
 
-CURRENT_TASK → CURRENT_LOCKED_PROMPT_READINESS → GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS
+The Producer's generation path has only one pre-generation check and one generation-result check:
 
-Immediately before each generation call, reconnect to GitHub and read the current Task and `PROMPT_SET.md` manifest, then open that Task's dedicated `PROMPTS/<TASK_ID>.md` file.
+1. Read the assigned Task's authoritative locked prompt from its recorded prompt file.
+2. Confirm only that the complete prompt was successfully read.
+3. Immediately submit that exact, unchanged prompt to the image-generation tool. Do not perform any intervening analysis, validation, display, transformation, extra GitHub operation, or other task.
+4. Determine only whether image generation produced/returned an image result.
+5. Record the observable outcome under Section 7.
 
-For a new-format Batch, use `PROMPT_SET.md` only to resolve the current Task's dedicated prompt file. Read the complete, non-empty locked Prompt text from inside that file's explicit delimiters and confirm its Task binding before every generation call. Submit that entire locked Prompt verbatim as the generation input.
+The design stage has already validated and locked the prompt. The Producer MUST NOT revalidate prompt correctness, format, semantics, quality, task binding, or visual intent. Do not compare the image with the prompt; that belongs to independent QA.
 
-Any transformation of the locked Prompt is forbidden, including shortening, summarizing, paraphrasing, translating, reordering, rewriting, omitting, adding to, polishing, or otherwise changing any text. Do not invent a replacement from the Session theme, prior Tasks, memory, assumptions, or a template. Only the text between `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT` in that Task's file is the permitted generation input; do not include the file metadata or delimiters.
+If the complete prompt was not successfully read, do not guess or reconstruct it; record the read failure and stop that Task. Once the complete prompt is read, proceed directly to the generation call without another gate.
 
-Record whether the full Prompt was read and set `GENERATION_INPUT_MODE = FULL_LOCKED_PROMPT` only when the entire exact text was prepared for the call. If the complete Prompt cannot be read, its Task binding is unclear, or it cannot be supplied unchanged, do not generate with a substitute; isolate/block that Task and continue only with independently verified Tasks where safe. Missing hidden-payload telemetry alone is not a generation gate; record evidence limits honestly and do not claim transport verification that is unavailable.
-
-One locked Prompt/version may produce at most one confirmed image result. A Generation Call attempt does not by itself consume the Prompt; any confirmed received image consumes the Prompt and is counted, regardless of prompt match or Task success.
-
-After each attempt, classify and persist only the production outcome and observable execution facts before advancing:
-- Confirmed image result received: immediately set `PROMPT_CONSUMED = YES` and retire the Prompt/version permanently; record every returned image in `ACTUAL_OUTPUT_COUNT` and batch `ACTUAL_IMAGE_COUNT`; record available result references/binding; never call that Prompt/version again. Once the result is durably recorded against its Task, mark the Task `SUCCESS` exactly once, even if multiple files were returned.
-- Confirmed no image result: record the actual error/reason and applicable terminal or authorized-retry outcome; keep `PROMPT_CONSUMED = NO` when the no-image outcome is known.
-- Outcome unknown: set `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`, record the uncertainty, and stop that Task until resolved. Do not guess an image count.
-- The Producer MUST NOT compare the submitted payload against the locked prompt after generation, judge visual prompt compliance, or classify image quality. Do not set `PROMPT_MATCH_STATUS` to `MATCH` or `MISMATCH`; leave it `NOT_ASSESSED` or unset. Image correctness and quality belong to the independent QA workflow.
-
-After three consecutive verified Policy/Safety interruptions, set `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`, record `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`, and retire the Prompt from all future use even though no image was produced. Any Task that reaches another valid terminal error/stop state likewise cannot be re-queued or reuse its Prompt. Policy interruptions, service/runtime errors, quota/rate limits, and GitHub errors must remain separately classified and counted.
-
+Each locked prompt is used for one generation call only. Do not automatically retry, including after a no-image result.
 ## 7. Result Recording
 
-After a generation result or execution failure:
-1. reconnect to GitHub;
-2. read the current authoritative record state;
-3. record whether an image result was received, the actual output count/result reference, or the confirmed no-image failure reason; record interruption details separately. Do not perform prompt-payload comparison or visual assessment;
-4. update batch actual-image totals without filtering out mismatched or unsuccessful results;
-5. read back and verify the write.
+After the generation call, record only observable execution facts:
 
-Image QA remains a separate workflow and is currently paused. Automated generation records the result and execution state; QA does not trigger regeneration.
+- whether an image result was received;
+- the actual number of image files received and available result references;
+- the associated Task/generation event when available;
+- the confirmed no-image error or interruption reason, if applicable;
+- the status of the GitHub record write.
 
+Do not compare the generation input with the locked prompt or inspect/evaluate the image. Do not add post-generation QA or a prompt-compliance gate.
+
+A confirmed image receipt must be recorded as received even if a later GitHub write fails. A record-write failure must not erase or relabel the generation outcome and must never trigger another generation call. Keep generation outcome and persistence outcome distinct; handle record-write recovery without re-generating the image.
 ## 8. Next Task
 
 Before selecting the next Task, reconnect and verify the latest authoritative state.
