@@ -18,5 +18,6 @@ USER_CONSTRAINTS:
 - Vary framing, pose, viewpoint, clothing, hair arrangement, accessories, scene, lighting, and composition meaningfully.
 - Each Task independently records TASK_OUTPUT_TYPE as PHONE_9_16 or DESKTOP_16_9; no separate ASPECT_RATIO or ORIENTATION field.
 DESIGN_BOUNDARY: Prompt design, Task queue/index, GitHub writes/readback verification, and prompt locking only. No image generation, QA, retouching, or producer launch.
-PROMPT_SET_STATUS: DRAFT
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
 CREATED_AT: 2026-10-15T03:18:00+08:00
