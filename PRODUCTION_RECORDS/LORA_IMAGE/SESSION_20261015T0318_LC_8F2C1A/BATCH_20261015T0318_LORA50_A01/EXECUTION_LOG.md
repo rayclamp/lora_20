@@ -12,3 +12,5 @@
 - 2026-10-15 — PROMPT_SET_STATUS changed to LOCKED and PROMPT_SET_LOCKED=YES only after successful readback verification. Batch is ready for a separate producer; no image generation or QA was run.
 
 - 2026-10-15 — Pre-production design correction: active LORA_IMAGE rules do not specify a fixed rendering style. Revised all 50 prompts from v1 to v2 to defer to an explicit production style, or otherwise match the uploaded reference's visual medium. Updated the queue and manifest to PROMPT_VERSION=v2. This revision occurred before any producer launch or generation; v1 remains in GitHub commit history.
+
+- 2026-10-15 — Final readback after the v2 revision: all 50 prompt files were fetched again and confirmed to contain PROMPT_VERSION=v2, PROMPT_STATUS=LOCKED, TASK_OUTPUT_TYPE, and both BEGIN_LOCKED_PROMPT_TEXT / END_LOCKED_PROMPT_TEXT delimiters. TASK_QUEUE and PROMPT_SET each contain exactly 50 mappings, all at v2 and LOCKED. The Prompt Set remains locked; no producer was launched and no images were generated.
