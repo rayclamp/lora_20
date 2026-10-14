@@ -47,7 +47,7 @@ For wallpaper production, EXPECTED_OUTPUT_COUNT = 1 as a design target. Record t
 Image receipt, production result recording, and QA acceptance are distinct facts. Record available Task/result attribution and actual file count after the generation call, but do not use count equality or post-read binding validation to interrupt generation or erase a confirmed image receipt. Visual compliance is exclusively a QA responsibility.
 
 ### Recovery
-Preserve SESSION_ID, BATCH_ID, and locked prompts. Do not redesign or reuse consumed prompts. Before resuming, verify pre-generation readiness for each eligible Task. After generation, record whether an image was received, actual count, result binding, or confirmed failure reason. Do not perform post-generation prompt-payload comparison or visual QA as part of Producer recovery.
+Preserve SESSION_ID, BATCH_ID, and locked prompts. Do not redesign or reuse consumed prompts. Before resuming, select the next eligible Task from the existing Session/Batch records. Read its assigned locked Prompt; the only prompt-related pre-generation check is whether the complete Prompt was successfully read. If so, call the generation tool immediately. After generation, record whether an image was received, actual count, available result attribution, or confirmed failure reason. Do not perform post-generation prompt-payload comparison or visual QA as part of Producer recovery.
 
 ## Production Records
 Canonical path: PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/
