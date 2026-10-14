@@ -7,4 +7,5 @@ BATCH_ID: ONSEN_JP_20_REALISTIC
 - All 20 prompt files and required Session/Batch records created and read back.
 - TASK_001 / PROMPT_001 v1: GENERATION_SUCCESS; one image received; generation ID 3b8c6286-5dab-4bbc-be60-fcc9185e4ff6; PROMPT_CONSUMED=YES; PROMPT_STATE=CONSUMED. File: /mnt/data/wide_scenic_photograph_of_an_outdoor_hot_spring_on.png.
 - TASK_002 / PROMPT_002 v1: GENERATION_SUCCESS; one image received; generation ID 221c2817-496c-43f9-af70-2c49d3cbabb2; PROMPT_CONSUMED=YES; PROMPT_STATE=CONSUMED. File: /mnt/data/wide_cinematic_photorealistic_scene_of_a_serene.png.
+- TASK_003 / PROMPT_003 v1: initial generation attempt blocked by image safety system; no image received. ATTEMPT_ID=TASK_003_ATTEMPT_001; GENERATION_ATTEMPT_COUNT=1; RETRY_ATTEMPT_COUNT=0; RETRY_FAILURE_COUNT=0; PROMPT_CONSUMED=NO; PROMPT_STATE=RETIRED. Not retried to avoid circumventing a safety block.
 - No visual QA performed.
