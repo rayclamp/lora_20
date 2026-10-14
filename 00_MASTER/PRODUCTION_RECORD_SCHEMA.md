@@ -115,7 +115,7 @@ The design/lock stage owns Task mapping, metadata, and prompt validity. During p
 ## 11. Non-Goals
 This schema does not define a GitHub scheduler, task lock, worker manager, retry engine, Session manager, or execution controller. Those remain internal ChatGPT production mechanisms.
 
-## 12. Prompt Consumption, Retry, and Policy Interruption Records
+## 12. Prompt Consumption and Single-Call Retirement Records
 
 One locked Prompt/version receives at most ONE generation call. The call itself retires that Prompt/version from further generation, regardless of whether an image is received. `PROMPT_CONSUMED` separately records whether an image was actually received.
 
