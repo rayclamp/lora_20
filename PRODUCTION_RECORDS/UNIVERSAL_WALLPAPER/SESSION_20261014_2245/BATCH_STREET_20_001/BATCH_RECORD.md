@@ -5,23 +5,23 @@ BATCH_ID: BATCH_STREET_20_001
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
-BATCH_STATUS: INITIALIZATION_COMPLETED
-COMPLETED_COUNT: 0
+BATCH_STATUS: IN_PROGRESS
+COMPLETED_COUNT: 1
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 0
+ACTUAL_IMAGE_COUNT: 1
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 20
-ATTEMPT_COUNT: 0
-CURRENT_TASK: NONE
-NEXT_TASK: TASK_001
-CHECKPOINT: INITIALIZATION_VERIFIED_NO_GENERATION_ATTEMPTED
+PENDING_COUNT: 19
+ATTEMPT_COUNT: 1
+CURRENT_TASK: TASK_001
+NEXT_TASK: TASK_002
+CHECKPOINT: TASK_001_IMAGE_RECEIVED_RECORDING_PENDING_READBACK
 OUTPUT_TYPE: DESKTOP_16_9
 THEME: Street photography, Taiwan and Japan, summer/autumn, sunny daytime
 PET_ALLOWED: NO
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 
-Initialization recovery verified all 20 per-Task prompt files and the prompt manifest. No image generation calls have been made in this Batch. Task execution remains pending and is not started by this initialization recovery.
+TASK_001 has one image result received and recorded. The generation input is recorded as KNOWN_DEVIATION because the generation call did not receive the complete locked prompt verbatim. The locked prompt file remains unchanged. No visual QA was performed.
