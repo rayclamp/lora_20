@@ -248,16 +248,14 @@ Resume MUST NOT create a replacement Session/Batch, reset attempt counts, or mod
 
 ## 15. Resume Recovery Scope — Isolate Before Escalating
 
-The stop conditions in this protocol apply to the affected Task unless the evidence establishes a Batch-wide dependency.
-
-1. If the current Task's locked Prompt is missing, empty, or bound to the wrong Task, do not generate that Task. Record the specific failure and isolate it.
-2. If an attempt outcome is unknown, do not retry that Task, reuse its Prompt, or mark it complete. Preserve its recovery state. This unresolved outcome does not automatically prohibit an independent later Task.
-3. Before continuing to a later Task, independently read back its current complete locked Prompt and verify that it is non-empty, bound to that Task, non-consumed, non-retired, and otherwise eligible. Do not infer readiness from another Task's state.
-4. Escalate to Batch-level stop only when a verified conflict affects Batch identity/contract, the global Prompt Set, or result attribution in a way that makes execution of other Tasks unsafe.
-5. Visual QA is a separate downstream responsibility. The Producer MUST NOT inspect image quality or judge visual compliance as part of production status. Do not set EXECUTION_INTEGRITY_BLOCKED or stop later Tasks based on an image's visual appearance; record receipt facts and leave visual acceptance to QA.
-6. Lack of transport telemetry remains NOT_EXPOSED or UNVERIFIED and is not a pre-generation stop condition.
-7. Every isolated Task must remain explicitly recorded for later recovery; continuing other Tasks must never silently convert it to SUCCESS, terminal completion, or a skipped Task.
-
+1. Resume must recover the existing Session/Batch and select a Task that has not reached a valid terminal state.
+2. If the prior generation outcome for a Task is unknown, preserve UNKNOWN and do not call that Prompt again.
+3. For an eligible Task, read its assigned locked Prompt. The only prompt-related pre-generation check is whether the complete Prompt was successfully read.
+4. Once the complete Prompt is successfully read, call the generation tool immediately. Do not add content, format, semantic, metadata, Task-binding, or visual-intent validation.
+5. If the complete Prompt cannot be read, record the read failure and isolate that Task. Never reconstruct or substitute the Prompt.
+6. A problem isolated to one Task must not automatically block independent Tasks. Stop the Batch only for a verified Batch-wide issue that makes safe Task identification impossible.
+7. Missing optional delivery telemetry and visual differences are not generation gates. QA remains separate.
+8. Record the generation outcome and any record-write failure separately. Persistence recovery must not repeat generation.
 ## 15. Multi-Worker Handoff — Independent Task Readiness
 
 This section defines record-level handoff behavior for a future Runtime Coordinator and multiple Workers. It does not claim that a multi-worker coordinator or Claim/Lease runtime has already been implemented.
