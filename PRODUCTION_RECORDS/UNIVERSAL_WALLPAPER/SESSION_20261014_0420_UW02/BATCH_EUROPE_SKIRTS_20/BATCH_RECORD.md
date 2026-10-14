@@ -1,7 +1,7 @@
 # Batch Record
 SESSION_ID: SESSION_20261014_0420_UW02
 BATCH_ID: BATCH_EUROPE_SKIRTS_20
-BATCH_STATUS: INITIALIZED
+BATCH_STATUS: STOPPED
 MODULE: UNIVERSAL_WALLPAPER
 PLANNED_TASK_COUNT: 20
 COMPLETED_COUNT: 3
@@ -30,3 +30,8 @@ COMPLETED_COUNT: 3
 ACTUAL_IMAGE_COUNT: 3
 RESULT_RECORDED_COUNT: 0
 LAST_UPDATED_TASK: TASK_003
+
+
+## Stop / execution-integrity note
+BATCH_STATUS: STOPPED
+STOP_REASON: The image-generation interface did not expose a way to submit the exact locked prompt text verbatim. Tasks 001–003 have confirmed image receipts and are recorded as generated outputs, but their input mode is KNOWN_DEVIATION. Tasks 004–020 were not generated. Do not claim batch completion; do not retry any consumed prompt.
