@@ -19,3 +19,20 @@ No generation call has been initiated at record-creation time. Append only obser
 - RESULT_REFERENCE: generated image attached in this conversation; runtime path /mnt/data/a_wide_cinematic_outdoor_street_café_scene_in_a_r.png
 - PERSISTENCE: pending readback verification
 - NOTE: The generation interface's available metadata showed an empty prompt field; exact transport payload is not exposed. The call result and image receipt are observable.
+
+
+## GENERATION RESULT — TASK_002
+- TASK_ID: TASK_002
+- PROMPT_ID: PROMPT_002
+- PROMPT_VERSION: v1
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- GENERATION_CALL_ID: 790921e1-cfc9-489d-8ede-538b2719253e
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- RESULT: SUCCESS (image received; not a QA judgment)
+- RESULT_REFERENCE: generated image attached in this conversation; runtime path /mnt/data/a_bright_photorealistic_travel_portrait_scene_in.png
+- PERSISTENCE: pending readback verification
+- NOTE: The generation interface's available metadata showed an empty prompt field; exact transport payload is not exposed. The call result and image receipt are observable.
