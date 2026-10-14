@@ -126,7 +126,7 @@ A confirmed image receipt must be recorded as received even if a later GitHub wr
 
 Before selecting the next Task, reconnect and verify the latest authoritative state.
 
-Continue until every required Task has reached a valid terminal state. Any confirmed image result that is durably recorded against its Task is a production `SUCCESS`, counted once per Task regardless of how many files were returned; this does not imply QA acceptance. Record the actual number of returned files separately. A confirmed no-image failure must also be recorded with its reason and terminal or explicitly authorized retry state.
+Continue until every required Task has reached a valid terminal state. Any confirmed image result that is durably recorded against its Task is a production `SUCCESS`, counted once per Task regardless of how many files were returned; this does not imply QA acceptance. Record the actual number of returned files separately. A confirmed no-image failure must also be recorded with its observed reason. Do not automatically retry the same locked Prompt.
 
 Do not require every Task to be successful. When all required Tasks are terminal and the completion record is read back successfully, close the Batch and issue no further generation calls for it.
 
