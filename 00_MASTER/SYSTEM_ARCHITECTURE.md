@@ -32,7 +32,7 @@ For every Task:
 TASK → CURRENT_LOCKED_PROMPT_READINESS → GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS
 
 Execution records must distinguish generation started, image result received, result recording still pending, pre-generation readiness blocked, confirmed no-image failure, output-count mismatch, and production SUCCESS.
-A received image is recorded regardless of visual quality. Production SUCCESS requires the expected output count and reliable result-to-Task binding; it does not mean visual compliance or QA PASS.
+A received image is recorded regardless of visual quality or actual returned-file count. Production result status reflects observed image receipt and available record attribution; output-count equality and visual compliance are not generation gates and do not erase a received image.
 
 ### Prompt Readiness
 For a new-format Batch, use the assigned Task's prompt file as the source. The design/lock stage is responsible for Task-to-file mapping and prompt metadata. During production, the only prompt-related pre-generation check is whether the complete locked Prompt text can be read. If the complete Prompt is successfully read, immediately submit that exact text unchanged to the generation tool; do not insert any additional validation, metadata check, Task-binding check, payload audit, display, transformation, or unrelated action. If the complete Prompt cannot be read, record the read failure and stop that Task rather than guessing or reconstructing it. Record `FULL_PROMPT_READ_STATUS` and `GENERATION_INPUT_MODE` as observable facts; unavailable hidden transport telemetry is not a gate.
