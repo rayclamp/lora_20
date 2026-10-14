@@ -83,9 +83,11 @@ For every new Batch, store each Task's complete locked Prompt in its own file at
 
 Each per-Task prompt file must contain `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and `PROMPT_STATUS=LOCKED`, plus clearly delimited prompt text using `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT`. Only the text inside those delimiters is the generation input. The text inside them must be passed verbatim, without including the file's metadata or delimiters.
 
-Before generation, resolve the current Task through the manifest and open only its mapped `PROMPTS/<TASK_ID>.md` file. Never select prompt text by position in a combined document, copy it from another Task, or infer it from the manifest. If the file is missing, unreadable, mismatched, or the delimiters are ambiguous, block/isolate that Task rather than reconstructing the prompt.
+During batch design and locking, create and verify the per-Task prompt files and manifest mapping before production begins. This setup verification belongs to the design/locking stage.
 
-New production flows MUST create and verify all per-Task prompt files before locking the Batch manifest and beginning execution. The manifest must list one and only one prompt-file path for every executable Task; each file must map to exactly one Task. `PROMPT_SET.md` remains a required manifest, not a prompt-body container.
+During production, use the already assigned Task prompt file as the source and read its complete locked Prompt. Do not add a separate runtime mapping audit or revalidate prompt metadata. If the complete Prompt cannot be read, record the read failure and stop that Task; never reconstruct or substitute it.
+
+New production flows MUST create and verify all per-Task prompt files before locking the Batch manifest and beginning execution. The manifest must list one prompt-file path for each executable Task. `PROMPT_SET.md` remains a manifest, not a prompt-body container.
 
 Existing Batches created under the former combined-file layout are historical/legacy records. Do not silently migrate, overwrite, or rewrite their locked prompt content. Continue them only under their existing authoritative record format unless an explicit migration is authorized and separately recorded.
 
