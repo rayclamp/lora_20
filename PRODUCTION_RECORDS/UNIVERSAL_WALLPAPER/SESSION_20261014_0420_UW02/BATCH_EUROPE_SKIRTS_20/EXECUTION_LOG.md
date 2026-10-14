@@ -52,3 +52,11 @@ No generation call has been initiated at record-creation time. Append only obser
 - RESULT: SUCCESS (image received; not a QA judgment)
 - RESULT_REFERENCE: generated image attached in this conversation; runtime path /mnt/data/a_crisp_bright_photorealistic_outdoor_scene_by_a.png
 - NOTE: Generation metadata did not expose the exact submitted prompt payload; this is recorded as a known deviation from the verbatim-input contract.
+
+
+## BATCH STOP
+- BATCH_STATUS: STOPPED (not BATCH_COMPLETED)
+- TASK_001–TASK_003: image received; one output each; input mode recorded as KNOWN_DEVIATION because exact transport payload was not exposed.
+- TASK_004–TASK_020: not generated; BLOCKED.
+- STOP_REASON: exact verbatim locked-prompt submission cannot be established with the available image-generation interface.
+- No retry or extra generation call was made for any consumed Prompt.
