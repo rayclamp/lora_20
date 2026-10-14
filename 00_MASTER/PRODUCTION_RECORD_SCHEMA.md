@@ -62,7 +62,7 @@ Task status semantics:
 - IMAGE_RESULT_RECORDED = a confirmed image result and its actual count have been durably recorded, but production SUCCESS could not be assigned (for example, result binding is unresolved). This is terminal and is not QA PASS.
 - RESULT_RECEIVED_UNVERIFIED = a result exists but required evidence/recording is not yet complete; non-terminal until the result is durably recorded or another terminal outcome is established.
 - EXECUTION_INTEGRITY_UNVERIFIED = an applicable evidence field is unavailable or not exposed; this does not by itself mean Generation was forbidden. If an image was received and recorded, keep this as an evidence value and use IMAGE_RESULT_RECORDED as the terminal Task status.
-- EXECUTION_INTEGRITY_BLOCKED = generation could not validly proceed because of an actual pre-generation readiness failure, such as a missing/empty prompt or wrong Task binding. Do not use this status for post-generation visual judgments or hidden-payload comparisons.
+- EXECUTION_INTEGRITY_BLOCKED = a Task could not proceed because the complete assigned locked Prompt could not be read. Do not use this status for separate content, metadata, format, Task-binding, visual judgments, or hidden-payload comparisons.
 - GENERATION_FAILED = generation ended without a received image result.
 - RESULT_COUNT_MISMATCH = legacy/historical status only; do not assign it solely because actual returned-file count differs from the planned Task output.
 - SUCCESS = at least one image was confirmed received and durably recorded against the Task. Each Task counts once in COMPLETED_COUNT, regardless of actual returned-file count or visual compliance. SUCCESS is a production result only and does not imply visual correctness, prompt compliance, or QA PASS.
@@ -141,15 +141,7 @@ Persist at Task level, as applicable:
 
 Only verified Policy/Safety interruptions increment `POLICY_INTERRUPTION_COUNT`. Other error classes have separate handling and must not increment this counter.
 
-After a verified Policy/Safety interruption, record the interruption and stop that Task's generation attempt. Do not retry the same locked Prompt/version. The following legacy interruption-count fields may be retained for historical records but do not authorize a second generation call. Historical three-interruption terminal rules do not override the single-call rule.\n\nFor legacy records only, if a historical terminal state already exists, preserve it. Do not create additional attempts.\n\nAfter three consecutive verified Policy/Safety interruptions across explicitly authorized continuations, set:
-- `TASK_STATUS = PROMPT_SKIPPED_POLICY_LIMIT`
-- `PROMPT_TERMINATION_REASON = THREE_CONSECUTIVE_POLICY_INTERRUPTS`
-- `PROMPT_CONSUMED = NO` if no image was produced
-- `PROMPT_STATE = RETIRED`
-
-The three tests must use the same locked Prompt/version and same Task binding; do not redesign or substitute the prompt between attempts. The third interruption terminates the Task and permanently retires that Prompt, even though it did not produce an image.
-
-The Producer must not automatically retry without authorization. Image QA is evidence for the single generated image and is never a regeneration trigger.
+After any generation call is initiated, the same locked Prompt/version MUST NOT be called again. This rule applies to confirmed no-image failures, service/runtime errors, quota/rate limits, policy/safety interruptions, and unknown outcomes. Record the observed result and interruption class, if known, then stop that Task's generation attempt. Legacy interruption counters and terminal labels may be preserved as historical fields, but they do not authorize another generation call. Image QA is never a regeneration trigger.
 
 ## 13. Persistence Requirement
 
@@ -175,7 +167,7 @@ Rules:
 3. Continuing an independent Task does not resolve, pass, skip, or repair the isolated Task. Preserve it for later recovery.
 4. UNKNOWN generation outcome remains non-terminal for the affected Task. Never retry or reuse its Prompt while outcome remains unknown. Do not falsely count it as completed. Independent Tasks may proceed only if they do not depend on that unresolved outcome and their own readiness checks pass.
 5. Visual QA observations, including partial visual deviation from a Prompt, anatomy defects, composition issues, or aesthetic concerns, MUST NOT by themselves be classified as EXECUTION_INTEGRITY_BLOCKED. They belong to the separate QA workflow and do not trigger regeneration.
-6. `EXECUTION_INTEGRITY_BLOCKED` is for a confirmed pre-generation readiness failure, such as a missing/empty Prompt or a Prompt assigned to the wrong Task. The Producer MUST NOT assess whether the submitted payload exactly matched LOCK PROMPT after generation. A separately authorized integrity audit may record such evidence outside the Producer's production judgment, but a post-generation payload comparison must not erase a received image, change its count, or by itself block independent Tasks. Lack of hidden transport telemetry or visual discrepancy alone is insufficient.
+6. `EXECUTION_INTEGRITY_BLOCKED` is used when the complete assigned Prompt cannot be read. The Producer MUST NOT add a separate missing/empty-content, metadata, Task-binding, or format validation gate after reading. The Producer MUST NOT assess whether the submitted payload exactly matched the locked Prompt after generation. Lack of hidden transport telemetry or visual discrepancy alone is insufficient.
 7. Missing required Batch records or an unreadable current locked Prompt must be recorded accurately. If a specific Task's Prompt cannot be read back, block that Task; escalate to Batch-level recovery only if the missing/conflicting record prevents safe identification or verification of all eligible next Tasks.
 8. The Batch remains incomplete until every required Task reaches a valid terminal state and the completion record is written and verified. Task-local isolation does not mean the Batch is complete.
 
