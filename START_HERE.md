@@ -182,7 +182,7 @@ For future multi-Worker production, select the assigned Task from the existing a
 - If the complete assigned Prompt cannot be read, stop that Task only, unless a verified Batch-wide issue prevents safe Task selection. Do not add runtime prompt-validation gates.
 - Do not invent missing evidence, falsely resolve the affected Task, retry an unknown outcome, or reuse a consumed/retired Prompt.
 - Task dependencies must be explicitly declared; queue order alone does not make one Task dependent on another.
-- Continue independent work only after its own readiness checks pass. Keep result accounting, SUCCESS, QA, and LoRA dataset eligibility separate.
+- For an independent Task, select it from the existing records before reading its Prompt; after a successful complete-prompt read, call the generation tool immediately. Keep result accounting, SUCCESS, QA, and LoRA dataset eligibility separate.
 - This is a repository contract for future runtime implementation, not a claim that Make or a multi-Worker coordinator is already active.
 
 ## 3.1 Producer Must Not Perform QA — Current Rule
