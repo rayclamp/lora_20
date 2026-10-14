@@ -60,3 +60,23 @@ BATCH_ID: BATCH_STREET_20_001
 - TASK_STATUS: SUCCESS (pending this event's read-back confirmation)
 - VISUAL_QA: NOT_PERFORMED
 - NOTE: Record the generation input deviation transparently; do not alter the locked prompt and do not regenerate because an image was received.
+
+## Generation Attempt — TASK_003
+- TASK_ID: TASK_003
+- PROMPT_ID: PROMPT_003_V1
+- PROMPT_VERSION: V1
+- ATTEMPT_ID: ATTEMPT_TASK_003_001
+- GENERATION_ATTEMPT_COUNT: 1
+- RETRY_ATTEMPT_COUNT: 0
+- RETRY_FAILURE_COUNT: 0
+- GENERATION_CALL_ID: 3cf82589-ae83-4641-8103-a7c842a8d692
+- FULL_PROMPT_READ_STATUS: CONFIRMED (complete authoritative TASK_003 prompt was read before the call)
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION (the actual generation call did not receive the complete locked prompt verbatim)
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: /mnt/data/a_highly_detailed_photorealistic_shallow_depth_o.png
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- TASK_STATUS: SUCCESS (pending this event's read-back confirmation)
+- VISUAL_QA: NOT_PERFORMED
+- NOTE: Record the generation input deviation transparently; do not alter the locked prompt and do not regenerate because an image was received.
