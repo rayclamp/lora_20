@@ -8,7 +8,7 @@ This file supplements the shared CORE rules. It does not replace their full anat
 
 ## Subject and identity consistency
 
-- Use the reference image uploaded for the current request as the sole visual identity authority.
+- During image production, use the reference image uploaded in the producer's current ChatGPT conversation as the sole visual identity authority. Prompt design may proceed before that image is supplied; prompts should refer generically to the production-time reference and must not imply that the designer has inspected it.
 - Keep the subject recognizably consistent with that reference across the requested set, including stable facial identity cues and natural body-proportion characteristics supported by the reference.
 - Preserve apparent age unless the user explicitly requests an age change. Do not assume a fixed target age.
 - Do not use diversity as a reason to redesign the person's identity, exaggerate facial/body features, or normalize the person toward unrelated character data.
