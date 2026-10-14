@@ -109,7 +109,7 @@ Batch completion does not require every Task to be SUCCESS, and IMAGE_COUNT is t
 
 ## 10. Execution Integrity Reference
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
-Minimum chain: TASK → LOCKED_PROMPT_READBACK_AND_READINESS → GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS.
+Minimum chain: TASK_SELECTION → COMPLETE_LOCKED_PROMPT_READ → IMMEDIATE_GENERATION_CALL → IMAGE_RECEIVED_OR_NO_IMAGE → RECORD_RESULT_OR_FAILURE → TASK_STATUS.
 The design/lock stage owns Task mapping, metadata, and prompt validity. During production, read the complete locked Prompt from the assigned source and, if successful, call the generation tool immediately with that exact text. Do not insert another check between successful read and generation. If the complete Prompt cannot be read, record the read failure and stop that Task. After the call, record observable result facts; unavailable payload telemetry is NOT_EXPOSED/UNVERIFIED and must not be guessed. The Producer MUST NOT perform payload equality audits or judge visual compliance.
 
 ## 11. Non-Goals
@@ -117,7 +117,7 @@ This schema does not define a GitHub scheduler, task lock, worker manager, retry
 
 ## 12. Prompt Consumption, Retry, and Policy Interruption Records
 
-One locked Prompt/version may produce at most ONE confirmed image result. A Generation Call being initiated does not, by itself, consume the Prompt; any confirmed received image consumes the Prompt and is counted, regardless of prompt match or Task success.
+One locked Prompt/version receives at most ONE generation call. The call itself retires that Prompt/version from further generation, regardless of whether an image is received. `PROMPT_CONSUMED` separately records whether an image was actually received.
 
 Persist at Task level, as applicable:
 - `GENERATION_ATTEMPT_COUNT`
@@ -130,12 +130,12 @@ Persist at Task level, as applicable:
 
 ### 12.1 Outcome and prompt-state rules
 
-1. `PROMPT_CONSUMED = YES` and `PROMPT_STATE = RETIRED` (or `CONSUMED` only while the Task is still active, if that state is used) when an image result is confirmed received for this Task/attempt. The Prompt/version must never be called again. Count the image without making a prompt-payload or visual-compliance judgment.
+1. When a generation call is initiated, set `PROMPT_STATE = RETIRED` for further generation use; never call that Prompt/version again. Set `PROMPT_CONSUMED = YES` only when an image result is confirmed received. Count the image without making a prompt-payload or visual-compliance judgment.
 2. A confirmed no-image result after the generation call does not authorize a second call. Record the observed failure and end that Task's generation attempt.
 3. Service/runtime errors, quota/rate limits, GitHub failures, and policy/safety interruptions must be recorded according to the observed outcome, but none authorizes automatic or repeated generation of the same locked Prompt/version.
 4. If the outcome is unknown, set `PROMPT_CONSUMED = UNKNOWN`, `PROMPT_STATE = UNKNOWN`, and the applicable recovery-required state. Do not retry, skip, or advance until the outcome is resolved.
-5. `PROMPT_STATE = RETIRED` means the Prompt is permanently forbidden from future reuse, regardless of `PROMPT_CONSUMED`. A terminal Task retires its Prompt. Retired Prompts must never be re-queued, reassigned, or used by another Task.
-6. `PROMPT_CONSUMED` is tri-state: `YES` only for a confirmed received image result; `NO` only when no image result is confirmed and the outcome is known to be no-image; `UNKNOWN` when the outcome cannot be determined. A Prompt is `AVAILABLE` only when no image result was produced, the prior outcome is known, the Task is non-terminal, and no retirement condition applies. Once any image result is received, set `PROMPT_CONSUMED = YES`, count the actual output, retire the Prompt when the Task is terminal, and never reuse that Prompt/version regardless of prompt-match or visual-compliance status.
+5. `PROMPT_STATE = RETIRED` means the Prompt is permanently forbidden from future reuse, regardless of `PROMPT_CONSUMED`. Once its one generation call is initiated, retire the Prompt. Retired Prompts must never be re-queued, reassigned, or used by another Task.
+6. `PROMPT_CONSUMED` is tri-state: `YES` only for a confirmed received image result; `NO` only when no image result is confirmed and the outcome is known to be no-image; `UNKNOWN` when the outcome cannot be determined. `PROMPT_STATE` is `RETIRED` after its one generation call, even when `PROMPT_CONSUMED = NO` or `UNKNOWN`. No state authorizes a second call for the same Prompt/version.
 
 ### 12.2 Policy/Safety interruption limit
 
