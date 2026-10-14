@@ -75,7 +75,7 @@ The following interpretation is correct:
 
 Producer owns the runtime execution of its authorized Session/Batch; GitHub stores the authoritative production records and evidence.
 
-This boundary does NOT weaken Prompt Integrity, Generation Delivery Integrity, Result Integrity, Retry, Pause/Resume, or Task Success requirements defined below.
+This boundary preserves Prompt Integrity, observable Generation Result Recording, and Pause/Resume records while enforcing one generation call per locked Prompt/version. No retry rule authorizes a second call.
 
 ## 2A. Per-Task Prompt File Layout and Authority
 
