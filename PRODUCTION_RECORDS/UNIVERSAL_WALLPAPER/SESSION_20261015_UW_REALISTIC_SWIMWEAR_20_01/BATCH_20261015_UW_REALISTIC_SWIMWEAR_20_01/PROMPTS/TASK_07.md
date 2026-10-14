@@ -1,0 +1,8 @@
+TASK_ID: TASK_07
+PROMPT_ID: PROMPT_07
+PROMPT_VERSION: V1
+PROMPT_STATUS=LOCKED
+
+BEGIN_LOCKED_PROMPT_TEXT
+Create one photorealistic, premium summer swimwear editorial photograph in a horizontal 16:9 desktop wallpaper composition. Use the user-uploaded reference image as the ONLY visual identity reference for the woman; preserve her recognizable face, facial proportions, skin tone, apparent adult age, hair identity, and natural body proportions. Do not copy the reference image's outfit, pose, or background. She is the adult character Inaria, portrayed with a calm, gentle, approachable expression. Scene: 高級室內泳池的米白石材牆邊，黑藍色簡約比基尼搭薄透白襯衫敞開穿著，雙手自然垂放，倒影低調不遮擋身體. Dress her in a tasteful, non-transparent, well-fitted bikini with moderate coverage and secure opaque fabric; elegant fashion-editorial styling, no nudity, no explicit sexualization, no exaggerated anatomy. Keep the entire body naturally connected and anatomically plausible. Exactly two arms, two hands, two legs; each visible hand has five distinct fingers and each visible bare foot has five toes. Use a simple stable pose with plausible balance and support, natural shoulders, elbows, wrists, hips, knees and ankles. Hands remain clearly separated from background clutter and are not cropped at frame edges. Natural skin texture, realistic fabric seams and folds, lifelike hair strands, high-end photography, physically plausible daylight, crisp focus on the person, refined soft color grading, sophisticated airy summer atmosphere. No pets, no text, no watermark, no logo, no border, no collage, no multi-panel layout. One image only, 16:9 landscape.
+END_LOCKED_PROMPT_TEXT
