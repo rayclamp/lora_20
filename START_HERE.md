@@ -164,16 +164,15 @@ User → ChatGPT Producer → Generation Interface
 
 ## 12. Resume Continuation Scope — Task-Local Blocking
 
-During /RESUME_AUTO, distinguish a problem that affects one Task from a verified problem that affects the entire Batch.
+During /RESUME_AUTO, preserve unresolved records without adding redundant prompt-validation gates.
 
-1. A visual-quality or visual-prompt-compliance observation is QA evidence only. QA is currently PAUSED; do not automatically run QA, change Task execution status, or trigger regeneration because of a visual difference.
+1. A visual-quality or visual-prompt-compliance observation belongs to QA only. Do not automatically run QA, change Task execution status, or trigger regeneration because of a visual difference.
 2. A problem isolated to one Task MUST NOT automatically block unrelated Tasks.
-3. If a Task's state or result is unresolved, isolate it and preserve its recovery state. Do not retry, skip, or reuse its consumed/retired Prompt while its outcome remains unknown.
-4. After isolating a Task, independently verify the next Task's current state, complete non-empty locked Prompt from its dedicated file (or the documented legacy source for an existing Batch), Task binding, and applicable execution prerequisites. Continue with that Task if these checks pass and it does not depend on the unresolved Task.
-5. Stop the entire Batch only for a verified Batch-wide issue that cannot safely be isolated, such as an unidentifiable Session/Batch, a globally ambiguous production contract, or a Prompt Set/Task binding conflict that makes the next Task's input or result attribution unsafe.
-6. Missing nonessential transport telemetry alone is not a stop condition. Record NOT_EXPOSED/UNVERIFIED as applicable.
-7. Never mark an unresolved Task as passed, completed, repaired, or skipped merely because other Tasks continue. Record the issue for later recovery.
-
+3. If a prior generation outcome is unknown, preserve that state and do not retry or reuse the same locked Prompt.
+4. After selecting an eligible Task, read its assigned locked Prompt. The only prompt-related pre-generation check is whether the complete Prompt was successfully read. If so, call the generation tool immediately; do not add content, metadata, format, semantic, or Task-binding validation.
+5. If the complete Prompt cannot be read, record the read failure and stop that Task. Do not guess, reconstruct, or substitute prompt text.
+6. Stop the entire Batch only for a verified Batch-wide issue that makes the Session/Batch or assigned Task impossible to identify safely. Do not use visual QA or optional transport telemetry as a production gate.
+7. Record the actual outcome and preserve unresolved state. A result-recording problem must not trigger another generation call.
 ## 13. Multi-Worker Continuity Rule
 
 For future multi-Worker production, a Worker receiving the next assignment must independently verify that Task's authoritative record, complete locked Prompt from its dedicated file (or the documented legacy source for an existing Batch), Task-to-Prompt binding, Prompt availability, and explicitly declared prerequisites.
