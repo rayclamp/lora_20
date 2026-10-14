@@ -6,22 +6,22 @@ MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 1
+COMPLETED_COUNT: 2
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 1
+ACTUAL_IMAGE_COUNT: 2
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 19
-ATTEMPT_COUNT: 1
-CURRENT_TASK: TASK_001
-NEXT_TASK: TASK_002
-CHECKPOINT: TASK_001_IMAGE_RECEIVED_RECORDING_PENDING_READBACK
+PENDING_COUNT: 18
+ATTEMPT_COUNT: 2
+CURRENT_TASK: TASK_002
+NEXT_TASK: TASK_003
+CHECKPOINT: TASK_002_IMAGE_RECEIVED_RECORDING_PENDING_READBACK
 OUTPUT_TYPE: DESKTOP_16_9
 THEME: Street photography, Taiwan and Japan, summer/autumn, sunny daytime
 PET_ALLOWED: NO
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 
-TASK_001 has one image result received and recorded. The generation input is recorded as KNOWN_DEVIATION because the generation call did not receive the complete locked prompt verbatim. The locked prompt file remains unchanged. No visual QA was performed.
+TASK_001 and TASK_002 each have one image result received and recorded. Both generation inputs are recorded as KNOWN_DEVIATION because the calls did not receive the complete locked prompts verbatim. The locked prompt files remain unchanged. No visual QA was performed.
