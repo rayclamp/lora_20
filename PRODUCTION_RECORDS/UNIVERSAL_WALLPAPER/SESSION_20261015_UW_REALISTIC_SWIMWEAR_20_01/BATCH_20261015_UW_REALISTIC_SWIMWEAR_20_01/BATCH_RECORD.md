@@ -14,6 +14,6 @@ DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 20
 ATTEMPT_COUNT: 0
-CURRENT_TASK: TASK_001
-NEXT_TASK: TASK_001
-CHECKPOINT: Prompt design and persistence initialization
+CURRENT_TASK: TASK_01
+NEXT_TASK: TASK_01
+CHECKPOINT: Initialization complete; all 20 prompt files persisted and read-back confirmed; generation not started; awaiting user-issued /RESUME_AUTO.
