@@ -5,16 +5,16 @@ MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 1
+COMPLETED_COUNT: 2
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 1
+ACTUAL_IMAGE_COUNT: 2
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 19
-ATTEMPT_COUNT: 1
-CURRENT_TASK: TASK_002
-NEXT_TASK: TASK_002
-CHECKPOINT: TASK_001 image result received and recorded; its prompt is retired. TASK_002 remains the next independently pending Task; must reread its current queue entry, manifest mapping, and complete locked prompt before any next generation.
+PENDING_COUNT: 18
+ATTEMPT_COUNT: 2
+CURRENT_TASK: TASK_003
+NEXT_TASK: TASK_003
+CHECKPOINT: TASK_001 and TASK_002 image results received and recorded; both prompts are retired. TASK_003 is next; reread its current queue entry, manifest mapping, and complete locked prompt before any next generation.
 TERMINATION_INFORMATION: Not applicable; active batch.
