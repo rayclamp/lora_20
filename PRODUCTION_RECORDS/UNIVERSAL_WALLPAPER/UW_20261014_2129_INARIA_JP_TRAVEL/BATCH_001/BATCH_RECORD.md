@@ -17,4 +17,4 @@ PENDING_COUNT: 17
 ATTEMPT_COUNT: 3
 CURRENT_TASK: TASK_003 (result recorded)
 NEXT_TASK: TASK_004
-CHECKPOINT: TASK_001-TASK_003 each returned one image; results recorded and prompts retired; TASK_004 is next
+CHECKPOINT: TASK_001-TASK_003 each returned one image and results are recorded; exact locked-prompt transmission is unverified because generation tool metadata prompt field was empty; pause before TASK_004
