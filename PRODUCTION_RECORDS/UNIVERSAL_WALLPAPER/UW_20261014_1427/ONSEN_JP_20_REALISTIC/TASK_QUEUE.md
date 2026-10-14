@@ -8,7 +8,7 @@ BATCH_ID: ONSEN_JP_20_REALISTIC
 | TASK_001 | PROMPTS/TASK_001.md | SUCCESS | CONSUMED | 1 |
 | TASK_002 | PROMPTS/TASK_002.md | SUCCESS | CONSUMED | 1 |
 | TASK_003 | PROMPTS/TASK_003.md | GENERATION_FAILED | RETIRED | 1 |
-| TASK_004 | PROMPTS/TASK_004.md | READY | LOCKED | 1 |
+| TASK_004 | PROMPTS/TASK_004.md | SUCCESS | CONSUMED | 1 |
 | TASK_005 | PROMPTS/TASK_005.md | READY | LOCKED | 1 |
 | TASK_006 | PROMPTS/TASK_006.md | READY | LOCKED | 1 |
 | TASK_007 | PROMPTS/TASK_007.md | READY | LOCKED | 1 |
@@ -26,4 +26,4 @@ BATCH_ID: ONSEN_JP_20_REALISTIC
 | TASK_019 | PROMPTS/TASK_019.md | READY | LOCKED | 1 |
 | TASK_020 | PROMPTS/TASK_020.md | READY | LOCKED | 1 |
 
-TASK_003 terminalized after one explicit safety block with no image; no retry used. All other tasks are independent and remain eligible in queue order.
+TASK_003 terminalized after one explicit safety block; no retry used. Other tasks remain independent.
