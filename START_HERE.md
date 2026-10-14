@@ -175,11 +175,11 @@ During /RESUME_AUTO, preserve unresolved records without adding redundant prompt
 7. Record the actual outcome and preserve unresolved state. A result-recording problem must not trigger another generation call.
 ## 13. Multi-Worker Continuity Rule
 
-For future multi-Worker production, a Worker receiving the next assignment must independently verify that Task's authoritative record, complete locked Prompt from its dedicated file (or the documented legacy source for an existing Batch), Task-to-Prompt binding, Prompt availability, and explicitly declared prerequisites.
+For future multi-Worker production, select the assigned Task from the existing authoritative records before reading its Prompt. The design/lock stage owns Task-to-Prompt mapping and prerequisite validation. Once the complete assigned locked Prompt is successfully read, call the generation tool immediately without additional checks.
 
 - Do not rely solely on the previous Worker's narrative or completion message.
 - Do not block an independent Task because a different Task has missing/incomplete reporting, unverified prompt-match evidence, or a Task-local recovery issue.
-- Missing required data for the assigned Task blocks that Task only, unless a verified Batch-wide conflict makes other Tasks unsafe to identify or execute.
+- If the complete assigned Prompt cannot be read, stop that Task only, unless a verified Batch-wide issue prevents safe Task selection. Do not add runtime prompt-validation gates.
 - Do not invent missing evidence, falsely resolve the affected Task, retry an unknown outcome, or reuse a consumed/retired Prompt.
 - Task dependencies must be explicitly declared; queue order alone does not make one Task dependent on another.
 - Continue independent work only after its own readiness checks pass. Keep result accounting, SUCCESS, QA, and LoRA dataset eligibility separate.
