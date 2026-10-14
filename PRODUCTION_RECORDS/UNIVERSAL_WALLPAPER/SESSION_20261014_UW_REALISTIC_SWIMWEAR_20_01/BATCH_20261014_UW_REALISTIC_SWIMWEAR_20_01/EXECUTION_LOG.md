@@ -15,3 +15,48 @@ BATCH_ID: BATCH_20261014_UW_REALISTIC_SWIMWEAR_20_01
   EVENT_ID: EVENT_003
   EVENT_TYPE: PROMPT_SET_LOCKED
   DETAILS: Created and read back all 20 dedicated prompt files; verified non-empty text delimiters, locked metadata, 20 manifest mappings, and 20 queue entries. PROMPT_SET_STATUS=LOCKED; PROMPT_SET_LOCKED=YES. Per-task prompt text remains immutable.
+
+- TIMESTAMP: 2026-10-14T10:00:00+08:00
+  EVENT_ID: EVENT_004
+  EVENT_TYPE: RESUMED
+  SESSION_ID: SESSION_20261014_UW_REALISTIC_SWIMWEAR_20_01
+  BATCH_ID: BATCH_20261014_UW_REALISTIC_SWIMWEAR_20_01
+  TASK_ID: TASK_001
+  PROMPT_ID: PROMPT_001_SWIMWEAR
+  PROMPT_VERSION: V1
+  DETAILS: Explicit user-authorized resume of the existing Session/Batch. Re-read TASK_QUEUE.md, PROMPT_SET.md, and PROMPTS/TASK_001.md from main. Task was PENDING, prompt LOCKED/AVAILABLE, and the complete prompt was read before generation. No new Session, Batch, or Task created.
+
+- TIMESTAMP: 2026-10-14T10:00:00+08:00
+  EVENT_ID: EVENT_005
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  SESSION_ID: SESSION_20261014_UW_REALISTIC_SWIMWEAR_20_01
+  BATCH_ID: BATCH_20261014_UW_REALISTIC_SWIMWEAR_20_01
+  TASK_ID: TASK_001
+  PROMPT_ID: PROMPT_001_SWIMWEAR
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_TASK_001_001
+  GENERATION_CALL_ID: 6b858ecc-7b9d-4f56-aa44-1ff0fb167d5e
+  RESULT_ID: 6b858ecc-7b9d-4f56-aa44-1ff0fb167d5e
+  OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  DETAILS: One image result was returned and attributed to TASK_001. The image-generation interface metadata did not expose a verifiable exact prompt payload; the generation call used a transformed summary rather than the full locked prompt. Recorded honestly as GENERATION_INPUT_MODE=KNOWN_DEVIATION and DELIVERY_INTEGRITY_STATUS=UNVERIFIED. Prompt/version retired permanently. No visual QA or prompt-compliance assessment performed.
+
+- TIMESTAMP: 2026-10-14T10:00:00+08:00
+  EVENT_ID: EVENT_006
+  EVENT_TYPE: IMAGE_RESULT_RECORDED
+  SESSION_ID: SESSION_20261014_UW_REALISTIC_SWIMWEAR_20_01
+  BATCH_ID: BATCH_20261014_UW_REALISTIC_SWIMWEAR_20_01
+  TASK_ID: TASK_001
+  PROMPT_ID: PROMPT_001_SWIMWEAR
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT_TASK_001_001
+  RESULT_ID: 6b858ecc-7b9d-4f56-aa44-1ff0fb167d5e
+  OUTPUT_COUNT: 1
+  DETAILS: Persisted Task result, one completed Task output, one actual image file, retired prompt state, and next checkpoint. TASK_001 status SUCCESS reflects confirmed image receipt and durable attribution only; it is not QA PASS.
+
+- TIMESTAMP: 2026-10-14T10:00:00+08:00
+  EVENT_ID: EVENT_007
+  EVENT_TYPE: CHECKPOINT_UPDATED
+  SESSION_ID: SESSION_20261014_UW_REALISTIC_SWIMWEAR_20_01
+  BATCH_ID: BATCH_20261014_UW_REALISTIC_SWIMWEAR_20_01
+  DETAILS: COMPLETED_COUNT=1; ACTUAL_IMAGE_COUNT=1; PENDING_COUNT=19; ATTEMPT_COUNT=1. Next eligible Task is TASK_002, subject to fresh queue, manifest, and full prompt readback.
