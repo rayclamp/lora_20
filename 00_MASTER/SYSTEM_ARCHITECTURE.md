@@ -44,7 +44,7 @@ A Task does not need to be SUCCESS for the Batch to complete. The Batch complete
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1 as a design target. Record the actual number of returned files without using count equality to block the generation call or erase a confirmed image receipt. Do not make prompt-payload or visual-compliance judgments in the Producer workflow.
 
 ### False-Success Prevention
-Image receipt, production success, and QA acceptance are distinct facts. A received image with the expected count and reliable Task binding may be production SUCCESS; this does not imply QA PASS. If result binding or count remains unresolved, record the applicable result state and preserve all known output facts. Visual compliance is exclusively a QA responsibility.
+Image receipt, production result recording, and QA acceptance are distinct facts. Record available Task/result attribution and actual file count after the generation call, but do not use count equality or post-read binding validation to interrupt generation or erase a confirmed image receipt. Visual compliance is exclusively a QA responsibility.
 
 ### Recovery
 Preserve SESSION_ID, BATCH_ID, and locked prompts. Do not redesign or reuse consumed prompts. Before resuming, verify pre-generation readiness for each eligible Task. After generation, record whether an image was received, actual count, result binding, or confirmed failure reason. Do not perform post-generation prompt-payload comparison or visual QA as part of Producer recovery.
