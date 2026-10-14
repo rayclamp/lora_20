@@ -7,7 +7,7 @@ PRODUCTION_TYPE: REALISTIC
 CHARACTER: INARIA
 IMAGE_COUNT: 50
 OUTPUT_TYPE: MIXED_PER_TASK
-BATCH_STATUS: DESIGNING
+BATCH_STATUS: READY_FOR_PRODUCTION
 COMPLETED_COUNT: 0
 RESULT_RECORDED_COUNT: 0
 ACTUAL_IMAGE_COUNT: 0
@@ -19,5 +19,6 @@ PENDING_COUNT: 50
 ATTEMPT_COUNT: 0
 CURRENT_TASK: TASK_001
 NEXT_TASK: TASK_001
-CHECKPOINT: Canonical rules read successfully; batch design and persistence in progress.
-PROMPT_SET_STATUS: DRAFT
+CHECKPOINT: All 50 individual prompt files, manifest, queue, and standard records have been written and read back successfully. Prompt Set is locked. No image generation has been attempted.
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
