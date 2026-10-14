@@ -45,6 +45,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 20. Immediately after a successful full-prompt read, submit that same complete Prompt unchanged to the generation tool. Do not insert any intermediate analysis, validation, prompt display, transformation, or unrelated operation. If the complete Prompt was not successfully read, do not guess or reconstruct it; record the read failure and stop that Task. Missing optional hidden-payload telemetry is not a generation gate.
 21. The Producer's only generation-result judgment is whether an image result was actually received. Record the observed result and any no-image failure reason. Do not perform QA, compare the image with the Prompt, or automatically retry. Each locked Prompt receives one generation call only.
 22. Keep generation outcome separate from GitHub persistence outcome. A confirmed image receipt must remain recorded as received even if writing the record fails; record persistence failure separately and do not trigger another generation call.
+23. This minimal prompt-to-generation rule overrides conflicting runtime wording in older documents and historical Session/Batch records. Historical records remain immutable evidence; they do not add new prompt-validation gates to current production.
 
 ## 2. Required Shared Documents
 - DRAWING_INSTRUCTIONS.md
