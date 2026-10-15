@@ -75,7 +75,7 @@ The following interpretation is correct:
 
 Producer owns the runtime execution of its authorized Session/Batch; GitHub stores the authoritative production records and evidence.
 
-This boundary preserves Prompt Integrity, observable Generation Result Recording, and Pause/Resume records while enforcing one generation call per locked Prompt/version. No retry rule authorizes a second call.
+This boundary preserves Prompt Integrity, observable Generation Result Recording, and Pause/Resume records. A known no-image failure may be retried for the same Task with the unchanged locked Prompt under Section 19; image receipt and unknown outcomes must not be retried.
 
 ## 2A. Per-Task Prompt File Layout and Authority
 
@@ -111,12 +111,12 @@ No additional action may be inserted between successful full-prompt read and the
 
 Record available identifiers for the actual call, such as SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, and GENERATION_CALL_ID. These are record fields, not extra pre-generation validation gates.
 
-Each locked Prompt is used for one generation call only. Do not automatically retry or call the same Prompt/version again, regardless of the outcome.
+A Task may be retried only after a confirmed no-image failure, using the same unchanged locked Prompt. After three failed retry attempts, terminate the Task. Never retry after image receipt or while the outcome is unknown.
 
 After the call, determine only the observable generation outcome:
 - Image result received: record that an image was received, the actual returned-file count, and available result references.
 - No image result received: record the confirmed failure or interruption reason, if available.
-- Outcome cannot be determined: record it as UNKNOWN; do not guess and do not call the Prompt again.
+- Outcome cannot be determined: record it as UNKNOWN; do not guess or retry that Task while the outcome remains unresolved.
 
 Do not compare the submitted payload against the locked Prompt. Do not assess visual compliance or image quality.
 ## 5. Result Identity and Output Count
@@ -130,7 +130,7 @@ The Producer MUST NOT inspect the image, compare it with the Prompt, or make pro
 
 For the generation outcome, success means an image result was actually received. Record that fact immediately and distinctly from the status of GitHub persistence or optional attribution metadata. A successful image receipt does not imply QA PASS.
 
-If no image result was received, record the observed no-image outcome and its confirmed reason when available. Do not retry the Prompt.
+If no image result was received and the outcome is confirmed, record the reason and apply Section 19: retry the same Task with the unchanged Prompt, up to three failed retry attempts after the initial call.
 ## 7. Outcome Recording
 
 Do not claim that an image was received when none was received, and do not claim failure when an image was actually received. Keep these facts separate:
@@ -143,23 +143,23 @@ A GitHub write failure must not erase a confirmed image receipt or trigger anoth
 
 For wallpaper production, one Task equals one independent image. No collage, contact sheet, grid, storyboard, multi-panel output, or silent multi-output acceptance.
 
-## 9. Prompt Immutability and Single Call
+## 9. Prompt Immutability and Task-Level Retry
 
 After the Prompt is locked, its text must not be changed. The Producer reads the complete locked Prompt and passes that same text unchanged to the image-generation tool.
 
-The Producer must not repeat design-stage validation, insert actions between successful reading and generation, or automatically retry. Each locked Prompt/version receives one generation call only. Any future prompt revision belongs to the formal design stage as a new version; it must not alter the locked version already assigned to production.
+The Producer must not repeat design-stage validation or insert actions between successful reading and generation. Prompt text and Task-to-file mapping remain immutable. A confirmed no-image failure may be retried for the same Task with the same unchanged Prompt, up to three failed retry attempts after the initial call. Never retry after image receipt or while the outcome is unknown. Any future prompt revision belongs to the formal design stage as a new version.
 ## 10. Stop Conditions
 
 If the complete locked Prompt cannot be read, do not generate from a guess or substitute; record the read failure and stop that Task.
 
 Once the complete Prompt has been read, call the generation tool immediately. Do not add intermediate gates.
 
-After the call, record whether an image result was received or a no-image outcome occurred. Do not call the same Prompt again. Missing delivery telemetry, visual QA, or prompt-compliance evidence is not a reason to block or repeat generation.
+After the call, record whether an image result was received or a no-image outcome occurred. Retry only a confirmed no-image failure under Section 19. Never retry after image receipt or while the outcome is unknown. Missing delivery telemetry, visual QA, or prompt-compliance evidence is not a reason to block or repeat generation.
 ## 11. Recovery
 
 Resume must use the existing SESSION_ID, BATCH_ID, and locked Prompt records; do not redesign or replace locked prompts.
 
-A Prompt that has already received its one generation call must not be called again. If the prior generation outcome is unknown, record and preserve UNKNOWN; do not guess and do not retry. Recovery of GitHub record persistence must not re-run generation.
+A confirmed image receipt, an unknown generation outcome, or retry exhaustion ends further generation attempts for that Task. A confirmed no-image failure may be retried under Section 19 with the unchanged locked Prompt. Recovery of GitHub record persistence must not re-run generation for an image already received.
 
 A new authorized context must follow the existing CORE session-access rules.
 ## 12. Visual QA Boundary
