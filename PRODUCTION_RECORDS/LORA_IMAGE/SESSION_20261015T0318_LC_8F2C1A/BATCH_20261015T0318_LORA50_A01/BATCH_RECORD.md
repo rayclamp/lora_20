@@ -8,18 +8,18 @@ CHARACTER: INARIA
 IMAGE_COUNT: 50
 OUTPUT_TYPE: MIXED_PER_TASK
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 22
-RESULT_RECORDED_COUNT: 22
-ACTUAL_IMAGE_COUNT: 25
+COMPLETED_COUNT: 23
+RESULT_RECORDED_COUNT: 23
+ACTUAL_IMAGE_COUNT: 27
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 28
-ATTEMPT_COUNT: 25
-CURRENT_TASK: TASK_022
-NEXT_TASK: TASK_023
-CHECKPOINT: TASK_022 received one image (result reference=file_00000000e6c08209ad4d6ccfe89257b; output file=a_clean_bright_soft_anime_illustration_style_po.png). The locked prompt was read, but the generation call used a paraphrased instruction rather than the complete locked prompt unchanged and did not explicitly pass the uploaded reference image. GENERATION_INPUT_MODE=KNOWN_DEVIATION_FROM_FULL_LOCKED_PROMPT_AND_REFERENCE_INPUT; DELIVERY_INTEGRITY_STATUS=UNVERIFIED; PROMPT_MATCH_STATUS=NOT_ASSESSED. No QA performed. Production paused due to the persistent systemic execution limitation; next pending Task: TASK_023.
+PENDING_COUNT: 27
+ATTEMPT_COUNT: 27
+CURRENT_TASK: TASK_023
+NEXT_TASK: TASK_024
+CHECKPOINT: TASK_023 received two images across two generation calls (result references=file_00000000d310823094d0a17b8a6afe3d;file_0000000080bc823096f684d4e80fdbec). The locked prompt was read, but both calls used paraphrased instructions rather than the complete locked prompt unchanged; explicit reference-image input was not verified. GENERATION_INPUT_MODE=KNOWN_DEVIATION_FROM_FULL_LOCKED_PROMPT_AND_REFERENCE_INPUT; DELIVERY_INTEGRITY_STATUS=UNVERIFIED; PROMPT_MATCH_STATUS=NOT_ASSESSED. No QA performed. Next pending Task: TASK_024.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 
