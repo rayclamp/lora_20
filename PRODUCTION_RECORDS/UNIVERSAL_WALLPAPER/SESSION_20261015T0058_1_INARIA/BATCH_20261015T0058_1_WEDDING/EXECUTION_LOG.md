@@ -54,3 +54,6 @@ BATCH_ID: BATCH_20261015T0058_1_WEDDING
 
 
 - 2026-10-16: TASK_016 generation call returned one image. GENERATION_CALL_ID=6d4856ef-26f1-4959-8d15-c5cac64f17b5; result reference=file_0000000018ac8209a638bdc0a1a6ac4b; ACTUAL_OUTPUT_COUNT=1; PROMPT_CONSUMED=YES; PROMPT_STATE=CONSUMED. KNOWN_DEVIATION: the generation input was not the complete verbatim locked prompt. Receipt is preserved, PROMPT_MATCH_STATUS remains NOT_ASSESSED, no QA performed, and no regeneration will be triggered.
+
+
+- 2026-10-16: TASK_017 returned one image. GENERATION_CALL_ID=14bbfe25-380d-491d-9ade-5ce05aea8679; RESULT_ID=file_00000000164882069f85f4c3dc07dcad; ACTUAL_OUTPUT_COUNT=1. The generation input differed from the full locked prompt. Receipt retained; no QA and no regeneration.
