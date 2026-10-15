@@ -74,7 +74,7 @@ QA is currently `PAUSED`. Do not automatically start QA after generation, and do
 
 ## 4. Session / Batch
 
-/START_AUTO creates a new SESSION_ID and BATCH_ID when the automated batch workflow is requested.
+/WALLPAPER_CONSOLE creates a new SESSION_ID and BATCH_ID for wallpaper design and prompt locking. /WALLPAPER_PRODUCE never creates a Session or Batch; the user must specify the existing MODULE, SESSION_ID, and BATCH_ID.
 
 A Batch contains:
 - SESSION_CONTRACT.md
@@ -145,13 +145,11 @@ A Batch is BATCH_COMPLETED when:
 
 Success count does not determine Batch completion. `COMPLETED_COUNT` counts each Task with a confirmed image result durably recorded against it once; `ACTUAL_IMAGE_COUNT` counts every actual image file received. `RESULT_RECORDED_COUNT` is reserved for result-bearing Tasks whose recording/attribution is not yet sufficient for SUCCESS, not for extra files or missing QA. Completion must stop the production loop, not merely change the persisted status.
 
-## 10. Stop / Resume
+## 10. Production Continuation
 
-/START_AUTO starts a new automated Session.
+To continue an interrupted wallpaper Batch, invoke `/WALLPAPER_PRODUCE` again with the same explicit `MODULE`, `SESSION_ID`, and `BATCH_ID`. Reconnect to GitHub and recover the existing authoritative records. Continue only with Tasks that have not reached a valid terminal state. Never create a replacement Session/Batch, reset attempt counts, redesign a locked prompt, or silently migrate a legacy Batch.
 
-If an interruption requires continuation, use /RESUME_AUTO. Resume must reconnect to GitHub, reload the applicable rules, recover the existing Session/Batch, prompt manifest, and each eligible Task's authoritative prompt file, and continue only with Tasks that have not reached a valid terminal state. Existing combined-file Batches remain legacy and must not be silently migrated.
-
-/STOP immediately stops new generation and persists a checkpoint when GitHub is available.
+If production is stopped, do not start new generation calls. Persist an accurate checkpoint when GitHub is available; if persistence fails, report that failure rather than claiming the checkpoint was saved.
 
 ## 11. Architecture Boundary
 
@@ -169,7 +167,7 @@ User → ChatGPT Producer → Generation Interface
 
 ## 12. Resume Continuation Scope — Task-Local Blocking
 
-During /RESUME_AUTO, preserve unresolved records without adding redundant prompt-validation gates.
+During continuation of an existing Batch, preserve unresolved records without adding redundant prompt-validation gates.
 
 1. A visual-quality or visual-prompt-compliance observation belongs to QA only. Do not automatically run QA, change Task execution status, or trigger regeneration because of a visual difference.
 2. A problem isolated to one Task MUST NOT automatically block unrelated Tasks.
