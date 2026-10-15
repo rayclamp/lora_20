@@ -38,8 +38,8 @@ Production accepts:
 - CUSTOM_INSTRUCTIONS
 
 Supported image-design modules:
-- `UNIVERSAL_WALLPAPER`: general/ordinary wallpaper design.
-- `FESTIVAL_WALLPAPER`: festival wallpaper design using the festival reference database.
+- `UNIVERSAL_WALLPAPER`: general/ordinary wallpaper design; `PRODUCTION_TYPE=ANIME` or `REALISTIC`.
+- `FESTIVAL_WALLPAPER`: festival wallpaper design using the festival reference database; `PRODUCTION_TYPE=FESTIVAL`. The Festival-specific `WALLPAPER_TYPE` selects `ANIME WALLPAPER` or `REALISTIC WALLPAPER` rendering rules.
 - `LORA_IMAGE`: LoRA training-image design rules only; not the archived legacy LoRA production system.
 
 For both wallpaper modules, use the unified commands defined in `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`:
