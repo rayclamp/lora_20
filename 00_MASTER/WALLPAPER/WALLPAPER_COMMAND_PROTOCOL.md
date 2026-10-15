@@ -41,7 +41,7 @@ CORE rules remain authoritative. Read any further required dependencies referenc
 
 ### MODULE=UNIVERSAL_WALLPAPER
 
-Read the applicable files:
+For this module, `PRODUCTION_TYPE` is `ANIME` or `REALISTIC`. Read the applicable files:
 
 - `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md`
 - For `PRODUCTION_TYPE=ANIME`: `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
@@ -53,14 +53,16 @@ Do not load festival costume catalogs as Universal options. Do not load LoRA rul
 
 ### MODULE=FESTIVAL_WALLPAPER
 
-Read the applicable files:
+For this module, set `PRODUCTION_TYPE=FESTIVAL`. The Festival design rules use the separate module-specific `WALLPAPER_TYPE` value (`ANIME WALLPAPER` or `REALISTIC WALLPAPER`) to select the visual-rendering rule set. Read the applicable files:
 
 - `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md`
 - `00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md`
 - `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/CORE_FESTIVAL_INDEX.md`
 - The selected festival's canonical record(s), cultural anchors, item-link matrix, schemas, and relevant category catalogs required by the festival design rules.
-- For `PRODUCTION_TYPE=ANIME`: `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
-- For `PRODUCTION_TYPE=REALISTIC`: `00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
+- For Festival `WALLPAPER_TYPE=ANIME WALLPAPER`: `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
+- For Festival `WALLPAPER_TYPE=REALISTIC WALLPAPER`: `00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
+
+Resolve `WALLPAPER_TYPE` from the user's explicit request or configured custom instructions. If it remains missing or ambiguous and the Festival design rules require it, stop and report the missing value rather than guessing.
 - `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` when `CHARACTER=INARIA`, for character-semantic guidance only.
 
 Do not import Universal-only footwear/options where the festival rules specify their own catalog. Do not load LoRA rules or assets.
@@ -77,7 +79,7 @@ The command must not:
 - claim to have seen a reference image that was not provided;
 - read or apply LoRA-specific rules.
 
-The wallpaper design request uses the applicable fields defined by `START_HERE.md`, such as `MODULE`, `PRODUCTION_TYPE`, `CHARACTER`, `IMAGE_COUNT`, `OUTPUT_TYPE`, `THEME` / `FESTIVAL_SCOPE`, `SCENE`, `SEASON`, `WEATHER`, `TIME`, `PET_ALLOWED`, and `CUSTOM_INSTRUCTIONS`. Use only fields that are applicable to the selected module and current canonical schema. Do not add a reference-image field to this design request.
+The wallpaper design request uses the applicable fields defined by `START_HERE.md`, such as `MODULE`, `PRODUCTION_TYPE`, `CHARACTER`, `IMAGE_COUNT`, `OUTPUT_TYPE`, `THEME` / `FESTIVAL_SCOPE`, `SCENE`, `SEASON`, `WEATHER`, `TIME`, `PET_ALLOWED`, and `CUSTOM_INSTRUCTIONS`. For `FESTIVAL_WALLPAPER`, also resolve the Festival-specific `WALLPAPER_TYPE` (`ANIME WALLPAPER` or `REALISTIC WALLPAPER`) from the explicit request/configuration. Use only fields applicable to the selected module and current canonical schema. Do not add a reference-image field to the wallpaper design request.
 
 A designer may write a prompt that explains how an image explicitly supplied later in the production conversation should be used, according to the active module's reference policy. The designer must not assume that such an image exists or describe its unseen contents.
 
