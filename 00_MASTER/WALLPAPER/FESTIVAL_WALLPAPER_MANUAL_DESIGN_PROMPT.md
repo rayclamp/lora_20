@@ -1,7 +1,7 @@
 # FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md
 
-# INARIA 通用特殊節日桌布設計母指令
-## Manual Design Master Prompt v2.0
+# Festival Wallpaper Design Rules
+## Festival Design Constraints v2.1
 
 ## 0. 指令定位
 
@@ -32,18 +32,19 @@
 ## 1. INPUT PARAMETERS
 
 ```
-CHARACTER_REFERENCE:
+CHARACTER:
 IMAGE_COUNT:
 WALLPAPER_TYPE:
 OUTPUT_TYPE:
-ASPECT_RATIO:
 
-FESTIVAL:
+FESTIVAL_SCOPE:
 REGION / CULTURAL_SCOPE:
 SEASON:
 WEATHER:
 SCENE:
-PET:
+TIME:
+PET_ALLOWED:
+CUSTOM_INSTRUCTIONS:
 ```
 
 ### WALLPAPER_TYPE
@@ -57,27 +58,22 @@ PET:
 ### OUTPUT_TYPE
 
 有效值：
-- `DESKTOP`
-- `PHONE`
+- `DESKTOP_16_9`
+- `PHONE_9_16`
 
-此欄位只表示桌布目標裝置類型，不得把比例編碼進欄位值。
+此欄位是唯一的輸出格式控制欄位，分別代表 16:9 桌面桌布與 9:16 手機桌布。不得再另外建立 `ASPECT_RATIO` 或 `ORIENTATION` 欄位。輸出格式與 `WALLPAPER_TYPE` 完全獨立。
 
-### ASPECT_RATIO
+## 2. CHARACTER AND OPTIONAL VISUAL REFERENCE
 
-有效值：
-- `16:9`
-- `9:16`
+`CHARACTER` 指定本批次的角色設計方向，不代表使用者已提供人物參考圖片。設計者不得要求或等待人物參考圖片，也不得宣稱已看過未提供的圖片。
 
-此欄位單獨指定圖片比例。不得使用 `DESKTOP_16_9` 等把裝置類型與比例重複寫入的值，也不得另設 `ORIENTATION`。Aspect ratio 與 Wallpaper Type 完全獨立。
-
-## 2. CHARACTER_REFERENCE
-
-目前使用者提供的 `CHARACTER_REFERENCE` 是本批次人物身份與外觀的主要視覺參考。
+如使用者在實際生產聊天室另外提供視覺人物參考，該圖片是否可用及其權限由 `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md` 決定；提示詞可描述如何條件式使用該參考，但不得假設圖片必然存在。
 
 必須：
-- 維持人物身份一致。
-- 不因 GitHub 中存在其他 Master Image 而自行替換。
-- 不因參考圖的單一臉部方向而固定整個系列的臉部方向。
+- 維持指定角色的語義一致性。
+- 不因 GitHub 中存在其他 Master Image 而自行替換視覺參考。
+- 若生產階段有明確參考圖，不因該圖的單一臉部方向而固定整個系列的臉部方向。
+- 沒有參考圖時，不得宣稱已解析或驗證人物視覺參考。
 - 可以改變姿勢、身體方向、臉部方向、鏡頭、景別與構圖，但不得破壞身份一致性。
 
 ## 3. WALLPAPER_TYPE ROUTING
@@ -391,7 +387,7 @@ Close-up 必須具有明確 VISUAL_FOCUS，而不是單純放大臉部。
 - Eye Level
 - Slight Low Angle
 
-不得因 CHARACTER_REFERENCE 的單一臉部方向造成固定角度偏置。
+不得因角色設定或生產階段可能提供的單一參考圖臉部方向造成固定角度偏置。
 
 Realistic Wallpaper 特別避免極端廣角造成臉、手、腳變形。
 
@@ -415,14 +411,14 @@ Realistic Wallpaper 特別避免極端廣角造成臉、手、腳變形。
 
 ## 19. PET
 
-`PET` 是本批次獨立參數。
+`PET_ALLOWED` 是本批次獨立參數。
 
 如果：
-`PET = NOT_ALLOWED`
+`PET_ALLOWED = NOT_ALLOWED`
 則不得加入寵物或其他非必要動物。
 
 如果：
-`PET = ALLOWED`
+`PET_ALLOWED = ALLOWED`
 仍必須確保動物不遮擋人物、不搶走節慶焦點，並遵守穩定性規則。
 
 不得從 LoRA Production 引入 age-20 動物排除規則。
@@ -494,7 +490,7 @@ PAUSED 模組不得因使用者要求而被啟用。
 
 ### 3. APPLICABLE CONTENT CONSTRAINTS
 依目前任務適用：
-- CHARACTER_REFERENCE 身份與視覺一致性；
+- CHARACTER 身份語義與任何在生產階段明確提供之視覺參考的一致性；
 - GitHub Festival Database 文化資料；
 - Wallpaper Type Rules；
 - Festival-specific restrictions。
@@ -587,7 +583,6 @@ FESTIVAL:
 FESTIVAL_ID:
 REGION / CULTURAL_SCOPE:
 OUTPUT_TYPE:
-ASPECT_RATIO:
 
 OUTFIT_ARCHETYPE:
 
