@@ -63,8 +63,6 @@ GitHub DOES provide canonical image-design references, persisted production reco
 
 For `UNIVERSAL_WALLPAPER` and `FESTIVAL_WALLPAPER`, use `/WALLPAPER_CONSOLE` for design/lock and `/WALLPAPER_PRODUCE` for execution, as defined in `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`. The same command names cover both wallpaper modules; `MODULE` selects module-specific rules and paths. The design command does not request or accept a reference-image input. A reference image separately supplied in the production conversation is handled only by the active module's Reference Policy. Neither wallpaper command loads LoRA-specific rules.
 
-Before `/START_AUTO`, verify GitHub database access and load the applicable current Canonical Rules. Before `/RESUME_AUTO`, repeat those checks, then recover the existing Session/Batch and checkpoint.
-
-If either gate fails, do not generate. Resume must preserve the existing Session/Batch and locked prompts; it must not create replacements or redesign prompts. For new-format Batches, recover each Task's dedicated prompt file through the manifest. Do not silently migrate existing legacy Batches.
+For wallpaper production, `/WALLPAPER_CONSOLE` is the only design-and-lock entry point and `/WALLPAPER_PRODUCE` is the only execution/continuation entry point. Before executing, the user must explicitly provide `MODULE`, `SESSION_ID`, and `BATCH_ID`; verify that all three match the current GitHub records. If a required value or read is missing, invalid, or mismatched, do not generate. Continuation reuses the same identifiers and locked prompts; it never creates replacements or redesigns prompts. For new-format Batches, recover each Task's dedicated prompt file through the manifest. Do not silently migrate existing legacy Batches.
 
 The authoritative shared requirements are in `00_MASTER/CORE_RULES.md`; execution details are in `00_MASTER/GENERATION_WORKER_PROTOCOL.md`.
