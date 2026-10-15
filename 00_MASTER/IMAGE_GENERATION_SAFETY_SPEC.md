@@ -30,25 +30,24 @@ Then record the task as IMAGE_CREATED according to the current queue protocol.
 
 Record FAILED only when the generation operation explicitly fails.
 
-Do not retry the same locked Prompt/version after a generation call, even when the tool explicitly fails or returns no image. Record the observed failure and stop that Task's generation attempt. If the result is unknown, record UNKNOWN and do not call the Prompt again.
+A confirmed no-image failure may be retried for the same Task using the same unchanged locked Prompt. The initial call is not a retry; after three retry attempts have each failed with a confirmed no-image outcome, terminate the Task. Never retry after image receipt or while the outcome is unknown. Do not alter the Prompt to bypass a policy or safety block.
 
 ### UNKNOWN
 
 If the Worker cannot reliably determine whether an image was generated, record `PROMPT_CONSUMED = UNKNOWN` and `PROMPT_STATE = UNKNOWN`:
 
 - do not guess;
-- do not regenerate;
-- do not skip;
-- do not delete;
-- do not overwrite;
-- enter RECOVERY_REQUIRED / the applicable recovery state;
-- stop until the result is explicitly resolved.
+- do not retry that Task while the outcome is unknown;
+- do not falsely mark the Task successful or failed;
+- do not delete or overwrite evidence;
+- preserve the applicable recovery state until evidence resolves the outcome;
+- unrelated Tasks may continue if their own records and prerequisites are independently usable.
 
 UNKNOWN is not FAILED.
 
 ## 2. No duplicate generation
 
-Every locked Prompt/version receives one generation call only. After the call begins, never call that same Prompt/version again, regardless of whether an image is received, the tool reports failure, or the outcome is unknown. Record the actual outcome; unknown is not failed. Retire the Prompt/version from further generation after its one call.
+The locked Prompt text and Task-to-prompt mapping are immutable. A confirmed no-image failure may permit another attempt for the same Task using that exact Prompt, up to three failed retry attempts after the initial call. After image receipt, unknown outcome, or retry exhaustion, do not call the Prompt again for that Task. Never reassign a Prompt to another Task.
 
 A successfully generated candidate must never be regenerated merely because the Worker thinks the image could be better.
 
@@ -114,15 +113,7 @@ It must not assume that no image exists.
 
 Daily generation limits count generation attempts, not only successful images.
 
-When the platform explicitly reports quota exhaustion:
-
-- do not mark the task IMAGE_CREATED;
-- return CLAIMED/GENERATING to QUEUED when the queue is safely writable;
-- release the Claim/Lease;
-- record the quota event when supported;
-- stop this Worker session.
-
-Quota exhaustion is not a visual QA failure and not a generation-quality failure.
+When the platform explicitly reports quota exhaustion, record the confirmed no-image outcome and quota/rate-limit reason. Apply the current Task-level retry policy; never bypass a platform restriction. If retry is not currently possible, pause or stop according to the active workflow without inventing a result. Quota exhaustion is not a visual QA failure or a generation-quality judgment.
 
 ## 8. State protection
 
