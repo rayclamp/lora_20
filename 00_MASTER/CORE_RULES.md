@@ -43,7 +43,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 18. A production Batch closes when every required Task has a recorded terminal outcome, whether successful or unsuccessful. Do not keep producing or leave the Batch open solely because a result is mismatched or unsuccessful.
 19. The design stage validates and locks each Prompt. In production, the only pre-generation check is whether the complete assigned locked Prompt was successfully read. Do not revalidate its content, format, semantics, correctness, quality, or task binding.
 20. Immediately after a successful full-prompt read, submit that same complete Prompt unchanged to the generation tool. Do not insert any intermediate analysis, validation, prompt display, transformation, or unrelated operation. If the complete Prompt was not successfully read, do not guess or reconstruct it; record the read failure and stop that Task. Missing optional hidden-payload telemetry is not a generation gate.
-21. The Producer's only generation-result judgment is whether an image result was actually received. Record the observed result and any no-image failure reason. Do not perform QA, compare the image with the Prompt, or automatically retry. Each locked Prompt receives one generation call only.
+21. The Producer's only generation-result judgment is whether an image result was actually received. Record the observed result and any confirmed no-image failure reason. Do not perform QA or compare the image with the Prompt. Retry only a confirmed no-image failure using the same unchanged locked Prompt for the same Task; after three failed retry attempts, terminate that Task. Never retry after image receipt or while the outcome is unknown.
 22. Keep generation outcome separate from GitHub persistence outcome. A confirmed image receipt must remain recorded as received even if writing the record fails; record persistence failure separately and do not trigger another generation call.
 23. This minimal prompt-to-generation rule overrides conflicting runtime wording in older documents and historical Session/Batch records. Historical records remain immutable evidence; they do not add new prompt-validation gates to current production.
 
@@ -108,3 +108,15 @@ The Producer's post-generation duties are limited to observable production facts
 Any confirmed image receipt counts as exactly one successfully produced Task output, regardless of visual compliance or how many image files the generator returns for that Task. Record the actual returned image count separately. QA is a separate downstream process and must never change production counts, production success, prompt-consumption state, or trigger regeneration.
 
 This rule overrides any older wording in CORE that could be interpreted as requiring the Producer to inspect, compare, accept, reject, or QA a generated image.
+
+
+## 3.5 WALLPAPER COMMAND ENTRY GATE — NON-NEGOTIABLE
+
+For `MODULE=UNIVERSAL_WALLPAPER` or `MODULE=FESTIVAL_WALLPAPER`, use the unified wallpaper command contract in `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`:
+
+- `/WALLPAPER_CONSOLE` is the design-and-lock command. It must load the current applicable canonical rules, create a new Session/Batch, persist and read back all required prompt records, and lock the Prompt Set. It must not call the image-generation tool.
+- `/WALLPAPER_PRODUCE` is the production command. It requires the explicit existing `SESSION_ID` and `BATCH_ID`, reloads applicable rules and records, and executes only the existing locked prompts.
+- Both commands support Universal and Festival Wallpaper; `MODULE` determines module-specific rules and paths.
+- Wallpaper design must not request or require a reference image. A separately supplied production-conversation reference, if any, is handled only under the active wallpaper module's Reference Policy.
+- Neither wallpaper command may load LoRA-specific rules or assets.
+- If GitHub access or any required canonical read/write/readback fails, stop and report the actual failure. Do not fall back to memory, cache, guesses, or ordinary text-to-image behavior.
