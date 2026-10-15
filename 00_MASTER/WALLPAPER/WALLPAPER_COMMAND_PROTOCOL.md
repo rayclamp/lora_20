@@ -100,9 +100,17 @@ On completion, explicitly post `MODULE`, `SESSION_ID`, `BATCH_ID`, `IMAGE_COUNT`
 
 ## 5. Production command contract — /WALLPAPER_PRODUCE
 
-The production command must receive the explicit existing `SESSION_ID` and `BATCH_ID`. It must not invent IDs, create a replacement Batch, or silently switch to another Session.
+The production command MUST receive all three user-specified fields before it selects any module-specific rules or reads a production Batch:
 
-Reconnect to GitHub and read the current applicable canonical rules and the selected Batch's authoritative records. Use the manifest and per-Task prompt files required by the current schema. Do not redesign or rewrite locked prompts.
+- `MODULE=UNIVERSAL_WALLPAPER` or `MODULE=FESTIVAL_WALLPAPER`
+- `SESSION_ID=<existing Session ID>`
+- `BATCH_ID=<existing Batch ID>`
+
+These values are mandatory and must not be inferred from memory, earlier chats, default values, or a neighboring record. Validate that all three are present and supported. Then use `MODULE` to load only the corresponding module-specific rules, reconnect to GitHub, and read the exact `PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/` records. Confirm that the stored module, Session ID, and Batch ID match all three user-specified values before executing any Task.
+
+If a field is missing/invalid, a required read fails, or the stored identity does not match, stop and report the exact problem. Do not choose a substitute module, Session, or Batch; do not create a replacement; do not fall back to generic image generation.
+
+Use the manifest and per-Task prompt files required by the current schema. Do not redesign or rewrite locked prompts.
 
 For each eligible Task:
 1. Read the complete assigned locked prompt from its authoritative file.
