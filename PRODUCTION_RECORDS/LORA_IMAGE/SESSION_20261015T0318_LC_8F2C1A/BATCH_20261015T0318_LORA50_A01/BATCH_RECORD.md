@@ -7,18 +7,18 @@ PRODUCTION_TYPE: NOT_SPECIFIED
 CHARACTER: INARIA
 IMAGE_COUNT: 50
 OUTPUT_TYPE: MIXED_PER_TASK
-BATCH_STATUS: READY_FOR_PRODUCTION
-COMPLETED_COUNT: 0
+BATCH_STATUS: IN_PROGRESS
+COMPLETED_COUNT: 1
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 0
+ACTUAL_IMAGE_COUNT: 1
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 50
-ATTEMPT_COUNT: 0
-CURRENT_TASK: TASK_001
-NEXT_TASK: TASK_001
-CHECKPOINT: All 50 prompt files were revised to v2 to avoid imposing an unspecified rendering style, then re-verified. Prompt Set is locked. No image generation has been attempted.
+PENDING_COUNT: 49
+ATTEMPT_COUNT: 1
+CURRENT_TASK: TASK_002
+NEXT_TASK: TASK_002
+CHECKPOINT: TASK_001 received one image. The result is recorded against TASK_001; the known execution deviation is documented and not visually assessed. Continue from TASK_002 only after successful persistence verification.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
