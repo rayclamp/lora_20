@@ -61,6 +61,8 @@ GitHub DOES provide canonical image-design references, persisted production reco
 
 ## Production Entry Gates
 
+For `UNIVERSAL_WALLPAPER` and `FESTIVAL_WALLPAPER`, use `/WALLPAPER_CONSOLE` for design/lock and `/WALLPAPER_PRODUCE` for execution, as defined in `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`. The same command names cover both wallpaper modules; `MODULE` selects module-specific rules and paths. The design command does not request or accept a reference-image input. A reference image separately supplied in the production conversation is handled only by the active module's Reference Policy. Neither wallpaper command loads LoRA-specific rules.
+
 Before `/START_AUTO`, verify GitHub database access and load the applicable current Canonical Rules. Before `/RESUME_AUTO`, repeat those checks, then recover the existing Session/Batch and checkpoint.
 
 If either gate fails, do not generate. Resume must preserve the existing Session/Batch and locked prompts; it must not create replacements or redesign prompts. For new-format Batches, recover each Task's dedicated prompt file through the manifest. Do not silently migrate existing legacy Batches.
