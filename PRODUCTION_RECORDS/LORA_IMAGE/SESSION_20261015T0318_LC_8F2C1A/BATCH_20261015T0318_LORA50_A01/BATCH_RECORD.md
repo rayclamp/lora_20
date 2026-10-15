@@ -42,3 +42,6 @@ PROMPT_SET_LOCKED: YES
 
 
 2026-10-15T22:37:00+08:00 — TASK_021 result recorded. One image was received (result reference=file_00000000279c8209ac586e23d13d3a55; output file=a_bright_airy_pastel_anime_style_illustration_of.png). The locked prompt was read from PROMPTS/TASK_021.md, but the generation call used a paraphrased instruction rather than the complete locked prompt unchanged, and explicit reference-image input was not verified. TASK_021 counts as one successful Task output; actual image count=1. PROMPT_CONSUMED=YES; PROMPT_STATE=CONSUMED; GENERATION_INPUT_MODE=KNOWN_DEVIATION_FROM_FULL_LOCKED_PROMPT_AND_REFERENCE_INPUT; FULL_PROMPT_READ_STATUS=CONFIRMED; DELIVERY_INTEGRITY_STATUS=UNVERIFIED; PROMPT_MATCH_STATUS=NOT_ASSESSED. No visual QA performed. This prompt/version will not be called again. Next pending Task: TASK_022.
+
+
+2026-10-15T22:38:00+08:00 — PRODUCTION_PAUSED after TASK_021. The image result was recorded successfully, but the generation interface call used a paraphrased prompt rather than the complete locked prompt unchanged and explicit reference-image input was not verified. This is a systemic execution limitation; no further Tasks were attempted. Next pending Task: TASK_022.
