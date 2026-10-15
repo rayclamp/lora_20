@@ -8,17 +8,17 @@ CHARACTER: INARIA
 IMAGE_COUNT: 50
 OUTPUT_TYPE: MIXED_PER_TASK
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 5
+COMPLETED_COUNT: 6
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 5
+ACTUAL_IMAGE_COUNT: 6
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 45
-ATTEMPT_COUNT: 5
-CURRENT_TASK: TASK_005
-NEXT_TASK: TASK_006
-CHECKPOINT: TASK_001 through TASK_005 each received one image. TASK_004 and TASK_005 have known execution deviations: the calls did not submit the complete locked prompt verbatim and did not pass the uploaded reference image as an explicit reference input. No QA performed. Next task is TASK_006.
+PENDING_COUNT: 44
+ATTEMPT_COUNT: 6
+CURRENT_TASK: TASK_006
+NEXT_TASK: TASK_007
+CHECKPOINT: TASK_001 through TASK_006 each received one image. TASK_004 through TASK_006 have known execution deviations: the calls did not submit the complete locked prompt verbatim and did not pass the uploaded reference image as an explicit reference input. No QA performed. Next task is TASK_007.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
