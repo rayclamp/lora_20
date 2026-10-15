@@ -18,7 +18,7 @@ The only generation-result judgment is whether an image result was produced/rece
 
 ### 2.1 Single-Producer Execution — CURRENT STANDARD
 
-For the current /START_AUTO workflow, one authorized ChatGPT Producer operates its own Session/Batch.
+For the current single-Producer workflow, one authorized ChatGPT Producer operates within its explicitly authorized Session/Batch.
 
 A Single Producer MUST NOT require any GitHub-side:
 - Task Claim API
@@ -58,7 +58,7 @@ LOCK_STATE
 and MAY persist their resulting records to GitHub.
 
 However:
-1. These mechanisms are NOT required by the current Single-Producer /START_AUTO workflow.
+1. These mechanisms are NOT required by the current Single-Producer workflow.
 2. Their absence from the GitHub interface MUST NOT block current Single-Producer Generation.
 3. A future Claim/Lease implementation MUST NOT redefine GitHub as the runtime controller.
 4. A future Multi-Worker design must explicitly define its Runtime Coordinator before making Claim/Lease a mandatory execution gate.
@@ -202,53 +202,29 @@ A future Runtime Coordinator may implement Claim/Lease coordination. Until that 
 
 ## 3.0 Production Entry Gate — Canonical Rule Loading
 
-The /START_AUTO workflow MUST pass the Canonical Rule Loading Gate before any image-generation call.
+Every production operation MUST load the applicable current GitHub Canonical Rules before any image-generation call.
 
-### Required sequence
-`/START_AUTO → CANONICAL_RULE_LOADING → ENTRY_GATE → Session/Batch → Prompt Design → Prompt Lock → Generation`
+For wallpaper production:
+- `/WALLPAPER_CONSOLE` loads the applicable shared and selected-module rules before creating a new Session/Batch and designing prompts.
+- `/WALLPAPER_PRODUCE` first requires the user-specified `MODULE`, `SESSION_ID`, and `BATCH_ID`; it verifies the exact existing Batch identity before selecting a Task or loading its module-specific rules.
+- Missing or mismatched identifiers, or failure to read required current rules/records, block the affected operation. Do not use memory, cache, guesses, or generic image-generation fallback.
+- Continuation uses the same `MODULE`, `SESSION_ID`, and `BATCH_ID`; it must not create a replacement Session/Batch or redesign locked prompts.
 
-### Gate requirements
-1. Load the applicable current GitHub Canonical Rules.
-2. Load the applicable module and production-type rules required for the requested production.
-3. Verify that the required rules were successfully retrieved and are usable.
-4. Record or report `GITHUB_RULES_LOADED = YES` only when the required rules were actually loaded.
-5. Only after the gate passes may automated production proceed.
+For other modules, apply their current module-specific entry contract. This gate belongs to the Producer Runtime; it does not make GitHub a runtime controller and does not require a GitHub-side execution lock, Claim API, or Lease API.
 
-### Gate failure
-If required Canonical Rules cannot be loaded, are inaccessible, or cannot be verified:
-- `ENTRY_GATE = BLOCKED`
-- `REASON = CANONICAL_RULE_LOADING_FAILED` (or a more specific failure reason)
-- `GENERATION_ALLOWED = NO`
-- no image-generation call may be made;
-- the Producer MUST NOT fall back to ordinary image-generation behavior;
-- the Producer MUST NOT reinterpret the Production Request as a normal image-generation request.
+## 12.1 Continuation Entry Gate
 
-### Hard invariant
-`CANONICAL_RULE_LOADING = PASS` is a mandatory prerequisite for /START_AUTO Generation.
-
-The gate belongs to the Producer Runtime. It does not make GitHub a runtime controller and does not require a GitHub-side execution lock, Claim API, Lease API, or generation permission API.
-
-### Rationale
-GitHub Canonical Rules define the semantics of automated production, including Task decomposition, output-count semantics, Prompt Lock, and applicable generation constraints. Without those rules, the Producer cannot safely assume that a request such as `IMAGE_COUNT = 12` means twelve independent Tasks. Therefore absence of verified Canonical Rules is a hard pre-generation block.
-
-
-## 12.1 RESUME ENTRY GATE
-
-Before a /RESUME_AUTO Generation attempt, the Producer MUST:
-
-1. re-verify the current GitHub database connection;
+Before continuing an existing Batch, the Producer MUST:
+1. reconnect to GitHub and verify access to the current authoritative records;
 2. reload and verify the applicable current Canonical Rules;
-3. recover the existing Session/Batch, Task Queue, Checkpoint, prompt manifest, and the assigned Task's authoritative prompt file;
-4. select the first Task that has not reached a valid terminal state.
+3. recover the existing Session/Batch, Task Queue, checkpoint, prompt manifest, and the assigned Task's authoritative prompt file;
+4. select a Task that has not reached a valid terminal state.
 
-If connection verification or Canonical Rule Loading fails, resume is BLOCKED and no Generation call may occur.
+If connection verification or Canonical Rule Loading fails, no Generation call may occur. Continuation MUST NOT create a replacement Session/Batch, reset attempt counts, or modify/redesign a locked prompt.
 
-Resume MUST NOT create a replacement Session/Batch, reset attempt counts, or modify/redesign a locked prompt.
+## 15. Continuation Recovery Scope — Isolate Before Escalating
 
-
-## 15. Resume Recovery Scope — Isolate Before Escalating
-
-1. Resume must recover the existing Session/Batch and select a Task that has not reached a valid terminal state.
+1. Continuation must use the existing Session/Batch and select a Task that has not reached a valid terminal state.
 2. If the prior generation outcome for a Task is unknown, preserve UNKNOWN and do not call that Prompt again.
 3. For an eligible Task, read its assigned locked Prompt. The only prompt-related pre-generation check is whether the complete Prompt was successfully read.
 4. Once the complete Prompt is successfully read, call the generation tool immediately. Do not add content, format, semantic, metadata, Task-binding, or visual-intent validation.
@@ -256,6 +232,7 @@ Resume MUST NOT create a replacement Session/Batch, reset attempt counts, or mod
 6. A problem isolated to one Task must not automatically block independent Tasks. Stop the Batch only for a verified Batch-wide issue that makes safe Task identification impossible.
 7. Missing optional delivery telemetry and visual differences are not generation gates. QA remains separate.
 8. Record the generation outcome and any record-write failure separately. Persistence recovery must not repeat generation.
+
 ## 15. Multi-Worker Handoff — Independent Task Readiness
 
 This section defines record-level handoff behavior for a future Runtime Coordinator and multiple Workers. It does not claim that a multi-worker coordinator or Claim/Lease runtime has already been implemented.
