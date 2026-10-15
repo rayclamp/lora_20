@@ -8,17 +8,17 @@ CHARACTER: INARIA
 IMAGE_COUNT: 50
 OUTPUT_TYPE: MIXED_PER_TASK
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 3
+COMPLETED_COUNT: 4
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 3
+ACTUAL_IMAGE_COUNT: 4
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 47
-ATTEMPT_COUNT: 3
-CURRENT_TASK: TASK_003
-NEXT_TASK: TASK_003
-CHECKPOINT: TASK_001 through TASK_003 each received one image and are recorded. All three calls have known deviations from the complete locked-prompt/reference-input requirements; these are recorded without QA. Current checkpoint is TASK_004.
+PENDING_COUNT: 46
+ATTEMPT_COUNT: 4
+CURRENT_TASK: TASK_004
+NEXT_TASK: TASK_005
+CHECKPOINT: TASK_001 through TASK_004 each received one image. TASK_004 has a known deviation: the call did not submit the complete locked prompt verbatim and did not pass the uploaded reference image as an explicit reference input. No QA performed. Next task is TASK_005.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
