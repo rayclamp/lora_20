@@ -34,13 +34,18 @@ Production accepts:
 - WEATHER
 - TIME
 - PET_ALLOWED
-- REFERENCE_IMAGE
+- REFERENCE_IMAGE (LORA_IMAGE only; not a wallpaper-design command parameter)
 - CUSTOM_INSTRUCTIONS
 
 Supported image-design modules:
-- `UNIVERSAL_WALLPAPER`: general wallpaper design.
+- `UNIVERSAL_WALLPAPER`: general/ordinary wallpaper design.
 - `FESTIVAL_WALLPAPER`: festival wallpaper design using the festival reference database.
 - `LORA_IMAGE`: LoRA training-image design rules only; not the archived legacy LoRA production system.
+
+For both wallpaper modules, use the unified commands defined in `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`:
+- `/WALLPAPER_CONSOLE`: design, persist, read back, and lock all requested prompts; never generate images.
+- `/WALLPAPER_PRODUCE`: execute an explicitly identified existing Session/Batch from its locked prompts; never redesign or perform QA.
+The command names do not vary by wallpaper module. `MODULE` selects the applicable rules and record path. The wallpaper design command does not request or accept a `REFERENCE_IMAGE` input. If a reference image is separately supplied in a production conversation, apply only the active wallpaper module's reference policy. Neither wallpaper command loads LoRA-specific rules.
 
 For `MODULE=LORA_IMAGE`, set the Batch-level `OUTPUT_TYPE=MIXED_PER_TASK`. Each Task independently selects and records `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9`; a Batch may mix portrait 9:16 and landscape 16:9 with no fixed quota or required split. The Task's locked prompt must be designed for its recorded format. This exception applies only to LORA_IMAGE; other modules retain their existing `OUTPUT_TYPE` behavior.
 
@@ -108,7 +113,7 @@ The design stage has already validated and locked the prompt. The Producer MUST 
 
 If the complete prompt was not successfully read, do not guess or reconstruct it; record the read failure and stop that Task. Once the complete prompt is read, proceed directly to the generation call without another gate.
 
-Each locked prompt is used for one generation call only. Do not automatically retry, including after a no-image result.
+Use the current Task-level retry policy in Section 14: retry only confirmed no-image failures, using the same unchanged locked prompt for the same Task; after three failed retry attempts, terminate that Task. Never retry after image receipt or while the outcome is unknown.
 ## 7. Result Recording
 
 After the generation call, record only observable execution facts:
@@ -126,7 +131,7 @@ A confirmed image receipt must be recorded as received even if a later GitHub wr
 
 Before selecting the next Task, reconnect and verify the latest authoritative state.
 
-Continue until every required Task has reached a valid terminal state. Any confirmed image result that is durably recorded against its Task is a production `SUCCESS`, counted once per Task regardless of how many files were returned; this does not imply QA acceptance. Record the actual number of returned files separately. A confirmed no-image failure must also be recorded with its observed reason. Do not automatically retry the same locked Prompt.
+Continue until every required Task has reached a valid terminal state. Any confirmed image result that is durably recorded against its Task is a production `SUCCESS`, counted once per Task regardless of how many files were returned; this does not imply QA acceptance. Record the actual number of returned files separately. A confirmed no-image failure must be recorded with its observed reason and handled under the current Task-level retry policy in Section 14.
 
 Do not require every Task to be successful. When all required Tasks are terminal and the completion record is read back successfully, close the Batch and issue no further generation calls for it.
 
