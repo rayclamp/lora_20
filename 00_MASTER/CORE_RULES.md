@@ -53,35 +53,23 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 - IMAGE_GENERATION_SAFETY_SPEC.md
 - GENERATION_WORKER_PROTOCOL.md
 
-## 3.1 /START_AUTO ENTRY GATE — NON-NEGOTIABLE
-1. Any automated production initiated by /START_AUTO MUST first load the applicable current GitHub Canonical Rules before any image-generation call.
-2. Successful Canonical Rule Loading is a mandatory Production Entry Gate prerequisite.
-3. If the Producer cannot access, load, or verify the applicable Canonical Rules, it MUST enter ENTRY_GATE_BLOCKED and MUST NOT call the image-generation interface.
-4. The Producer MUST NOT fall back to ordinary image-generation behavior merely because GitHub is unavailable.
-5. The absence of Canonical Rule Loading evidence MUST be treated as failure of the Production Entry Gate, not as permission to proceed.
-6. This is a Producer Runtime precondition. It does NOT make GitHub a runtime controller, scheduler, execution gate, or generation controller.
-7. Manual image requests that are not initiated through /START_AUTO remain governed by the applicable manual-production workflow.
+## 3.1 WALLPAPER COMMAND ENTRY AND CONTINUATION GATE — NON-NEGOTIABLE
 
+For `MODULE=UNIVERSAL_WALLPAPER` or `MODULE=FESTIVAL_WALLPAPER`, the only current wallpaper command pair is defined in `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`:
 
-## 3.2 /RESUME_AUTO ENTRY GATE — NON-NEGOTIABLE
+1. `/WALLPAPER_CONSOLE` creates a new Session/Batch, designs all prompts, writes and reads back the required records, and locks the Prompt Set. It MUST NOT generate images.
+2. `/WALLPAPER_PRODUCE` executes only an existing locked Batch. Before module-specific routing or Batch reads, it MUST receive the user's explicit `MODULE`, `SESSION_ID`, and `BATCH_ID`.
+3. The Producer MUST verify that all three supplied values match the authoritative GitHub Batch path and records. Missing, invalid, unreadable, or mismatched values block execution; do not infer or substitute identifiers.
+4. Every operation MUST load the current applicable canonical rules and verify required GitHub reads. Required reads/writes/readbacks that fail must stop the affected operation; never fall back to memory, cache, guesses, or generic image generation.
+5. Continuing an interrupted Batch uses `/WALLPAPER_PRODUCE` with the same `MODULE`, `SESSION_ID`, and `BATCH_ID`. It must not create a replacement Batch or redesign locked prompts.
+6. These wallpaper rules do not rename or redefine the separate `LORA_IMAGE` design workflow.
 
-Any automated production initiated by /RESUME_AUTO MUST re-verify the current GitHub database connection and reload the applicable current Canonical Rules before resuming Generation.
-
-1. Existing Session/Batch records may be used only after the current GitHub connection is verified.
-2. The Producer MUST reload and verify the applicable current Canonical Rules before continuing.
-3. If connection verification or rule loading fails, resume is BLOCKED and no Generation call may be made.
-4. Resume MUST use the existing SESSION_ID, BATCH_ID, TASK_QUEUE, PROMPT_SET manifest, and the assigned Task's authoritative prompt file. New-format Batches use `PROMPTS/<TASK_ID>.md`; do not replace or redesign locked prompts.
-5. Resume MUST NOT create a replacement Session/Batch or redesign a locked prompt.
-6. Resume selects the first Task that has not reached a valid terminal state.
-7. This gate is a Producer Runtime precondition; it does not make GitHub a runtime controller.
-
-
-## 3.3 /RESUME_AUTO BLOCKING SCOPE — NON-NEGOTIABLE
+## 3.2 TASK-LOCAL RECOVERY AND BLOCKING SCOPE — NON-NEGOTIABLE
 
 1. A blocking condition MUST be scoped to the smallest affected unit: evidence field, Task, or Batch.
 2. A Task-local state conflict, missing Task-local readback, or unresolved result MUST NOT automatically stop unrelated Tasks. Isolate the affected Task, preserve its state, and evaluate the next Task independently.
 3. For an eligible Task, read its assigned authoritative locked Prompt. The only prompt-related pre-generation check is whether the complete Prompt was successfully read; do not add a separate content, metadata, or Task-binding validation gate.
-4. An unresolved generation outcome remains unresolved for that Task: do not retry, skip, advance past it as though resolved, or reuse its consumed/retired Prompt. This does not by itself forbid independent later Tasks from running.
+4. An unresolved generation outcome remains unresolved for that Task: do not retry or reuse the same locked Prompt. This does not by itself forbid independent later Tasks from running.
 5. Stop the entire Batch only when a verified issue affects Batch-wide identity/contract, global prompt-manifest integrity or per-Task prompt-file mapping, or result attribution in a way that cannot safely be isolated to a Task.
 6. Visual-quality defects or visual differences from a Prompt are QA observations, not proof of generation-input mismatch. QA findings MUST NOT automatically change execution-integrity status or trigger regeneration.
 7. Missing nonessential delivery telemetry alone is NOT a blocking condition. Record NOT_EXPOSED/UNVERIFIED honestly.
@@ -115,7 +103,7 @@ This rule overrides any older wording in CORE that could be interpreted as requi
 For `MODULE=UNIVERSAL_WALLPAPER` or `MODULE=FESTIVAL_WALLPAPER`, use the unified wallpaper command contract in `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`:
 
 - `/WALLPAPER_CONSOLE` is the design-and-lock command. It must load the current applicable canonical rules, create a new Session/Batch, persist and read back all required prompt records, and lock the Prompt Set. It must not call the image-generation tool.
-- `/WALLPAPER_PRODUCE` is the production command. It requires the explicit existing `SESSION_ID` and `BATCH_ID`, reloads applicable rules and records, and executes only the existing locked prompts.
+- `/WALLPAPER_PRODUCE` is the production command. It requires the user's explicit `MODULE`, `SESSION_ID`, and `BATCH_ID`, verifies all three against GitHub, reloads applicable rules and records, and executes only the existing locked prompts.
 - Both commands support Universal and Festival Wallpaper; `MODULE` determines module-specific rules and paths.
 - Wallpaper design must not request or require a reference image. A separately supplied production-conversation reference, if any, is handled only under the active wallpaper module's Reference Policy.
 - Neither wallpaper command may load LoRA-specific rules or assets.
