@@ -19,6 +19,7 @@
 - Authoritative per-Task prompt files for new Batches: `PROMPTS/TASK_001.md`, `PROMPTS/TASK_002.md`, etc. Each Task has exactly one dedicated prompt file; `PROMPT_SET.md` MUST NOT contain full prompt bodies for new Batches.
 
 ## Wallpaper
+- Unified design/production command contract: 00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md
 - Anime: 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
 - Realistic: 00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md
 - Festival design: 00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md
