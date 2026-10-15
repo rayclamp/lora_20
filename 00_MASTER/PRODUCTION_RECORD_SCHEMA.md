@@ -81,7 +81,7 @@ Each executable Task in a new Batch has one authoritative prompt file `PROMPTS/<
 Record `FULL_PROMPT_READ_STATUS` and `GENERATION_INPUT_MODE` as defined in Section 17. Reading the full Prompt does not, by itself, prove that the generation interface received the exact text. For new executions, `GENERATION_INPUT_MODE` must be `FULL_LOCKED_PROMPT`; any known deviation must be recorded honestly. If the interface does not expose independent payload telemetry, record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED or UNVERIFIED as applicable; do not claim transport verification that is unavailable. Missing telemetry alone does not prohibit generation.
 
 ## 7. EXECUTION_LOG.md
-Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, IMAGE_RESULT_RECORDED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, POLICY_BLOCKED, SAFETY_BLOCKED, INTERRUPTION_CLASSIFIED, PROMPT_SKIPPED_POLICY_LIMIT, STOPPED, RESUMED, UNKNOWN, DEFERRED, RECORD_CORRECTED, COMPLETED. RETRY events MUST NOT be used to represent a second generation call for the same locked Prompt.
+Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, IMAGE_RESULT_RECORDED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, POLICY_BLOCKED, SAFETY_BLOCKED, INTERRUPTION_CLASSIFIED, PROMPT_SKIPPED_POLICY_LIMIT, STOPPED, RESUMED, UNKNOWN, DEFERRED, RECORD_CORRECTED, COMPLETED. RETRY events must identify permitted retry attempts for the same Task and unchanged locked Prompt; do not duplicate or overwrite prior attempt events.
 Each event should include timestamp with timezone, EVENT_ID, event type, SESSION_ID, BATCH_ID, TASK_ID when applicable, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, result/error information, output count, interruption class/counter when applicable, prompt-consumed state, and checkpoint reference when applicable.
 
 ## 8. Persistence and Recovery
@@ -115,9 +115,9 @@ The design/lock stage owns Task mapping, metadata, and prompt validity. During p
 ## 11. Non-Goals
 This schema does not define a GitHub scheduler, task lock, worker manager, retry engine, Session manager, or execution controller. Those remain internal ChatGPT production mechanisms.
 
-## 12. Prompt Consumption and Single-Call Retirement Records
+## 12. Prompt Consumption and Task-Level Retry Records
 
-One locked Prompt/version receives at most ONE generation call. The call itself retires that Prompt/version from further generation, regardless of whether an image is received. `PROMPT_CONSUMED` separately records whether an image was actually received.
+The locked Prompt text and Task-to-prompt mapping are immutable. A known no-image failure may be retried for the same Task using the same Prompt under Section 19. A confirmed image receipt, an unknown outcome, or retry exhaustion prohibits further attempts for that Task. `PROMPT_CONSUMED` records image receipt, not merely whether a generation call was made.
 
 Persist at Task level, as applicable:
 - `GENERATION_ATTEMPT_COUNT`
@@ -130,18 +130,17 @@ Persist at Task level, as applicable:
 
 ### 12.1 Outcome and prompt-state rules
 
-1. When a generation call is initiated, set `PROMPT_STATE = RETIRED` for further generation use; never call that Prompt/version again. Set `PROMPT_CONSUMED = YES` only when an image result is confirmed received. Count the image without making a prompt-payload or visual-compliance judgment.
-2. A confirmed no-image result after the generation call does not authorize a second call. Record the observed failure and end that Task's generation attempt.
-3. Service/runtime errors, quota/rate limits, GitHub failures, and policy/safety interruptions must be recorded according to the observed outcome, but none authorizes automatic or repeated generation of the same locked Prompt/version.
-4. If the outcome is unknown, set `PROMPT_CONSUMED = UNKNOWN`, `PROMPT_STATE = UNKNOWN`, and the applicable recovery-required state. Do not retry, skip, or advance until the outcome is resolved.
-5. `PROMPT_STATE = RETIRED` means the Prompt is permanently forbidden from future reuse, regardless of `PROMPT_CONSUMED`. Once its one generation call is initiated, retire the Prompt. Retired Prompts must never be re-queued, reassigned, or used by another Task.
-6. `PROMPT_CONSUMED` is tri-state: `YES` only for a confirmed received image result; `NO` only when no image result is confirmed and the outcome is known to be no-image; `UNKNOWN` when the outcome cannot be determined. `PROMPT_STATE` is `RETIRED` after its one generation call, even when `PROMPT_CONSUMED = NO` or `UNKNOWN`. No state authorizes a second call for the same Prompt/version.
+1. Set `PROMPT_CONSUMED = YES` only when an image result is confirmed received. A confirmed image receipt makes the Task successful and ends further generation attempts for that Task.
+2. For a confirmed no-image outcome, set `PROMPT_CONSUMED = NO`. If the retry budget remains, set `PROMPT_STATE = AVAILABLE` for another attempt of the same Task only, using the unchanged Prompt.
+3. If the outcome is unknown, set `PROMPT_CONSUMED = UNKNOWN`, `PROMPT_STATE = UNKNOWN`, and the applicable recovery-required state. Do not retry that Task while the outcome remains unresolved.
+4. `PROMPT_STATE = CONSUMED` indicates a confirmed image receipt; `UNKNOWN` indicates an unresolved outcome; `AVAILABLE` permits only a same-Task retry after a confirmed no-image failure and only within Section 19's limit; `RETIRED` means no further attempts are allowed because retry exhaustion or another terminal no-retry condition has been reached.
+5. A Prompt must never be edited or reassigned to another Task. Keep every attempt and result as a separate append-only record.
 
 ### 12.2 Policy/Safety interruption limit
 
 Only verified Policy/Safety interruptions increment `POLICY_INTERRUPTION_COUNT`. Other error classes have separate handling and must not increment this counter.
 
-After any generation call is initiated, the same locked Prompt/version MUST NOT be called again. This rule applies to confirmed no-image failures, service/runtime errors, quota/rate limits, policy/safety interruptions, and unknown outcomes. Record the observed result and interruption class, if known, then stop that Task's generation attempt. Legacy interruption counters and terminal labels may be preserved as historical fields, but they do not authorize another generation call. Image QA is never a regeneration trigger.
+After a generation attempt, record the observed result and interruption class. A confirmed no-image failure may be retried under Section 19; do not retry a Task after image receipt or while the outcome is unknown. Policy/safety restrictions must never be bypassed, and QA is never a regeneration trigger.
 
 ## 13. Persistence Requirement
 
@@ -221,7 +220,7 @@ Any confirmed receipt of one or more images for a Task counts as exactly ONE suc
 
 Do not use RESULT_COUNT_MISMATCH solely because ACTUAL_OUTPUT_COUNT differs from EXPECTED_OUTPUT_COUNT when an image has been received. Multiple files from one prompt are recorded as actual output facts, but do not create additional successful Task outputs. RESULT_COUNT_MISMATCH is not a reason to downgrade a confirmed image-producing Task under this rule.
 
-Once any image is confirmed received, set PROMPT_CONSUMED = YES and retire the Prompt/version so it can never be used again. QA is a separate downstream process. QA status must not alter production success/counts, prompt-consumption state, or trigger regeneration.
+Once any image is confirmed received, set PROMPT_CONSUMED = YES and set the Prompt state to CONSUMED so it cannot be used again for that Task. QA is a separate downstream process. QA status must not alter production success/counts, prompt-consumption state, or trigger regeneration.
 
 This section supersedes earlier schema wording that requires the actual output count to equal the expected count for SUCCESS, classifies extra images as RESULT_COUNT_MISMATCH, or permits Producer-side visual or prompt-compliance assessment. Historical Batch records remain immutable; apply this rule to new execution and use a separately recorded correction only when correcting a verified factual recording error.
 
