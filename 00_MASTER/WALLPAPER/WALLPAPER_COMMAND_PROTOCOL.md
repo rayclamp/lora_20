@@ -1,0 +1,130 @@
+# WALLPAPER_COMMAND_PROTOCOL.md — Unified Wallpaper Design and Production Commands
+
+## 1. Purpose and scope
+
+This document defines the shared command contract for both wallpaper modules:
+
+- `UNIVERSAL_WALLPAPER`: ordinary/general wallpaper.
+- `FESTIVAL_WALLPAPER`: festival wallpaper.
+
+The user-facing command names are unified across both modules:
+
+- `/WALLPAPER_CONSOLE`: design and lock prompts; do not generate images.
+- `/WALLPAPER_PRODUCE`: execute the existing locked prompts; do not redesign prompts or perform QA.
+
+The selected `MODULE` determines the canonical module rules, reference policy, data sources, and production-record root. Do not create separate command names for ordinary and festival wallpaper.
+
+This document is not a LoRA specification. General and festival wallpaper workflows MUST NOT read or apply `MODULES/LORA_IMAGE/` or `ARCHIVE/LEGACY_LORA_PRODUCTION/` as active rules.
+
+## 2. Shared authoritative repository
+
+Repository: `rayclamp/lora_20`  
+Branch: `main`
+
+Before design or production, connect to GitHub and read the current applicable canonical files, including:
+
+- `START_HERE.md`
+- `00_MASTER/CORE_RULES.md`
+- `00_MASTER/DRAWING_INSTRUCTIONS.md`
+- `00_MASTER/ANATOMY_STABILITY.md`
+- `00_MASTER/GENERATION_RULES.md`
+- `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md`
+- `00_MASTER/GENERATION_WORKER_PROTOCOL.md`
+- `00_MASTER/PRODUCTION_RECORD_SCHEMA.md`
+- `00_MASTER/CANONICAL_PATH_REGISTRY.md`
+- `00_MASTER/MODULE_REGISTRY.md`
+- `00_MASTER/SYSTEM_ARCHITECTURE.md`
+
+CORE rules remain authoritative. Read any further required dependencies referenced by these files. If a required read or GitHub operation fails, stop and report the actual failure; do not use memory, cache, guessed rules, or ordinary text-to-image fallback.
+
+## 3. Module-specific design dependencies
+
+### MODULE=UNIVERSAL_WALLPAPER
+
+Read the applicable files:
+
+- `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md`
+- For `PRODUCTION_TYPE=ANIME`: `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
+- For `PRODUCTION_TYPE=REALISTIC`: `00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
+- `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md` when footwear rules are relevant.
+- `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` when `CHARACTER=INARIA`, for character-semantic guidance only.
+
+Do not load festival costume catalogs as Universal options. Do not load LoRA rules or assets.
+
+### MODULE=FESTIVAL_WALLPAPER
+
+Read the applicable files:
+
+- `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md`
+- `00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md`
+- `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/CORE_FESTIVAL_INDEX.md`
+- The selected festival's canonical record(s), cultural anchors, item-link matrix, schemas, and relevant category catalogs required by the festival design rules.
+- For `PRODUCTION_TYPE=ANIME`: `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
+- For `PRODUCTION_TYPE=REALISTIC`: `00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
+- `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` when `CHARACTER=INARIA`, for character-semantic guidance only.
+
+Do not import Universal-only footwear/options where the festival rules specify their own catalog. Do not load LoRA rules or assets.
+
+## 4. Design command contract — /WALLPAPER_CONSOLE
+
+The design command creates a new Session and Batch, plans the entire requested set, writes every complete prompt to its own authoritative file, verifies the saved data by reading it back, and locks the complete Prompt Set before reporting completion.
+
+The command must not:
+- call the image-generation tool;
+- perform image QA or image editing;
+- request or require an uploaded reference image;
+- include `REFERENCE_IMAGE` as a wallpaper-design input parameter;
+- claim to have seen a reference image that was not provided;
+- read or apply LoRA-specific rules.
+
+The wallpaper design request uses the applicable fields defined by `START_HERE.md`, such as `MODULE`, `PRODUCTION_TYPE`, `CHARACTER`, `IMAGE_COUNT`, `OUTPUT_TYPE`, `THEME` / `FESTIVAL_SCOPE`, `SCENE`, `SEASON`, `WEATHER`, `TIME`, `PET_ALLOWED`, and `CUSTOM_INSTRUCTIONS`. Use only fields that are applicable to the selected module and current canonical schema. Do not add a reference-image field to this design request.
+
+A designer may write a prompt that explains how an image explicitly supplied later in the production conversation should be used, according to the active module's reference policy. The designer must not assume that such an image exists or describe its unseen contents.
+
+For every new Batch, use the canonical path:
+`PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/`
+
+Create the standard records:
+- `SESSION_CONTRACT.md`
+- `BATCH_RECORD.md`
+- `TASK_QUEUE.md`
+- `PROMPT_SET.md` (manifest/index only; never store all prompt bodies here)
+- `EXECUTION_LOG.md`
+- `PROMPTS/TASK_001.md`, `PROMPTS/TASK_002.md`, etc., one complete prompt per Task.
+
+Design all requested Tasks before locking. Verify the exact Task count, one-to-one Task-to-prompt-file mapping, non-empty full prompt bodies, required metadata, and required records by reading the saved files back from GitHub. Lock only after all required data has been successfully written and verified.
+
+On completion, explicitly post `MODULE`, `SESSION_ID`, `BATCH_ID`, `IMAGE_COUNT`, actual Task/prompt-file counts, `PROMPT_SET_STATUS`, the Batch path, and write/readback verification status in the chat. Then stop; do not generate images.
+
+## 5. Production command contract — /WALLPAPER_PRODUCE
+
+The production command must receive the explicit existing `SESSION_ID` and `BATCH_ID`. It must not invent IDs, create a replacement Batch, or silently switch to another Session.
+
+Reconnect to GitHub and read the current applicable canonical rules and the selected Batch's authoritative records. Use the manifest and per-Task prompt files required by the current schema. Do not redesign or rewrite locked prompts.
+
+For each eligible Task:
+1. Read the complete assigned locked prompt from its authoritative file.
+2. If and only if the complete prompt was successfully read, immediately submit that exact, unchanged prompt to the image-generation tool. Do not insert content validation, prompt display, extra analysis, prompt transformation, or unrelated operations between the successful read and generation call.
+3. Determine only whether an image result was received and record observable facts: actual returned-file count, available result references, Task/attempt attribution, confirmed no-image reason, and GitHub persistence status.
+4. Do not inspect the image, compare it with the prompt, assess prompt compliance, or perform QA.
+
+The production command does not contain or supply a reference image and does not ask the user to upload one as part of the command. If a visual reference is separately supplied in the production conversation, apply only the active module's reference policy and the locked prompt. Do not invent, search across modules for, or silently substitute a reference. If no reference is supplied, follow the module policy's valid `NO_REFERENCE` behavior unless the applicable task rules explicitly require a reference; if a required reference is missing, record the applicable blocked state rather than guessing.
+
+### Retry and task completion
+
+- Any confirmed image receipt completes that Task for production, counts as exactly one completed Task, and must be recorded even if a later GitHub write fails. Record the actual number of returned image files separately. Do not retry a Task after image receipt.
+- Retry only a confirmed no-image failure. Reuse the same unchanged locked prompt for the same Task; never edit the prompt to bypass a policy/safety block.
+- The initial call is not a retry. After three retry attempts have each failed with a confirmed no-image outcome, terminate that Task, record the retry exhaustion and reason, and do not start it again.
+- Do not retry an unknown outcome. Preserve it as unresolved until evidence resolves it; do not falsely mark it successful or failed.
+- A Task-local failure must not automatically block unrelated Tasks. Stop the whole Batch only for a verified Batch-wide issue that prevents safe Task identification, prompt assignment, or result attribution.
+- Keep generation outcome and GitHub persistence outcome distinct. Recover failed record writes without regenerating an image already received.
+
+Do not automatically launch QA. QA is separate from production. The Batch closes only after every required Task has a valid terminal outcome and the completion record has been written and verified.
+
+## 6. Prohibited cross-module behavior
+
+- Universal and Festival wallpaper share these command names, but not their specialized design data.
+- Festival cultural/costume data must not leak into Universal Wallpaper.
+- Universal-only options must not override Festival rules.
+- LoRA dataset rules, LoRA references, archived legacy LoRA production rules, and LoRA QA must not be imported into either wallpaper module.
+- Historical Session/Batch records are evidence and must not be silently rewritten or migrated.
