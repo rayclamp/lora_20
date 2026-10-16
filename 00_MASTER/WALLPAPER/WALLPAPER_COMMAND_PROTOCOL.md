@@ -114,7 +114,7 @@ Use the manifest and per-Task prompt files required by the current schema. Do no
 
 For each eligible Task:
 1. Read the complete assigned locked prompt from its authoritative file.
-2. If and only if the complete prompt was successfully read, immediately invoke the image-generation interface using the locked prompt as the authoritative specification and intended input. Do not insert content validation, prompt display, extra analysis, prompt transformation, or unrelated operations between the successful read and generation call. Do not deliberately redesign or casually rewrite the locked prompt; however, interface input/transport limits and unavailable hidden-payload telemetry may prevent verification that the tool received every character verbatim. Such inability is not a production gate or failure condition.
+2. If and only if the complete prompt was successfully read, immediately invoke the image-generation interface using the locked prompt as the authoritative specification and intended input. Do not insert content validation, prompt display, extra analysis, deliberate shortening/rewriting, or unrelated operations between the successful read and generation call. The interface may impose input/transport limits or hide the exact payload it receives. Byte-for-byte transport identity is not a production-success requirement; inability to verify it must not block or fail the Task.
 3. Determine only whether an image result was received and record observable facts: actual returned-file count, available result references, Task/attempt attribution, confirmed no-image reason, and GitHub persistence status.
 4. Do not inspect the image, compare it with the prompt, assess prompt compliance, or perform QA.
 
