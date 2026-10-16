@@ -57,6 +57,8 @@ Prioritize:
 
 Backgrounds and important objects must not overlap important hand structures.
 
+During composition, keep rails, branches, flower stems, hair strands, straps, furniture edges, floor seams, patterns, and strong shadows from visually continuing through the palm or splitting finger outlines. Keep palm-to-finger attachment and hand-to-object contact easy to read. If boundaries are unclear, move the hand or object, simplify the local background, or choose a simpler action before generation.
+
 ### 6. Effect clearance around fingers
 
 Do not place unnecessary effects around fingers. Prefer no effects immediately around fingers.
