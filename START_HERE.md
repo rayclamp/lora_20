@@ -105,11 +105,11 @@ The Producer's generation path has only one pre-generation check and one generat
 
 1. Read the assigned Task's authoritative locked prompt from its recorded prompt file.
 2. Confirm only that the complete prompt was successfully read.
-3. Immediately submit that exact, unchanged prompt to the image-generation tool. Do not perform any intervening analysis, validation, display, transformation, extra GitHub operation, or other task.
+3. Immediately invoke the image-generation interface using the locked prompt as the authoritative specification and intended input. Do not perform any intervening analysis, validation, display, transformation, extra GitHub operation, or other task. Do not deliberately redesign or casually rewrite the prompt, but do not require proof that the interface accepted or transported every character verbatim; interface limitations are not a production-success gate.
 4. Determine only whether image generation produced/returned an image result.
 5. Record the observable outcome under Section 7.
 
-The design stage has already validated and locked the prompt. The Producer MUST NOT revalidate prompt correctness, format, semantics, quality, task binding, or visual intent. Do not compare the image with the prompt; that belongs to independent QA.
+The design stage has already validated and locked the prompt. The Producer MUST NOT revalidate prompt correctness, format, semantics, quality, task binding, or visual intent. The locked prompt remains the authoritative specification, but the generation interface may limit input length or hide its exact received payload. Do not require byte-for-byte transport proof or stop solely because exact transport cannot be verified. Do not compare the image with the prompt; that belongs to independent QA.
 
 If the complete prompt was not successfully read, do not guess or reconstruct it; record the read failure and stop that Task. Once the complete prompt is read, proceed directly to the generation call without another gate.
 
@@ -175,7 +175,7 @@ During continuation of an existing Batch, preserve unresolved records without ad
 4. After selecting an eligible Task, read its assigned locked Prompt. The only prompt-related pre-generation check is whether the complete Prompt was successfully read. If so, call the generation tool immediately; do not add content, metadata, format, semantic, or Task-binding validation.
 5. If the complete Prompt cannot be read, record the read failure and stop that Task. Do not guess, reconstruct, or substitute prompt text.
 6. Stop the entire Batch only for a verified Batch-wide issue that makes the Session/Batch or assigned Task impossible to identify safely. Do not use visual QA or optional transport telemetry as a production gate.
-7. Record the actual outcome and preserve unresolved state. A result-recording problem must not trigger another generation call.
+7. Record the actual outcome and preserve unresolved state. A result-recording problem must not trigger another generation call. Exact hidden-payload or byte-for-byte prompt transport is not required to mark a Task successful; confirmed image receipt is the production outcome, while prompt/image compliance belongs to independent QA.
 ## 13. Multi-Worker Continuity Rule
 
 For future multi-Worker production, select the assigned Task from the existing authoritative records before reading its Prompt. The design/lock stage owns Task-to-Prompt mapping and prerequisite validation. Once the complete assigned locked Prompt is successfully read, call the generation tool immediately without additional checks.
