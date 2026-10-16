@@ -81,7 +81,7 @@ This boundary preserves Prompt Integrity, observable Generation Result Recording
 
 For every new Batch, store each Task's complete locked Prompt in its own file at `PROMPTS/<TASK_ID>.md` (for example, `PROMPTS/TASK_001.md`). `PROMPT_SET.md` is a manifest/index only: it maps each `TASK_ID` to its prompt file and records `PROMPT_ID`, `PROMPT_VERSION`, and lock/state metadata, but MUST NOT contain full prompt bodies for new Batches.
 
-Each per-Task prompt file must contain `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and `PROMPT_STATUS=LOCKED`, plus clearly delimited prompt text using `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT`. Only the text inside those delimiters is the generation input. The text inside them must be passed verbatim, without including the file's metadata or delimiters.
+Each per-Task prompt file must contain `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and `PROMPT_STATUS=LOCKED`, plus clearly delimited prompt text using `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT`. Only the text inside those delimiters is the authoritative prompt specification; do not include file metadata or delimiters as prompt content. Use the locked text as the intended generation input through the interface's supported method. Do not deliberately redesign or casually rewrite it, but do not require proof that every character was accepted or transported verbatim when the interface does not expose that capability.
 
 During batch design and locking, create and verify the per-Task prompt files and manifest mapping before production begins. This setup verification belongs to the design/locking stage.
 
@@ -95,18 +95,18 @@ Existing Batches created under the former combined-file layout are historical/le
 
 1. Read the assigned Task's authoritative locked Prompt from its recorded prompt file.
 2. Confirm only that the complete Prompt was successfully read. This is a read-success check, not a review of the Prompt's contents.
-3. Immediately pass the complete Prompt, unchanged and verbatim, to the image-generation tool.
+3. Immediately invoke the image-generation interface using the locked Prompt as the authoritative specification and intended input.
 4. Do not insert any intermediate action, including prompt-content validation, format or semantic checks, repeated Task-binding review, displaying the prompt in chat, payload auditing, prompt rewriting, extra planning, or unrelated GitHub reads/writes.
 5. If the complete Prompt was not successfully read, do not invent or reconstruct it; record the read failure and stop that Task.
-6. Missing hidden transport telemetry is not a pre-generation gate. Do not claim telemetry that the interface does not expose.
+6. Missing hidden transport telemetry, inability to verify byte-for-byte payload identity, or interface limits on prompt input are not pre-generation gates and do not count as generation failures. Do not claim telemetry that the interface does not expose.
 
 The Prompt was validated before it was locked. The Producer MUST NOT revalidate it. The Producer MUST NOT inspect the generated image or compare it with the Prompt; independent QA owns those judgments.
 
-### Exact Prompt Input
+### Locked Prompt as the Authoritative Specification
 
-Use the complete text read from the authoritative locked Prompt as the generation input. Do not shorten, summarize, paraphrase, translate, reorder, rewrite, omit, add to, polish, or otherwise transform it.
+Use the complete text read from the authoritative locked Prompt as the canonical production specification and intended generation input. Do not deliberately redesign, casually rewrite, or replace the locked specification. Invoke the generation interface immediately using its supported input method, without inserting intermediate analysis or unrelated actions.
 
-No additional action may be inserted between successful full-prompt read and the generation call.
+The interface may impose input/transport limits or may not expose the exact payload it receives. Byte-for-byte transport fidelity is not a production-success requirement. Do not block, fail, or retry a Task solely because the interface cannot accept or verify the entire text verbatim in one call. Record only observable generation outcomes; independent QA owns prompt/image compliance.
 ## 4. Generation Call Identity
 
 Record available identifiers for the actual call, such as SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, and GENERATION_CALL_ID. These are record fields, not extra pre-generation validation gates.
@@ -145,7 +145,7 @@ For wallpaper production, one Task equals one independent image. No collage, con
 
 ## 9. Prompt Immutability and Task-Level Retry
 
-After the Prompt is locked, its text must not be changed. The Producer reads the complete locked Prompt and passes that same text unchanged to the image-generation tool.
+After the Prompt is locked, its canonical source text and Task-to-file mapping must not be changed during production. The Producer reads the complete locked Prompt and invokes the generation interface using it as the authoritative specification and intended input. Interface input/transport limitations do not authorize changing the canonical GitHub prompt, but exact byte-for-byte transport is not a success gate.
 
 The Producer must not repeat design-stage validation or insert actions between successful reading and generation. Prompt text and Task-to-file mapping remain immutable. A confirmed no-image failure may be retried for the same Task with the same unchanged Prompt, until three consecutive confirmed no-image generation failures in total for that Task, counting the initial call, under Section 19. Never retry after image receipt or while the outcome is unknown. Any future prompt revision belongs to the formal design stage as a new version.
 ## 10. Stop Conditions
