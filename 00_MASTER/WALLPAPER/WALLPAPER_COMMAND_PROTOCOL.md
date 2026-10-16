@@ -35,7 +35,7 @@ Before design or production, connect to GitHub and read the current applicable c
 - `00_MASTER/MODULE_REGISTRY.md`
 - `00_MASTER/SYSTEM_ARCHITECTURE.md`
 
-CORE rules remain authoritative. Read any further required dependencies referenced by these files. If a required read or GitHub operation fails, stop and report the actual failure; do not use memory, cache, guessed rules, or ordinary text-to-image fallback.
+CORE rules remain authoritative. Read any further required dependencies referenced by these files. If a required read or GitHub operation fails, stop the affected operation and report the actual failure; do not use memory, cache, guessed rules, or ordinary text-to-image fallback. A Task-local read/write/readback failure must not automatically stop or lock unrelated Tasks. Continue only if the next Task's own authoritative records and complete locked Prompt can be read directly from current GitHub data; stop the whole Batch only for a verified Batch-wide access/integrity problem that prevents safe continuation.
 
 ## 3. Module-specific design dependencies
 
