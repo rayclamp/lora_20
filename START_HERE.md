@@ -99,6 +99,8 @@ For `LORA_IMAGE`, each Task's `TASK_OUTPUT_TYPE` must also be recorded in its Ta
 
 Each Task receives one dedicated locked prompt file and one prompt version. Each file must include `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, `PROMPT_STATUS=LOCKED`, and explicit `BEGIN_LOCKED_PROMPT_TEXT` / `END_LOCKED_PROMPT_TEXT` delimiters around the exact prompt body. After locking, neither the prompt text nor its file mapping may be silently altered.
 
+For wallpaper prompt design, **full-body framing is optional, not a universal requirement**. The designer must deliberately choose the shot size for each Task based on its scene and purpose. Do not automatically add “full-length framing,” “show the entire body,” “head and feet fully visible,” “no cropping,” or similar language to every prompt. Require full-body or footwear visibility only when the task specifically benefits from it. If fitting the entire person would compromise the reference-supported body silhouette, natural limb width, stable pose, or plausible camera perspective, prefer a natural crop or closer character-dominant framing. Body-shape preservation outranks full-body coverage, footwear visibility, background coverage, and negative space. Do not change or unlock existing locked prompts; this rule applies to future prompt design.
+
 ## 6. Task Execution
 
 The Producer's generation path has only one pre-generation check and one generation-result check:
