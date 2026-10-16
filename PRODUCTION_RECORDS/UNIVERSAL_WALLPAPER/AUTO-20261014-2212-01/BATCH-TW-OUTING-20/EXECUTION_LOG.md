@@ -123,3 +123,28 @@ BATCH_ID: BATCH-TW-OUTING-20
   RESULT_ID: file_000000006e8c820693f33c09c1784335
   RESULT_PATH: /mnt/data/a_bright_crisp_photorealistic_coastal_scene_a_y.png
   DETAILS: One image was returned by the generation tool in the current turn. The Batch record already showed TASK_004 as SUCCESS before this call; this additional generation is recorded as an observed duplicate execution and does not reopen the completed Task. No visual QA performed.
+
+
+- EVENT_ID: EVT-013
+  TIMESTAMP: 2026-10-17T03:24:00+08:00
+  EVENT_TYPE: GENERATION_STARTED
+  TASK_ID: TASK_005
+  PROMPT_ID: PROMPT-TW-OUTING-005
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_005-001
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  DETAILS: Complete locked prompt read from PROMPTS/TASK_005.md and submitted to the image-generation tool.
+- EVENT_ID: EVT-014
+  TIMESTAMP: 2026-10-17T03:24:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_005
+  PROMPT_ID: PROMPT-TW-OUTING-005
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_005-001
+  ACTUAL_OUTPUT_COUNT: 2
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: CONSUMED
+  DELIVERY_INTEGRITY_STATUS: FILE_PATH_AVAILABLE
+  RESULT_IDS: file_00000000acc48206a1b0ba9391635041; file_000000004e388206bdffc17aaa5cdfa8
+  RESULT_PATHS: /mnt/data/wide_outdoor_nature_scene_in_a_sunlit_forest_trail.png; /mnt/data/photorealistic_outdoor_scene_a_young_adult_east.png
+  DETAILS: Two image files were returned by two generation-tool calls after the same locked prompt was read. No visual QA performed.
