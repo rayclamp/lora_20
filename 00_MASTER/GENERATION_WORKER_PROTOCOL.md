@@ -111,7 +111,7 @@ No additional action may be inserted between successful full-prompt read and the
 
 Record available identifiers for the actual call, such as SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, and GENERATION_CALL_ID. These are record fields, not extra pre-generation validation gates.
 
-A Task may be retried only after a confirmed no-image failure, using the same unchanged locked Prompt. After three failed retry attempts, terminate the Task. Never retry after image receipt or while the outcome is unknown.
+A Task may be retried only after a confirmed no-image failure, using the same unchanged locked Prompt. Terminate the Task after three consecutive confirmed no-image generation failures in total for that Task, counting the initial call, under Section 19. Never retry after image receipt or while the outcome is unknown.
 
 After the call, determine only the observable generation outcome:
 - Image result received: record that an image was received, the actual returned-file count, and available result references.
@@ -130,7 +130,7 @@ The Producer MUST NOT inspect the image, compare it with the Prompt, or make pro
 
 For the generation outcome, success means an image result was actually received. Record that fact immediately and distinctly from the status of GitHub persistence or optional attribution metadata. A successful image receipt does not imply QA PASS.
 
-If no image result was received and the outcome is confirmed, record the reason and apply Section 19: retry the same Task with the unchanged Prompt, up to three failed retry attempts after the initial call.
+If no image result was received and the outcome is confirmed, record the reason and apply Section 19: retry the same Task with the unchanged Prompt, until three consecutive confirmed no-image generation failures in total for that Task, counting the initial call, under Section 19.
 ## 7. Outcome Recording
 
 Do not claim that an image was received when none was received, and do not claim failure when an image was actually received. Keep these facts separate:
@@ -147,7 +147,7 @@ For wallpaper production, one Task equals one independent image. No collage, con
 
 After the Prompt is locked, its text must not be changed. The Producer reads the complete locked Prompt and passes that same text unchanged to the image-generation tool.
 
-The Producer must not repeat design-stage validation or insert actions between successful reading and generation. Prompt text and Task-to-file mapping remain immutable. A confirmed no-image failure may be retried for the same Task with the same unchanged Prompt, up to three failed retry attempts after the initial call. Never retry after image receipt or while the outcome is unknown. Any future prompt revision belongs to the formal design stage as a new version.
+The Producer must not repeat design-stage validation or insert actions between successful reading and generation. Prompt text and Task-to-file mapping remain immutable. A confirmed no-image failure may be retried for the same Task with the same unchanged Prompt, until three consecutive confirmed no-image generation failures in total for that Task, counting the initial call, under Section 19. Never retry after image receipt or while the outcome is unknown. Any future prompt revision belongs to the formal design stage as a new version.
 ## 10. Stop Conditions
 
 If the complete locked Prompt cannot be read, do not generate from a guess or substitute; record the read failure and stop that Task.
