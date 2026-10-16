@@ -299,39 +299,30 @@ Close-up 必須具有明確 VISUAL_FOCUS，而不是單純放大臉部。
 
 ## 14. HAND / ANATOMY STABILITY
 
-必須遵守：
+必須遵守以下共用規範，並以它們作為一般人體與生成穩定性的唯一詳細依據：
+
 - `00_MASTER/DRAWING_INSTRUCTIONS.md`
 - `00_MASTER/ANATOMY_STABILITY.md`
 - `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md`
 
-設計順序：
-1. Stable Hand Action
-2. Fingers / toes / limb-source
-3. Body ergonomics / support
-4. Hand-object / wearable connections
-5. Background / effect clearance
-6. Decorative complexity
+本節只規定 Festival 設計時如何應用共用規範，不重複維護一般手部、腿部、腳趾或肢體解剖條文。若細節需要判斷，以 `ANATOMY_STABILITY.md` 為共用人體穩定性權威。
 
-手部規則：
-- 一手一個主要任務。
-- 優先簡單、寬接觸面握持。
-- 避免雙手交錯。
-- 避免雙手重疊放在同一膝蓋或大腿。
-- 避免手指交錯。
-- 避免不必要的小物件指尖捏取。
-- 避免手靠近畫面邊緣。
-- 避免特效穿過手指。
-- 至少一隻可見手應具有清楚結構。
+Festival 設計階段必須：
 
-腿部：
-- 避免交叉、纏繞、扭轉。
-- 清楚建立 hip → thigh → knee → shin → ankle → foot。
-- 不得刻意拉長腿部。
+1. 先選擇與節慶活動、服裝及道具相容、且人體動作容易讀懂的主要 Action。
+2. 為每隻手指定清楚的主要任務；若使用節慶道具，先確定道具結構，再安排自然、可理解的手部接觸。
+3. 規劃腿部姿勢與遮擋關係，確保姿勢自然且輪廓清楚；不要只為了系列多樣性加入難以辨識的交叉或扭轉姿勢。
+4. 讓手、腳與重要肢體輪廓和背景、道具、服裝邊緣及裝飾效果保持足夠分離。
+5. 當服裝、傳統道具、活動動作或場景使肢體結構難以辨識時，先簡化動作、道具互動或局部背景，再加入裝飾細節。
 
-重要：
-> Slim ≠ Long Legs
->
-> Elegant ≠ Model Proportions
+節慶專用限制：
+
+- 手部動作必須符合該節慶的文化情境、實際活動與道具用途。
+- 不得為了展示傳統道具而安排不自然或難以辨識的手部接觸。
+- 不得讓節慶服裝、袖口、飄帶、飾物或道具遮擋到使關鍵肢體連接關係變得含糊。
+- `Slim ≠ Long Legs`；`Elegant ≠ Model Proportions`。不得以節慶服裝的修長視覺效果為理由，刻意拉長或扭曲人體比例。
+
+本文件不執行生圖後的圖片品管，也不要求 Producer 在生圖後自行判定、拒收、修補或重生；圖片驗收仍由獨立 QA 流程負責。
 
 ## 15. WEARABLES / PROPS
 
