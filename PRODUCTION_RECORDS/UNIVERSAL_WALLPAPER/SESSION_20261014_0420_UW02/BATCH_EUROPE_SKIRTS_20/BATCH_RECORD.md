@@ -5,8 +5,8 @@ BATCH_STATUS: IN_PROGRESS
 MODULE: UNIVERSAL_WALLPAPER
 PLANNED_TASK_COUNT: 20
 COMPLETED_COUNT: 3
-ACTUAL_IMAGE_COUNT: 5
-RESULT_RECORDED_COUNT: 2
+ACTUAL_IMAGE_COUNT: 6
+RESULT_RECORDED_COUNT: 3
 PROMPT_LOCK_STATUS: LOCKED
 REFERENCE_AUTHORITY_STATUS: EXPLICIT_TASK_REFERENCE
 
@@ -47,3 +47,9 @@ BATCH_STATUS: IN_PROGRESS
 CURRENT_TASK: TASK_006
 NEXT_TASK: TASK_006
 CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Their authoritative locked prompt files exist and were successfully read; the complete locked prompt boundaries and TASK_ID metadata are present. Continue from TASK_006 by reading each assigned prompt and immediately calling the generation tool with the unchanged text inside its locked-prompt delimiters. Missing hidden prompt-transport telemetry alone is not a blocking condition. TASK_004 and TASK_005 retain their historical nonconforming-attempt records and are not rewritten by this recovery; their image receipts remain included in ACTUAL_IMAGE_COUNT and in RESULT_RECORDED_COUNT because they are not credited as successful execution of their locked prompts. No prior image receipt or locked prompt text was changed.
+
+
+## Execution-integrity amendment — TASK_006 — 2026-10-16
+- One image was received for the attempted TASK_006 run; ACTUAL_IMAGE_COUNT increases to 6.
+- The generation call used a paraphrased description rather than the complete locked prompt verbatim. TASK_006 is not credited as successful execution of PROMPT_006; RESULT_RECORDED_COUNT increases to 3.
+- TASK_006's locked prompt remains unchanged and unconsumed. Do not repeat the known call or relabel it as successful locked-prompt execution.
