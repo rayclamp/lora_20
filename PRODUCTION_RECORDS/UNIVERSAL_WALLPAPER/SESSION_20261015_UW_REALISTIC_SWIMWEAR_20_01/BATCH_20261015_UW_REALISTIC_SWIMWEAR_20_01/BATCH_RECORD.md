@@ -6,14 +6,14 @@ PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 1
-RESULT_RECORDED_COUNT: 1
-ACTUAL_IMAGE_COUNT: 1
+RESULT_RECORDED_COUNT: 2
+ACTUAL_IMAGE_COUNT: 2
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 1
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 18
-ATTEMPT_COUNT: 2
+PENDING_COUNT: 17
+ATTEMPT_COUNT: 3
 CURRENT_TASK: TASK_03
 NEXT_TASK: TASK_03
-CHECKPOINT: TASK_01 prompt read from its locked file. Image-generation tool returned an explicit safety block and no image; TASK_01 marked GENERATION_FAILED/SAFETY_BLOCKED and not retried to avoid bypassing the block. TASK_02 returned one image and is recorded complete; exact locked-prompt payload delivery is not verified because generation metadata had an empty prompt field. TASK_03 is next; batch is not complete.
+CHECKPOINT: TASK_01 is terminal GENERATION_FAILED/SAFETY_BLOCKED with no image; no retry. TASK_02 returned one image; exact locked-prompt payload delivery remains unverified because generation metadata had an empty prompt field. TASK_03 returned one image (file reference file_000000004e648206bd152ad1cd8be17b; generation call cb238d18-7113-47bf-9c2f-c6f1fd8d9ef1); metadata prompt field was empty, so exact locked-prompt payload delivery is unverified. TASK_03 result recorded; no visual QA and no retry. TASK_04 is next; batch remains IN_PROGRESS.
