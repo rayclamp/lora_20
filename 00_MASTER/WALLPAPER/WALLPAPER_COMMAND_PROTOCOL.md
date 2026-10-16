@@ -124,9 +124,9 @@ The production command does not contain or supply a reference image and does not
 
 - Any confirmed image receipt completes that Task for production, counts as exactly one completed Task, and must be recorded even if a later GitHub write fails. Record the actual number of returned image files separately. Do not retry a Task after image receipt.
 - Retry only a confirmed no-image failure. Reuse the same unchanged locked prompt for the same Task; never edit the prompt to bypass a policy/safety block.
-- The initial call is not a retry. After three retry attempts have each failed with a confirmed no-image outcome, terminate that Task, record the retry exhaustion and reason, and do not start it again.
+- Count the initial generation call as the first attempt. After three consecutive confirmed no-image generation failures in total for the same Task, terminate that Task, record the failure-limit exhaustion and reason, and do not start it again. Do not interpret the limit as three separate Tasks failing, and do not count GitHub read/write/readback, prompt-file access, metadata, or task-status errors as generation failures.
 - Do not retry an unknown outcome. Preserve it as unresolved until evidence resolves it; do not falsely mark it successful or failed.
-- A Task-local failure must not automatically block unrelated Tasks. Stop the whole Batch only for a verified Batch-wide issue that prevents safe Task identification, prompt assignment, or result attribution.
+- A Task-local failure must not automatically block unrelated Tasks. Non-generation errors must be recorded as operation/Task-local errors and must not lock the next independent Task. Continue when that next Task's own authoritative prompt and required inputs are readable. Stop the whole Batch only for a verified Batch-wide issue that prevents safe Task identification, prompt assignment, or result attribution.
 - Keep generation outcome and GitHub persistence outcome distinct. Recover failed record writes without regenerating an image already received.
 
 Do not automatically launch QA. QA is separate from production. The Batch closes only after every required Task has a valid terminal outcome and the completion record has been written and verified.
