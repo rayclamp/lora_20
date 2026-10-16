@@ -80,3 +80,25 @@ BATCH_ID: BATCH_STREET_20_001
 - TASK_STATUS: SUCCESS (pending this event's read-back confirmation)
 - VISUAL_QA: NOT_PERFORMED
 - NOTE: Record the generation input deviation transparently; do not alter the locked prompt and do not regenerate because an image was received.
+
+
+## Generation Attempt — TASK_004
+- TASK_ID: TASK_004
+- PROMPT_ID: PROMPT_004_V1
+- PROMPT_VERSION: V1
+- ATTEMPT_ID: ATTEMPT_TASK_004_001
+- GENERATION_ATTEMPT_COUNT: 1
+- RETRY_ATTEMPT_COUNT: 0
+- RETRY_FAILURE_COUNT: 0
+- GENERATION_CALL_ID: 9db241be-493f-47a1-b746-711c5e2dc02d
+- FULL_PROMPT_READ_STATUS: CONFIRMED (complete authoritative TASK_004 prompt was read before the call)
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION (the actual generation call did not receive the complete locked prompt verbatim)
+- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: /mnt/data/a_bright_sunlit_street_scene_photograph_in_a_narr.png
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- TASK_STATUS: SUCCESS (recording pending read-back confirmation)
+- VISUAL_QA: NOT_PERFORMED
+- NOTE: Record the observed result without visual assessment; do not regenerate because an image was received.
