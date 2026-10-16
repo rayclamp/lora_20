@@ -336,6 +336,19 @@ Correct anatomy and broadly natural proportions do not guarantee that the refere
 Apply 00_MASTER/ANATOMY_STABILITY.md as the authoritative shared standard.
 
 
+## 20A. Framing must not override body-shape preservation
+
+During prompt design, do not treat full-body framing as a default requirement. Choose close-up, bust/half-body, medium, three-quarter, or full-body framing according to the specific task. A wallpaper does not need to show the entire person in every image.
+
+Only require head-to-toe visibility or visible footwear when that is a meaningful task-specific goal. Do not automatically append “full-length,” “no cropping,” “head and feet fully visible,” or equivalent wording to every prompt. If a full-body composition would force the person to be made unusually small, pushed into an awkward pose, or distorted to fit the frame, choose a natural crop or a more character-dominant composition instead.
+
+Preserve the reference-supported silhouette and relative width of thighs, calves, knees, ankles, hips, and torso before optimizing framing, negative space, background visibility, or outfit completeness. Use plausible camera distance and lens perspective; do not compensate for a difficult frame by widening limbs, stretching the body, or exaggerating perspective. Do not invent numeric body-width guarantees that the generation interface cannot reliably enforce.
+
+The prompt designer must make a deliberate shot-size choice for each Task and must not blindly inherit a universal full-body template. Framing diversity is encouraged when natural for the scene, but no shot type or crop is mandatory for every image.
+
+This is a prompt-design rule, not a post-generation QA instruction. Existing locked prompts and historical production records remain unchanged.
+
+
 ## 21. Small accessory and tiny-detail restriction
 
 Unless the user explicitly requests otherwise, do not add tiny accessories or decorative objects that cannot be rendered with clear shape, material, and structure at the intended image scale.
