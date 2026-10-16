@@ -114,7 +114,7 @@ Use the manifest and per-Task prompt files required by the current schema. Do no
 
 For each eligible Task:
 1. Read the complete assigned locked prompt from its authoritative file.
-2. If and only if the complete prompt was successfully read, immediately submit that exact, unchanged prompt to the image-generation tool. Do not insert content validation, prompt display, extra analysis, prompt transformation, or unrelated operations between the successful read and generation call.
+2. If and only if the complete prompt was successfully read, immediately invoke the image-generation interface using the locked prompt as the authoritative specification and intended input. Do not insert content validation, prompt display, extra analysis, prompt transformation, or unrelated operations between the successful read and generation call. Do not deliberately redesign or casually rewrite the locked prompt; however, interface input/transport limits and unavailable hidden-payload telemetry may prevent verification that the tool received every character verbatim. Such inability is not a production gate or failure condition.
 3. Determine only whether an image result was received and record observable facts: actual returned-file count, available result references, Task/attempt attribution, confirmed no-image reason, and GitHub persistence status.
 4. Do not inspect the image, compare it with the prompt, assess prompt compliance, or perform QA.
 
@@ -123,7 +123,7 @@ The production command does not contain or supply a reference image and does not
 ### Retry and task completion
 
 - Any confirmed image receipt completes that Task for production, counts as exactly one completed Task, and must be recorded even if a later GitHub write fails. Record the actual number of returned image files separately. Do not retry a Task after image receipt.
-- Retry only a confirmed no-image failure. Reuse the same unchanged locked prompt for the same Task; never edit the prompt to bypass a policy/safety block.
+- Retry only a confirmed no-image failure. Reuse the same locked prompt specification for the same Task; do not redesign it to bypass a policy/safety block. Transport fidelity is not a success gate.
 - Count the initial generation call as the first attempt. After three consecutive confirmed no-image generation failures in total for the same Task, terminate that Task, record the failure-limit exhaustion and reason, and do not start it again. Do not interpret the limit as three separate Tasks failing, and do not count GitHub read/write/readback, prompt-file access, metadata, or task-status errors as generation failures.
 - Do not retry an unknown outcome. Preserve it as unresolved until evidence resolves it; do not falsely mark it successful or failed.
 - A Task-local failure must not automatically block unrelated Tasks. Non-generation errors must be recorded as operation/Task-local errors and must not lock the next independent Task. Continue when that next Task's own authoritative prompt and required inputs are readable. Stop the whole Batch only for a verified Batch-wide issue that prevents safe Task identification, prompt assignment, or result attribution.
