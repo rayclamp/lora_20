@@ -148,7 +148,7 @@ Automated production records must preserve durable state before the workflow adv
 
 When current GitHub data is required, connection/read verification must occur at that stage. When durable state is produced, it must be written and read back for verification.
 
-If the required GitHub record cannot be written or verified, the Producer must stop and must not continue from memory, cache, stale context, or guessed state. If the failure cannot itself be persisted, report GITHUB_RECORDING_FAILED.
+If a required GitHub record cannot be written or verified, stop the affected write/readback operation and do not continue that operation from memory, cache, stale context, or guessed state. This does NOT automatically stop or lock the entire Batch: continue to an independent Task only when its own authoritative records and complete locked Prompt can be read directly from current GitHub data and safe Task/result attribution remains intact. Keep the failed record operation unresolved and recover it separately; do not count it as a generation failure. Pause the whole Batch only when a verified Batch-wide access/integrity problem prevents reading or safely identifying the remaining Tasks. If the failure cannot itself be persisted, report GITHUB_RECORDING_FAILED.
 
 
 ## 14. Resume Recovery Scope and Task-Local Blocking
