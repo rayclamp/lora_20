@@ -144,7 +144,7 @@ After a generation attempt, record the observed result and interruption class. A
 
 ## 13. Persistence Requirement
 
-Automated production records must preserve durable state before the workflow advances to the next production stage.
+Automated production records must preserve durable state before declaring a Task's recorded outcome or the Batch complete. A Task-local record-write/readback failure must be isolated to that operation and does not by itself block an independent next Task when its authoritative inputs remain directly readable from GitHub; apply Section 19.6. Never use memory, cache, stale context, or guessed state as a substitute for required current GitHub data.
 
 When current GitHub data is required, connection/read verification must occur at that stage. When durable state is produced, it must be written and read back for verification.
 
