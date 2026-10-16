@@ -390,6 +390,20 @@ Use deliberate variation: CLOSE-UP, BUST / HALF-BODY, MEDIUM SHOT, CHARACTER-DOM
 FULL-BODY ≠ DISTANT SHOT.
 Character-dominant framing is allowed and encouraged when facial identity, clothing, or physical detail is important.
 
+### 11A. Framing is optional; body-shape preservation is not
+
+Do not make full-body framing, visible head-to-toe coverage, visible footwear, or uncropped limbs a default requirement for every wallpaper. Select the shot size that best serves the specific scene and visual purpose; close-up, bust/half-body, medium shot, three-quarter framing, and full-body framing are all valid options.
+
+Use full-body framing only when it materially serves the task (for example, when the complete outfit or footwear is a central visual feature). Even then, do not force the entire person into the frame at the expense of the reference person's body shape, natural proportions, pose stability, or camera perspective. If the composition cannot comfortably accommodate the full body, prefer a natural crop or a closer character-dominant composition rather than compressing, widening, stretching, or distorting the person to fit.
+
+Do not automatically add phrases such as “full-length framing,” “show the entire body,” “head and feet fully visible,” “no cropping,” or “comfortable space around the whole subject.” Include such constraints only when they are specifically justified by the task, not as a universal wallpaper template.
+
+For realistic prompts, body silhouette and natural anatomy take priority over shot size, footwear visibility, environment coverage, and negative space. Keep camera distance and lens perspective plausible; avoid forcing an unusually distant or wide-angle view merely to fit the whole person into the frame. Do not describe an arbitrary numeric body-width guarantee that the image interface cannot reliably enforce.
+
+During prompt design, explicitly choose the intended shot size for each Task rather than inheriting full-body framing from a default template. Across a batch, vary framing where it suits the scenes; do not impose quotas or force a crop that makes the scene or outfit unreadable.
+
+This rule applies to future prompt design only. It does not authorize changing or unlocking existing locked prompts or historical production records.
+
 ## 12. Pet rule
 The current user PET_ALLOWED parameter controls intentional pet/animal inclusion unless a stricter applicable wallpaper rule says otherwise.
 
