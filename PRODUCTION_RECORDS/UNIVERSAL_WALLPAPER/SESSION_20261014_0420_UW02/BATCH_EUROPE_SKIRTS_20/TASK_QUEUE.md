@@ -52,3 +52,11 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - PROMPT_STATE: CONSUMED
 - GENERATION_CALL_ID: d0ab3b8b-9be1-4ab1-b1b3-ff617f010479
 - 
+
+
+## Execution-integrity amendment — TASK_004 / TASK_005
+- Both attempted runs returned one image each.
+- Both runs used paraphrased descriptions, not the complete locked prompt text.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION.
+- LOCKED_PROMPT_CONSUMED: NO.
+- Do not mark TASK_004 or TASK_005 SUCCESS for the locked prompt. Keep the locked tasks unresolved; do not repeat the known calls. See EXECUTION_LOG.md for observed output references and generation IDs.
