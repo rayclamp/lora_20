@@ -70,3 +70,13 @@ No generation call has been initiated at record-creation time. Append only obser
 - PROMPT_CONSUMED: NO (locked prompt not consumed by these calls).
 - TASK ATTRIBUTION: These outputs are recorded as nonconforming attempts, not as successful execution of the locked TASK_004/TASK_005 prompts.
 - STOP_REASON: Producer failed to submit the exact locked prompt text. Stop further generation; do not retry these calls as the output receipts are already known.
+
+
+## RECOVERY CORRECTION — 2026-10-16
+- Scope: restore TASK_006-TASK_020 to normal production eligibility in the existing Session/Batch.
+- Verified all authoritative prompt files PROMPTS/TASK_006.md through PROMPTS/TASK_020.md are readable and contain matching TASK_ID metadata, PROMPT_STATUS=LOCKED, BEGIN_LOCKED_PROMPT_TEXT, and END_LOCKED_PROMPT_TEXT.
+- The earlier Batch-wide STOPPED decision treated inability to verify hidden prompt-transport telemetry as a hard gate. Under the current GENERATION_WORKER_PROTOCOL.md and PRODUCTION_RECORD_SCHEMA.md, unavailable optional transport telemetry alone does not prohibit generation when the complete locked prompt is readable.
+- TASK_006-TASK_020 are now PENDING in TASK_QUEUE.md; their prompt text and lock metadata remain unchanged. Resume at TASK_006, and for each Task read the complete locked prompt and immediately submit the unchanged text inside its delimiters to the generation tool.
+- TASK_004/TASK_005 historical nonconforming attempts and their image receipts are preserved; this correction does not relabel them as successful locked-prompt executions and does not require them to block TASK_006 onward.
+- Corrected Batch accounting: 3 successful Task outputs (TASK_001-TASK_003), 5 actual image files received overall, and 2 result records retained separately for the nonconforming TASK_004/TASK_005 attempts.
+- No image-generation call was made during this record correction.
