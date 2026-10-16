@@ -9,7 +9,7 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 | TASK_003 | PROMPT_003 | v1 | SUCCESS | 1 |
 | TASK_004 | PROMPT_004 | v1 | LOCKED | 1 |
 | TASK_005 | PROMPT_005 | v1 | LOCKED | 1 |
-| TASK_006 | PROMPT_006 | v1 | PENDING | 1 |
+| TASK_006 | PROMPT_006 | v1 | LOCKED | 1 |
 | TASK_007 | PROMPT_007 | v1 | PENDING | 1 |
 | TASK_008 | PROMPT_008 | v1 | PENDING | 1 |
 | TASK_009 | PROMPT_009 | v1 | PENDING | 1 |
@@ -60,3 +60,9 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - GENERATION_INPUT_MODE: KNOWN_DEVIATION.
 - LOCKED_PROMPT_CONSUMED: NO.
 - Do not mark TASK_004 or TASK_005 SUCCESS for the locked prompt. Keep the locked tasks unresolved; do not repeat the known calls. See EXECUTION_LOG.md for observed output references and generation IDs.
+
+
+## Execution-integrity amendment — TASK_006
+- One image was received during an attempted run, but the call used a paraphrased description rather than the complete locked prompt verbatim.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION; LOCKED_PROMPT_CONSUMED: NO.
+- Do not mark TASK_006 SUCCESS for the locked prompt. The image receipt is recorded in EXECUTION_LOG.md; do not repeat the known call.
