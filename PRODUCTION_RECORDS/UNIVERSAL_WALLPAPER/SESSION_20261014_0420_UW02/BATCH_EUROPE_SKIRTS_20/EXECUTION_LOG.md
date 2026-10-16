@@ -60,3 +60,13 @@ No generation call has been initiated at record-creation time. Append only obser
 - TASK_004–TASK_020: not generated; BLOCKED.
 - STOP_REASON: exact verbatim locked-prompt submission cannot be established with the available image-generation interface.
 - No retry or extra generation call was made for any consumed Prompt.
+
+
+## EXECUTION INTEGRITY INCIDENT — TASK_004 / TASK_005
+- OBSERVED: Two image-generation calls returned one image each, associated with the attempted TASK_004 and TASK_005 runs.
+- TASK_004 CALL RESULT: image received; runtime path /mnt/data/a_wide_bright_travel_photo_style_scene_in_a_europ.png; generation ID 7e2fab68-9327-47ad-955e-908a9d7a5384.
+- TASK_005 CALL RESULT: image received; runtime path /mnt/data/a_wide_softly_lit_photorealistic_indoor_scene_in.png; generation ID 21b69e5b-e2b7-450a-8844-595e318f27d2.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION — the calls used paraphrased descriptions rather than the exact locked prompt text. The locked prompts were not submitted verbatim.
+- PROMPT_CONSUMED: NO (locked prompt not consumed by these calls).
+- TASK ATTRIBUTION: These outputs are recorded as nonconforming attempts, not as successful execution of the locked TASK_004/TASK_005 prompts.
+- STOP_REASON: Producer failed to submit the exact locked prompt text. Stop further generation; do not retry these calls as the output receipts are already known.
