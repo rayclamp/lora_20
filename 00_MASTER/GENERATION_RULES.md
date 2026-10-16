@@ -20,7 +20,7 @@
 18. The Producer MUST NOT revalidate the locked Prompt's content, format, semantics, correctness, quality, or task binding. If the complete Prompt was not successfully read, do not guess or reconstruct it; record the read failure and stop that Task.
 19. The Producer's only generation-result judgment is whether an image result was actually received. Record the observed outcome, actual returned-file count, and confirmed no-image reason when available.
 20. Do not inspect the image or compare it with the Prompt. QA owns visual quality and prompt compliance.
-21. Retry only a confirmed no-image failure, using the same unchanged locked Prompt for the same Task. The initial call is not a retry; after three failed retry attempts, terminate that Task. Never retry after image receipt or while the outcome is unknown.
+21. Retry only a confirmed no-image generation failure, using the same unchanged locked Prompt for the same Task. Stop that Task after three consecutive confirmed no-image generation failures in total, counting the initial call. GitHub read/write/readback failures, prompt-file access failures, metadata/status errors, and other non-generation errors do not count toward this limit or lock the next independent Task. Never retry after image receipt or while the outcome is unknown.
 22. Keep generation outcome separate from GitHub persistence outcome. A confirmed image receipt must remain recorded as received even if writing the record fails; record persistence failure separately and do not trigger another generation call.
 
 Detailed execution requirements are defined in 00_MASTER/GENERATION_WORKER_PROTOCOL.md.
