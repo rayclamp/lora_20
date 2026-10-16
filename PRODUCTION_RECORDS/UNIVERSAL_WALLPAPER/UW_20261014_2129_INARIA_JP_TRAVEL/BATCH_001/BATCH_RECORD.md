@@ -17,4 +17,4 @@ PENDING_COUNT: 17
 ATTEMPT_COUNT: 3
 CURRENT_TASK: TASK_003 (result recorded)
 NEXT_TASK: TASK_004
-CHECKPOINT: TASK_001-TASK_003 each returned one image and results are recorded; exact locked-prompt transmission is unverified because generation tool metadata prompt field was empty; pause before TASK_004
+CHECKPOINT: TASK_001-TASK_003 each returned one image and results are recorded. Exact locked-prompt transmission metadata is UNVERIFIED because the generation tool metadata prompt field was empty; per current GENERATION_WORKER_PROTOCOL.md and PRODUCTION_RECORD_SCHEMA.md, missing optional payload telemetry alone does not block generation. TASK_004 prompt was read successfully from its authoritative locked file and remains PENDING/AVAILABLE. RESUMED: proceed with TASK_004 using the complete unchanged locked prompt; do not add intermediate validation or change prior image records.
