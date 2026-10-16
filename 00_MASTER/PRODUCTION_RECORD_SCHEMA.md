@@ -236,13 +236,13 @@ This section is the current authoritative policy for new production and resume r
 - Retry only a known failed attempt for which no image was received. Do not retry a result-bearing Task.
 - The initial attempt is not a retry. After an initial confirmed no-image failure, retry the same Task using the same complete authoritative locked Prompt text. Do not edit the locked prompt or its Task mapping.
 - Every attempt must have a distinct ATTEMPT_ID and GENERATION_CALL_ID where available, plus a timestamp, outcome, interruption/error class, image receipt state, and retry ordinal.
-- Count retry failures separately from the initial attempt. After three retry attempts have each failed with a confirmed no-image outcome, mark the Task terminal (GENERATION_FAILED or another applicable specific terminal state), record retry exhaustion and the reason, and never start that Task again.
+- Count all confirmed no-image generation failures for the same Task, including the initial call. After three consecutive confirmed no-image generation failures in total, mark the Task terminal (GENERATION_FAILED or another applicable specific terminal state), record failure-limit exhaustion and the reason, and never start that Task again. Keep `GENERATION_ATTEMPT_COUNT` and `RETRY_ATTEMPT_COUNT` distinct; the stop threshold is three failed generation attempts total, not three failed Tasks and not three additional retries after the initial call.
 - If a retry produces one or more images, the Task is SUCCESS; no further retry is allowed.
 
 ### 19.3 Unknown outcomes and safety/policy blocks
 - If an attempt's outcome is unknown, preserve PROMPT_CONSUMED=UNKNOWN and the applicable recovery state. Do not retry while the outcome remains unknown.
-- Record policy/safety blocks and service/runtime/quota/rate-limit failures accurately. Retry must not be used to evade policy or safety restrictions. A permitted retry that fails with a confirmed no-image outcome counts toward the three failed retries.
-- A Task reaching retry exhaustion is Task-local. Continue unrelated Tasks if they are independently executable and do not rely on the unresolved Task.
+- Record policy/safety blocks and service/runtime/quota/rate-limit failures accurately. Retry must not be used to evade policy or safety restrictions. A confirmed no-image outcome from an actual generation attempt counts toward the three-failure limit for that same Task. GitHub read/write/readback failures, prompt-file read failures, metadata/status errors, and other non-generation errors do not count as generation failures and do not increment the generation-failure counter.
+- A Task reaching the three-generation-failure limit is Task-local. Continue unrelated Tasks if their own authoritative prompts and required inputs are readable. A non-generation error must remain scoped to the affected Task/operation and must not by itself lock or prevent the next independent Task.
 
 ### 19.4 Prompt-state interpretation under retries
 For new records, distinguish Task-level retry eligibility from prompt immutability:
@@ -257,13 +257,14 @@ For each Task, persist at least:
 - GENERATION_ATTEMPT_COUNT (all calls, including the initial attempt);
 - RETRY_ATTEMPT_COUNT (retry calls only);
 - RETRY_FAILURE_COUNT (retry attempts with confirmed no-image failures);
+- CONFIRMED_NO_IMAGE_FAILURE_COUNT (consecutive confirmed no-image outcomes from actual generation attempts for this Task, including the initial call; terminate after this reaches 3; non-generation errors do not increment it);
 - LAST_ATTEMPT_ID and LAST_GENERATION_CALL_ID where available;
 - PROMPT_CONSUMED, PROMPT_STATE, PROMPT_TERMINATION_REASON;
 - TASK_STATUS, GENERATION_STATUS, ACTUAL_OUTPUT_COUNT, and the current error/interruption class.
 
-For each attempt, append a separate GENERATION_STARTED and terminal result event as applicable. Use a retry-specific event such as RETRY_STARTED when a retry begins, and record RETRY_FAILED for a confirmed no-image retry failure. A confirmed image receipt must be recorded as IMAGE_RESULT_RECEIVED / GENERATION_SUCCESS and must never be followed by another attempt for that Task. When RETRY_FAILURE_COUNT=3, record RETRY_LIMIT_REACHED and the Task's terminal state. Do not overwrite previous attempt events.
+For each attempt, append a separate GENERATION_STARTED and terminal result event as applicable. Use a retry-specific event such as RETRY_STARTED when a retry begins, and record RETRY_FAILED for a confirmed no-image retry failure. A confirmed image receipt must be recorded as IMAGE_RESULT_RECEIVED / GENERATION_SUCCESS and must never be followed by another attempt for that Task. When CONFIRMED_NO_IMAGE_FAILURE_COUNT=3, record RETRY_LIMIT_REACHED and the Task's terminal state. Do not overwrite previous attempt events.
 
-### 19.6 Persistence failures
-Keep generation outcome separate from GitHub persistence state. A confirmed image receipt remains a fact even if its record write/readback fails. Recover the persistence record without regenerating. Do not advance to another Task until required durable state is recovered if the current workflow requires persistence before advancing; however, do not relabel a received image as no-image and do not repeat its generation call.
+### 19.6 Persistence and other non-generation failures
+Keep generation outcome separate from GitHub persistence state. A confirmed image receipt remains a fact even if its record write/readback fails. Recover the persistence record without regenerating. A Task-local persistence or status-write failure must not be counted as a generation failure or automatically lock the next Task. Continue with an independent next Task when its authoritative prompt and required inputs can still be read and the Batch's identity/prompt mapping remain trustworthy; preserve the failed write as unresolved and recover the record separately. Pause the Batch only when a verified Batch-wide GitHub/access/integrity failure prevents reading the next Task's authoritative inputs or makes safe Task/result attribution impossible. Never relabel a received image as no-image or repeat its generation call.
 
 This policy applies prospectively. Preserve historical records and do not rewrite old Batch execution evidence.
