@@ -1,12 +1,12 @@
 # Batch Record
 SESSION_ID: SESSION_20261014_0420_UW02
 BATCH_ID: BATCH_EUROPE_SKIRTS_20
-BATCH_STATUS: STOPPED
+BATCH_STATUS: IN_PROGRESS
 MODULE: UNIVERSAL_WALLPAPER
 PLANNED_TASK_COUNT: 20
 COMPLETED_COUNT: 3
-ACTUAL_IMAGE_COUNT: 3
-RESULT_RECORDED_COUNT: 0
+ACTUAL_IMAGE_COUNT: 5
+RESULT_RECORDED_COUNT: 2
 PROMPT_LOCK_STATUS: LOCKED
 REFERENCE_AUTHORITY_STATUS: EXPLICIT_TASK_REFERENCE
 
@@ -40,3 +40,10 @@ STOP_REASON: The image-generation interface did not expose a way to submit the e
 ## Additional execution-integrity incident
 BATCH_STATUS: STOPPED
 Two additional image-generation calls returned one image each during attempted TASK_004 and TASK_005 runs, but both calls used paraphrased descriptions rather than the exact locked prompts. They are known outputs with KNOWN_DEVIATION and are not counted as successful execution of the locked prompts. Their actual image receipts are recorded in EXECUTION_LOG.md. Do not continue generation from this state until the verbatim-prompt execution path can be followed.
+
+
+## Recovery correction — 2026-10-16
+BATCH_STATUS: IN_PROGRESS
+CURRENT_TASK: TASK_006
+NEXT_TASK: TASK_006
+CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Their authoritative locked prompt files exist and were successfully read; the complete locked prompt boundaries and TASK_ID metadata are present. Continue from TASK_006 by reading each assigned prompt and immediately calling the generation tool with the unchanged text inside its locked-prompt delimiters. Missing hidden prompt-transport telemetry alone is not a blocking condition. TASK_004 and TASK_005 retain their historical nonconforming-attempt records and are not rewritten by this recovery; their image receipts remain included in ACTUAL_IMAGE_COUNT and in RESULT_RECORDED_COUNT because they are not credited as successful execution of their locked prompts. No prior image receipt or locked prompt text was changed.
