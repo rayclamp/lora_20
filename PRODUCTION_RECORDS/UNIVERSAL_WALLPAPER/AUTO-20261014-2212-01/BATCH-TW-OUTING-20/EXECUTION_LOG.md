@@ -107,3 +107,19 @@ BATCH_ID: BATCH-TW-OUTING-20
   RESULT_ID: file_00000000efd88206b44493257de928bb
   RESULT_PATH: /mnt/data/a_crisp_sunlit_coastal_scene_in_a_wide_cinematic.png
   DETAILS: One image file was returned by the image-generation tool. No visual QA performed.
+
+
+- EVENT_ID: EVT-012
+  TIMESTAMP: 2026-10-17T03:23:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_004
+  PROMPT_ID: PROMPT-TW-OUTING-004
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_004-002
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: CONSUMED
+  DELIVERY_INTEGRITY_STATUS: FILE_PATH_AVAILABLE
+  RESULT_ID: file_000000006e8c820693f33c09c1784335
+  RESULT_PATH: /mnt/data/a_bright_crisp_photorealistic_coastal_scene_a_y.png
+  DETAILS: One image was returned by the generation tool in the current turn. The Batch record already showed TASK_004 as SUCCESS before this call; this additional generation is recorded as an observed duplicate execution and does not reopen the completed Task. No visual QA performed.
