@@ -4,16 +4,16 @@ BATCH_ID: BATCH_20261015_UW_REALISTIC_SWIMWEAR_20_01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
-BATCH_STATUS: DESIGNING
+BATCH_STATUS: IN_PROGRESS
 COMPLETED_COUNT: 0
 RESULT_RECORDED_COUNT: 0
 ACTUAL_IMAGE_COUNT: 0
 UNVERIFIED_COUNT: 0
-FAILED_COUNT: 0
+FAILED_COUNT: 1
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 20
-ATTEMPT_COUNT: 0
-CURRENT_TASK: TASK_01
-NEXT_TASK: TASK_01
-CHECKPOINT: Initialization complete; all 20 prompt files persisted and read-back confirmed; generation not started; awaiting user-issued /RESUME_AUTO.
+PENDING_COUNT: 19
+ATTEMPT_COUNT: 1
+CURRENT_TASK: TASK_02
+NEXT_TASK: TASK_02
+CHECKPOINT: TASK_01 prompt read from its locked file. Image-generation tool returned an explicit safety block and no image; TASK_01 marked GENERATION_FAILED/SAFETY_BLOCKED and not retried to avoid bypassing the block. TASK_02 remains next; batch is not complete.
