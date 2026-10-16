@@ -102,3 +102,25 @@ BATCH_ID: BATCH_STREET_20_001
 - TASK_STATUS: SUCCESS (recording pending read-back confirmation)
 - VISUAL_QA: NOT_PERFORMED
 - NOTE: Record the observed result without visual assessment; do not regenerate because an image was received.
+
+
+## Generation Attempt — TASK_005
+- TASK_ID: TASK_005
+- PROMPT_ID: PROMPT_005_V1
+- PROMPT_VERSION: V1
+- ATTEMPT_ID: ATTEMPT_TASK_005_001
+- GENERATION_ATTEMPT_COUNT: 1
+- RETRY_ATTEMPT_COUNT: 0
+- RETRY_FAILURE_COUNT: 0
+- GENERATION_CALL_ID: 1a3cc03d-920e-4999-a4eb-92e2a5345990
+- FULL_PROMPT_READ_STATUS: CONFIRMED (complete authoritative TASK_005 prompt was read before the call)
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION (the actual generation call did not receive the complete locked prompt verbatim)
+- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: /mnt/data/a_bright_street_scene_photograph_in_an_urban_asian.png
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- TASK_STATUS: SUCCESS (recording pending read-back confirmation)
+- VISUAL_QA: NOT_PERFORMED
+- NOTE: Record the observed result without visual assessment; do not regenerate because an image was received.
