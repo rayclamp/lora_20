@@ -161,6 +161,32 @@ Priority:
 - Do not create difficult leg poses merely for variation.
 - Shoes must not reveal malformed or duplicated feet/toes.
 
+### Leg overlap and occlusion clarity — HARD RULE
+When the legs cross, overlap, or partially hide one another, design the front-to-back order before adding clothing, footwear, or background detail.
+
+- Each leg must remain a single continuous limb from its own hip through its thigh, knee, calf, ankle, and foot. Do not let the visible portion of one leg appear to continue into the other leg.
+- Make the near/far relationship unambiguous at the knees, calves, ankles, and feet. Avoid tangencies where two limb contours touch for a long distance and merge into one thick or forked shape.
+- Do not place a foot at an angle or position that makes it appear attached to the wrong leg. The visible ankle must lead naturally into that leg's own foot.
+- If a crossed-leg pose makes the knee direction, leg origin, or ankle-to-foot connection unclear, simplify the crossing, separate the legs, or choose a more stable pose. Do not rely on shadows or clothing folds to explain an otherwise ambiguous structure.
+- Skirts, long dresses, coats, blankets, furniture, and strong shadows may conceal parts of the legs, but must not imply extra legs, severed legs, impossible joints, or a leg emerging from the wrong side of the pelvis.
+- Natural occlusion is acceptable; a limb that cannot be traced reliably must not be made artificially visible through invented anatomy.
+
+Priority:
+**two distinct, continuous leg paths + clear front-to-back order + plausible joint and foot connections > complicated crossing or pose styling.**
+
+### Bare toes and open-toe footwear — HARD RULE
+When bare toes or toes visible through open-toe footwear are shown, preserve a coherent foot structure and a clearly readable toe arrangement.
+
+- A visible bare foot has five toes; do not create extra, missing, duplicated, fused, forked, or merged toes.
+- Toes must emerge from the front of the same foot in a plausible anatomical order and scale. Do not turn shoe straps, shadows, floor lines, highlights, or nearby objects into apparent extra toes.
+- For sandals, open-toe heels, slippers, and other open-toe shoes, keep the toe area, shoe upper/straps, footbed, and sole as distinct, physically coherent parts. Straps may cross the foot but must not look like cut-off toes, extra digits, or fused skin.
+- The foot must sit naturally inside the footwear: toes should emerge from the correct opening, the heel/ankle should align with the shoe, and the foot must not float above, sink through, or extend impossibly beyond the footbed.
+- Do not force toe visibility when the shoe design or camera angle would naturally conceal them. Fully enclosed shoes and naturally occluded toes are not failures merely because individual toes cannot be counted.
+- If toe anatomy is difficult to render clearly, prefer a simpler footwear design, a less obstructed angle, or a composition that does not prominently expose the toes.
+
+Priority:
+**coherent foot anatomy + correct toe arrangement + clear separation from straps and shoe structure > intricate open-toe footwear detail.**
+
 ### Long-skirt + sofa restriction
 When Inaria wears a long skirt while sitting on a sofa:
 - do not use highly curled, deeply crossed, fully tucked-under, or heavily occluded legs;
@@ -196,14 +222,20 @@ Inspect sleeves, skirts, coats, bags, straps, cups, books, phones, umbrellas, pl
 Correct anatomy is not sufficient if fingers, toes, hands, or feet visually merge into the background. Generation planning must protect both **anatomical correctness** and **anatomical readability**.
 
 ### Core rule
-Visible fingers/toes and important hand/foot contours must have sufficient visual separation from the background to remain clearly distinguishable.
+Visible fingers/toes and important hand/foot contours must have sufficient visual separation from the background to remain clearly distinguishable. This includes preserving the boundaries between adjacent fingers/toes, between the digits and the palm/foot, and between anatomy and nearby objects.
 
 Do NOT place high-risk background detail directly behind or through important anatomy, including:
 - thin branches, rails, wires, window frames, foliage, flower stems, grass, hair strands, or decorative lines behind fingers;
 - dense leaves, flowers, gravel, patterned flooring, wood grain, or other high-frequency textures behind bare toes or feet;
 - background elements with skin-like, clothing-like, or accessory-like colors that can visually merge with hands or feet;
 - high-contrast edges that cut directly through fingers, toes, palms, wrists, ankles, or foot contours;
-- particles, lighting effects, straps, props, or decorative elements that visually break the silhouette around hands or feet.
+- particles, lighting effects, straps, props, or decorative elements that visually break the silhouette around hands or feet;
+- background lines or object edges that align with a finger or toe and appear to extend it, split it, or create an additional digit;
+- narrow gaps or dark seams that merge with finger/toe boundaries and make adjacent digits appear fused or duplicated.
+
+For hands, do not treat a visible cluster of finger-like shapes as sufficient. The palm-to-finger attachment, individual finger boundaries, and overall hand silhouette must remain coherent. When a hand touches or holds an object, distinguish the hand's contour from the object's edge and show a plausible contact point rather than merging the two silhouettes.
+
+For feet, distinguish the toe line from shoe straps, sandal edges, footbed borders, floor seams, and shadows. Do not let these elements create a false toe count or obscure the foot's connection to the ankle.
 
 ### Visual-clearance rule
 A complex background is allowed. The background does **not** need to be plain, empty, or heavily blurred. However, the local area immediately surrounding important hands/feet must provide enough contrast, negative space, depth separation, or controlled detail for the anatomy to remain readable.
