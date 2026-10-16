@@ -80,3 +80,19 @@ No generation call has been initiated at record-creation time. Append only obser
 - TASK_004/TASK_005 historical nonconforming attempts and their image receipts are preserved; this correction does not relabel them as successful locked-prompt executions and does not require them to block TASK_006 onward.
 - Corrected Batch accounting: 3 successful Task outputs (TASK_001-TASK_003), 5 actual image files received overall, and 2 result records retained separately for the nonconforming TASK_004/TASK_005 attempts.
 - No image-generation call was made during this record correction.
+
+
+## GENERATION RESULT — TASK_006
+- TASK_ID: TASK_006
+- PROMPT_ID: PROMPT_006
+- PROMPT_VERSION: v1
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION — the call used a paraphrased scene description rather than the complete locked prompt verbatim.
+- GENERATION_CALL_ID: 74ea0d58-7873-4fe2-a11b-d26ecd4c74af
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: NO
+- PROMPT_STATE: RESULT_RECORDED / LOCKED_PROMPT_NOT_EXECUTED
+- RESULT: Image received; not credited as successful execution of the locked prompt.
+- RESULT_REFERENCE: generated image attached in this conversation; runtime path /mnt/data/a_bright_sunlit_coastal_mediterranean_travel_port.png
+- PERSISTENCE: awaiting readback verification
