@@ -15,7 +15,7 @@ DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 0
 ATTEMPT_COUNT: 20
-CURRENT_TASK: TASK_020 (image received; result record pending verification)
+CURRENT_TASK: NONE (all 20 Tasks terminal; final record readback verified)
 NEXT_TASK: NONE
 CHECKPOINT: TASK_001-TASK_004 each returned one image and results are recorded. Exact locked-prompt transmission metadata is UNVERIFIED because the generation tool metadata prompt field was empty; per current GENERATION_WORKER_PROTOCOL.md and PRODUCTION_RECORD_SCHEMA.md, missing optional payload telemetry alone does not block generation. TASK_004 returned one image at /mnt/data/a_cinematic_photorealistic_shallow_depth_of_fiel.png (generation ID 71148a70-f174-4293-a241-1ef775651a0e). TASK_005 returned one image at /mnt/data/a_wide_cinematic_outdoor_portrait_scene_at_golden.png (generation ID 5518d0dc-abce-4043-b2f1-182674f69d0d). Image receipts are recorded; exact locked-prompt transmission is NOT_VERIFIED because generation metadata prompt field was empty. Do not retry either Task. Next task: TASK_008.
 
