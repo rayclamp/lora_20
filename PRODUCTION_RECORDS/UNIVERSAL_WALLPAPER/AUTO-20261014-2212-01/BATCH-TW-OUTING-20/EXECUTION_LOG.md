@@ -206,3 +206,31 @@ BATCH_ID: BATCH-TW-OUTING-20
   RESULT_ID: file_00000000b2948209ac430e28e6c385e9
   RESULT_PATH: /mnt/data/a_crisp_bright_photorealistic_beach_scene_in_day.png
   DETAILS: One image file was returned by the image-generation tool. The tool input was adapted rather than verbatim locked prompt; this is recorded as an execution deviation. No visual QA performed.
+
+- EVENT_ID: EVT-019
+  TIMESTAMP: 2026-10-17T21:27:00+08:00
+  EVENT_TYPE: GENERATION_STARTED
+  TASK_ID: TASK_008
+  PROMPT_ID: PROMPT-TW-OUTING-008
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_008-001
+  GENERATION_CALL_ID: 21be6dfd-2f25-42d4-b51f-ad9677e8218d
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  GENERATION_INPUT_MODE: ADAPTED_TOOL_INPUT
+  DETAILS: Complete locked prompt read from PROMPTS/TASK_008.md. The image-generation interface input was adapted/shortened; no independent payload telemetry is exposed.
+
+- EVENT_ID: EVT-020
+  TIMESTAMP: 2026-10-17T21:27:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_008
+  PROMPT_ID: PROMPT-TW-OUTING-008
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_008-001
+  GENERATION_CALL_ID: 21be6dfd-2f25-42d4-b51f-ad9677e8218d
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: CONSUMED
+  DELIVERY_INTEGRITY_STATUS: FILE_PATH_AVAILABLE
+  RESULT_ID: file_0000000033208206bdc6250b58e61786
+  RESULT_PATH: /mnt/data/a_crisp_high_resolution_outdoor_travel_portrait_s.png
+  DETAILS: One image file was returned by the image-generation interface. No visual QA performed.
