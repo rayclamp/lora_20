@@ -448,3 +448,53 @@ BATCH_ID: BATCH-TW-OUTING-20
   RESULT_PATH: /mnt/data/a_bright_crisp_outdoor_photo_scene_a_serene_lake.png
   DELIVERY_INTEGRITY_STATUS: FILE_PATH_AVAILABLE
   DETAILS: One image result returned and received in the current generation context. No visual QA performed.
+
+- EVENT_ID: EVT-TASK_016-PROMPT-READ-FAILED
+  TIMESTAMP: 2026-10-18T00:42:00+08:00
+  EVENT_TYPE: PROMPT_READ_FAILED
+  TASK_ID: TASK_016
+  PROMPT_ID: PROMPT-TW-OUTING-016
+  PROMPT_VERSION: V1
+  PROMPT_FILE: PROMPTS/TASK_016.md
+  GENERATION_ATTEMPT_COUNT: 0
+  DETAILS: GitHub fetch returned HTTP 404 for the authoritative prompt path. Task blocked locally; no prompt was guessed or reconstructed and no generation call was made.
+
+- EVENT_ID: EVT-TASK_017-PROMPT-READ-FAILED
+  TIMESTAMP: 2026-10-18T00:42:00+08:00
+  EVENT_TYPE: PROMPT_READ_FAILED
+  TASK_ID: TASK_017
+  PROMPT_ID: PROMPT-TW-OUTING-017
+  PROMPT_VERSION: V1
+  PROMPT_FILE: PROMPTS/TASK_017.md
+  GENERATION_ATTEMPT_COUNT: 0
+  DETAILS: GitHub fetch returned HTTP 404 for the authoritative prompt path. Task blocked locally; no prompt was guessed or reconstructed and no generation call was made.
+
+- EVENT_ID: EVT-TASK_018-PROMPT-READ-FAILED
+  TIMESTAMP: 2026-10-18T00:42:00+08:00
+  EVENT_TYPE: PROMPT_READ_FAILED
+  TASK_ID: TASK_018
+  PROMPT_ID: PROMPT-TW-OUTING-018
+  PROMPT_VERSION: V1
+  PROMPT_FILE: PROMPTS/TASK_018.md
+  GENERATION_ATTEMPT_COUNT: 0
+  DETAILS: GitHub fetch returned HTTP 404 for the authoritative prompt path. Task blocked locally; no prompt was guessed or reconstructed and no generation call was made.
+
+- EVENT_ID: EVT-TASK_019-PROMPT-READ-FAILED
+  TIMESTAMP: 2026-10-18T00:42:00+08:00
+  EVENT_TYPE: PROMPT_READ_FAILED
+  TASK_ID: TASK_019
+  PROMPT_ID: PROMPT-TW-OUTING-019
+  PROMPT_VERSION: V1
+  PROMPT_FILE: PROMPTS/TASK_019.md
+  GENERATION_ATTEMPT_COUNT: 0
+  DETAILS: GitHub fetch returned HTTP 404 for the authoritative prompt path. Task blocked locally; no prompt was guessed or reconstructed and no generation call was made.
+
+- EVENT_ID: EVT-TASK_020-PROMPT-READ-FAILED
+  TIMESTAMP: 2026-10-18T00:42:00+08:00
+  EVENT_TYPE: PROMPT_READ_FAILED
+  TASK_ID: TASK_020
+  PROMPT_ID: PROMPT-TW-OUTING-020
+  PROMPT_VERSION: V1
+  PROMPT_FILE: PROMPTS/TASK_020.md
+  GENERATION_ATTEMPT_COUNT: 0
+  DETAILS: GitHub fetch returned HTTP 404 for the authoritative prompt path. Task blocked locally; no prompt was guessed or reconstructed and no generation call was made.
