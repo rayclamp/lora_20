@@ -12,7 +12,7 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 | TASK_006 | PROMPT_006 | v1 | LOCKED | 1 |
 | TASK_007 | PROMPT_007 | v1 | RESULT_RECORDED | 1 |
 | TASK_008 | PROMPT_008 | v1 | PENDING | 1 |
-| TASK_009 | PROMPT_009 | v1 | PENDING | 1 |
+| TASK_009 | PROMPT_009 | v1 | RESULT_RECORDED | 1 |
 | TASK_010 | PROMPT_010 | v1 | PENDING | 1 |
 | TASK_011 | PROMPT_011 | v1 | PENDING | 1 |
 | TASK_012 | PROMPT_012 | v1 | PENDING | 1 |
@@ -95,5 +95,16 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - GENERATION_INPUT_MODE: KNOWN_DEVIATION
 - LOCKED_PROMPT_CONSUMED: NO
 - RESULT_REFERENCE: /mnt/data/a_cinematic_photorealistic_street_canal_scene_in.png
+- TASK_STATUS: RESULT_RECORDED; not credited as successful execution of the locked prompt.
+- Do not retry this Task after confirmed image receipt.
+
+
+## Execution result amendment — TASK_009 — 2026-10-18
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- GENERATION_CALL_ID: 05a9a2c5-55dd-484a-b869-ad8bce4f3987
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION — the generation call used a condensed scene description rather than the complete locked prompt text.
+- LOCKED_PROMPT_CONSUMED: NO
+- RESULT_REFERENCE: /mnt/data/a_crisp_photorealistic_outdoor_architectural_scen.png
 - TASK_STATUS: RESULT_RECORDED; not credited as successful execution of the locked prompt.
 - Do not retry this Task after confirmed image receipt.
