@@ -321,6 +321,16 @@ The Worker must simplify unstable designs before generation.
 
 After generation, the Worker must **not** use these rules as a reason to self-QA, reject, repair, or regenerate the generated candidate. That is the responsibility of the downstream QA/rework pipeline.
 
+## 19A. Scene-led action and head/gaze coherence
+
+- Choose the main action because it naturally belongs in the scene, not merely because the batch needs a different pose.
+- Before finalizing a prompt, coordinate torso direction, shoulder alignment, neck angle, head direction, facial orientation, and eye gaze as one coherent action.
+- Give the gaze a plausible target such as the camera, path ahead, a held object, nearby scenery, or a distant focal point.
+- Avoid obvious contradictions such as a head turned right with eyes strongly looking left, or a bowed head with eyes unnaturally looking upward, unless a clear and believable action explains it.
+- Small natural gaze offsets and motivated over-the-shoulder glances are allowed; exact alignment is not mandatory in every image.
+- If pose novelty makes the body, neck, face, or gaze awkward, simplify the pose. Do not trade naturalness for diversity.
+- Scene logic and whole-body coherence take priority over unique action quotas. Similar natural poses may recur across a batch when they fit the scene.
+
 ## 20. Character body-shape preservation during prompt design
 
 Correct anatomy and broadly natural proportions do not guarantee that the reference person's build has been preserved. During prompt design, explicitly protect the visible body shape when the task is to depict the same person.
