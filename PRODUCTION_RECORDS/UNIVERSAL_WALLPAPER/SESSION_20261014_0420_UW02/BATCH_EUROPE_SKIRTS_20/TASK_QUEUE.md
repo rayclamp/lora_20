@@ -7,15 +7,15 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 | TASK_001 | PROMPT_001 | v1 | SUCCESS | 1 |
 | TASK_002 | PROMPT_002 | v1 | SUCCESS | 1 |
 | TASK_003 | PROMPT_003 | v1 | SUCCESS | 1 |
-| TASK_004 | PROMPT_004 | v1 | LOCKED | 1 |
-| TASK_005 | PROMPT_005 | v1 | LOCKED | 1 |
-| TASK_006 | PROMPT_006 | v1 | LOCKED | 1 |
-| TASK_007 | PROMPT_007 | v1 | RESULT_RECORDED | 1 |
-| TASK_008 | PROMPT_008 | v1 | PENDING | 1 |
-| TASK_009 | PROMPT_009 | v1 | RESULT_RECORDED | 1 |
-| TASK_010 | PROMPT_010 | v1 | RESULT_RECORDED | 1 |
-| TASK_011 | PROMPT_011 | v1 | RESULT_RECORDED | 1 |
-| TASK_012 | PROMPT_012 | v1 | PENDING | 1 |
+| TASK_004 | PROMPT_004 | v1 | SUCCESS | 1 |
+| TASK_005 | PROMPT_005 | v1 | SUCCESS | 1 |
+| TASK_006 | PROMPT_006 | v1 | SUCCESS | 1 |
+| TASK_007 | PROMPT_007 | v1 | SUCCESS | 1 |
+| TASK_008 | PROMPT_008 | v1 | SUCCESS | 1 |
+| TASK_009 | PROMPT_009 | v1 | SUCCESS | 1 |
+| TASK_010 | PROMPT_010 | v1 | SUCCESS | 1 |
+| TASK_011 | PROMPT_011 | v1 | SUCCESS | 1 |
+| TASK_012 | PROMPT_012 | v1 | SUCCESS | 1 |
 | TASK_013 | PROMPT_013 | v1 | PENDING | 1 |
 | TASK_014 | PROMPT_014 | v1 | PENDING | 1 |
 | TASK_015 | PROMPT_015 | v1 | PENDING | 1 |
@@ -126,3 +126,12 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - LOCKED_PROMPT_CONSUMED: NO.
 - RESULT_REFERENCE: /mnt/data/a_cinematic_photo_realistic_moody_rainy_evening.png
 - TASK_STATUS: RESULT_RECORDED; not credited as successful execution of the locked prompt. Do not retry after confirmed image receipt.
+
+
+## Result amendment — TASK_012 — 2026-10-18
+- STATUS: SUCCESS
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- GENERATION_CALL_ID: a7f670ec-29ae-4563-b3db-422e20226d4a
+- RESULT_REFERENCE: /mnt/data/a_wide_cinematic_evening_blue_hour_coastal_scene.png
+- Result is counted as complete because an image was received; no visual QA performed.
