@@ -158,3 +158,14 @@ No generation call has been initiated at record-creation time. Append only obser
 - RESULT: Image received; not credited as successful execution of the locked prompt; no visual QA performed.
 - RESULT_REFERENCE: /mnt/data/a_crisp_photorealistic_outdoor_architectural_scen.png
 - PERSISTENCE: GitHub write completed; readback verification pending.
+
+
+## GENERATION RESULT — TASK_010 — 2026-10-18
+- TASK_ID: TASK_010; PROMPT_ID: PROMPT_010; PROMPT_VERSION: v1.
+- FULL_PROMPT_READ_STATUS: CONFIRMED.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION — the call used a condensed scene description rather than the complete locked prompt text.
+- GENERATION_CALL_ID: ffddfe5e-8782-486f-b9c6-5deb134b4f97.
+- IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1.
+- PROMPT_CONSUMED: NO; PROMPT_STATE: RESULT_RECORDED / LOCKED_PROMPT_NOT_EXECUTED.
+- RESULT_REFERENCE: /mnt/data/a_wide_cinematic_golden_hour_travel_portrait_sce.png.
+- Result recorded; no visual QA performed; do not retry after image receipt.
