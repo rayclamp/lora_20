@@ -76,3 +76,13 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - LOCKED_PROMPT_CONSUMED: NO
 - RESULT_REFERENCE: /mnt/data/a_photorealistic_cinematic_street_canal_scene_on.png
 - Persistence/readback verification pending; do not retry the known image receipt.
+
+
+## Execution result amendment — TASK_008
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- GENERATION_CALL_ID: 11e37a33-4924-40ba-8d2c-863fd44811ef
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- LOCKED_PROMPT_CONSUMED: NO
+- RESULT_REFERENCE: /mnt/data/a_bright_elegant_outdoor_portrait_scene_in_a_form.png
+- Persistence/readback verification pending; do not retry the known image receipt.
