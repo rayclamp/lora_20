@@ -116,3 +116,13 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - Runtime result reference: /mnt/data/a_bright_sunlit_street_scene_in_a_quaint_european.png.
 - Task attribution remains unresolved because the next eligible Task's locked prompt was not read before this call. Do not credit it to any Task or change task counts without a verified attribution.
 - BATCH_STATUS remains IN_PROGRESS; persistence/readback verification pending.
+
+
+## Receipt-based accounting update — 2026-10-18
+- TASK_012: IMAGE_RECEIVED=YES; ACTUAL_OUTPUT_COUNT=1; GENERATION_CALL_ID=a7f670ec-29ae-4563-b3db-422e20226d4a.
+- TASK_004–TASK_012 have image receipts and are now counted as completed Tasks under the current receipt-based completion rule, alongside TASK_001–TASK_003.
+- COMPLETED_COUNT: 12 distinct Tasks with confirmed image receipts (TASK_001–TASK_012).
+- ACTUAL_IMAGE_COUNT: 14 total received image files across attributed and unattributed receipts; TASK_007 has two separately recorded image receipts, and one prior receipt remains unattributed.
+- RESULT_RECORDED_COUNT: 12 attributed Tasks with image receipts; one additional image receipt remains unattributed and is not credited to any Task.
+- BATCH_STATUS: IN_PROGRESS; TASK_013–TASK_020 remain pending.
+- GitHub persistence/readback verification in progress.
