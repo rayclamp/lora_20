@@ -68,3 +68,12 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - The generation call used a condensed scene description rather than the complete locked prompt verbatim. Record as KNOWN_DEVIATION; the locked prompt remains unchanged and unconsumed.
 - RESULT_RECORDED_COUNT increases from 4 to 5; do not count TASK_008 as successful execution of the locked prompt. Do not repeat the known image receipt.
 - BATCH_STATUS remains IN_PROGRESS. Remaining Task prompts have not been executed in this continuation.
+
+
+## Execution result amendment — TASK_007 additional observed call — 2026-10-17
+- IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1.
+- GENERATION_CALL_ID: 5a0e2236-be44-4428-bcca-703f85d2d0c4.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION; locked prompt remains unconsumed.
+- RESULT_RECORDED_COUNT increases from 5 to 6; ACTUAL_IMAGE_COUNT increases from 8 to 9.
+- COMPLETED_COUNT remains 3; this output is not credited as successful execution of the locked prompt.
+- BATCH_STATUS remains IN_PROGRESS; persistence/readback verification recorded for the execution log and task queue.
