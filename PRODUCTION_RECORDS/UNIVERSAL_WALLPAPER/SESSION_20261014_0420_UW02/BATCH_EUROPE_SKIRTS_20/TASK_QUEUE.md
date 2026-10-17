@@ -10,7 +10,7 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 | TASK_004 | PROMPT_004 | v1 | LOCKED | 1 |
 | TASK_005 | PROMPT_005 | v1 | LOCKED | 1 |
 | TASK_006 | PROMPT_006 | v1 | LOCKED | 1 |
-| TASK_007 | PROMPT_007 | v1 | PENDING | 1 |
+| TASK_007 | PROMPT_007 | v1 | RESULT_RECORDED | 1 |
 | TASK_008 | PROMPT_008 | v1 | PENDING | 1 |
 | TASK_009 | PROMPT_009 | v1 | PENDING | 1 |
 | TASK_010 | PROMPT_010 | v1 | PENDING | 1 |
@@ -86,3 +86,14 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - LOCKED_PROMPT_CONSUMED: NO
 - RESULT_REFERENCE: /mnt/data/a_bright_elegant_outdoor_portrait_scene_in_a_form.png
 - Persistence/readback verification pending; do not retry the known image receipt.
+
+
+## Execution result amendment — TASK_007 — 2026-10-17 (additional observed call)
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- GENERATION_CALL_ID: 5a0e2236-be44-4428-bcca-703f85d2d0c4
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- LOCKED_PROMPT_CONSUMED: NO
+- RESULT_REFERENCE: /mnt/data/a_cinematic_photorealistic_street_canal_scene_in.png
+- TASK_STATUS: RESULT_RECORDED; not credited as successful execution of the locked prompt.
+- Do not retry this Task after confirmed image receipt.
