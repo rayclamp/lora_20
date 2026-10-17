@@ -11,9 +11,9 @@ ACTUAL_IMAGE_COUNT: 18
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
-BLOCKED_COUNT: 0
-PENDING_COUNT: 5
+BLOCKED_COUNT: 5
+PENDING_COUNT: 0
 ATTEMPT_COUNT: 18
 CURRENT_TASK: TASK_015 (result recorded)
 NEXT_TASK: TASK_016
-CHECKPOINT: TASK_001 through TASK_015 results recorded; 5 Tasks pending. TASK_006 through TASK_012 generation inputs were adapted/shortened.
+CHECKPOINT: TASK_001 through TASK_015 results recorded; TASK_016 through TASK_020 blocked because authoritative prompt files returned HTTP 404. TASK_006 through TASK_012 generation inputs were adapted/shortened.
