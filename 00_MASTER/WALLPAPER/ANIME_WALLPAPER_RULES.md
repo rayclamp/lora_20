@@ -48,13 +48,19 @@ After choosing a suitable base type, optional restrained styling variations may 
 
 Batch diversity is a visual goal, not a requirement to exhaust a catalog or invent a new base type for every image. Avoid unnecessary repetition when a suitable alternative or meaningful styling variation naturally fits, while prioritizing scene suitability and coherent design over forced difference.
 
-## 4A. Head direction and gaze diversity
+## 4A. Head direction, gaze, and natural pose coherence
 
-Looking directly at the camera is an optional composition choice, NOT a default or mandatory requirement. Do not add camera-directed gaze to every image simply because the image is a character portrait or wallpaper.
+Looking directly at the camera is optional, not a default or mandatory requirement.
 
-When designing a multi-image batch, consider body / torso orientation, head direction and tilt, and eye-gaze direction as related but distinct variables. Let them align or differ naturally according to the scene, action, expression, and composition. Choices may include looking toward the camera, off-camera, toward an object or activity, into the distance, upward or downward, or a natural side/profile view. These are examples, not a quota or checklist.
+Design the main action from the scene, activity, clothing, props, and intended mood. Prioritize a natural, readable action over creating a different pose for every image.
 
-Before Prompt Lock, check the batch for unintentional repetition of substantially similar head direction and gaze. If multiple prompts use the same camera-facing head pose without a scene-specific reason, revise the future prompts to create natural and meaningful variation. Do not force angle quotas or unnatural poses, and do not compromise character identity or scene coherence for diversity.
+Treat torso orientation, shoulder line, neck angle, head direction, facial orientation, and eye gaze as coordinated parts of one pose. The gaze should have a plausible target, such as the camera, the direction of movement, an object or activity, nearby scenery, or a distant focal point.
+
+Avoid conspicuous mismatches such as a head turned right while the eyes strongly look left, or a bowed head while the eyes unnaturally look upward, unless the scene clearly motivates that action. Small natural gaze offsets and a motivated over-the-shoulder glance are allowed; exact alignment is not required in every composition.
+
+Before prompt lock, resolve any obvious conflict between the action, head/neck position, gaze target, and scene. If a variation makes the pose awkward or the action unrelated to the background, choose a simpler scene-appropriate pose.
+
+Batch diversity remains desirable but is secondary to natural anatomy, pose readability, gaze coherence, and scene suitability. Similar natural poses may recur when they best serve the image. Do not impose angle quotas or revise a good pose solely to make it different.
 
 This rule applies to future prompt design only. It does not authorize rewriting, unlocking, replacing, or retroactively correcting a previously locked Prompt Set or historical production record.
 
