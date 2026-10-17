@@ -339,3 +339,32 @@ BATCH_ID: BATCH-TW-OUTING-20
   RESULT_ID: file_00000000f0f482068bc52d056da016e9
   RESULT_PATH: /mnt/data/a_bright_crisp_outdoor_lakeside_scene_in_daylight.png
   DETAILS: One image file returned. Task counts once as success despite two returned files/calls. No visual QA performed.
+
+
+- EVENT_ID: EVT-029
+  TIMESTAMP: 2026-10-17T21:38:00+08:00
+  EVENT_TYPE: GENERATION_STARTED
+  TASK_ID: TASK_012
+  PROMPT_ID: PROMPT-TW-OUTING-012
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_012-001
+  GENERATION_CALL_ID: 06e1700d-b43e-4bf2-b743-6b891ad827de
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  GENERATION_INPUT_MODE: ADAPTED_TOOL_INPUT
+  DETAILS: Complete locked prompt read from PROMPTS/TASK_012.md. The image-generation interface was invoked with an adapted description; exact payload telemetry is not exposed.
+
+- EVENT_ID: EVT-030
+  TIMESTAMP: 2026-10-17T21:38:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_012
+  PROMPT_ID: PROMPT-TW-OUTING-012
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_012-001
+  GENERATION_CALL_ID: 06e1700d-b43e-4bf2-b743-6b891ad827de
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: CONSUMED
+  DELIVERY_INTEGRITY_STATUS: FILE_PATH_AVAILABLE
+  RESULT_ID: file_00000000c23c820687fdcb9dff000b39
+  RESULT_PATH: /mnt/data/a_bright_outdoor_park_picnic_scene_in_daylight_wi.png
+  DETAILS: One image file returned by the image-generation interface. No visual QA performed.
