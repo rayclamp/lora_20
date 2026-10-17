@@ -268,3 +268,37 @@ For each attempt, append a separate GENERATION_STARTED and terminal result event
 Keep generation outcome separate from GitHub persistence state. A confirmed image receipt remains a fact even if its record write/readback fails. Recover the persistence record without regenerating. A Task-local persistence or status-write failure must not be counted as a generation failure or automatically lock the next Task. Continue with an independent next Task when its authoritative prompt and required inputs can still be read and the Batch's identity/prompt mapping remain trustworthy; preserve the failed write as unresolved and recover the record separately. Pause the Batch only when a verified Batch-wide GitHub/access/integrity failure prevents reading the next Task's authoritative inputs or makes safe Task/result attribution impossible. Never relabel a received image as no-image or repeat its generation call.
 
 This policy applies prospectively. Preserve historical records and do not rewrite old Batch execution evidence.
+
+
+## 20. Evidence-Gated State Changes and Reconciliation — Current Mandatory Rule
+
+This section governs all new production events and resume operations and supersedes any conflicting wording that allows a Producer to infer success, failure, consumption, or counts from the expected workflow, a narrative assertion, a tool-call attempt, or a previously written summary.
+
+### 20.1 Facts are not inferred from workflow progress
+- Calling the generation interface proves only that a call was attempted. It does not prove that an image was returned or received.
+- Reading a Prompt, completing a step, expecting an image, or writing a success label does not prove image receipt.
+- Set image-receipt state to YES only when one or more image files/results are actually observable as received in the current execution. Set it to NO only when a confirmed no-image outcome is observed. If neither can be established, use UNKNOWN and preserve an unresolved state.
+- Never fabricate a result reference, image count, timestamp, error reason, call ID, or other evidence. If a field is unavailable, record UNKNOWN / NOT_EXPOSED / NOT_AVAILABLE as appropriate instead of guessing.
+- A status field, Batch summary, or Producer narrative is not independent evidence for the event that it describes.
+
+### 20.2 Evidence-gated state transitions
+- A Task may transition to SUCCESS only when a confirmed image receipt is attributed to that Task and the receipt event is durably recorded and read back successfully.
+- A confirmed image receipt that cannot yet be durably recorded must remain result-bearing but unresolved (for example, RESULT_RECEIVED_UNVERIFIED); it must not be regenerated, falsely marked as no-image, or silently counted as verified SUCCESS.
+- A Task may transition to GENERATION_FAILED only after the required confirmed no-image failure limit has been reached, with the individual failed attempts recorded. An unknown outcome is not a failure.
+- PROMPT_CONSUMED=YES requires confirmed image receipt; NO requires a confirmed no-image outcome; UNKNOWN is mandatory when outcome is unresolved.
+- Batch completion, COMPLETED_COUNT, ACTUAL_IMAGE_COUNT, ATTEMPT_COUNT, and other summary values must be derived from the underlying Task/attempt events and verified Task records, not independently estimated or copied from an earlier summary.
+
+### 20.3 Append-only event history and corrections
+- Preserve one distinct record per generation attempt and append new outcome/correction events rather than silently overwriting or deleting prior execution history.
+- A correction must identify the affected prior EVENT_ID / ATTEMPT_ID when available, state which field was incorrect, provide the corrected value, explain the evidence basis, and record the correction time. Preserve the original event as historical evidence.
+- Do not retroactively invent missing evidence. If historical evidence is insufficient to determine what happened, mark the affected result/Task as unresolved and report the limitation.
+- Current-state files such as TASK_QUEUE.md and BATCH_RECORD.md are projections of verified events and Task records. They must be reconciled against those records before completion or resume.
+
+### 20.4 Mandatory readback and progression gate
+- After recording an attempt outcome, write the relevant Task state and execution event to GitHub, then read back the saved files and verify that the event, Task state, output count, prompt-consumption state, attempt count, and persistence result agree.
+- Do not select or generate the next Task until the current attempt has a recorded and verified outcome, or the persistence problem has been explicitly recorded and the continuation rule in Section 19.6 can be safely satisfied. If the outcome is known but cannot be durably preserved, do not regenerate; recover persistence. If the outcome itself is unknown, do not retry that Task.
+- Before resuming a Batch, reconcile each non-terminal or suspicious Task against its per-attempt events and result evidence. A mismatch between status and evidence must be marked unresolved and corrected through a traceable correction event; do not trust the status field alone.
+- A Batch may be marked BATCH_COMPLETED only after every required Task has a valid terminal outcome, summary counts have been recalculated from verified records, and the final Batch record has been read back and verified.
+
+### 20.5 Limits of evidence
+GitHub is the durable record store, not an independent observer of image generation. A record written by the Producer is not automatically proof that the described event occurred. The Producer must ground every event in directly observable execution results and state honestly when the interface does not expose independent evidence. This schema does not claim that GitHub itself can authenticate image receipt or automatically enforce these rules.
