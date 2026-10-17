@@ -148,3 +148,32 @@ BATCH_ID: BATCH-TW-OUTING-20
   RESULT_IDS: file_00000000acc48206a1b0ba9391635041; file_000000004e388206bdffc17aaa5cdfa8
   RESULT_PATHS: /mnt/data/wide_outdoor_nature_scene_in_a_sunlit_forest_trail.png; /mnt/data/photorealistic_outdoor_scene_a_young_adult_east.png
   DETAILS: Two image files were returned by two generation-tool calls after the same locked prompt was read. No visual QA performed.
+
+
+- EVENT_ID: EVT-015
+  TIMESTAMP: 2026-10-17T19:36:00+08:00
+  EVENT_TYPE: GENERATION_STARTED
+  TASK_ID: TASK_006
+  PROMPT_ID: PROMPT-TW-OUTING-006
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_006-001
+  GENERATION_CALL_ID: 9bd1d1fa-ace7-4515-91da-1e4488082e15
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  GENERATION_INPUT_MODE: ADAPTED_TOOL_INPUT
+  DETAILS: Complete locked prompt was read from PROMPTS/TASK_006.md. The image-generation call used a shortened/adapted description rather than the complete locked prompt verbatim; no independent payload telemetry is exposed.
+
+- EVENT_ID: EVT-016
+  TIMESTAMP: 2026-10-17T19:36:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_006
+  PROMPT_ID: PROMPT-TW-OUTING-006
+  PROMPT_VERSION: V1
+  ATTEMPT_ID: ATTEMPT-TASK_006-001
+  GENERATION_CALL_ID: 9bd1d1fa-ace7-4515-91da-1e4488082e15
+  ACTUAL_OUTPUT_COUNT: 1
+  PROMPT_CONSUMED: YES
+  PROMPT_STATE: CONSUMED
+  DELIVERY_INTEGRITY_STATUS: FILE_PATH_AVAILABLE
+  RESULT_ID: file_0000000035d4820986298d0cb6e49c9c
+  RESULT_PATH: /mnt/data/a_wide_cinematic_outdoor_scene_at_golden_hour_a.png
+  DETAILS: One image file was returned by the image-generation tool. The tool input was adapted rather than verbatim locked prompt; this is recorded as an execution deviation. No visual QA performed.
