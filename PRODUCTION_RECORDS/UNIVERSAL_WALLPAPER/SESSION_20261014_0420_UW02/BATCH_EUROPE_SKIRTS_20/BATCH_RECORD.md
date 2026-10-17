@@ -99,3 +99,13 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - COMPLETED_COUNT remains 3; TASK_010 is not credited as successful execution of the locked prompt.
 - BATCH_STATUS remains IN_PROGRESS; TASK_011–TASK_020 remain pending.
 - TASK_QUEUE.md and EXECUTION_LOG.md updated; readback verification pending.
+
+
+## Execution result amendment — TASK_011 — 2026-10-18
+- IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1; GENERATION_CALL_ID: b4930e1b-442a-4fbb-a58b-a0ffe1e1b9d6.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION; locked prompt remains unconsumed.
+- ACTUAL_IMAGE_COUNT increases from 11 to 12.
+- RESULT_RECORDED_COUNT increases from 8 to 9.
+- COMPLETED_COUNT remains 3; TASK_011 is not credited as successful execution of the locked prompt.
+- BATCH_STATUS remains IN_PROGRESS; TASK_012–TASK_020 remain pending.
+- TASK_QUEUE.md and EXECUTION_LOG.md updated; readback verification pending.
