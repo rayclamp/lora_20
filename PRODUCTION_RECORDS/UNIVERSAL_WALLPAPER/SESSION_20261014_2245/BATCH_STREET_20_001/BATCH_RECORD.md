@@ -6,22 +6,22 @@ MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 6
-RESULT_RECORDED_COUNT: 6
-ACTUAL_IMAGE_COUNT: 6
+COMPLETED_COUNT: 7
+RESULT_RECORDED_COUNT: 7
+ACTUAL_IMAGE_COUNT: 7
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 14
-ATTEMPT_COUNT: 6
-CURRENT_TASK: TASK_006
-NEXT_TASK: TASK_007
-CHECKPOINT: TASK_006_RESULT_RECORDING_READBACK_VERIFIED
+PENDING_COUNT: 13
+ATTEMPT_COUNT: 7
+CURRENT_TASK: TASK_007
+NEXT_TASK: TASK_008
+CHECKPOINT: TASK_007_RESULT_RECORDING_READBACK_VERIFIED
 OUTPUT_TYPE: DESKTOP_16_9
 THEME: Street photography, Taiwan and Japan, summer/autumn, sunny daytime
 PET_ALLOWED: NO
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 
-TASK_001 through TASK_005 each have one image result received and recorded. The first three generation inputs are recorded as KNOWN_DEVIATION. TASK_004 generation input is also recorded as KNOWN_DEVIATION because the calls did not receive the complete locked prompts verbatim. Locked prompt files remain unchanged. No visual QA was performed.
+TASK_001 through TASK_006 each have one image result received and recorded. The first three generation inputs are recorded as KNOWN_DEVIATION. TASK_004 and TASK_005 generation inputs are also recorded as KNOWN_DEVIATION because the calls did not receive the complete locked prompts verbatim. TASK_006 generation input mode is NOT_EXPOSED. Locked prompt files remain unchanged. No visual QA was performed.
