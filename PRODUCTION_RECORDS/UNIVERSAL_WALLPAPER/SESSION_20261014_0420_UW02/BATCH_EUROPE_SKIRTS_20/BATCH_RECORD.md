@@ -61,3 +61,10 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - RESULT_RECORDED_COUNT increases from 3 to 4; do not count TASK_007 as successful execution of the locked prompt. Do not repeat the known image receipt.
 - BATCH_STATUS remains IN_PROGRESS; TASK_008–TASK_020 remain to be handled from current authoritative records.
 - GitHub execution log and task queue updates were written; final readback verification is pending.
+
+
+## Execution-integrity amendment — TASK_008 — 2026-10-17
+- One image was received for the attempted TASK_008 run; ACTUAL_IMAGE_COUNT increases from 7 to 8.
+- The generation call used a condensed scene description rather than the complete locked prompt verbatim. Record as KNOWN_DEVIATION; the locked prompt remains unchanged and unconsumed.
+- RESULT_RECORDED_COUNT increases from 4 to 5; do not count TASK_008 as successful execution of the locked prompt. Do not repeat the known image receipt.
+- BATCH_STATUS remains IN_PROGRESS. Remaining Task prompts have not been executed in this continuation.
