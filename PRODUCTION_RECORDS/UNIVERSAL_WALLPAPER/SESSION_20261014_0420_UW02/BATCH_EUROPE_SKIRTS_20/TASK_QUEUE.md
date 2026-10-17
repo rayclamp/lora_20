@@ -66,3 +66,13 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - One image was received during an attempted run, but the call used a paraphrased description rather than the complete locked prompt verbatim.
 - GENERATION_INPUT_MODE: KNOWN_DEVIATION; LOCKED_PROMPT_CONSUMED: NO.
 - Do not mark TASK_006 SUCCESS for the locked prompt. The image receipt is recorded in EXECUTION_LOG.md; do not repeat the known call.
+
+
+## Execution result amendment — TASK_007
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- GENERATION_CALL_ID: 3e945e70-f6ae-441c-ae88-2059fb0da463
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- LOCKED_PROMPT_CONSUMED: NO
+- RESULT_REFERENCE: /mnt/data/a_photorealistic_cinematic_street_canal_scene_on.png
+- Persistence/readback verification pending; do not retry the known image receipt.
