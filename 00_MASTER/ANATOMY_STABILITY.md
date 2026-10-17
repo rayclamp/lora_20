@@ -12,6 +12,26 @@ When an attractive but unstable action conflicts with a simpler stable action, u
 
 Conceptual drawing order: fingers/toes → body → background/effects.
 
+
+## Pose, head-direction, gaze, and scene coherence — HARD RULE
+
+Natural, physically plausible, scene-appropriate body language takes priority over pose novelty or batch diversity. Apply this rule to every character, visual style, camera angle, and wallpaper module.
+
+### Coherence requirements
+1. Design the main action from the actual scene, activity, clothing, props, and story context. The pose must look like a plausible action the person would naturally perform in that setting.
+2. Treat torso orientation, shoulder line, neck position, head direction, facial orientation, and eye gaze as a coordinated system. They may differ when a clear, natural action explains the difference; do not make them point in conflicting directions without a believable reason.
+3. The eye gaze must have a plausible target: the camera, the direction of travel, an object being handled, nearby scenery, another person, or a deliberate distant focal point.
+4. Avoid conspicuous mismatches such as the head turned right while both eyes strongly look left, or the head bowed while the eyes unnaturally roll upward. For a downward head tilt, prefer a naturally lower gaze; for an upward head tilt, prefer a naturally forward or upward gaze, unless the scene clearly requires otherwise.
+5. A slight eye movement or a natural over-the-shoulder glance is allowed when anatomically plausible and motivated by the action. Do not impose a rigid rule that head and eyes must always point in exactly the same direction.
+6. Make neck rotation, chin angle, shoulder orientation, and torso twist physically compatible. Do not create a pose by specifying each body part independently without checking the resulting whole-body relationship.
+7. When a requested or proposed action conflicts with anatomical stability, scene logic, or visual harmony, simplify or replace the action while preserving the theme and intended mood.
+8. Do not force a unique pose for every image. Reusing a simple, natural action is preferable to inventing an awkward pose merely to increase variety.
+
+### Priority order
+**Natural anatomy and balance → head/neck/face/gaze coherence → action appropriate to scene and clothing → overall composition and mood → pose diversity and decorative flourish.**
+
+This is a prompt-design and generation-planning rule. It does not require the Producer to perform post-generation QA or to rewrite an already locked Prompt.
+
 ## 1. Basic human topology lock
 - Exactly two hands and two legs.
 - Every visible hand exactly five fingers.
