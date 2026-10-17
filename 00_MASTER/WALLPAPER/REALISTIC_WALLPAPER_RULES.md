@@ -318,6 +318,17 @@ Prioritize natural human posture and believable physical support.
 Check shoulder/torso alignment, spinal curve, pelvis orientation, knee direction, foot placement, center of gravity, and contact with support surfaces.
 A visually elegant pose must not override realistic body mechanics.
 
+### Head, neck, face, and gaze coherence
+Design the main action from the real-world scene, clothing, props, and activity. Coordinate torso direction, shoulders, neck angle, head direction, facial orientation, and eye gaze as one natural human pose.
+
+Give the eyes a plausible target: the camera, the path ahead, an object being handled, nearby scenery, another person, or a distant focal point. Avoid conspicuous mismatches such as a head turned right while the eyes strongly look left, or a bowed head while the eyes unnaturally look upward, unless a clear action motivates it. Small natural gaze offsets and believable over-the-shoulder glances are allowed.
+
+If a pose or gaze choice looks awkward, conflicts with the scene, or requires an implausible neck/eye position, simplify it. Do not force unique actions or gaze angles merely to increase batch diversity. A repeated natural pose is preferable to an unnatural novel pose.
+
+Prioritize natural human posture and believable physical support.
+Check shoulder/torso alignment, spinal curve, pelvis orientation, knee direction, foot placement, center of gravity, and contact with support surfaces.
+A visually elegant pose must not override realistic body mechanics.
+
 Apply the CORE anatomy and generation-stability rules rather than duplicating CORE anatomy rules inside this module.
 
 ## 9. Clothing and wearable realism
