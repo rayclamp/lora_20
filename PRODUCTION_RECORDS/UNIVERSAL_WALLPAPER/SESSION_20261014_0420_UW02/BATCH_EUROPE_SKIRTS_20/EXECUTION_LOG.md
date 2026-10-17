@@ -180,3 +180,13 @@ No generation call has been initiated at record-creation time. Append only obser
 - PROMPT_CONSUMED: NO; PROMPT_STATE: RESULT_RECORDED / LOCKED_PROMPT_NOT_EXECUTED.
 - RESULT_REFERENCE: /mnt/data/a_cinematic_photo_realistic_moody_rainy_evening.png.
 - Result recorded; no visual QA performed; do not retry after image receipt.
+
+
+## OBSERVED GENERATION RECEIPT — 2026-10-18
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- GENERATION_CALL_ID: 5ed881c6-6e68-4a9a-b928-9f9df04c25eb
+- RESULT_REFERENCE: /mnt/data/a_bright_sunlit_street_scene_in_a_quaint_european.png
+- TASK_ATTRIBUTION: UNRESOLVED. This call was made before the current Batch's next eligible Task prompt was read, so it cannot safely be assigned to TASK_012 or another Task.
+- TASK_STATUS: unchanged; no Task is marked complete from this unattributed receipt.
+- PERSISTENCE: image receipt recorded in execution log; readback verification pending.
