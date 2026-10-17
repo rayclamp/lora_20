@@ -208,3 +208,19 @@ This section is the current authoritative policy for new execution and resume op
 7. **Immediate call path remains.** For each attempt, read the complete assigned locked Prompt and, once the read succeeds, immediately invoke the image-generation interface using the locked Prompt as the authoritative specification and intended input. Do not insert prompt review, display, deliberate shortening/rewriting, or unrelated operations between the successful read and generation call. Do not require byte-for-byte transport proof or stop solely because the interface cannot accept or expose the entire text verbatim.
 
 This policy supersedes older single-call-per-Prompt and no-retry wording for new execution. Historical production records remain immutable.
+
+
+## Evidence-Gated Production Records — Mandatory for All Entry Commands
+
+For every production entry command, including /WALLPAPER_PRODUCE and any active module-specific producer:
+
+1. Load the current canonical rules and exact current Session/Batch/Task/prompt records directly from GitHub before acting. Never use a prior chat summary, memory, cache, or an earlier status report as a substitute for current records.
+2. Treat task status as a conclusion, not as proof. A generation call does not prove image receipt. Only a directly observed image result can establish IMAGE_RECEIVED=YES; confirmed no-image is NO; uncertainty must remain UNKNOWN.
+3. For every attempt, preserve a distinct event with observable result facts, actual received-file count, available result references, attempt attribution, and persistence status. Do not invent evidence or silently overwrite prior history.
+4. After the attempt, persist the event and current Task state to GitHub and read them back. Verify the event, Task status, prompt-consumption state, attempt count, output count, and derived summary counts before advancing or closing the Batch.
+5. On resume, reconcile Task status with attempt history and result evidence. If they conflict or evidence is missing, mark the affected state unresolved and reconcile; do not trust the status field alone, guess the likely outcome, retry an unknown result, or rewrite historical events without a traceable correction.
+6. Derive Batch counters from verified Task and attempt records. Do not copy, estimate, or manually assert counts from expectations or prior summaries. Batch completion requires valid terminal outcomes for all required Tasks and successful final-record readback.
+7. If a known result cannot be durably recorded, do not regenerate it. Recover persistence; pause progression when the result cannot be safely preserved. Task-local errors must not be misclassified as generation failures.
+8. These requirements do not add a pre-generation content-validation step: after the complete assigned locked Prompt is successfully read, invoke image generation immediately. The evidence and persistence gates apply after generation and before unsafe progression or completion.
+
+GitHub is a durable record store, not an independent witness to generation. All production entry commands must follow the current evidence-gated rules in 00_MASTER/PRODUCTION_RECORD_SCHEMA.md, 00_MASTER/GENERATION_WORKER_PROTOCOL.md, and the applicable command contract. Do not claim that a saved field is true solely because it was written.
