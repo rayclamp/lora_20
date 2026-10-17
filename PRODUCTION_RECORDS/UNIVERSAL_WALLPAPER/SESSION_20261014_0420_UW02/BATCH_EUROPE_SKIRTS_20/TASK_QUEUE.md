@@ -13,7 +13,7 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 | TASK_007 | PROMPT_007 | v1 | RESULT_RECORDED | 1 |
 | TASK_008 | PROMPT_008 | v1 | PENDING | 1 |
 | TASK_009 | PROMPT_009 | v1 | RESULT_RECORDED | 1 |
-| TASK_010 | PROMPT_010 | v1 | PENDING | 1 |
+| TASK_010 | PROMPT_010 | v1 | RESULT_RECORDED | 1 |
 | TASK_011 | PROMPT_011 | v1 | PENDING | 1 |
 | TASK_012 | PROMPT_012 | v1 | PENDING | 1 |
 | TASK_013 | PROMPT_013 | v1 | PENDING | 1 |
@@ -108,3 +108,12 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - RESULT_REFERENCE: /mnt/data/a_crisp_photorealistic_outdoor_architectural_scen.png
 - TASK_STATUS: RESULT_RECORDED; not credited as successful execution of the locked prompt.
 - Do not retry this Task after confirmed image receipt.
+
+
+## Execution result amendment — TASK_010 — 2026-10-18
+- IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1.
+- GENERATION_CALL_ID: ffddfe5e-8782-486f-b9c6-5deb134b4f97.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION — the call used a condensed scene description rather than the complete locked prompt text.
+- LOCKED_PROMPT_CONSUMED: NO.
+- RESULT_REFERENCE: /mnt/data/a_wide_cinematic_golden_hour_travel_portrait_sce.png
+- TASK_STATUS: RESULT_RECORDED; not credited as successful execution of the locked prompt. Do not retry after confirmed image receipt.
