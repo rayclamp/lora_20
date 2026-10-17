@@ -138,3 +138,37 @@ Do not automatically launch QA. QA is separate from production. The Batch closes
 - Universal-only options must not override Festival rules.
 - LoRA dataset rules, LoRA references, archived legacy LoRA production rules, and LoRA QA must not be imported into either wallpaper module.
 - Historical Session/Batch records are evidence and must not be silently rewritten or migrated.
+
+
+## 7. Evidence-Gated Production and Resume — Mandatory Override
+
+This section is mandatory for every invocation of /WALLPAPER_PRODUCE and supersedes any conflicting wording elsewhere in this command contract that could permit state changes based on assumptions rather than observable outcomes.
+
+### 7.1 Before generation
+- Connect to the current GitHub `main` branch and read the current canonical rules plus the exact user-specified Session/Batch records, Task queue, manifest, and assigned Task's complete locked prompt.
+- Select the Task from the current authoritative records. Do not rely on a previous chat summary, cached state, an earlier Producer narrative, or a remembered Task position.
+- Once the complete assigned locked prompt has been read successfully, invoke image generation immediately. Do not insert any extra check, analysis, prompt display, rewrite, or unrelated GitHub operation between prompt read and generation call.
+
+### 7.2 After every generation call
+- Record only observed facts: whether an image result was actually received, actual received-file count, available result references, Task/attempt attribution, confirmed no-image reason, and GitHub persistence status. A generation call or an expectation that an image should exist is not evidence of receipt.
+- Use IMAGE_RECEIVED=YES only for an actually observed received image result; NO only for a confirmed no-image outcome; UNKNOWN when the outcome cannot be established. Never invent counts, references, IDs, timestamps, or error reasons.
+- Append a distinct attempt/result event. Do not overwrite or erase earlier attempt history. If correcting an established factual error, append a traceable RECORD_CORRECTED event and preserve the original entry.
+- Update the Task's current state and relevant Batch counts from verified Task/attempt records, not from expectation or copied summary values.
+- Write the execution event and current Task state to GitHub, then read them back and verify that attempt count, image receipt, actual output count, prompt-consumption state, Task status, and relevant Batch counts agree.
+
+### 7.3 Mandatory gate before the next Task
+Do not select or generate the next Task until the current attempt's outcome has been recorded and readback-verified, or a persistence failure has been safely and explicitly reconciled under the current schema and worker protocol. A known received image whose write failed must never be regenerated. An unknown outcome must not be retried. If the known result cannot be durably preserved and verified, pause progression and recover persistence rather than advancing on unpersisted narrative state.
+
+A Task-local persistence error is not a generation failure and must not be counted as one. It does not automatically make unrelated Tasks terminal; however, unrelated work may continue only when the current result is safely preserved without ambiguity and the next Task's authoritative inputs are directly readable from GitHub. If those conditions are not met, pause instead of relying on memory or cache.
+
+### 7.4 Resume reconciliation
+On every continuation, compare each relevant Task's current status, prompt-consumption state, attempt events, image/result references, and counts. If they conflict or required evidence is missing, mark the affected Task unresolved and reconcile it before deciding whether it may run. Do not treat a status field as proof of the event it describes. Do not invent historical evidence; if the truth cannot be reconstructed, preserve an unresolved state and report the limitation.
+
+### 7.5 Completion and counters
+- COMPLETED_COUNT must count each Task with a confirmed image receipt durably recorded against it once.
+- ACTUAL_IMAGE_COUNT must count individual image files actually received, not planned images, expected outputs, tool calls, or completed Tasks.
+- ATTEMPT_COUNT must count actual generation calls evidenced in the attempt history; non-generation operations are excluded.
+- Recalculate all summary counts from verified Task/attempt records. Do not manually estimate or copy them from an earlier Batch summary.
+- Do not mark BATCH_COMPLETED until every required Task has a valid terminal outcome, current state reconciles with attempt history, counts have been recalculated, and the final Batch record has been read back and verified.
+
+GitHub is the persistence database, not an independent observer of generation. A value does not become proven merely because the Producer writes it. The Producer must base records on directly observable execution facts and explicitly preserve unknowns. Historical records must not be silently rewritten; correct verified errors only through traceable correction events.
