@@ -142,3 +142,19 @@ No generation call has been initiated at record-creation time. Append only obser
 - RESULT: Image received; not credited as successful execution of the locked prompt.
 - RESULT_REFERENCE: /mnt/data/a_cinematic_photorealistic_street_canal_scene_in.png
 - PERSISTENCE: write attempted; readback verification pending
+
+
+## GENERATION RESULT — TASK_009 — 2026-10-18
+- TASK_ID: TASK_009
+- PROMPT_ID: PROMPT_009
+- PROMPT_VERSION: v1
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION — the generation call used a condensed scene description rather than the complete locked prompt text.
+- GENERATION_CALL_ID: 05a9a2c5-55dd-484a-b869-ad8bce4f3987
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: NO (locked prompt was not submitted as the complete text)
+- PROMPT_STATE: RESULT_RECORDED / LOCKED_PROMPT_NOT_EXECUTED
+- RESULT: Image received; not credited as successful execution of the locked prompt; no visual QA performed.
+- RESULT_REFERENCE: /mnt/data/a_crisp_photorealistic_outdoor_architectural_scen.png
+- PERSISTENCE: GitHub write completed; readback verification pending.
