@@ -14,7 +14,7 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 | TASK_008 | PROMPT_008 | v1 | PENDING | 1 |
 | TASK_009 | PROMPT_009 | v1 | RESULT_RECORDED | 1 |
 | TASK_010 | PROMPT_010 | v1 | RESULT_RECORDED | 1 |
-| TASK_011 | PROMPT_011 | v1 | PENDING | 1 |
+| TASK_011 | PROMPT_011 | v1 | RESULT_RECORDED | 1 |
 | TASK_012 | PROMPT_012 | v1 | PENDING | 1 |
 | TASK_013 | PROMPT_013 | v1 | PENDING | 1 |
 | TASK_014 | PROMPT_014 | v1 | PENDING | 1 |
@@ -116,4 +116,13 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - GENERATION_INPUT_MODE: KNOWN_DEVIATION — the call used a condensed scene description rather than the complete locked prompt text.
 - LOCKED_PROMPT_CONSUMED: NO.
 - RESULT_REFERENCE: /mnt/data/a_wide_cinematic_golden_hour_travel_portrait_sce.png
+- TASK_STATUS: RESULT_RECORDED; not credited as successful execution of the locked prompt. Do not retry after confirmed image receipt.
+
+
+## Execution result amendment — TASK_011 — 2026-10-18
+- IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1.
+- GENERATION_CALL_ID: b4930e1b-442a-4fbb-a58b-a0ffe1e1b9d6.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION — the call used a condensed scene description rather than the complete locked prompt text.
+- LOCKED_PROMPT_CONSUMED: NO.
+- RESULT_REFERENCE: /mnt/data/a_cinematic_photo_realistic_moody_rainy_evening.png
 - TASK_STATUS: RESULT_RECORDED; not credited as successful execution of the locked prompt. Do not retry after confirmed image receipt.
