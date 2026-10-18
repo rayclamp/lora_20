@@ -206,3 +206,30 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - These image receipts are preserved and must not be retried; however, do not claim strict execution of the locked prompts for TASK_013–TASK_020.
 - PROMPT_MATCH_STATUS: NOT_ASSESSED. No visual QA was performed.
 - BATCH_STATUS remains IN_PROGRESS pending authoritative reconciliation of task status semantics and aggregate counters. Do not mark BATCH_COMPLETED until that reconciliation is recorded and read back.
+
+
+## AUTHORITATIVE FINAL CHECKPOINT — END_AUTO — 2026-10-19
+SESSION_STATUS: CLOSED / COMPLETED
+BATCH_STATUS: BATCH_COMPLETED
+SESSION_ID: SESSION_20261014_0420_UW02
+BATCH_ID: BATCH_EUROPE_SKIRTS_20
+MODULE: UNIVERSAL_WALLPAPER
+PRODUCTION_REQUEST: European travel; realistic; desktop 16:9; skirt-based outfits; no pets.
+TARGET_TASK_COUNT: 20
+COMPLETED_COUNT: 20
+RESULT_RECORDED_COUNT: 1 (one additional image receipt remains unattributed and is not counted as a successful Task output)
+ACTUAL_IMAGE_COUNT: 22
+UNVERIFIED_COUNT: 0
+FAILED_COUNT: 0
+DEFERRED_COUNT: 0
+BLOCKED_COUNT: 0
+PENDING_COUNT: 0
+CURRENT_TASK: NONE
+NEXT_TASK: NONE
+LAST_COMPLETED_TASK: TASK_020
+REMAINING_REQUIRED_TASKS: 0
+CHECKPOINT: END_AUTO_FINAL_RECONCILIATION
+
+Accounting basis: TASK_001–TASK_020 each has a confirmed image receipt attributed in EXECUTION_LOG.md, so each is terminal SUCCESS once under the production schema. TASK_007 has two attributed image receipts; the other 19 Tasks have one each (21 attributed files). One additional image receipt remains unattributed (22 files total) and is preserved separately. Known generation-input deviations remain recorded; they do not negate the image-receipt production outcome and are not a QA or prompt-compliance claim. PROMPT_MATCH_STATUS remains NOT_ASSESSED.
+
+CLOSEOUT: All required Tasks have valid terminal outcomes. No generation or QA was performed during closeout. No Task, image, Prompt Set, Execution Log, or Production Record was deleted. This closure applies only to this Session/Batch.
