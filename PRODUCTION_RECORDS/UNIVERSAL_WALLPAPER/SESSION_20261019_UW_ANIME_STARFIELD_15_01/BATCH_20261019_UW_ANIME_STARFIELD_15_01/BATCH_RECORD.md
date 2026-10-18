@@ -17,6 +17,6 @@ PENDING_COUNT: 14
 ATTEMPT_COUNT: 1
 CURRENT_TASK: TASK_001
 NEXT_TASK: TASK_002
-CHECKPOINT: TASK_001 image result received; one image file returned. GitHub result persistence pending verification before proceeding.
+CHECKPOINT: TASK_001 generation result and Task state written to GitHub and read back verified. One image file received; no QA performed.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
