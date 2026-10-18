@@ -18,3 +18,11 @@ PET_ALLOWED: NO
 CUSTOM_INSTRUCTIONS: No duplicate scenes
 
 The uploaded image is the sole visual person reference. Redesign outfit and pose independently. Each Task is one independent landscape 16:9 wallpaper. No visual QA in production. Persist objective generation results only.
+
+
+## END_AUTO Session Closure
+SESSION_STATUS: CLOSED_INCOMPLETE
+CLOSED_AT: 2026-10-19T02:14:00+08:00
+CLOSURE_REASON: User requested /END_AUTO while the assigned Batch still had required pending Tasks.
+BATCH_STATUS: STOPPED_INCOMPLETE
+The Session is closed for this task chat, but the Batch is not marked completed. Pending Tasks are preserved for possible future continuation; no generation was started during closure.
