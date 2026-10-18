@@ -5,11 +5,20 @@
 - Scope: SESSION_20261019_UW_ANIME_STARFIELD_15_01 / BATCH_20261019_UW_ANIME_STARFIELD_15_01; MODULE=UNIVERSAL_WALLPAPER; PRODUCTION_TYPE=ANIME.
 - Planned Tasks: 15; planned output per Task: 1; output format: DESKTOP_16_9.
 - Reference policy: NO_REFERENCE; no image asset is assumed or claimed.
-- Generation, QA, and editing are outside this command and were not performed.
-- Lock is pending until every required file has been read back and verified.
+- Readback verification: PASS; all 20 expected design files were reported read back during design initialization.
+- Prompt set: LOCKED; no prompt text modified.
 
-- Readback verification: PASS; all 20 expected files (5 standard records + 15 independent prompt files) returned non-empty content from GitHub main.
-- Prompt integrity: all 15 prompt files include TASK_ID, PROMPT_ID, PROMPT_VERSION, PROMPT_STATUS=LOCKED, OUTPUT_TYPE=DESKTOP_16_9, and BEGIN/END_LOCKED_PROMPT_TEXT delimiters.
-- Queue and manifest: 15 unique Tasks mapped one-to-one to 15 prompt files; manifest contains index/metadata only, no prompt bodies.
-- Lock applied after successful readback: PROMPT_SET_STATUS=LOCKED; PROMPT_SET_LOCKED=YES.
-- Generation/QA/editing: NOT PERFORMED by design command.
+## Production attempt record
+
+- TASK_ID: TASK_001
+- PROMPT_ID / VERSION: PROMPT_001 / 1.0
+- ATTEMPT_NUMBER: 1
+- GENERATION_CALL_ID: ea9dc7e2-7c97-4de0-940c-e1088564ec6d
+- GENERATION_RESULT: SUCCESS
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: generated file /mnt/data/a_highly_detailed_cinematic_anime_style_fantasy.png; generation reference ea9dc7e2-7c97-4de0-940c-e1088564ec6d
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- RECORD_PERSISTENCE: WRITE_PENDING
