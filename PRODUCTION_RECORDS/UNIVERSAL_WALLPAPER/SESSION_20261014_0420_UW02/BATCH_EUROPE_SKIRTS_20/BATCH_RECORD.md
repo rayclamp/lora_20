@@ -135,3 +135,12 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - TASK_013 recorded as SUCCESS because one image was received; no visual QA performed.
 - ACTUAL_IMAGE_COUNT increases from 16 to 17 (prior total 16 includes 3 successful Tasks and 13 additional/result-recorded images per prior amendments).
 - TASK_014–TASK_020 remain to be handled. BATCH_STATUS remains IN_PROGRESS.
+
+
+## Execution result amendment — TASK_014 — 2026-10-18
+- IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1.
+- GENERATION_CALL_ID: 5aa4414b-90d6-4e62-bdfb-84978600a840.
+- RESULT_REFERENCE: /mnt/data/a_bright_sunlit_outdoor_european_courtyard_street.png.
+- TASK_014 recorded as SUCCESS because one image was received; no visual QA performed.
+- ACTUAL_IMAGE_COUNT increases by 1 for this confirmed image receipt. Current cumulative count requires reconciliation against the prior amendments because the existing Batch record contains inconsistent historical totals.
+- TASK_015–TASK_020 remain to be handled. BATCH_STATUS remains IN_PROGRESS.
