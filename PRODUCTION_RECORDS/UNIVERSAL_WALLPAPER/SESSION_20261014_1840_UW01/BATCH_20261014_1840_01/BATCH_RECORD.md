@@ -17,9 +17,9 @@ PENDING_COUNT: 7
 ATTEMPT_COUNT: 13
 CURRENT_TASK: TASK_014
 NEXT_TASK: TASK_014
-CHECKPOINT: END_AUTO requested 2026-10-19; final state verified. TASK_001 through TASK_013 image receipts recorded (13 images total); TASK_014 through TASK_020 remain PENDING. Batch remains IN_PROGRESS; no remaining Tasks deleted or generated.
+CHECKPOINT: END_AUTO requested 2026-10-19T02:30:00+08:00; final state rechecked. Target 20; TASK_001–TASK_013 successful with 13 image receipts; TASK_014–TASK_020 remain PENDING. Failed=0, deferred=0, unknown=0. Batch remains IN_PROGRESS; no remaining Tasks deleted or generated.
 END_AUTO_CHECKPOINT: SAVED
-END_AUTO_CHECKPOINT_AT: 2026-10-19T02:01:00+08:00
+END_AUTO_CHECKPOINT_AT: 2026-10-19T02:30:00+08:00
 LAST_COMPLETED_TASK: TASK_013
 REMAINING_REQUIRED_TASKS: TASK_014-TASK_020
 SESSION_CLOSE_STATUS: NOT_CLOSED_INCOMPLETE_BATCH
