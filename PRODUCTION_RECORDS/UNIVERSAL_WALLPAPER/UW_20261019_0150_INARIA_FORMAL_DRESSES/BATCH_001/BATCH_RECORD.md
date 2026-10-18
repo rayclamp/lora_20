@@ -7,7 +7,7 @@
 - CHARACTER: INARIA
 - IMAGE_COUNT: 15
 - OUTPUT_TYPE: DESKTOP_16_9
-- BATCH_STATUS: DESIGNING
+- BATCH_STATUS: PROMPTS_LOCKED_NOT_STARTED
 - COMPLETED_COUNT: 0
 - RESULT_RECORDED_COUNT: 0
 - ACTUAL_IMAGE_COUNT: 0
@@ -19,6 +19,6 @@
 - ATTEMPT_COUNT: 0
 - CURRENT_TASK: NONE
 - NEXT_TASK: TASK_001
-- CHECKPOINT: Prompt design and persistence
-- COMPLETION: Not applicable; this is a prompt-design batch, not an image-generation run.
+- CHECKPOINT: DESIGN_COMPLETE_PROMPT_SET_LOCKED
+- COMPLETION: Prompt design and lock completed; image production has not started.
 - NOTE: No image generation has been invoked. Production counters remain at initial values.
