@@ -14,8 +14,8 @@ SEASON: 不限制
 WEATHER: 不限制
 TIME: 白天、晚上
 PET_ALLOWED: NO
-PROMPT_SET_STATUS: DRAFT_PENDING_READBACK
-PROMPT_SET_LOCKED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
 
 ## User constraints
 - 15 distinct desktop wallpapers, horizontal 16:9.
