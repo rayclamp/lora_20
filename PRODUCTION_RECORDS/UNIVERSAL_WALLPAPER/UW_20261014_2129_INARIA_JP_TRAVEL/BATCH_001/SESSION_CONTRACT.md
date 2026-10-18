@@ -19,3 +19,7 @@ REFERENCE_AUTHORITY_STATUS: EXPLICIT_TASK_REFERENCE
 CUSTOM_INSTRUCTIONS: Every image uses a skirt outfit, either long or short.
 
 Design all 20 independent prompts before generation. Each locked prompt may receive one generation call only. No QA or retries.
+
+SESSION_STATUS: CLOSED_INCOMPLETE
+SESSION_CLOSEOUT_DATE: 2026-10-19
+SESSION_CLOSEOUT_REASON: User requested /END_AUTO. Production stopped without starting new generation. Batch remains RECONCILIATION_REQUIRED; historical task receipt claims are preserved, but counts are not certified as complete pending reconciliation.
