@@ -126,3 +126,12 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - RESULT_RECORDED_COUNT: 12 attributed Tasks with image receipts; one additional image receipt remains unattributed and is not credited to any Task.
 - BATCH_STATUS: IN_PROGRESS; TASK_013–TASK_020 remain pending.
 - GitHub persistence/readback verification in progress.
+
+
+## Execution result amendment — TASK_013 — 2026-10-18
+- IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1.
+- GENERATION_CALL_ID: b87665bd-5bca-4f00-b689-1e7804f07fed.
+- RESULT_REFERENCE: /mnt/data/a_wide_scenic_photorealistic_softly_lit_travel.png.
+- TASK_013 recorded as SUCCESS because one image was received; no visual QA performed.
+- ACTUAL_IMAGE_COUNT increases from 16 to 17 (prior total 16 includes 3 successful Tasks and 13 additional/result-recorded images per prior amendments).
+- TASK_014–TASK_020 remain to be handled. BATCH_STATUS remains IN_PROGRESS.
