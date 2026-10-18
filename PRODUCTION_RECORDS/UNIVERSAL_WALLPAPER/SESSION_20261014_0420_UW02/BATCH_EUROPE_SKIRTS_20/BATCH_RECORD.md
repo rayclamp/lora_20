@@ -162,3 +162,12 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - TASK_016 recorded as SUCCESS because one image was received; no visual QA performed.
 - Add one to the cumulative actual image file count. Exact cumulative count remains pending reconciliation due to inconsistent historical totals in the existing Batch record.
 - TASK_017–TASK_020 remain to be handled. BATCH_STATUS remains IN_PROGRESS.
+
+
+## Execution result amendment — TASK_017 — 2026-10-18
+- IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1.
+- GENERATION_CALL_ID: a5479a90-d9a8-474f-a097-a458fdd24112.
+- RESULT_REFERENCE: /mnt/data/a_bright_crisp_photorealistic_outdoor_scene_with.png.
+- TASK_017 recorded as SUCCESS because one image was received; no visual QA performed.
+- Add one to the cumulative actual image file count. Exact cumulative count remains pending reconciliation due to inconsistent historical totals in the existing Batch record.
+- TASK_018–TASK_020 remain to be handled. BATCH_STATUS remains IN_PROGRESS.
