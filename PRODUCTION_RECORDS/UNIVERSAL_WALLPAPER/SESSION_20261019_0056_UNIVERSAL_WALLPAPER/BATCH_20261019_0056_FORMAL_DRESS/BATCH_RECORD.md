@@ -19,7 +19,7 @@ PENDING_COUNT: 13
 ATTEMPT_COUNT: 2
 CURRENT_TASK: TASK_002
 NEXT_TASK: TASK_003
-CHECKPOINT: TASK_002 image receipt recorded; generation input deviation documented; record readback verification pending
+CHECKPOINT: TASK_002 image receipt and input deviation recorded; TASK_QUEUE.md, BATCH_RECORD.md, EXECUTION_LOG.md readback verified
 TASK_COUNT: 15
 PROMPT_FILE_COUNT: 15
 PROMPT_SET_STATUS: LOCKED
