@@ -340,3 +340,21 @@ No generation call has been initiated at record-creation time. Append only obser
 - These image receipts are preserved and must not be retried; however, do not claim strict execution of the locked prompts for TASK_013–TASK_020.
 - PROMPT_MATCH_STATUS: NOT_ASSESSED. No visual QA was performed.
 - BATCH_STATUS remains IN_PROGRESS pending authoritative reconciliation of task status semantics and aggregate counters. Do not mark BATCH_COMPLETED until that reconciliation is recorded and read back.
+
+
+## FINAL CLOSEOUT EVENT — END_AUTO — 2026-10-19T02:45:00+08:00
+- EVENT_TYPE: COMPLETED / RECORD_CORRECTED
+- SESSION_ID: SESSION_20261014_0420_UW02
+- BATCH_ID: BATCH_EUROPE_SKIRTS_20
+- PRODUCTION_REQUEST: European travel, realistic desktop 16:9, skirt outfits, 20 independent Tasks.
+- TARGET_IMAGE_COUNT: 20 Tasks.
+- SUCCESSFUL_TASK_COUNT: 20 (TASK_001–TASK_020 each has at least one confirmed image receipt durably attributed in the execution log).
+- ACTUAL_IMAGE_COUNT: 22 files total: 21 attributed to Tasks (TASK_007 has two; all other Tasks have one) plus one unattributed receipt.
+- UNATTRIBUTED_RESULT_COUNT: 1 (GENERATION_CALL_ID 5ed881c6-6e68-4a9a-b928-9f9df04c25eb); preserved, not credited to a Task.
+- FAILED_TASK_COUNT: 0; DEFERRED_TASK_COUNT: 0; UNKNOWN_TASK_COUNT: 0; BLOCKED_TASK_COUNT: 0; PENDING_TASK_COUNT: 0.
+- REMAINING_TASK_COUNT: 0.
+- LAST_TASK_WITH_CONFIRMED_RECEIPT: TASK_020.
+- EXECUTION_INTEGRITY: Known generation-input deviations for multiple Tasks remain documented. No visual QA performed; PROMPT_MATCH_STATUS remains NOT_ASSESSED. Production SUCCESS means image receipt and task attribution, not prompt compliance.
+- NO generation calls were made during closeout. No images, Tasks, or records were deleted.
+- CHECKPOINT: all required Tasks terminal; aggregate counts reconciled from recorded receipts; see final reconciliation in TASK_QUEUE.md and BATCH_RECORD.md.
+- GITHUB_PERSISTENCE: closeout writes followed by readback verification.
