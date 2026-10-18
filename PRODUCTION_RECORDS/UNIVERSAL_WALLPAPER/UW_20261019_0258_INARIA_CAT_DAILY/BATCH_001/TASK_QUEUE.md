@@ -5,7 +5,7 @@ All 15 planned tasks have one independent prompt file. Generation is in progress
 | ORDER | TASK_ID | PROMPT_ID | PROMPT_VERSION | PROMPT_STATUS | TASK_STATUS | PROMPT_FILE |
 |---:|---|---|---|---|---|---|
 | 1 | TASK_001 | UW_INARIA_CAT_001 | 1.0 | LOCKED | SUCCESS | PROMPTS/TASK_001.md |
-| 2 | TASK_002 | UW_INARIA_CAT_002 | 1.0 | LOCKED | PENDING | PROMPTS/TASK_002.md |
+| 2 | TASK_002 | UW_INARIA_CAT_002 | 1.0 | LOCKED | SUCCESS | PROMPTS/TASK_002.md |
 | 3 | TASK_003 | UW_INARIA_CAT_003 | 1.0 | LOCKED | PENDING | PROMPTS/TASK_003.md |
 | 4 | TASK_004 | UW_INARIA_CAT_004 | 1.0 | LOCKED | PENDING | PROMPTS/TASK_004.md |
 | 5 | TASK_005 | UW_INARIA_CAT_005 | 1.0 | LOCKED | PENDING | PROMPTS/TASK_005.md |
@@ -38,3 +38,21 @@ Common wallpaper production fields: EXPECTED_OUTPUT_COUNT=1; PROMPT_MATCH_STATUS
 - PROMPT_STATE: CONSUMED
 - PROMPT_TERMINATION_REASON: IMAGE_RECEIVED
 - NOTE: Image was received, but the generation call used a shortened/rephrased description rather than the complete locked prompt. This known deviation is recorded without visual QA. No further call is permitted for TASK_001.
+
+
+## TASK_002 execution state
+- TASK_STATUS: SUCCESS
+- GENERATION_STATUS: IMAGE_RESULT_RECEIVED
+- GENERATION_ATTEMPT_COUNT: 1
+- RETRY_ATTEMPT_COUNT: 0
+- CONFIRMED_NO_IMAGE_FAILURE_COUNT: 0
+- ACTUAL_OUTPUT_COUNT: 1
+- RESULT_ID: fbac3b6e-6273-42fb-844b-da7024f91c8e
+- RESULT_BINDING_STATUS: ATTRIBUTED_TO_TASK_002
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- PROMPT_TERMINATION_REASON: IMAGE_RECEIVED
+- NOTE: Image was received, but the generation call used a shortened/rephrased description rather than the complete locked prompt. This known deviation is recorded without visual QA. No further call is permitted for TASK_002.
