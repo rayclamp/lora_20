@@ -20,5 +20,5 @@ PENDING_COUNT: 14
 ATTEMPT_COUNT: 1
 CURRENT_TASK: TASK_001
 NEXT_TASK: TASK_002
-CHECKPOINT: TASK_001 produced one image; GitHub result records are being persisted and read-back verified. Remaining 14 independent Tasks pending.
+CHECKPOINT: TASK_001 image receipt and execution record written and read-back verified. Generation input deviation is explicitly recorded. Remaining 14 independent Tasks pending.
 TERMINATION: Production in progress.
