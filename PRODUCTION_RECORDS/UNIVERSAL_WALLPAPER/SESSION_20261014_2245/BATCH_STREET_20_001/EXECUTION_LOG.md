@@ -224,5 +224,5 @@ BATCH_ID: BATCH_STREET_20_001
 - BATCH_STATUS: STOPPED_INCOMPLETE
 - SESSION_STATUS: CLOSED_INCOMPLETE
 - ACTIONS: No image generation started; no image, Task, Prompt Set, or record deleted. Remaining tasks preserved.
-- GITHUB_WRITE_STATUS: Pending read-back verification.
+- GITHUB_WRITE_STATUS: VERIFIED (BATCH_RECORD.md, EXECUTION_LOG.md, and SESSION_CONTRACT.md were re-read successfully after writes; TASK_QUEUE.md re-read confirms TASK_010 through TASK_020 remain pending).
 - NOTE: Do not mark Batch COMPLETED because 11 required Tasks remain unfinished.
