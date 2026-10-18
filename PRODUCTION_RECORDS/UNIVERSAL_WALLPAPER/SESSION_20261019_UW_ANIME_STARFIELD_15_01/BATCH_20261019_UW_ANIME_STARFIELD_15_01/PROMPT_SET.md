@@ -7,8 +7,8 @@ PRODUCTION_TYPE: ANIME
 CHARACTER: INARIA
 IMAGE_COUNT: 15
 OUTPUT_TYPE: DESKTOP_16_9
-PROMPT_SET_STATUS: PENDING_VERIFICATION
-PROMPT_SET_LOCKED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
 
 | TASK_ID | PROMPT_ID | PROMPT_VERSION | FILE_PATH | TITLE | OUTPUT_TYPE | PROMPT_STATUS |
 |---|---|---|---|---|---|---|
@@ -28,4 +28,4 @@ PROMPT_SET_LOCKED: NO
 | TASK_014 | PROMPT_014 | 1.0 | PROMPTS/TASK_014.md | 月桂天文台・望遠鏡旁 | DESKTOP_16_9 | LOCKED |
 | TASK_015 | PROMPT_015 | 1.0 | PROMPTS/TASK_015.md | 星之庭院・銀藍花瓣雨 | DESKTOP_16_9 | LOCKED |
 
-Prompt bodies are stored only in the individual prompt files listed above. The Prompt Set must not be locked until all files are read back successfully.
+Prompt bodies are stored only in the individual prompt files listed above. All 15 dedicated prompt files and all five standard records were read back successfully before this lock was applied.
