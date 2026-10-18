@@ -1,0 +1,24 @@
+# SESSION_CONTRACT.md
+
+SESSION_ID: SESSION_20261019_024700_WALLPAPER_CONSOLE
+BATCH_ID: BATCH_20261019_024700_INARIA_CAT_DAILY_15
+SESSION_SCOPE: 新建 Inaria 養貓日常動漫桌布提示詞設計與鎖定
+MODULE: UNIVERSAL_WALLPAPER
+PRODUCTION_TYPE: ANIME
+CHARACTER: INARIA
+IMAGE_COUNT: 15
+OUTPUT_TYPE: DESKTOP_16_9
+THEME: 養貓日常
+SCENE: 室內、室外
+SEASON: 不限制
+WEATHER: 不限制
+TIME: 不限制
+PET_ALLOWED: YES
+CUSTOM_INSTRUCTIONS:
+- 每張僅一隻寵物貓；至少五張人物與貓直接互動。
+- 所有服裝均為裙裝，裙長短於大腿中段；允許赤腳。
+- 可使用多種景別，不要求每張全身；人物不可背對鏡頭。
+- 保持人物與貓的自然比例；只允許因明確近鏡頭透視使前景貓相對變大。
+- 不要求、不假設存在人物參考圖片。
+DESIGN_BOUNDARY: 本 Batch 僅設計、保存、讀回驗證及鎖定提示詞；不得生成圖片、QA 或修圖。
+CREATED_AT: 2026-10-19 02:47 +08:00
