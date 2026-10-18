@@ -21,5 +21,5 @@ CUSTOM_INSTRUCTIONS:
 - 15 張禮服剪裁結構不得重複。
 - 主色以淺藍、藏青、白色為主。
 REFERENCE_IMAGE: 不屬於設計命令輸入；未假設存在。
-SESSION_STATUS: DESIGNING
+SESSION_STATUS: PROMPTS_LOCKED
 BOUNDARY: 僅設計、保存、讀回驗證、鎖定；不生圖、不 QA、不修圖。
