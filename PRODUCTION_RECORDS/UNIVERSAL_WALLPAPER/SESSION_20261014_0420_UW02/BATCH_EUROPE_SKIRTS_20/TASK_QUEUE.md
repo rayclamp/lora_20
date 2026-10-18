@@ -16,14 +16,14 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 | TASK_010 | PROMPT_010 | v1 | SUCCESS | 1 |
 | TASK_011 | PROMPT_011 | v1 | SUCCESS | 1 |
 | TASK_012 | PROMPT_012 | v1 | SUCCESS | 1 |
-| TASK_013 | PROMPT_013 | v1 | PENDING | 1 |
-| TASK_014 | PROMPT_014 | v1 | PENDING | 1 |
-| TASK_015 | PROMPT_015 | v1 | PENDING | 1 |
-| TASK_016 | PROMPT_016 | v1 | PENDING | 1 |
-| TASK_017 | PROMPT_017 | v1 | PENDING | 1 |
-| TASK_018 | PROMPT_018 | v1 | PENDING | 1 |
-| TASK_019 | PROMPT_019 | v1 | PENDING | 1 |
-| TASK_020 | PROMPT_020 | v1 | PENDING | 1 |
+| TASK_013 | PROMPT_013 | v1 | SUCCESS | 1 |
+| TASK_014 | PROMPT_014 | v1 | SUCCESS | 1 |
+| TASK_015 | PROMPT_015 | v1 | SUCCESS | 1 |
+| TASK_016 | PROMPT_016 | v1 | SUCCESS | 1 |
+| TASK_017 | PROMPT_017 | v1 | SUCCESS | 1 |
+| TASK_018 | PROMPT_018 | v1 | SUCCESS | 1 |
+| TASK_019 | PROMPT_019 | v1 | SUCCESS | 1 |
+| TASK_020 | PROMPT_020 | v1 | SUCCESS | 1 |
 
 
 ## Result amendment — TASK_001
@@ -239,3 +239,11 @@ BATCH_ID: BATCH_EUROPE_SKIRTS_20
 - These image receipts are preserved and must not be retried; however, do not claim strict execution of the locked prompts for TASK_013–TASK_020.
 - PROMPT_MATCH_STATUS: NOT_ASSESSED. No visual QA was performed.
 - BATCH_STATUS remains IN_PROGRESS pending authoritative reconciliation of task status semantics and aggregate counters. Do not mark BATCH_COMPLETED until that reconciliation is recorded and read back.
+
+
+## FINAL RECONCILIATION / END_AUTO — 2026-10-19
+- All 20 required Tasks have at least one confirmed image receipt recorded in EXECUTION_LOG.md; each Task counts once as SUCCESS under PRODUCTION_RECORD_SCHEMA.md.
+- TASK_007 has two attributed image receipts; ACTUAL_OUTPUT_COUNT=2 for that Task. All other Tasks TASK_001–TASK_020 have one attributed image receipt each.
+- One additional received image (GENERATION_CALL_ID 5ed881c6-6e68-4a9a-b928-9f9df04c25eb) remains UNATTRIBUTED and is not credited to any Task.
+- Aggregate accounting: 20 successful Tasks; 22 actual image files received (21 attributed to Tasks + 1 unattributed); 1 separate unattributed result record; 0 pending, 0 failed, 0 deferred, 0 unknown, 0 blocked Tasks.
+- GENERATION_INPUT_MODE deviations are preserved as historical evidence; SUCCESS denotes image receipt and durable Task attribution only, not prompt-compliance verification or QA. PROMPT_MATCH_STATUS remains NOT_ASSESSED. No image generation or QA was performed during closeout.
