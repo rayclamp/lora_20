@@ -332,3 +332,11 @@ No generation call has been initiated at record-creation time. Append only obser
 - RESULT_REFERENCE: /mnt/data/a_wide_cinematic_photoreal_ultra_detailed_scene.png
 - PROMPT_MATCH_STATUS: NOT_ASSESSED
 - PERSISTENCE: write and readback verification pending
+
+
+## Execution-integrity correction — TASK_013–TASK_020 — 2026-10-18
+- Each Task returned one image and the result reference is recorded above.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION. The actual generation-tool calls in this continuation used condensed scene descriptions rather than submitting the complete locked prompt text as the call input.
+- These image receipts are preserved and must not be retried; however, do not claim strict execution of the locked prompts for TASK_013–TASK_020.
+- PROMPT_MATCH_STATUS: NOT_ASSESSED. No visual QA was performed.
+- BATCH_STATUS remains IN_PROGRESS pending authoritative reconciliation of task status semantics and aggregate counters. Do not mark BATCH_COMPLETED until that reconciliation is recorded and read back.
