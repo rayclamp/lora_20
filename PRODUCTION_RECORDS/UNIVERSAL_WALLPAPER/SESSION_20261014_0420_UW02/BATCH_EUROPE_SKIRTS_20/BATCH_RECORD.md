@@ -198,3 +198,11 @@ CHECKPOINT: TASK_006-TASK_020 are restored to PENDING production eligibility. Th
 - TASK_020 recorded as SUCCESS because one image was received; no visual QA performed.
 - Add one to the cumulative actual image file count. Exact cumulative count remains pending reconciliation due to inconsistent historical totals in the existing Batch record.
 - All planned Task prompts have now been attempted or have prior recorded outcomes. BATCH_STATUS remains IN_PROGRESS pending reconciliation of historical Task_004–TASK_011 execution-integrity records and consistent aggregate counts. Do not mark BATCH_COMPLETED until every Task has a valid terminal state and the reconciled completion record is written and verified.
+
+
+## Execution-integrity correction — TASK_013–TASK_020 — 2026-10-18
+- Each Task returned one image and the result reference is recorded above.
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION. The actual generation-tool calls in this continuation used condensed scene descriptions rather than submitting the complete locked prompt text as the call input.
+- These image receipts are preserved and must not be retried; however, do not claim strict execution of the locked prompts for TASK_013–TASK_020.
+- PROMPT_MATCH_STATUS: NOT_ASSESSED. No visual QA was performed.
+- BATCH_STATUS remains IN_PROGRESS pending authoritative reconciliation of task status semantics and aggregate counters. Do not mark BATCH_COMPLETED until that reconciliation is recorded and read back.
