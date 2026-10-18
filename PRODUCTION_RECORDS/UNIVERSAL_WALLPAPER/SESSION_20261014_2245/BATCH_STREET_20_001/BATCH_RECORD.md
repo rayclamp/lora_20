@@ -5,7 +5,7 @@ BATCH_ID: BATCH_STREET_20_001
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: REALISTIC
 IMAGE_COUNT: 20
-BATCH_STATUS: IN_PROGRESS
+BATCH_STATUS: STOPPED_INCOMPLETE
 COMPLETED_COUNT: 9
 RESULT_RECORDED_COUNT: 9
 ACTUAL_IMAGE_COUNT: 9
@@ -17,7 +17,7 @@ PENDING_COUNT: 11
 ATTEMPT_COUNT: 9
 CURRENT_TASK: TASK_009
 NEXT_TASK: TASK_010
-CHECKPOINT: TASK_009_RESULT_RECORDING_READBACK_VERIFIED
+CHECKPOINT: END_AUTO_STOPPED_WITH_PENDING_TASKS
 OUTPUT_TYPE: DESKTOP_16_9
 THEME: Street photography, Taiwan and Japan, summer/autumn, sunny daytime
 PET_ALLOWED: NO
@@ -25,3 +25,8 @@ PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 
 TASK_001 through TASK_009 each have one image result received and recorded. The first three generation inputs are recorded as KNOWN_DEVIATION. TASK_004 and TASK_005 generation inputs are also recorded as KNOWN_DEVIATION because the calls did not receive the complete locked prompts verbatim. TASK_006 generation input mode is NOT_EXPOSED. Locked prompt files remain unchanged. No visual QA was performed.
+
+
+END_AUTO: requested by user. Session work in this chat is closed without claiming Batch completion. TASK_010 through TASK_020 remain pending and were not deleted. No additional image generation was started. Current production result count remains 9 images across 9 successful Tasks; Batch is incomplete.
+SESSION_STATUS: CLOSED_INCOMPLETE
+TERMINATION_REASON: USER_REQUESTED_END_AUTO_WITH_REQUIRED_TASKS_REMAINING
