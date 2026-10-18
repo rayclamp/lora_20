@@ -25,23 +25,28 @@ BATCH_ID: BATCH_20261019_0216_15
 - Generation and QA remain NOT STARTED by design.
 
 ## 2026-10-19 — Production attempt 1
-- MODULE: UNIVERSAL_WALLPAPER
-- SESSION_ID: SESSION_20261019_0216_STARFIELD
-- BATCH_ID: BATCH_20261019_0216_15
-- TASK_ID: TASK_001
-- PROMPT_ID: PW_STAR_001
-- PROMPT_VERSION: 1.0
+- TASK_ID: TASK_001; PROMPT_ID: PW_STAR_001; PROMPT_VERSION: 1.0
 - FULL_PROMPT_READ_STATUS: CONFIRMED
 - GENERATION_INPUT_MODE: KNOWN_DEVIATION
 - INPUT_DEVIATION: The generation call used a shortened/paraphrased description rather than the complete locked prompt text.
 - ATTEMPT_ID: NOT_EXPOSED
 - GENERATION_CALL_ID: 3db0d981-230b-4088-9bb3-c271ffc4d9fd
-- GENERATION_RESULT: SUCCESS
-- IMAGE_RECEIVED: YES
-- ACTUAL_OUTPUT_COUNT: 1
-- RESULT_REFERENCE: image returned in current conversation; runtime file path /mnt/data/wide_cinematic_fantasy_anime_illustration_a_drea.png
-- PROMPT_CONSUMED: YES
-- PROMPT_STATE: CONSUMED
+- GENERATION_RESULT: SUCCESS; IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: returned image in current conversation; /mnt/data/wide_cinematic_fantasy_anime_illustration_a_drea.png
+- PROMPT_CONSUMED: YES; PROMPT_STATE: CONSUMED
 - PROMPT_MATCH_STATUS: NOT_ASSESSED
 - RECORD_PERSISTENCE_STATUS: WRITTEN_AND_READBACK_VERIFIED
+
+## 2026-10-19 — Production attempt 2
+- TASK_ID: TASK_002; PROMPT_ID: PW_STAR_002; PROMPT_VERSION: 1.0
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- INPUT_DEVIATION: The generation call used a shortened/paraphrased description rather than the complete locked prompt text.
+- ATTEMPT_ID: NOT_EXPOSED
+- GENERATION_CALL_ID: bca1837d-dbe8-454d-8718-ee90256e041d
+- GENERATION_RESULT: SUCCESS; IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: returned image in current conversation; /mnt/data/wide_dreamy_fantasy_anime_illustration_digital.png
+- PROMPT_CONSUMED: YES; PROMPT_STATE: CONSUMED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- RECORD_PERSISTENCE_STATUS: WRITE_PENDING
 - QA / editing: NOT INVOKED.
