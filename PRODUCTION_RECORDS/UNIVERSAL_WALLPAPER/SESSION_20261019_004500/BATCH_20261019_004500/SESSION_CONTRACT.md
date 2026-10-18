@@ -1,0 +1,25 @@
+# SESSION_CONTRACT.md
+
+SESSION_ID: SESSION_20261019_004500
+BATCH_ID: BATCH_20261019_004500
+SESSION_SCOPE: 新建一般動漫桌布提示詞設計與鎖定
+MODULE: UNIVERSAL_WALLPAPER
+PRODUCTION_TYPE: ANIME
+CHARACTER: INARIA
+IMAGE_COUNT: 15
+OUTPUT_TYPE: DESKTOP_16_9
+THEME: 禮服系列
+SCENE: 室內、室外
+SEASON: 不限制
+WEATHER: 不限制
+TIME: 白天、晚上
+PET_ALLOWED: NO
+CUSTOM_INSTRUCTIONS:
+- 禮服與鞋子搭配成套；可不戴頭飾。
+- 中式、西式、現代改良式及特殊剪裁皆可。
+- 以宴會／舞會正式禮服為主，排除結婚禮服。
+- 15 張禮服剪裁結構不得重複。
+- 主色以淺藍、藏青、白色為主。
+REFERENCE_IMAGE: 不屬於設計命令輸入；未假設存在。
+SESSION_STATUS: DESIGNING
+BOUNDARY: 僅設計、保存、讀回驗證、鎖定；不生圖、不 QA、不修圖。
