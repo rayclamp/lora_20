@@ -61,3 +61,5 @@ BATCH_ID: BATCH_20261014_1840_01
 - 2026-10-18T11:16:00+08:00 — GENERATION_STARTED — TASK_013 / PROMPT_013 v1; GENERATION_CALL_ID=GEN_20261018_TASK013_01; one call initiated.
 - 2026-10-18T11:16:00+08:00 — IMAGE_RESULT_RECEIVED — TASK_013; actual image files received: 1; RESULT_ID=file_00000000dbe88206a6010c9356445dfb; image receipt confirmed. PROMPT_STATE=RETIRED; PROMPT_CONSUMED=YES; no QA performed.
 - 2026-10-18T11:16:00+08:00 — RESULT_RECORDED — TASK_013 outcome recorded; next Task TASK_014.
+
+- 2026-10-19T02:01:00+08:00 — END_AUTO_FINAL_CHECK — User requested termination of current task-chat production only. Re-read current Batch records. TARGET_IMAGE_COUNT=20; SUCCESSFUL_TASK_COUNT=13; ACTUAL_IMAGE_COUNT=13; REMAINING_TASK_COUNT=7 (TASK_014–TASK_020); FAILED_TASK_COUNT=0; DEFERRED_TASK_COUNT=0; UNKNOWN_TASK_COUNT=0; LAST_COMPLETED_TASK=TASK_013. Required work remains incomplete. No generation initiated; no Tasks, images, prompts, or records deleted. Batch remains IN_PROGRESS; Session not marked CLOSED/COMPLETED. Checkpoint saved.
