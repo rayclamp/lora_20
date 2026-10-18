@@ -8,7 +8,7 @@
 - Readback verification: PASS; all 20 expected design files were reported read back during design initialization.
 - Prompt set: LOCKED; no prompt text modified.
 
-## Production attempt record
+## Production attempt records
 
 - TASK_ID: TASK_001
 - PROMPT_ID / VERSION: PROMPT_001 / 1.0
@@ -22,3 +22,16 @@
 - PROMPT_STATE: CONSUMED
 - PROMPT_MATCH_STATUS: NOT_ASSESSED
 - RECORD_PERSISTENCE: WRITTEN_AND_READBACK_VERIFIED
+
+- TASK_ID: TASK_002
+- PROMPT_ID / VERSION: PROMPT_002 / 1.0
+- ATTEMPT_NUMBER: 1
+- GENERATION_CALL_ID: bc3a286b-df93-49ad-b69b-e3e716ef6f72
+- GENERATION_RESULT: SUCCESS
+- IMAGE_RECEIVED: YES
+- ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: generated file /mnt/data/a_dreamy_ultra_detailed_anime_style_fantasy_illus.png; generation reference bc3a286b-df93-49ad-b69b-e3e716ef6f72
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- RECORD_PERSISTENCE: WRITTEN_PENDING_READBACK
