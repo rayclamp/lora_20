@@ -18,3 +18,18 @@ BATCH_ID: STARWORLD-15-001
   PROMPT_SET_LOCKED: YES
   PROMPT_COUNT: 15
   NOTES: All prompt files were written before lock metadata was updated; final readback verification pending.
+
+- EVENT_ID: STARWORLD-15-001-TASK_001-GEN-001
+  TIMESTAMP: 2026-10-19T02:39:00+08:00
+  EVENT_TYPE: GENERATION_RESULT
+  TASK_ID: TASK_001
+  PROMPT_ID: STARWORLD-15-001-TASK_001-P1
+  ATTEMPT_ID: STARWORLD-15-001-TASK_001-ATTEMPT-001
+  GENERATION_CALL_ID: 89e3c7aa-e39d-4d0a-b729-ff8be285714f
+  IMAGE_RECEIVED: YES
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_REFERENCE: file_00000000b6648206ac3938dcc0614f61
+  RESULT_FILE: /mnt/data/wide_dreamy_fantasy_sci_fi_anime_illustration_an.png
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  PERSISTENCE_STATUS: PENDING
+  NOTES: One image result returned by the image-generation interface. No QA performed.
