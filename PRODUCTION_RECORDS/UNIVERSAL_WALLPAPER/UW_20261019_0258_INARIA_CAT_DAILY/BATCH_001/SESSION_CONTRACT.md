@@ -1,0 +1,21 @@
+# SESSION_CONTRACT
+
+- SESSION_ID: UW_20261019_0258_INARIA_CAT_DAILY
+- BATCH_ID: BATCH_001
+- SESSION_SCOPE: Design and lock 15 Universal Wallpaper prompts
+- MODULE: UNIVERSAL_WALLPAPER
+- PRODUCTION_TYPE: ANIME
+- CHARACTER: INARIA
+- IMAGE_COUNT: 15
+- OUTPUT_TYPE: DESKTOP_16_9
+- THEME: 養貓日常
+- SCENE: 室內、室外
+- SEASON: 不限制
+- WEATHER: 不限制
+- TIME: 不限制
+- PET_ALLOWED: YES
+- CUSTOM_INSTRUCTIONS: 每張恰好一隻寵物貓；服裝一律裙裝且裙長不超過大腿；允許赤腳；不沿用參考圖服裝；可不畫全身；至少五張人物與寵物互動；鏡頭可多樣但人物不可背對鏡頭；保持人物與貓的真實相對比例，近鏡頭透視例外。
+- REFERENCE_IMAGE: Not a design input; no image assumed provided.
+- DESIGN_EXECUTION_BOUNDARY: Design and lock only. No image generation, QA, editing, or producer activation.
+- PROMPT_SET_STATUS: LOCKED
+- PROMPT_SET_LOCKED: YES
