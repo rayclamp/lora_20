@@ -204,3 +204,25 @@ BATCH_ID: BATCH_STREET_20_001
 - TASK_STATUS: SUCCESS (pending this event's read-back confirmation)
 - VISUAL_QA: NOT_PERFORMED
 - NOTE: One generated image result was received. No visual QA performed.
+
+
+## END_AUTO — 2026-10-19T02:14:00+08:00
+- EVENT_TYPE: STOPPED
+- SESSION_ID: SESSION_20261014_2245
+- BATCH_ID: BATCH_STREET_20_001
+- REQUEST: User requested closure of this task chat's automation work.
+- TARGET_IMAGE_COUNT: 20
+- SUCCESSFUL_TASK_COUNT: 9
+- ACTUAL_IMAGE_COUNT: 9
+- REMAINING_TASK_COUNT: 11
+- FAILED_TASK_COUNT: 0
+- DEFERRED_TASK_COUNT: 0
+- UNKNOWN_TASK_COUNT: 0
+- LAST_COMPLETED_TASK: TASK_009
+- NEXT_TASK: TASK_010 (prompt had been read, but generation did not complete because the image-generation tool was rate-limited)
+- UNFINISHED_REQUIRED_WORK: TASK_010 through TASK_020 remain pending.
+- BATCH_STATUS: STOPPED_INCOMPLETE
+- SESSION_STATUS: CLOSED_INCOMPLETE
+- ACTIONS: No image generation started; no image, Task, Prompt Set, or record deleted. Remaining tasks preserved.
+- GITHUB_WRITE_STATUS: Pending read-back verification.
+- NOTE: Do not mark Batch COMPLETED because 11 required Tasks remain unfinished.
