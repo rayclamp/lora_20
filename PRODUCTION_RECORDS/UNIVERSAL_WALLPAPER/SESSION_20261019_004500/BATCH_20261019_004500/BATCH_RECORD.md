@@ -19,6 +19,6 @@ PENDING_COUNT: 13
 ATTEMPT_COUNT: 3
 CURRENT_TASK: TASK_002
 NEXT_TASK: TASK_003
-CHECKPOINT: TASK_002 image receipt recorded; persistence readback pending
+CHECKPOINT: TASK_002 image receipts and GitHub records verified by readback
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
