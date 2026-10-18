@@ -1,0 +1,26 @@
+# SESSION_CONTRACT.md
+
+- SESSION_ID: UW_20261019_0150_INARIA_FORMAL_DRESSES
+- BATCH_ID: BATCH_001
+- SESSION_SCOPE: New independent wallpaper prompt-design session
+- MODULE: UNIVERSAL_WALLPAPER
+- PRODUCTION_TYPE: ANIME
+- CHARACTER: INARIA
+- IMAGE_COUNT: 15
+- OUTPUT_TYPE: DESKTOP_16_9
+- THEME: 禮服系列
+- SCENE: 室內、室外
+- SEASON: 不限制
+- WEATHER: 不限制
+- TIME: 白天、晚上
+- PET_ALLOWED: NO
+- CUSTOM_INSTRUCTIONS:
+  - 禮服與鞋子必須搭配成套。
+  - 可不佩戴頭飾。
+  - 禮服形式可為中式、西式、現代改良式及特殊剪裁。
+  - 以宴會、舞會、音樂沙龍、藝文活動等正式場合為主，明確排除婚紗與新娘造型。
+  - 15 張禮服剪裁與整體造型不得重複。
+  - 主色以淺藍色、藏青色、白色為主。
+- REFERENCE_POLICY: NO_REFERENCE; no visual person reference was supplied as a design input. Inaria character specification is semantic guidance only.
+- DESIGN_BOUNDARY: Design and persist prompts only. No image generation, QA, image editing, or producer activation.
+- PROMPT_SET_STATUS: DESIGNING until every prompt and required record has been written and read back; lock only after verification.
