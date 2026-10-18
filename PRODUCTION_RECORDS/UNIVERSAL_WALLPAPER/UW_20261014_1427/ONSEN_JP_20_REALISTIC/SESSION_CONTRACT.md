@@ -18,3 +18,5 @@ TIME: Day, Dusk, Night
 CUSTOM_INSTRUCTIONS: At least five images depict modest, non-explicit hot-spring bathing.
 
 The uploaded photograph is the only visual identity authority. Character semantics do not replace the uploaded visual reference. One Task is one independent 16:9 landscape image. No collage, no pets, no additional people. Prompts are designed and locked before generation. Production records receipt only; visual QA is separate.
+
+SESSION END CHECKPOINT (2026-10-19): SESSION_END_STATUS=CLOSED_WITH_UNFINISHED_WORK. This chat's production operation is ended at the user's request; the existing Batch remains IN_PROGRESS and is not marked COMPLETED. Successful Tasks: 9; actual image files received: 9; terminal failed Task: TASK_003; unfinished Tasks: TASK_011-TASK_020. Last completed Task: TASK_010. No records, prompts, tasks, or images were deleted.
