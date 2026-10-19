@@ -18,7 +18,7 @@ PENDING_COUNT: 9
 ATTEMPT_COUNT: 6
 CURRENT_TASK: TASK_006
 NEXT_TASK: TASK_007
-CHECKPOINT: TASK_001 through TASK_006 each returned one image; GitHub task/result records written, readback verification pending. No visual QA performed.
+CHECKPOINT: TASK_001 through TASK_006 each returned one image; TASK_QUEUE, BATCH_RECORD and EXECUTION_LOG updates were read back successfully. TASK_007 is next. No visual QA performed.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 TERMINATION_INFORMATION: Not terminated.
