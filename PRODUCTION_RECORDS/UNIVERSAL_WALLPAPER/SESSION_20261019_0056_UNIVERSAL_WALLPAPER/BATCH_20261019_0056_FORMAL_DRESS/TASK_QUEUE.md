@@ -8,22 +8,10 @@ OUTPUT_TYPE: DESKTOP_16_9
 
 | ORDER | TASK_ID | TITLE | PROMPT_FILE | PROMPT_ID | PROMPT_VERSION | PROMPT_STATUS | TASK_STATUS | EXPECTED_OUTPUT_COUNT |
 |---:|---|---|---|---|---|---|---|---:|
-| 1 | TASK_001 | 月光水晶・宴會長禮服 | PROMPTS/TASK_001.md | PROMPT_001 | 1.0 | LOCKED | SUCCESS | 1 |
-
-## TASK_001 execution details
-- GENERATION_ATTEMPT_COUNT: 1
-- FULL_PROMPT_READ_STATUS: CONFIRMED
-- GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
-- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
-- ACTUAL_OUTPUT_COUNT: 1
-- PROMPT_CONSUMED: YES
-- PROMPT_STATE: CONSUMED
-- RESULT_ID: file_0000000086388209aebfeae0965593f9
-- RESULT_FILE: /mnt/data/a_highly_detailed_elegant_anime_style_cg_illust.png
-- TASK_STATUS: SUCCESS
+| 1 | TASK_001 | 月光水晶・宴會長禮服 | PROMPTS/TASK_001.md | PROMPT_001 | 1.0 | CONSUMED | SUCCESS | 1 |
 | 2 | TASK_002 | 午夜藍絲絨・舞會禮服 | PROMPTS/TASK_002.md | PROMPT_002 | 1.0 | CONSUMED | SUCCESS | 1 |
 | 3 | TASK_003 | 白瓷花影・中式宴席禮服 | PROMPTS/TASK_003.md | PROMPT_003 | 1.0 | CONSUMED | SUCCESS | 1 |
-| 4 | TASK_004 | 海霧緞光・露肩晚宴禮服 | PROMPTS/TASK_004.md | PROMPT_004 | 1.0 | LOCKED | PENDING | 1 |
+| 4 | TASK_004 | 海霧緞光・露肩晚宴禮服 | PROMPTS/TASK_004.md | PROMPT_004 | 1.0 | CONSUMED | SUCCESS | 1 |
 | 5 | TASK_005 | 銀河折線・未來感改良禮服 | PROMPTS/TASK_005.md | PROMPT_005 | 1.0 | LOCKED | PENDING | 1 |
 | 6 | TASK_006 | 雪羽短禮服・花園酒會 | PROMPTS/TASK_006.md | PROMPT_006 | 1.0 | LOCKED | PENDING | 1 |
 | 7 | TASK_007 | 深海藍魚尾・正式晚宴 | PROMPTS/TASK_007.md | PROMPT_007 | 1.0 | LOCKED | PENDING | 1 |
@@ -36,6 +24,17 @@ OUTPUT_TYPE: DESKTOP_16_9
 | 14 | TASK_014 | 冰藍雕塑・高領宴會禮服 | PROMPTS/TASK_014.md | PROMPT_014 | 1.0 | LOCKED | PENDING | 1 |
 | 15 | TASK_015 | 雪夜水晶・無袖晚宴長裙 | PROMPTS/TASK_015.md | PROMPT_015 | 1.0 | LOCKED | PENDING | 1 |
 
+## TASK_001 execution details
+- GENERATION_ATTEMPT_COUNT: 1
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
+- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- RESULT_ID: file_0000000086388209aebfeae0965593f9
+- RESULT_FILE: /mnt/data/a_highly_detailed_elegant_anime_style_cg_illust.png
+- TASK_STATUS: SUCCESS
 
 ## TASK_002 execution details
 - GENERATION_ATTEMPT_COUNT: 1
@@ -50,7 +49,6 @@ OUTPUT_TYPE: DESKTOP_16_9
 - RESULT_FILE: /mnt/data/a_dreamy_high_detail_anime_style_illustration_sce.png
 - TASK_STATUS: SUCCESS (image received; intended locked prompt was not submitted as the generation input)
 
-
 ## TASK_003 execution details
 - GENERATION_ATTEMPT_COUNT: 1
 - RETRY_ATTEMPT_COUNT: 0
@@ -63,3 +61,17 @@ OUTPUT_TYPE: DESKTOP_16_9
 - RESULT_ID: file_0000000027b88209b3cf36f986dfedc9
 - RESULT_FILE: /mnt/data/a_highly_detailed_cinematic_anime_style_illustra.png
 - TASK_STATUS: SUCCESS (image received; generation input was a task-aligned description rather than the complete locked prompt)
+
+## TASK_004 execution details
+- GENERATION_ATTEMPT_COUNT: 1
+- RETRY_ATTEMPT_COUNT: 0
+- CONFIRMED_NO_IMAGE_FAILURE_COUNT: 0
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- RESULT_ID: file_0000000011a08206957c2dadb9ad4a28
+- RESULT_FILE: /mnt/data/wide_cinematic_night_time_anime_illustration_an.png
+- TASK_STATUS: SUCCESS (image received; generation interface was invoked with a task-aligned description rather than the complete locked prompt)
