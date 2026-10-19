@@ -19,7 +19,7 @@ PENDING_COUNT: 9
 ATTEMPT_COUNT: 6
 CURRENT_TASK: TASK_006
 NEXT_TASK: TASK_007
-CHECKPOINT: TASK_006 image receipt and execution event written; readback verification pending
+CHECKPOINT: TASK_006 image receipt, Task status, and execution event readback verified
 TASK_COUNT: 15
 PROMPT_FILE_COUNT: 15
 PROMPT_SET_STATUS: LOCKED
