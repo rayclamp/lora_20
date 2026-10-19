@@ -8,24 +8,24 @@ CHARACTER: INARIA
 IMAGE_COUNT: 15
 OUTPUT_TYPE: DESKTOP_16_9
 PROMPT_SET_VERSION: 1.0
-PROMPT_SET_STATUS: DESIGNING
-PROMPT_SET_LOCKED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
 PROMPT_BODY_STORAGE: Dedicated PROMPTS/TASK_NNN.md files only; no prompt bodies in this manifest.
 
 | ORDER | TASK_ID | PROMPT_ID | PROMPT_VERSION | PROMPT_FILE | DESIGN_TITLE | PROMPT_STATUS | LOCK_STATUS |
 |---:|---|---|---|---|---|---|---|
-| 1 | TASK_001 | PROMPT_001 | 1.0 | PROMPTS/TASK_001.md | Crystal Moon Observatory | DRAFT | UNLOCKED |
-| 2 | TASK_002 | PROMPT_002 | 1.0 | PROMPTS/TASK_002.md | Prismatic Waterfall | DRAFT | UNLOCKED |
-| 3 | TASK_003 | PROMPT_003 | 1.0 | PROMPTS/TASK_003.md | Floating Shard Bridge | DRAFT | UNLOCKED |
-| 4 | TASK_004 | PROMPT_004 | 1.0 | PROMPTS/TASK_004.md | Crystal Garden Recline | DRAFT | UNLOCKED |
-| 5 | TASK_005 | PROMPT_005 | 1.0 | PROMPTS/TASK_005.md | The Geode Throne | DRAFT | UNLOCKED |
-| 6 | TASK_006 | PROMPT_006 | 1.0 | PROMPTS/TASK_006.md | Prism Staircase Turn | DRAFT | UNLOCKED |
-| 7 | TASK_007 | PROMPT_007 | 1.0 | PROMPTS/TASK_007.md | Crystal Pool Crouch | DRAFT | UNLOCKED |
-| 8 | TASK_008 | PROMPT_008 | 1.0 | PROMPTS/TASK_008.md | The Floating Library | DRAFT | UNLOCKED |
-| 9 | TASK_009 | PROMPT_009 | 1.0 | PROMPTS/TASK_009.md | Crystal Kite Flight | DRAFT | UNLOCKED |
-| 10 | TASK_010 | PROMPT_010 | 1.0 | PROMPTS/TASK_010.md | Blue Moon Amphitheater | DRAFT | UNLOCKED |
-| 11 | TASK_011 | PROMPT_011 | 1.0 | PROMPTS/TASK_011.md | Crystal Petal Dance | DRAFT | UNLOCKED |
-| 12 | TASK_012 | PROMPT_012 | 1.0 | PROMPTS/TASK_012.md | The Sapphire Arch | DRAFT | UNLOCKED |
-| 13 | TASK_013 | PROMPT_013 | 1.0 | PROMPTS/TASK_013.md | Crystal Cavern Exploration | DRAFT | UNLOCKED |
-| 14 | TASK_014 | PROMPT_014 | 1.0 | PROMPTS/TASK_014.md | The Moonlit Crystal Hammock | DRAFT | UNLOCKED |
-| 15 | TASK_015 | PROMPT_015 | 1.0 | PROMPTS/TASK_015.md | The Crystal Gatekeeper | DRAFT | UNLOCKED |
+| 1 | TASK_001 | PROMPT_001 | 1.0 | PROMPTS/TASK_001.md | Crystal Moon Observatory | LOCKED | LOCKED |
+| 2 | TASK_002 | PROMPT_002 | 1.0 | PROMPTS/TASK_002.md | Prismatic Waterfall | LOCKED | LOCKED |
+| 3 | TASK_003 | PROMPT_003 | 1.0 | PROMPTS/TASK_003.md | Floating Shard Bridge | LOCKED | LOCKED |
+| 4 | TASK_004 | PROMPT_004 | 1.0 | PROMPTS/TASK_004.md | Crystal Garden Recline | LOCKED | LOCKED |
+| 5 | TASK_005 | PROMPT_005 | 1.0 | PROMPTS/TASK_005.md | The Geode Throne | LOCKED | LOCKED |
+| 6 | TASK_006 | PROMPT_006 | 1.0 | PROMPTS/TASK_006.md | Prism Staircase Turn | LOCKED | LOCKED |
+| 7 | TASK_007 | PROMPT_007 | 1.0 | PROMPTS/TASK_007.md | Crystal Pool Crouch | LOCKED | LOCKED |
+| 8 | TASK_008 | PROMPT_008 | 1.0 | PROMPTS/TASK_008.md | The Floating Library | LOCKED | LOCKED |
+| 9 | TASK_009 | PROMPT_009 | 1.0 | PROMPTS/TASK_009.md | Crystal Kite Flight | LOCKED | LOCKED |
+| 10 | TASK_010 | PROMPT_010 | 1.0 | PROMPTS/TASK_010.md | Blue Moon Amphitheater | LOCKED | LOCKED |
+| 11 | TASK_011 | PROMPT_011 | 1.0 | PROMPTS/TASK_011.md | Crystal Petal Dance | LOCKED | LOCKED |
+| 12 | TASK_012 | PROMPT_012 | 1.0 | PROMPTS/TASK_012.md | The Sapphire Arch | LOCKED | LOCKED |
+| 13 | TASK_013 | PROMPT_013 | 1.0 | PROMPTS/TASK_013.md | Crystal Cavern Exploration | LOCKED | LOCKED |
+| 14 | TASK_014 | PROMPT_014 | 1.0 | PROMPTS/TASK_014.md | The Moonlit Crystal Hammock | LOCKED | LOCKED |
+| 15 | TASK_015 | PROMPT_015 | 1.0 | PROMPTS/TASK_015.md | The Crystal Gatekeeper | LOCKED | LOCKED |
