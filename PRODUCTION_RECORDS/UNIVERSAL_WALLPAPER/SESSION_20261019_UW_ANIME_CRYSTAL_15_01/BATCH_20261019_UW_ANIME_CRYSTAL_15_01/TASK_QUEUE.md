@@ -8,7 +8,7 @@
 | 4 | TASK_004 | 星塵水晶塔・高處微風 | PROMPTS/TASK_004.md | PROMPT_004 | 1.0 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | NOT_ASSESSED | YES | CONSUMED | gen_id:924dea3d-7ba0-4cb2-ba31-22df79196299; file:/mnt/data/wide_cinematic_fantasy_anime_style_scene_a_dream.png |
 | 5 | TASK_005 | 水晶瀑布・晶霧 | PROMPTS/TASK_005.md | PROMPT_005 | 1.0 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | NOT_ASSESSED | YES | CONSUMED | gen_id:95fb3b02-771e-4914-bb1e-36774c691cd1; file:/mnt/data/a_dreamy_high_detail_anime_style_illustration_cg.png |
 | 6 | TASK_006 | 月桂晶園・花冠 | PROMPTS/TASK_006.md | PROMPT_006 | 1.0 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | NOT_ASSESSED | YES | CONSUMED | gen_id:7d3aae34-1b9b-4565-a862-e4a83d363da3; file:/mnt/data/a_dreamy_high_detail_anime_fantasy_illustration.png |
-| 7 | TASK_007 | 漂浮晶島・跨越光橋 | PROMPTS/TASK_007.md | PROMPT_007 | 1.0 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | 0 | NOT_ASSESSED | NO | AVAILABLE | |
+| 7 | TASK_007 | 漂浮晶島・跨越光橋 | PROMPTS/TASK_007.md | PROMPT_007 | 1.0 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | NOT_ASSESSED | YES | CONSUMED | gen_id:4f675286-c1de-4b5c-97f8-84ddae566d3a; file:/mnt/data/wide_epic_fantasy_anime_style_illustration_a_dre.png |
 | 8 | TASK_008 | 水晶鐘庭・午夜祈願 | PROMPTS/TASK_008.md | PROMPT_008 | 1.0 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | 0 | NOT_ASSESSED | NO | AVAILABLE | |
 | 9 | TASK_009 | 晶砂沙海・藍月升起 | PROMPTS/TASK_009.md | PROMPT_009 | 1.0 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | 0 | NOT_ASSESSED | NO | AVAILABLE | |
 | 10 | TASK_010 | 水晶溫室・夜花盛放 | PROMPTS/TASK_010.md | PROMPT_010 | 1.0 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | 0 | NOT_ASSESSED | NO | AVAILABLE | |
