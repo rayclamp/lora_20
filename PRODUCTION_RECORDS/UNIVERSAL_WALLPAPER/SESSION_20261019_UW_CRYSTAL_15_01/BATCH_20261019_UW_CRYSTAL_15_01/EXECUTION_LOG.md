@@ -16,3 +16,9 @@ BATCH_ID: BATCH_20261019_UW_CRYSTAL_15_01
   EVENT_TYPE: PROMPT_DESIGN_PLANNED
   TASK_ID: ALL
   DETAILS: Planned 15 materially differentiated crystal-fantasy night scenes, poses and compositions. Prompt persistence and readback verification pending.
+
+- EVENT_ID: EVT_003
+  TIMESTAMP: 2026-10-19T18:39:00+08:00
+  EVENT_TYPE: PROMPT_SET_LOCKED
+  TASK_ID: ALL
+  DETAILS: All 15 dedicated prompt files and all five standard records were read back from GitHub main. Each prompt has non-empty text between required delimiters. Task queue and manifest contain 15 mappings; manifest contains no prompt bodies. Prompt files and manifest locked. No image generation or QA performed.
