@@ -16,5 +16,5 @@ TIME: Night
 PET_ALLOWED: NO
 REFERENCE_IMAGE: Not an input field for this design command; no visual reference supplied.
 CUSTOM_INSTRUCTIONS: 15 varied full-bleed 16:9 anime wallpapers; full body; silhouette ideally 80–90% of width; vary poses, camera angles, body orientation and composition; short skirted dresses showing thighs; palette water blue/navy/white; blue moon when present; Japanese blue starflowers; no animals.
-SESSION_STATUS: DESIGNING
+SESSION_STATUS: PROMPTS_LOCKED
 DESIGN_EXECUTION_BOUNDARY: Design, persist, read back, verify and lock prompts only. Do not generate images, perform QA, edit images, or launch a producer.
