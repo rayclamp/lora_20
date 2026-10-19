@@ -95,19 +95,25 @@ Avoid fingers crossing or completely overlapping.
 
 Maintain natural spacing whenever practical.
 
-### 13. Hand separation
+### 13. Hand separation — MANDATORY, NO INTERLACING
 
-Avoid hands covering each other.
+The two hands must remain clearly distinct during composition and prompt design. **Never design interlaced, interwoven, or ten-finger-interlocked poses.** This includes prayer or clasping actions if they imply that fingers from the two hands weave between each other.
 
-If hand-to-hand contact is necessary, designate one primary hand and one auxiliary hand.
+This rule must change the action choice itself. It is not sufficient to write a high-risk action such as “hands clasped together” and append “do not interlace fingers” or “correct anatomy.” If the proposed action could lead to interlacing or merged finger contours, replace it before finalizing the prompt.
 
 Do not design:
-- crossed hands;
-- stacked hands;
-- both hands on the same knee;
-- both hands together on one thigh;
-- interlocked fingers;
+- interlaced or interwoven fingers;
+- ten-finger-interlocked hands;
+- prayer/clasping poses that imply interlaced fingers;
+- crossed, stacked, or overlapping hands that obscure which fingers belong to which hand;
+- both hands on the same knee or together on one thigh;
 - hands so close that palm or finger boundaries become ambiguous.
+
+Prefer a safe, scene-appropriate alternative: one hand resting on the chest while the other stays separate, each hand placed on a different knee, one hand holding a simple object while the other remains apart, or both hands relaxed with clearly separate outlines. Preserve the scene's mood while changing the hand action.
+
+If hand-to-hand proximity is not essential, separate the hands. If a requested action implies interlacing, redesign the action before generation rather than relying on a negative prompt.
+
+Apply 00_MASTER/ANATOMY_STABILITY.md as the authoritative hard standard. This is a prompt-design and generation-planning rule, not permission to perform post-generation QA, reject, repair, or regenerate an image.
 
 ### 14. Hand clearance from frame edge
 
