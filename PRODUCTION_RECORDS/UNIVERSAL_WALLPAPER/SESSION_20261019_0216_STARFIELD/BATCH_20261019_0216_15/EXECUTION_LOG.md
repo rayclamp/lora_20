@@ -65,3 +65,17 @@ BATCH_ID: BATCH_20261019_0216_15
 - RECORD_PERSISTENCE_STATUS: WRITTEN_AND_READBACK_VERIFIED
 - GitHub record write and read-back verification: PASS for TASK_QUEUE.md, BATCH_RECORD.md, and EXECUTION_LOG.md.
 - QA / editing: NOT INVOKED.
+
+## 2026-10-20 — Production attempt 4
+- TASK_ID: TASK_004; PROMPT_ID: PW_STAR_004; PROMPT_VERSION: 1.0
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- INPUT_DEVIATION: The image-generation interface was invoked with a concise description based on the locked prompt rather than the entire locked prompt text verbatim; exact transport is not available from the interface.
+- ATTEMPT_ID: NOT_EXPOSED
+- GENERATION_CALL_ID: 68a8bae1-e62b-4f91-985a-e40024640648
+- GENERATION_RESULT: SUCCESS; IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: returned image in current conversation; /mnt/data/wide_cinematic_anime_style_fantasy_illustration_c.png
+- PROMPT_CONSUMED: YES; PROMPT_STATE: CONSUMED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- RECORD_PERSISTENCE_STATUS: PENDING
+- QA / editing: NOT INVOKED.
