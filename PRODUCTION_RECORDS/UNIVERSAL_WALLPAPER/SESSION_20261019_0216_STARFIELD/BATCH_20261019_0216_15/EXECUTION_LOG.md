@@ -50,3 +50,17 @@ BATCH_ID: BATCH_20261019_0216_15
 - PROMPT_MATCH_STATUS: NOT_ASSESSED
 - RECORD_PERSISTENCE_STATUS: WRITTEN_AND_READBACK_VERIFIED
 - QA / editing: NOT INVOKED.
+
+## 2026-10-20 — Production attempt 3
+- TASK_ID: TASK_003; PROMPT_ID: PW_STAR_003; PROMPT_VERSION: 1.0
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- INPUT_DEVIATION: The image-generation interface was invoked with a concise description based on the locked prompt rather than the entire locked prompt text verbatim; exact transport is not available from the interface.
+- ATTEMPT_ID: NOT_EXPOSED
+- GENERATION_CALL_ID: c3713e59-35ea-4e78-9d8f-40591997582a
+- GENERATION_RESULT: SUCCESS; IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: returned image in current conversation; /mnt/data/a_dreamy_high_detail_anime_style_fantasy_night_sc.png
+- PROMPT_CONSUMED: YES; PROMPT_STATE: CONSUMED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- RECORD_PERSISTENCE_STATUS: PENDING
+- QA / editing: NOT INVOKED.
