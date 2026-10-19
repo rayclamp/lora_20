@@ -22,4 +22,4 @@ ATTEMPT_COUNT: 6
 CURRENT_TASK: TASK_006
 NEXT_TASK: TASK_007
 CHECKPOINT: TASK_006 returned one image; result record persisted pending readback verification. TASK_001–TASK_003 persistence remains pending.
-TERMINATION_INFORMATION: Batch remains active; 11 Tasks pending.
+TERMINATION_INFORMATION: Batch remains active; 9 Tasks pending.
