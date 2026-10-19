@@ -5,7 +5,7 @@
 | 1 | TASK_001 | 水晶月殿・浮空階梯 | PROMPTS/TASK_001.md | PROMPT_001 | 1.0 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | NOT_ASSESSED | YES | CONSUMED | gen_id:c6f21067-e72f-48eb-85d5-133edfb39f9c; file:/mnt/data/a_highly_detailed_fantasy_anime_style_illustratio.png |
 | 2 | TASK_002 | 藍晶湖・月光倒影 | PROMPTS/TASK_002.md | PROMPT_002 | 1.0 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | NOT_ASSESSED | YES | CONSUMED | gen_id:00f2d15b-db72-409b-acae-3281510f9703; file:/mnt/data/a_dreamy_ultra_detailed_anime_style_illustration.png |
 | 3 | TASK_003 | 水晶森林・發光花徑 | PROMPTS/TASK_003.md | PROMPT_003 | 1.0 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | NOT_ASSESSED | YES | CONSUMED | gen_id:4f3ba37f-1775-45c7-9ade-0348a88efa15; file:/mnt/data/a_dreamy_high_detail_anime_fantasy_illustration_s.png |
-| 4 | TASK_004 | 星塵水晶塔・高處微風 | PROMPTS/TASK_004.md | PROMPT_004 | 1.0 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | 0 | NOT_ASSESSED | NO | AVAILABLE | |
+| 4 | TASK_004 | 星塵水晶塔・高處微風 | PROMPTS/TASK_004.md | PROMPT_004 | 1.0 | LOCKED | SUCCESS | IMAGE_RESULT_RECEIVED | 1 | 1 | 1 | NOT_ASSESSED | YES | CONSUMED | gen_id:924dea3d-7ba0-4cb2-ba31-22df79196299; file:/mnt/data/wide_cinematic_fantasy_anime_style_scene_a_dream.png |
 | 5 | TASK_005 | 水晶瀑布・晶霧 | PROMPTS/TASK_005.md | PROMPT_005 | 1.0 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | 0 | NOT_ASSESSED | NO | AVAILABLE | |
 | 6 | TASK_006 | 月桂晶園・花冠 | PROMPTS/TASK_006.md | PROMPT_006 | 1.0 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | 0 | NOT_ASSESSED | NO | AVAILABLE | |
 | 7 | TASK_007 | 漂浮晶島・跨越光橋 | PROMPTS/TASK_007.md | PROMPT_007 | 1.0 | LOCKED | PENDING | NOT_STARTED | 1 | 0 | 0 | NOT_ASSESSED | NO | AVAILABLE | |
