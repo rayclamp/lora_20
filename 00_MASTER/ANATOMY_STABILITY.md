@@ -139,28 +139,30 @@ Priority:
 - For explicit finger poses, prefer large, simple objects with clear contact surfaces.
 - If a handheld prop is not essential and creates anatomy risk, simplify or remove it.
 
-### Hand-separation high-risk rule
-Both visible hands must remain clearly separated whenever the composition allows it.
+### Hand-separation and no-interlacing rule — HARD RULE
+
+Both hands must remain anatomically distinct and visually traceable. **Do not design a pose in which fingers from the left and right hands interlace, weave between one another, or become intricately interlocked.** Treat interlaced-finger poses as prohibited during prompt design, including ten-finger interlocking, clasped prayer hands with interwoven fingers, and similar hand-to-hand configurations.
+
+This is a design prohibition, not merely a negative-prompt suggestion. Do not first specify an interlaced or high-risk hand action and then attempt to cancel it with wording such as “do not interlace fingers,” “no complex finger crossing,” or “correct hand anatomy.” Remove the high-risk action from the proposed composition before writing the final prompt.
 
 Do NOT design:
-- crossed hands;
-- overlapping or stacked hands;
-- both hands resting on the same knee;
-- both hands placed together on one thigh;
-- interlocked fingers;
-- hands positioned so closely that fingers or palm boundaries overlap or become difficult to distinguish.
+- interlaced, interwoven, or ten-finger-interlocked hands;
+- prayer/clasping poses that require the fingers of both hands to weave between each other;
+- crossed, stacked, or overlapping hands that obscure finger ownership or palm boundaries;
+- both hands placed together on one knee or one thigh;
+- hands positioned so closely that fingers merge visually or their left/right ownership cannot be read.
 
-For seated poses, the phrase "hands on knees" does NOT mean both hands may be placed together. Prefer clearly separated placement, such as:
+Prefer a clear alternative that preserves the scene's intent without interlacing, such as one hand resting on the chest and the other relaxed separately, each hand resting on a different knee, one hand holding a simple object while the other remains apart, or both hands visibly separated with natural, uncomplicated fingers. Do not use “hands together,” “clasped hands,” or “praying hands” as a default if the phrase could imply interlaced fingers; specify a safe alternative action instead.
+
+For seated poses, the phrase “hands on knees” does NOT mean both hands may be placed together. Prefer clearly separated placement, such as:
 - left hand naturally resting on the left knee and right hand naturally resting on the right knee;
 - one hand resting naturally on a thigh while the other remains clearly separated;
 - both hands naturally relaxed beside the body.
 
-The rule is about spatial separation, not a blanket ban on seated poses or hands resting on knees.
-
-If a planned pose causes the two hands to overlap, touch, merge visually, or obscure each other's fingers, redesign the hand action before generation.
+If a requested scene implies an interlaced-finger pose, preserve the theme or emotion but replace the hand action before generation. The rule is about preventing interlacing and ambiguous hand boundaries; it is not a blanket ban on all poses where the hands are near each other.
 
 Priority:
-**clear left/right hand separation > pose complexity > decorative hand positioning.**
+**no interlaced fingers + clearly distinct left/right hand anatomy > requested hand gesture detail > decorative hand positioning.**
 
 ## 4. Hand-object contact
 - Palm/fingers must actually contact the object.
