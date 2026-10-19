@@ -6,17 +6,17 @@
 - PRODUCTION_TYPE: ANIME
 - IMAGE_COUNT: 15
 - BATCH_STATUS: IN_PROGRESS
-- COMPLETED_COUNT: 4
+- COMPLETED_COUNT: 5
 - RESULT_RECORDED_COUNT: 0
-- ACTUAL_IMAGE_COUNT: 4
+- ACTUAL_IMAGE_COUNT: 5
 - UNVERIFIED_COUNT: 0
 - FAILED_COUNT: 0
 - DEFERRED_COUNT: 0
 - BLOCKED_COUNT: 0
-- PENDING_COUNT: 11
-- ATTEMPT_COUNT: 4
-- CURRENT_TASK: TASK_005
-- NEXT_TASK: TASK_005
-- CHECKPOINT: TASK_001 through TASK_004 each have one image result recorded; known generation-input deviations preserved; next eligible Task is TASK_005.
+- PENDING_COUNT: 10
+- ATTEMPT_COUNT: 5
+- CURRENT_TASK: TASK_006
+- NEXT_TASK: TASK_006
+- CHECKPOINT: TASK_001 through TASK_005 each have one image result recorded; known generation-input deviations preserved; next eligible Task is TASK_006.
 - PROMPT_SET_STATUS: LOCKED
 - PROMPT_SET_LOCKED: YES
