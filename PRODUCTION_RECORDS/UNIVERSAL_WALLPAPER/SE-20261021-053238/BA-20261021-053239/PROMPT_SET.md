@@ -1,11 +1,12 @@
 # PROMPT_SET.md
-PROMPT_SET_STATUS: PENDING_VERIFICATION
-PROMPT_SET_LOCKED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
 MODULE: UNIVERSAL_WALLPAPER
 SESSION_ID: SE-20261021-053238
 BATCH_ID: BA-20261021-053239
 IMAGE_COUNT: 15
 OUTPUT_TYPE: DESKTOP_16_9
+LOCK_VERIFICATION: All 5 standard records and all 15 dedicated prompt files were read back successfully; each prompt has non-empty locked text delimiters and required metadata; queue and manifest each map 15 unique Tasks; this file contains manifest metadata only.
 
 | ORDER | TASK_ID | PROMPT_ID | PROMPT_VERSION | PROMPT_FILE | PROMPT_STATUS |
 |---:|---|---|---|---|---|
