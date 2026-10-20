@@ -5,7 +5,7 @@ BATCH_ID: BATCH_20261020_UW_ANIME_INARIA_QUIET_NIGHT_15_01
 MODULE: UNIVERSAL_WALLPAPER
 PRODUCTION_TYPE: ANIME
 IMAGE_COUNT: 15
-BATCH_STATUS: DESIGNING
+BATCH_STATUS: PROMPTS_LOCKED
 COMPLETED_COUNT: 0
 RESULT_RECORDED_COUNT: 0
 ACTUAL_IMAGE_COUNT: 0
@@ -17,5 +17,5 @@ PENDING_COUNT: 15
 ATTEMPT_COUNT: 0
 CURRENT_TASK: NONE
 NEXT_TASK: TASK_001
-CHECKPOINT: All 15 prompts drafted; awaiting persisted readback and prompt-set lock.
-TERMINATION_INFORMATION: Design-only operation. No generation or QA performed.
+CHECKPOINT: All 15 independent prompt files and five standard Batch records were written and read back. Prompt Set is locked. No image generation or QA performed.
+TERMINATION_INFORMATION: Design-and-lock operation complete; hand off to a separate production command only.
