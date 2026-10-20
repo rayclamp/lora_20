@@ -6,17 +6,17 @@
 - PRODUCTION_TYPE: ANIME
 - IMAGE_COUNT: 15
 - BATCH_STATUS: IN_PROGRESS
-- COMPLETED_COUNT: 7
+- COMPLETED_COUNT: 8
 - RESULT_RECORDED_COUNT: 0
-- ACTUAL_IMAGE_COUNT: 7
+- ACTUAL_IMAGE_COUNT: 8
 - UNVERIFIED_COUNT: 0
 - FAILED_COUNT: 0
 - DEFERRED_COUNT: 0
 - BLOCKED_COUNT: 0
-- PENDING_COUNT: 8
-- ATTEMPT_COUNT: 7
-- CURRENT_TASK: TASK_008
-- NEXT_TASK: TASK_008
-- CHECKPOINT: TASK_001 through TASK_007 each have one image result received; TASK_007 generation input used a concise paraphrase rather than the complete locked prompt, recorded as a known deviation without QA; next eligible Task is TASK_008.
+- PENDING_COUNT: 7
+- ATTEMPT_COUNT: 8
+- CURRENT_TASK: TASK_009
+- NEXT_TASK: TASK_009
+- CHECKPOINT: TASK_001 through TASK_008 each have one image result received. TASK_007 and TASK_008 used concise paraphrases rather than the complete locked prompt; both are recorded as known deviations without QA. Next eligible Task is TASK_009.
 - PROMPT_SET_STATUS: LOCKED
 - PROMPT_SET_LOCKED: YES
