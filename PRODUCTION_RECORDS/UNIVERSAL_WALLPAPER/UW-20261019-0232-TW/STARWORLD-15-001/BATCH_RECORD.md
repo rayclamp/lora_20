@@ -10,10 +10,10 @@ OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
-COMPLETED_COUNT: 6
+COMPLETED_COUNT: 7
 RESULT_RECORDED_COUNT: 3
 ACTUAL_IMAGE_COUNT: 7
-UNVERIFIED_COUNT: 1
+UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
@@ -21,5 +21,5 @@ PENDING_COUNT: 8
 ATTEMPT_COUNT: 7
 CURRENT_TASK: TASK_007
 NEXT_TASK: TASK_008
-CHECKPOINT: TASK_007 returned one image; execution log readback verified, Task Queue and Batch Record writes/readback remain pending. Do not advance to TASK_008 until current result persistence is verified. Historical TASK_001–TASK_003 persistence remains pending.
-TERMINATION_INFORMATION: Batch remains active; 9 Tasks pending.
+CHECKPOINT: TASK_007 returned one image; execution log, Task Queue, and Batch Record writes are saved. Readback verification of the final queue and batch updates is pending. Historical TASK_001–TASK_003 persistence remains pending.
+TERMINATION_INFORMATION: Batch remains active; 8 Tasks pending.
