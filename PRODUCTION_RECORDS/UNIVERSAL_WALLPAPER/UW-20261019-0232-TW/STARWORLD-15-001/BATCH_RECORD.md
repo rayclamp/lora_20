@@ -12,14 +12,14 @@ PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 COMPLETED_COUNT: 6
 RESULT_RECORDED_COUNT: 3
-ACTUAL_IMAGE_COUNT: 6
-UNVERIFIED_COUNT: 0
+ACTUAL_IMAGE_COUNT: 7
+UNVERIFIED_COUNT: 1
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 9
-ATTEMPT_COUNT: 6
-CURRENT_TASK: TASK_006
-NEXT_TASK: TASK_007
-CHECKPOINT: TASK_006 returned one image; result record persisted pending readback verification. TASK_001–TASK_003 persistence remains pending.
+PENDING_COUNT: 8
+ATTEMPT_COUNT: 7
+CURRENT_TASK: TASK_007
+NEXT_TASK: TASK_008
+CHECKPOINT: TASK_007 returned one image; execution log readback verified, Task Queue and Batch Record writes/readback remain pending. Do not advance to TASK_008 until current result persistence is verified. Historical TASK_001–TASK_003 persistence remains pending.
 TERMINATION_INFORMATION: Batch remains active; 9 Tasks pending.
