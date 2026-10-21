@@ -7,17 +7,17 @@ CHARACTER: INARIA
 IMAGE_COUNT: 15
 OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 4
+COMPLETED_COUNT: 5
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 4
+ACTUAL_IMAGE_COUNT: 5
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 11
-ATTEMPT_COUNT: 4
-CURRENT_TASK: TASK_004
-NEXT_TASK: TASK_005
-CHECKPOINT: Design and prompt persistence completed; 15 independent prompt files and all five standard records were read back and verified. Generation started; TASK_001 through TASK_004 each returned one image and their results were recorded.
+PENDING_COUNT: 10
+ATTEMPT_COUNT: 5
+CURRENT_TASK: TASK_005
+NEXT_TASK: TASK_006
+CHECKPOINT: Design and prompt persistence completed; 15 independent prompt files and all five standard records were read back and verified. Generation started; TASK_001 through TASK_005 each returned one image and their results were recorded.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
