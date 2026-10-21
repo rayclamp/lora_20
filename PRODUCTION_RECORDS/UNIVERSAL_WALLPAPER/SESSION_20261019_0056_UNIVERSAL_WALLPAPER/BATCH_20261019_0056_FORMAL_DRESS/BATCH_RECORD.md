@@ -8,18 +8,18 @@ IMAGE_COUNT: 15
 OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
 EXPECTED_OUTPUT_COUNT_PER_TASK: 1
-COMPLETED_COUNT: 11
+COMPLETED_COUNT: 12
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 11
+ACTUAL_IMAGE_COUNT: 12
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 4
-ATTEMPT_COUNT: 11
-CURRENT_TASK: TASK_011
-NEXT_TASK: TASK_012
-CHECKPOINT: TASK_011 image receipt and execution event recorded; readback verification pending
+PENDING_COUNT: 3
+ATTEMPT_COUNT: 12
+CURRENT_TASK: TASK_012
+NEXT_TASK: TASK_013
+CHECKPOINT: TASK_012 image receipt and execution event recorded; readback verification pending
 TASK_COUNT: 15
 PROMPT_FILE_COUNT: 15
 PROMPT_SET_STATUS: LOCKED
@@ -35,3 +35,5 @@ LATEST_UPDATE: TASK_009 image received; result record written; readback verifica
 LATEST_UPDATE: TASK_010 image received and result record written; readback verification pending. Totals intended after reconciliation: COMPLETED_COUNT=10, ACTUAL_IMAGE_COUNT=10, ATTEMPT_COUNT=10, PENDING_COUNT=5.
 
 LATEST_UPDATE: TASK_011 image received and result record written; readback verification pending. Totals intended after reconciliation: COMPLETED_COUNT=11, ACTUAL_IMAGE_COUNT=11, ATTEMPT_COUNT=11, PENDING_COUNT=4.
+
+LATEST_UPDATE: TASK_012 image received and result record written; readback verification pending. Totals intended after reconciliation: COMPLETED_COUNT=12, ACTUAL_IMAGE_COUNT=12, ATTEMPT_COUNT=12, PENDING_COUNT=3.
