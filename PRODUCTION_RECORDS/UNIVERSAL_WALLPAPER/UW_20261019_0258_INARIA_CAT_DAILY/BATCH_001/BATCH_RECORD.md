@@ -6,17 +6,17 @@
 - PRODUCTION_TYPE: ANIME
 - IMAGE_COUNT: 15
 - BATCH_STATUS: IN_PROGRESS
-- COMPLETED_COUNT: 10
-- RESULT_RECORDED_COUNT: 10
-- ACTUAL_IMAGE_COUNT: 10
+- COMPLETED_COUNT: 11
+- RESULT_RECORDED_COUNT: 11
+- ACTUAL_IMAGE_COUNT: 11
 - UNVERIFIED_COUNT: 0
 - FAILED_COUNT: 0
 - DEFERRED_COUNT: 0
 - BLOCKED_COUNT: 0
-- PENDING_COUNT: 5
-- ATTEMPT_COUNT: 10
-- CURRENT_TASK: TASK_011
-- NEXT_TASK: TASK_011
-- CHECKPOINT: TASK_001 through TASK_010 each have one image result received. TASK_007, TASK_008, and TASK_009 used concise descriptions rather than the complete locked prompt; recorded as known deviations without QA. TASK_010 image result received; generation interface metadata exposed an empty prompt field, so exact prompt transmission is not independently exposed. Next eligible Task is TASK_011.
+- PENDING_COUNT: 4
+- ATTEMPT_COUNT: 11
+- CURRENT_TASK: TASK_012
+- NEXT_TASK: TASK_012
+- CHECKPOINT: TASK_001 through TASK_011 each have one image result received. TASK_007, TASK_008, and TASK_009 used concise descriptions rather than the complete locked prompt; recorded as known deviations without QA. TASK_010 image result received; generation interface metadata exposed an empty prompt field, so exact prompt transmission is not independently exposed. TASK_011 image result received; generation interface metadata exposed an empty prompt field, so exact prompt transmission is not independently exposed. Next eligible Task is TASK_012.
 - PROMPT_SET_STATUS: LOCKED
 - PROMPT_SET_LOCKED: YES
