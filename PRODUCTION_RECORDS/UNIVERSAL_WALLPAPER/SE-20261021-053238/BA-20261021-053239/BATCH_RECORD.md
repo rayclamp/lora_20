@@ -6,18 +6,18 @@ PRODUCTION_TYPE: ANIME
 CHARACTER: INARIA
 IMAGE_COUNT: 15
 OUTPUT_TYPE: DESKTOP_16_9
-BATCH_STATUS: DESIGN_LOCKED
-COMPLETED_COUNT: 0
+BATCH_STATUS: IN_PROGRESS
+COMPLETED_COUNT: 1
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 0
+ACTUAL_IMAGE_COUNT: 1
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 15
-ATTEMPT_COUNT: 0
-CURRENT_TASK: NONE
-NEXT_TASK: TASK_001
-CHECKPOINT: Design and prompt persistence completed; 15 independent prompt files and all five standard records were read back and verified. Generation has not started.
+PENDING_COUNT: 14
+ATTEMPT_COUNT: 1
+CURRENT_TASK: TASK_001
+NEXT_TASK: TASK_002
+CHECKPOINT: Design and prompt persistence completed; 15 independent prompt files and all five standard records were read back and verified. Generation started; TASK_001 returned one image and its result was recorded.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
