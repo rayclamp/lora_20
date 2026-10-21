@@ -14,7 +14,7 @@ SEASON: 春天、夏天
 WEATHER: 不限
 TIME: 不限
 PET_ALLOWED: NO
-PROMPT_SET_STATUS: DRAFT_PENDING_VERIFICATION
+PROMPT_SET_STATUS: LOCKED
 
 ## User constraints
 - Character-dominant framing; favor close-up, medium close-up, or scene-appropriate tight framing.
