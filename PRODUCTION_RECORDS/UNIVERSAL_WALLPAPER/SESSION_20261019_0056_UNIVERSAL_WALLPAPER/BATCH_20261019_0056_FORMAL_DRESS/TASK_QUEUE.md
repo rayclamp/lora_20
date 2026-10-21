@@ -18,7 +18,7 @@ OUTPUT_TYPE: DESKTOP_16_9
 | 8 | TASK_008 | 藍白瓷韻・改良旗袍舞會裝 | PROMPTS/TASK_008.md | PROMPT_008 | 1.0 | CONSUMED | SUCCESS | 1 |
 | 9 | TASK_009 | 冰川羽紗・不對稱宴會裙 | PROMPTS/TASK_009.md | PROMPT_009 | 1.0 | CONSUMED | SUCCESS | 1 |
 | 10 | TASK_010 | 星塵短斗篷・冬夜宴會 | PROMPTS/TASK_010.md | PROMPT_010 | 1.0 | CONSUMED | SUCCESS | 1 |
-| 11 | TASK_011 | 晨光水波・露背宴會長裙 | PROMPTS/TASK_011.md | PROMPT_011 | 1.0 | LOCKED | PENDING | 1 |
+| 11 | TASK_011 | 晨光水波・露背宴會長裙 | PROMPTS/TASK_011.md | PROMPT_011 | 1.0 | CONSUMED | SUCCESS | 1 |
 | 12 | TASK_012 | 珍珠弧線・現代極簡禮服 | PROMPTS/TASK_012.md | PROMPT_012 | 1.0 | LOCKED | PENDING | 1 |
 | 13 | TASK_013 | 藍焰舞步・雙層裙襬禮服 | PROMPTS/TASK_013.md | PROMPT_013 | 1.0 | LOCKED | PENDING | 1 |
 | 14 | TASK_014 | 冰藍雕塑・高領宴會禮服 | PROMPTS/TASK_014.md | PROMPT_014 | 1.0 | LOCKED | PENDING | 1 |
@@ -164,4 +164,18 @@ OUTPUT_TYPE: DESKTOP_16_9
 - PROMPT_STATE: CONSUMED
 - RESULT_ID: file_00000000a3c48230af5acc31a75a4abb
 - RESULT_FILE: /mnt/data/wide_cinematic_high_detail_anime_style_illustrat.png
+- TASK_STATUS: SUCCESS (image received; generation interface input was a task-aligned description rather than the complete locked prompt)
+
+
+## TASK_011 execution details
+- GENERATION_ATTEMPT_COUNT: 1
+- RETRY_ATTEMPT_COUNT: 0
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+- ACTUAL_OUTPUT_COUNT: 1
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- RESULT_ID: file_000000002ec88206b2137f8eefb6d4e5
+- RESULT_FILE: /mnt/data/a_wide_cinematic_high_detail_anime_style_illustr.png
 - TASK_STATUS: SUCCESS (image received; generation interface input was a task-aligned description rather than the complete locked prompt)
