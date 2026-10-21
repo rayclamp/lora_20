@@ -147,3 +147,20 @@ BATCH_ID: BATCH_20261020_UW_ANIME_INARIA_QUIET_NIGHT_15_01
   PROMPT_CONSUMED: YES
   PERSISTENCE_STATUS: PENDING_READBACK
   DETAILS: One image result returned by image generation interface after reading TASK_008 locked prompt. No visual QA performed.
+
+
+- EVENT_ID: EVT_011
+  TIMESTAMP: 2026-10-21T10:49:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_009
+  ATTEMPT_ID: ATTEMPT_TASK_009_001
+  GENERATION_CALL_ID: NOT_EXPOSED
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
+  IMAGE_RECEIPT_STATUS: YES
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_REFERENCE: file_00000000c2bc820680fb4c03587f62f5
+  RESULT_FILE: /mnt/data/wide_cinematic_dreamy_anime_illustration_at_nigh.png
+  PROMPT_CONSUMED: YES
+  PERSISTENCE_STATUS: PENDING_READBACK
+  DETAILS: One image result was returned by the image generation interface after reading the complete locked TASK_009 prompt. No visual QA performed.
