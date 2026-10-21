@@ -248,3 +248,19 @@ BATCH_ID: BATCH_20261020_UW_ANIME_INARIA_QUIET_NIGHT_15_01
   PROMPT_CONSUMED: YES
   PERSISTENCE_STATUS: PENDING_READBACK
   DETAILS: A second image result was returned for TASK_013 in a separate generation call. Both results are recorded as observed; no visual QA performed.
+
+- EVENT_ID: EVT_017
+  TIMESTAMP: 2026-10-21T11:16:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_014
+  ATTEMPT_ID: ATTEMPT_TASK_014_001
+  GENERATION_CALL_ID: 5d381dad-8ffc-4aca-9c6b-a61b24660e71
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  GENERATION_INPUT_MODE: PRODUCER_ADAPTED_SUMMARY
+  IMAGE_RECEIPT_STATUS: YES
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_REFERENCE: file_0000000002cc8206868b5019b82f2498
+  RESULT_FILE: /mnt/data/a_fantasy_anime_style_night_scene_by_a_luminous_bl.png
+  PROMPT_CONSUMED: YES
+  PERSISTENCE_STATUS: PENDING_READBACK
+  DETAILS: Image result was returned after the locked TASK_014 prompt had been read, but the generation call used a producer-authored summary rather than the complete locked prompt text. This deviation is recorded transparently. No visual QA performed.
