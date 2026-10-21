@@ -10,16 +10,16 @@ OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
-COMPLETED_COUNT: 9
-RESULT_RECORDED_COUNT: 3
-ACTUAL_IMAGE_COUNT: 9
+COMPLETED_COUNT: 10
+RESULT_RECORDED_COUNT: 4
+ACTUAL_IMAGE_COUNT: 10
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 6
-ATTEMPT_COUNT: 9
-CURRENT_TASK: TASK_009
-NEXT_TASK: TASK_010
-CHECKPOINT: TASK_009 returned one image; result record write/readback verification pending. Historical TASK_001–TASK_003 persistence remains pending. TASK_010–TASK_015 remain pending.
-TERMINATION_INFORMATION: Batch remains active; 6 Tasks pending.
+PENDING_COUNT: 5
+ATTEMPT_COUNT: 10
+CURRENT_TASK: TASK_010
+NEXT_TASK: TASK_011
+CHECKPOINT: TASK_010 returned one image and its queue/log writes were read back successfully. The generation call did not use the assigned locked prompt; PROMPT_CONSUMED=NO is recorded. TASK_011–TASK_015 remain pending. Historical TASK_001–TASK_003 persistence remains pending.
+TERMINATION_INFORMATION: Batch remains active; 5 Tasks pending.
