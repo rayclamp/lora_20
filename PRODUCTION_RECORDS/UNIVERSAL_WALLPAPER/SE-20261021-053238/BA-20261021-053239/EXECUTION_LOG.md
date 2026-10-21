@@ -5,3 +5,5 @@
 - Wrote all five standard Batch records and 15 independent prompt files to GitHub.
 - Read back all 20 files successfully. Verified 15 non-empty prompt bodies with locked delimiters and metadata; Task Queue and Prompt Set each map exactly 15 tasks; Prompt Set contains metadata/index only.
 - Prompt Set locked after successful readback verification. No image generation, QA, or editing performed.
+
+- 2026-10-21 (Taiwan time): TASK_001 / INARIA_HANFU_001 prompt was fully read from PROMPTS/TASK_001.md (FULL_PROMPT_READ_STATUS=CONFIRMED; GENERATION_INPUT_MODE=FULL_LOCKED_PROMPT). Image-generation call returned one image file: `/mnt/data/a_highly_detailed_anime_style_illustration_of_a_se.png`; generation ID `92bc66ed-e41b-4760-a66d-39bf61aa02f9`. Recorded IMAGE_RESULT_RECEIVED; ACTUAL_OUTPUT_COUNT=1; PROMPT_CONSUMED=YES; PROMPT_STATE=CONSUMED. No visual QA performed.
