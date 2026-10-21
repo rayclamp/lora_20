@@ -264,3 +264,19 @@ BATCH_ID: BATCH_20261020_UW_ANIME_INARIA_QUIET_NIGHT_15_01
   PROMPT_CONSUMED: YES
   PERSISTENCE_STATUS: PENDING_READBACK
   DETAILS: Image result was returned after the locked TASK_014 prompt had been read, but the generation call used a producer-authored summary rather than the complete locked prompt text. This deviation is recorded transparently. No visual QA performed.
+
+- EVENT_ID: EVT_018
+  TIMESTAMP: 2026-10-21T11:17:00+08:00
+  EVENT_TYPE: IMAGE_RESULT_RECEIVED
+  TASK_ID: TASK_015
+  ATTEMPT_ID: ATTEMPT_TASK_015_001
+  GENERATION_CALL_ID: ecf310bb-03b4-4348-a820-e0c1084dfe76
+  FULL_PROMPT_READ_STATUS: CONFIRMED
+  GENERATION_INPUT_MODE: PRODUCER_ADAPTED_SUMMARY
+  IMAGE_RECEIPT_STATUS: YES
+  ACTUAL_OUTPUT_COUNT: 1
+  RESULT_REFERENCE: file_00000000234082068994f7205fb4a560
+  RESULT_FILE: /mnt/data/a_dreamy_highly_detailed_anime_style_illustration.png
+  PROMPT_CONSUMED: YES
+  PERSISTENCE_STATUS: PENDING_READBACK
+  DETAILS: Image result was returned after the locked TASK_015 prompt had been read, but the generation call used a producer-authored summary rather than the complete locked prompt text. This deviation is recorded transparently. No visual QA performed.
