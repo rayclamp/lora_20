@@ -383,3 +383,24 @@ Generation requirements:
 - If the user explicitly requests a small accessory, design it only when it can be made clearly visible and structurally recognizable; otherwise clarify or simplify the design rather than representing it as an ambiguous mark.
 
 This is a generation-time design restriction shared by all modules, including UNIVERSAL_WALLPAPER, FESTIVAL_WALLPAPER, and LORA_IMAGE. It is not a post-generation QA instruction and does not authorize automatic regeneration.
+
+## 22. Eye-closure state fidelity — HARD RULE
+
+Eye state is a deliberate expression/composition choice and must be specified precisely during Prompt design. This rule applies whenever the Prompt Designer chooses a closed-eye expression or action; it does NOT depend on the user separately reminding the system.
+
+### When closed eyes are intended
+
+- Require both eyes to be fully and naturally closed: the upper and lower eyelids meet and the eye opening is completely shut.
+- Do not show any visible iris, pupil, or white of the eye.
+- Do not substitute half-closed eyes, drowsy eyes, squinting, lowered upper eyelids, or eyes that remain slightly open for fully closed eyes.
+- State the closure requirement explicitly in the generated Prompt whenever closed eyes are selected; the words “relaxed,” “peaceful,” “sleepy,” “gentle expression,” or “closed eyes” alone must not be treated as sufficient precision.
+- Keep the eyelids and surrounding facial muscles natural and relaxed. Do not force a strained squeeze, exaggerated wrinkles, or an unnatural facial expression merely to communicate complete closure.
+- Apply this to any suitable scene, including sleep, rest, enjoying sunlight or a breeze, kissing, or interacting affectionately with a pet, whenever the designed expression calls for closed eyes.
+
+### When open eyes are intended
+
+- Preserve the designed open-eye state. Do not change an explicitly open-eyed expression into closed eyes.
+- Coordinate eyelid state with the facial expression, head direction, gaze, and scene.
+
+This is a shared prompt-design and generation-planning rule for all applicable image modules and visual styles. It is not a requirement to close the eyes in every image, and it does not authorize post-generation self-QA, rejection, repair, or regeneration. Existing locked prompts and historical production records remain unchanged.
+
