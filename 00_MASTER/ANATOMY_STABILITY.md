@@ -229,6 +229,35 @@ When the legs cross, overlap, or partially hide one another, design the front-to
 Priority:
 **two distinct, continuous leg paths + clear front-to-back order + plausible joint and foot connections > complicated crossing or pose styling.**
 
+### Crossed-leg foot ownership and toe orientation — HARD RULE
+
+Crossed legs are a higher-risk pose because overlap can make the lower leg appear to continue into the wrong foot, and can cause the left/right foot or toe direction to be reversed. Do not introduce this pose by default when the prompt only asks for a seated person.
+
+- If crossing is not required by the intended pose, prefer uncrossed legs or a simpler folded-leg arrangement. Do not use crossing as an automatic embellishment for a full-body seated image.
+- If a crossed-leg pose is intentionally selected, define which leg is in front, which leg is behind, and where each knee, ankle, and foot belongs before generation.
+- Preserve anatomical left/right ownership: trace each foot from its own hip through thigh, knee, calf, and ankle. Do not mirror, swap, or attach the visible foot to the opposite leg to make the crossing look simpler.
+- The toes must point in a direction consistent with that same foot's ankle, arch, heel, and orientation. Do not reverse the toe line, create a mirrored foot, or let the toes appear to belong to the other leg.
+- At the crossing point, keep the front/back order readable and avoid merging the lower-leg contours. The lower leg underneath must continue plausibly behind the upper leg and emerge from a spatially consistent ankle/foot position.
+- Do not force both feet or all toes to be visible. Natural occlusion or framing that hides a high-risk foot is preferable to exposing a malformed, reversed, or ambiguously attached foot.
+- If the leg crossing, skirt hem, perspective, or crop makes left/right foot ownership unclear, simplify or remove the crossing before generation. Do not rely on “correct feet,” “correct toes,” or negative wording alone to rescue an unstable pose.
+
+Priority:
+**correct left/right foot ownership + continuous ankle-to-foot connection + coherent toe orientation > crossed-leg styling or forced visibility of both feet.**
+
+### Duck-sit (wariza / legs folded outward) stability
+
+Duck-sit is an optional seated-pose choice, not a required pose for every batch. Because names vary by language and region, describe the geometry instead of relying on the label alone.
+
+- The pelvis/buttocks rest on the floor, with both knees bent and the lower legs folded outward to either side of the hips.
+- Keep each thigh connected to its own hip and each lower leg connected through its own knee and ankle; do not merge both legs into one broad shape.
+- Keep the left and right feet naturally aligned with their respective ankles and lower legs. Do not twist a foot around merely to make both feet visible.
+- Avoid forcing a perfectly symmetrical knee spread or full visibility of both feet when that makes the pose stiff or anatomically ambiguous.
+- Plan skirt drape and hem coverage together with the pose. Fabric may naturally conceal parts of the legs or feet, but must not suggest broken joints, extra limbs, or feet emerging from the wrong side.
+- If the pose becomes crowded in the selected shot, simplify the leg spread, adjust the camera angle, allow natural cropping, or choose another seated pose.
+
+Priority:
+**two continuous leg paths + natural knee/ankle/foot orientation + outfit-appropriate drape > perfect symmetry or full visibility of both feet.**
+
 ### Bare toes and open-toe footwear — HARD RULE
 When bare toes or toes visible through open-toe footwear are shown, preserve a coherent foot structure and a clearly readable toe arrangement.
 
