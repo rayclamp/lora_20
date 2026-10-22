@@ -100,6 +100,7 @@ Allowed types are:
 - 運動鞋
 - 瑪莉珍鞋
 - 拖鞋
+- 繡花鞋
 
 Festival Wallpaper footwear catalogs and other module-specific footwear data MUST NOT be treated as Universal Wallpaper options.
 
