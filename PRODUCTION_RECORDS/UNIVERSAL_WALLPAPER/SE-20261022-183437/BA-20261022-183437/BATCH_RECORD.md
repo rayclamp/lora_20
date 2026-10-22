@@ -21,5 +21,5 @@ PENDING_COUNT: 0
 ATTEMPT_COUNT: 16
 CURRENT_TASK: NONE
 NEXT_TASK: NONE
-CHECKPOINT: All 15 required Tasks are terminal SUCCESS; 16 image files received across 16 observed generation calls because TASK_003 yielded 2 files. Final record readback verification pending.
+CHECKPOINT: All 15 required Tasks are terminal SUCCESS; 16 image files received across 16 observed generation calls because TASK_003 yielded 2 files. TASK_QUEUE, BATCH_RECORD, and EXECUTION_LOG written and read back successfully.
 TERMINATION_INFORMATION: All Tasks completed; no QA performed.
