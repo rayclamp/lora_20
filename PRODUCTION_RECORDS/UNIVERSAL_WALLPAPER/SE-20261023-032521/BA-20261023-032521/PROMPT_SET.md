@@ -57,7 +57,5 @@
 | 43 | TASK_043 | PROMPT_043 | 1.0 | LOCKED | 晚宴燭光 | PROMPTS/TASK_043.md |
 | 44 | TASK_044 | PROMPT_044 | 1.0 | LOCKED | 海軍藍學院風 | PROMPTS/TASK_044.md |
 | 45 | TASK_045 | PROMPT_045 | 1.0 | LOCKED | 藍色夢幻薄紗 | PROMPTS/TASK_045.md |
-| 46 | TASK_046 | PROMPT_046 | 1.0 | LOCKED | 經典側面肖像 | PROMPTS/TASK_046.md |
-| 47 | TASK_047 | PROMPT_047 | 1.0 | LOCKED | 晨曦白紗窗簾 | PROMPTS/TASK_047.md |
 
 Prompt bodies are stored only in the dedicated files listed above; no prompt body is duplicated in this manifest.
