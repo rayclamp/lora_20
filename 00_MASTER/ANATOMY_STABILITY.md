@@ -76,6 +76,39 @@ For every seated pose, explicitly design a coherent relationship among the rib c
 Priority:
 **continuous torso–waist–pelvis–hip structure + plausible support and balance > pose complexity, dramatic twist, or decorative styling.**
 
+### Floor side-sitting and crossed-leg stability — HARD RULE
+
+Floor side-sitting is an allowed, common, graceful pose and must not be removed from pose variety by default. However, side-sitting with folded or overlapping legs is a high-risk configuration for thigh thickening, merged silhouettes, broken lower-leg continuity, and ambiguous knee/ankle/foot attachment. Design the leg arrangement explicitly rather than relying on the phrase “sitting on the floor with legs crossed to one side.”
+
+Before adding clothing, hands, props, or background detail, establish:
+- the pelvis's exact position on the floor and its natural support relationship;
+- which leg is in front and which is behind;
+- each thigh's direction from its own hip;
+- the direction and bend of each knee;
+- each calf's continuation toward its own ankle and foot, if visible;
+- the front-to-back overlap order and the portions of each leg that remain readable.
+
+Requirements:
+1. Prefer a relaxed, lightly overlapping side-sit in which both legs fold naturally toward the same side and their main contours remain distinguishable. A natural asymmetrical arrangement is allowed; the pose need not be perfectly mirrored.
+2. Keep each leg traceable as its own continuous chain: hip → thigh → knee → calf → ankle → foot. Even when the rear leg is partly hidden, its visible segments must agree with a plausible continuous limb path.
+3. Make the near/far order clear around the thighs, knees, calves, and ankles. Avoid long tangencies where two leg contours merge into one thick mass, fork into an ambiguous shape, or appear to switch from one leg to the other.
+4. Preserve the person's natural, reference-supported body build. Do not compensate for overlap by inflating the visible thigh/calf, widening both legs into one mass, artificially thinning a limb, or stretching the legs to expose more of them.
+5. Keep the pelvis-to-hip transitions and knee directions plausible. Do not let a rear lower leg appear suddenly from beneath the front thigh, let a foot appear attached to the wrong leg, or make the knee, calf, ankle, and foot orientations contradict one another.
+6. Clothing may cover part of the legs, but skirts, folds, shadows, and floor contact must not obscure every structural clue at the same joint or create a false leg contour. Avoid heavy fabric bunching directly over the main leg-overlap junction.
+7. Use a three-quarter side view or another viewpoint that reveals the leg arrangement when appropriate. Do not force a frontal view if it compresses both legs into one silhouette.
+8. Choose medium, three-quarter, or full-body framing according to the scene. Do not force head-to-toe visibility or both feet into a narrow frame if that makes the legs crowded or distorted.
+9. If deep crossing, tight curling, extreme foreshortening, or clothing occlusion makes the leg paths ambiguous, reduce the overlap or switch to a simpler side-sitting variation while preserving the scene's mood. Do not ban all floor side-sitting; prefer a stable variant over an unnecessarily intricate one.
+
+Design preference by risk:
+- Preferred: lightly overlapping legs folded naturally to one side, with readable knee and calf contours.
+- Use when clear: front leg angled slightly forward and rear leg folded farther back, with a consistent near/far relationship.
+- High risk: tightly stacked thighs, deeply entangled legs, both knees and calves compressed into one area, or heavy skirt coverage combined with a narrow/full-body frame. Simplify these before generation.
+
+Priority:
+**two distinct continuous leg paths + natural body proportions + clear front/back order > deep crossing, complete foot visibility, or decorative pose complexity.**
+
+This is a prompt-design and generation-planning rule. It does not require the Producer to perform post-generation QA or to rewrite an already locked Prompt.
+
 ### Hand topology and handedness lock
 Hand correctness must be evaluated as a connected anatomical structure, not as an isolated five-finger count.
 
