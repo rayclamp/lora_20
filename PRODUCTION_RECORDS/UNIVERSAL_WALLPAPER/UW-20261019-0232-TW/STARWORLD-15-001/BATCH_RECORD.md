@@ -21,5 +21,5 @@ PENDING_COUNT: 0
 ATTEMPT_COUNT: 15
 CURRENT_TASK: TASK_015
 NEXT_TASK: NONE
-CHECKPOINT: TASK_013 and TASK_014 results were written and read-back verified. TASK_015 returned one image; its result, queue and batch updates are being persisted and read-back verified. TASK_010–TASK_012 prior generation-input deviations remain historically recorded; TASK_010 and TASK_011 historical PROMPT_CONSUMED values remain NO pending reconciliation. TASK_015 remains pending. Historical TASK_001–TASK_003 persistence remains pending.
+CHECKPOINT: All 15 Tasks have image receipts and the Task queue has no pending Tasks. TASK_013–TASK_015 results are written and read-back verified. Batch closure remains pending reconciliation of historical persistence for TASK_001–TASK_003 and consumed-state discrepancies for TASK_010–TASK_011. No QA performed.
 TERMINATION_INFORMATION: Batch remains active; 2 Tasks pending.
