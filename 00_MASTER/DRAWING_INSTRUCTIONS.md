@@ -144,6 +144,23 @@ First establish correct human structure and character-to-object connections.
 
 Only then add visual complexity, decorative effects, or highly stylized action.
 
+## Seated-pose selection for close framing
+
+During prompt design, do not default every seated character to legs extended forward or legs extended with the knees bent. Those poses remain valid, but may occupy too much of a close, character-dominant composition and may be less suitable for some skirt outfits.
+
+Choose a specific seated pose that fits the shot size, outfit, scene, and desired mood. Available options may include:
+- legs folded naturally to one side (floor side-sitting);
+- both legs tucked or gathered close to the body in a relaxed seated pose;
+- duck-sit / wariza, with the knees bent and lower legs folded outward beside the hips;
+- legs extended or partly extended when the scene and framing benefit from it;
+- other simple seated poses with clear support and readable leg structure.
+
+This is a choice vocabulary, not a quota. Do not force every pose into a batch, and do not choose a pose only to increase variation. In particular, crossed-leg or ankle-over-ankle poses must not be added automatically just because the prompt requests a seated full-body view. If leg crossing is not part of the intended pose, explicitly keep the legs uncrossed and each foot on its natural side.
+
+For close or medium-close seated compositions, do not force the entire body, both feet, or every lower-leg segment into frame. A natural crop is preferable to shrinking the character or inventing a complicated leg arrangement just to show the whole body. If a full-body view is required, specify a stable leg arrangement rather than leaving the lower body unspecified.
+
+When choosing a skirt outfit, consider how the hem and fabric fall over the knees and lower legs. Prefer poses that preserve the intended outfit's elegance and avoid unnecessary exposure, heavy fabric bunching, or ambiguous leg/foot overlap. Define the pose geometry in plain language; do not rely on a pose name alone.
+
 ## 19. Whole-body continuity and seated-pose structure
 
 Treat the person as one connected anatomical system, not separate upper- and lower-body pieces.
