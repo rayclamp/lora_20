@@ -28,3 +28,23 @@
 - QA / visual compliance: NOT_ASSESSED
 - Timestamp: 2026-10-22T10:42:00+08:00 (approximate local execution time)
 - Note: Image receipt is recorded as observed. The prompt deviation is disclosed and does not trigger regeneration.
+
+## Production event — 2026-10-23
+
+- MODULE: UNIVERSAL_WALLPAPER
+- SESSION_ID: SE-20261022003922
+- BATCH_ID: BA-20261022003922
+- TASK_ID: TASK_002
+- PROMPT_ID / VERSION: INARIA_LAZY_GIRL_002 / 1
+- FULL_PROMPT_READ_STATUS: CONFIRMED (complete locked Task prompt read from PROMPTS/TASK_002.md)
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION (the generation call used a concise English scene description rather than the complete locked Chinese prompt; disclosed as a producer-side deviation)
+- GENERATION_CALL_ID: b93f8bd4-2a54-4b09-a694-7b5e0d54d861
+- ATTEMPT_ID: NOT_EXPOSED
+- Generation outcome: IMAGE_RESULT_RECEIVED
+- Actual image files received: 1
+- Result file: /mnt/data/a_serene_sunlit_anime_style_illustration_scene_a.png
+- PROMPT_CONSUMED: YES
+- PROMPT_STATE: CONSUMED
+- QA / visual compliance: NOT_ASSESSED
+- Timestamp: 2026-10-23 (current execution)
+- Note: Image receipt recorded as observed. Do not regenerate TASK_002.
