@@ -12,6 +12,8 @@
 - PROMPT_SET_LOCKED: YES
 - TASK_COUNT: 45
 - PROMPT_FILE_COUNT: 45
+- STANDARD_RECORDS_COUNT: 5
+- PROMPT_FILE_READBACK_VERIFIED_COUNT: 45
 - COMPLETED_COUNT: 0
 - RESULT_RECORDED_COUNT: 0
 - ACTUAL_IMAGE_COUNT: 0
@@ -23,5 +25,6 @@
 - ATTEMPT_COUNT: 0
 - CURRENT_TASK: NONE
 - NEXT_TASK: TASK_001
-- CHECKPOINT: Design stage completed; no image generation started
+- CHECKPOINT: All 45 independent prompts and all five standard records were read back from GitHub; prompt set locked. Image generation not started.
+- VERIFICATION: PASS — all Task prompt files contain prompt-text delimiters and non-empty prompt bodies; queue and manifest aligned to 45 Tasks.
 - CREATED_TAIPEI: 2026-10-23 03:25:21 UTC+08:00
