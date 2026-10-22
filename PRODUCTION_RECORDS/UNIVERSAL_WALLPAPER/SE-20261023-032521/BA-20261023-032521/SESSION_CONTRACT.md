@@ -1,0 +1,22 @@
+# SESSION_CONTRACT.md
+
+- SESSION_ID: SE-20261023-032521
+- BATCH_ID: BA-20261023-032521
+- SESSION_SCOPE: New Universal Wallpaper prompt-design and locking session
+- MODULE: UNIVERSAL_WALLPAPER
+- PRODUCTION_TYPE: ANIME
+- CHARACTER: INARIA
+- IMAGE_COUNT: 45
+- OUTPUT_TYPE: DESKTOP_16_9
+- THEME: 依娜莉亞的肖像系列
+- SCENE: 不限
+- SEASON: 不限
+- WEATHER: 不限
+- TIME: 不限
+- PET_ALLOWED: NO
+- REFERENCE_IMAGE: NOT_A_DESIGN_INPUT; NO_IMAGE_ASSUMED
+- CLOTHING_CONSTRAINT: All outfits must be skirt-based
+- COMPOSITION_CONSTRAINT: Character-dominant close-up, medium, portrait or scene-appropriate close framing; never back-facing; face clearly visible from front, three-quarter-front or side-front
+- DESIGN_SCOPE: Plan and write all 45 independent prompts, persist them, read back and lock the set
+- EXECUTION_BOUNDARY: This command does not generate images, perform QA, or edit images
+- SESSION_CREATED_TAIPEI: 2026-10-23 03:25:21 UTC+08:00
