@@ -5,17 +5,17 @@
   - Returned image file: /mnt/data/a_cozy_bedroom_scene_soft_natural_morning_light.png
   - Actual image file count: 1
   - Generation result: IMAGE_RECEIVED / SUCCESS
-  - GitHub result persistence: update and readback verification pending.
+  - GitHub result persistence: recorded and read back successfully.
 - TASK_002: complete locked prompt file read; generation returned one image.
   - Generation reference: 86e606d0-3598-4af2-a02b-c373a3ad77ee
   - Returned image file: /mnt/data/a_bright_photorealistic_indoor_living_room_scene.png
   - Actual image file count: 1
   - Generation result: IMAGE_RECEIVED / SUCCESS
-  - GitHub result persistence: recorded; readback verification pending.
+  - GitHub result persistence: recorded and read back successfully.
 - TASK_003: complete locked prompt file read; generation returned one image.
   - Generation reference: 472c6fbe-8b17-4795-bf7d-42a63ebd33f8
   - Returned image file: /mnt/data/a_bright_softly_lit_indoor_bedroom_living_room_sc.png
   - Actual image file count: 1
   - Generation result: IMAGE_RECEIVED / SUCCESS
-  - GitHub result persistence: recorded; readback verification pending.
+  - GitHub result persistence: recorded and read back successfully.
 - No QA, image editing, or regeneration performed.
