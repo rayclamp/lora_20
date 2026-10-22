@@ -10,7 +10,7 @@ Festival Wallpaper footwear catalogs are module-specific and MUST NOT be treated
 
 ## 1. Universal Wallpaper footwear allowlist
 
-Universal Wallpaper may use ONLY these nine footwear types:
+Universal Wallpaper may use ONLY these ten footwear types:
 
 1. 高跟鞋
 2. 娃娃鞋
@@ -21,6 +21,7 @@ Universal Wallpaper may use ONLY these nine footwear types:
 7. 運動鞋
 8. 瑪莉珍鞋
 9. 拖鞋
+10. 繡花鞋
 
 Equivalent English labels may be used in prompts when needed:
 
@@ -33,6 +34,11 @@ Equivalent English labels may be used in prompts when needed:
 - Sneakers
 - Mary Jane shoes
 - Slippers
+- Embroidered cloth shoes (繡花鞋)
+
+## 1A. Embroidered cloth shoes (繡花鞋)
+
+繡花鞋 is an allowed Universal Wallpaper footwear type. Use it when it fits the outfit, scene, and visual theme; do not force it into unrelated outfits or every batch. The design may use tasteful floral or traditional embroidery on cloth uppers, with a coherent sole and natural fit. Keep it distinct from festival-specific footwear choices: its inclusion here authorizes the general embroidered-shoe type for Universal Wallpaper, not automatic import of any Festival-only catalog item or cultural styling.
 
 ## 2. Forbidden cross-module inference
 
