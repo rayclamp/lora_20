@@ -440,7 +440,7 @@ Apply CORE anatomy and generation-stability rules before finalizing the prompt.
 
 When footwear is visible or intentionally designed, the Producer MUST use the canonical Universal Wallpaper footwear allowlist at `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md`.
 
-Allowed types are: 高跟鞋、娃娃鞋、側面雙扣短靴、短靴、厚底靴、涼鞋、運動鞋、瑪莉珍鞋、拖鞋。
+Allowed types are: 高跟鞋、娃娃鞋、側面雙扣短靴、短靴、厚底靴、涼鞋、運動鞋、瑪莉珍鞋、拖鞋、繡花鞋。
 
 Festival Wallpaper footwear catalogs and other module-specific footwear data MUST NOT be treated as Universal Wallpaper options. `Loafers / 樂福鞋` are not allowed for Universal Wallpaper unless the authoritative Universal allowlist is explicitly changed.
 
