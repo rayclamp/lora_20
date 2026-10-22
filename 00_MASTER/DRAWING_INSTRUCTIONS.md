@@ -237,6 +237,38 @@ path for each leg.
 
 Do not create difficult leg poses merely to increase variation.
 
+## 4A. Floor side-sitting and crossed-leg stability
+
+Floor side-sitting is a valid, common pose and must remain available. Do not ban it by default. Because folded and overlapping legs can merge into thick shapes or create broken rear-leg contours, explicitly plan the leg geometry during composition.
+
+Before generation, specify:
+- where the pelvis rests on the floor;
+- which leg is in front and which is behind;
+- each thigh's direction from its own hip;
+- the bend and direction of each knee;
+- how each visible calf continues toward its own ankle/foot;
+- which leg contours remain visible and which are naturally occluded.
+
+Mandatory design rules:
+- Prefer light, natural overlap with distinguishable thigh/knee/calf contours over tightly stacked or deeply entangled legs.
+- Maintain two separate, continuous paths: each hip → thigh → knee → calf → ankle → foot. A hidden segment must not cause the visible segments to contradict one another.
+- Avoid long contour tangencies that fuse the thighs or calves into one oversized mass. Do not use “slim legs” as a substitute for defining the front-to-back arrangement.
+- Preserve the character's natural body shape. Do not artificially thicken the visible thigh/calf, merge both legs into one broad silhouette, or unnaturally thin/stretch a leg to solve the overlap.
+- Keep the rear leg's visible knee, calf, ankle, and foot spatially consistent. Do not let a lower leg suddenly emerge from under the front leg or appear attached to the wrong hip.
+- Keep skirt folds, shadows, and floor contact from obscuring every clue at the same joint. Avoid heavy fabric bunching at the main overlap junction.
+- Prefer a three-quarter side view when it makes the leg arrangement easier to read. Do not force a frontal view when it compresses both legs into one silhouette.
+- Select medium, three-quarter, or full-body framing based on the scene. Do not force full-body visibility or both feet into a narrow composition if that makes the legs crowded or distorted.
+- If deep crossing, tight curling, strong foreshortening, or clothing occlusion makes the limb paths ambiguous, reduce the crossing or choose a simpler side-sitting variation. Preserve the pose's graceful mood rather than discarding side-sitting entirely.
+
+Risk preference:
+1. Preferred: lightly overlapping legs folded naturally to one side.
+2. Acceptable when readable: front leg angled slightly forward, rear leg folded farther back.
+3. High risk: tightly stacked thighs, deeply entangled legs, compressed knees/calves, or heavy skirt occlusion combined with a narrow frame; simplify before generation.
+
+Priority: two distinct continuous leg paths, preserved body proportions, and clear front/back order take priority over deep crossing, full foot visibility, or decorative complexity.
+
+Apply 00_MASTER/ANATOMY_STABILITY.md as the authoritative shared standard. This is a prompt-design rule, not permission for post-generation QA, rejection, repair, or regeneration.
+
 ## 5. Long skirt + sofa
 
 When wearing a long skirt while sitting on a sofa, avoid:
