@@ -220,3 +220,18 @@ BATCH_ID: BATCH_20261019_0216_15
 - PROMPT_MATCH_STATUS: NOT_ASSESSED
 - RECORD_PERSISTENCE_STATUS: PENDING
 - QA / editing: NOT INVOKED.
+
+
+## 2026-10-24 — Production attempt 15
+- TASK_ID: TASK_015; PROMPT_ID: PW_STAR_015; PROMPT_VERSION: 1.0
+- FULL_PROMPT_READ_STATUS: CONFIRMED
+- GENERATION_INPUT_MODE: KNOWN_DEVIATION
+- INPUT_DEVIATION: The image-generation interface was invoked with a concise description based on the locked prompt rather than the complete locked prompt text; exact transport is not available from the interface.
+- ATTEMPT_ID: NOT_EXPOSED
+- GENERATION_CALL_ID: NOT_EXPOSED
+- GENERATION_RESULT: SUCCESS; IMAGE_RECEIVED: YES; ACTUAL_OUTPUT_COUNT: 1
+- RESULT_REFERENCE: returned image in current conversation; /mnt/data/wide_cinematic_fantasy_anime_illustration_a_dream.png
+- PROMPT_CONSUMED: YES; PROMPT_STATE: CONSUMED
+- PROMPT_MATCH_STATUS: NOT_ASSESSED
+- RECORD_PERSISTENCE_STATUS: PENDING
+- QA / editing: NOT INVOKED.
