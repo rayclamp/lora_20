@@ -8,17 +8,17 @@ CHARACTER: INARIA
 IMAGE_COUNT: 50
 OUTPUT_TYPE: MIXED_PER_TASK
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 28
+COMPLETED_COUNT: 29
 RESULT_RECORDED_COUNT: 27
-ACTUAL_IMAGE_COUNT: 32
+ACTUAL_IMAGE_COUNT: 33
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 22
-ATTEMPT_COUNT: 31
-CURRENT_TASK: TASK_028
-NEXT_TASK: TASK_029
+PENDING_COUNT: 21
+ATTEMPT_COUNT: 32
+CURRENT_TASK: TASK_029
+NEXT_TASK: TASK_030
 CHECKPOINT: TASK_028 received one image in one generation call (result reference=file_000000008334820999e8ce3e2f4f29c0; output file=a_bright_serene_anime_style_illustration_of_a_gir.png). The generation call used a paraphrased instruction rather than the complete locked prompt unchanged; explicit reference-image input delivery is unverified. Next pending Task: TASK_029.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
@@ -57,3 +57,5 @@ PROMPT_SET_LOCKED: YES
 
 
 2026-10-24T06:45:00+08:00 — TASK_028 result recorded. One image was received (result reference=file_000000008334820999e8ce3e2f4f29c0; output file=a_bright_serene_anime_style_illustration_of_a_gir.png). The full locked prompt was read from PROMPTS/TASK_028.md, but the actual generation call used a paraphrased instruction rather than the complete locked prompt unchanged; explicit reference-image input delivery is unverified. TASK_028 counts as one successful Task output; actual image count=1; generation call count=1. PROMPT_CONSUMED=YES; PROMPT_STATE=CONSUMED; GENERATION_INPUT_MODE=KNOWN_DEVIATION_FROM_FULL_LOCKED_PROMPT_AND_REFERENCE_INPUT; DELIVERY_INTEGRITY_STATUS=UNVERIFIED; PROMPT_MATCH_STATUS=NOT_ASSESSED. No visual QA performed. This consumed prompt/version will not be called again. Next pending Task: TASK_029.
+
+2026-10-24T07:10:00+08:00 — TASK_029 image received (file_00000000ba0c82098508fb1ee94d966d), one call, but generation input deviated from locked prompt and explicit reference input is unverified. Production stopped for systemic input delivery limitation; next TASK_030.
