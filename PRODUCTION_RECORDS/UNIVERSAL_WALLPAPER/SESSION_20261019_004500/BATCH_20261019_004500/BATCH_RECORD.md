@@ -8,17 +8,17 @@ CHARACTER: INARIA
 IMAGE_COUNT: 15
 OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 13
-RESULT_RECORDED_COUNT: 0
+COMPLETED_COUNT: 14
+RESULT_RECORDED_COUNT: 1
 ACTUAL_IMAGE_COUNT: 15
-UNVERIFIED_COUNT: 0
+UNVERIFIED_COUNT: 1
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
-BLOCKED_COUNT: 0
-PENDING_COUNT: 2
-ATTEMPT_COUNT: 15
-CURRENT_TASK: TASK_013
-NEXT_TASK: TASK_014
-CHECKPOINT: TASK_013 returned two image files across two generation calls; prompt consumed; next eligible task is TASK_014
+BLOCKED_COUNT: 1
+PENDING_COUNT: 0
+ATTEMPT_COUNT: 17
+CURRENT_TASK: TASK_014
+NEXT_TASK: NONE
+CHECKPOINT: TASK_015 returned one image file and is recorded as SUCCESS with generation-input deviation; TASK_014 is blocked/UNKNOWN because the generation call immediately following its prompt read used an unrelated input, so its result cannot safely be attributed to TASK_014. No retry was made.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
