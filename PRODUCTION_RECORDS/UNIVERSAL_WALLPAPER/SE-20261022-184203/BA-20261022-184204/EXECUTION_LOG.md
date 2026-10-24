@@ -83,3 +83,19 @@
   - GENERATION_CALL_ID: NOT_EXPOSED
   - GitHub result persistence: written and read back successfully.
   - No QA, image editing, or regeneration performed.
+
+
+- TASK_009, generation call 1: complete locked prompt file read; one image was returned.
+  - Generation reference: 89fae5c4-0ba1-4807-b8a2-b1628245d0cd
+  - Returned image file: /mnt/data/a_high_quality_photorealistic_softly_lit_bedroom.png
+  - Actual image file count: 1
+  - Generation result: IMAGE_RECEIVED / SUCCESS
+  - PROMPT_MATCH_STATUS: NOT_ASSESSED
+  - No QA or image editing performed.
+- TASK_009, generation call 2: one additional image was returned during the same execution turn.
+  - Generation reference: d0bf6e20-388d-4b61-87b3-6607dfea1444
+  - Returned image file: /mnt/data/a_bright_intimate_bedroom_scene_with_a_young_east.png
+  - Actual additional image file count: 1
+  - Generation result: IMAGE_RECEIVED
+  - Both received files are attributed to TASK_009; Task counts once as SUCCESS, actual file count is 2.
+  - No QA or image editing performed.
