@@ -19,3 +19,11 @@
   - Generation result: IMAGE_RECEIVED / SUCCESS
   - GitHub result persistence: recorded and read back successfully.
 - No QA, image editing, or regeneration performed.
+
+- TASK_004, attempt 1: complete locked prompt file read; one image was returned.
+  - Generation reference: d6f7dd8b-5eb8-4ff1-99ce-d5c2c6a126bd
+  - Returned image file: /mnt/data/same_style_woman_in_a_bright_dreamy_indoor_window.png
+  - Actual image file count: 1
+  - Generation result: IMAGE_RECEIVED / SUCCESS
+  - Prompt/image compliance: NOT_ASSESSED
+  - No QA or regeneration performed.
