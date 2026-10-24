@@ -8,8 +8,9 @@ CHARACTER: INARIA
 IMAGE_COUNT: 20
 OUTPUT_TYPE: DESKTOP_16_9
 PROMPT_SET_VERSION: 1.0
-PROMPT_SET_STATUS: PENDING
-PROMPT_SET_LOCKED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
+LOCK_VERIFICATION: All 20 dedicated prompt files were read back from GitHub and confirmed to contain non-empty locked prompt text with BEGIN/END delimiters.
 
 | ORDER | TASK_ID | PROMPT_ID | PROMPT_VERSION | PROMPT_FILE | PROMPT_STATUS | OUTPUT_TYPE |
 |---:|---|---|---|---|---|---|
@@ -34,4 +35,4 @@ PROMPT_SET_LOCKED: NO
 | 19 | TASK_019 | UW_INARIA_LAZY_GIRL_019 | 1.0 | PROMPTS/TASK_019.md | LOCKED | DESKTOP_16_9 |
 | 20 | TASK_020 | UW_INARIA_LAZY_GIRL_020 | 1.0 | PROMPTS/TASK_020.md | LOCKED | DESKTOP_16_9 |
 
-Prompt bodies are stored only in the individual PROMPTS/TASK_###.md files. The manifest does not duplicate prompt text.
+Prompt bodies are stored only in the individual PROMPTS/TASK_###.md files. This manifest does not duplicate prompt text. Locked prompts must not be edited during production; any future revision requires a new prompt version and traceable record.
