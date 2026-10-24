@@ -67,5 +67,5 @@
   - PROMPT_MATCH_STATUS: NOT_ASSESSED
   - ATTEMPT_ID: NOT_EXPOSED
   - GENERATION_CALL_ID: NOT_EXPOSED
-  - GitHub result persistence: pending verification.
+  - GitHub result persistence: written and read back successfully.
   - No QA, image editing, or regeneration performed.
