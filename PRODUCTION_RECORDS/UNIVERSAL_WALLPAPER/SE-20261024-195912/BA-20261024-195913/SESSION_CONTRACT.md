@@ -15,6 +15,7 @@ WEATHER: 不限
 TIME: 不限
 PET_ALLOWED: NO
 REFERENCE_SOURCE_TYPE: NO_REFERENCE
+REFERENCE_AUTHORITY_STATUS: NO_REFERENCE
 REFERENCE_POLICY: Design does not require a reference image; Inaria character specification is semantic authority only.
 USER_CONSTRAINTS:
 - Person is the visual focus; favor close/medium-close or scene-appropriate three-quarter/full-body framing.
@@ -26,5 +27,5 @@ USER_CONSTRAINTS:
 - Indoors barefoot; no accessories or jewelry.
 - No pets or animals.
 DESIGN_EXECUTION_BOUNDARY: Design, persist, read back, and lock prompts only. Do not generate images, perform QA, edit images, or launch the Producer.
-PROMPT_SET_STATUS: PENDING
-PROMPT_SET_LOCKED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
