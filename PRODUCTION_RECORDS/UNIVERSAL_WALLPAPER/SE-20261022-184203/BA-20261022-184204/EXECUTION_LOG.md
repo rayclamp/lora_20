@@ -27,3 +27,17 @@
   - Generation result: IMAGE_RECEIVED / SUCCESS
   - Prompt/image compliance: NOT_ASSESSED
   - No QA or regeneration performed.
+
+- TASK_005, attempt 1: complete locked prompt file read; one image was returned.
+  - Generation reference: 59190102-0c38-4d2d-89af-6d6771a46ec0
+  - Returned image file: /mnt/data/a_bright_soft_photorealistic_indoor_scene_a_you.png
+  - Actual image file count: 1
+  - Generation result: IMAGE_RECEIVED / SUCCESS
+  - FULL_PROMPT_READ_STATUS: CONFIRMED
+  - GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
+  - DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+  - PROMPT_MATCH_STATUS: NOT_ASSESSED
+  - ATTEMPT_ID: NOT_EXPOSED
+  - GENERATION_CALL_ID: NOT_EXPOSED
+  - GitHub result persistence: pending verification.
+  - No QA, image editing, or regeneration performed.
