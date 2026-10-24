@@ -41,3 +41,17 @@
   - GENERATION_CALL_ID: NOT_EXPOSED
   - GitHub result persistence: written and read back successfully.
   - No QA, image editing, or regeneration performed.
+
+- TASK_006, attempt 1: complete locked prompt file read; one image was returned.
+  - Generation reference: 45b5294d-8fe5-4427-a016-ca49d4589de2
+  - Returned image file: /mnt/data/a_bright_soft_photorealistic_indoor_scene_in_a_m.png
+  - Actual image file count: 1
+  - Generation result: IMAGE_RECEIVED / SUCCESS
+  - FULL_PROMPT_READ_STATUS: CONFIRMED
+  - GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT
+  - DELIVERY_INTEGRITY_STATUS: NOT_EXPOSED
+  - PROMPT_MATCH_STATUS: NOT_ASSESSED
+  - ATTEMPT_ID: NOT_EXPOSED
+  - GENERATION_CALL_ID: NOT_EXPOSED
+  - GitHub result persistence: pending verification.
+  - No QA, image editing, or regeneration performed.
