@@ -69,7 +69,7 @@ TASK_009_RESULT_ID: file_000000003a7482099a24f32d6d970b49
 TASK_009_GENERATION_ID: a5b379e9-346a-4557-bac4-6fbc6ab0c518
 TASK_009_ACTUAL_OUTPUT_COUNT: 1
 TASK_009_GENERATION_ATTEMPT_COUNT: 1
-TASK_009_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_009_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_009_RESULT_BINDING_STATUS: CONFIRMED
 TASK_009_PROMPT_CONSUMED: YES
 TASK_009_PROMPT_STATE: CONSUMED
@@ -80,7 +80,7 @@ TASK_010_RESULT_ID: file_00000000a6e4820991f0d0583d6176ed
 TASK_010_GENERATION_ID: eb4f4731-06ef-4aa9-92e6-b60f1e86d168
 TASK_010_ACTUAL_OUTPUT_COUNT: 1
 TASK_010_GENERATION_ATTEMPT_COUNT: 1
-TASK_010_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_010_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_010_RESULT_BINDING_STATUS: CONFIRMED
 TASK_010_PROMPT_CONSUMED: YES
 TASK_010_PROMPT_STATE: CONSUMED
@@ -91,7 +91,7 @@ TASK_011_RESULT_ID: file_00000000bdd4820995f8924c9702acb8
 TASK_011_GENERATION_ID: 28102b17-75f0-46da-9f65-946cac0f56bd
 TASK_011_ACTUAL_OUTPUT_COUNT: 1
 TASK_011_GENERATION_ATTEMPT_COUNT: 1
-TASK_011_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_011_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_011_RESULT_BINDING_STATUS: CONFIRMED
 TASK_011_PROMPT_CONSUMED: YES
 TASK_011_PROMPT_STATE: CONSUMED
@@ -102,7 +102,7 @@ TASK_012_RESULT_ID: file_00000000285c8209bb100914fd8930ec
 TASK_012_GENERATION_ID: 62c51ccb-7fba-4fa0-a363-52ec510ba86c
 TASK_012_ACTUAL_OUTPUT_COUNT: 1
 TASK_012_GENERATION_ATTEMPT_COUNT: 1
-TASK_012_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_012_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_012_RESULT_BINDING_STATUS: CONFIRMED
 TASK_012_PROMPT_CONSUMED: YES
 TASK_012_PROMPT_STATE: CONSUMED
@@ -113,7 +113,7 @@ TASK_013_RESULT_ID: file_0000000065c48209827e186e60c92bba; file_000000006f5c8209
 TASK_013_GENERATION_ID: 37c783e9-31df-45d1-bdc5-e158a4b90262; 6c7c6046-7e24-4e06-9abd-a1ae0be90129
 TASK_013_ACTUAL_OUTPUT_COUNT: 2
 TASK_013_GENERATION_ATTEMPT_COUNT: 2
-TASK_013_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_013_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_013_RESULT_BINDING_STATUS: CONFIRMED
 TASK_013_PROMPT_CONSUMED: YES
 TASK_013_PROMPT_STATE: CONSUMED
@@ -124,7 +124,7 @@ TASK_014_RESULT_ID: file_00000000c1a88209b42a3b7275c66991
 TASK_014_GENERATION_ID: 44b7f4dd-81a7-46a7-9b24-f08dcb9068e3
 TASK_014_ACTUAL_OUTPUT_COUNT: 1
 TASK_014_GENERATION_ATTEMPT_COUNT: 1
-TASK_014_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_014_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_014_RESULT_BINDING_STATUS: CONFIRMED
 TASK_014_PROMPT_CONSUMED: YES
 TASK_014_PROMPT_STATE: CONSUMED
@@ -135,7 +135,7 @@ TASK_015_RESULT_ID: file_00000000971c82099943b57ac499f8b9
 TASK_015_GENERATION_ID: 8fde9a4b-238a-45fc-b29c-ab5d512bda41
 TASK_015_ACTUAL_OUTPUT_COUNT: 1
 TASK_015_GENERATION_ATTEMPT_COUNT: 1
-TASK_015_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_015_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_015_RESULT_BINDING_STATUS: CONFIRMED
 TASK_015_PROMPT_CONSUMED: YES
 TASK_015_PROMPT_STATE: CONSUMED
@@ -146,7 +146,7 @@ TASK_016_RESULT_ID: file_00000000decc8209bebeb2fc316803d6
 TASK_016_GENERATION_ID: 5fa74a75-a055-44f2-861c-fac467807a3c
 TASK_016_ACTUAL_OUTPUT_COUNT: 1
 TASK_016_GENERATION_ATTEMPT_COUNT: 1
-TASK_016_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_016_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_016_RESULT_BINDING_STATUS: CONFIRMED
 TASK_016_PROMPT_CONSUMED: YES
 TASK_016_PROMPT_STATE: CONSUMED
@@ -157,7 +157,7 @@ TASK_017_RESULT_ID: file_000000006dd0820995605b36c607a1cc
 TASK_017_GENERATION_ID: c520bfcb-a09b-47b0-aaee-12d3f443c898
 TASK_017_ACTUAL_OUTPUT_COUNT: 1
 TASK_017_GENERATION_ATTEMPT_COUNT: 1
-TASK_017_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_017_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_017_RESULT_BINDING_STATUS: CONFIRMED
 TASK_017_PROMPT_CONSUMED: YES
 TASK_017_PROMPT_STATE: CONSUMED
@@ -168,7 +168,7 @@ TASK_018_RESULT_ID: file_00000000d0e48209be40e15c2d313ee1
 TASK_018_GENERATION_ID: 1a1d13d1-51fb-4e74-8d4a-6e6751ea0c78
 TASK_018_ACTUAL_OUTPUT_COUNT: 1
 TASK_018_GENERATION_ATTEMPT_COUNT: 1
-TASK_018_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_018_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_018_RESULT_BINDING_STATUS: CONFIRMED
 TASK_018_PROMPT_CONSUMED: YES
 TASK_018_PROMPT_STATE: CONSUMED
@@ -179,7 +179,7 @@ TASK_019_RESULT_ID: file_00000000b4e08209aa8740fa8bf77cac
 TASK_019_GENERATION_ID: 4595fc0e-79c1-47c7-96d7-71dce443c107
 TASK_019_ACTUAL_OUTPUT_COUNT: 1
 TASK_019_GENERATION_ATTEMPT_COUNT: 1
-TASK_019_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_019_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_019_RESULT_BINDING_STATUS: CONFIRMED
 TASK_019_PROMPT_CONSUMED: YES
 TASK_019_PROMPT_STATE: CONSUMED
@@ -190,8 +190,12 @@ TASK_020_RESULT_ID: file_00000000d88c82098c7586d34194d827
 TASK_020_GENERATION_ID: 429385ee-617c-46aa-aad4-c49f57b31439
 TASK_020_ACTUAL_OUTPUT_COUNT: 1
 TASK_020_GENERATION_ATTEMPT_COUNT: 1
-TASK_020_GENERATION_INPUT_MODE: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+TASK_020_GENERATION_INPUT_MODE: KNOWN_DEVIATION (submitted a paraphrased generation prompt rather than the complete locked prompt)
 TASK_020_RESULT_BINDING_STATUS: CONFIRMED
 TASK_020_PROMPT_CONSUMED: YES
 TASK_020_PROMPT_STATE: CONSUMED
 TASK_020_PROMPT_MATCH_STATUS: NOT_ASSESSED
+
+
+CORRECTION_2026-10-26_GENERATION_INPUT_MODE:
+TASK_009–TASK_020: KNOWN_DEVIATION. The actual image-generation calls in this execution used paraphrased prompt text rather than the complete locked prompt body. The original locked prompt files remain unchanged. All received images remain recorded as production results; no regeneration or QA was performed. TASK_013 returned two image files for one completed Task.
