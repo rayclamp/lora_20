@@ -343,3 +343,28 @@ Scope: Design/persistence only; no generation or QA.
   Actual additional output count: 1
   Receipt state: CONFIRMED
   Note: Additional image result was received after Task success; recorded as an additional actual file. No further generation for this Task.
+
+
+- Event: GENERATION_STARTED
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_014
+  Attempt: 1
+  Full prompt read: CONFIRMED (complete locked prompt read from PROMPTS/TASK_014.md)
+  Generation input mode: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+- Event: IMAGE_RESULT_RECEIVED
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_014
+  Generation ID: 44b7f4dd-81a7-46a7-9b24-f08dcb9068e3
+  Result file: /mnt/data/a_bright_photorealistic_interior_scene_a_modern.png
+  Result file ID: file_00000000c1a88209b42a3b7275c66991
+  Actual output count: 1
+  Receipt state: CONFIRMED
+- Event: GENERATION_SUCCESS
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_014
+  Task status: SUCCESS
+  Generation status: SUCCESS
+  Prompt consumed: YES
+  Prompt state: CONSUMED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  Note: Image receipt is confirmed. No visual QA performed.
