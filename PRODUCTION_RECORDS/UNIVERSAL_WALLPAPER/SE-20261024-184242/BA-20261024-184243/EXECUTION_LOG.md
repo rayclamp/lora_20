@@ -184,3 +184,28 @@ Scope: Design/persistence only; no generation or QA.
   Prompt state: CONSUMED
   PROMPT_MATCH_STATUS: NOT_ASSESSED
   Note: Image receipt is confirmed. Exact generation payload was not exposed by the interface; no visual QA performed.
+
+
+- Event: GENERATION_STARTED
+  Timestamp: 2026-10-26T00:27:00+08:00
+  Task: TASK_008
+  Attempt: 1
+  Full prompt read: CONFIRMED (complete locked prompt read from PROMPTS/TASK_008.md)
+  Generation input mode: LOCKED_PROMPT_USED_AS_AUTHORITATIVE_SPECIFICATION; exact interface payload not exposed
+- Event: IMAGE_RESULT_RECEIVED
+  Timestamp: 2026-10-26T00:27:00+08:00
+  Task: TASK_008
+  Generation ID: 3f07f719-c426-41e4-9a4a-1550f080970d
+  Result file: /mnt/data/a_bright_soft_intimate_indoor_scene_a_young_eas.png
+  Result file ID: file_00000000e5388209b85e23ba89c31de3
+  Actual output count: 1
+  Receipt state: CONFIRMED
+- Event: GENERATION_SUCCESS
+  Timestamp: 2026-10-26T00:27:00+08:00
+  Task: TASK_008
+  Task status: SUCCESS
+  Generation status: SUCCESS
+  Prompt consumed: YES
+  Prompt state: CONSUMED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  Note: Image receipt is confirmed; no visual QA performed.
