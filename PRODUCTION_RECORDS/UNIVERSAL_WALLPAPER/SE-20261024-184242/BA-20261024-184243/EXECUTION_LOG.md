@@ -134,3 +134,28 @@ Scope: Design/persistence only; no generation or QA.
   Prompt state: CONSUMED
   PROMPT_MATCH_STATUS: NOT_ASSESSED
   Note: Image receipt is confirmed; known generation-input deviation is recorded separately. No visual QA performed.
+
+
+- Event: GENERATION_STARTED
+  Timestamp: 2026-10-25T22:19:00+08:00
+  Task: TASK_006
+  Attempt: 1
+  Full prompt read: CONFIRMED (complete locked prompt read from PROMPTS/TASK_006.md)
+  Generation input mode: INTERFACE_PAYLOAD_NOT_EXPOSED (the interface did not expose the exact submitted payload)
+- Event: IMAGE_RESULT_RECEIVED
+  Timestamp: 2026-10-25T22:19:00+08:00
+  Task: TASK_006
+  Generation ID: 2f95d9e2-6de1-41ba-aaf8-a3908d487888
+  Result file: /mnt/data/a_bright_dreamy_photorealistic_ultra_detailed_an.png
+  Result file ID: file_0000000065848206ae28fc05070fc9c9
+  Actual output count: 1
+  Receipt state: CONFIRMED
+- Event: GENERATION_SUCCESS
+  Timestamp: 2026-10-25T22:19:00+08:00
+  Task: TASK_006
+  Task status: SUCCESS
+  Generation status: SUCCESS
+  Prompt consumed: YES
+  Prompt state: CONSUMED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  Note: Image receipt is confirmed. Exact generation payload was not exposed by the interface; no visual QA performed.
