@@ -309,3 +309,37 @@ Scope: Design/persistence only; no generation or QA.
   Prompt state: CONSUMED
   PROMPT_MATCH_STATUS: NOT_ASSESSED
   Note: Image receipt is confirmed. No visual QA performed.
+
+
+- Event: GENERATION_STARTED
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_013
+  Attempt: 1
+  Full prompt read: CONFIRMED (complete locked prompt read from PROMPTS/TASK_013.md)
+  Generation input mode: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+- Event: IMAGE_RESULT_RECEIVED
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_013
+  Generation ID: 37c783e9-31df-45d1-bdc5-e158a4b90262
+  Result file: /mnt/data/a_bright_airy_modern_bedroom_closet_scene_in_a_r.png
+  Result file ID: file_0000000065c48209827e186e60c92bba
+  Actual output count: 1
+  Receipt state: CONFIRMED
+- Event: GENERATION_SUCCESS
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_013
+  Task status: SUCCESS
+  Generation status: SUCCESS
+  Prompt consumed: YES
+  Prompt state: CONSUMED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  Note: First image receipt confirmed; Task success established. No visual QA performed.
+- Event: DUPLICATE_GENERATION_RESULT_RECEIVED
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_013
+  Generation ID: 6c7c6046-7e24-4e06-9abd-a1ae0be90129
+  Result file: /mnt/data/a_bright_softly_lit_bedroom_closet_scene_in_a_mod.png
+  Result file ID: file_000000006f5c8209bccd0420a5bf89fa
+  Actual additional output count: 1
+  Receipt state: CONFIRMED
+  Note: Additional image result was received after Task success; recorded as an additional actual file. No further generation for this Task.
