@@ -518,3 +518,12 @@ Scope: Design/persistence only; no generation or QA.
   Prompt state: CONSUMED
   PROMPT_MATCH_STATUS: NOT_ASSESSED
   Note: Image receipt is confirmed. No visual QA performed.
+
+
+- Event: RECORD_CORRECTION
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Scope: TASK_009–TASK_020 generation input mode
+  Correction: The generation calls in this execution used paraphrased prompt text, not the complete locked prompt bodies. Earlier per-Task entries that describe these calls as FULL_LOCKED_PROMPT are corrected for current-state interpretation; retain the original entries as historical evidence.
+  Corrected generation input mode: KNOWN_DEVIATION
+  Evidence basis: The actual image-generation tool inputs authored in this execution were concise paraphrases of the locked prompt files.
+  Result handling: Preserve all confirmed image receipts and current Task successes; do not regenerate any result. TASK_013 returned two files for one completed Task.
