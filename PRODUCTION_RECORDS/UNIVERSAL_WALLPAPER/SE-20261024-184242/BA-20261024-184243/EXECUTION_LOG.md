@@ -59,3 +59,28 @@ Scope: Design/persistence only; no generation or QA.
   Prompt state: CONSUMED
   PROMPT_MATCH_STATUS: NOT_ASSESSED
   Note: Result receipt is confirmed; known deviation in generation input is recorded separately. No visual QA performed.
+
+- Event: GENERATION_STARTED
+  Timestamp: 2026-10-25T22:08:00+08:00
+  Task: TASK_003
+  Attempt: 1
+  Full prompt read: CONFIRMED (complete locked prompt read from PROMPTS/TASK_003.md)
+  Generation input mode: KNOWN_DEVIATION (submitted a shortened paraphrase rather than the complete locked prompt)
+  Shortened prompt preservation status: NOT_APPLICABLE
+- Event: IMAGE_RESULT_RECEIVED
+  Timestamp: 2026-10-25T22:08:00+08:00
+  Task: TASK_003
+  Generation ID: 1d8e3fed-12d6-4a31-a593-22c6e78ac56a
+  Result file: /mnt/data/a_bright_soft_cozy_indoor_living_room_scene_with.png
+  Result file ID: file_000000003a948209a2b6284ee42c85d5
+  Actual output count: 1
+  Receipt state: CONFIRMED
+- Event: GENERATION_SUCCESS
+  Timestamp: 2026-10-25T22:08:00+08:00
+  Task: TASK_003
+  Task status: SUCCESS
+  Generation status: SUCCESS
+  Prompt consumed: YES
+  Prompt state: CONSUMED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  Note: Result receipt is confirmed; known deviation in generation input is recorded separately. No visual QA performed.
