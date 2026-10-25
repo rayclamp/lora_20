@@ -209,3 +209,28 @@ Scope: Design/persistence only; no generation or QA.
   Prompt state: CONSUMED
   PROMPT_MATCH_STATUS: NOT_ASSESSED
   Note: Image receipt is confirmed; no visual QA performed.
+
+
+- Event: GENERATION_STARTED
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_009
+  Attempt: 1
+  Full prompt read: CONFIRMED (complete locked prompt read from PROMPTS/TASK_009.md)
+  Generation input mode: FULL_LOCKED_PROMPT (complete locked prompt used as intended generation specification; exact hidden payload not exposed)
+- Event: IMAGE_RESULT_RECEIVED
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_009
+  Generation ID: a5b379e9-346a-4557-bac4-6fbc6ab0c518
+  Result file: /mnt/data/a_bright_intimate_indoor_scene_in_a_modern_airy.png
+  Result file ID: file_000000003a7482099a24f32d6d970b49
+  Actual output count: 1
+  Receipt state: CONFIRMED
+- Event: GENERATION_SUCCESS
+  Timestamp: 2026-10-26 (local time not exposed by generation interface)
+  Task: TASK_009
+  Task status: SUCCESS
+  Generation status: SUCCESS
+  Prompt consumed: YES
+  Prompt state: CONSUMED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  Note: Image receipt is confirmed. No visual QA performed.
