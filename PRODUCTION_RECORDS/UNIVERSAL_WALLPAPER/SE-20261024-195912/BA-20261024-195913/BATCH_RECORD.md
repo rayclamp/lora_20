@@ -10,16 +10,16 @@ OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
-COMPLETED_COUNT: 1
-RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 1
+COMPLETED_COUNT: 2
+RESULT_RECORDED_COUNT: 1
+ACTUAL_IMAGE_COUNT: 2
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 19
-ATTEMPT_COUNT: 1
-CURRENT_TASK: TASK_002
-NEXT_TASK: TASK_002
-CHECKPOINT: TASK_001 returned one image; result recorded with generation-input deviation disclosed in EXECUTION_LOG. Continue at TASK_002.
-TERMINATION_INFO: Batch remains in progress; 1 Task has a recorded image result, 19 Tasks remain pending.
+ATTEMPT_COUNT: 2
+CURRENT_TASK: TASK_003
+NEXT_TASK: TASK_003
+CHECKPOINT: TASK_001 and TASK_002 each returned one image. TASK_002 generation-input deviation disclosed in EXECUTION_LOG. Continue at TASK_003.
+TERMINATION_INFO: Batch remains in progress; 2 Tasks have recorded image results, 18 Tasks remain pending.
