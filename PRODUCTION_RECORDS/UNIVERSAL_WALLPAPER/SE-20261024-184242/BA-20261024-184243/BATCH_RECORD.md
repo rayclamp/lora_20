@@ -9,15 +9,15 @@ OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
-COMPLETED_COUNT: 7
-RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 7
+COMPLETED_COUNT: 8
+RESULT_RECORDED_COUNT: 8
+ACTUAL_IMAGE_COUNT: 8
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 13
-ATTEMPT_COUNT: 7
-CURRENT_TASK: TASK_007
-NEXT_TASK: TASK_008
-CHECKPOINT: TASK_001–TASK_007 each have one image result recorded. TASK_004 and TASK_005 generation inputs used paraphrases rather than the complete locked prompts (KNOWN_DEVIATION); TASK_006 and TASK_007 source prompts were read, but the generation interface did not expose the exact payload. 13 Tasks remain pending.
+PENDING_COUNT: 12
+ATTEMPT_COUNT: 8
+CURRENT_TASK: TASK_008
+NEXT_TASK: TASK_009
+CHECKPOINT: TASK_001–TASK_008 each have one image result recorded. TASK_004 and TASK_005 generation inputs used paraphrases rather than the complete locked prompts (KNOWN_DEVIATION); TASK_006–TASK_008 source prompts were read and used as authoritative specifications, while the interface did not expose exact payload bytes. 12 Tasks remain pending.
