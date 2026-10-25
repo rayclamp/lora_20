@@ -9,15 +9,15 @@ OUTPUT_TYPE: DESKTOP_16_9
 BATCH_STATUS: IN_PROGRESS
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
-COMPLETED_COUNT: 5
+COMPLETED_COUNT: 6
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 5
+ACTUAL_IMAGE_COUNT: 6
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 15
-ATTEMPT_COUNT: 5
-CURRENT_TASK: TASK_005
-NEXT_TASK: TASK_006
-CHECKPOINT: TASK_001–TASK_005 each have one image result recorded. TASK_004 and TASK_005 generation inputs used paraphrases rather than the complete locked prompts (KNOWN_DEVIATION). 15 Tasks remain pending.
+PENDING_COUNT: 14
+ATTEMPT_COUNT: 6
+CURRENT_TASK: TASK_006
+NEXT_TASK: TASK_007
+CHECKPOINT: TASK_001–TASK_006 each have one image result recorded. TASK_004 and TASK_005 generation inputs used paraphrases rather than the complete locked prompts (KNOWN_DEVIATION); TASK_006 source prompt was read, but the generation interface did not expose the exact payload. 14 Tasks remain pending.
