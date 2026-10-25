@@ -84,3 +84,28 @@ Scope: Design/persistence only; no generation or QA.
   Prompt state: CONSUMED
   PROMPT_MATCH_STATUS: NOT_ASSESSED
   Note: Result receipt is confirmed; known deviation in generation input is recorded separately. No visual QA performed.
+
+
+- Event: GENERATION_STARTED
+  Timestamp: 2026-10-25T22:17:00+08:00
+  Task: TASK_004
+  Attempt: 1
+  Full prompt read: CONFIRMED (complete locked prompt read from PROMPTS/TASK_004.md)
+  Generation input mode: KNOWN_DEVIATION (submitted a paraphrased prompt rather than the complete locked prompt)
+- Event: IMAGE_RESULT_RECEIVED
+  Timestamp: 2026-10-25T22:17:00+08:00
+  Task: TASK_004
+  Generation ID: 66452df2-0e24-4ab3-8801-757860689892
+  Result file: /mnt/data/a_highly_detailed_soft_dreamy_photoreal_cgi_ani.png
+  Result file ID: file_0000000067bc8206b0d7109907cfb719
+  Actual output count: 1
+  Receipt state: CONFIRMED
+- Event: GENERATION_SUCCESS
+  Timestamp: 2026-10-25T22:17:00+08:00
+  Task: TASK_004
+  Task status: SUCCESS
+  Generation status: SUCCESS
+  Prompt consumed: YES
+  Prompt state: CONSUMED
+  PROMPT_MATCH_STATUS: NOT_ASSESSED
+  Note: Image receipt is confirmed; known generation-input deviation is recorded separately. No visual QA performed.
