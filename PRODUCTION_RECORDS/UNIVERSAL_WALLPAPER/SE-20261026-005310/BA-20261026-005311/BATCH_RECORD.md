@@ -18,8 +18,8 @@ FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
 PENDING_COUNT: 0
-ATTEMPT_COUNT: 14
+ATTEMPT_COUNT: 15
 CURRENT_TASK: TASK_015 — SUCCESS; one image received and recorded
 NEXT_TASK: NONE
 CHECKPOINT: TASK_001–TASK_015 image receipts recorded; TASK_015 result reference=c38abe01-2af6-4309-93b4-84a832b4fdba; output file reference=file_00000000b80c82069eb9c8ac2ff8c947; prompts consumed. No pending Tasks remain.
-TERMINATION: Design command stops after verified prompt lock; generation and QA not started.
+TERMINATION: All 15 Tasks reached SUCCESS with one image received per Task; final record write/read-back verified. No QA performed or started.
