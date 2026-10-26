@@ -10,16 +10,16 @@ BATCH_STATUS: IN_PROGRESS
 PROMPT_SET_STATUS: LOCKED
 TASK_COUNT: 15
 PROMPT_FILE_COUNT: 15
-COMPLETED_COUNT: 4
+COMPLETED_COUNT: 5
 RESULT_RECORDED_COUNT: 0
-ACTUAL_IMAGE_COUNT: 4
+ACTUAL_IMAGE_COUNT: 5
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 11
-ATTEMPT_COUNT: 4
-CURRENT_TASK: TASK_004 — SUCCESS; one image received and recorded
-NEXT_TASK: TASK_005
-CHECKPOINT: TASK_001–TASK_004 image receipts recorded; TASK_004 result reference=b1a839be-4173-42c2-a413-de7c10a29c23; output file reference=file_000000001b6c8206ac2629bd50fa5830; prompts consumed. Remaining 11 Tasks pending.
+PENDING_COUNT: 10
+ATTEMPT_COUNT: 5
+CURRENT_TASK: TASK_005 — SUCCESS; one image received and recorded
+NEXT_TASK: TASK_006
+CHECKPOINT: TASK_001–TASK_005 image receipts recorded; TASK_005 result reference=1f551f0b-f640-4807-8b8c-e56597f1aeaf; output file reference=file_000000008a08820696c896ca1b2f1f83; prompts consumed. Remaining 10 Tasks pending.
 TERMINATION: Design command stops after verified prompt lock; generation and QA not started.
