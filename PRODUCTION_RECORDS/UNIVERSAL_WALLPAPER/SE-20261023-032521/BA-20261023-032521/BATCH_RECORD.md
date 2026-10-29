@@ -14,17 +14,17 @@
 - PROMPT_FILE_COUNT: 45
 - STANDARD_RECORDS_COUNT: 5
 - PROMPT_FILE_READBACK_VERIFIED_COUNT: 45
-- COMPLETED_COUNT: 28
-- RESULT_RECORDED_COUNT: 28
-- ACTUAL_IMAGE_COUNT: 28
+- COMPLETED_COUNT: 29
+- RESULT_RECORDED_COUNT: 29
+- ACTUAL_IMAGE_COUNT: 29
 - UNVERIFIED_COUNT: 0
 - FAILED_COUNT: 0
 - DEFERRED_COUNT: 0
 - BLOCKED_COUNT: 0
-- PENDING_COUNT: 17
-- ATTEMPT_COUNT: 28
-- CURRENT_TASK: TASK_028
-- NEXT_TASK: TASK_029
-- CHECKPOINT: TASK_001 through TASK_028 each produced one confirmed image; TASK_028 result event and queue state updated. TASK_029 is next.
+- PENDING_COUNT: 16
+- ATTEMPT_COUNT: 29
+- CURRENT_TASK: TASK_029
+- NEXT_TASK: TASK_030
+- CHECKPOINT: TASK_001 through TASK_029 each produced one confirmed image; TASK_029 result event and queue state updated. TASK_030 is next.
 - VERIFICATION: PASS — all Task prompt files contain prompt-text delimiters and non-empty prompt bodies; queue and manifest aligned to 45 Tasks.
 - CREATED_TAIPEI: 2026-10-23 03:25:21 UTC+08:00
