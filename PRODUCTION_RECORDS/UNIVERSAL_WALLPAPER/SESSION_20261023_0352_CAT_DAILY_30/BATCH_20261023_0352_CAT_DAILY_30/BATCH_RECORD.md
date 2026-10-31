@@ -18,6 +18,6 @@ PENDING_COUNT: 5
 ATTEMPT_COUNT: 25
 CURRENT_TASK: TASK_025
 NEXT_TASK: TASK_026
-CHECKPOINT: TASK_025 image received; actual output count 1; result and execution events appended; generation input mode KNOWN_DEVIATION because the generation call used an alternate descriptive prompt rather than the complete locked prompt. Awaiting GitHub readback verification.
+CHECKPOINT: TASK_025 image received; actual output count 1; result and execution events appended; generation input mode KNOWN_DEVIATION because the generation call used an alternate descriptive prompt rather than the complete locked prompt. GitHub write and readback verification completed.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
