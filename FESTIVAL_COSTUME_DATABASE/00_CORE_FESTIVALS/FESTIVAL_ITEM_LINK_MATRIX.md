@@ -72,12 +72,12 @@ These notes clarify ID interpretation **without changing any original category l
 ## DATA-QUALITY FLAGS
 
 - **`F044: REGION_SPECIFIC_ITEM_GAP`** — region-specific item source/coverage gaps remain unresolved for the Andean / other Latin American variant. This flag is **separate from the canonical name and category cells**; it is not a change to F044's ID, scope, or current item verification status. Do not assume Mexican-specific F011 items verify F044 regional practice.
-- This matrix reports **no new item-level verification**. A structural link or indexed category does not cure a missing provenance record.
+- A structural link or indexed category **does not itself verify a candidate**. Under P0-31, the one source-backed F006 Easter Parade bonnet item is VERIFIED only in its documented United States cultural scope; all other catalog candidates still require their own complete item records and reviewed sources.
 
 ## COVERAGE AND CULTURAL EVIDENCE STATUS
 
-The categories (including accessory, shoe and headwear catalogs) form a **candidate-discovery pool**, not an exhaustively verified representation of any culture. Per the current `DATA_QUALITY_AUDIT.md`, 224 catalog candidate rows remain `VERIFICATION_STATUS: UNVERIFIED` and `SOURCE_REFERENCES: NOT_RECORDED`; that audit count is a recorded snapshot, not a newly measured or automatically maintained live count.
+The ten category catalogs comprise a mixed-evidence **candidate-discovery pool**, not an exhaustively verified cultural inventory. The latest P0-31 readback recorded **224 items total: 1 source-backed VERIFIED item** (`HEAD_EASTER_BONNET_001`, only for United States Easter Parade use), and **223 UNVERIFIED** candidates with `SOURCE_REFERENCES: NOT_RECORDED`. The older P0-22 snapshot of 224 UNVERIFIED entries remains available as an earlier audit result. These counts are dated records, not dynamic counters.
 
 Treat an individual item as verified only when both its catalog entry and its matching complete item record carry explicit source references, `VERIFICATION_STATUS: VERIFIED`, and the required fields and claims have been reviewed under `ITEM_RECORD_SCHEMA.md`. If the required evidence is absent, preserve `UNVERIFIED` and report the item-specific provenance gap; **do not silently upgrade or invent references**.
 
-This P0-16 correction preserves all 48 IDs F001–F048, canonical names, original category strings, and all festival-specific records unchanged. It changes navigation descriptions only. It does not activate QA, create Session/Batch, modify a design or production command, or authorize any image generation.
+Historical P0-16 scope note: that earlier documentation-only correction preserved all 48 IDs, names and category strings. Subsequently, the separately source-reviewed P0-31 F006 HEADWEAR correction updated F006's category set and this matching matrix row; the remaining F001–F048 IDs and other categories were preserved. Neither the matrix nor any source review authorizes QA activation (`PAUSED`), new Session/Batch creation, design/production command changes or image generation.
