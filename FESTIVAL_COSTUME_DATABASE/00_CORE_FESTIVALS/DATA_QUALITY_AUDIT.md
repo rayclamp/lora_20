@@ -1,8 +1,8 @@
 # Core Festival Database — Data Quality Audit
 
-## Current snapshot locator (P0-37; 2026-11-02)
+## Current snapshot locator (P0-38; 2026-11-02)
 
-This audit includes **historical snapshots** below. The opening P0-22-era observations that describe 224 unverified candidates are **not current**: the latest P0-37 structural snapshot is **48 registered festivals; 225 catalog items (6 VERIFIED, 219 UNVERIFIED); 13 open item-tag/category-scope associations** involving 7 candidates and 11 festivals. The 48 festival records and matrix category sets currently agree. See the newest dated P0-37 section at the end and the central pair-level blocker list in `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md`. A verified item requires the matching complete item record and source evidence; this heading is not a new cultural verification.
+This audit includes **historical dated snapshots** below. The earlier P0-22 text (224 unverified candidates) and P0-37 text (225 rows / 6 verified / 13 mismatches) are **not current**. The latest P0-38 independent active-catalog snapshot has **48 registered festivals, 220 unique items (8 source-reviewed VERIFIED, 212 UNVERIFIED), zero active item-tag/category-scope mismatches, and zero F-IDs lacking a directly tagged active candidate**. Seven former unsupported unverified candidate rows were preserved verbatim in `RETIRED_CANDIDATE_RECORDS.md` before retirement; `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` now retains the 13 former mismatches as historical and resolved, not a current blocker queue. All 48 festival category sets and the navigation matrix remain unchanged and concordant. The eight verified item claims are narrowly geographically scoped, not certification of other unverified catalog content.
 
 ## Audit scope
 
@@ -387,3 +387,58 @@ All four verified catalog rows carry explicit source URLs; cultural validity app
 - The P0-36 `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` register remains the current dated list of the same 13 OPEN pairs; this item has a compatible F002 PROPS tag and does not alter any of them.
 - P0-22 through P0-36 counts in earlier sections are **historical snapshots** and must not be mistaken for competing live inventory figures.
 - This step changes no other festival candidate, festival registration, festival categories, historical Archive, production record, prompt-design or image-production command, Session/Batch, or QA (`PAUSED`).
+
+## P0-38 Comprehensive festival reference cleanup — 2026-11-02
+
+### Scope and authority
+
+- User-authorized single-pass correction of festival-only data and navigation on `main`; preserve the original 48 registered festival IDs/names and ten category identities. No image-generation prompts, wallpaper producer/design commands, active Session/Batch, historical production records, `ARCHIVE/` contents or QA activation were authorized or modified.
+- Used the existing festival index, individual festival records, category catalogs and festival-to-category matrix as independent structural layers. Each new culturally VERIFIED item is bounded to explicit official or institutional source claims. The candidate database is still **not** an exhaustively culturally verified catalog.
+- The P0-22–P0-37 audit sections remain intact as dated historical snapshots of prior repo states; this appendix and the opening locator describe the P0-38 state.
+
+### Two zero-coverage festivals repaired with precise government/event evidence
+
+1. **F003 New Year's Day** — created `CATEGORIES/09_PROPS/ITEMS/PROP_US_NEWYEAR_TIMES_SQUARE_BALL_001.md`, a complete item record for New York City's Times Square Ball Drop at the December 31 / January 1 transition. Times Square Alliance event history `https://www.timessquarenyc.org/nye/nye-history-times-square-ball` and US NOAA's historical account `https://www.ncei.noaa.gov/news/historical-holiday-weather-new-years-eve-1907` substantiate the localized scene and 1907 history. The verified item is a **city-scale scene prop** and not a worldwide New Year's ornament. F003 still uses its original PROPS category permission.
+2. **F044 Andean / Latin American remembrance variants** — created `CATEGORIES/09_PROPS/ITEMS/PROP_PE_TANTAWAWA_DIFUNTOS_001.md`, source-limited to a Peruvian Andean Tanta Wawa food offering for Todos los Santos / Día de los Difuntos on November 1–2, especially Ayacucho. Official Peru MINCETUR Ayacucho tourism inventory `https://consultasenlinea.mincetur.gob.pe/fichaInventario/index.aspx?cod_Ficha=12358`, Huamanguilla municipality `https://www.gob.pe/institucion/munihuamanguilla/noticias/1053217-tanta-wawa-por-dia-de-todos-los-santos`, and Junín municipality `https://www.gob.pe/institucion/munijunin/noticias/1047850-iv-concurso-de-la-tanta-wawa-la-mesa-de-todos-los-santos` document the local practice. The F044 record's `REGION_SPECIFIC_ITEM_GAP` continues as **partial coverage for other Andean/Latin American regions**, not a zero-candidate claim, and is not transferred to F011 Mexican Día de los Muertos. F044's existing PROPS category permission was sufficient.
+3. Added these two complete records to the original PROPS catalog as two additional independently sourced VERIFIED rows. No other existing PROPS candidate row, festival ID/name, or category matrix entry was altered. Added PROPS README links and current-coverage annotations to F003/F044, preserving their earlier dated zero-candidate snapshots.
+
+### Thirteen category-scope exceptions retired without inventing cultural authority
+
+- P0-36 identified 13 active candidate-to-festival category mismatches involving seven generic, catalog-only `UNVERIFIED` rows: `SOCK_XMAS_KNIT_001`, `SOCK_EID_MODEST_001`, `SOCK_NORDIC_001`, `HEAD_STPATRICK_FLATCAP_001`, `HAIR_THAI_FEST_001`, `MAKEUP_XMAS_SOFT_001`, `MAKEUP_JP_FEST_001`. The earlier evidence review could not justify treating those general garments/looks as specifically traditional within their originally tagged festival category scope.
+- **Before editing** the four implicated category catalogs, stored each exact original table row plus its original file path and Blob SHA in new `RETIRED_CANDIDATE_RECORDS.md`. Readback confirmed all seven original rows survived unmodified. They are now **historical, non-active** candidates, not deleted history, not `VERIFICATION_STATUS: REJECTED`, and not cultural verification failures merely because a common garment might still be worn.
+- Removed only those seven exact row entries from the active SOCKS, HEADWEAR, HAIRSTYLE and MAKEUP catalog tables. Their catalog-local P0-29 warnings are superseded by explicit P0-38 current-state notes. Fixed final-line rows with absent trailing newlines by a separate exact follow-up readback; **all seven IDs are absent from active candidate tables**, and all seven original rows remain in the preservation file.
+- `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` retains the exact 13 historical pairs and marks them `RESOLVED_BY_RETIREMENT` as a documented workflow disposition. No F-ID `CATEGORY_LINKS` was widened, no alternative false regional tag was invented, and no unsupported candidate was promoted to VERIFIED.
+- Current active row totals: 225 pre-P0-38 - 7 retired + 2 newly verified = **220**. This is a deliberate active candidate-pool decrease, **not deletion of historical evidence**.
+
+### Calendar/hemisphere and scope cleanup
+
+- Reviewed the actual `SEASON` / `REGION / CULTURAL_SCOPE` fields of all 48 individual festival records. Corrected solely the ambiguous `SEASON` values for **F001, F002, F003, F004, F005, F006, F044, F048** to account for calendar date, lunar timing, geography and Southern/Northern Hemisphere seasonal differences. No festival ID, Chinese/English display name, `CATEGORY_LINKS`, classification or culture-region index tag changed.
+- Updated `FESTIVAL_CULTURAL_ANCHORS.md` design cues in F001/F003/F044/F048 to distinguish generic creative clothing from validated traditional items, New York's local New Year ball from a global custom, Peruvian remembrance bread from Mexican practices and Northern-Hemisphere assumptions from global Christmas / Advent. All 48 sensitivity ratings were preserved.
+- Updated shared `TAGS.md`, `ITEM_RECORD_SCHEMA.md`, `CATEGORIES/README.md`, `FESTIVAL_ITEM_LINK_MATRIX.md`, the festival root `README.md`, the four affected catalog warnings, PROPS navigation, historical exception register, and the path registry. These are retrieval/evidence documentation, not changes to prompt-design or image-production command contracts.
+
+### Final structural reconciliation (latest P0-38 check)
+
+| Check | Current result |
+|---|---|
+| Fixed indexed festivals | **48**, F001–F048; all names/IDs preserved |
+| Fixed category catalogs | **10** |
+| CLOTHING / ACCESSORIES / SOCKS / SHOES / HEADWEAR | **17 / 57 / 2 / 38 / 35** |
+| HAIRSTYLE / MAKEUP / BODY_DECORATION / PROPS / OTHER | **5 / 3 / 4 / 39 / 20** |
+| Total unique ACTIVE catalog `ITEM_ID` | **220** |
+| ACTIVE `VERIFICATION_STATUS: VERIFIED` | **8** with narrowly documented source claims |
+| ACTIVE `VERIFICATION_STATUS: UNVERIFIED` | **212** (`SOURCE_REFERENCES: NOT_RECORDED`) |
+| ACTIVE `VERIFICATION_STATUS: REJECTED` | **0** |
+| Retired historical catalog rows (not active) | **7**, preserved verbatim |
+| Active candidate festival-tag/category-scope mismatches | **0** |
+| Festival IDs with zero directly tagged active candidates | **0** |
+| Festival-record vs matrix category mismatches | **0** |
+| Remaining cultural evidence work | **212 UNVERIFIED active candidates** plus region gaps beyond the two new scoped entries |
+
+The eight VERIFIED item IDs are `HEAD_EASTER_BONNET_001`, `BODY_EID_HENNA_001`, `PROP_US_THANKSGIVING_ROAST_TURKEY_001`, `PROP_GION_FLOAT_001`, `PROP_TANZAKU_001`, `PROP_HALLOWEEN_PUMPKIN_001`, `PROP_US_NEWYEAR_TIMES_SQUARE_BALL_001`, and `PROP_PE_TANTAWAWA_DIFUNTOS_001`. Every active item in that set must have a matching complete record and its own region-appropriate evidence; a source found for one item cannot validate another similar item.
+
+### Read/selection boundary after cleanup
+
+- A current active `ITEM_CATALOG.md` row is discovery-only until its exact catalog status, region and independently sourced complete record have been checked; all 212 remaining UNVERIFIED rows must never be called culturally verified.
+- Retired rows may be read solely as historical notes through `RETIRED_CANDIDATE_RECORDS.md`, not reintroduced via a worker's fallback lookup, missing-category inference, or an archived snapshot.
+- F044 now has **one VERIFIED Peru-focused item** but still lacks specific source coverage for many other regional variants; F011 Mexican traditions must never be transplanted to F044.
+- Existing `ARCHIVE/`, `PRODUCTION_RECORDS/`, design/generation prompt commands, existing Sessions/Batches and QA (`PAUSED`) are untouched.
