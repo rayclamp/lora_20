@@ -1,8 +1,8 @@
 # Core Festival Database — Data Quality Audit
 
-## Current snapshot locator (P0-38; 2026-11-02)
+## Current snapshot locator (P0-39; 2026-11-02)
 
-This audit includes **historical dated snapshots** below. The earlier P0-22 text (224 unverified candidates) and P0-37 text (225 rows / 6 verified / 13 mismatches) are **not current**. The latest P0-38 independent active-catalog snapshot has **48 registered festivals, 220 unique items (8 source-reviewed VERIFIED, 212 UNVERIFIED), zero active item-tag/category-scope mismatches, and zero F-IDs lacking a directly tagged active candidate**. Seven former unsupported unverified candidate rows were preserved verbatim in `RETIRED_CANDIDATE_RECORDS.md` before retirement; `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` now retains the 13 former mismatches as historical and resolved, not a current blocker queue. All 48 festival category sets and the navigation matrix remain unchanged and concordant. The eight verified item claims are narrowly geographically scoped, not certification of other unverified catalog content.
+This audit includes **historical dated snapshots** below. The earlier P0-22 text (224 unverified candidates) and P0-37 text (225 rows / 6 verified / 13 mismatches) are **not current**. The **latest P0-39** active-catalog snapshot has **48 registered festivals, 220 unique items (11 source-reviewed VERIFIED, 209 UNVERIFIED), zero active item-tag/category-scope mismatches, and zero F-IDs lacking a directly tagged active candidate**. The P0-38 8/212 snapshot below remains dated history, not the live count. Seven former unsupported unverified candidate rows were preserved verbatim in `RETIRED_CANDIDATE_RECORDS.md` before retirement; `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` now retains the 13 former mismatches as historical and resolved, not a current blocker queue. All 48 festival category sets and the navigation matrix remain unchanged and concordant. The eight verified item claims are narrowly geographically scoped, not certification of other unverified catalog content.
 
 ## Audit scope
 
@@ -442,3 +442,36 @@ The eight VERIFIED item IDs are `HEAD_EASTER_BONNET_001`, `BODY_EID_HENNA_001`, 
 - Retired rows may be read solely as historical notes through `RETIRED_CANDIDATE_RECORDS.md`, not reintroduced via a worker's fallback lookup, missing-category inference, or an archived snapshot.
 - F044 now has **one VERIFIED Peru-focused item** but still lacks specific source coverage for many other regional variants; F011 Mexican traditions must never be transplanted to F044.
 - Existing `ARCHIVE/`, `PRODUCTION_RECORDS/`, design/generation prompt commands, existing Sessions/Batches and QA (`PAUSED`) are untouched.
+
+## P0-39 — Restarted individual festival item cultural verification (2026-11-02)
+
+### Scope and item evidence
+
+- Continued user-authorized festival cultural-source verification after prior P0-38 structural cleanup. No changes to existing festival IDs, category links, production records, Archive, prompt/producer commands or QA (still PAUSED).
+- Promoted exactly three previously active UNVERIFIED candidates; preserved their stable original ITEM_ID, festival tags, existing category and recognizability. Each has a new complete item record with claim-specific sources. Each altered catalog row was independently read back and verified.
+- F017 / PROP_NOWRUZ_HAFTSIN_001 (PROPS): UNESCO https://www.unesco.org/en/articles/nowruz-seeds-new-day-0, Smithsonian NMAA https://archive.asia.si.edu/events/nowruz/haft-sin.asp, and Encyclopaedia Iranica https://www.iranicaonline.org/articles/haft-sin/ verify a Nowruz haft-sin table in Iranian households / documented Iranian diaspora. Narrowed broad old Iran/Persian-culture region label to this actual evidence. Does not verify identical tables as universal across Central Asia.
+- F029 / PROP_SONGKRAN_WATER_001 (PROPS): Government of Thailand https://thailand.go.th/issue-focus-detail/001_02_250?hl=en, Tourism Authority of Thailand https://mail.tattpe.org.tw/About/Festival/Info.html?id=21 and Thailand Government PRD https://thailand.prd.go.th/en/content/category/detail/id/2078/iid/382096 substantiate Thai Songkran water blessing and distinct public splashing/water-play contexts. Respectful elder blessing and water play must not be conflated; no other regional water festivals were verified.
+- F046 / HEAD_MIDSUMMER_FLOWER_001 (HEADWEAR): Visit Sweden https://visitsweden.com/what-to-do/culture-history-and-art/swedish-traditions/midsummer-tradition/midsummer/ and https://visitsweden.com/what-to-do/culture-history-and-art/swedish-traditions/midsummer-tradition/midsummer-sweden-something-another-world/ document floral crowns worn for Swedish Midsummer. Narrowed earlier Nordic-wide label to Sweden. A similar separate Nordic candidate HEAD_MID_AU_FLOWER_002 remains UNVERIFIED.
+- Relevant F017/F029 PROPS and F046 HEADWEAR categories were already permitted by the original festival records and matrix; category links, festival display names and original festival ID count were not changed.
+
+### Fresh active inventory reconciliation
+
+| Category | Active rows |
+|---|---:|
+| CLOTHING | 17 |
+| ACCESSORIES | 57 |
+| SOCKS | 2 |
+| SHOES | 38 |
+| HEADWEAR | 35 |
+| HAIRSTYLE | 5 |
+| MAKEUP | 3 |
+| BODY_DECORATION | 4 |
+| PROPS | 39 |
+| OTHER | 20 |
+| **Total unique active ITEM_ID** | **220** |
+
+- **11 VERIFIED / 209 UNVERIFIED / 0 REJECTED** and no duplicate active ITEM_ID. All 11 VERIFIED catalog entries have matching complete item files, recorded sources, matching IDs, F-tags and VERIFIED status. All 209 remaining unverified candidates retain NOT_RECORDED as their source status.
+- Seven historically retired catalog rows remain preserved separately; 13 previous tag/category mismatches remain historically resolved. All 48 registered festivals retain their original IDs/names and no festival category permissions were widened. Previous P0-22 through P0-38 totals remain immutable historical snapshots.
+- Updated current navigation summaries and corrected a HEADWEAR README claim that the already-retired St. Patrick flat-cap mismatch was still open.
+- **Remaining:** 209 active candidates requiring individual cultural-source review, plus previously documented region evidence gaps (including F044 outside its documented Peruvian scope). Each further promotion needs its own full source-reviewed item record; analogy is insufficient.
+- QA remains PAUSED. No design/producer instruction, existing Batch, Archive or unrelated module was modified.
