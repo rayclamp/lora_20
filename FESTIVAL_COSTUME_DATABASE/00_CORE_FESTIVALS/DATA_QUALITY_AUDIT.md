@@ -313,3 +313,34 @@ All four verified catalog rows carry explicit source URLs; cultural validity app
 
 - The P0-22 through P0-33 inventory and exception counts above are historical **dated snapshots**; current P0-34 numbers reflect the new verified F024 catalog row, not a retroactive change to earlier results.
 - This stage updated only the source-reviewed item record, corresponding PROPS catalog row, category navigation README and this dated audit note, plus any subsequent canonical summary refresh. It did not modify a prompt-design or image-production command, alter QA (`PAUSED`), start a Session/Batch, or access `ARCHIVE/` or `PRODUCTION_RECORDS/`.
+
+## P0-35 Japanese Tanabata tanzaku source verification and live consistency recheck — 2026-11-02
+
+### Existing F023 item: source-supported scope
+
+- The existing `PROP_TANZAKU_001` catalog row was `UNVERIFIED` with `SOURCE_REFERENCES: NOT_RECORDED`, `FESTIVAL_TAGS: F023`, `REGION: Japan`, and `RECOGNIZABILITY: HIGH`. Its category is PROPS. F023's authoritative festival record already includes PROPS; the 48-festival navigation matrix agrees. No festival-category expansion is needed.
+- Japan National Tourism Organization, `https://www.japan.travel/en/sg/story/tanabata-a-wish-upon-a-star/`, directly identifies Japanese Tanabata tanzaku as narrow colored wishing strips hung on bamboo. Kyoto City Official Guide, `https://kyoto.travel/en/news/tanabata-festival-events-and-illuminations/`, independently documents writing wishes on colored strips and displaying them on bamboo during Kyoto Tanabata celebrations.
+- The two sources support the paper-strip / wish-writing / bamboo-decoration association in Japanese Tanabata. They do not establish a single prescribed palette, wording, precise date for every locality, universal religious obligation, or evidence for unrelated Japanese festival makeup or hairstyles.
+
+### Minimal repository edits and readback
+
+- Created the complete item record `CATEGORIES/09_PROPS/ITEMS/PROP_TANZAKU_001.md` with all required `ITEM_RECORD_SCHEMA.md` fields, exact source-to-claim scope, region, rendering suitability, hand-interaction guidance and exclusions.
+- Changed **only** the existing `PROP_TANZAKU_001` row of `CATEGORIES/09_PROPS/ITEM_CATALOG.md`: kept ID, English name, F023, Japan, and HIGH unchanged; changed `VERIFICATION_STATUS: UNVERIFIED` to `VERIFIED` and `SOURCE_REFERENCES` to the two reviewed sources. All 36 other PROPS item rows are unchanged. The new item record and changed catalog were fetched again after their commits; readback content and Blob SHA matched.
+- Added its link and evidence boundary to `CATEGORIES/09_PROPS/README.md`. No F023 record, index identity, category link, or matrix category row was modified.
+
+### P0-35 current catalog counts and remaining work
+
+| Check | Current observed value |
+|---|---|
+| Registered festival IDs and corresponding files | **48** (F001–F048, unchanged) |
+| Total category catalog item rows | **225** |
+| Source-reviewed `VERIFIED` catalog rows | **5**: `HEAD_EASTER_BONNET_001`, `BODY_EID_HENNA_001`, `PROP_GION_FLOAT_001`, `PROP_US_THANKSGIVING_ROAST_TURKEY_001`, `PROP_TANZAKU_001` |
+| `UNVERIFIED` catalog rows | **220**, none promoted by inference |
+| Remaining catalog tag/category-scope discrepancies | **13** (7 distinct candidates, 11 festivals) |
+| Festivals with zero direct candidate tags | **F003**, **F044** |
+
+- This is a **dated P0-35 snapshot**; the earlier P0-22–P0-34 quantities remain historical observations, not a second current source of truth. No general cultural certification is inferred from the five verified records.
+- An independent read of all 48 festival files in four batches cross-checked festival ID, English/Chinese names and exact ordered category links against the index and matrix; **zero** festival-record/index/matrix mismatches were found.
+- Four previously verified full item records were re-read and checked for all 14 required field keys; none were missing. This check does not independently revalidate every earlier external source.
+- The outstanding 13 tag/category exceptions, F003/F044 coverage gaps and other 220 UNSOURCED candidates remain subject to individual evidence decisions; do not fabricate provenance or widen category access solely from a catalog tag.
+- No `ARCHIVE/`, `PRODUCTION_RECORDS/`, wallpaper prompt-design command, image-production command, Session/Batch or QA state (`PAUSED`) was changed in this P0-35 step.
