@@ -213,3 +213,35 @@ Earlier sections of this audit that reported **224 UNVERIFIED** candidates and *
 - The 16 remaining catalog-tag/category-scope exceptions retain their existing warnings and unresolved status. Do not treat P0-31 as evidence for any other clothing category, region or festival. The relevant `F008` headwear exception remains open.
 - The fixed F001–F048 scope, all unrelated category links, 223 unchanged UNVERIFIED rows, F044 `REGION_SPECIFIC_ITEM_GAP` and three zero-direct-candidate festivals F003/F007/F044 remain unchanged.
 - This P0-31 source-record and catalog correction does not modify design prompts, production commands, Session/Batch, history, `ARCHIVE/`, `PRODUCTION_RECORDS/`, or QA (`PAUSED`).
+
+## P0-32 Emirati Eid henna verification — 2026-11-02
+
+### Primary cultural source and justified limits
+
+- Abu Dhabi's Department of Culture and Tourism, Heritage Register, `https://abudhabiculture.ae/en/cultural-heritage/intangible/heritage-register/social-practices/celebrating-eid`, expressly covers **both Eid al-Fitr and Eid al-Adha in the United Arab Emirates** and states that women and girls apply henna to their hands for Eid. Its general henna practice page, `https://abudhabiculture.ae/en/cultural-heritage/intangible/heritage-register/social-practices/henna`, provides contextual support for Emirati decorative henna; it is **not** an Eid-specific pattern requirement.
+- The source does **not** support a universal Muslim-world claim, a generic South Asian attribution, or automatic use for the **Ramadan period** F014. F014 is not equivalent to either F015 or F016 Eid festival.
+
+### Source-reviewed repository correction
+
+- Created and verified a **complete item record** at `CATEGORIES/08_BODY_DECORATION/ITEMS/BODY_EID_HENNA_001.md` with the mandatory fields and source-to-claim mapping. Its validated scope is hand-henna decoration in **Emirati Eid al-Fitr (F015)** and **Emirati Eid al-Adha (F016)**; the two holidays remain distinct.
+- Added `BODY_DECORATION` to each of the existing F015 and F016 authoritative festival records' `CATEGORY_LINKS` and to their corresponding `FESTIVAL_ITEM_LINK_MATRIX.md` rows. The F014 festival record, its category set and all other festival IDs were preserved.
+- In `CATEGORIES/08_BODY_DECORATION/ITEM_CATALOG.md`, changed **only** the existing `BODY_EID_HENNA_001` row: removed the unsupported F014 tag (retaining F015,F016), narrowed the region from the overly broad 'Muslim/South Asian contexts' to `United Arab Emirates (Emirati Eid customs)`, adjusted recognizability HIGH -> MEDIUM since henna also appears in other life events, recorded both traceable Abu Dhabi source references, and set `VERIFICATION_STATUS: VERIFIED`. The other three BODY_DECORATION item rows were preserved without change.
+- Replaced the previously open P0-29 BODY_DECORATION three-association warning with a **resolved P0-32** explanation and source limitations. Updated `CATEGORIES/08_BODY_DECORATION/README.md` to link to the complete evidence record. The historical initial exception remains documented earlier in this audit.
+
+### Post-write structural recheck — current snapshot
+
+| Check | P0-32 observed state |
+|---|---|
+| Total items in ten catalog tables | **224** |
+| Distinct item IDs | **224** |
+| `VERIFIED` catalog rows | **2** — `HEAD_EASTER_BONNET_001`, `BODY_EID_HENNA_001` |
+| `UNVERIFIED` catalog rows | **222** |
+| Remaining item-tag/category-scope mismatches | **13** |
+| Candidate items still involved in those mismatches | **7** |
+| Festival IDs still involved in those mismatches | **11** |
+| BODY_DECORATION catalog remaining mismatches | **0** |
+
+- The 13 remaining exceptions concern `SOCK_XMAS_KNIT_001`, `SOCK_EID_MODEST_001`, `SOCK_NORDIC_001`, `HEAD_STPATRICK_FLATCAP_001`, `HAIR_THAI_FEST_001`, `MAKEUP_XMAS_SOFT_001`, and `MAKEUP_JP_FEST_001`; no other candidate row was promoted.
+- The source-backed changes for F015 and F016 match the category-navigation matrix on exact category sets. F014 has not been extended based on Eid evidence; F006's prior HEADWEAR review remains intact. The registered 48 festival IDs and their historical content/special overlap notes remain in place.
+- Prior P0-24/P0-25 (**17** exceptions / all 224 unverified) and P0-31 (**16** exceptions / one verified) counts are **historical snapshots**. This section supersedes them only for the current computed counts; do not delete earlier audit evidence.
+- No prompt-design or image-production command file, QA state (`PAUSED`), Session/Batch, `ARCHIVE/`, or `PRODUCTION_RECORDS/` history was accessed or modified by the P0-32 correction.
