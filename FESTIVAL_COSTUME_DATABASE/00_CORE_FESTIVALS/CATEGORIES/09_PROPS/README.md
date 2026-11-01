@@ -9,7 +9,8 @@ Current items and their actual `VERIFICATION_STATUS` are listed in `ITEM_CATALOG
 ## Complete source-reviewed item
 
 - `ITEMS/PROP_US_THANKSGIVING_ROAST_TURKEY_001.md`: verified F007 roast turkey as a **modern United States Thanksgiving holiday dinner food prop**, documented by Smithsonian and Library of Congress sources. This is not evidence that all Canadian Thanksgiving traditions are identical, that every household serves turkey, or that a roast turkey centerpiece at the 1621 Plymouth gathering is definitively established.
-- The original F007 festival record already includes `PROPS` within its allowed `CATEGORY_LINKS`. No new festival category is authorized or needed; this item's addition does not make any other catalog entry verified.
+- `ITEMS/PROP_GION_FLOAT_001.md`: source-verified **Kyoto F024 Gion Matsuri Yamahoko** as a **large procession / festival street scene element**, not a portable hand-held item. Kyoto City Official Guide and Japan National Tourism Organization directly document its festival significance. F024 already includes `PROPS`; no category or matrix edit is needed.
+- The original F007 and F024 festival records both already include `PROPS` within their allowed `CATEGORY_LINKS`. No new festival category is authorized or needed; these two reviewed items' presence does not make any unrelated catalog entry verified.
 
 ## Shared rules
 
