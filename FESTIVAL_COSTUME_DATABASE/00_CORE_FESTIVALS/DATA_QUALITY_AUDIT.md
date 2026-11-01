@@ -106,3 +106,38 @@ The current catalogs contain **17 item-to-festival tag associations across nine 
 **Read/selection behavior until resolution:** Treat these nine candidates as `UNVERIFIED` and do not promote them as verified examples for an affected festival/category outside its allowed `CATEGORY_LINKS`. Report the exact item ID, festival ID and category when the mismatch would affect a specific requested design. Other unrelated festival-category lookup paths are not automatically invalidated.
 
 This section records observed candidate coverage and a new cross-layer consistency finding only. It modifies no candidate tags, 48 festival records, category links, original festival IDs/names, prompt/design/production commands, QA activation (`PAUSED`), or `ARCHIVE/` / `PRODUCTION_RECORDS/` historical data.
+
+## P0-25 Culture-and-region evidence triage of 17 catalog exceptions — 2026-11-02
+
+This audit reviewed all nine existing candidate rows responsible for 17 tag-to-category exceptions and the relevant festival-region and CATEGORY_LINKS records for all 12 affected IDs. The external references below are contextual research leads, NOT individual approved item records or proof of VERIFIED status. No candidate ID, festival tag, region, category link, source field, status or prompt is changed by this audit.
+
+### Candidate-by-candidate review
+
+| Candidate ID | Festival IDs | Observation and source limitation | Decision |
+|---|---|---|---|
+| SOCK_XMAS_KNIT_001 | F001, F048 | Generic winter knit socks do not establish a specifically Christmas-traditional item. | No automatic SOCKS category expansion; retain UNVERIFIED. |
+| SOCK_EID_MODEST_001 | F014, F015, F016 | Opaque modest hosiery is broadly wearable, not a distinct Ramadan or Eid ritual garment. Ramadan is a period (F014), while the two Eids are distinct festivals (F015/F016). | Review each association separately with precise community and practice evidence. |
+| SOCK_NORDIC_001 | F046 | General season-neutral Nordic hosiery is not demonstrated to be a Midsummer-specific cultural item. | Do not expand F046 SOCKS merely from geographic similarity. |
+| HEAD_EASTER_BONNET_001 | F006 | Smithsonian National Museum of American History documents decorated hats and spring finery during historical US Easter Parades. This supports US Easter headwear as a scoped research lead, NOT the candidate's broad regional attribution or item verification. | Potential region-limited F006 HEADWEAR scope review after complete record and source-to-item review. |
+| HEAD_STPATRICK_FLATCAP_001 | F008 | Lambton Heritage Museum links flat caps to Irish/Scottish heritage but does not establish the cap as a specifically St. Patrick's Day item or required festival tradition. | Do not convert general Irish heritage into a festival-specific verified candidate. |
+| HAIR_THAI_FEST_001 | F029 | Tourism Authority of Thailand documents Songkran celebrations and traditional dress; it does not identify the unspecified candidate hairstyle as specifically traditional at Songkran. | Narrow the hairstyle claim and gather exact local evidence before HAIRSTYLE expansion. |
+| MAKEUP_XMAS_SOFT_001 | F001, F048 | General soft festive makeup is a broad creative design choice, not documentation of a particular Christmas/Advent custom. | No culturally specific claim or MAKEUP expansion on this basis. |
+| MAKEUP_JP_FEST_001 | F023, F024, F026 | Japan National Tourism Organization documents matsuri dress such as yukata; this does not verify that a nonspecific refined makeup style is a traditional practice of Tanabata, Gion Matsuri, or Obon. | No automatic MAKEUP link expansion or verified cultural attribution. |
+| BODY_EID_HENNA_001 | F014, F015, F016 | Abu Dhabi cultural heritage resources describe women and girls applying henna during Eid al-Fitr and Eid al-Adha in the UAE. This supports a regional Eid-context research lead, NOT a universal Muslim practice, a blanket South Asian claim, or F014 Ramadan-period equivalence. | F015/F016 BODY_DECORATION warrant a source-backed region-specific scope review; the F014 tag needs separate evidence. |
+
+### Source leads and their evidence boundaries
+
+- Smithsonian National Museum of American History, "For your Easter bonnet: Silk ribbons" (2017), US Easter Parade attire only: https://www.americanhistory.si.edu/explore/stories/your-easter-bonnet-silk-ribbons
+- Lambton Heritage Museum, "Tip your Cap: Men's Hat Styles", general Irish/Scottish flat-cap history, not St. Patrick-specific use: https://www.heritagemuseum.ca/learn/articles-stories/hats/tip-your-cap-men-s-hat-styles/
+- Department of Culture and Tourism - Abu Dhabi, "Celebrating Eid", Emirati customs for both Eid festivals: https://abudhabiculture.ae/en/cultural-heritage/intangible/heritage-register/social-practices/celebrating-eid
+- UNESCO Intangible Cultural Heritage, "Henna: rituals, aesthetic and social practices" (inscribed 2024), broad diverse community contexts, not an item-by-item festival certification: https://ich.unesco.org/en/RL/henna-rituals-aesthetic-and-social-practices-02116
+- Japan National Tourism Organization, "Get Involved in Local Japanese Festivals", matsuri dress context, not direct festival-makeup evidence: https://www.japan.travel/en/guide/get-involved-in-local-festivals/
+- Tourism Authority of Thailand, official Songkran guide, festival practices and dress context, not a specific hairstyle: https://www.thailandtravel.or.jp/thai-festival-01/
+
+### Unresolved correction gates
+
+1. A broad cultural association, general clothing suitability, or source for a RELATED garment does not establish the exact item, local practice, historical claim, or festival-specific tradition.
+2. Region-scoped HEAD_EASTER_BONNET_001 (F006) and BODY_EID_HENNA_001 (F015/F016) are candidates for further review, not automatic VERIFIED rows or CATEGORY_LINKS expansions. Keep F014 Ramadan separate from Eid al-Fitr and Eid al-Adha.
+3. Resolve distinct decisions separately: the exact item-to-festival/region assertion; source-backed full item record; authoritative festival CATEGORY_LINKS; corresponding link-matrix navigation. Any change must be independently traceable and verified without silently altering other regional traditions.
+4. All 17 discrepancies involving nine candidate rows and 12 festivals remain open pending claim-specific evidence and category decisions. All 224 catalog candidates retain UNVERIFIED and SOURCE_REFERENCES: NOT_RECORDED. This audit appendix does not update catalog SOURCE_REFERENCES, create item records, or label any item VERIFIED.
+5. Preserve all fixed F001-F048 registrations and existing category links, historical audit findings and production/Archive records. Do not edit design prompt or image-generation commands; QA remains PAUSED.
