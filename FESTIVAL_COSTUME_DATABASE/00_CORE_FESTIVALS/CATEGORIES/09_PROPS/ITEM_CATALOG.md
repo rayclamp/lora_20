@@ -23,7 +23,7 @@ This is a reusable candidate catalog, not proof that every row has been independ
 | PROP_ZONGZI_001 | Zongzi | F019,F034 | Chinese/Taiwanese traditions | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_LANTERN_001 | Festival lantern | F021,F035 | East Asian festival contexts | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_TANZAKU_001 | Tanzaku wish strips | F023 | Japan | HIGH | UNVERIFIED | NOT_RECORDED |
-| PROP_GION_FLOAT_001 | Gion festival float as scene element | F024 | Kyoto | VERY HIGH | UNVERIFIED | NOT_RECORDED |
+| PROP_GION_FLOAT_001 | Gion festival float as scene element | F024 | Kyoto | VERY HIGH | VERIFIED | https://kyoto.travel/en/travel-inspiration/gion-matsuri-festival/ ; https://www.japan.travel/en/spot/83/ ; https://global.kyoto.travel/en/faq/detail.php?faq_id=2017 |
 | PROP_SAKURA_001 | Cherry blossom branches | F025 | Japan/East Asia | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_OBON_LANTERN_001 | Obon lantern | F026 | Japan | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_SET_SUBEANS_001 | Roasted soybeans | F027 | Japan | HIGH | UNVERIFIED | NOT_RECORDED |
