@@ -2,6 +2,8 @@
 
 ## DATA QUALITY STATUS
 
+**P0-36 current pair-level block list:** `../../ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` enumerates each remaining affected item/F-ID/category combination. Its `OPEN` status is diagnostic only, not a candidate's `VERIFICATION_STATUS`; follow the festival record's actual `CATEGORY_LINKS` and the item-source evidence gate.
+
 This is a reusable candidate catalog, not proof that every row has been independently culturally verified. A row may be treated as verified only when its cultural attribution is supported by an explicit source/reference and its required item-record fields have been reviewed. Do not infer verification from this file's presence or from visual similarity alone.
 
 ## P0-29 / P0-31 CATEGORY-SCOPE STATUS — current with historical audit reference
