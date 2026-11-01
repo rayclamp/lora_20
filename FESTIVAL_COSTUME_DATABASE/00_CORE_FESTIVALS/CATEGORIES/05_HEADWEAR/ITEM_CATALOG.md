@@ -2,21 +2,14 @@
 
 ## DATA QUALITY STATUS
 
-**P0-36 current pair-level block list:** `../../ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` enumerates each remaining affected item/F-ID/category combination. Its `OPEN` status is diagnostic only, not a candidate's `VERIFICATION_STATUS`; follow the festival record's actual `CATEGORY_LINKS` and the item-source evidence gate.
+**Current P0-38 status:** unsupported P0-36 rows in this category were retired and preserved verbatim; see `../../RETIRED_CANDIDATE_RECORDS.md`. No active item-tag/category-scope exceptions remain in this category.
 
 This is a reusable candidate catalog, not proof that every row has been independently culturally verified. A row may be treated as verified only when its cultural attribution is supported by an explicit source/reference and its required item-record fields have been reviewed. Do not infer verification from this file's presence or from visual similarity alone.
 
-## P0-29 / P0-31 CATEGORY-SCOPE STATUS — current with historical audit reference
+## P0-38 CURRENT RETIREMENT STATUS — prior P0-29/P0-36 warnings superseded
 
-This catalog remains a mixed-source item index, **not** a globally verified headwear collection. P0-29 identified two candidate tag/category exceptions. Under P0-31, `HEAD_EASTER_BONNET_001` is now **RESOLVED for United States Easter Parade use only** after a full source-backed item record was added at `ITEMS/HEAD_EASTER_BONNET_001.md`, F006's authoritative `CATEGORY_LINKS` gained `HEADWEAR`, and the festival navigation matrix was made consistent. This does not verify other styles/regions, other HEADWEAR candidates, or any religious requirement.
+The 1 catalog row(s) formerly causing category-scope exceptions here have been retired **from active candidate selection** after verifying that every original row was preserved verbatim in `../../RETIRED_CANDIDATE_RECORDS.md`. The P0-29/P0-36 warnings are dated historical findings in `../../DATA_QUALITY_AUDIT.md` and `../../ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md`; they are **not current open mismatches**. No unsupported candidate was upgraded to VERIFIED, no festival record or category link was widened, and no other catalog row was changed. Existing source-verified `HEAD_EASTER_BONNET_001` remains unaffected; its complete record and F006 HEADWEAR category link stay valid.
 
-**Remaining open category-scope discrepancy:**
-- `HEAD_STPATRICK_FLATCAP_001`: `FESTIVAL_TAGS = F008`; category `HEADWEAR` is not in F008's currently authorized `CATEGORY_LINKS`. Irish/Scottish flat-cap heritage alone does not establish a unique St Patrick's Day tradition. Keep this candidate `UNVERIFIED`; do not change F008's scope or reinterpret its tags without evidence.
-
-**Reviewed complete item record:**
-- `HEAD_EASTER_BONNET_001` is `VERIFIED` **only** for the American Easter Parade / New York City cultural context supported by its source record; its catalog region is intentionally narrowed from the former unsourced 'Europe/North America' generalization. Verify the matching complete record and sources before claiming broader regional/historical usage.
-
-All other catalog rows below remain unchanged and `UNVERIFIED` / `SOURCE_REFERENCES: NOT_RECORDED`. The historical P0-29 two-item exception is retained in `../../DATA_QUALITY_AUDIT.md`; the current open count is one item-festival association in this category. No image-generation command, batch, Archive or QA (`PAUSED`) state is altered by this update.
 | ITEM_ID | NAME | FESTIVAL_TAGS | REGION | RECOGNIZABILITY | VERIFICATION_STATUS | SOURCE_REFERENCES |
 |---|---|---|---|---|---|---|
 | HEAD_XMAS_SANTA_001 | Santa-style festive hat | F001,F048 | Global popular culture | HIGH | UNVERIFIED | NOT_RECORDED |
@@ -26,7 +19,6 @@ All other catalog rows below remain unchanged and `UNVERIFIED` / `SOURCE_REFEREN
 | HEAD_HOLI_FLOWER_001 | Simple spring floral head decoration | F013 | India/Nepal | LOW | UNVERIFIED | NOT_RECORDED |
 | HEAD_MIDSUMMER_FLOWER_001 | Flower crown | F046 | Nordic/Northern Europe | HIGH | UNVERIFIED | NOT_RECORDED |
 | HEAD_EASTER_BONNET_001 | Traditional Easter bonnet | F006 | United States (New York City Easter Parade context) | HIGH | VERIFIED | https://www.mcny.org/story/easter-parade ; https://blogs.loc.gov/picturethis/2023/04/hats-on-for-easter/ ; https://asufidmmuseum.asu.edu/learn/articles/put-your-easter-bonnet |
-| HEAD_STPATRICK_FLATCAP_001 | Traditional Irish-style wool cap | F008 | Ireland | MEDIUM | UNVERIFIED | NOT_RECORDED |
 | HEAD_CARNIVAL_VENETIAN_001 | Venetian carnival mask/headpiece | F009 | Venice/Italy | HIGH | UNVERIFIED | NOT_RECORDED |
 | HEAD_OKTOBERFEST_FELT_001 | Bavarian Trachten felt hat | F010 | Bavaria/Germany | HIGH | UNVERIFIED | NOT_RECORDED |
 | HEAD_DAYDEAD_FLOWER_001 | Large marigold/flower crown | F011 | Mexico | HIGH | UNVERIFIED | NOT_RECORDED |
