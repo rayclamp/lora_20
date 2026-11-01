@@ -284,3 +284,32 @@ This was recomputed by re-reading all ten existing item catalogs and the 48-row 
 
 - Source file creation, PROPS catalog row insertion, F007 current-coverage annotation and PROPS README index were committed independently, with exact post-write GitHub text readback; all original catalog rows and pre-existing F007 fields were preserved. The 48 fixed festivals remain present and F007's original `CATEGORY_LINKS` was not widened.
 - No source-less candidate was promoted to VERIFIED, no historical audit or source reference was erased, no Archive or production records were accessed, and no image production, design prompt, Session/Batch, QA (`PAUSED`) or runtime control was changed.
+
+## P0-34 Kyoto Gion Matsuri Yamahoko provenance — 2026-11-02
+
+### Source-grounded existing catalog item
+
+- `PROP_GION_FLOAT_001` was an existing **UNVERIFIED** PROPS catalog row (`F024`, Kyoto, VERY HIGH recognizability) and is not a handheld object. Kyoto City Official Guide (`https://kyoto.travel/en/travel-inspiration/gion-matsuri-festival/`), Japan National Tourism Organization (`https://www.japan.travel/en/spot/83/`) and Kyoto Online Tourist Information Center (`https://global.kyoto.travel/en/faq/detail.php?faq_id=2017`) independently document the **Kyoto Gion Matsuri Yamahoko floats, their decorations and processions**.
+- Created `CATEGORIES/09_PROPS/ITEMS/PROP_GION_FLOAT_001.md` as a complete source-reviewed item record under `ITEM_RECORD_SCHEMA.md`, including F024/Kyoto scope, evidence, optional environment-prop styling guidance and restrictions against generic festival/handheld interpretations. Exact text was read back after the GitHub creation.
+- Modified **only the existing PROP_GION_FLOAT_001 catalog row**: retained ITEM_ID, name, F024, Kyoto and VERY HIGH, changed `VERIFICATION_STATUS` from `UNVERIFIED` to `VERIFIED`, and populated `SOURCE_REFERENCES` with the three official sources. All other PROPS catalog rows, including the previously added US Thanksgiving turkey, remain unchanged.
+- Updated `CATEGORIES/09_PROPS/README.md` to link the second source-reviewed item. Initial immediate post-commit readback returned stale content; a subsequent fresh fetch and a separate GitHub contents fetch both confirmed the final updated README with its new item link. No duplicate write was made.
+- F024's existing authoritative festival `CATEGORY_LINKS` already contains PROPS and matched the 48-row matrix. No F024 festival category, F-ID, cultural region or matrix entry changed.
+
+### Verified post-write state (recomputed across 10 catalogs)
+
+| Check | P0-34 current state |
+|---|---|
+| Registered festival IDs | 48 unchanged |
+| Candidate/item rows | **225**, all IDs unique |
+| `VERIFIED` | **4**: `HEAD_EASTER_BONNET_001`, `BODY_EID_HENNA_001`, `PROP_GION_FLOAT_001`, `PROP_US_THANKSGIVING_ROAST_TURKEY_001` |
+| `UNVERIFIED` | **221**, all still `SOURCE_REFERENCES: NOT_RECORDED` |
+| Remaining item-tag/category-scope exceptions | **13** (7 candidates, 11 festivals) |
+| Festivals with zero directly tagged candidates | F003, F044 |
+| F007 directly tagged candidate coverage | 1 |
+
+All four verified catalog rows carry explicit source URLs; cultural validity applies only to the specific festival and region defined by each matching full item record. No general festival makeup, socks, flat cap, Songkran hairstyle or other unsourced candidate was promoted.
+
+### Boundaries
+
+- The P0-22 through P0-33 inventory and exception counts above are historical **dated snapshots**; current P0-34 numbers reflect the new verified F024 catalog row, not a retroactive change to earlier results.
+- This stage updated only the source-reviewed item record, corresponding PROPS catalog row, category navigation README and this dated audit note, plus any subsequent canonical summary refresh. It did not modify a prompt-design or image-production command, alter QA (`PAUSED`), start a Session/Batch, or access `ARCHIVE/` or `PRODUCTION_RECORDS/`.
