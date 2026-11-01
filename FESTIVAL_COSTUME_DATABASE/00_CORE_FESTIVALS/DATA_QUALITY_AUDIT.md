@@ -74,3 +74,35 @@ The following checks were performed against the existing individual festival fil
 - Read all ten category-scoped `CATEGORIES/<number>_<category>/README.md` files. They define category scope, refer inventory details to the adjacent `ITEM_CATALOG.md`, and defer shared validation guidance to the parent category index; none required a corrective content edit during this pass.
 - No `CATEGORY_LINKS`, candidate item, individual category README, status, verification evidence, festival ID or festival matrix content was changed during this check.
 - A structurally consistent link does **not** establish that the catalog contains a matching item or that any item's claimed local custom has been verified. In particular, F044 still has no directly tagged catalog candidate in the 224-row inventory at the recorded snapshot.
+
+## P0-24 Catalog coverage and tag-to-category reconciliation — 2026-11-02
+
+This pass analyzed all **224** current candidate catalog rows and their **413** F-ID tag associations against the actual festival category scope stored in the current festival records, which matches `FESTIVAL_ITEM_LINK_MATRIX.md` as independently checked in P0-23. It is a **structural coverage** audit only: all catalog candidates remain `UNVERIFIED` and no new item/cultural source research was performed.
+
+### Candidate-tag coverage gaps
+
+- **No directly tagged candidate item:** `F003` (New Year's Day), `F007` (Thanksgiving), and `F044` (Andean/Latin American remembrance regional variants). These three registered festivals still have valid category-link navigation entries, but **zero** `FESTIVAL_TAGS` associations in the current ten catalogs.
+- **Only one or two directly tagged candidate items:** `F005` (1), `F002` (2), `F025` (2), and `F040` (2). These are catalog-discovery coverage gaps, **not** claims that any listed item is culturally verified.
+- A fixed festival ID remains registered even when no directly tagged candidate exists. Do not remove a festival, invent an item to fill a gap, borrow another region's objects, or change an item's verification state solely to improve coverage statistics.
+
+### Candidate tag outside that festival's currently allowed category links
+
+The current catalogs contain **17 item-to-festival tag associations across nine candidate rows** where the candidate's containing category is **not included** in that tagged festival's authoritative `CATEGORY_LINKS`. The 17 associations involve **12 festival IDs**. This is distinct from `CATEGORY_LINK_MISMATCH`: the 48 festival records and link matrix already match each other; the discrepancy is between **catalog tag associations and allowed category scopes**.
+
+| Existing catalog candidate ITEM_ID | Catalog category | Festival IDs without that category link |
+|---|---|---|
+| `SOCK_XMAS_KNIT_001` | SOCKS | F001, F048 |
+| `SOCK_EID_MODEST_001` | SOCKS | F014, F015, F016 |
+| `SOCK_NORDIC_001` | SOCKS | F046 |
+| `HEAD_EASTER_BONNET_001` | HEADWEAR | F006 |
+| `HEAD_STPATRICK_FLATCAP_001` | HEADWEAR | F008 |
+| `HAIR_THAI_FEST_001` | HAIRSTYLE | F029 |
+| `MAKEUP_XMAS_SOFT_001` | MAKEUP | F001, F048 |
+| `MAKEUP_JP_FEST_001` | MAKEUP | F023, F024, F026 |
+| `BODY_EID_HENNA_001` | BODY_DECORATION | F014, F015, F016 |
+
+**Unresolved decision boundary:** A category link must not be automatically broadened merely because an `UNVERIFIED` catalog row claims a matching festival tag. Equally, do not silently delete a historical tag or reassign a candidate to another festival. First determine from region-specific sources and the intended festival-category scope whether the catalog tag is genuinely appropriate; then make a separately traceable data correction to the appropriate record, and recheck the matrix and item status without inventing provenance.
+
+**Read/selection behavior until resolution:** Treat these nine candidates as `UNVERIFIED` and do not promote them as verified examples for an affected festival/category outside its allowed `CATEGORY_LINKS`. Report the exact item ID, festival ID and category when the mismatch would affect a specific requested design. Other unrelated festival-category lookup paths are not automatically invalidated.
+
+This section records observed candidate coverage and a new cross-layer consistency finding only. It modifies no candidate tags, 48 festival records, category links, original festival IDs/names, prompt/design/production commands, QA activation (`PAUSED`), or `ARCHIVE/` / `PRODUCTION_RECORDS/` historical data.
