@@ -30,6 +30,7 @@
 - Index (registered F001–F048 IDs/names and type/region navigation; not cultural verification): FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/CORE_FESTIVAL_INDEX.md
 - Cultural anchors (working design cues only; individual regional/ritual claims are NOT source-verified by this file): FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/FESTIVAL_CULTURAL_ANCHORS.md
 - Database: FESTIVAL_COSTUME_DATABASE/
+- Current festival item-tag/category-scope exceptions (dated audit snapshot, not an execution rule or source certification): FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md
 
 ## LoRA Image Design
 - Current LoRA image production command reference (`/LORA_PRODUCE`): 00_MASTER/LORA/LORA_PRODUCE_COMMAND.md
