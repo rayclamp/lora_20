@@ -1,8 +1,8 @@
 # Core Festival Database — Data Quality Audit
 
-## Current snapshot locator (P0-36; 2026-11-02)
+## Current snapshot locator (P0-37; 2026-11-02)
 
-This audit includes **historical snapshots** below. The opening P0-22-era observations that describe 224 unverified candidates are **not current**: the latest P0-36 structural snapshot is **48 registered festivals; 225 catalog items (5 VERIFIED, 220 UNVERIFIED); 13 open item-tag/category-scope associations** involving 7 candidates and 11 festivals. The 48 festival records and matrix category sets currently agree. See the newest dated P0-36 section at the end and the central pair-level blocker list in `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md`. A verified item requires the matching complete item record and source evidence; this heading is not a new cultural verification.
+This audit includes **historical snapshots** below. The opening P0-22-era observations that describe 224 unverified candidates are **not current**: the latest P0-37 structural snapshot is **48 registered festivals; 225 catalog items (6 VERIFIED, 219 UNVERIFIED); 13 open item-tag/category-scope associations** involving 7 candidates and 11 festivals. The 48 festival records and matrix category sets currently agree. See the newest dated P0-37 section at the end and the central pair-level blocker list in `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md`. A verified item requires the matching complete item record and source evidence; this heading is not a new cultural verification.
 
 ## Audit scope
 
@@ -357,3 +357,33 @@ All four verified catalog rows carry explicit source URLs; cultural validity app
 - **No speculative repair**: all 13 mismatches remain OPEN, involving 7 candidate rows and 11 F-IDs. Evidence limitations do not justify automatic `CATEGORY_LINKS` expansion, candidate tag deletion, creation of a false complete-item record, or promotion to VERIFIED. Local warnings and the exact festival `CATEGORY_LINKS` remain authoritative for affected selections.
 - Current retained counts: **48** fixed festivals, **225** unique candidate rows, **5** VERIFIED with complete source-reviewed records, **220** UNVERIFIED, **0** rejected, **13** still-open tag/category associations. The prior P0-24/P0-25/P0-29/P0-31/P0-32/P0-33/P0-34/P0-35 audit findings remain as historical dated records.
 - The **P0-36 change** adds the explicit discrepancy register and read/navigation references; it makes no changes to F001–F048 IDs/names/records, festival categories, candidate item rows, verification status, source references, `ARCHIVE/`, `PRODUCTION_RECORDS/`, locked prompts, design/production commands, Session/Batch state or QA (`PAUSED`).
+
+## P0-37 US Halloween carved Jack-o'-lantern provenance — 2026-11-02
+
+### Official and historical evidence
+
+- The existing `PROP_HALLOWEEN_PUMPKIN_001` PROPS candidate was `UNVERIFIED`, tagged F002, with a broadly labeled `Global popular culture` region. Its ID and name are preserved.
+- The Library of Congress, `https://blogs.loc.gov/headlinesandheroes/2026/10/halloween-traditions-to-follow-tricks-and-treats-of-the-season/` (October 27, 2026), explicitly describes carved pumpkins / jack-o'-lanterns as American Halloween decoration and cites historical US newspaper records.
+- Smithsonian Institution, Archives of American Gardens, `https://gardens.si.edu/american-garden-story/ghosts-of-pumpkins-past/`, documents US pumpkin jack-o'-lanterns, early history and older root-vegetable lantern precedents; the page was indexed in web search but its full web fetch was intermittently unavailable during this pass. HISTORY, `https://www.history.com/articles/history-of-the-jack-o-lantern-irish-origins` (updated October 21, 2026), independently explains the earlier Irish/Scottish carved turnip versus US carved pumpkin distinction. Claims are limited to **modern United States Halloween** pumpkin decoration, not an obligation in all Halloween practices or a universal claim about origins.
+
+### Narrowly scoped item and catalog correction
+
+- Created a complete `CATEGORIES/09_PROPS/ITEMS/PROP_HALLOWEEN_PUMPKIN_001.md` item record with all schema-required fields, reviewed source scope, a non-wearable stationary scene-prop description, optional illumination and exclusions.
+- Changed **only** this existing item row in `CATEGORIES/09_PROPS/ITEM_CATALOG.md`: kept its exact ITEM_ID, name, F002 tag, HIGH recognizability and PROPS category; narrowed `REGION` from `Global popular culture` to `United States (modern Halloween decorative practice)`; updated `VERIFICATION_STATUS` from `UNVERIFIED` to `VERIFIED`, and recorded the three cited reference URLs. Original remaining catalog rows were byte-for-byte unchanged.
+- Added a bounded source-reviewed link to `CATEGORIES/09_PROPS/README.md`. F002's existing festival record and matrix already include PROPS, so there is **no** F002 `CATEGORY_LINKS` modification or matrix row change.
+- The newly written full item, edited catalog and README were each freshly read back and matched their intended content and resulting Blob SHA.
+
+### P0-37 snapshot
+
+| Check | Current structural result |
+|---|---|
+| Fixed registered festivals | 48 (unchanged F001–F048) |
+| Total category catalog rows | 225 (all original IDs retained) |
+| VERIFIED with matching complete source-reviewed item record | **6** — `HEAD_EASTER_BONNET_001`, `BODY_EID_HENNA_001`, `PROP_US_THANKSGIVING_ROAST_TURKEY_001`, `PROP_GION_FLOAT_001`, `PROP_TANZAKU_001`, `PROP_HALLOWEEN_PUMPKIN_001` |
+| UNVERIFIED candidate rows | **219** |
+| Item-tag/category-scope exceptions | **13 OPEN** (7 candidates, 11 F-IDs) |
+| Zero-direct-candidate festival coverage | F003 and F044 |
+
+- The P0-36 `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` register remains the current dated list of the same 13 OPEN pairs; this item has a compatible F002 PROPS tag and does not alter any of them.
+- P0-22 through P0-36 counts in earlier sections are **historical snapshots** and must not be mistaken for competing live inventory figures.
+- This step changes no other festival candidate, festival registration, festival categories, historical Archive, production record, prompt-design or image-production command, Session/Batch, or QA (`PAUSED`).
