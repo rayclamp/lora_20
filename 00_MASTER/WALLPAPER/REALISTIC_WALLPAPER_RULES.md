@@ -32,8 +32,8 @@ Hard reference-decoupling rules:
 - The Worker must design a new pose/action independently from the reference image.
 - Source clothing and source pose may be visually present in the reference only for identity/context extraction; they have no authority over the generated presentation.
 
-### Realistic Inaria visual identity baseline
-When no task-specific realistic person reference overrides it, the realistic Inaria baseline is:
+### Realistic Inaria fallback character profile (not a reference image)
+When a realistic Inaria task has `NO_REFERENCE`, use the following canonical **textual character-profile defaults** for design. They do not constitute an uploaded photograph, a module-approved visual reference, or proof that any image was inspected:
 
 - Asian Taiwanese woman
 - 158 cm height
@@ -48,7 +48,7 @@ When no task-specific realistic person reference overrides it, the realistic Ina
 - neat bangs covering the forehead
 - fresh, gentle, healing overall visual impression
 
-These are identity/background characteristics, not a requirement to reproduce one fixed pose, camera angle, hairstyle arrangement, expression, or outfit in every image.
+These textual identity/background characteristics guide design only when no actual visual reference is available; they are not evidence of an inspected image. A duly supplied or module-approved visual reference takes precedence for the person's observable appearance. This profile does not require one fixed pose, camera angle, hairstyle arrangement, expression, or outfit in every image.
 
 ## 2A. Inaria character authority
 
@@ -60,7 +60,7 @@ The Inaria specification is the canonical character-semantic authority for Inari
 
 If a user-supplied person image exists, that image remains the sole visual person reference for the current task. The Inaria specification supplies stable character constraints and defaults, while the uploaded image supplies visual person evidence.
 
-For an Inaria task with a supplied person reference, preserve the actual visual identity established by that reference while using the Inaria specification primarily for contextual character design. Independently redesign presentation according to the current task. If no person reference exists, the canonical Inaria identity anchors may be used as the fallback visual baseline.
+For an Inaria task with a supplied person reference, preserve the actual visual identity established by that reference while using the Inaria specification primarily for contextual character design. Independently redesign presentation according to the current task. If `NO_REFERENCE` applies, the canonical Inaria identity anchors may guide character design as a fallback textual profile, but they must not be represented as a resolved visual-reference image.
 
 If the user does not explicitly request Inaria, do not silently apply the Inaria character specification.
 
