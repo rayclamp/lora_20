@@ -67,3 +67,10 @@ The following checks were performed against the existing individual festival fil
 1. Do **not** promote any candidate to `VERIFIED` without a complete matching item record, explicit traceable `SOURCE_REFERENCES`, and evidence relevant to its particular festival/region/ritual attribution. The actual candidate record and source evidence must be reviewed before a status change.
 2. Prioritize high/very-high cultural-sensitivity cases and the uncovered F044 regional scope when conducting separate, source-grounded research. Treat any new item or source addition as a separately traceable data change, not a silent correction to the catalog or an inference from visual similarity.
 3. Preserve F001–F048 registrations, existing category links, all 224 original catalog rows and their current verification states. This audit does not edit prompt design or image-production commands, activate QA (`PAUSED`), create a Session/Batch, or access `ARCHIVE/` or `PRODUCTION_RECORDS/`.
+
+## P0-23 Matrix and category README verification — 2026-11-02
+
+- Re-read all **48** current festival `CATEGORY_LINKS` sections and compared each festival's exact **set of category names** against the corresponding F001–F048 row in `FESTIVAL_ITEM_LINK_MATRIX.md`. All **48/48 matched**; there are **0 current `CATEGORY_LINK_MISMATCH` findings** in this check. Category order was not treated as a substantive difference.
+- Read all ten category-scoped `CATEGORIES/<number>_<category>/README.md` files. They define category scope, refer inventory details to the adjacent `ITEM_CATALOG.md`, and defer shared validation guidance to the parent category index; none required a corrective content edit during this pass.
+- No `CATEGORY_LINKS`, candidate item, individual category README, status, verification evidence, festival ID or festival matrix content was changed during this check.
+- A structurally consistent link does **not** establish that the catalog contains a matching item or that any item's claimed local custom has been verified. In particular, F044 still has no directly tagged catalog candidate in the 224-row inventory at the recorded snapshot.
