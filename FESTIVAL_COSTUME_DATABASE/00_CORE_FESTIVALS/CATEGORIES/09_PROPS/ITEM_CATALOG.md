@@ -9,7 +9,7 @@ This is a reusable candidate catalog, not proof that every row has been independ
 | PROP_XMAS_GIFT_001 | Wrapped gift box | F001,F048 | Global | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_XMAS_TREE_001 | Christmas tree | F001,F048 | Global | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_XMAS_WREATH_001 | Christmas wreath | F001,F048 | Global | HIGH | UNVERIFIED | NOT_RECORDED |
-| PROP_HALLOWEEN_PUMPKIN_001 | Jack-o'-lantern | F002 | Global popular culture | HIGH | UNVERIFIED | NOT_RECORDED |
+| PROP_HALLOWEEN_PUMPKIN_001 | Jack-o'-lantern | F002 | United States (modern Halloween decorative practice) | HIGH | VERIFIED | https://blogs.loc.gov/headlinesandheroes/2026/10/halloween-traditions-to-follow-tricks-and-treats-of-the-season/ ; https://gardens.si.edu/american-garden-story/ghosts-of-pumpkins-past/ ; https://www.history.com/articles/history-of-the-jack-o-lantern-irish-origins |
 | PROP_VALENTINE_CHOCOLATE_001 | Valentine chocolate gift | F005,F040 | Global/East Asia | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_EASTER_BASKET_001 | Easter basket | F006 | Christian cultural sphere | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_STPATRICK_SHAMROCK_001 | Shamrock decoration | F008 | Ireland/Irish diaspora | HIGH | UNVERIFIED | NOT_RECORDED |
