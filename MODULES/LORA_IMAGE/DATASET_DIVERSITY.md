@@ -17,7 +17,8 @@ Across a set of tasks and, when available, across previous batches, consider var
 7. **Hair and accessories:** hairstyle arrangement, parting, tied/worn-down styles, hats, eyewear, bags, shoes, and other accessories as relevant.
 8. **Scene and environment:** indoor/outdoor locations, different settings, subject placement, foreground/background relationships, and environmental interaction.
 9. **Lighting and conditions:** time of day, light direction and softness, weather, season, indoor illumination, and background depth.
-10. **Camera and composition:** camera height, perspective, subject scale/placement, depth of field, and composition.\n11. **Output format:** independently selected portrait 9:16 or landscape 16:9 per Task, allowing both formats within one Batch.
+10. **Camera and composition:** camera height, perspective, subject scale/placement, depth of field, and composition.
+11. **Output format:** independently selected portrait 9:16 or landscape 16:9 per Task, allowing both formats within one Batch.
 
 The current uploaded reference remains the sole visual identity authority. Vary presentation without arbitrarily changing stable identity cues, apparent age, or body proportions.
 
