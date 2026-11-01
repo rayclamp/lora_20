@@ -42,3 +42,4 @@ This is a reusable candidate catalog, not proof that every row has been independ
 | PROP_CANADA_FLAG_001 | Canadian flag decoration | F043 | Canada | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_MIDSUMMER_POLE_001 | Midsummer maypole-related decoration | F046 | Nordic/European traditions | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_STNICHOLAS_GIFT_001 | St. Nicholas sweets/gift | F047 | European Christian traditions | MEDIUM | UNVERIFIED | NOT_RECORDED |
+| PROP_US_THANKSGIVING_ROAST_TURKEY_001 | Roast turkey served for United States Thanksgiving dinner | F007 | United States (modern Thanksgiving dinner) | HIGH | VERIFIED | https://www.si.edu/stories/origins-thanksgiving-foods ; https://americanhistory.si.edu/explore/stories/story-four-thanksgiving-ingredients ; https://www.loc.gov/classroom-materials/thanksgiving/ |
