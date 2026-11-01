@@ -245,3 +245,42 @@ Earlier sections of this audit that reported **224 UNVERIFIED** candidates and *
 - The source-backed changes for F015 and F016 match the category-navigation matrix on exact category sets. F014 has not been extended based on Eid evidence; F006's prior HEADWEAR review remains intact. The registered 48 festival IDs and their historical content/special overlap notes remain in place.
 - Prior P0-24/P0-25 (**17** exceptions / all 224 unverified) and P0-31 (**16** exceptions / one verified) counts are **historical snapshots**. This section supersedes them only for the current computed counts; do not delete earlier audit evidence.
 - No prompt-design or image-production command file, QA state (`PAUSED`), Session/Batch, `ARCHIVE/`, or `PRODUCTION_RECORDS/` history was accessed or modified by the P0-32 correction.
+
+## P0-33 US Thanksgiving meal source-backed coverage and residual-exception triage — 2026-11-02
+
+### Evidence-grounded new F007 item
+
+- The existing F007 Thanksgiving record is a **United States/Canada umbrella with distinct traditions**. Two Smithsonian U.S. Thanksgiving publications and a Library of Congress primary-source guide directly document roast turkey's role in the modern **U.S.** Thanksgiving meal. The sources distinguish nineteenth-century holiday tradition formation from uncertain claims about a precise 1621 menu. Therefore the source-backed association is limited to **United States F007**, not an assertion about Canadian Thanksgiving or universal 1621 Plymouth turkey centerpiece.
+- Original sources: Smithsonian Institution, `https://www.si.edu/stories/origins-thanksgiving-foods`; National Museum of American History, `https://americanhistory.si.edu/explore/stories/story-four-thanksgiving-ingredients`; Library of Congress, `https://www.loc.gov/classroom-materials/thanksgiving/`.
+- Created one new source-reviewed complete item record `CATEGORIES/09_PROPS/ITEMS/PROP_US_THANKSGIVING_ROAST_TURKEY_001.md`, with all mandatory `ITEM_RECORD_SCHEMA.md` fields, source-to-claim mapping and explicit historical/cross-region exclusions. Recorded the matching new VERIFIED item as one appended row in `CATEGORIES/09_PROPS/ITEM_CATALOG.md`, leaving all its existing 36 catalog rows unchanged. Its F007 tag and U.S. region match the full record.
+- F007 already includes `PROPS` in its authoritative `CATEGORY_LINKS` and corresponding matrix row: no new festival category, festival ID, index or matrix modification was needed. The F007 record's dated zero-candidate note from P0-24/P0-30 remains as earlier audit history; a new `CURRENT_CANDIDATE_COVERAGE — P0-33` section now records one directly tagged and source-backed F007 item.
+- `CATEGORIES/09_PROPS/README.md` now links to the new full record without treating the other catalog candidates as verified. The source-reviewed food prop is a U.S. Thanksgiving table dish, **not** traditional festive headwear or an obligatory religious object.
+
+### Recomputed repository snapshot after writes
+
+| Check | P0-33 recomputed value |
+|---|---|
+| Fixed festival registrations | 48 (unchanged) |
+| Total unique category catalog item rows | **225** (previously 224) |
+| Catalog `VERIFIED` records | **3**: `HEAD_EASTER_BONNET_001`, `BODY_EID_HENNA_001`, `PROP_US_THANKSGIVING_ROAST_TURKEY_001` |
+| Catalog `UNVERIFIED` records | **222** (unchanged) |
+| Catalog ID duplicates and status/source errors | **0** |
+| `PROPS` catalog rows | 37 (previously 36) |
+| F007 directly tagged candidates | **1** (previously 0) |
+| Festivals with zero directly tagged candidates | **F003**, **F044** (F007 resolved for current coverage) |
+| Open catalog tag/category-scope exceptions | **13** (unchanged; 7 candidates, 11 festival IDs) |
+
+This was recomputed by re-reading all ten existing item catalogs and the 48-row festival category matrix after the file changes. The prior P0-22/24/30/31/32 totals are preserved above as **historical snapshots**, not contradictory claims about the current working inventory.
+
+### Remaining 13 exceptions: scope review without unsupported reclassification
+
+- Revisited official Japan National Tourism Organization festival/dress descriptions and Thailand's official festival overview. JNTO documents items such as yukata, happi and tabi at matsuri, but does **not** demonstrate the existing generic `MAKEUP_JP_FEST_001` entry is a specific custom of each of F023 Tanabata, F024 Gion Matsuri and F026 Obon. Likewise general Thai Songkran/festival descriptions do **not** establish `HAIR_THAI_FEST_001` as a Songkran-specific culturally required hairstyle.
+- The available general Irish flat-cap heritage information does not, by itself, establish `HEAD_STPATRICK_FLATCAP_001` as culturally specific to F008 St Patrick's Day. No source-supported scope change is justified by the reviewed evidence for that item.
+- Generic winter socks, modest hosiery, Nordic neutral hosiery and festive soft makeup do not become uniquely traditional festival items by visual similarity; keep their six remaining generic item candidates at their existing `UNVERIFIED` statuses and preserve the associated open catalog warnings until exact item-to-festival/region evidence supports a traceable correction.
+- Source leads for these negative-scope checks (they support broad festival context **only**, not the exact missing hairstyle/makeup claims): JNTO festival participation, `https://www.japan.travel/en/guide/get-involved-in-local-festivals/`; JNTO Gion Matsuri, `https://www.japan.travel/en/spot/83/`; Tourism Authority of Thailand overview, `https://www.tourismthailand.org/Experiences/Details/festivals/29`.
+- **None of the 13 original open exceptions is silently eliminated or promoted** by this F007 source-backed candidate addition. Individual source and category-scope decisions remain separate.
+
+### Change boundaries and verification
+
+- Source file creation, PROPS catalog row insertion, F007 current-coverage annotation and PROPS README index were committed independently, with exact post-write GitHub text readback; all original catalog rows and pre-existing F007 fields were preserved. The 48 fixed festivals remain present and F007's original `CATEGORY_LINKS` was not widened.
+- No source-less candidate was promoted to VERIFIED, no historical audit or source reference was erased, no Archive or production records were accessed, and no image production, design prompt, Session/Batch, QA (`PAUSED`) or runtime control was changed.
