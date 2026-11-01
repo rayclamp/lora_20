@@ -151,3 +151,25 @@ This audit reviewed all nine existing candidate rows responsible for 17 tag-to-c
 - For every updated file, the original ID, English/Chinese names, region, season, `DATABASE_STATUS`, `CATEGORY_LINKS`, and all non-target sections were preserved byte-for-byte by the exact-paragraph replacement procedure. Additional post-update sample checks of F001, F014, F038, F044 and F048 confirmed canonical names and category sets; F038 retained its `OVERLAPS_WITH: F020` thematic scope and F044 retained `REGION_SPECIFIC_ITEM_GAP` and its prohibition on borrowing Mexican F011 items.
 - **No candidate item was created, edited or upgraded**: the latest observed snapshot remains 224 catalog rows with `VERIFICATION_STATUS: UNVERIFIED` and `SOURCE_REFERENCES: NOT_RECORDED`. The 17 candidate-tag/category-scope exceptions documented in P0-24/P0-25 remain unresolved pending claim-specific review.
 - Existing audit history, Archive, `PRODUCTION_RECORDS`, prompt design and image-production command files remain untouched. QA remains `PAUSED`.
+
+## P0-29 Catalog-local exception warnings — 2026-11-02
+
+To prevent unresolved tag/category discrepancies being overlooked by readers who open `ITEM_CATALOG.md` directly, an explicit **P0-29 OPEN CATEGORY-SCOPE EXCEPTIONS** section was added near the top of each of the **five affected catalog files**, immediately before their original seven-column item tables.
+
+| Catalog path within `CATEGORIES/` | Warning row IDs | Affected item/festival associations |
+|---|---:|---:|
+| `03_SOCKS/ITEM_CATALOG.md` | 3 | 6 |
+| `05_HEADWEAR/ITEM_CATALOG.md` | 2 | 2 |
+| `06_HAIRSTYLE/ITEM_CATALOG.md` | 1 | 1 |
+| `07_MAKEUP/ITEM_CATALOG.md` | 2 | 5 |
+| `08_BODY_DECORATION/ITEM_CATALOG.md` | 1 | 3 |
+| **Total** | **9** | **17** |
+
+All five files were changed independently in GitHub `main`, and each write was followed by full-text readback and new Blob SHA comparison. The pre-existing `ITEM_CATALOG.md` Markdown tables and their item rows were retained exactly; only explanatory warning paragraphs were inserted above the existing tables. Each local warning names the exact affected existing `ITEM_ID` and festival IDs, distinguishes a **catalog item-tag/category-scope discrepancy** from a `CATEGORY_LINK_MISMATCH` between festival records and link matrix, and points back to the P0-24/P0-25 audit evidence limitations.
+
+### Cross-catalog recheck after the five writes
+
+- Re-read **all ten** current catalogs and the canonical F001–F048 festival link matrix. All **224** original candidate rows remain present with unique `ITEM_ID`s and `VERIFICATION_STATUS: UNVERIFIED` / `SOURCE_REFERENCES: NOT_RECORDED`; no catalog item source, name, category table value or festival tag was changed.
+- Recomputed **17** item-tag/category-scope exceptions, involving **nine** candidate rows and **12** distinct festival IDs. All 17 are now explicitly warned about in their catalog's new P0-29 section. Exactly the **five** implicated catalogs carry that section; the other five catalogs were not modified.
+- These are **open** unresolved association/evidence questions, not newly VERIFIED items and not automatic permission to add the omitted categories to authoritative festival records. Preserve the three zero-direct-candidate festival IDs F003, F007, F044, all 48 registered festival records, and existing category links.
+- No prompt-design or image-production command content, active QA state (`PAUSED`), `ARCHIVE/` or `PRODUCTION_RECORDS/` was modified.
