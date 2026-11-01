@@ -1,6 +1,8 @@
-# Item Tag / Festival Category-Scope Exceptions — P0-36
+# Item Tag / Festival Category-Scope Exceptions — P0-36 historical evidence / P0-38 resolved
 
-**Audit snapshot:** 2026-11-02, `main` after P0-35. **Status:** 13 OPEN item–festival associations spanning 7 existing catalog items and 11 festival IDs. This is a diagnostic exception register and **not** an additional catalog, verification authority, item schema, festival record, or executable production instruction. The numbers are a dated snapshot, not an automatically updated counter.
+**Current disposition (2026-11-02, P0-38): 0 ACTIVE exceptions.** The seven original unsupported catalog candidates were fully preserved in `RETIRED_CANDIDATE_RECORDS.md` and retired from active festival item catalogs. Therefore their 13 former item–festival scope mismatches no longer appear in current candidate lookup. The P0-36 evidence below is intentionally retained as a dated historical snapshot and does not describe current active rows.
+
+**Historical audit snapshot:** 2026-11-02, `main` after P0-35. **Then:** 13 OPEN item–festival associations spanning 7 existing catalog items and 11 festival IDs. This is a diagnostic exception register and **not** an additional catalog, verification authority, item schema, festival record, or executable production instruction. The numbers are a dated snapshot, not an automatically updated counter.
 
 ## Exact problem definition and source of truth
 
@@ -9,7 +11,7 @@
 - Every row here is still an `UNVERIFIED` catalog candidate with `SOURCE_REFERENCES: NOT_RECORDED`. `OPEN` below is the **exception-workflow state only**; it is **not** a fourth permitted `VERIFICATION_STATUS` enum value, a `REJECTED` item status, or proof that an item can never be used in creative styling.
 - For any requested festival, an OPEN pair is **not eligible as a culturally VERIFIED festival-specific database item**. Do not override the festival's category boundary, convert a common garment into a traditional festival costume, or silently remove its original tags. Generic creative styling may still be handled under separately applicable design guidance; it must not be misrepresented as a sourced tradition.
 
-## Exact unresolved pairs (13)
+## Historical P0-36 unresolved pairs (13; retired P0-38)
 
 | Item ID (current catalog) | Category | Tagged F-ID not allowing category | Workflow state | Missing source-backed justification |
 |---|---|---|---|---|
@@ -47,3 +49,12 @@
 ## Unchanged boundaries
 
 The registered F001–F048 festivals, related/overlapping festival distinctions (especially F011/F044 and F020/F038), original candidate IDs and statuses, production records, `ARCHIVE/`, locked prompts, design/production command files, and QA (`PAUSED`) are not altered by this diagnostic register. The separate F003 and F044 zero-direct-candidate coverage gaps remain open.
+
+## P0-38 final disposition — all 13 pairs addressed
+
+- The seven candidate rows were removed from current active catalogs **only after** each exact source row and original catalog blob SHA was preserved in `RETIRED_CANDIDATE_RECORDS.md` on GitHub. No source-free evidence was invented and no festival record `CATEGORY_LINKS` was widened.
+- P0-38's independent re-read of the ten active catalogs and 48-row matrix found **zero active item-tag/category-scope discrepancies**. The earlier table above is historical and is NOT a current-blocker queue.
+- Formerly affected original IDs: `SOCK_XMAS_KNIT_001`, `SOCK_EID_MODEST_001`, `SOCK_NORDIC_001`, `HEAD_STPATRICK_FLATCAP_001`, `HAIR_THAI_FEST_001`, `MAKEUP_XMAS_SOFT_001`, `MAKEUP_JP_FEST_001`.
+- **Do not restore** these entries to an active category or use their preserved F-ID labels as verified traditions merely to increase catalog size. A separate documentary review would be required before reactivation.
+- F003 and F044 now each have one region-limited source-verified PROPS catalog item. F044's broader `REGION_SPECIFIC_ITEM_GAP` continues for other unverified local/regional variants.
+- P0-38 active totals: **220 unique items = 8 VERIFIED + 212 UNVERIFIED**, **0 active category mismatches**, and **0 F-IDs with zero directly tagged candidate items**. Counts are a dated snapshot, not a dynamic runtime counter.
