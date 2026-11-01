@@ -20,7 +20,7 @@ Across a set of tasks and, when available, across previous batches, consider var
 10. **Camera and composition:** camera height, perspective, subject scale/placement, depth of field, and composition.
 11. **Output format:** independently selected portrait 9:16 or landscape 16:9 per Task, allowing both formats within one Batch.
 
-The current uploaded reference remains the sole visual identity authority. Vary presentation without arbitrarily changing stable identity cues, apparent age, or body proportions.
+During `/LORA_CONSOLE`, no person-reference image is required: plan identity-preserving variation relative to the reference that will be supplied during `/LORA_PRODUCE`, without claiming its features were inspected. During `/LORA_PRODUCE`, the image uploaded in the current production conversation is the sole visual identity authority. Vary presentation without arbitrarily changing the stable identity cues, apparent age, or body proportions supported by that actual reference.
 
 ## Framing balance: close-ups matter
 
@@ -83,7 +83,7 @@ Dataset-level diversity and consistency are complementary constraints: maximize 
 
 ## No inherited module styling
 
-Do not automatically import wallpaper outfit rules, festival costume facts, or another module's props/style. Use only the active LORA_IMAGE request, its current uploaded identity reference, applicable CORE rules, and any explicitly applicable contextual character data.
+Do not automatically import wallpaper outfit rules, festival costume facts, or another module's props/style. During design, use only the active LORA_IMAGE request, applicable CORE rules, and any explicitly applicable contextual character data; a production-time identity reference may be described conditionally, not assumed already uploaded. During production, use the reference image supplied in that producer conversation as the sole visual identity authority, together with the already locked Task prompt.
 
 
 ## Portrait and Landscape Format Diversity
