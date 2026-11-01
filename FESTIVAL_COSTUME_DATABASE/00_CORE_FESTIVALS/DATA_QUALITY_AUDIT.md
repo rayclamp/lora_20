@@ -181,3 +181,35 @@ All five files were changed independently in GitHub `main`, and each write was f
 - Each of the three festival records was written independently to GitHub `main`, immediately read back in full, and verified by matching the committed Blob SHA. The entire original text before and after the inserted section was preserved unchanged, including canonical IDs/names, region/season, database fields, and **all original `CATEGORY_LINKS`**.
 - The special F044 `REGION_SPECIFIC_ITEM_GAP` status and the rule prohibiting Mexican F011 item substitution were preserved verbatim. F003 and F007 remain registered fixed festivals with the original category sets.
 - All **224** catalog candidate rows remain `UNVERIFIED` and `SOURCE_REFERENCES: NOT_RECORDED`, and the 17 candidate-tag/category-scope exceptions remain open. No candidate row, source claim, category link, historic/Archive record, production record, design prompt, image-generation command, or QA (`PAUSED`) activation was changed.
+
+## P0-31 First source-verified item — Easter Parade bonnet (2026-11-02)
+
+### Source-backed item correction
+
+- `HEAD_EASTER_BONNET_001` has an actual **complete item record** at `CATEGORIES/05_HEADWEAR/ITEMS/HEAD_EASTER_BONNET_001.md`, created and read back on `main`. Required schema fields, region-limited source attribution and applicability exclusions were reviewed. The record verifies **a decorative Easter bonnet in United States Easter Parade / New York City context**; it does not verify a universal European/Christian religious costume.
+- Verified supporting references: Museum of the City of New York, `https://www.mcny.org/story/easter-parade`; Library of Congress, `https://blogs.loc.gov/picturethis/2023/04/hats-on-for-easter/`; ASU FIDM Museum, `https://asufidmmuseum.asu.edu/learn/articles/put-your-easter-bonnet`. These publications specifically support Easter Parade / bonnet historical association and related US-context headwear; do not extend evidence beyond the covered cultural scope.
+- In the existing `FESTIVALS/F006.md`, the category `HEADWEAR` was added to F006's authoritative `CATEGORY_LINKS`. The F006 row of `FESTIVAL_ITEM_LINK_MATRIX.md` was updated to match, with all other festival ID/name/category rows unchanged. This resolves the F006 `HEADWEAR` scope conflict for the supported candidate, but does not authorize globally verified headwear.
+- In the original `05_HEADWEAR/ITEM_CATALOG.md`, only the existing `HEAD_EASTER_BONNET_001` table row was changed: `REGION` was narrowed from the unsupported `Europe/North America` to `United States (New York City Easter Parade context)`; `VERIFICATION_STATUS` changed from `UNVERIFIED` to `VERIFIED`; `SOURCE_REFERENCES` now lists all three accessible source pages. Item ID, name, F006 tag and HIGH recognizability were retained.
+- The headwear catalog's P0-29 warning was updated to show the resolved F006 case separately from the still-open F008 `HEAD_STPATRICK_FLATCAP_001` mismatch. The `CATEGORIES/05_HEADWEAR/README.md` navigation now links to the source-reviewed complete item record.
+
+### Independent post-write state measurement
+
+| Check | New observed state |
+|---|---|
+| Total catalog candidates | 224 |
+| Unique candidate `ITEM_ID` | 224 |
+| `VERIFICATION_STATUS: VERIFIED` | **1** (`HEAD_EASTER_BONNET_001`, region-scoped) |
+| `VERIFICATION_STATUS: UNVERIFIED` | **223** |
+| Other catalog rows upgraded or sourced | **0** |
+| Item-tag/category-scope exceptions (P0-24 baseline 17) | **16 open** |
+| Distinct candidates in those exceptions | **8** (previously 9) |
+| Distinct festival IDs in those exceptions | **11** (previously 12) |
+| F006 HEADWEAR matrix versus festival record | Matching |
+
+Earlier sections of this audit that reported **224 UNVERIFIED** candidates and **17** exceptions are **dated historical snapshots**, not the current state after P0-31. The current state above was computed by re-reading all ten actual item catalogs and the current F001–F048 matrix after the source/row/scope writes.
+
+### Remaining source-evidence boundaries
+
+- The 16 remaining catalog-tag/category-scope exceptions retain their existing warnings and unresolved status. Do not treat P0-31 as evidence for any other clothing category, region or festival. The relevant `F008` headwear exception remains open.
+- The fixed F001–F048 scope, all unrelated category links, 223 unchanged UNVERIFIED rows, F044 `REGION_SPECIFIC_ITEM_GAP` and three zero-direct-candidate festivals F003/F007/F044 remain unchanged.
+- This P0-31 source-record and catalog correction does not modify design prompts, production commands, Session/Batch, history, `ARCHIVE/`, `PRODUCTION_RECORDS/`, or QA (`PAUSED`).
