@@ -1,8 +1,7 @@
 # ANIME_WALLPAPER_RULES.md
 
 ## Authority
-This document defines the visual and production rules used when the user explicitly requests ANIME WALLPAPER.
-It is a child rule set of the active UNIVERSAL_WALLPAPER module.
+This document defines shared anime/illustration wallpaper visual-design rules routed by `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md` for `UNIVERSAL_WALLPAPER` (`PRODUCTION_TYPE=ANIME`) and `FESTIVAL_WALLPAPER` (`WALLPAPER_TYPE=ANIME WALLPAPER`). It is not an independent production module. Each selected module retains its own reference authority, costume/footwear constraints, cultural-data boundaries and Task requirements. Universal-only subsections in this file apply only to `UNIVERSAL_WALLPAPER`.
 It does not define generic anatomy or generation safety; those remain in CORE.
 
 ## 1. Activation
@@ -10,7 +9,7 @@ Use this rule set only for ANIME WALLPAPER / 動漫桌布 or an equivalent unamb
 If the user requests REALISTIC WALLPAPER, do not use this file.
 
 ## 2. Reference image
-The reference image supplied in the current request is the primary visual reference for the current task when an explicit task reference exists.
+During `/WALLPAPER_CONSOLE`, do not require an uploaded person-reference image or claim to have inspected one. In production, an actual visual reference is authoritative only when validly resolved under the selected module's `REFERENCE_POLICY.md`; when none is resolved and the task permits it, use the module's `NO_REFERENCE` behavior and semantic character guidance without inventing image evidence. If an image is required but unavailable, follow the module's blocked-reference rule.
 Use the selected module Reference Policy to determine whether a visual reference is legally available.
 Do not silently replace the supplied reference with another repository asset.
 LoRA Master Images and other references owned by another production module are forbidden unless the selected module's Reference Policy explicitly authorizes that exact source; character-name matching is never sufficient.
@@ -24,15 +23,15 @@ When the user explicitly requests Inaria / 依娜莉亞, load and apply:
 
 The Inaria specification is the canonical character-semantic authority for Inaria. It is not a second visual person reference.
 
-If a user-supplied person image exists, that image remains the sole visual person reference for the current task. The Inaria specification supplies stable character constraints and defaults, while the uploaded image supplies visual person evidence.
+If an authorized person image is resolved for the task, that image governs the person's observable visual identity; the Inaria specification provides compatible character-semantic context but cannot replace, reconstruct, or override the image's appearance. Without a visual reference, the Inaria specification may supply fallback textual identity anchors only when the applicable module permits `NO_REFERENCE`, never as proof that an image was seen.
 
-For an Inaria task, preserve the character identity anchors defined by the Inaria specification while independently redesigning hairstyle, complete outfit, accessories, shoes, pose/action, and expression unless the user explicitly requests preservation.
+For an Inaria task, preserve identity according to that authority order. Design hairstyle, outfit, accessories, footwear, pose/action, and expression according to the current Task and applicable module constraints unless the user explicitly requests their preservation.
 
 If the user does not explicitly request Inaria, do not silently apply the Inaria character specification.
 
 ## 3. Anime visual direction
-Preserve the supplied reference image's visual identity first.
-Favor clean anime/illustrated rendering, coherent line and shape treatment, natural-looking anime lighting, controlled color harmony, detailed but readable backgrounds, and expressive but stable poses when supported by the reference.
+When an authorized visual reference exists, preserve its observable person identity first; otherwise follow valid `NO_REFERENCE` semantic identity guidance without asserting visual comparison.
+Favor clean anime/illustrated rendering, coherent line and shape treatment, natural-looking anime lighting, controlled color harmony, detailed but readable backgrounds, and expressive but stable poses appropriate to the Task and supported by any actual reference evidence.
 Do not mix realistic-photographic rendering into an anime request unless explicitly requested.
 
 ## 4. Composition
@@ -79,14 +78,14 @@ Variation is allowed when compatible with the task, but do not turn the referenc
 The current user PET_ALLOWED parameter controls intentional pet/animal inclusion unless a stricter applicable wallpaper rule says otherwise.
 
 ## 8. Prompt construction
-The final prompt must describe reference identity, anime visual characteristics derived from the supplied reference, composition, stable pose/action, clothing/accessories, scene/weather/time, lighting/camera, and required wallpaper format.
+The final prompt must describe the applicable identity requirements, anime visual style, composition, stable pose/action, clothing/accessories, scene/weather/time, lighting/camera, and required wallpaper format. If a visual reference will be supplied in production, describe its identity-preservation role conditionally without asserting the designer inspected it. Under valid `NO_REFERENCE`, use only authorized textual identity guidance; never invent reference-derived visual characteristics.
 Apply CORE anatomy and generation-stability rules before finalizing the prompt.
 
 
 
 ## 8A. Universal Wallpaper footwear authority
 
-When footwear is visible or intentionally designed, the Producer MUST use the canonical Universal Wallpaper footwear allowlist:
+**Only for `MODULE=UNIVERSAL_WALLPAPER`:** when footwear is visible or intentionally designed, the prompt designer MUST use the canonical Universal Wallpaper footwear allowlist before Prompt Lock. The image Producer executes the already locked prompt without revalidating or redesigning footwear. **For `MODULE=FESTIVAL_WALLPAPER`, this entire Universal-only footwear subsection is inapplicable; follow the Festival module's own applicable footwear/category rules.**
 
 `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md`
 
@@ -106,7 +105,7 @@ Festival Wallpaper footwear catalogs and other module-specific footwear data MUS
 
 `Loafers / 樂福鞋` are not allowed for Universal Wallpaper unless the authoritative Universal allowlist is explicitly changed.
 
-The `SHOES` design field MUST be validated against this allowlist before Prompt Lock.
+For `UNIVERSAL_WALLPAPER` only, the `SHOES` design field MUST be validated against this allowlist before Prompt Lock.
 
 ## 9. Output boundary
 This rule set defines how an ANIME WALLPAPER request is designed. It does not perform QA and does not replace CORE safety/state rules.
