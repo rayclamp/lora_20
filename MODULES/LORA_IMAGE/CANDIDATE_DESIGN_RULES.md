@@ -11,7 +11,8 @@ These rules guide prompt design before generation. They are not a post-generatio
 - believable hand-to-object contact and physically connected wearables;
 - meaningful pose/action variation;
 - useful clothing, accessory, hairstyle-arrangement, and footwear variation without changing the person's core identity arbitrarily;
-- deliberate framing and viewpoint variation;\n- an explicit per-Task output-format choice: portrait 9:16 or landscape 16:9, with composition designed for that format;
+- deliberate framing and viewpoint variation;
+- an explicit per-Task output-format choice: portrait 9:16 or landscape 16:9, with composition designed for that format;
 - a scene that supports the subject instead of obscuring important identity/anatomy information.
 
 ## Avoid designing
