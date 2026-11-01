@@ -56,18 +56,20 @@ Each Task should record, as applicable:
 - GENERATION_ATTEMPT_COUNT
 - PROMPT_TERMINATION_REASON
 
-Task status semantics:
+Task status semantics (the Task's recorded outcome is separate from the generation observation, evidence fields, prompt state, QA, and Batch counters):
 - GENERATION_STARTED = generation attempt initiated; non-terminal.
 - IMAGE_RESULT_RECEIVED = an image result has arrived; event/evidence state, not necessarily a terminal Task status.
-- IMAGE_RESULT_RECORDED = a confirmed image result and its actual count have been durably recorded, but production SUCCESS could not be assigned (for example, result binding is unresolved). This is terminal and is not QA PASS.
-- RESULT_RECEIVED_UNVERIFIED = a result exists but required evidence/recording is not yet complete; non-terminal until the result is durably recorded or another terminal outcome is established.
-- EXECUTION_INTEGRITY_UNVERIFIED = an applicable evidence field is unavailable or not exposed; this does not by itself mean Generation was forbidden. If an image was received and recorded, keep this as an evidence value and use IMAGE_RESULT_RECORDED as the terminal Task status.
+- IMAGE_RESULT_RECORDED = an image receipt and actual returned-file count have been durably recorded and readback-verified, but the result has been formally classified as non-SUCCESS because its Task/result binding cannot be established. Preserve the reason and supporting evidence. This is a terminal recorded-result disposition, not QA PASS. Do not use it for a merely pending write/readback or a still-recoverable, unresolved binding.
+- RESULT_RECEIVED_UNVERIFIED = at least one image was observably received, but required evidence, Task attribution, record write, or readback is still incomplete or unresolved. This is non-terminal; preserve the image-received fact, prohibit regeneration, and do not increment verified COMPLETED_COUNT before reconciliation.
+- EXECUTION_INTEGRITY_UNVERIFIED = an evidence/integrity field is unavailable or not exposed; this is an independent evidence classification, not an automatic Task terminal status or reason to downgrade SUCCESS. If received-image attribution and required persistence are verified, the Task may be SUCCESS while this evidence field remains UNVERIFIED; if required evidence or attribution is unresolved, use the applicable non-terminal recovery state.
 - EXECUTION_INTEGRITY_BLOCKED = a Task could not proceed because the complete assigned locked Prompt could not be read. Do not use this status for separate content, metadata, format, Task-binding, visual judgments, or hidden-payload comparisons.
-- GENERATION_FAILED = generation ended without a received image result.
-- RESULT_COUNT_MISMATCH = legacy/historical status only; do not assign it solely because actual returned-file count differs from the planned Task output.
-- SUCCESS = at least one image was confirmed received and durably recorded against the Task. Each Task counts once in COMPLETED_COUNT, regardless of actual returned-file count or visual compliance. SUCCESS is a production result only and does not imply visual correctness, prompt compliance, or QA PASS.
+- GENERATION_FAILED = terminal generation failure only after three consecutive confirmed no-image outcomes from actual image-generation attempts for the same Task, counting the initial call, with separate attempt evidence preserved. A first or second confirmed no-image outcome remains retry-eligible when policy permits. GitHub/prompt-read/metadata errors, UNKNOWN results, or a policy block before a generation call do not qualify for GENERATION_FAILED.
+- RESULT_COUNT_MISMATCH = historical/legacy status for interpreting existing records only. Never assign it to a new Task or new execution event, including when actual returned-file count differs from the expected count. Preserve historical labels without retroactive migration.
+- SUCCESS = at least one image was confirmed received, correctly attributed to the Task, and its required result event and Task state were durably written and read back successfully. Each Task then counts once in COMPLETED_COUNT regardless of file count or visual compliance. A merely observed image receipt is not yet a formally recorded SUCCESS; QA PASS remains independent.
 
 For wallpaper production, EXPECTED_OUTPUT_COUNT = 1 as the planned output per Task. If one or more images are confirmed received and the result is durably recorded against the Task, use `SUCCESS` and count the Task once. Record every received image file in ACTUAL_OUTPUT_COUNT and ACTUAL_IMAGE_COUNT. If multiple files are returned, do not use `RESULT_COUNT_MISMATCH` solely for that reason. `PROMPT_MATCH_STATUS` must remain `NOT_ASSESSED` or unset. Visual compliance and image quality belong to separate QA; production SUCCESS is not QA PASS.
+
+State and field priority for new execution: (1) actual generator observation determines IMAGE_RECEIVED / generation result (YES, confirmed NO, or UNKNOWN); (2) PROMPT_CONSUMED and PROMPT_STATE reflect receipt and retry eligibility; (3) independent evidence/integrity fields describe known or unavailable proof without silently changing Task disposition; (4) TASK_STATUS is derived from observed facts, Task/result attribution, required durable recording and readback, and allowed terminal conditions; (5) Batch counters are derived from verified Task and attempt history, never used to infer an outcome; (6) QA remains separately PAUSED and never changes production status/counts or triggers regeneration. No status label or GitHub entry alone proves an image was received. These classifications must not be merged into one field.
 
 ## 6. PROMPT_SET.md
 For every new Batch, each Task's prompt is stored in its own file at `PROMPTS/<TASK_ID>.md` (for example, `PROMPTS/TASK_001.md`). `PROMPT_SET.md` is a manifest/index only: it maps each Task to exactly one prompt file and records prompt metadata, but MUST NOT contain full prompt bodies. Design all prompts before execution, persist and verify every per-Task file, then lock the manifest and prompt files before generation. Resume does not silently redesign a locked prompt. Revisions require a new prompt version.
@@ -81,7 +83,7 @@ Each executable Task in a new Batch has one authoritative prompt file `PROMPTS/<
 Record `FULL_PROMPT_READ_STATUS` and `GENERATION_INPUT_MODE` as defined in Section 17. Reading the full Prompt does not, by itself, prove that the generation interface received the exact text. For new executions, `GENERATION_INPUT_MODE` must be `FULL_LOCKED_PROMPT`; any known deviation must be recorded honestly. If the interface does not expose independent payload telemetry, record DELIVERY_INTEGRITY_STATUS = NOT_EXPOSED or UNVERIFIED as applicable; do not claim transport verification that is unavailable. Missing telemetry alone does not prohibit generation.
 
 ## 7. EXECUTION_LOG.md
-Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, IMAGE_RESULT_RECORDED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH, RESULT_BINDING_FAILED, POLICY_BLOCKED, SAFETY_BLOCKED, INTERRUPTION_CLASSIFIED, PROMPT_SKIPPED_POLICY_LIMIT, STOPPED, RESUMED, UNKNOWN, DEFERRED, RECORD_CORRECTED, COMPLETED. RETRY events must identify permitted retry attempts for the same Task and unchanged locked Prompt; do not duplicate or overwrite prior attempt events.
+Typical events: DESIGN_COMPLETE, PROMPT_SET_LOCKED, GENERATION_STARTED, IMAGE_RESULT_RECEIVED, IMAGE_RESULT_RECORDED, RESULT_VERIFIED, GENERATION_SUCCESS, GENERATION_FAILED, EXECUTION_INTEGRITY_UNVERIFIED, EXECUTION_INTEGRITY_BLOCKED, RESULT_COUNT_MISMATCH (historical events only), RESULT_BINDING_FAILED, POLICY_BLOCKED, SAFETY_BLOCKED, INTERRUPTION_CLASSIFIED, PROMPT_SKIPPED_POLICY_LIMIT, STOPPED, RESUMED, UNKNOWN, DEFERRED, RECORD_CORRECTED, COMPLETED. RETRY events must identify permitted retry attempts for the same Task and unchanged locked Prompt; do not duplicate or overwrite prior attempt events.
 Each event should include timestamp with timezone, EVENT_ID, event type, SESSION_ID, BATCH_ID, TASK_ID when applicable, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, GENERATION_CALL_ID, result/error information, output count, interruption class/counter when applicable, prompt-consumed state, and checkpoint reference when applicable.
 
 ## 8. Persistence and Recovery
@@ -94,14 +96,13 @@ A Task is terminal only when its final state is explicitly recorded as one of th
 - SUCCESS
 - IMAGE_RESULT_RECORDED
 - GENERATION_FAILED
-- RESULT_COUNT_MISMATCH
 - EXECUTION_INTEGRITY_BLOCKED
 - BLOCKED
 - DEFERRED
 - PROMPT_SKIPPED_POLICY_LIMIT
 - STOPPED
 
-RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, GENERATION_STARTED, and other in-progress/evidence states are not terminal.
+RESULT_RECEIVED_UNVERIFIED, EXECUTION_INTEGRITY_UNVERIFIED, GENERATION_STARTED, and other in-progress/evidence states are not terminal. Historical RESULT_COUNT_MISMATCH entries remain readable as historical terminal outcomes only; they are not valid terminal outcomes to assign in new execution. IMAGE_RESULT_RECORDED is terminal only when its non-SUCCESS disposition and required receipt/count evidence are durably recorded and readback-verified, not when recovery is merely pending.
 
 Completion means every required Task has reached a valid terminal state. A Batch MUST then be recorded as BATCH_COMPLETED and the Producer MUST stop issuing new generation calls for that Batch. A confirmed image result that is durably recorded against its Task is production SUCCESS, regardless of how many image files the generator returned. If result attribution cannot be established, preserve the image count and use the applicable result-recording/recovery state until attribution is resolved. Prompt-payload integrity and visual compliance are not Producer acceptance judgments and do not keep a result-bearing Task open.
 
@@ -130,7 +131,7 @@ Persist at Task level, as applicable:
 
 ### 12.1 Outcome and prompt-state rules
 
-1. Set `PROMPT_CONSUMED = YES` only when an image result is confirmed received. A confirmed image receipt makes the Task successful and ends further generation attempts for that Task.
+1. Set `PROMPT_CONSUMED = YES` only when an image result is confirmed received. Such receipt permanently ends further generation attempts for that Task. Formal TASK_STATUS=SUCCESS and COMPLETED_COUNT require verified Task attribution and durable write/readback of the result; until then preserve the received-but-unverified recovery state.
 2. For a confirmed no-image outcome, set `PROMPT_CONSUMED = NO`. If the retry budget remains, set `PROMPT_STATE = AVAILABLE` for another attempt of the same Task only, using the unchanged Prompt.
 3. If the outcome is unknown, set `PROMPT_CONSUMED = UNKNOWN`, `PROMPT_STATE = UNKNOWN`, and the applicable recovery-required state. Do not retry that Task while the outcome remains unresolved.
 4. `PROMPT_STATE = CONSUMED` indicates a confirmed image receipt; `UNKNOWN` indicates an unresolved outcome; `AVAILABLE` permits only a same-Task retry after a confirmed no-image failure and only within Section 19's limit; `RETIRED` means no further attempts are allowed because retry exhaustion or another terminal no-retry condition has been reached.
@@ -228,7 +229,7 @@ This section supersedes earlier schema wording that requires the actual output c
 This section is the current authoritative policy for new production and resume records. It supersedes conflicting earlier wording in this schema that requires one call per locked Prompt/version or forbids all retries.
 
 ### 19.1 Completion rule
-- If one or more image files are confirmed received for a Task, mark that Task SUCCESS once the receipt is durably attributed to it. COMPLETED_COUNT increases by one for that Task, regardless of the number of files received.
+- If one or more images are confirmed received, prohibit further generation for that Task. Mark it SUCCESS and increment COMPLETED_COUNT once only after receipt, Task attribution, event and Task state are durably recorded and readback-verified; otherwise preserve a result-bearing unresolved state. Actual received-file count is recorded separately.
 - Record the actual number of received files in ACTUAL_OUTPUT_COUNT and include them in ACTUAL_IMAGE_COUNT.
 - Never retry a Task after image receipt. QA observations, appearance, prompt-compliance concerns, or extra returned files do not undo production success and do not trigger regeneration.
 
