@@ -18,7 +18,7 @@ This is a reusable candidate catalog, not proof that every row has been independ
 | PROP_HOLI_COLOR_001 | Colored powder | F013 | India/Nepal | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_RAMADAN_LANTERN_001 | Ramadan lantern | F014 | Muslim communities | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_EID_SWEETS_001 | Eid sweets serving | F015,F016 | Muslim communities | MEDIUM | UNVERIFIED | NOT_RECORDED |
-| PROP_NOWRUZ_HAFTSIN_001 | Haft-seen table | F017 | Iran/Persian cultural sphere | HIGH | UNVERIFIED | NOT_RECORDED |
+| PROP_NOWRUZ_HAFTSIN_001 | Haft-seen table | F017 | Iran (Iranian Nowruz households, including documented diaspora) | HIGH | VERIFIED | https://www.unesco.org/en/articles/nowruz-seeds-new-day-0 ; https://archive.asia.si.edu/events/nowruz/haft-sin.asp ; https://www.iranicaonline.org/articles/haft-sin/ |
 | PROP_MOONCAKE_001 | Mooncake | F018,F028,F033,F039 | East/Southeast Asia | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_ZONGZI_001 | Zongzi | F019,F034 | Chinese/Taiwanese traditions | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_LANTERN_001 | Festival lantern | F021,F035 | East Asian festival contexts | HIGH | UNVERIFIED | NOT_RECORDED |
@@ -28,7 +28,7 @@ This is a reusable candidate catalog, not proof that every row has been independ
 | PROP_OBON_LANTERN_001 | Obon lantern | F026 | Japan | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_SET_SUBEANS_001 | Roasted soybeans | F027 | Japan | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_VIET_LANTERN_001 | Vietnamese Mid-Autumn lantern | F028 | Vietnam | HIGH | UNVERIFIED | NOT_RECORDED |
-| PROP_SONGKRAN_WATER_001 | Water festival prop/context | F029 | Thailand | HIGH | UNVERIFIED | NOT_RECORDED |
+| PROP_SONGKRAN_WATER_001 | Water festival prop/context | F029 | Thailand (Songkran blessing and water-play contexts) | HIGH | VERIFIED | https://thailand.go.th/issue-focus-detail/001_02_250?hl=en ; https://mail.tattpe.org.tw/About/Festival/Info.html?id=21 ; https://thailand.prd.go.th/en/content/category/detail/id/2078/iid/382096 |
 | PROP_VESAK_FLOWER_001 | Temple flowers/offerings | F030 | Buddhist communities | MEDIUM | UNVERIFIED | NOT_RECORDED |
 | PROP_TTEOKGUK_001 | Tteokguk serving | F031 | Korea | HIGH | UNVERIFIED | NOT_RECORDED |
 | PROP_CHUSEOK_TABLE_001 | Korean harvest table | F032 | Korea | HIGH | UNVERIFIED | NOT_RECORDED |
