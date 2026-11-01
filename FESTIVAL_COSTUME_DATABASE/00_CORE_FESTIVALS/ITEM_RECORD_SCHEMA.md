@@ -1,6 +1,6 @@
 # FESTIVAL ITEM RECORD SCHEMA
 
-Every reusable festival item must follow this structure.
+This schema defines **complete reusable festival item records**, not catalog-only candidate summaries. A catalog row, festival association tag, region label, recognizability score or design cue is not independent proof of cultural validity. Preserve existing item IDs, field names, verification statuses and unverified catalog data unless a separately evidenced, reviewable correction is authorized.
 
 ## REQUIRED FIELDS
 
@@ -35,16 +35,26 @@ Every reusable festival item must follow this structure.
 
 ## CONTROL RULES
 
-1. ITEM_ID must be unique.
-2. FESTIVAL_TAGS must contain at least one specific festival ID or festival name.
-3. Do not create an item only because it visually resembles a festival item.
-4. If cultural attribution is uncertain, do not mark the item as verified.
-5. VERIFICATION_STATUS may be VERIFIED only after checking explicit source references and the required record fields. Catalog inclusion alone is not verification.
-6. SOURCE_REFERENCES must identify the evidence used to verify festival association, region, and cultural context.
-7. RECOGNIZABILITY uses LOW / MEDIUM / HIGH / VERY HIGH; use VERY HIGH only when the item is exceptionally diagnostic of a specific festival and region.
-8. CULTURAL_SENSITIVITY uses LOW / MEDIUM / HIGH / VERY HIGH; use VERY HIGH for items where cultural or religious misrepresentation could be especially harmful.
-9. REALISTIC and ANIME indicate whether the item is suitable for each generation system.
-10. Female-only clothing remains the primary clothing scope; unisex items are allowed where appropriate.
-11. The `ITEM_CATALOG.md` tables are compact candidate indexes, not complete item records; they do not contain every required field in this schema.
-12. Every catalog row must carry `VERIFICATION_STATUS` and `SOURCE_REFERENCES`. Until an item has a complete record with all required fields and reviewed source evidence, its status must remain `UNVERIFIED` and its source field must remain `NOT_RECORDED` when no evidence is recorded.
-13. A catalog row may be changed to `VERIFIED` only when its matching complete item record exists, its source references are explicit, and all required fields have been reviewed. Never infer verification from a catalog summary.
+1. `ITEM_ID` must be stable and unique in the reusable item database. Do not create a new ID or overwrite an existing record merely to make a catalog or category index look complete.
+2. `FESTIVAL_TAGS` must contain at least one specific registered festival ID or name, as currently permitted by the schema. Prefer F001–F048 ID references; when only a name exists, resolve it unambiguously against `CORE_FESTIVAL_INDEX.md` before asserting an association. Do not silently rewrite legacy tags.
+3. Do not create or select an item merely because it visually resembles a festival symbol, garment or prop. Tags are lookup associations, not substitutes for evidence.
+4. If the exact festival association, region, culture, religious or ritual meaning is uncertain, do not mark the item `VERIFIED`; state what is missing without inventing supporting sources.
+5. `VERIFICATION_STATUS` uses the existing values `UNVERIFIED`, `VERIFIED`, `REJECTED` only. `VERIFIED` is allowed only after a **matching complete item record** exists, all required fields have been reviewed and the actual cited sources support the specific item-festival-region-cultural attribution. A catalog inclusion, unreviewed summary or source link without relevant supporting information does not qualify.
+6. `SOURCE_REFERENCES` must identify traceable evidence for the claimed item, its associated festival, precise region and cultural context. The reviewer must be able to determine which source supports which claim. Do not fabricate citations, assume a reference exists, or use a broad festival article as proof of a narrower unsupported local practice.
+7. `RECOGNIZABILITY` uses `LOW` / `MEDIUM` / `HIGH` / `VERY HIGH`; VERY HIGH is reserved for an unusually diagnostic **item in the specified festival and region**. This is an identification/design property, NOT verified cultural provenance.
+8. `CULTURAL_SENSITIVITY` uses `LOW` / `MEDIUM` / `HIGH` / `VERY HIGH`; VERY HIGH highlights the greater consequence of inaccurate religious, ritual, ancestor-related or local representation. This is a caution flag, NOT an evidence grade. LOW does not prove a claim correct.
+9. `REALISTIC` and `ANIME` express suitability for particular generation systems; they do not validate tradition, authorize generation or provide image QA results.
+10. Female-focused clothing is the primary clothing scope; culturally appropriate unisex items remain allowed. Do not silently expand this into an unsupported gender-specific clothing inventory.
+11. Every `ITEM_CATALOG.md` is a compact **candidate index**, not a complete item record. Catalog rows cannot be treated as complete merely because required fields are named in this schema.
+12. Every catalog row must retain `VERIFICATION_STATUS` and `SOURCE_REFERENCES`. Where no supporting evidence is recorded, keep `VERIFICATION_STATUS: UNVERIFIED` and `SOURCE_REFERENCES: NOT_RECORDED`; avoid guessing records, paths, source URLs or verification outcomes.
+13. A catalog row may be promoted to `VERIFIED` **only when its matching complete item record exists** and source evidence, required fields and festival/region scope have been reviewed. Update corresponding records only in an explicitly authorized, traceable data correction. If catalog and item-record statuses disagree, report the exact `ITEM_ID` and fields and do not use the candidate as verified until reconciled.
+14. The 48 festival ID/name scope is controlled by `CORE_FESTIVAL_INDEX.md`, while the selected festival record controls its own `CATEGORY_LINKS` and recorded regional scope. A category link, tag, broad cross-cultural collection or cultural-anchor design cue never automatically verifies an item.
+15. For regional overlap, keep F011 Mexican Día de los Muertos item evidence separate from F044 Andean/other Latin American variants; F044 retains `REGION_SPECIFIC_ITEM_GAP`. F038 is a Qingming memorial focus overlapping F020, not independent evidence of a second holiday. Do not transplant region-specific practices across entries without directly relevant evidence.
+16. If an item is unsupported, leave it unverified or reject it only on substantiated grounds under the existing status definitions. Do not quietly convert a missing source to `VERIFIED` or falsely equate `REJECTED` with an absent field. Preserve any already reviewed evidence and correction history rather than silently overwriting it.
+
+## VERIFICATION WORKFLOW BOUNDARY
+
+- **Candidate discovery:** read the selected festival's matching category and existing catalog row. Record the item ID, claimed festival/region context and its actual verification status. Candidate discovery alone does not approve the item.
+- **Evidence review:** locate the matching complete item record and explicit references. Check that the evidence actually supports the item association, claimed usage, region and any ritual or religious meaning. Compare the required fields with this schema and the selected festival record; record unresolved omissions or conflicts rather than creating fictional support.
+- **Status decision:** treat a candidate as culturally verified **only when** the complete item evidence and catalog status both satisfy the `VERIFIED` gate. Without this evidence, preserve `UNVERIFIED` or an existing `REJECTED` status and report the data gap. Do not auto-promote the audit's recorded 224 `UNVERIFIED` candidates.
+- **Execution boundary:** this Schema changes no candidate data, festival record, category link, source document or locked Prompt. It does not activate QA (`PAUSED`), create a Session/Batch, control a runtime or authorize image generation. Historic/archive records are unchanged.
