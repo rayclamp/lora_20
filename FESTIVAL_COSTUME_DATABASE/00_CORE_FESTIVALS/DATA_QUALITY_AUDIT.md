@@ -29,3 +29,41 @@ This report records the structural and consistency audit of `FESTIVAL_COSTUME_DA
 ## Production safety rule
 
 A catalog entry marked UNVERIFIED is a discovery candidate only. It must not be represented as a culturally verified item. When a requested design depends on a specific item that has no verified record, report the data gap instead of inventing cultural authority.
+
+## P0-21/P0-22 Re-audit — 2026-11-02 (current `main` snapshot)
+
+The following checks were performed against the existing individual festival files and all **ten** current category `ITEM_CATALOG.md` files, without creating, editing, promoting, or rejecting any candidate item. Earlier audit statements above are preserved as historical findings; this section records a fresh structural observation, not independent cultural verification.
+
+### Festival records and names
+
+- The `FESTIVALS/` directory contains exactly **48** numbered files, `F001.md` through `F048.md`.
+- All 48 festival files were read individually and their recorded `FESTIVAL_ID`, `NAME_EN`, and `NAME_ZH` were compared with the fixed `CORE_FESTIVAL_INDEX.md` lookup. Every `FESTIVAL_ID` and Chinese name matched. The sole English name discrepancy was F038; P0-21 corrected only its heading and `NAME_EN` to match the canonical index, leaving its category set, scope, `OVERLAPS_WITH: F020` and original record identity intact.
+- All 48 records contain the existing `CULTURAL_VERIFICATION: MAINTAINED_FOR_NEW_ITEM_EXPANSION` note. As clarified in `FESTIVAL_RECORD_SCHEMA.md`, this is **not a verified-item/source-evidence status**. Do not treat a record's existence or this text as a certification of its cultural details.
+
+### Category-catalog evidence inventory
+
+| Fixed category | Candidate rows |
+|---|---:|
+| CLOTHING | 17 |
+| ACCESSORIES | 57 |
+| SOCKS | 5 |
+| SHOES | 38 |
+| HEADWEAR | 36 |
+| HAIRSTYLE | 6 |
+| MAKEUP | 5 |
+| BODY_DECORATION | 4 |
+| PROPS | 36 |
+| OTHER | 20 |
+| **TOTAL** | **224** |
+
+- All 224 rows were read as seven-column catalog entries with `ITEM_ID`, `NAME`, `FESTIVAL_TAGS`, `REGION`, `RECOGNIZABILITY`, `VERIFICATION_STATUS`, and `SOURCE_REFERENCES`; no missing values in those catalog columns were found in this audit.
+- Cross-catalog duplicate `ITEM_ID` values found: **0**. Unrecognized/out-of-range `FESTIVAL_TAGS` identifiers found: **0**; all catalog tags were checked against the `F001`–`F048` ID format/range.
+- **224 of 224** candidate rows retain `VERIFICATION_STATUS: UNVERIFIED` and `SOURCE_REFERENCES: NOT_RECORDED`. **0 VERIFIED**, **0 REJECTED**. These counts reflect the currently observed catalog entries, not proof of cultural accuracy.
+- **F044 has zero directly tagged catalog candidate rows** in the ten current catalogs. This is a more precise catalog-coverage observation that reinforces the existing `REGION_SPECIFIC_ITEM_GAP`; it does **not** authorize borrowing Mexican F011 items, inventing a local item, or marking the F044 category links invalid. A category link denotes a possible lookup domain, not actual catalog-item coverage.
+- These checks establish table-field, ID, tag and status **structural** consistency only. No underlying cultural sources were independently researched, and no separate complete item-record evidence was produced or verified by this re-audit.
+
+### Remaining action and boundary
+
+1. Do **not** promote any candidate to `VERIFIED` without a complete matching item record, explicit traceable `SOURCE_REFERENCES`, and evidence relevant to its particular festival/region/ritual attribution. The actual candidate record and source evidence must be reviewed before a status change.
+2. Prioritize high/very-high cultural-sensitivity cases and the uncovered F044 regional scope when conducting separate, source-grounded research. Treat any new item or source addition as a separately traceable data change, not a silent correction to the catalog or an inference from visual similarity.
+3. Preserve F001–F048 registrations, existing category links, all 224 original catalog rows and their current verification states. This audit does not edit prompt design or image-production commands, activate QA (`PAUSED`), create a Session/Batch, or access `ARCHIVE/` or `PRODUCTION_RECORDS/`.
