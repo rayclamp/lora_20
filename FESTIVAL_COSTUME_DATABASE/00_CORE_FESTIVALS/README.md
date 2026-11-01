@@ -18,6 +18,7 @@ A discovered candidate tag is NOT a guarantee that its category is allowed for t
 - Festival-to-item links: `FESTIVAL_ITEM_LINK_MATRIX.md`
 - Festival record schema: `FESTIVAL_RECORD_SCHEMA.md`
 - Item record schema: `ITEM_RECORD_SCHEMA.md`
+- Current item-tag/category-scope blocker list (P0-36): `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md`
 - Category index and shared item-record rules: `CATEGORIES/README.md`
 
 ## Current data-quality boundary — audit snapshot, not cultural certification
