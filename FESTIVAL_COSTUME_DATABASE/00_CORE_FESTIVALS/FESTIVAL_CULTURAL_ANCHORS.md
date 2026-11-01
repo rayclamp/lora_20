@@ -4,12 +4,12 @@ This is the generation-oriented design-cue layer for all 48 registered entries F
 
 Use FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/CORE_FESTIVAL_INDEX.md (P0-09) as the authoritative registered ID/name and classification/navigation index. Its type, region tags, and related-entry links are browsing metadata, not proof of cultural equivalence or independent verification. Read the selected festival's item-level records, actual sources, region-specific restrictions, and provenance before making specific cultural claims.
 
-These entries are not modified or reclassified by this design-cue guide. For HIGH / VERY HIGH sensitivity contexts, a source-backed item specific to the named region, religion, ritual, or clothing claim is necessary before describing it as verified.
+P0-38 updated only the F001/F003/F044/F048 cue wording to prevent unsupported universal clothing/ritual/hemisphere inferences; all F-ID records, categories and sensitivity scores remain unchanged by this guidance. For HIGH / VERY HIGH sensitivity contexts, a source-backed item specific to the named region, religion, ritual, or clothing claim is necessary before describing it as verified.
 | ID | Core cultural anchors (design cues) | Common scene/activity cues | Sensitivity |
 |---|---|---|---|
-| F001 | Christmas tree, wreaths, stockings, gift wrapping, winter knitwear, Santa-associated imagery | decorating tree, gift exchange, Christmas market, home gathering | LOW |
+| F001 | Christmas tree, wreaths, gift wrapping, Santa-associated imagery; optional region-appropriate seasonal outfits (not a certified Christmas knit-sock tradition) | decorating tree, gift exchange, Christmas market, home gathering | LOW |
 | F002 | pumpkins, jack-o'-lanterns, costume dressing, autumn night decoration | trick-or-treat, costume street, pumpkin display | LOW |
-| F003 | New Year decorations, countdown, celebratory formal/casual wear | countdown, greeting, fireworks, gathering | LOW |
+| F003 | General New Year decorations/countdown as unsourced creative cues; source-backed New York Times Square Ball Drop as a specific midnight-to-January-1 regional scene | countdown, greeting, local celebrations and gatherings; do not universalize the New York ball | LOW |
 | F004 | red/gold New Year decoration, spring couplets, red envelopes, festive Chinese/East Asian clothing | family reunion, visiting relatives, temple/festival street | MEDIUM |
 | F005 | romantic gifts, flowers, chocolate, heart motifs | giving chocolate/flowers, café or evening date setting | LOW |
 | F006 | Easter eggs, spring flowers, baskets, Christian seasonal decoration | egg hunt, church-season setting, family gathering | MEDIUM |
@@ -50,11 +50,11 @@ These entries are not modified or reclassified by this design-cue guide. For HIG
 | F041 | French national colors, tricolor decoration, public celebration, fireworks context | street celebration, evening public event | LOW |
 | F042 | US flag decoration, summer outdoor gathering, fireworks context | picnic, parade, fireworks | LOW |
 | F043 | Canadian flag/red-white decoration, summer public celebration | outdoor gathering, parade, fireworks | LOW |
-| F044 | region-specific Andean/Latin American remembrance practices; local altar/flower/candle traditions | remembrance gathering, cemetery/altar setting | VERY HIGH |
+| F044 | Peru Ayacucho Tanta Wawa remembrance bread (narrowly source-reviewed); other Andean/Latin American offerings and ritual forms require independent local evidence | relevant local remembrance gathering or cemetery scene; do not import Mexican F011 altar customs | VERY HIGH |
 | F045 | masks, beads, purple/green/gold carnival decoration, parade culture | parade, street celebration | MEDIUM |
 | F046 | Nordic summer greenery, flowers, maypole-related decoration in relevant traditions | outdoor gathering, flower crown, midsummer table | MEDIUM |
 | F047 | St. Nicholas imagery, winter European festive setting, sweets/gifts | family/community visit, gift/sweets tradition | MEDIUM |
-| F048 | Advent wreath/candles, Christmas Eve table, church-season decoration, winter festive wear | candle lighting, Christmas Eve gathering | MEDIUM |
+| F048 | Advent wreath/candles, Christmas Eve table, church-season decoration, locally season-appropriate festive wear (not a universal winter garment) | candle lighting, Christmas Eve gathering | MEDIUM |
 
 ## SENSITIVITY SCALE — RISK FLAG, NOT VERIFICATION
 
@@ -74,4 +74,4 @@ Sensitivity is a design caution indicator only; it is NOT an evidence grade, rec
 3. The cultural anchors and scene/activity cues are design suggestions. Do not call an item traditional, religiously required, historically accurate, or region-specific unless source-backed records support that exact claim. Do not equate this table with source verification.
 4. If necessary cultural source detail is missing, mark GITHUB_DATA_MISSING and identify the unsupported element. If applicable authoritative records conflict, mark DATA_CONFLICT and explain the disputed item/context. Isolate, simplify, or omit unsupported details instead of improvising rituals or attributing foreign practices to another region; these flags do not add Task/Batch Schema fields.
 5. Especially in HIGH and VERY HIGH contexts, keep region, religious practice, sacred/ancestral meaning, garments, props, and ritual activity culturally coherent. Do not mix regional variants on visual similarity alone. Neutral, non-culture-specific imagery is acceptable only when clearly not presented as verified tradition.
-6. Preserve all 48 original entries, cultural-anchor text, scene/activity text, and Sensitivity values. No new holidays, ID changes, festival-record mutations, historical Batch edits, QA activation, or runtime/production action is authorized by this file.
+6. Preserve all 48 original entry IDs and Sensitivity values; any culture-specific wording correction needs separately traceable evidence and must not be treated as production authorization. No new holidays, ID changes, festival-record mutations, historical Batch edits, QA activation, or runtime/production action is authorized by this file.
