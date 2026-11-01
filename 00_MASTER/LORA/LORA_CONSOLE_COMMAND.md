@@ -16,7 +16,7 @@
 - **ChatGPT 製造者：** 讀取正式規範、規劃整批內容、設計完整提示詞、建立紀錄、寫入 GitHub、讀回驗證並鎖定提示詞。
 - **GitHub：** 保存正式規範、提示詞、Task 佇列與生產紀錄，是資料庫而非 runtime controller。
 - **ChatGPT 生產者：** 在實際生產聊天室取得使用者提供的人物參考圖片後，讀取鎖定提示詞並執行生圖。
-- **QA 系統：** 負責後續圖片品管，不屬於本指令的工作範圍。
+- **QA 系統：** 負責後續獨立圖片品管，目前維持 `PAUSED`；本指令不得啟動 QA。
 
 不得因簡化流程而省略必要的規範讀取、提示詞保存、紀錄驗證或鎖定步驟。
 
@@ -34,14 +34,14 @@
 
 `OUTPUT_TYPE=MIXED_PER_TASK`
 
-`OUTPUT_TYPE=MIXED_PER_TASK` 為 LoRA Batch 的固定格式宣告，不是需要使用者修改的操作參數；每個 Task 的實際格式仍由 `TASK_OUTPUT_TYPE` 獨立指定。
+以上 `MODULE`、預設 `CHARACTER` 與 Batch `OUTPUT_TYPE` 不需要使用者每次重設。`OUTPUT_TYPE=MIXED_PER_TASK` 僅為 LoRA Batch 正式格式宣告；每個 Task 的實際比例由 `TASK_OUTPUT_TYPE` 個別決定，不代表固定配額。
 
 ### 數量設定規則
 
 1. `IMAGE_COUNT` 是本次唯一需要使用者自行設定的操作參數。
 2. 不得因數量較多而擅自減少 Task、合併提示詞或只製作部分內容。
 3. 若使用者沒有填入有效的正整數，或指定數量超出系統實際可執行的限制，才可停止並清楚回報具體原因；不得自行猜測數量。
-4. 除非正式規範明確要求其他設定方式，否則使用 `CHARACTER=INARIA` 作為預設角色設計方向。
+4. 除非本次使用者明確指定合法的 `CHARACTER=NONE` 或正式規範另有要求，否則使用 `CHARACTER=INARIA` 作為預設角色設計方向；不得把 Inaria 身份強加於 `CHARACTER=NONE`。這不是要求使用者每次另填角色欄位。
 
 ### 直接啟動規則
 
@@ -72,6 +72,9 @@ Repository：
 
 ### 核心規範
 
+- `START_HERE.md`
+- `00_MASTER/SYSTEM_ARCHITECTURE.md`
+- `00_MASTER/MODULE_REGISTRY.md`
 - `00_MASTER/CORE_RULES.md`
 - `00_MASTER/DRAWING_INSTRUCTIONS.md`
 - `00_MASTER/ANATOMY_STABILITY.md`
@@ -89,13 +92,19 @@ Repository：
 - `MODULES/LORA_IMAGE/DATASET_DIVERSITY.md`
 - `MODULES/LORA_IMAGE/CANDIDATE_DESIGN_RULES.md`
 
+### 生產交接邊界（僅供核對，不得執行）
+
+- `00_MASTER/LORA/LORA_PRODUCE_COMMAND.md`
+
+讀取生產者指令只為確認正式欄位、路徑、Prompt Lock 與後續交接方式一致；不得因此啟動 `/LORA_PRODUCE`、要求現在上傳參考圖，或把生產階段任務移入 Console。
+
 ### 角色規範
 
 當 `CHARACTER=INARIA` 時，另行讀取：
 
 - `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`
 
-如果正式文件引用其他必要依賴，也必須讀取。
+如果正式文件引用其他必要的**現行**依賴，也必須讀取；`ARCHIVE/LEGACY_LORA_PRODUCTION/` 是歷史保存資料，不能當作現行規範，且不得將 Wallpaper／Festival 專屬規範混入 LoRA。
 
 ### 讀取失敗處理
 
@@ -131,6 +140,8 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 5. 禁止使用 `SESSION_...`、`BATCH_001` 或其他不符合上述格式的命名方式。
 6. 本規範適用於 `LORA_IMAGE` 模組的所有新建 Session 與 Batch。
 7. 此規範只適用於新建立的 ID；不得為了符合新格式而擅自重新命名既有 Session、Batch 或移動既有生產記錄。
+8. 實際建立前確認目標路徑未被既有 Session／Batch 使用。若秒級時間戳造成 ID／路徑碰撞，不得覆寫或自行加尾碼；依當下實際台灣時間重新產生符合格式的唯一 ID，仍無法確認唯一性時停止並回報。
+9. 同一次工作遇到中斷、讀回失敗或需恢復時，不得把「接續未完成工作」誤當作全新啟動而額外建立替代 Session／Batch；僅在原 ID、授權及既有 GitHub 紀錄可以確認時依原工作恢復，不能推測缺失狀態。
 
 標準路徑：
 
@@ -162,6 +173,8 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 
 `PROMPT_SET.md` 只用於提示詞索引、集合狀態及必要的 manifest 資料，不得將所有完整提示詞正文集中塞入其中。
 
+`SESSION_CONTRACT.md` 應保留當次授權的 `MODULE`、`CHARACTER`、`IMAGE_COUNT`、`OUTPUT_TYPE=MIXED_PER_TASK` 等適用契約資訊；`BATCH_RECORD.md` 與 `TASK_QUEUE.md` 依正式 Schema 建立設計階段的實際初始狀態。尚未生圖，不得虛構生成呼叫、圖片接收、Task SUCCESS、已完成數量或 QA 結果。狀態欄位及計數器以目前有效 Schema 為準，不自行創造列舉值。
+
 不得自行更改正式目錄結構，不得將個別提示詞存放到錯誤路徑。
 
 ---
@@ -186,8 +199,10 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 8. **景別與構圖：** 全身、中景、半身、近景及其他合適構圖。
 9. **拍攝角度：** 眼平視角、高低角度、側向視角及其他自然視角。
 10. **背景與場景：** 室內、戶外、生活空間、城市環境及其他合理場景。
-11. **光線：** 自然光、柔和室內光、側光及其他適合寫實影像的光線。
-12. **輸出格式：** 依各 Task 的用途獨立選擇輸出格式。
+11. **光線：** 自然光、柔和室內光、側光及其他符合本次指定畫風與場景的光線；不得預設全部都是寫實攝影。
+12. **輸出格式：** 每個 Task 分別獨立隨機選擇 `PHONE_9_16` 或 `DESKTOP_16_9`，不設固定張數比例；依選定格式設計真正適合的構圖。
+
+風格由本次任務與現行 LoRA 設計規範決定，不得擅自匯入其他模組的固定動漫、寫實攝影或節慶風格。
 
 以上維度應依照整批數量合理分配，不要求每個維度都以相同比例出現。
 
@@ -212,6 +227,20 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 
 每個 Task 都必須保存至對應的 `PROMPTS/TASK_###.md`。
 
+### 每份獨立提示詞檔案的必要結構
+
+每個正式鎖定的 `PROMPTS/<TASK_ID>.md` 檔案必須有符合當次 Schema 的中繼資料，至少明確包含：`TASK_ID`、`PROMPT_ID`、`PROMPT_VERSION`、`PROMPT_STATUS=LOCKED`、`TASK_OUTPUT_TYPE`，以及該 Task 完整可獨立執行的提示詞正文。
+
+將**完整且唯一**的生圖提示詞正文放在以下兩個明確標記之間，標記以外放中繼資料，不得混入第二份提示詞正文：
+
+```text
+BEGIN_LOCKED_PROMPT_TEXT
+（此處是該 Task 的完整生圖提示詞正文）
+END_LOCKED_PROMPT_TEXT
+```
+
+以上是檔案結構示意，不是實際 Task 提示詞；每個 Task 必須寫入自己的完整正文。`TASK_ID`、`PROMPT_ID`、版本、格式、檔案路徑與索引映射必須相互一致，且正式鎖定後不得無聲修改提示詞文字或改指向其他 Task。尚未完成驗證的檔案／集合不得對外宣稱已鎖定。
+
 ### 提示詞設計原則
 
 1. 每個 Task 必須明確描述主體、姿勢、身體方向、服裝、構圖、場景、光線及必要的畫面品質要求。
@@ -231,18 +260,18 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 
 但是，實際生產階段由使用者提供的人物參考圖片，才是生產者應使用的當次視覺身份依據。GitHub 的角色文字資料不得取代當次提供的參考圖片。
 
-製造者只能為生產階段的參考圖片預留適當的身份一致性要求，不得宣稱自己已經確認參考圖片中的實際外貌。
+製造者只能為生產階段的參考圖片預留適當的身份一致性要求，不得宣稱自己已經確認參考圖片中的實際外貌。每個 Task 的設計應明確要求保留當次生產參考圖**實際可見且有證據支持**的臉部、年齡外觀、自然體型及肩臂、軀幹、腰臀、腿部等相對輪廓，不得以 Inaria 文字資料取代圖片本人，也不得捏造看不到的身材數值；具體視覺辨識由生產階段參考圖提供，真正圖片驗收歸獨立 QA。
 
 當正式規範允許 `CHARACTER=NONE` 時，不得擅自加入 Inaria 專屬的外貌特徵。
 
 ### 每個 Task 的輸出格式
 
-每個 Task 都必須**獨立隨機選擇**以下其中一種格式，不得將上一個 Task 的格式當作下一個 Task 的預設值，也不得使用固定配額或強制 50/50 的比例：
+每個 Task 都必須**獨立隨機選擇**以下其中一種格式；不得由上一張格式直接推定下一張、強制固定配額或刻意湊成 50/50：
 
 - `PHONE_9_16`
 - `DESKTOP_16_9`
 
-將選擇結果記錄為 `TASK_OUTPUT_TYPE`，並在 `TASK_QUEUE.md`、每個 Task 的提示詞檔案中繼資料及 `PROMPT_SET.md` 索引中保持一致；完整提示詞必須明確描述對應的畫面比例與構圖。
+將選擇結果記錄為 `TASK_OUTPUT_TYPE`，並在 `TASK_QUEUE.md`、每個 Task 的提示詞檔案中繼資料與 `PROMPT_SET.md` 索引中保持完全一致；完整提示詞明確描述相符的畫面比例、主體位置及構圖。不得宣稱單靠提示詞文字就保證生成介面的實際像素尺寸。
 
 不得額外引入 `ASPECT_RATIO` 或 `ORIENTATION` 作為另一組控制欄位。
 
@@ -258,7 +287,8 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 - 明確的執行順序。
 - 對應的獨立提示詞檔案路徑。
 - 對應的 `TASK_OUTPUT_TYPE`。
-- 符合正式 Schema 的必要狀態欄位。
+- 一致且可追溯的 `PROMPT_ID`、`PROMPT_VERSION`、`PROMPT_STATUS` 與 `PROMPTS/<TASK_ID>.md` 映射。
+- 符合正式 Schema 的必要狀態欄位與尚未開始生成的真實初始狀態。
 
 `TASK_QUEUE.md` 必須包含全部指定 Task。
 
@@ -271,6 +301,8 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 - 每個 Task 都指向正確的提示詞檔案。
 - 沒有遺漏任何指定 Task。
 - 沒有建立超出指定數量的 Task。
+- 每一個 Task 在佇列、提示詞檔案中繼資料與 `PROMPT_SET.md` 的 `TASK_OUTPUT_TYPE`、`PROMPT_ID`、`PROMPT_VERSION` 和實際檔案路徑完全吻合。
+- 每份正式提示詞只有一對 `BEGIN_LOCKED_PROMPT_TEXT`／`END_LOCKED_PROMPT_TEXT`，兩者之間的正文完整、非空白且可獨立理解。
 
 ---
 
@@ -291,23 +323,26 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 7. `PROMPT_SET.md` 索引完整，且沒有集中放入全部提示詞正文。
 8. 每個 Task 都有合法的 `TASK_OUTPUT_TYPE`。
 9. 必要紀錄欄位符合正式 Schema。
-10. 實際讀回的內容足以確認提示詞已成功保存。
+10. 實際讀回的內容足以確認提示詞已成功保存，且每份提示詞正文與本次準備寫入的完整內容一致。
+11. 每個 Task 的 `TASK_ID`、`PROMPT_ID`、`PROMPT_VERSION`、`PROMPT_STATUS`、正文起訖標記與 `TASK_OUTPUT_TYPE` 均符合現行 Schema。
+12. Batch `OUTPUT_TYPE=MIXED_PER_TASK`，而所有 Task 的輸出格式在 Task Queue、提示詞檔案與 manifest 三處吻合。
+13. 尚未生圖的 Task 不得記成已生產成功；未完成鎖定的 Prompt Set 不得記成 `LOCKED`。
 
 不得只因 GitHub 回傳寫入成功訊息，就忽略必要的讀回驗證。
 
-若寫入或讀回驗證失敗，必須依照正式規範處理，並如實回報；不得將未驗證成功的 Batch 宣稱為已完成。
+若寫入或讀回驗證失敗，必須依照正式規範處理，並如實回報；不得將未驗證成功的 Batch 宣稱為已完成。保存已經**實際寫入並讀回確認**的進度及失敗位置，不得因部分失敗重建、覆蓋或重複生成同一次工作中的 Session、Batch 或 Task，也不得憑記憶宣稱成功。僅在權限與原紀錄均可核實時，依已授權的同一工作續作未完成項目；無法安全續作時停止並回報剩餘工作。
 
 ---
 
 ## 9. 第七步：鎖定提示詞集合
 
-只有在全部指定數量的提示詞、Task 佇列、索引及必要紀錄均成功寫入並完成讀回驗證後，才可以**同步設定**：
+只有在全部指定數量的提示詞、Task 佇列、索引及必要紀錄均成功寫入並完成讀回驗證，且每份 Prompt 的身份、版本、格式、檔案映射與完整正文標記均核對無誤後，才可以同步設定：
 
 `PROMPT_SET_STATUS=LOCKED`
 
 `PROMPT_SET_LOCKED=YES`
 
-兩個欄位必須一致；不得出現 `PROMPT_SET_STATUS=LOCKED` 但 `PROMPT_SET_LOCKED=NO` 的無效鎖定狀態。完成鎖定寫入後，還必須重新讀回驗證鎖定狀態。
+正式鎖定時，個別 Prompt 檔案的 `PROMPT_STATUS=LOCKED`、Prompt Set 的上述兩個欄位及必要索引資料必須一致。若任何項目未達成，不得留下 `PROMPT_SET_STATUS=LOCKED` 與 `PROMPT_SET_LOCKED=NO` 的矛盾紀錄，也不得用敘述代替正式寫入。鎖定寫入完成後，再次從 GitHub 讀回確認，並依正式 Schema 將 `DESIGN_COMPLETE`、`PROMPT_SET_LOCKED` 等實際發生的設計事件記錄到 `EXECUTION_LOG.md`，記錄結果同樣須讀回驗證。
 
 鎖定後：
 
@@ -341,7 +376,7 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 - 呼叫圖片生成工具。
 - 要求使用者先提供人物參考圖片。
 - 進行圖片品質判定。
-- 執行 QA、修圖或重生。
+- 啟動目前維持 `PAUSED` 的 QA、修圖或重生。
 - 自動啟動 `/LORA_PRODUCE`。
 - 更改使用者指定的 `IMAGE_COUNT`。
 - 覆蓋既有 Session 或 Batch。
@@ -362,6 +397,8 @@ GitHub 是規範與紀錄資料庫，不得將其描述成自動控制圖片生�
 - 實際建立的 Task 數量
 - 實際建立的獨立提示詞檔案數量
 - `PROMPT_SET_STATUS`
+- `PROMPT_SET_LOCKED`
+- Batch `OUTPUT_TYPE=MIXED_PER_TASK` 與 Task 格式一致性驗證結果
 - Batch 根目錄路徑
 - GitHub 寫入與讀回驗證結果
 - 尚未完成的工作或實際錯誤
