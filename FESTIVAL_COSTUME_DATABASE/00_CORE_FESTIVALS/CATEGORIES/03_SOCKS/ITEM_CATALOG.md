@@ -14,4 +14,3 @@ The 3 catalog row(s) formerly causing category-scope exceptions here have been r
 |---|---|---|---|---|---|---|
 | SOCK_JP_TABI_001 | Tabi socks | F022,F023,F024,F026,F027 | Japan | HIGH | UNVERIFIED | NOT_RECORDED |
 | SOCK_KR_TRAD_001 | Traditional Korean-style white socks | F031,F032 | Korea | MEDIUM | UNVERIFIED | NOT_RECORDED |
-| SOCK_NORDIC_001 | Nordic winter/summer-neutral hosiery | F046 | Northern Europe | LOW | UNVERIFIED | NOT_RECORDED |
