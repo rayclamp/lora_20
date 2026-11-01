@@ -4,7 +4,7 @@ These rules guide prompt design before generation. They are not a post-generatio
 
 ## Prefer designs with
 
-- clear, recognizable identity cues grounded in the current uploaded reference;
+- clear identity-preservation instructions: during `/LORA_CONSOLE`, describe the visual reference that will be provided for `/LORA_PRODUCE` without requiring an image during design or claiming to have inspected one;
 - readable face and hair where the chosen framing makes them relevant;
 - natural body proportions and plausible posture;
 - stable, understandable hand and foot actions;
