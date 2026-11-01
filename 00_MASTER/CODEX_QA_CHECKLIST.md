@@ -4,9 +4,12 @@
 
 **PAUSED**
 
-Use only after QA is explicitly activated.
+Use only after QA is explicitly activated. This is a supplemental, non-executable anatomy/visual inspection checklist for the existing `LORA_IMAGE_QA` profile, not a separate QA authority, source-module routing rule, or permission to run QA. Follow `00_MASTER/QA_MODULE.md`, `00_MASTER/QA_PROTOCOL.md`, `IMAGE_QA/LORA_IMAGE_QA_SPEC.md`, and `IMAGE_QA/LORA_IMAGE_QA_CHECKLIST.md`. QA remains `PAUSED`.
 
-## A. Image
+## A. Image and authorized input
+- [ ] QA has been separately activated; otherwise stop without inspection
+- [ ] `SOURCE_MODULE=LORA_IMAGE` has been verified from authoritative Task/result records; other modules are out of the current QA profile scope
+- [ ] Required candidate image, Task association, current task contract, and correctly mapped production-time reference image are available; missing inputs are `QA_INPUT_INCOMPLETE`, not PASS
 - [ ] Image available and readable
 - [ ] Expected subject present
 - [ ] No severe corruption
@@ -102,14 +105,13 @@ Do not require identical angle/pose/framing unless explicitly required.
 - [ ] Scene readable
 - [ ] Applicable mirror/reflection restrictions satisfied
 
-## K. Source-module checks
-- [ ] Anime rules if source is ANIME_WALLPAPER
-- [ ] Realistic rules if source is REALISTIC_WALLPAPER
-- [ ] Festival rules if applicable
-- [ ] Pet permission if applicable
-- [ ] LoRA dataset rules if source is LORA_PRODUCTION
+## K. Current QA source-module scope
+- [ ] Verified `SOURCE_MODULE=LORA_IMAGE` and applied the active `MODULES/LORA_IMAGE/` rules and the `LORA_IMAGE_QA` acceptance profile
+- [ ] Applied only relevant shared CORE anatomy, drawing, safety, and task-specific requirements
+- [ ] Checked pet/animal permission against the authorized LORA_IMAGE Task, not another module's default
+- [ ] Did not import ANIME_WALLPAPER, REALISTIC_WALLPAPER, FESTIVAL_WALLPAPER, or archived `LORA_PRODUCTION` requirements as applicable QA rules
 
-Never import unrelated module requirements.
+If `SOURCE_MODULE` is not an approved QA source, stop under the applicable `QA_SOURCE_MODULE_OUT_OF_SCOPE` gate. In particular, `FESTIVAL_WALLPAPER` is excluded. This checklist does not add any new QA profile or activate QA.
 
 ## L. Final result
 - [ ] PASS
