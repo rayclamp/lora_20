@@ -5,9 +5,9 @@
 
 ## 0. 指令定位
 
-本指令用於手動設計特殊節日桌布系列。
+本文件定義特殊節日桌布的 Festival-specific 內容、文化資料使用與設計約束；可供手動文字設計參考，亦為正式 `/WALLPAPER_CONSOLE` 設計階段必須遵守的模組規範。**本文件不是另一套 Console、生產指令、資料寫入流程、Worker、Dispatch 或 Runtime 系統。**
 
-本文件是 Festival Wallpaper 的內容與設計規範，不是獨立 Worker、Dispatch 或 Runtime 系統。若 Festival 任務進入自動化生產，依 `00_MASTER/SYSTEM_ARCHITECTURE.md` 與 `00_MASTER/PRODUCTION_RECORD_SCHEMA.md` 的共用自動化架構執行；本文件只提供 Festival-specific identity/data/design constraints。
+正式工作分工：`/WALLPAPER_CONSOLE` 依 `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md` 建立 Session／Batch、設計全部 Task、將完整 Prompt 保存至正式檔案、讀回驗證並鎖定；`/WALLPAPER_PRODUCE` 僅執行既有已鎖定 Prompt。兩者的執行、紀錄及恢復規則由共用 CORE、`00_MASTER/SYSTEM_ARCHITECTURE.md`、`00_MASTER/PRODUCTION_RECORD_SCHEMA.md` 與統一桌布指令管轄。本文件**只提供 Festival-specific identity/data/design constraints**，不得自行取代、略過或宣稱已完成正式持久化與鎖定。
 
 本指令負責：
 1. 從 GitHub Festival Database 讀取正式節慶資料。
@@ -26,8 +26,10 @@
 - 不執行 QA。
 - 不修改 LoRA Dataset。
 
-固定：
+固定內容定位：
 `EXECUTION_MODE: MANUAL_DESIGN`
+
+此標示只代表本文件是文字內容設計規範，**不是**與 `/WALLPAPER_CONSOLE` 競爭的執行模式；在 Console 工作流程中，仍須履行其既有 Session／Batch 建立、逐 Task Prompt 保存、讀回驗證及鎖定責任。單獨產出的文字 Prompt 不等於已儲存或已鎖定，也不授權本文件直接生圖。
 
 ## 1. INPUT PARAMETERS
 
@@ -101,7 +103,7 @@ CUSTOM_INSTRUCTIONS:
 
 ## 4. GITHUB FESTIVAL DATABASE
 
-特殊節日資料的最高優先級來源：
+節慶身份、已登錄的節慶資料及可用素材的正式**登錄來源**為 GitHub Festival Database；「資料已登錄」與「文化事實已由來源驗證」是兩件不同的事。此處的優先來源指目前專案所採用的節慶索引與設計資料路徑，不代表所有文化描述均已考證：
 
 Repository:
 `rayclamp/lora_20`
@@ -115,6 +117,8 @@ Core Index:
 讀取順序：
 
 `CORE_FESTIVAL_INDEX → FESTIVAL → TAGS → CATEGORY ITEMS`
+
+依所選節慶再讀取適用的文化辨識線索、地區／文化限制、已建立的素材關聯與其可用來源證據。`CORE_FESTIVAL_INDEX.md` 確立登錄身份、名稱與 ID；`FESTIVAL_CULTURAL_ANCHORS.md` 提供 F001–F048 的設計線索，但該檔本身明示逐項文化錨點未必附有獨立佐證，因此**不視為逐項文化事實已驗證的證明**。
 
 首先確認：
 - FESTIVAL_ID
@@ -175,23 +179,33 @@ GitHub 負責：
 
 核心原則：
 
-> GitHub 決定「這個節慶可以如何被正確表現」；設計模型決定「如何把它設計成具有 Wallpaper Value 的圖片」。
+> GitHub Festival Database 確立專案採用的節慶身份、已登錄素材及其限制；文化細節是否可稱為「已驗證」，仍取決於各資料項目是否有可追溯的來源佐證。設計模型只能在符合其證據層級與文化限制的範圍內，將素材組合成具有 Wallpaper Value 的圖片。
+
+使用資料時分清三層：**(1) 正式登錄身份**（Festival ID、名稱與範圍）；**(2) 設計參考線索**（文化錨點／常見視覺提示，不當然代表已查證）；**(3) 來源已驗證的文化項目**（可追溯到具體文化、地域、儀式或物件證據）。不得把前兩層自動升格為第三層。
 
 ## 7. CULTURAL ACCURACY
 
 不得：
-- 混淆不同文化的服裝。
-- 任意拼接不同地區的傳統服飾。
-- 把未驗證元素宣稱為節慶傳統。
-- 用一般網路印象取代 GitHub 已驗證資料。
+- 混淆不同文化、地區或宗教脈絡的服裝與儀式。
+- 任意拼接不同地區的傳統服飾；不可把一個地區的習俗概括為所有同名節慶均適用。
+- 把未驗證元素、一般視覺聯想或無逐項佐證的 Cultural Anchors 宣稱為經考證的節慶傳統。
+- 用一般網路印象、無來源的模型推測或個人審美代替已驗證的正式文化素材。
 
-如果資料不足，標記：
-`GITHUB_DATA_MISSING`
+### 文化資料證據與追溯
 
-如果資料互相衝突，標記：
-`DATA_CONFLICT`
+1. 保留所選 `FESTIVAL_ID`、具體地區／文化範圍、使用的 Festival record／TAGS／Category Items／Cultural Anchors 路徑，以及可取得的來源連結、引註或項目識別。僅在實際讀取且有證據時，才寫出「來源已驗證」。
+2. 若有來源證據，確認它支持**該具體地區、節慶變體與文化項目**；不得只因來源提到類似節慶，就把其他地區服裝、圖騰、儀式視為通用事實。
+3. 無逐項來源的 Anchor 或生成提示可作為**待核對的設計線索**，不得假稱為已驗證的文化事實。設計上可以使用不宣稱特定傳統的通用背景／裝飾，但不可以藉此虛構宗教、祭祀、歷史或特定族群專屬意義。
+4. 在 `CULTURAL_REASON` 或對應的設計說明中記錄文化選擇的依據、已讀資料來源與證據限制；未能確認來源時，明確註記未驗證，不得捏造引註。這是設計階段的說明要求，不自行增加新 Batch／Task Schema 欄位或修改既有鎖定 Prompt。
 
-不得假裝資料確定。
+### 高敏感度文化及資料不足處理
+
+- 依 `FESTIVAL_CULTURAL_ANCHORS.md` 的 `Sensitivity` 層級，對 `HIGH` 或 `VERY HIGH` 的宗教、祭祀、祖先紀念、民族／地域特有儀式等內容，提高來源與地區一致性要求。只有可追溯、符合該地區的具體項目證據，才可將儀式、宗教象徵或傳統服飾描述為已驗證；不能僅憑 Anchor 的通用線索自行推定。
+- 若文化脈絡不足以核對具體細節，先縮小到已確定的地域與素材、改用非專屬的中性場景，或隔離該項文化細節；不可為了完成 Prompt 而猜測或冒稱文化傳統已考證。
+- **資料不足**使用 `GITHUB_DATA_MISSING`，記錄缺少哪個 Festival／項目／來源及其影響；**正式資料衝突**使用 `DATA_CONFLICT`，記錄互相矛盾的來源與範圍，停止依衝突項目作出確定文化主張。可在不影響其他獨立節慶設計的情況下隔離問題，而不是無理由讓整批停止。
+- 任何外部資料若用於核對文化事實，必須可以識別實際來源並保留其證據；不得默默取代正式 GitHub 登錄資料或擅自修改資料庫。
+
+**不得假裝資料確定，也不得因設計需要自行新增、刪除、重新編號 F001–F048。**
 
 ## 8. OUTFIT DESIGN
 
@@ -475,47 +489,26 @@ Realistic Wallpaper 特別避免極端廣角造成臉、手、腳變形。
 
 ## 23. RULE PRECEDENCE
 
-衝突時依下列層級處理：
+衝突處理以**先適用不可覆蓋的執行與硬性限制，再判定內容與創作自由度**為原則。下列層級是適用範圍／責任分工，不允許低層級推翻高層級的強制規則。
 
-### 1. USER INTENT
-使用者當前明確要求定義「WHAT」：希望產生什麼結果、主題、數量、Wallpaper Type、Aspect Ratio，以及其他明確創作目標。
+### 1. SYSTEM / SAFETY / CORE HARD CONSTRAINTS
+現行系統／平台安全限制及適用的 `CORE_RULES.md`、`DRAWING_INSTRUCTIONS.md`、`ANATOMY_STABILITY.md`、`IMAGE_GENERATION_SAFETY_SPEC.md` 等共同硬性規則，決定不可削弱的安全與人體穩定性要求。任何使用者意圖、節慶內容、模組設計或創意均不得覆蓋。適用模組可以增加更嚴格限制，不能削弱 CORE。
 
-使用者意圖不得直接覆蓋系統執行條件、模組狀態、CORE 硬性規則或其他更高層級的安全與一致性限制。
+### 2. COMMAND / MODULE / STAGE AUTHORITY
+`WALLPAPER_COMMAND_PROTOCOL.md`、模組狀態、可用資料來源及階段分工決定「能否執行／由誰執行／如何持久化」：Console 設計保存並鎖定、Producer 執行鎖定提示詞、QA 獨立且目前 `PAUSED`。GitHub 是正式資料庫而非 Runtime Controller；本內容規範不得自行建立或更改生產狀態，也不得混入 LoRA 或 Universal 專屬素材。
 
-### 2. SYSTEM / RUNTIME / MODULE AUTHORITY
-系統架構、目前適用的模組規範與 ChatGPT 的內部生產機制決定「WHETHER / HOW」：是否可以執行、由哪個模組處理、使用哪些流程與狀態。
+### 3. APPLICABLE CULTURAL / REFERENCE / WALLPAPER CONSTRAINTS
+依所選 Festival、地區與任務，遵守正式 Festival ID／資料庫素材範圍、**已確認證據層級**、文化／宗教敏感度、Festival-specific restrictions、`WALLPAPER_TYPE` 對應 Anime／Realistic 規則，以及所選角色的語義規範。生產階段的視覺身份參考則依 `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md`，不得擅自借用其他模組參考圖。不得用設計線索冒充驗證過的傳統。
 
-PAUSED 模組不得因使用者要求而被啟用。
-
-### 3. APPLICABLE CONTENT CONSTRAINTS
-依目前任務適用：
-- CHARACTER 身份語義與任何在生產階段明確提供之視覺參考的一致性；
-- GitHub Festival Database 文化資料；
-- Wallpaper Type Rules；
-- Festival-specific restrictions。
-
-這些規則決定可使用的身份、文化素材、視覺類型與專用限制。
-
-### 4. CORE HARD CONSTRAINTS
-CORE_RULES、DRAWING_INSTRUCTIONS、ANATOMY_STABILITY、IMAGE_GENERATION_SAFETY_SPEC 等 CORE 硬性規則不可被使用者意圖、文化設計或創意降低。
-
-模組可以增加更嚴格限制，但不得削弱 CORE。
+### 4. USER INTENT / TASK-SPECIFIC REQUIREMENTS
+使用者明確要求定義創作目標、數量、指定節慶、文化範圍、`WALLPAPER_TYPE`、`OUTPUT_TYPE`、服裝、動作及其他約束，且只在上述硬性條件允許的範圍內適用。不得把使用者的創作偏好解釋成覆蓋文化規則、模組狀態或既有鎖定 Prompt 的授權。
 
 ### 5. CREATIVE DESIGN
-在上述條件均滿足後，才由設計模型決定：
-- Composition
-- Action
-- Pose
-- Camera
-- Lighting
-- Visual Focus
-- Decorative Creativity
-
-不得使用創意覆蓋文化資料、模組限制、目前生產狀態或 CORE 硬性規則。
+在以上條件滿足後，才由設計者決定 Composition、Action、Pose、Camera、Lighting、Visual Focus 與 Decorative Creativity。不能以多樣性、華麗效果或 Wallpaper Value 為由，犧牲文化適切性、人體穩定性、角色一致性及模組限制。
 
 ### Authority principle
 
-> USER INTENT 決定「想做什麼」；SYSTEM / RUNTIME / MODULE AUTHORITY 決定「能不能做、由誰做、怎麼做」；CORE 決定不可削弱的共同硬性限制；CREATIVE DESIGN 只在剩餘自由度內完成設計。
+> SYSTEM / SAFETY / CORE 決定不可違反的底線；COMMAND / MODULE 決定執行與紀錄權限；FESTIVAL DATA／REFERENCE／WALLPAPER 規範決定可使用的文化和視覺素材；USER INTENT 指定許可範圍內想做什麼；CREATIVE DESIGN 只運用剩餘自由度。文化資料是否已驗證，由可追溯證據判定，不由排序、登錄或模型信心推定。
 
 ## 24. DESIGN WORKFLOW
 
@@ -770,7 +763,7 @@ real-human rendering
 - NEGATIVE PROMPTS
 - TEXT-LEVEL STABILITY CHECK
 
-之後停止。
+完成 Festival-specific 文字設計內容後，本文件本身不授權生圖。若本次工作由 `/WALLPAPER_CONSOLE` 執行，必須**依統一桌布指令再完成全部正式 Prompt／Task 紀錄的 GitHub 寫入、讀回驗證與 Prompt Set 鎖定**，然後才可回報 Console 階段完成；不可將手動文字輸出視為已保存或已鎖定。
 
 不得：
 - 自動生成圖片
@@ -782,6 +775,6 @@ real-human rendering
 
 ## 35. FINAL COMMAND
 
-先完成所有節日選擇、GitHub 素材分析、ACTION_LIST、SERIES_COMPOSITION_PLAN，再輸出所有桌布的文字構圖與完整 Prompt。
+先完成所有節日選擇、**文化證據層級與區域適用性確認**、GitHub 素材分析、ACTION_LIST、SERIES_COMPOSITION_PLAN，再完成所有桌布的文字構圖與完整 Prompt。由 `/WALLPAPER_CONSOLE` 啟動時，應依其正式命令流程保存、讀回驗證與鎖定，不能僅交付文字便宣稱 Batch 已建立或 Prompt 已鎖定。
 
-**先不要生圖。**
+**先不要生圖；不得由本文件自行觸發 `/WALLPAPER_PRODUCE` 或 QA。**
