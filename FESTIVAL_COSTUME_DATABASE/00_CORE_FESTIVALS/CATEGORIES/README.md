@@ -13,13 +13,13 @@ The database uses 10 fixed categories:
 9. PROPS
 10. OTHER
 
-## RETRIEVAL MODEL — INDEX TO VERIFIED ITEM
+## RETRIEVAL MODEL — CANDIDATE LOOKUP AND EVIDENCE GATE
 
 `CORE_FESTIVAL_INDEX.md` (canonical F001–F048 IDs/names) → matching `FESTIVALS/F###.md` (recorded region and authoritative `CATEGORY_LINKS`) → `TAGS.md` / `FESTIVAL_ITEM_LINK_MATRIX.md` (navigation) → relevant category `ITEM_CATALOG.md` candidate rows → matching complete item record + reviewed `SOURCE_REFERENCES` (when claiming cultural verification).
 
 Workers should read **only categories listed for the selected festival and actually relevant to the intended item**. Do not load every category or silently expand a festival's `CATEGORY_LINKS`. If the matrix differs from the festival record, stop item selection for the affected festival and report `CATEGORY_LINK_MISMATCH`, without modifying any festival record automatically.
 
-A catalog hit is a candidate-discovery result, not a verified cultural item. `FESTIVAL_CULTURAL_ANCHORS.md` supplies design cues but does not itself validate an item or regional claim.
+A catalog hit is a candidate-discovery result, **not** a verified cultural item. `FESTIVAL_CULTURAL_ANCHORS.md` supplies design cues but does not itself validate an item or regional claim. Do not assume that a catalog row's `FESTIVAL_TAGS` establishes permission to use that candidate from its actual category for the selected festival.
 
 ## SHARED ITEM-RECORD RULES
 
@@ -29,6 +29,14 @@ A catalog hit is a candidate-discovery result, not a verified cultural item. `FE
 - `CULTURAL_SENSITIVITY` and `RECOGNIZABILITY` use `LOW`, `MEDIUM`, `HIGH`, `VERY HIGH`. They describe risk and diagnostic usefulness respectively, **not** cultural source verification or QA acceptance.
 - Each `ITEM_CATALOG.md` row must keep `VERIFICATION_STATUS` and `SOURCE_REFERENCES`. These are candidate summaries, not complete item records. An existing row remains `UNVERIFIED` unless the **matching complete item record** has all required fields, relevant explicit source references, and reviewed festival/region/cultural attribution. `NOT_RECORDED` does not satisfy this proof requirement.
 - Do not fabricate sources, assume all candidates are verified, or automatically promote `VERIFICATION_STATUS`. Use `ITEM_RECORD_SCHEMA.md` for required fields and the status change gate; preserve existing catalog data and IDs. A verified claim needs both catalog and complete-item evidence.
+
+## CROSS-LAYER CATEGORY / FESTIVAL TAG CONSISTENCY
+
+1. After matching an item's `FESTIVAL_TAGS` to the requested F-ID, compare the **catalog's containing category** with the **same festival record's authoritative `CATEGORY_LINKS`**. Both must be compatible before the item can even be considered for that festival-category lookup; cultural-source verification remains an additional, independent requirement.
+2. If `FESTIVAL_ITEM_LINK_MATRIX.md` disagrees with the festival record itself, this is `CATEGORY_LINK_MISMATCH`: stop the affected festival's item selection and report the competing category sets. Do not alter either path silently.
+3. If the matrix and festival record agree **but** a candidate's tag refers to a festival whose `CATEGORY_LINKS` omits the candidate's category, this is an **item-tag/category-scope discrepancy** (not `CATEGORY_LINK_MISMATCH`). Report the exact candidate `ITEM_ID`, F-ID and containing category; do not use that candidate as a verified festival-specific example for the unsupported category, and do not automatically expand the festival's category list or delete the original candidate tag.
+4. `DATA_QUALITY_AUDIT.md` P0-24/P0-25 currently documents **17** such associations in **nine** catalog rows across **12** F-IDs. These are unresolved evidence/scope review cases, not an authorization to self-correct candidate data or to claim cultural verification. Review cultural source applicability, category intent, festival scope and then any proposed matrix/record correction separately.
+5. A festival with no directly tagged catalog row still stays registered. `F003`, `F007`, and `F044` currently have no direct catalog candidates in the audit snapshot; never invent tags, fabricate a matching item record or borrow incompatible regional material simply to fill coverage. Other independent festival-category lookups remain usable according to their own actual evidence.
 
 ## SCOPE
 
