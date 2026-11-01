@@ -16,7 +16,7 @@ A declared task reference is the identity authority for that task. Do not silent
 
 For realistic Inaria tasks:
 - If the task explicitly supplies a person reference, that task reference is the identity authority.
-- If no visual person reference has been supplied or resolved through the UNIVERSAL_WALLPAPER module's approved reference registry, record `NO_REFERENCE`. The 36-year-old realistic Inaria profile is fallback **textual character-identity guidance**, not an approved or observed reference image; do not claim `REFERENCE_AUTHORITY_RESOLVED` on that basis. If the task explicitly requires an actual image, follow `REFERENCE_BLOCKED` instead.
+- If the task permits proceeding without a visual reference and none has been supplied or resolved through the UNIVERSAL_WALLPAPER module's approved reference registry, record `NO_REFERENCE`. The 36-year-old realistic Inaria profile is fallback **textual character-identity guidance**, not an approved or observed reference image; do not claim `REFERENCE_AUTHORITY_RESOLVED` on that basis. If the task requires an image or a selected visual reference cannot be resolved, record `REFERENCE_BLOCKED` instead of silently substituting textual character data.
 - The age-20 anime Inaria master is not a substitute for the realistic Inaria identity baseline.
 - Repository presence or a character name does not make a GitHub image an approved visual reference. Resolve images only through the actual `EXPLICIT_TASK_REFERENCE` or a verified `MODULE_APPROVED_REFERENCE` under `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md`; do not borrow LoRA or another module's reference asset.
 
