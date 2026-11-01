@@ -41,7 +41,7 @@ If a complex idea does not materially improve training-set coverage, choose the 
 
 ## Reference-supported body-shape fidelity
 
-For every prompt, preserve the person's visible, reference-supported body build and relative body-region shape. Generic wording such as “natural proportions,” “actual build,” “slim,” or “elegant” is not sufficient on its own when the current task supplies a body-visible reference.
+For every prompt, require the generated subject's body build and relative proportions to follow the reference image supplied during production; if no image was actually available during prompt design, phrase these as conditional preservation instructions rather than observed measurements. Generic wording such as “natural proportions,” “actual build,” “slim,” or “elegant” is not sufficient on its own when the current task supplies a body-visible reference.
 
 Prompt design must explicitly protect, where visible and supported by the reference:
 - shoulder width and shoulder-to-torso relationship;
