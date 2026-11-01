@@ -16,7 +16,7 @@ A declared task reference is the identity authority for that task. Do not silent
 
 For realistic Inaria tasks:
 - If the task explicitly supplies a person reference, that task reference is the identity authority.
-- If the task does not supply a different person reference, use the approved 36-year-old realistic Inaria identity baseline as the default identity reference.
+- If no visual person reference has been supplied or resolved through the UNIVERSAL_WALLPAPER module's approved reference registry, record `NO_REFERENCE`. The 36-year-old realistic Inaria profile is fallback **textual character-identity guidance**, not an approved or observed reference image; do not claim `REFERENCE_AUTHORITY_RESOLVED` on that basis. If the task explicitly requires an actual image, follow `REFERENCE_BLOCKED` instead.
 - The age-20 anime Inaria master is not a substitute for the realistic Inaria identity baseline.
 - A different GitHub character/reference asset may be used only when the current task explicitly declares it as the applicable reference.
 
