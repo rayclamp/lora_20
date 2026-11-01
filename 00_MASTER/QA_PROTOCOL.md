@@ -90,8 +90,10 @@ Assign exactly one primary result:
 
 A clearly visible hard failure cannot PASS. A missing required image/Task/reference is `QA_INPUT_INCOMPLETE`, not a visual REJECT; contradictory applicable authoritative requirements are `QA_DATA_CONFLICT`, not a discretionary quality grade. When required inputs exist but visibility leaves an inspection judgment uncertain, use REVIEW with the specific evidentiary limitation. Do not fail naturally hidden anatomy or claim that an unseen region passed.
 
-Example reason codes:
-- REVIEW: `OCCLUSION_AMBIGUITY`, `HANDEDNESS_AMBIGUITY`, `IDENTITY_COMPARISON_UNCERTAIN`, `BODY_SHAPE_COMPARISON_UNCERTAIN`, `BACKGROUND_FUSION_UNCERTAIN`, `REFERENCE_MISSING`, `TASK_METADATA_MISSING`.
+Example reason codes and intake-gate disposition:
+- **Input gate, no visual QA result:** `QA_INPUT_INCOMPLETE` when any required image, reference/mapping, Task binding or Task metadata is missing or unreadable. Use `REFERENCE_MISSING` or `TASK_METADATA_MISSING` only as supporting intake reasons where accurate, **not** as `REVIEW` reason codes. Missing optional metadata alone is not an input failure.
+- **Authority gate, no visual QA result:** `QA_DATA_CONFLICT` for irreconcilable contradictory authoritative requirements; do not classify it as a discretionary image-quality outcome.
+- REVIEW (required inputs available, visual evidence uncertain): `OCCLUSION_AMBIGUITY`, `HANDEDNESS_AMBIGUITY`, `IDENTITY_COMPARISON_UNCERTAIN`, `BODY_SHAPE_COMPARISON_UNCERTAIN`, `BACKGROUND_FUSION_UNCERTAIN`.
 - REPAIR: `HAND_LOCAL_DEFECT`, `FINGER_LOCAL_DEFECT`, `FOOT_LOCAL_DEFECT`, `OBJECT_CONTACT_DEFECT`, `WEARABLE_CONNECTION_DEFECT`, `LOCAL_BACKGROUND_FUSION`.
 - REJECT: `EXTRA_LIMB`, `MISSING_LIMB`, `SEVERE_HAND_FAILURE`, `SEVERE_FOOT_FAILURE`, `WRONG_HAND_TOPOLOGY`, `FALSE_LIMB`, `SEVERE_PROPORTION_FAILURE`, `MATERIAL_BODY_SHAPE_DRIFT`, `MAJOR_IDENTITY_MISMATCH`, `MAJOR_MODULE_RULE_VIOLATION`, `DATASET_UNSUITABLE`.
 
