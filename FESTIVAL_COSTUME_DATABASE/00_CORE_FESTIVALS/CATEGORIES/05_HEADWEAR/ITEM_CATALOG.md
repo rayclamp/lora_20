@@ -17,7 +17,7 @@ The 1 catalog row(s) formerly causing category-scope exceptions here have been r
 | HEAD_JP_TANABATA_001 | Tanabata decorative hair ornament | F023 | Japan | HIGH | UNVERIFIED | NOT_RECORDED |
 | HEAD_JP_GION_001 | Summer festival hair ornament | F024 | Kyoto/Japan | MEDIUM | UNVERIFIED | NOT_RECORDED |
 | HEAD_HOLI_FLOWER_001 | Simple spring floral head decoration | F013 | India/Nepal | LOW | UNVERIFIED | NOT_RECORDED |
-| HEAD_MIDSUMMER_FLOWER_001 | Flower crown | F046 | Nordic/Northern Europe | HIGH | UNVERIFIED | NOT_RECORDED |
+| HEAD_MIDSUMMER_FLOWER_001 | Flower crown | F046 | Sweden (documented Midsummer flower-crown tradition) | HIGH | VERIFIED | https://visitsweden.com/what-to-do/culture-history-and-art/swedish-traditions/midsummer-tradition/midsummer/ ; https://visitsweden.com/what-to-do/culture-history-and-art/swedish-traditions/midsummer-tradition/midsummer-sweden-something-another-world/ |
 | HEAD_EASTER_BONNET_001 | Traditional Easter bonnet | F006 | United States (New York City Easter Parade context) | HIGH | VERIFIED | https://www.mcny.org/story/easter-parade ; https://blogs.loc.gov/picturethis/2023/04/hats-on-for-easter/ ; https://asufidmmuseum.asu.edu/learn/articles/put-your-easter-bonnet |
 | HEAD_CARNIVAL_VENETIAN_001 | Venetian carnival mask/headpiece | F009 | Venice/Italy | HIGH | UNVERIFIED | NOT_RECORDED |
 | HEAD_OKTOBERFEST_FELT_001 | Bavarian Trachten felt hat | F010 | Bavaria/Germany | HIGH | UNVERIFIED | NOT_RECORDED |
