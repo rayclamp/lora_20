@@ -34,7 +34,7 @@ Production accepts:
 - WEATHER
 - TIME
 - PET_ALLOWED
-- REFERENCE_IMAGE (LORA_IMAGE only; not a wallpaper-design command parameter)
+- REFERENCE_IMAGE (required at `/LORA_PRODUCE` for `LORA_IMAGE` image production only; not required at `/LORA_CONSOLE` prompt design, and not a wallpaper-design command parameter)
 - CUSTOM_INSTRUCTIONS
 
 Supported image-design modules:
@@ -50,10 +50,11 @@ The command names do not vary by wallpaper module. `MODULE` selects the applicab
 For `MODULE=LORA_IMAGE`, set the Batch-level `OUTPUT_TYPE=MIXED_PER_TASK`. Each Task independently selects and records `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9`; a Batch may mix portrait 9:16 and landscape 16:9 with no fixed quota or required split. The Task's locked prompt must be designed for its recorded format. This exception applies only to LORA_IMAGE; other modules retain their existing `OUTPUT_TYPE` behavior.
 
 When `MODULE=LORA_IMAGE`:
-- Upload the reference person image directly in the current ChatGPT conversation when starting the request. That upload is the visual identity authority for this run; do not search for or require a GitHub-stored character reference.
-- `CHARACTER=INARIA`: use the canonical Inaria character information in CORE for contextual/semantic guidance, while the uploaded image remains the visual identity authority.
-- `CHARACTER=NONE`: do not apply Inaria-specific character information; follow the uploaded reference image and current task instructions.
-- If the required reference image is not attached or cannot be identified, request it before designing or generating.
+- `/LORA_CONSOLE` (prompt design): a person-reference image is not required. Do not request an upload, pause, or block design because no image is attached. Design all requested prompts, persist and read back the records, and lock the Prompt Set under the applicable design rules. The designer must not claim to have inspected an image it has not received.
+- `/LORA_PRODUCE` (image production): before the first image-generation call, the user must supply a person-reference image in the current producer ChatGPT conversation. That image is the sole visual identity authority for the current production run.
+- `CHARACTER=INARIA`: use the canonical Inaria character information in CORE for contextual/semantic guidance, while the production-time uploaded image remains the visual identity authority.
+- `CHARACTER=NONE`: do not apply Inaria-specific character information; follow the production-time uploaded reference image and current task instructions.
+- If the production-time image is missing, inaccessible, or ambiguous, stop before generation and request that the user upload or identify it. Do not substitute images from GitHub, another module, or an earlier conversation. This production-stage block does not invalidate, unlock, or otherwise alter prompts already designed and locked.
 - Load `MODULES/LORA_IMAGE/` and all applicable shared CORE rules/documents: `CORE_RULES.md`, `DRAWING_INSTRUCTIONS.md`, `ANATOMY_STABILITY.md`, `GENERATION_RULES.md`, `IMAGE_GENERATION_SAFETY_SPEC.md`, and `GENERATION_WORKER_PROTOCOL.md`. Do not load `ARCHIVE/LEGACY_LORA_PRODUCTION/` as active production rules.
 - Apply the LoRA-specific dataset design rules in `MODULES/LORA_IMAGE/DATASET_DESIGN_SPEC.md`, `DATASET_DIVERSITY.md`, and `CANDIDATE_DESIGN_RULES.md`.
 - When `CHARACTER=INARIA`, load `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` only for contextual/semantic guidance; the uploaded image remains the visual identity authority.
