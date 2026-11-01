@@ -1,8 +1,7 @@
 # REALISTIC_WALLPAPER_RULES.md
 
 ## Authority
-This document defines the visual and production rules used when the user explicitly requests REALISTIC WALLPAPER.
-It operates under the active UNIVERSAL_WALLPAPER module registered in `00_MASTER/MODULE_REGISTRY.md`.
+This document defines shared realistic/photographic wallpaper visual-design rules routed by `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md` for `UNIVERSAL_WALLPAPER` (`PRODUCTION_TYPE=REALISTIC`) and `FESTIVAL_WALLPAPER` (`WALLPAPER_TYPE=REALISTIC WALLPAPER`). It is not an independent module. The selected module retains its own visual-reference authority, costume/footwear restrictions, cultural-data constraints, and Task requirements. Universal-only subsections below do not apply to Festival Wallpaper.
 Shared wallpaper production/session contracts are defined by the current documents under `00_MASTER/WALLPAPER/`.
 It does not define generic anatomy or generation safety; those remain in CORE.
 
@@ -11,26 +10,25 @@ Use this rule set only for REALISTIC WALLPAPER / 寫實人物桌布 or an equiva
 If the user requests ANIME WALLPAPER, do not use this file.
 
 ## 2. Reference image and identity authority
-The reference image supplied in the current request is the primary visual reference for the current task/batch when one is explicitly supplied.
-A declared task reference is the identity authority for that task. Do not silently replace it with another person, another character master, or an unrelated reference.
+During `/WALLPAPER_CONSOLE`, a visual person reference is not required and the designer must not claim to have inspected an image it has not received. During production, a genuinely available person image is the visual identity authority only if resolved by the selected wallpaper module's Reference Policy. If no visual reference is available, use that policy's `NO_REFERENCE` or `REFERENCE_BLOCKED` state as appropriate; never fabricate reference evidence.
+A declared and validly resolved task reference is the visual identity authority for that task. Do not silently replace it with another person, character master, or unrelated reference.
 
 For realistic Inaria tasks:
 - If the task explicitly supplies a person reference, that task reference is the identity authority.
-- If the task permits proceeding without a visual reference and none has been supplied or resolved through the UNIVERSAL_WALLPAPER module's approved reference registry, record `NO_REFERENCE`. The 36-year-old realistic Inaria profile is fallback **textual character-identity guidance**, not an approved or observed reference image; do not claim `REFERENCE_AUTHORITY_RESOLVED` on that basis. If the task requires an image or a selected visual reference cannot be resolved, record `REFERENCE_BLOCKED` instead of silently substituting textual character data.
+- If the task permits proceeding without a visual reference and none has been supplied or resolved through the **selected wallpaper module's** approved reference registry, record `NO_REFERENCE`. The 36-year-old realistic Inaria profile is fallback **textual character-identity guidance**, not an approved or observed reference image; do not claim `REFERENCE_AUTHORITY_RESOLVED` on that basis. If the task requires an image or a selected visual reference cannot be resolved, record `REFERENCE_BLOCKED` instead of silently substituting textual character data.
 - The age-20 anime Inaria master is not a substitute for the realistic Inaria identity baseline.
-- Repository presence or a character name does not make a GitHub image an approved visual reference. Resolve images only through the actual `EXPLICIT_TASK_REFERENCE` or a verified `MODULE_APPROVED_REFERENCE` under `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md`; do not borrow LoRA or another module's reference asset.
+- Repository presence or a character name does not make a GitHub image an approved visual reference. Resolve an actual `EXPLICIT_TASK_REFERENCE` or verified `MODULE_APPROVED_REFERENCE` only through the selected module's `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md` or `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md`, as appropriate; do not borrow LoRA or another module's reference asset.
 
 Do not interpret an identity reference as a requirement to preserve every visual property of the source image; camera angle, pose, framing, clothing, scene, lighting, and composition may change.
 
 For REALISTIC WALLPAPER production, the supplied reference image is an identity/body-reference image, NOT an outfit or pose template unless the task explicitly says otherwise.
 
-Hard reference-decoupling rules:
-- SOURCE OUTFIT MUST NOT be reused as the wallpaper outfit.
-- SOURCE OUTFIT MUST NOT be treated as a default base layer with only an added jacket, coat, cardigan, or accessory.
-- The Worker must design a complete new outfit appropriate to the destination, season, weather, activity, and realistic social context.
-- SOURCE POSE MUST NOT be copied or treated as the default pose.
-- The Worker must design a new pose/action independently from the reference image.
-- Source clothing and source pose may be visually present in the reference only for identity/context extraction; they have no authority over the generated presentation.
+Default reference-decoupling rules (subject to an **explicit current user/Task request** to preserve specified source presentation details):
+- By default, SOURCE OUTFIT MUST NOT be reused as the wallpaper outfit or treated as a base layer with only an added jacket, coat, cardigan, or accessory.
+- By default, the prompt designer must specify a complete new outfit suitable for the scene, weather, activity, and realistic social context.
+- When the current user **explicitly requests** preservation of the source outfit or specific garments, that documented request controls those items; preserve only the requested details, without silently copying other source presentation. If the reference is unavailable during design, write the requirement conditionally without pretending the source outfit was inspected. A Task requiring an unavailable image must follow the selected module's `REFERENCE_BLOCKED` rule.
+- By default, SOURCE POSE MUST NOT be copied; independently design a new pose/action. An explicit current Task request to preserve the pose is a narrow exception, not a default.
+- Without such explicit preservation requests, source clothing and pose are identity/context evidence only; they do not determine the new presentation.
 
 ### Realistic Inaria fallback character profile (not a reference image)
 When a realistic Inaria task has `NO_REFERENCE`, use the following canonical **textual character-profile defaults** for design. They do not constitute an uploaded photograph, a module-approved visual reference, or proof that any image was inspected:
@@ -123,16 +121,14 @@ The reference image's particular face direction must not create a fixed left-fac
 
 ## 3A. Reference decoupling validation
 
-Before DESIGN_LOCK for a realistic wallpaper task, explicitly verify:
+Before DESIGN_LOCK for a realistic wallpaper task, explicitly verify the default decoupling requirements:
 
-`REFERENCE_OUTFIT_POLICY: REPLACE`
-`REFERENCE_POSE_POLICY: IGNORE`
+`REFERENCE_OUTFIT_POLICY: REPLACE` (default, **unless** the current user explicitly requests preservation of the source outfit or specified garments)
+`REFERENCE_POSE_POLICY: IGNORE` (default, **unless** the current user explicitly requests pose preservation)
 
-The planned outfit must be a complete outfit, including the primary clothing pieces and footwear when visible. Adding only outerwear or shoes to the source outfit fails this gate.
+Under the default outfit rule, design a complete new outfit with primary clothing pieces and footwear when visible; merely adding outerwear or shoes to the reference outfit is not DESIGN_READY. If an explicit current Task requests preservation, record that exact exception in the design requirements and locked prompt instead of falsely marking the outfit as replaced. Do not invent a new production-record field or unauthorized enum value.
 
-The planned pose/action must be independently designed and must not reproduce the reference image's body arrangement, limb placement, or hand position unless the task explicitly requests pose preservation.
-
-A task that still says "same outfit + jacket" or otherwise derives the generated clothing directly from the source outfit is NOT DESIGN_READY.
+Under the default pose rule, independently design the action and limb arrangement. Preserve only the explicitly requested source pose details when a Task specifically requires them. Design-stage wording may refer conditionally to a future production-time reference without claiming it was inspected.
 
 ## 4. Body proportion preservation
 Preserve the reference person's natural body proportions, body silhouette, limb proportions, and physical build.
@@ -420,15 +416,15 @@ The current user PET_ALLOWED parameter controls intentional pet/animal inclusion
 
 ## 13. Prompt construction
 The final prompt must describe:
-1. applicable identity reference and identity-preservation requirements
-2. explicit reference-decoupling instructions: replace source outfit; ignore source pose
+1. applicable identity/reference authority and identity-preservation requirements, or valid `NO_REFERENCE` textual guidance
+2. default source-outfit replacement and source-pose independence, with any explicitly requested preservation exceptions described precisely
 3. realistic human appearance
-3. pose/action
-4. camera/lens/perspective
-5. clothing/accessories
-6. scene/weather/time
-7. lighting
-8. required wallpaper format
+4. pose/action
+5. camera/lens/perspective
+6. clothing/accessories
+7. scene/weather/time
+8. lighting
+9. required wallpaper format
 
 When useful, task-level style directions such as editorial, cinematic, bridal, or magazine aesthetics may be added after identity and realism constraints. Such styles must never override identity anchors or body-proportion preservation.
 
@@ -438,13 +434,13 @@ Apply CORE anatomy and generation-stability rules before finalizing the prompt.
 
 ## 13A. Universal Wallpaper footwear authority
 
-When footwear is visible or intentionally designed, the Producer MUST use the canonical Universal Wallpaper footwear allowlist at `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md`.
+**Only for `MODULE=UNIVERSAL_WALLPAPER`:** when footwear is visible or intentionally designed, the prompt designer MUST use the canonical Universal Wallpaper footwear allowlist at `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md` before Prompt Lock. The image Producer executes the already locked prompt without revalidating shoes. **For `MODULE=FESTIVAL_WALLPAPER`, this entire Universal-only footwear subsection is inapplicable; follow the Festival module's own applicable footwear/category rules.**
 
 Allowed types are: 高跟鞋、娃娃鞋、側面雙扣短靴、短靴、厚底靴、涼鞋、運動鞋、瑪莉珍鞋、拖鞋、繡花鞋。
 
 Festival Wallpaper footwear catalogs and other module-specific footwear data MUST NOT be treated as Universal Wallpaper options. `Loafers / 樂福鞋` are not allowed for Universal Wallpaper unless the authoritative Universal allowlist is explicitly changed.
 
-The `SHOES` design field MUST be validated against this allowlist before Prompt Lock.
+For `UNIVERSAL_WALLPAPER` only, the `SHOES` design field MUST be validated against this allowlist before Prompt Lock.
 
 ## 14. Priority order
 For conflicts within a realistic-person prompt, use this priority order:
