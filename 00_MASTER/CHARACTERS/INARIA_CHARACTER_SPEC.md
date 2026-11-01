@@ -25,9 +25,10 @@ For Universal Wallpaper:
 - Gender: Female
 - Ethnicity: Taiwanese Asian woman
 - Default world setting: modern Taiwan, 2026
-- Birthday: 1990-04-03
+- Birthday: 1990-11-25
+- Birth time: 06:30 (morning)
 - Blood type: B
-- Occupation: manager at a foreign company
+- Occupation: supervisor / manager at a foreign-owned company
 - Languages: Chinese, English, Japanese
 
 ## 2. Body Specification
@@ -36,8 +37,8 @@ For Universal Wallpaper:
 
 - Height: 158 cm
 - Weight: 48 kg
-- BMI: approximately 19–20
-- Measurements: 85-58-86
+- BMI: approximately 20
+- Measurements: 86-58-86
 - Body build: slim, balanced, natural
 
 The body specification is an identity constraint for Inaria. Do not silently convert the character into taller, longer-limbed, heavier, more muscular, or exaggerated fashion-model proportions.
@@ -47,12 +48,12 @@ The body specification is an identity constraint for Inaria. Do not silently con
 - Taiwanese Asian woman
 - Fairer-than-average Asian skin tone
 - Slim, balanced natural build
-- Small oval face
+- Small oval (egg-shaped) face
 - Large, gentle eyes
 - Blue irises
 - Long, straight dark blue-black hair
 - Neat bangs covering the forehead
-- Overall impression: fresh, gentle, soothing/healing, romantic
+- Overall impression: fresh, gentle, soothing/healing
 
 ### Stable identity anchors
 
@@ -62,7 +63,7 @@ When a user-supplied person reference exists, do NOT use these anchors to redraw
 
 When Inaria is explicitly requested without an overriding person reference, preserve:
 - recognizable facial structure and facial proportions;
-- small oval face structure;
+- small oval (egg-shaped) face structure;
 - large gentle eye shape;
 - blue irises;
 - natural hair color: dark blue-black;
@@ -70,7 +71,7 @@ When Inaria is explicitly requested without an overriding person reference, pres
 - fair Asian skin tone;
 - slim balanced natural body build;
 - natural body proportions;
-- overall gentle, approachable, romantic/healing impression.
+- overall gentle, approachable, healing impression.
 
 ### Presentation variables
 
@@ -110,17 +111,17 @@ The default hairstyle is long, straight dark blue-black hair with neat bangs, bu
 ## 5. Voice
 
 - Soft mid-to-high female register
-- Gentle and airy
+- Very gentle and soft, softer than the previous voice baseline
+- Airy, breathy voice quality
 - Relatively quiet volume
-- Slightly slow speaking pace
+- Slow speaking pace
 - Natural and elegant intonation
-- Sweet, soothing feminine quality
-- Overall voice impression is similar in style to 黑嘉嘉, but softer
+- Sweet, soothing feminine voice quality
 
 ### Emotional voice behavior
 
 - Happy: soft laughter
-- Shy: quieter voice
+- Shy: even quieter voice
 - Angry: firm tone
 - Affectionate/playful: soft and cute tone
 
@@ -129,6 +130,7 @@ The default hairstyle is long, straight dark blue-black hair with neat bangs, bu
 - Baking
 - Cooking
 - Drawing
+- Reading
 
 ## 7. Likes
 
@@ -148,8 +150,8 @@ The default hairstyle is long, straight dark blue-black hair with neat bangs, bu
 - Japanese blue star flower
 
 ### Colors
-- Primary: aqua / light blue
-- Secondary: blue and navy
+- Primary: light blue
+- Secondary: navy blue and white
 
 ## 8. Dislikes
 
@@ -181,9 +183,9 @@ Default environment:
 
 These are defaults, not mandatory scene locks. A user-requested destination, season, weather, or special event may override them.
 
-## 11. Original / Reference Outfit Specification
+## 11. Main Everyday Outfit / Reference Outfit Specification
 
-This section records the original outfit supplied as part of Inaria's basic character setting.
+This section records Inaria's main everyday outing outfit as part of her basic character setting. It is her canonical everyday appearance reference, but it is not an automatic outfit inheritance rule for image or wallpaper tasks.
 
 **This outfit is NOT a wallpaper design template.** It exists only as character-reference data and may be retained for character documentation, historical reference, or explicit user requests.
 
@@ -196,21 +198,20 @@ Unless the user explicitly requests this outfit, a Wallpaper Worker MUST NOT:
 
 For wallpaper production, this outfit has **NO DEFAULT INHERITANCE**.
 
-### Original outfit components
-
+### Main everyday outing outfit components
 
 ### Top
 
 - White or very pale blue base
 - Sleeveless design
 - Delicate ruffled shoulder/sleeve edge
-- Lace and aqua-blue floral pattern around the neckline
-- Small aqua-blue bow at the chest
+- Lace and light blue floral pattern around the neckline
+- Small light blue bow at the chest
 - Central vertical decorative detail that naturally guides the visual line downward
 
 ### Skirt
 
-- Aqua-blue high-waisted pleated short skirt
+- Light-blue high-waisted pleated short skirt
 
 ### Waist
 
@@ -219,13 +220,13 @@ For wallpaper production, this outfit has **NO DEFAULT INHERITANCE**.
 
 ### Shoes
 
-- Aqua-blue low-heeled floral sandals
+- Light-blue low-heeled floral sandals
 
 ### Accessories
 
-- Aqua-blue gemstone flower-cross necklace
-- Aqua-blue gemstone drop earrings
-- Flower-shaped aqua gemstone bracelet
+- Flower-cross-shaped light-blue gemstone necklace
+- Light-blue gemstone drop earrings
+- Flower-shaped light-blue gemstone bracelet
 
 ## 12. Wallpaper Outfit Isolation Rule
 
