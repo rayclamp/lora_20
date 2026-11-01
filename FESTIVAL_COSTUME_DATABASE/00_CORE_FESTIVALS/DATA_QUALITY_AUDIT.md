@@ -1,5 +1,9 @@
 # Core Festival Database — Data Quality Audit
 
+## Current snapshot locator (P0-36; 2026-11-02)
+
+This audit includes **historical snapshots** below. The opening P0-22-era observations that describe 224 unverified candidates are **not current**: the latest P0-36 structural snapshot is **48 registered festivals; 225 catalog items (5 VERIFIED, 220 UNVERIFIED); 13 open item-tag/category-scope associations** involving 7 candidates and 11 festivals. The 48 festival records and matrix category sets currently agree. See the newest dated P0-36 section at the end and the central pair-level blocker list in `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md`. A verified item requires the matching complete item record and source evidence; this heading is not a new cultural verification.
+
 ## Audit scope
 
 This report records the structural and consistency audit of `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/`. It distinguishes file completeness from cultural-source verification.
@@ -344,3 +348,12 @@ All four verified catalog rows carry explicit source URLs; cultural validity app
 - Four previously verified full item records were re-read and checked for all 14 required field keys; none were missing. This check does not independently revalidate every earlier external source.
 - The outstanding 13 tag/category exceptions, F003/F044 coverage gaps and other 220 UNSOURCED candidates remain subject to individual evidence decisions; do not fabricate provenance or widen category access solely from a catalog tag.
 - No `ARCHIVE/`, `PRODUCTION_RECORDS/`, wallpaper prompt-design command, image-production command, Session/Batch or QA state (`PAUSED`) was changed in this P0-35 step.
+
+## P0-36 Outstanding item-tag/category-scope exception register — 2026-11-02
+
+- Re-read the four still-affected category catalogs (SOCKS, HEADWEAR, HAIRSTYLE, MAKEUP), their original seven candidate rows and the implicated festival category scope. Their P0-29-era warning sections correctly flag the candidate pairs but require readers to assemble information across files.
+- Created `ITEM_TAG_CATEGORY_SCOPE_EXCEPTIONS.md` as the **current dated 13-pair exception register**, listing exact item ID, containing category, associated festival ID, OPEN exception-workflow state, item-specific evidence gap and one-pair-at-a-time correction gate. `OPEN` is diagnostic metadata only, not a `VERIFICATION_STATUS` value; the existing `UNVERIFIED` item statuses stay unchanged.
+- Evidence-triage examples: Ireland official tourism describes green clothing for St Patrick's Day, not the candidate wool flat cap as a festival requirement; Thailand official festival overview describes Songkran without validating a special female hairstyle; the Smithsonian's knitted Christmas gift stockings do not establish the catalog's **wearable** generic knit winter socks as a Christmas tradition. These are context leads, not accepted item-specific source references.
+- **No speculative repair**: all 13 mismatches remain OPEN, involving 7 candidate rows and 11 F-IDs. Evidence limitations do not justify automatic `CATEGORY_LINKS` expansion, candidate tag deletion, creation of a false complete-item record, or promotion to VERIFIED. Local warnings and the exact festival `CATEGORY_LINKS` remain authoritative for affected selections.
+- Current retained counts: **48** fixed festivals, **225** unique candidate rows, **5** VERIFIED with complete source-reviewed records, **220** UNVERIFIED, **0** rejected, **13** still-open tag/category associations. The prior P0-24/P0-25/P0-29/P0-31/P0-32/P0-33/P0-34/P0-35 audit findings remain as historical dated records.
+- The **P0-36 change** adds the explicit discrepancy register and read/navigation references; it makes no changes to F001–F048 IDs/names/records, festival categories, candidate item rows, verification status, source references, `ARCHIVE/`, `PRODUCTION_RECORDS/`, locked prompts, design/production commands, Session/Batch state or QA (`PAUSED`).
