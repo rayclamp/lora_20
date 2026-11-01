@@ -8,7 +8,7 @@ This protocol defines future QA inputs, decisions, evidence, and persistence. It
 
 ## 1. Scope gate
 
-The initial eligible profile is `LORA_IMAGE_QA`. Other source modules require explicit scope approval and a corresponding acceptance profile.
+The initial eligible profile is `LORA_IMAGE_QA`. Scope eligibility, non-overridable CORE/safety rules, and QA activation are mandatory gates, not preferences that a Task can override. Other source modules require separate explicit scope approval and a corresponding acceptance profile; an individual Task or metadata field does not grant scope.
 
 `FESTIVAL_WALLPAPER` is excluded. If `SOURCE_MODULE=FESTIVAL_WALLPAPER`, stop with `QA_SOURCE_MODULE_OUT_OF_SCOPE`; do not inspect, classify, repair, or route the image into the LoRA dataset pipeline. Preserve the original result.
 
@@ -18,38 +18,38 @@ The initial eligible profile is `LORA_IMAGE_QA`. Other source modules require ex
 
 A candidate review must identify:
 - `QA_REVIEW_ID`
-- `TASK_ID` and the authoritative `CANDIDATE_ID` / `IMAGE_REFERENCE` or result identifier
-- `SOURCE_MODULE`
-- `GENERATION_RESULT` and current task requirements
-- the correct `APPLICABLE_REFERENCE_IMAGE`, when required
-- selected character option and applicable module rules
-- prompt/design metadata and expected output format, when available
-- QA profile/protocol version and expected report location
+- `TASK_ID`, authoritative `CANDIDATE_ID` / `IMAGE_REFERENCE` or result identifier, and verifiable candidate-to-Task/result association;
+- the candidate image actually available for inspection (not merely a claimed file or status);
+- authoritative `SOURCE_MODULE` and the corresponding approved QA scope/profile;
+- observed `GENERATION_RESULT`, the original applicable Task contract and explicit requirements, and their source/version where available;
+- the correct `APPLICABLE_REFERENCE_IMAGE` for the same production request and verified candidate-to-reference mapping, when required;
+- selected character option and the applicable CORE, safety, source-module, and QA rules;
+- locked prompt/design metadata and expected output format, when available, treated as applicable Task evidence rather than permission to override CORE or to infer visual compliance;
+- QA profile/protocol version and expected report location.
 
-Missing required input → `QA_INPUT_INCOMPLETE`. Conflicting authoritative requirements → `QA_DATA_CONFLICT`. Do not guess or invent missing data.
+Missing or unreadable required input, candidate-to-Task binding, or reference mapping → `QA_INPUT_INCOMPLETE` for the affected review. Genuine contradictory authoritative requirements that cannot be reconciled within their proper scope → `QA_DATA_CONFLICT`. Evidence sufficient to start an otherwise authorized review but insufficient for a particular visual judgment → `REVIEW` for the candidate, or `REVIEW` / `NOT_ASSESSED` for the affected dataset evaluation as applicable. Do not use a QA judgment to conceal absent prerequisites, and do not guess or invent missing data.
 
-### Authority order
+### Authority and applicability — layered rules, not a single interchangeable ranking
 
-1. explicit current task requirements;
-2. CORE rules;
-3. applicable source-module protocol/rules;
-4. approved reference assets for the relevant task;
-5. task metadata;
-6. QA acceptance profile and inspection guidance;
-7. non-authoritative metadata.
+1. **Mandatory gates:** applicable CORE/safety rules, QA's `PAUSED` activation status, approved source-module scope, and preservation boundaries are not overridden by a Task, candidate metadata, or reference image.
+2. **Source-module requirements:** identify the candidate's verified `SOURCE_MODULE`, load only the authorized module's rules and its corresponding QA acceptance profile; no unrelated module, festival asset, or LoRA requirement may be imported into another module.
+3. **Task-specific contract:** the correctly matched original Task and its authoritative requirements define intended output format, subject, permitted changes, clothes, pose, scene, and other explicit Task constraints within the mandatory gates and applicable module rules. Non-authoritative summaries or later guesses cannot silently replace the locked Task contract.
+4. **Visual identity authority:** when the source module and Task require a person-reference, the correct image supplied for that production request and explicitly mapped to the candidate governs the person's observable visual identity. CORE character text and generic appearance metadata are semantic context only; they do not override this visual reference.
+5. **QA acceptance/inspection:** the authorized candidate-level or dataset-level QA profile defines how the correctly identified candidate or dataset is assessed; it does not rewrite production rules, replace the Task, override reference identity, or convert a generation result into QA PASS.
+6. **Supplementary information:** optional metadata, prior chat recollections, and unsupported descriptions are not substitutes for verified requirements or evidence and cannot resolve a conflict by assertion.
 
-A conflict between authoritative sources must be reported as `QA_DATA_CONFLICT`.
+Apply authority **by purpose**: gates decide whether review is permitted, the original Task defines required variation, the correctly mapped image defines reference identity, and the applicable QA profile defines the inspection/decision method. If genuinely contradictory authoritative requirements remain after this separation, record `QA_DATA_CONFLICT` and stop or isolate the affected review; do not silently pick whichever document appears first.
 
 ### Reference identity policy
 
-Use the reference image supplied for the same production request. Do not substitute a GitHub-stored canonical reference or assume a permanent identity, person, or age. For `CHARACTER=INARIA`, shared CORE data may provide context but must not override the uploaded image's visual identity. For `CHARACTER=NONE`, do not apply Inaria-specific identity data.
+Use **only the correct visual-reference image supplied for that production request and reliably mapped to the candidate**. Do not substitute a GitHub-stored canonical reference, an earlier conversation's image, an unrelated candidate's image, or a guessed permanent person/age. For `CHARACTER=INARIA`, shared CORE character text is contextual/semantic guidance and must not override the uploaded reference's visually supported identity. For `CHARACTER=NONE`, do not apply Inaria-specific identity data.
 
-If a candidate-to-reference mapping is missing or ambiguous, do not silently choose a reference. Record the missing evidence and use the appropriate incomplete-input or uncertain result.
+The Task's authorized hairstyle arrangements, clothing, pose, framing, scene, and accessories need not duplicate the reference image unless the Task explicitly says so; judge identity against visible, relevant anchors without treating all reference presentation details as mandatory. When the required image or candidate-to-reference mapping is missing, inaccessible, or ambiguous, mark `QA_INPUT_INCOMPLETE` and do not improvise a substitute. When the correct reference and mapping exist but an individual feature cannot be reliably compared due to occlusion, angle, crop, or lighting, record `REVIEW` or dataset-level `NOT_ASSESSED` for that uncertainty instead of guessing.
 
 ## 3. Candidate-level inspection sequence
 
 ### A. Image validity and task binding
-Confirm that the image exists, is readable, depicts the expected subject, and can be reliably associated with the intended Task/candidate.
+Confirm that the image exists and is readable, and verify its correct SOURCE_MODULE, CANDIDATE_ID / result identifier, original Task association, and applicable reference mapping against authoritative, directly available evidence. Then compare its depicted subject and task requirements. A claimed SUCCESS label, prior Worker narrative, memory, or file-name resemblance alone does not establish Task/candidate binding. If the required image or binding is unavailable, use the input gate rather than inspecting an assumed image.
 
 ### B. Limb topology
 Check for extra/missing limbs, false limbs, and traceable shoulder-to-hand and hip-to-foot paths where visible.
@@ -88,7 +88,7 @@ Assign exactly one primary result:
 - `REPAIR`: a localized defect may be addressed through a separately authorized rework process.
 - `REJECT`: the candidate is materially unsuitable or outside the authorized repair path.
 
-A clearly visible hard failure cannot PASS. Do not fail naturally hidden anatomy or claim that an unseen region passed.
+A clearly visible hard failure cannot PASS. A missing required image/Task/reference is `QA_INPUT_INCOMPLETE`, not a visual REJECT; contradictory applicable authoritative requirements are `QA_DATA_CONFLICT`, not a discretionary quality grade. When required inputs exist but visibility leaves an inspection judgment uncertain, use REVIEW with the specific evidentiary limitation. Do not fail naturally hidden anatomy or claim that an unseen region passed.
 
 Example reason codes:
 - REVIEW: `OCCLUSION_AMBIGUITY`, `HANDEDNESS_AMBIGUITY`, `IDENTITY_COMPARISON_UNCERTAIN`, `BODY_SHAPE_COMPARISON_UNCERTAIN`, `BACKGROUND_FUSION_UNCERTAIN`, `REFERENCE_MISSING`, `TASK_METADATA_MISSING`.
@@ -138,7 +138,7 @@ Dataset-level QA is a distinct review of a defined set of candidates intended fo
 - applicable LoRA design/acceptance rules and expected stable traits versus allowed variation;
 - requested review dimensions, such as identity, apparent age, body build, limb thickness, body-region ratios, rendering style, near-duplicates, and coverage.
 
-Do not assume all candidates share the same reference if their task contracts say otherwise. If mapping or comparison inputs are missing, identify the affected comparisons as unresolved.
+Do not assume all candidates share the same reference if their original Task contracts say otherwise. Verify dataset scope/snapshot, candidate IDs, source-module eligibility, and each candidate-to-reference mapping before cross-image judgment. If required mapping or comparison inputs are missing, identify the affected comparisons as unresolved with `QA_INPUT_INCOMPLETE` for required intake failures or dataset-level `NOT_ASSESSED` when meaningful comparison cannot be performed; do not transfer candidate-level PASS to the dataset or invent a shared identity.
 
 ### Dataset-level inspection
 
@@ -192,7 +192,7 @@ When activated, QA must:
 8. preserve the original image and audit history;
 9. never invent unseen anatomy or silently edit an image.
 
-QA identifies and reports defects. A separately authorized repair/rework process performs any repair. A repaired result is a new candidate/version and requires a new inspection.
+QA identifies and reports defects. A separately authorized repair/rework process performs any repair; QA neither edits original images nor triggers generation. A repaired result is a new candidate/version and requires a new inspection. Candidate-level results and separately requested dataset-level assessment remain independent records, and neither may overwrite original production evidence. All these procedures remain inoperative while QA is PAUSED.
 
 Production:
 `TASK → DESIGN → PROMPT → GENERATE → IMAGE_RESULT_RECORDED / SUCCESS`
@@ -207,7 +207,13 @@ QA outcomes do not retroactively change production generation status and do not 
 
 ## 10. Stop conditions and activation boundary
 
-Stop or mark the affected scope unresolved when the image, required reference, task metadata, candidate mapping, or authoritative rule is missing or conflicting. Use `QA_INPUT_INCOMPLETE`, `QA_DATA_CONFLICT`, `REVIEW`, or dataset-level `NOT_ASSESSED` as appropriate. Do not claim a check was performed when its evidence was unavailable.
+Stop or mark only the affected review/scope unresolved when the source module is out of scope, the candidate image, required reference, original Task contract, Task/candidate mapping, or authoritative rule is missing or contradictory:
+- `QA_SOURCE_MODULE_OUT_OF_SCOPE`: source module is excluded; in particular, FESTIVAL_WALLPAPER must never be admitted to the LoRA QA or dataset pipeline.
+- `QA_INPUT_INCOMPLETE`: a required candidate/Task/reference input is missing, unreadable, or cannot be reliably mapped.
+- `QA_DATA_CONFLICT`: two applicable authoritative requirements genuinely conflict after respecting mandatory gates and the distinct purposes of Task, reference, and QA profile.
+- `REVIEW`: eligible candidate inputs exist, but visible evidence is ambiguous or insufficient for a particular quality decision.
+- dataset-level `NOT_ASSESSED` or `REVIEW`: essential comparison set/mapping is unavailable or the supported cross-image evidence is inconclusive, respectively.
+Do not equate unverified data with a visible defect, mark missing inputs as PASS/REJECT, imply that an unseen region passed, or claim that an inspection was performed when its evidence was unavailable.
 
 Before activation, verify:
 - candidate and dataset input contracts;
