@@ -14,7 +14,9 @@ Current items and their actual `VERIFICATION_STATUS` are listed in `ITEM_CATALOG
 - `ITEMS/PROP_HALLOWEEN_PUMPKIN_001.md`: source-verified **F002 carved jack-o'-lantern** for modern United States Halloween seasonal decor, grounded in Library of Congress and Smithsonian historical evidence. This does not prove identical customs in all regions or equate earlier European turnip lanterns with American pumpkins.
 - `ITEMS/PROP_US_NEWYEAR_TIMES_SQUARE_BALL_001.md`: source-verified **New York City Times Square Ball Drop** celebrating the transition into F003 New Year's Day, specifically documented by Times Square Alliance and NOAA. This is a city-scale illuminated scene object, not a handheld New Year decoration or a global New Year's custom.
 - `ITEMS/PROP_PE_TANTAWAWA_DIFUNTOS_001.md`: source-verified **Peruvian Ayacucho Tanta Wawa figurative remembrance bread** for F044 Todos los Santos / Día de los Difuntos, supported by Peru government tourism inventory and municipal cultural records. This does not verify Mexican F011 cultural items or every other Latin American region.
-- The existing F002, F003, F007, F023, F024 and F044 festival records already include `PROPS` within their allowed `CATEGORY_LINKS`. No festival category was widened; these six verified PROPS do not make unrelated catalog entries culturally verified.
+- `ITEMS/PROP_NOWRUZ_HAFTSIN_001.md`: source-verified **F017 Iranian Nowruz haft-sin household table**, supported by UNESCO, Smithsonian and Encyclopaedia Iranica; not a mandatory display across all of Central Asia.
+- `ITEMS/PROP_SONGKRAN_WATER_001.md`: source-verified **F029 Thai Songkran water blessing and separate public water-play contexts**, supported by Thai government and Thailand Tourism Authority; not proof of identical customs in other countries.
+- The F002, F003, F007, F017, F023, F024, F029 and F044 festival records already include `PROPS` within their allowed `CATEGORY_LINKS`. No festival category was widened; these eight verified PROPS do not make unrelated catalog entries culturally verified.
 
 ## Shared rules
 
