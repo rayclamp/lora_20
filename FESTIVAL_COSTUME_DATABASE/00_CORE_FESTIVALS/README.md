@@ -22,9 +22,13 @@ A discovered candidate tag is NOT a guarantee that its category is allowed for t
 - Retired legacy rows, preserved verbatim and excluded from active candidate lookup: `RETIRED_CANDIDATE_RECORDS.md`
 - Category index and shared item-record rules: `CATEGORIES/README.md`
 
-## Current data-quality boundary — P0-38 readback (2026-11-02)
+## Current data-quality boundary — P0-39 source review (2026-11-02)
 
-**Current live active catalog:** 220 unique candidate rows across the same ten categories; **8 source-reviewed VERIFIED** and **212 UNVERIFIED** with no recorded supporting sources. This is a dated structural inventory, **not** proof that the other 212 candidate cultural claims are accurate. Each VERIFIED entry has a matching complete item record and documented region-limited source references.
+**Current live inventory: 220 unique candidates, 11 VERIFIED and 209 UNVERIFIED; 48 fixed festivals, 10 categories and zero active category/tag mismatches.** P0-39 source-reviewed three pre-existing candidates: `PROP_NOWRUZ_HAFTSIN_001` (F017 Iran), `PROP_SONGKRAN_WATER_001` (F029 Thailand), and `HEAD_MIDSUMMER_FLOWER_001` (F046 Sweden). Each now has a matching complete record and source references. Original broader regions for Nowruz and Midsummer were narrowed to documented practices. No other item was auto-promoted. See `DATA_QUALITY_AUDIT.md` P0-39 for claim boundaries.
+
+## Historical data-quality boundary — P0-38 readback (2026-11-02)
+
+**At the time of P0-38:** 220 unique candidate rows across the same ten categories; **8 source-reviewed VERIFIED** and **212 UNVERIFIED** with no recorded supporting sources. This is a dated structural inventory, **not** proof that the other 212 candidate cultural claims are accurate. Each VERIFIED entry has a matching complete item record and documented region-limited source references.
 
 The eight VERIFIED items are `HEAD_EASTER_BONNET_001` (US F006 Easter Parade); `BODY_EID_HENNA_001` (Emirati F015/F016 Eid); `PROP_US_THANKSGIVING_ROAST_TURKEY_001` (US F007 Thanksgiving); `PROP_GION_FLOAT_001` (Kyoto F024 Gion Matsuri); `PROP_TANZAKU_001` (Japanese F023 Tanabata); `PROP_HALLOWEEN_PUMPKIN_001` (US F002 Halloween); `PROP_US_NEWYEAR_TIMES_SQUARE_BALL_001` (New York midnight into F003 New Year's Day); and `PROP_PE_TANTAWAWA_DIFUNTOS_001` (F044 Peru Ayacucho traditional remembrance bread). Every entry's geographic and cultural restrictions must be honored.
 
