@@ -35,6 +35,7 @@
 - Festival item evidence/structural audit (dated snapshots, consult latest section): FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/DATA_QUALITY_AUDIT.md
 
 ## LoRA Image Design
+- Current LoRA prompt-design and lock command reference (`/LORA_CONSOLE`): 00_MASTER/LORA/LORA_CONSOLE_COMMAND.md
 - Current LoRA image production command reference (`/LORA_PRODUCE`): 00_MASTER/LORA/LORA_PRODUCE_COMMAND.md
 - Module: MODULES/LORA_IMAGE/MODULE.md
 - Uploaded-reference policy: MODULES/LORA_IMAGE/REFERENCE_POLICY.md
@@ -57,7 +58,7 @@
 - This file is a **path locator**, not an executable command, stage handoff, permission grant, scheduler, production controller, or proof that a referenced item was culturally verified.
 - Stage/role architecture: 00_MASTER/SYSTEM_ARCHITECTURE.md. Consult `00_MASTER/CORE_RULES.md` and the relevant module contract for mandatory execution rules. Adding a path here does not alter those contracts.
 - Wallpaper **design/lock** uses `/WALLPAPER_CONSOLE` and stops before generation. Wallpaper **production/continuation** uses `/WALLPAPER_PRODUCE` against an authorized existing locked Session/Batch. Both commands are defined in the existing `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`; do not infer separate missing command files.
-- LoRA **design/lock** uses `/LORA_CONSOLE`, and LoRA **production/continuation** uses `/LORA_PRODUCE`. The confirmed producer document is indexed above; **no separate `/LORA_CONSOLE` document path is asserted by this registry**. The design phase does not require an uploaded person-reference image; the LoRA producer stage requires a reference image supplied in its current production conversation, under the active reference policy.
+- LoRA **design/lock** uses `/LORA_CONSOLE` at `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md`, and LoRA **production/continuation** uses `/LORA_PRODUCE` at `00_MASTER/LORA/LORA_PRODUCE_COMMAND.md`. The design phase does not require an uploaded person-reference image; the LoRA producer stage requires a reference image supplied in its current production conversation, under the active reference policy.
 - References to any `ARCHIVE/` directory above are **historical pointers only**. Do not load archived legacy production/QA rules as active instructions, import them as overrides, or edit/migrate historical files merely because a path is listed.
 - GitHub remains the authoritative reference and **persistence database**, not a Runtime Controller; only the user-authorized ChatGPT operator executes commands. This registry does not create or modify a Session/Batch, generate images, mark Task SUCCESS, enable Claim/Lease, or activate any QA workflow. **QA is currently `PAUSED`** and remains separate until independently authorized.
 - A registered festival ID and a cultural-anchor design cue are not the same as evidence for a specific tradition. Source-backed festival/item-level data must support cultural verification claims; do not fabricate citations or use unsupported anchors as factual authority.
