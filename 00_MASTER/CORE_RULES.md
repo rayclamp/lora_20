@@ -204,7 +204,7 @@ This is the SINGLE CORE wallpaper entry/continuation rule. `00_MASTER/WALLPAPER/
 ## 3.4 MULTI-WORKER HANDOFF AND FAILURE ISOLATION — NON-NEGOTIABLE
 
 1. A Worker MUST base execution decisions on the current authoritative Task record, per-Task prompt file (or documented legacy prompt source for an existing Batch), and Batch records and directly available result evidence, not solely on a previous Worker's narrative, completion message, or unverified status claim.
-2. A missing, late, incomplete, or contradictory Worker report is Task-local unless a verified non-isolatable shared identity/contract/Prompt Set/attribution/persistence-safety defect exists. Before continuing independent work, verify durable preservation/readback of known prior outcomes or an explicit safe recovery checkpoint. A report alone is not evidence of image receipt.
+2. A missing, late, incomplete, or contradictory Worker report is Task-local unless a verified non-isolatable shared access/identity/contract/Prompt Set/attribution/persistence-safety defect exists. Before continuing independent work, verify durable preservation/readback of known prior outcomes or an explicit safe recovery checkpoint. A report alone is not evidence of image receipt.
 3. BEFORE selecting the next Task, satisfy the
    preceding attempt's durable-result/readback or
    verified safe-recovery checkpoint gate.
