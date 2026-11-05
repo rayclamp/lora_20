@@ -19,6 +19,13 @@ Reference-image handling differs between prompt design and image production. Thi
 - If the image is missing, inaccessible, or ambiguous, stop before generation and ask the user to provide or identify it. Do not silently substitute a GitHub-stored image or an image from an earlier conversation/run.
 - Apply the reference image together with the locked Task prompt. The image anchors the person's visual identity; it does not automatically lock clothing, pose, composition, accessories, hairstyle arrangement, or scene.
 
+### Same-conversation attachment recovery during production resume
+
+- A person-reference image uploaded by the user earlier in the **same current producer conversation**, including at the start of that conversation, remains an eligible reference source for that production run. It is not an image from a different conversation merely because a later Task is being resumed or the original upload is outside the currently visible context.
+- Before asking for another upload, use any actually available **same-conversation attachment/file access** to try to retrieve the original user-provided image. Verify that it is the intended reference and can actually be supplied to the image-generation tool. A prior result, stored description, or memory of the image is not proof that its original pixels remain usable.
+- If the original image still cannot be accessed, reliably identified, or submitted to the generation tool, stop before any new generation call, report the known limitation, and request the image again or ask the user to identify a usable original **within that same producer conversation**. Never silently substitute a saved reference image, a different conversation's image, a GitHub image, or an externally searched image.
+- Perform this recovery and reference-input confirmation **before** reading the next Task's complete locked Prompt, so it does not interrupt the required immediate Prompt-to-generation handoff. Searching for or re-uploading a reference is not a generation attempt, does not consume the retry budget, and must not modify locked Prompts or prior Task outcomes.
+
 ## CHARACTER selection
 
 - `CHARACTER=INARIA`: shared CORE Inaria information may inform context, personality, lifestyle, or scene design when relevant. It must not replace, reconstruct, or override the visual identity shown in the production-time uploaded image.
