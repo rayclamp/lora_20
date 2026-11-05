@@ -245,10 +245,10 @@ This is the SINGLE CORE wallpaper entry/continuation rule. `00_MASTER/WALLPAPER/
    Never reconstruct the fixed execution input from
    memory or replace it with a newly condensed version.
 
-## 2.1 SMALL ACCESSORY RESTRICTION — NON-NEGOTIABLE
+## 3.5 SMALL ACCESSORY RESTRICTION — NON-NEGOTIABLE
 Unless the user explicitly requests otherwise, do not add tiny accessories or decorative objects that are too small to render clearly and are likely to become dirt-like marks, dark specks, stains, or anatomical artifacts. This includes rings and other finger jewelry. Apply the detailed shared rule in DRAWING_INSTRUCTIONS.md. Modules may impose stricter restrictions but must not weaken this core default.
 
-## 1.1 PRODUCER NO-QA BOUNDARY — CURRENT OVERRIDING RULE
+## 3.6 PRODUCER NO-QA BOUNDARY — CURRENT OVERRIDING RULE
 
 During production, the Producer MUST NOT perform any post-generation QA or image/prompt comparison. This prohibition includes visually inspecting the generated image to judge prompt compliance, image quality, anatomy, identity, composition, style, dataset suitability, or whether the result should be accepted.
 
