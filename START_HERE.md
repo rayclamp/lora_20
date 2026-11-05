@@ -231,7 +231,7 @@ For future multi-Worker production, select the assigned Task from existing autho
 - For an independent Task, select it from existing records before reading its Prompt; after a successful complete-Prompt read and any necessary faithful condensation, call the generation tool immediately. Keep result accounting, SUCCESS, QA, and LoRA dataset eligibility separate.
 - This is a repository contract for future runtime implementation, not a claim that Make or a multi-Worker coordinator is already active.
 
-## 3.1 Producer Must Not Perform QA — Current Rule
+## 13A. Producer Must Not Perform QA — Current Rule
 
 During production, the Producer MUST NOT inspect or evaluate generated images for prompt compliance, image quality, identity, anatomy, composition, style, or LoRA dataset suitability. Do not compare a generated image with its prompt. The Producer only confirms image receipt, records actual returned-file count and result attribution, consumes/retires the prompt, and persists the production record.
 
@@ -254,7 +254,7 @@ This section is the current authoritative policy for new execution and resume op
 10. **Completion.** A Batch may be `BATCH_COMPLETED` only after every required Task has a valid terminal outcome, `PAUSED_COUNT=0`, all state/counters are reconciled, and the final Batch completion record is written and readback-verified. Historical production records remain immutable.
 
 
-## Evidence-Gated Production Records — Mandatory for All Entry Commands
+## 15. Evidence-Gated Production Records — Mandatory for All Entry Commands
 
 For every production entry command, including `/WALLPAPER_PRODUCE` and any active module-specific producer:
 
