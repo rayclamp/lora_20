@@ -8,17 +8,17 @@ CHARACTER: INARIA
 IMAGE_COUNT: 50
 OUTPUT_TYPE: MIXED_PER_TASK
 BATCH_STATUS: IN_PROGRESS
-COMPLETED_COUNT: 33
+COMPLETED_COUNT: 34
 RESULT_RECORDED_COUNT: 28
-ACTUAL_IMAGE_COUNT: 38
+ACTUAL_IMAGE_COUNT: 39
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
 BLOCKED_COUNT: 0
-PENDING_COUNT: 17
-ATTEMPT_COUNT: 37
-CURRENT_TASK: TASK_033
-NEXT_TASK: TASK_034
+PENDING_COUNT: 16
+ATTEMPT_COUNT: 38
+CURRENT_TASK: TASK_034
+NEXT_TASK: TASK_035
 CHECKPOINT: TASK_028 received one image in one generation call (result reference=file_000000008334820999e8ce3e2f4f29c0; output file=a_bright_serene_anime_style_illustration_of_a_gir.png). The generation call used a paraphrased instruction rather than the complete locked prompt unchanged; explicit reference-image input delivery is unverified. Next pending Task: TASK_029.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
@@ -65,3 +65,5 @@ PROMPT_SET_LOCKED: YES
 2026-11-02T07:53:00+08:00 — TASK_032 one image received from one call; result reference=file_0000000058488206aca7aea4a1dc64d0. Full locked prompt read, generation delivery integrity NOT_EXPOSED; no QA. Next TASK_033.
 
 2026-11-06T07:37:00+08:00 — TASK_033 one generation call returned one image (file_0000000021508206832b7ed310bde8fb; output=a_clean_status_dashboard_screenshot_report_panel.png). Complete locked prompt was read from PROMPTS/TASK_033.md; FULL_LOCKED_PROMPT requested, reference supplied in current conversation, tool transport evidence NOT_EXPOSED. Received output was a status dashboard rather than the requested character image; producer performs no QA and will not regenerate this consumed Task. Next TASK_034.
+
+2026-11-06T07:51:00+08:00 — TASK_034 one actual image received from one generation call (file_0000000036108206a7d04402464cb53d; gen_id=89849bd7-5279-4fc7-bad9-821f9e560b5f). Canonical v2 locked prompt read from PROMPTS/TASK_034.md. Task-specific input requested but image tool did not expose the effective text payload (DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED). No producer QA; prompt consumed; no repeat. Next pending TASK_035.
