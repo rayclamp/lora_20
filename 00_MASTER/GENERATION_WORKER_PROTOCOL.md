@@ -286,7 +286,7 @@ This section defines record-level handoff behavior for a future Runtime Coordina
 4. **Isolate read failures.** If the complete assigned Prompt cannot be read, record the read failure and isolate that Task. Do not fabricate, reconstruct, or substitute prompt text. Do not add other runtime prompt-validation gates.
 5. **No false resolution.** Continuing other Tasks does not resolve the isolated Task. Do not mark it SUCCESS, silently skip it, retry an unknown generation outcome, or reuse a consumed/retired Prompt.
 6. **Explicit dependency only.** A downstream Task may wait on an upstream Task only when the Session/Batch contract declares a real dependency and identifies the exact upstream output/state required. Mere queue order, worker identity, or the existence of an earlier Task does not create a dependency.
-7. **Batch-wide stop is exceptional.** Stop independent work only for a verified Batch-wide conflict that prevents safe Task identification, locked-Prompt binding, contract interpretation, or result attribution. Do not escalate a Task-local reporting defect into a Batch-wide stop.
+7. **Batch-wide stop is exceptional.** Stop independent work only for a verified non-isolatable Batch-wide access, identity/contract, prompt-mapping, result-attribution, or persistence-safety failure. Do not escalate a Task-local reporting defect into a Batch-wide stop.
 8. **Completion remains evidence-based.** Each Task must eventually receive its own valid terminal outcome; the Batch closes only after all required Tasks are terminal and the completion record is written and verified. Throughput continuity never means false SUCCESS or automatic LoRA dataset acceptance.
 
 ## 17. Current Producer No-QA Rule — Overrides Older Conflicting Wording
