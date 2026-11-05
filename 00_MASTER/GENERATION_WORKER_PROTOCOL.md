@@ -3,17 +3,21 @@
 This document defines the execution contract between ChatGPT's production operation and the actual image-generation interface.
 It does not turn GitHub into a runtime, scheduler, worker controller, retry engine, or generation controller.
 
+
 ## 1. Core Principle
 
 The design stage validates and locks the final Prompt. The Producer does not repeat that validation.
 
 Minimal generation path:
 
-READ COMPLETE LOCKED PROMPT → IMMEDIATELY CALL GENERATION TOOL → DETERMINE WHETHER AN IMAGE RESULT WAS RECEIVED → RECORD THE OBSERVED OUTCOME
+READ COMPLETE LOCKED PROMPT → PREPARE EFFECTIVE TASK INPUT (FULL PROMPT BY DEFAULT; NECESSARY AUTHORIZED CONDENSATION ONLY) → IMMEDIATELY CALL GENERATION TOOL → OBSERVE IMAGE / CONFIRMED NO IMAGE / UNKNOWN → PRESERVE EXACT CONDENSED INPUT AFTER FIRST CALL WHEN USED → RECORD AND READBACK-VERIFY THE OBSERVED OUTCOME
 
-The only pre-generation check is whether the complete assigned locked Prompt was successfully read. After that read succeeds, no additional analysis, validation, prompt display, transformation, or unrelated operation may occur before the generation call.
+The complete assigned locked Prompt must be successfully read before generation. The Producer may prepare one faithful condensed input only if a concrete interface input limitation prevents complete submission, under Section 2B. This is part of immediate handoff, not prompt revalidation or a design stage. Do not insert prompt display, separate quality review, unrelated GitHub operations, or unnecessary planning between reading and the first generation call. After the first call, preserve and readback-verify the exact condensed text if it was used, before retry or unsafe progression.
 
-The only generation-result judgment is whether an image result was produced/received. Visual quality and prompt compliance belong to independent QA. Recording the outcome is required, but recording operations must not trigger another generation call.
+The first actual generation call fixes the Task's execution input. A temporary pre-call inability to submit that same fixed instruction enters non-terminal PAUSED, without using an attempt or changing the instruction. An unavailable hidden transport payload is not by itself a failure or a pre-generation gate.
+
+The Producer's only generation-result judgment is observable image receipt, confirmed no image, or UNKNOWN. Visual quality and prompt compliance belong to independent QA. Recording or persistence recovery must never trigger regeneration of a received image.
+
 ## 2. Runtime Ownership Boundary
 
 ### 2.1 Single-Producer Execution — CURRENT STANDARD
@@ -75,13 +79,13 @@ The following interpretation is correct:
 
 Producer owns the runtime execution of its authorized Session/Batch; GitHub stores the authoritative production records and evidence.
 
-This boundary preserves Prompt Integrity, observable Generation Result Recording, and Pause/Resume records. A known no-image failure may be retried for the same Task with the unchanged locked Prompt under Section 19; image receipt and unknown outcomes must not be retried.
+This boundary preserves Prompt Integrity, observable Generation Result Recording, and Pause/Resume records. A known no-image failure may be retried for the same Task using the execution input fixed at its first actual call under Section 19; the canonical locked Prompt stays unchanged, and image receipt and unknown outcomes must not be retried.
 
 ## 2A. Per-Task Prompt File Layout and Authority
 
 For every new Batch, store each Task's complete locked Prompt in its own file at `PROMPTS/<TASK_ID>.md` (for example, `PROMPTS/TASK_001.md`). `PROMPT_SET.md` is a manifest/index only: it maps each `TASK_ID` to its prompt file and records `PROMPT_ID`, `PROMPT_VERSION`, and lock/state metadata, but MUST NOT contain full prompt bodies for new Batches.
 
-Each per-Task prompt file must contain `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and `PROMPT_STATUS=LOCKED`, plus clearly delimited prompt text using `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT`. Only the text inside those delimiters is the authoritative prompt specification; do not include file metadata or delimiters as prompt content. Use the locked text as the intended generation input through the interface's supported method. Do not deliberately redesign or casually rewrite it, but do not require proof that every character was accepted or transported verbatim when the interface does not expose that capability.
+Each per-Task prompt file must contain `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, and `PROMPT_STATUS=LOCKED`, plus clearly delimited prompt text using `BEGIN_LOCKED_PROMPT_TEXT` and `END_LOCKED_PROMPT_TEXT`. Only the text inside those delimiters is the authoritative prompt specification; do not include file metadata or delimiters as prompt content. Use the locked text as the default intended generation input through the interface's supported method. Only the necessary authorized condensation in Section 2B is permitted as a separate execution input; never change the canonical locked text. Do not require proof that every character was accepted or transported verbatim when the interface does not expose that capability.
 
 During batch design and locking, create and verify the per-Task prompt files and manifest mapping before production begins. This setup verification belongs to the design/locking stage.
 
@@ -91,27 +95,54 @@ New production flows MUST create and verify all per-Task prompt files before loc
 
 Existing Batches created under the former combined-file layout are historical/legacy records. Do not silently migrate, overwrite, or rewrite their locked prompt content. Continue them only under their existing authoritative record format unless an explicit migration is authorized and separately recorded.
 
+## 2B. Task Generation Input and Preservation Contract
+
+1. The complete authoritative locked Prompt remains the only canonical design specification. The Producer must successfully read it and must not revalidate or modify the canonical Prompt.
+
+2. FULL_LOCKED_PROMPT is the default generation input. Only a concrete interface input limitation that prevents submitting the complete Prompt permits one AUTHORIZED_CONDENSED_PROMPT. Missing hidden-payload telemetry alone does not prove such a limitation.
+
+3. Condensation must preserve the Task's essential drawing requirements, restrictions, exceptions, priorities, identifiers, output format, reference requirements, and intended meaning. Do not redesign the Task, invent requirements, omit defining drawing instructions, bypass safety policy, or use only a reference image or generic instruction in place of Task-specific drawing directions.
+
+4. The Producer prepares the intended generation instruction as part of immediate handoff. Do not insert unrelated GitHub reads/writes, prompt displays, design review, semantic revalidation, or visual QA between successfully reading the full Prompt and the initial generation call.
+
+5. The instruction submitted for the first actual generation call becomes the Task's fixed execution input, whether FULL_LOCKED_PROMPT or AUTHORIZED_CONDENSED_PROMPT. All eligible confirmed-no-image retries must use that exact fixed instruction and the same canonical Prompt reference. Never re-condense, translate, redesign, change input mode, or replace it.
+
+6. If AUTHORIZED_CONDENSED_PROMPT was used, preserve the exact condensed text **after the first actual generation call** in the Task's single dedicated file: `EXECUTION_INPUTS/<TASK_ID>.md`. Record the original Prompt identity and version, Task identity, condensation reason, and first attempt reference. Do not edit the canonical `PROMPTS/<TASK_ID>.md`.
+
+7. Write and read back the condensed file before any retry. At most one such file may exist per Task; after successful preservation and verification it must not be overwritten or replaced. `EXECUTION_LOG.md` records the execution-input path and related attempt/events, not the complete condensed text.
+
+8. If the condensed-file persistence fails, isolate the Task and attempt persistence recovery without repeating generation. A complete safe recovery checkpoint may preserve the exact frozen input, original Prompt ID/version, Task and Batch identity, known attempts, observable results, prompt state, remaining attempt budget, result attribution, and persistence state. A checkpoint containing only a path, hash, or narrative does not substitute for the exact text. Only a successfully written and readback-verified checkpoint qualifies for safe continuation of independent Tasks.
+
+9. When the exact fixed input temporarily cannot be submitted **before a new generation call begins**, set `TASK_STATUS=PAUSED` and preserve all existing attempts and retry eligibility. No new generation attempt or confirmed-no-image failure is counted. Resume only with that same input. PAUSED is non-terminal and prevents Batch completion. PAUSED is not permitted for image receipt, UNKNOWN generation result, retry exhaustion, or evasion of safety/policy restrictions.
+
+10. A Task-local failure does not automatically stop other independent Tasks. Continue only after the affected Task's known outcome, attribution, fixed input when applicable, and recovery evidence are safely preserved and readback-verified, or an explicit equivalent safe-recovery checkpoint is verified; also require the next Task's independent authoritative inputs to be directly readable. Otherwise pause progression until safe preservation is restored.
+
+11. The Producer records only observable facts, does not perform visual QA, and does not claim that its recorded execution-input text proves the hidden payload was delivered byte-for-byte. Image receipt and UNKNOWN outcomes prohibit generation retry.
+
+
 ## 3. Minimal Prompt-to-Generation Execution
 
-1. Read the assigned Task's authoritative locked Prompt from its recorded prompt file.
-2. Confirm only that the complete Prompt was successfully read. This is a read-success check, not a review of the Prompt's contents.
-3. Immediately invoke the image-generation interface using the locked Prompt as the authoritative specification and intended input.
-4. Do not insert any intermediate action, including prompt-content validation, format or semantic checks, repeated Task-binding review, displaying the prompt in chat, payload auditing, prompt rewriting, extra planning, or unrelated GitHub reads/writes.
-5. If the complete Prompt was not successfully read, do not invent or reconstruct it; record the read failure and stop that Task.
-6. Missing hidden transport telemetry, inability to verify byte-for-byte payload identity, or interface limits on prompt input are not pre-generation gates and do not count as generation failures. Do not claim telemetry that the interface does not expose.
-
-The Prompt was validated before it was locked. The Producer MUST NOT revalidate it. The Producer MUST NOT inspect the generated image or compare it with the Prompt; independent QA owns those judgments.
+1. Select the eligible Task from current authoritative Session/Batch records and complete applicable module reference-input checks before the Prompt handoff.
+2. Read the complete assigned authoritative locked Prompt from the recorded source. Confirm read success only, without revalidating its content, semantics, formatting, Task mapping, or artistic quality.
+3. Prepare the effective Task-specific generation instruction under Section 2B. Use FULL_LOCKED_PROMPT by default. Condense only when a concrete interface input limitation prevents full submission; do not substitute a reference image or generic direction for the Task's drawing instructions.
+4. Immediately invoke the image-generation interface using this prepared instruction and the module's applicable reference input. Do not insert prompt display, unrelated GitHub operations, extra planning, redesign, visual QA, or an input-quality validation gate.
+5. The first actual call fixes the instruction for that Task. Observe only image received, confirmed no image, or UNKNOWN and preserve the available result/attribution evidence.
+6. If authorized condensation was used, save its exact fixed text in the dedicated execution-input file after that first call, then read it back before retry or unsafe progression. If persistence fails, use the Task-local safe-recovery procedure under Section 2B. Never regenerate a confirmed received image to repair records.
+7. On a temporary pre-call inability to submit the fixed input, record PAUSED without creating a new generation attempt or consuming the retry budget. Resume only with the same input.
+8. If the complete source Prompt cannot be read, record the read failure and stop the affected Task; never reconstruct or substitute it.
+9. Hidden transport telemetry or byte-for-byte payload identity is not required when the interface does not expose it. Never claim evidence not provided.
 
 ### Locked Prompt as the Authoritative Specification
 
-Use the complete text read from the authoritative locked Prompt as the canonical production specification and intended generation input. Do not deliberately redesign, casually rewrite, or replace the locked specification. Invoke the generation interface immediately using its supported input method, without inserting intermediate analysis or unrelated actions.
+The complete text inside the locked Prompt delimiters remains the canonical immutable design specification. FULL_LOCKED_PROMPT is the preferred intended generation instruction; necessary authorized condensation is a separate fixed operational derivative under Section 2B, not a revision of the Prompt. Do not redesign or replace the canonical specification. Use only the interface's supported input method and record observed limitations honestly.
 
-The interface may impose input/transport limits or may not expose the exact payload it receives. Byte-for-byte transport fidelity is not a production-success requirement. Do not block, fail, or retry a Task solely because the interface cannot accept or verify the entire text verbatim in one call. Record only observable generation outcomes; independent QA owns prompt/image compliance.
+The interface may impose input or transport limits or hide its exact payload. Missing optional telemetry alone is not proof of failed handoff, not a reason to repeat generation, and not a production-success or visual QA gate.
+
 ## 4. Generation Call Identity
 
-Record available identifiers for the actual call, such as SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, and GENERATION_CALL_ID. These are record fields, not extra pre-generation validation gates.
+Record available identifiers for the actual call, such as SESSION_ID, BATCH_ID, TASK_ID, PROMPT_ID, PROMPT_VERSION, ATTEMPT_ID, and GENERATION_CALL_ID. Also record GENERATION_INPUT_MODE, EXECUTION_INPUT_PATH when applicable, the condensed-record readback status, and the PAUSED/RESUMED evidence where applicable. These are evidence/record fields, not new content-validation gates.
 
-A Task may be retried only after a confirmed no-image failure, using the same unchanged locked Prompt. Terminate the Task after three consecutive confirmed no-image generation failures in total for that Task, counting the initial call, under Section 19. Never retry after image receipt or while the outcome is unknown.
+A Task may be retried only after a confirmed no-image failure, using the exact execution input fixed at its first actual call, with the canonical locked Prompt unchanged. Terminate after three consecutive confirmed no-image generation failures in total, initial call included, under Section 19. A temporary pre-call failure to submit the fixed input enters PAUSED without another attempt. Never retry after image receipt or while the outcome is UNKNOWN.
 
 After the call, determine only the observable generation outcome:
 - Image result received: record that an image was received, the actual returned-file count, and available result references.
@@ -130,7 +161,7 @@ The Producer MUST NOT inspect the image, compare it with the Prompt, or make pro
 
 An observable receipt of one or more images establishes **IMAGE_RECEIVED=YES as a generation outcome**, not immediate formal `TASK_STATUS=SUCCESS`. Immediately preserve that observed receipt, actual file count, and available references even if persistence is pending or fails. Formal `TASK_STATUS=SUCCESS` and one `COMPLETED_COUNT` increment are permitted only after the result is correctly attributed to the Task and the required result event and Task state are durably saved to GitHub **and read back successfully**. While required receipt evidence, attribution, or persistence is unresolved, use the Schema's applicable result-bearing non-terminal recovery state; do not declare verified SUCCESS and **never regenerate a confirmed received image**. Image receipt and Task SUCCESS are independent of visual quality and QA PASS.
 
-If no image result was received and the outcome is confirmed, record the reason and apply Section 19: retry the same Task with the unchanged Prompt, until three consecutive confirmed no-image generation failures in total for that Task, counting the initial call, under Section 19.
+If no image result was received and the outcome is confirmed, record the reason and apply Section 19: retry the same Task using the exact execution input fixed at its first actual call, until three consecutive confirmed no-image generation failures in total for that Task, counting the initial call, under Section 19.
 ## 7. Outcome Recording
 
 Do not claim that an image was received when none was received, and do not claim failure when an image was actually received. Keep these facts separate:
@@ -147,25 +178,33 @@ For wallpaper production, **one Task plans one independent image** (`EXPECTED_OU
 
 If the generation tool actually returns two or more distinct image files, **record the actual returned-file count and available result references for all received files**, preserve the observed receipt, and do not silently discard, mislabel, regenerate, or treat extra files as new Tasks. After correct Task attribution and durable event/Task-state write/readback, a result-bearing Task counts **once** in `COMPLETED_COUNT` regardless of file count; `ACTUAL_IMAGE_COUNT` counts the individual files according to verified evidence. Do not assign a new `RESULT_COUNT_MISMATCH` status merely because the observed count differs. The Producer must not perform visual QA or transform a collage into an acceptable standalone output; visual compliance belongs to independent QA.
 
+
 ## 9. Prompt Immutability and Task-Level Retry
 
-After the Prompt is locked, its canonical source text and Task-to-file mapping must not be changed during production. The Producer reads the complete locked Prompt and invokes the generation interface using it as the authoritative specification and intended input. Interface input/transport limitations do not authorize changing the canonical GitHub prompt, but exact byte-for-byte transport is not a success gate.
+After lock, the canonical Prompt source text and Task-to-file mapping remain immutable. The Producer must fully read the assigned locked Prompt and use FULL_LOCKED_PROMPT by default, with only necessary authorized condensation under Section 2B. This operational derivative never replaces the canonical Prompt.
 
-The Producer must not repeat design-stage validation or insert actions between successful reading and generation. Prompt text and Task-to-file mapping remain immutable. A confirmed no-image failure may be retried for the same Task with the same unchanged Prompt, until three consecutive confirmed no-image generation failures in total for that Task, counting the initial call, under Section 19. Never retry after image receipt or while the outcome is unknown. Any future prompt revision belongs to the formal design stage as a new version.
+The first actual generation call fixes the execution instruction for that Task. A confirmed no-image result may be retried only with the same exact fixed instruction, not a newly condensed, translated, rewritten, or switched input mode. The limit remains three consecutive confirmed no-image generation failures in total for the same Task, initial call included. Never retry after image receipt or UNKNOWN outcome. A future revision to the canonical Prompt belongs to formal design/lock as a separate version.
+
 ## 10. Stop Conditions
 
-If the complete locked Prompt cannot be read, do not generate from a guess or substitute; record the read failure and stop that Task.
+If the complete locked Prompt cannot be read, do not generate from a guess or substitute; record the read failure and isolate the Task.
 
-Once the complete Prompt has been read, call the generation tool immediately. Do not add intermediate gates.
+After successful full Prompt reading, immediately prepare and submit the effective Task-specific instruction under Section 2B. No unrelated analysis, extra GitHub operation, redesign, or content/format/quality validation is allowed in the handoff.
 
-After the call, record whether an image result was received or a no-image outcome occurred. Retry only a confirmed no-image failure under Section 19. Never retry after image receipt or while the outcome is unknown. Missing delivery telemetry, visual QA, or prompt-compliance evidence is not a reason to block or repeat generation.
+If the exact fixed input temporarily cannot be submitted before a new generation call begins, set `TASK_STATUS=PAUSED`, preserve the instruction and all existing attempts and remaining retry eligibility, and do not increment generation attempts or confirmed-no-image failures. Resume with the exact same fixed instruction. PAUSED is non-terminal and prevents Batch completion; never use it to circumvent safety/policy rules.
+
+After a call, record only actual image receipt, confirmed no image, or UNKNOWN, and applicable attribution/persistence evidence. Retry only a confirmed no-image failure under Section 19. Never retry after image receipt or UNKNOWN outcome. Optional delivery telemetry, visual QA, and prompt-image compliance are not generation gates.
+
 ## 11. Recovery
 
-Resume must use the existing SESSION_ID, BATCH_ID, and locked Prompt records; do not redesign or replace locked prompts.
+Resume must use the existing authorized SESSION_ID, BATCH_ID, canonical locked Prompt, and Task's fixed execution-input evidence. Do not redesign or replace a locked Prompt or reconstruct missing condensed text from memory. Read back the one saved `EXECUTION_INPUTS/<TASK_ID>.md` when applicable, or a complete verified recovery checkpoint, before an eligible retry.
 
-A confirmed image receipt, an unknown generation outcome, or retry exhaustion ends further generation attempts for that Task. A confirmed no-image failure may be retried under Section 19 with the unchanged locked Prompt. Recovery of GitHub record persistence must not re-run generation for an image already received.
+A temporary pre-call inability to submit the exact input preserves PAUSED and the remaining attempt budget. Safe independent Task progression requires verified preservation of the paused Task's known result/attribution and exact execution input or verified complete checkpoint under Section 2B; continuing other Tasks does not resolve the paused Task.
 
-A new authorized context must follow the existing CORE session-access rules.
+A confirmed image receipt, UNKNOWN outcome, or retry exhaustion prohibits further generation until the applicable evidence-resolution rule allows an action (image receipt permanently prohibits it). For confirmed no-image results, retry only if eligible using the fixed instruction under Section 19. Restore GitHub persistence without re-running generation for a received image.
+
+A new authorized context must follow existing CORE session-access rules.
+
 ## 12. Visual QA Boundary
 
 This protocol does not perform visual QA.
@@ -230,20 +269,20 @@ If connection verification or Canonical Rule Loading fails, no Generation call m
 
 1. Continuation must use the existing Session/Batch and select a Task that has not reached a valid terminal state.
 2. If the prior generation outcome for a Task is unknown, preserve UNKNOWN and do not call that Prompt again.
-3. For an eligible Task, read its assigned locked Prompt. The only prompt-related pre-generation check is whether the complete Prompt was successfully read.
-4. Once the complete Prompt is successfully read, call the generation tool immediately. Do not add content, format, semantic, metadata, Task-binding, or visual-intent validation.
+3. For an eligible Task, read its assigned complete locked Prompt. Apply only the effective Task-input preparation in Section 2B; do not add separate content, metadata, or binding validation.
+4. Once the complete Prompt is successfully read, immediately prepare and submit its effective Task-specific instruction under Section 2B, with full text preferred. Do not add content, format, semantic, metadata, Task-binding, or visual-intent validation.
 5. If the complete Prompt cannot be read, record the read failure and isolate that Task. Never reconstruct or substitute the Prompt.
 6. A Task-local problem does not automatically block other independent Tasks, but **do not advance** on an unpersisted image receipt or a prior Worker's narrative. Before selecting the next Task, verify that the previous attempt's known result and attribution are durably preserved/readback-verified, or that an explicit safe-recovery checkpoint for its persistence failure was durably recorded and verified. If safe preservation is unavailable, pause progression to recover it; never regenerate a received image. Continue only if the next Task's own authoritative records and complete locked Prompt remain directly readable. Stop the entire Batch only for a verified non-isolatable shared access, identity, mapping, attribution, or persistence-safety failure.
 7. Missing optional delivery telemetry and visual differences are not generation gates. QA remains separate.
-8. Record the generation outcome and any record-write failure separately. Persistence recovery must not repeat generation.
+8. Record generation outcomes and any record-write failure separately; persistence recovery must not repeat generation. An isolated PAUSED Task can be resumed only with its exact fixed input and preserved remaining attempts. If authorized condensed input persistence failed, independent Task continuation requires a readback-verified complete recovery checkpoint containing that exact input and known state.
 
 ## 15. Multi-Worker Handoff — Independent Task Readiness
 
 This section defines record-level handoff behavior for a future Runtime Coordinator and multiple Workers. It does not claim that a multi-worker coordinator or Claim/Lease runtime has already been implemented.
 
 1. **Read authoritative state first.** A receiving Worker MUST reconnect to GitHub and read the current Session/Batch, Task Queue, prompt manifest, and the complete prompt text from `PROMPTS/<TASK_ID>.md` for the Task it is assigned (or the documented legacy source for an existing Batch). A prior Worker's narrative is supplemental evidence, not the sole authority.
-2. **Keep task selection separate from prompt execution.** Select an eligible Task from the existing Session/Batch records before reading its Prompt. The design/lock stage owns Task-to-Prompt mapping and metadata consistency. Once the complete locked Prompt is read, do not recheck binding, metadata, eligibility, or dependencies; call the generation tool immediately.
-3. **Do not inherit unrelated failures, but preserve known results first.** A prior Worker's missing report, unavailable optional telemetry, or Task-local recovery state MUST NOT automatically block an independent Task. However, progression requires durable preservation/readback of the prior observed result and attribution, or a durably verified explicit safe-recovery checkpoint for its persistence problem; otherwise pause to recover evidence. The independent Task's own current authoritative inputs must also be verifiably readable. A narrative alone is not a safe recovery record.
+2. **Keep task selection separate from prompt execution.** Select an eligible Task from the existing Session/Batch records before reading its Prompt. The design/lock stage owns Task-to-Prompt mapping and metadata consistency. Once the complete locked Prompt is read, do not recheck binding, metadata, eligibility, or dependencies; prepare and immediately submit the effective Task-specific input under Section 2B.
+3. **Do not inherit unrelated failures, but preserve known results first.** A prior Worker's missing report, unavailable optional telemetry, or Task-local recovery state MUST NOT automatically block an independent Task. However, progression requires durable preservation/readback of the prior observed result and attribution, or a durably verified explicit safe-recovery checkpoint for its persistence problem; otherwise pause to recover evidence. The independent Task's own current authoritative inputs must also be verifiably readable. A narrative alone is not a safe recovery record. If the prior Task used an authorized condensed input, the receiving Worker must read back its exact fixed input or a verified complete checkpoint without re-condensing or switching modes. A PAUSED Task remains outstanding and non-terminal.
 4. **Isolate read failures.** If the complete assigned Prompt cannot be read, record the read failure and isolate that Task. Do not fabricate, reconstruct, or substitute prompt text. Do not add other runtime prompt-validation gates.
 5. **No false resolution.** Continuing other Tasks does not resolve the isolated Task. Do not mark it SUCCESS, silently skip it, retry an unknown generation outcome, or reuse a consumed/retired Prompt.
 6. **Explicit dependency only.** A downstream Task may wait on an upstream Task only when the Session/Batch contract declares a real dependency and identifies the exact upstream output/state required. Mere queue order, worker identity, or the existence of an earlier Task does not create a dependency.
@@ -263,7 +302,7 @@ This section overrides older statements in this protocol that make production SU
 
 ## LORA_IMAGE Per-Task Output Format
 
-For `MODULE=LORA_IMAGE`, the design/lock stage selects `TASK_OUTPUT_TYPE` (`PHONE_9_16` or `DESKTOP_16_9`) and ensures the locked prompt reflects that choice before production begins. During production, do not re-read or compare format metadata against the locked prompt. Read the complete assigned locked Prompt and immediately call the generation tool. Other modules retain their existing Batch-level `OUTPUT_TYPE` behavior.
+For `MODULE=LORA_IMAGE`, the design/lock stage selects `TASK_OUTPUT_TYPE` (`PHONE_9_16` or `DESKTOP_16_9`) and ensures the locked prompt reflects that choice before production begins. During production, do not re-read or compare format metadata against the locked Prompt. Read the complete assigned locked Prompt, prepare the effective generation input under Section 2B, and immediately invoke generation without changing the Task's existing `TASK_OUTPUT_TYPE`. All permitted retries use the same fixed input and original Task format. Other modules retain their existing Batch-level `OUTPUT_TYPE` behavior.
 
 This is a prompt-design and record-integrity rule, not a claim that the generation interface can enforce exact pixel dimensions from prompt text. Use an explicit format control only if the current interface actually exposes one; otherwise record the requested format without claiming verified dimensions.
 
@@ -271,13 +310,15 @@ This is a prompt-design and record-integrity rule, not a claim that the generati
 This section is the current authoritative retry policy for new execution and resume. It supersedes any earlier statement in this document that a locked Prompt/version may receive only one call or that no generation retry is allowed.
 
 1. A Task's image-generation outcome is **received** when one or more images are observably delivered. This consumes the Prompt and **immediately forbids any further generation** for that Task. Formal `TASK_STATUS=SUCCESS` and one `COMPLETED_COUNT` increment follow **only after** correct Task/result attribution and the required event plus Task state have been written to GitHub and successfully read back. Until then preserve the receipt as result-bearing/unverified; do not label it a no-image failure or regenerate it. Record every actually returned image file separately from the successful Task count.
-2. A retry is permitted only after a known failed attempt for which no image result was received. Reuse the same authoritative locked Prompt text for that same Task; do not edit or replace the locked prompt as part of retry handling. Every attempt is a distinct event with its own ATTEMPT_ID and GENERATION_CALL_ID where available.
+2. A retry is permitted only after a known failed actual generation call for which no image result was received. Reuse the exact execution instruction fixed by the first actual call, whether FULL_LOCKED_PROMPT or AUTHORIZED_CONDENSED_PROMPT, with the same immutable canonical locked Prompt. Never switch modes, re-condense, translate, rewrite, or replace that instruction. Every actual call is a distinct attempt with its own ATTEMPT_ID and GENERATION_CALL_ID where available.
 3. Count the initial call as the first generation attempt. Terminate the Task after three consecutive confirmed no-image generation failures in total for that same Task (initial call included); do not interpret the limit as three failed Tasks. Persist attempt history and terminal reason. Non-generation errors do not count toward this limit.
 4. Do not retry an unknown outcome. If it cannot be determined whether an image was produced/received, preserve the unknown/recovery state and do not call the image tool again for that Task until the outcome is resolved. This prevents duplicate generation after a potentially successful call.
 5. A policy/safety block, service/runtime failure, quota/rate-limit error, or other failure observed during an actual generation attempt must be recorded with its observed class and counts as a generation failure only when the outcome is confirmed to be no image received. A retry must never attempt to bypass safety policy or alter the prompt to evade a block. Stop after three consecutive confirmed no-image generation failures for this Task, including the initial call. Errors in GitHub reads/writes/readbacks, prompt-file access, metadata, task status, or other non-generation operations are not generation attempts and must not increment the generation-failure count.
 6. Reaching the three-confirmed-no-image-failures limit terminates only the affected Task; non-generation and Task-local errors remain local and must never consume generation retry counts or automatically lock unrelated Tasks. **Before any next Task**, durably preserve/readback-verify the preceding attempt's known outcome and Task/result attribution, or durably record/readback-verify an explicit safe-recovery checkpoint for an isolated persistence defect. If a known image receipt cannot be safely preserved, **pause progression** and recover persistence without regeneration. Only then may an independent Task proceed, provided its own current authoritative inputs and complete locked Prompt are readable and Batch identity/mapping remain trustworthy. Stop the whole Batch only for a verified non-isolatable Batch-wide access, integrity, mapping, attribution, or persistence-safety issue. Batch completion still requires every required Task terminal, reconciled counters, and completion record write/readback.
-7. Prompt reading and generation remain adjacent: read the complete assigned locked Prompt; if successful, immediately submit the exact text to the image tool. Do not insert content validation, display, transformation, or unrelated GitHub operations between them.
-8. Keep PROMPT_CONSUMED as the factual indicator of image receipt (YES when an image is confirmed received, NO for a known no-image outcome, UNKNOWN when unresolved). PROMPT_STATE must not falsely imply that a confirmed no-image failure can never be retried. For retryable known failures, record the prompt as available for another attempt within this Task only; after image receipt, unknown outcome, or terminal retry exhaustion, prohibit further use for that Task. Never reassign a Task's prompt to another Task.
+7. Prompt reading and generation remain adjacent: read the complete assigned locked Prompt; if successful, immediately prepare and submit the effective Task-specific instruction under Section 2B. Use the full text by default, with necessary faithful condensation only for a concrete interface input limitation. Do not insert content validation, prompt display, unrelated GitHub operations, or redesign between reading and the first call. If condensed, preserve its exact fixed text after the first call and read it back before retry. A temporary pre-call inability to submit the fixed instruction enters PAUSED without counting a new generation attempt.
+8. Keep PROMPT_CONSUMED as the factual indicator of image receipt: NOT_ATTEMPTED before any actual generation call, YES when an image is confirmed received, NO following a confirmed no-image result from an actual call, and UNKNOWN when the outcome of a call is unresolved. PROMPT_STATE must preserve Task-level retry eligibility: AVAILABLE for a not-yet-attempted eligible Task or a confirmed no-image result with remaining attempts, CONSUMED after image receipt, UNKNOWN for an unresolved actual call outcome, and RETIRED after terminal retry exhaustion or another terminal no-retry rule. PAUSED preserves the applicable existing consumption/prompt state and remaining attempts, but is non-terminal. Never reassign a Task's Prompt to another Task.
+
+9. PAUSED is a non-terminal Task state for a temporary pre-call inability to submit an already prepared/fixed execution instruction, or Task-local fixed-input persistence recovery that prevents a permitted retry. Preserve GENERATION_ATTEMPT_COUNT, RETRY_ATTEMPT_COUNT, CONFIRMED_NO_IMAGE_FAILURE_COUNT, remaining attempt budget, PROMPT_CONSUMED, PROMPT_STATE, and the original execution-input path/text. PAUSED does not produce GENERATION_STARTED, ATTEMPT_ID, or a confirmed-no-image failure unless an actual generation call separately occurred. Resume only with the same input, never after image receipt, UNKNOWN, exhausted retries, or by evading safety/policy restrictions. A required PAUSED Task prevents Batch completion.
 
 Every retry must be represented in the Task record and execution log. This is a Task-level retry policy, not permission for a runtime to repeat a call whose outcome is unknown.
 
@@ -297,4 +338,8 @@ This section applies to every new generation attempt, record update, and resume.
 9. **Traceable correction.** If a previously saved record is proven wrong, append a RECORD_CORRECTED event that identifies the affected event/attempt and field, the previous value, corrected value, evidence basis, and correction time. Preserve the original event; do not silently rewrite history. If there is no evidence to establish the correct value, mark it unresolved instead of choosing a likely answer.
 10. **Completion gate.** Do not mark a Batch BATCH_COMPLETED until every required Task has a valid terminal outcome, current Task records reconcile with the attempt history, counters have been recalculated from those records, and the final Batch record has been read back and verified.
 
-GitHub is a persistence store, not an independent observer of generation. A value is not proven merely because the Worker wrote it. The Worker must report only directly observable facts and the limits of available evidence. Keep the required path minimal before generation: select the Task, read its complete locked Prompt, then immediately call the generation interface. Evidence and persistence gates apply after the call and before unsafe progression or completion.
+11. **Fixed execution-input evidence.** For each actual generation attempt, record GENERATION_INPUT_MODE and the authoritative EXECUTION_INPUT_PATH when applicable. If authorized condensation was used, preserve the exact fixed text in the Task's single `EXECUTION_INPUTS/<TASK_ID>.md` after the first generation call. Read it back before retry. If saving fails, record the persistence problem when possible, isolate the Task, and preserve the full exact text with Task/attempt/outcome evidence in a complete verified safe-recovery checkpoint. A path, hash, or Producer narrative alone does not recover the actual instruction. No duplicate or replacement condensed version is permitted.
+
+12. **PAUSED and RESUMED events.** Record the actual pause/resume reason, available timestamp, frozen input source, Task state and remaining retry eligibility separately from generation attempt events. A pre-call pause must not be counted as GENERATION_STARTED or as a no-image failure. Independent eligible Tasks may proceed only after the affected known state/input and result attribution are durably preserved/readback-verified or a complete safe-recovery checkpoint is readback-verified. PAUSED is not terminal and cannot satisfy Batch completion.
+
+GitHub is a persistence store, not an independent observer of generation. A value is not proven merely because the Worker wrote it. The Worker must report only directly observable facts and the limits of available evidence. Keep the required handoff minimal: select the Task, read the complete locked Prompt, prepare the full or necessarily condensed effective input under Section 2B, and immediately call the generation interface. If authorized condensation was used, preserve and read back the exact fixed instruction after the first call before retry or unsafe progression; evidence and persistence gates remain mandatory. Never claim hidden transport fidelity that the interface does not expose.
