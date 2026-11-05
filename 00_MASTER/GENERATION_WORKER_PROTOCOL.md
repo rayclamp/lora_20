@@ -276,7 +276,7 @@ If connection verification or Canonical Rule Loading fails, no Generation call m
 7. Missing optional delivery telemetry and visual differences are not generation gates. QA remains separate.
 8. Record generation outcomes and any record-write failure separately; persistence recovery must not repeat generation. An isolated PAUSED Task can be resumed only with its exact fixed input and preserved remaining attempts. If authorized condensed input persistence failed, independent Task continuation requires a readback-verified complete recovery checkpoint containing that exact input and known state.
 
-## 15. Multi-Worker Handoff — Independent Task Readiness
+## 16. Multi-Worker Handoff — Independent Task Readiness
 
 This section defines record-level handoff behavior for a future Runtime Coordinator and multiple Workers. It does not claim that a multi-worker coordinator or Claim/Lease runtime has already been implemented.
 
@@ -289,7 +289,7 @@ This section defines record-level handoff behavior for a future Runtime Coordina
 7. **Batch-wide stop is exceptional.** Stop independent work only for a verified Batch-wide conflict that prevents safe Task identification, locked-Prompt binding, contract interpretation, or result attribution. Do not escalate a Task-local reporting defect into a Batch-wide stop.
 8. **Completion remains evidence-based.** Each Task must eventually receive its own valid terminal outcome; the Batch closes only after all required Tasks are terminal and the completion record is written and verified. Throughput continuity never means false SUCCESS or automatic LoRA dataset acceptance.
 
-## 15. Current Producer No-QA Rule — Overrides Older Conflicting Wording
+## 17. Current Producer No-QA Rule — Overrides Older Conflicting Wording
 
 The Producer MUST NOT perform post-generation QA of any kind. Do not visually inspect or evaluate the generated image, compare it with the locked prompt, judge prompt compliance, assess quality or dataset suitability, or use any visual impression to alter execution status. Do not perform QA before selecting the next Task.
 
@@ -300,7 +300,7 @@ Any confirmed image receipt consumes and permanently retires that locked Prompt/
 This section overrides older statements in this protocol that make production SUCCESS depend on output-count equality or that could be interpreted as authorizing the Producer to inspect, compare, or judge generated images. Preserve actual output counts and result evidence even when multiple images are returned.
 
 
-## LORA_IMAGE Per-Task Output Format
+## 18. LORA_IMAGE Per-Task Output Format
 
 For `MODULE=LORA_IMAGE`, the design/lock stage selects `TASK_OUTPUT_TYPE` (`PHONE_9_16` or `DESKTOP_16_9`) and ensures the locked prompt reflects that choice before production begins. During production, do not re-read or compare format metadata against the locked Prompt. Read the complete assigned locked Prompt, prepare the effective generation input under Section 2B, and immediately invoke generation without changing the Task's existing `TASK_OUTPUT_TYPE`. All permitted retries use the same fixed input and original Task format. Other modules retain their existing Batch-level `OUTPUT_TYPE` behavior.
 
@@ -323,7 +323,7 @@ This section is the current authoritative retry policy for new execution and res
 Every retry must be represented in the Task record and execution log. This is a Task-level retry policy, not permission for a runtime to repeat a call whose outcome is unknown.
 
 
-## Evidence-Gated Execution, Persistence, and Resume — Mandatory
+## 20. Evidence-Gated Execution, Persistence, and Resume — Mandatory
 
 This section applies to every new generation attempt, record update, and resume. It supplements and overrides any conflicting wording that could permit the Worker to treat workflow completion, expectation, or a self-authored success label as proof of image receipt.
 
