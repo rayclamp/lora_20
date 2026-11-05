@@ -157,7 +157,7 @@ This is the SINGLE CORE wallpaper entry/continuation rule. `00_MASTER/WALLPAPER/
    Do not add separate content, metadata, semantic,
    format, or Task-binding validation gates.
 4. An UNKNOWN result remains unresolved for that Task: do not retry it. A confirmed image receipt, even if its record is not yet verified, also permanently prohibits regeneration. Unrelated Tasks may continue only AFTER the prior attempt's observed outcome and attribution have been durably preserved/readback-verified or a safe recovery checkpoint has been recorded and readback-verified, and their own current inputs are readable.
-5. Batch-wide stopping requires a verified NON-ISOLATABLE shared identity/contract, manifest/Task mapping, result attribution, or persistence-safety defect. A Task-local failure may temporarily pause progression until a safe record/checkpoint is verified; it is not by itself a Batch-wide failure.
+5. Batch-wide stopping requires a verified NON-ISOLATABLE shared access, identity/contract, manifest/Task mapping, result attribution, or persistence-safety defect. A Task-local failure may temporarily pause progression until a safe record/checkpoint is verified; it is not by itself a Batch-wide failure.
 6. Visual-quality defects or visual differences from a Prompt are QA observations, not proof of generation-input mismatch. QA findings MUST NOT automatically change execution-integrity status or trigger regeneration.
 7. Missing nonessential delivery telemetry alone is NOT a blocking condition. Record NOT_EXPOSED/UNVERIFIED honestly.
 8. The retry limit is three consecutive confirmed
