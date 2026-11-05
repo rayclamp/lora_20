@@ -181,7 +181,7 @@ Recovery failures must be classified by scope instead of automatically escalatin
 
 - RECORD_READBACK_PENDING: a required current value has not yet been successfully read back. Retry the read/recovery procedure as appropriate; do not treat this label alone as proof of an integrity violation.
 - TASK_LOCAL_RECOVERY_REQUIRED: a discrepancy or unresolved outcome affects one Task. Preserve the authoritative evidence and isolate that Task from execution until its own recovery rule is satisfied.
-- BATCH_LEVEL_RECOVERY_REQUIRED: use only when a verified problem affects Batch-wide identity, contract, global Prompt Set integrity, or safe result attribution and cannot be isolated to one Task.
+- BATCH_LEVEL_RECOVERY_REQUIRED: use only when a verified problem affects Batch-wide access, identity, contract, global Prompt Set integrity, safe result attribution, or persistence-safety and cannot be isolated to one Task.
 
 Rules:
 
