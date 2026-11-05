@@ -43,7 +43,7 @@ If the Worker cannot reliably determine whether an image was generated, record `
 - do not falsely mark the Task successful or failed;
 - do not delete or overwrite evidence;
 - preserve the applicable recovery state until evidence resolves the outcome;
-- unrelated Tasks may continue if their own records and prerequisites are independently usable.
+- unrelated Tasks may continue only after the affected Task's known UNKNOWN state, available attempt/result evidence, attribution, and exact fixed execution input where applicable have been durably preserved and readback-verified, or a complete safe-recovery checkpoint has been written and verified; the next Task's own current authoritative records and complete locked Prompt must also be independently readable. Otherwise, pause progression for persistence recovery.
 
 UNKNOWN is not FAILED.
 
