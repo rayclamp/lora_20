@@ -24,7 +24,7 @@ This file supplements the shared CORE rules. It does not replace their full anat
 - Keep important anatomy visually readable against the background. Do not add effects or high-detail edges around fingers/toes when they reduce clarity.
 - Maintain natural human proportions. Slimness or elegance must not become exaggerated leg length, stretched torso/limbs, or fashion-model proportions.
 - Natural occlusion is acceptable. Do not contort a pose just to expose every digit; use simple, stable actions when a complex pose creates avoidable risk.
-- Do not add animals or pets unless the current task explicitly permits them.
+- LORA_IMAGE prompts and images must not include or depict any animals or pets; this prohibition applies to every Task without exceptions, even when an individual Task explicitly requests them.
 - Mirror/reflection compositions must obey the shared CORE mirror/reflection hard rule. Prefer a single readable subject instance.
 
 ## Composition and framing variety
