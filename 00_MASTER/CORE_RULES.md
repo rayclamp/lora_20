@@ -226,7 +226,7 @@ This is the SINGLE CORE wallpaper entry/continuation rule. `00_MASTER/WALLPAPER/
    operations into the generation path.
 4. Do not infer success from missing reports. Preserve unresolved Tasks as unresolved; do not retry or reuse a consumed/retired Prompt when the previous outcome is unknown.
 5. A missing field blocks execution only when that field is an explicit necessary prerequisite for the specific operation. Optional telemetry, nonessential narrative, or unrelated Task outcome fields MUST NOT become implicit global gates.
-6. Batch-wide stop is reserved for a verified conflict that makes the identity, contract, prompt assignment, or safe result attribution of other Tasks unreliable and cannot be isolated.
+6. Batch-wide stop is reserved only for a verified non-isolatable shared access, identity/contract, prompt-mapping, result-attribution, or persistence-safety failure.
 7. Continuing independent work does not resolve the isolated Task, imply a missing event was saved, establish formal SUCCESS, or qualify an image for LoRA training. Only verified receipt plus correct attribution and durable result/Task-state readback may increment `COMPLETED_COUNT`; reconcile any unresolved Task independently.
 8. Safe execution-input recovery:
 
