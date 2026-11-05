@@ -124,6 +124,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 - CANONICAL_PATH_REGISTRY.md
 - MODULE_REGISTRY.md
 - SYSTEM_ARCHITECTURE.md
+- START_HERE.md
 
 ## 3.1 WALLPAPER COMMAND ENTRY AND CONTINUATION GATE — NON-NEGOTIABLE
 
