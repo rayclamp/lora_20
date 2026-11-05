@@ -15,7 +15,7 @@ A declared and validly resolved task reference is the visual identity authority 
 
 For realistic Inaria tasks:
 - If the task explicitly supplies a person reference, that task reference is the identity authority.
-- If the task permits proceeding without a visual reference and none has been supplied or resolved through the **selected wallpaper module's** approved reference registry, record `NO_REFERENCE`. The 36-year-old realistic Inaria profile is fallback **textual character-identity guidance**, not an approved or observed reference image; do not claim `REFERENCE_AUTHORITY_RESOLVED` on that basis. If the task requires an image or a selected visual reference cannot be resolved, record `REFERENCE_BLOCKED` instead of silently substituting textual character data.
+- If the task permits proceeding without a visual reference and none has been supplied or resolved through the **selected wallpaper module's** approved reference registry, record `NO_REFERENCE`. The realistic Inaria profile (with age calculated from the 1990-11-25 birthday using the Task's specified scene date, or the current Task date when none is specified) is fallback **textual character-identity guidance**, not an approved or observed reference image; do not claim `REFERENCE_AUTHORITY_RESOLVED` on that basis. If the task requires an image or a selected visual reference cannot be resolved, record `REFERENCE_BLOCKED` instead of silently substituting textual character data.
 - The age-20 anime Inaria master is not a substitute for the realistic Inaria identity baseline.
 - Repository presence or a character name does not make a GitHub image an approved visual reference. Resolve an actual `EXPLICIT_TASK_REFERENCE` or verified `MODULE_APPROVED_REFERENCE` only through the selected module's `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md` or `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md`, as appropriate; do not borrow LoRA or another module's reference asset.
 
@@ -37,7 +37,7 @@ When a realistic Inaria task has `NO_REFERENCE`, use the following canonical **t
 - 158 cm height
 - 48 kg body weight
 - slim, balanced natural build
-- approximately 85-58-86 body proportions
+- 86-58-86 body measurements
 - fairer-than-average Asian skin tone
 - small oval face
 - large, gentle eyes
