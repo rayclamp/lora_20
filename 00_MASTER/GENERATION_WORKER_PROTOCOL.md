@@ -243,7 +243,7 @@ User → Runtime Coordinator → Workers → Generation Interface
 
 A future Runtime Coordinator may implement Claim/Lease coordination. Until that layer is explicitly implemented and defined, Claim/Lease is not a generation prerequisite.
 
-## 3.0 Production Entry Gate — Canonical Rule Loading
+## 14A. Production Entry Gate — Canonical Rule Loading
 
 Every production operation MUST load the applicable current GitHub Canonical Rules before any image-generation call.
 
@@ -255,7 +255,7 @@ For wallpaper production:
 
 For other modules, apply their current module-specific entry contract. This gate belongs to the Producer Runtime; it does not make GitHub a runtime controller and does not require a GitHub-side execution lock, Claim API, or Lease API.
 
-## 12.1 Continuation Entry Gate
+## 14B. Continuation Entry Gate
 
 Before continuing an existing Batch, the Producer MUST:
 1. reconnect to GitHub and verify access to the current authoritative records;
