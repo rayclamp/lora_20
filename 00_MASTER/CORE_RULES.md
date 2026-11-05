@@ -139,7 +139,7 @@ This is the SINGLE CORE wallpaper entry/continuation rule. `00_MASTER/WALLPAPER/
 ## 3.2 TASK-LOCAL RECOVERY AND BLOCKING SCOPE — NON-NEGOTIABLE
 
 1. A blocking condition MUST be scoped to the smallest affected unit: evidence field, Task, or Batch.
-2. Isolate a Task-local conflict, missing readback, or unresolved result; this must not automatically invalidate unrelated Tasks. BEFORE progressing, durably preserve/readback-verify the prior known attempt's result and attribution or a safe explicit recovery checkpoint for its persistence failure. If a known receipt cannot be preserved or verified, pause progression for persistence recovery. A narrative alone is not durable evidence.
+2. Isolate a Task-local conflict, missing readback, or unresolved result; this must not automatically invalidate unrelated Tasks. BEFORE progressing, durably preserve/readback-verify the affected Task's known outcome, available attempt/result evidence, attribution, required state, and exact fixed execution input where applicable, or durably record/readback-verify a complete safe-recovery checkpoint preserving those known facts and exact fixed execution input where applicable for its persistence failure. If a known receipt cannot be preserved or verified, pause progression for persistence recovery. A narrative alone is not durable evidence.
 3. For an eligible Task, read its assigned authoritative
    locked Prompt.
 
