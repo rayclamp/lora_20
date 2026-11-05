@@ -79,7 +79,16 @@ The Production Worker must not decide:
 - whether the image is suitable for LoRA;
 - PASS / REVIEW / REPAIR / REJECT.
 
-Drawing-stability requirements are enforced when designing and locking prompts; the Producer must use the already locked Prompt, not revalidate or redesign its anatomy or appearance after the complete Prompt has been read. Once that read succeeds, immediately call the generation interface without inserting another validation or QA gate.
+Drawing-stability requirements are enforced when designing and locking prompts; the Producer must use the already locked Prompt without revalidating or redesigning its content.
+
+After successfully reading the complete Prompt, immediately prepare and submit the effective Task-specific generation instruction:
+
+- FULL_LOCKED_PROMPT is the default.
+- Only a concrete interface input limitation that prevents full submission permits one faithful AUTHORIZED_CONDENSED_PROMPT under GENERATION_WORKER_PROTOCOL.md Section 2B.
+
+This preparation is part of the immediate handoff, not prompt revalidation or redesign.
+
+Immediately invoke the generation interface after preparing the effective instruction. Do not insert additional content, metadata, Task-binding validation, prompt display, unrelated operations, or visual QA.
 
 Once an image is received, the Producer records the observable result without judging visual quality or prompt compliance. QA is a separate downstream activity and is currently PAUSED; this file must not silently activate it.
 
@@ -113,14 +122,38 @@ The affected Task must stop further generation and retain its unresolved recover
 
 Daily generation limits count generation attempts, not only successful images.
 
-When the platform explicitly reports quota exhaustion, record the confirmed no-image outcome and quota/rate-limit reason only if a generation attempt actually occurred and its no-image outcome is confirmed. Such an attempt counts toward the Task's three-attempt limit. If a platform restriction blocks a call before it occurs, record the restriction as a non-generation block, not a failed generation attempt. Never bypass a quota, rate limit, or platform policy to retry. If retry is prohibited or not currently possible, pause or stop the affected Task/operation according to the active workflow without inventing a result. Quota exhaustion is not a visual QA failure or a generation-quality judgment.
+When the platform explicitly reports quota exhaustion, record the confirmed no-image outcome and quota/rate-limit reason only if a generation attempt actually occurred and its no-image outcome is confirmed. Such an attempt counts toward the Task's three-attempt limit. If a platform restriction blocks a call before it occurs, record the restriction as a non-generation block, not a failed generation attempt. Never bypass a quota, rate limit, or platform policy to retry. If a platform restriction blocks a call before it occurs, record the applicable policy interruption as a non-generation block. Do not count it as a generation attempt or confirmed no-image failure.
+
+Use the existing Schema dispositions:
+- PROMPT_SKIPPED_POLICY_LIMIT for applicable quota or policy-limit skips.
+- STOPPED when execution is prohibited and the Task must terminate.
+
+Record POLICY_BLOCKED or SAFETY_BLOCKED events as applicable.
+
+PAUSED must not be used for quota exhaustion, rate limits, or safety/policy prohibitions.
+
+Reserve PAUSED for:
+1. Temporary pre-call inability to submit the exact prepared/fixed execution input, when the interruption is not a safety/policy prohibition.
+2. Task-local fixed-input persistence recovery that prevents an otherwise permitted retry.
+
+If an actual generation call occurs, record its observed outcome. A confirmed no-image result follows the existing retry policy, but retries must never bypass safety, quota, rate-limit, or platform restrictions.
+
+Quota exhaustion is not a visual QA failure or a generation-quality judgment.
 
 ## 8. State protection
 
 **Current Single-Producer standard:** GitHub is the authoritative reference and persistence database, not a Runtime Controller, Task Claim API, Lease API, or generation lock service. A GitHub-side Claim ID, Lease, or claim-state transition is **not** required to start generation.
 
 1. Before reading a Task's locked Prompt, identify the eligible Task from the current authoritative Session/Batch and Task records. Do not infer Task identity or state from memory, a previous Worker summary, or guessed data.
-2. Read the complete assigned locked Prompt from its current authoritative source. Once that read succeeds, call the generation interface immediately; do not add Claim/Lease checks, metadata revalidation, another GitHub operation, or unrelated work between successful read and the call.
+2. Read the complete assigned locked Prompt from its current authoritative source.
+
+   After successful reading, immediately prepare and submit the effective Task-specific generation instruction under Section 4 and GENERATION_WORKER_PROTOCOL.md Section 2B.
+
+   FULL_LOCKED_PROMPT is the default. Authorized condensation is permitted only when a concrete interface input limitation prevents full submission.
+
+   Immediately invoke the generation interface after preparation.
+
+   Do not add Claim/Lease checks, metadata revalidation, content validation, Task-binding validation, another GitHub operation, or unrelated work between successful Prompt reading and generation.
 3. After observing the generation result, record the actual image receipt/no-image/UNKNOWN facts and the associated Task evidence, using current GitHub state and appropriate concurrency safeguards for record updates. Write and read back to verify persistence. A conflicting write must be recovered, not treated as success or used to justify another generation call.
 4. Isolate a Task-local record/persistence failure and preserve any confirmed image receipt. Another independent Task may continue only if its own authoritative inputs are readable and its identity, result attribution, and persistence safeguards are reliable. Stop the Batch only for a verified non-isolatable Batch-wide integrity/access failure.
 
