@@ -26,6 +26,7 @@ For Universal Wallpaper:
 - Ethnicity: Taiwanese Asian woman
 - Default world setting: modern Taiwan, 2026
 - Birthday: 1990-11-25
+- Age rule: Calculate Inaria's age from the 1990-11-25 birthday as of the Task's specified scene date; if the Task does not specify a scene date, use the current Task date. Do not hard-code a permanent age. For example, Inaria is 35 on 2026-11-24 and 36 on 2026-11-25. For a Task with an authoritative supplied person image, this textual age rule must not override the reference person's observable age appearance.
 - Birth time: 06:30 (morning)
 - Blood type: B
 - Occupation: supervisor / manager at a foreign-owned company
