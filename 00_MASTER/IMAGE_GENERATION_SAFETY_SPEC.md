@@ -122,7 +122,7 @@ The affected Task must stop further generation and retain its unresolved recover
 
 Daily generation limits count generation attempts, not only successful images.
 
-When the platform explicitly reports quota exhaustion, record the confirmed no-image outcome and quota/rate-limit reason only if a generation attempt actually occurred and its no-image outcome is confirmed. Such an attempt counts toward the Task's three-attempt limit. If a platform restriction blocks a call before it occurs, record the restriction as a non-generation block, not a failed generation attempt. Never bypass a quota, rate limit, or platform policy to retry. If a platform restriction blocks a call before it occurs, record the applicable policy interruption as a non-generation block. Do not count it as a generation attempt or confirmed no-image failure.
+When the platform explicitly reports quota exhaustion, record the confirmed no-image outcome and quota/rate-limit reason only if a generation attempt actually occurred and its no-image outcome is confirmed. Such an attempt counts toward the Task's three-attempt limit. Never bypass a quota, rate limit, or platform policy to retry. If a platform restriction blocks a call before it occurs, record the applicable policy interruption as a non-generation block. Do not count it as a generation attempt or confirmed no-image failure.
 
 Use the existing Schema dispositions:
 - PROMPT_SKIPPED_POLICY_LIMIT for applicable quota or policy-limit skips.
