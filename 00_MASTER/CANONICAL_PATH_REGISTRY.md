@@ -18,6 +18,20 @@
 - Standard batch records: SESSION_CONTRACT.md, BATCH_RECORD.md, TASK_QUEUE.md, PROMPT_SET.md (manifest/index only), EXECUTION_LOG.md.
 - Authoritative per-Task prompt files for new Batches: `PROMPTS/TASK_001.md`, `PROMPTS/TASK_002.md`, etc. Each Task has exactly one dedicated prompt file; `PROMPT_SET.md` MUST NOT contain full prompt bodies for new Batches.
 
+- Authorized condensed execution-input records:
+  `PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/EXECUTION_INPUTS/<TASK_ID>.md`
+- `EXECUTION_INPUTS` is optional and is created only when a Task actually uses `AUTHORIZED_CONDENSED_PROMPT`. The exact condensed execution text is preserved **after the first actual generation call**. Each Task may have at most one immutable condensed execution-input file; it does not replace, modify, or reversion the authoritative `PROMPTS/<TASK_ID>.md`.
+
+- Optional Task-local safe recovery checkpoints:
+  `PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/RECOVERY_CHECKPOINTS/<TASK_ID>.md`
+- `RECOVERY_CHECKPOINTS` is optional and is used only when normal execution-input or required Task-local persistence cannot be safely completed. When recovering a condensed input, its checkpoint must preserve the **complete exact fixed execution text**, original Prompt identity, known actual generation attempts and observed outcomes, remaining retry eligibility, Task/result attribution, and persistence state. A path, hash, or narrative alone cannot substitute for the text.
+- A recovery checkpoint must be successfully written to GitHub and readback-verified before it can serve as an authoritative recovery source. Only one execution-input source may be authoritative for a Task at a time.
+
+- `EXECUTION_INPUTS` and `RECOVERY_CHECKPOINTS` are production-time evidence locations, not required Console design/lock outputs.
+- `EXECUTION_LOG.md` records execution-input paths and related events, **not** full condensed execution text.
+- Registering these paths does not authorize generation, change Task status, permit retries, modify historical records, or grant GitHub runtime-controller authority. Usage and recovery conditions are defined by `00_MASTER/CORE_RULES.md`, `00_MASTER/GENERATION_WORKER_PROTOCOL.md`, and `00_MASTER/PRODUCTION_RECORD_SCHEMA.md`.
+
+
 ## Wallpaper
 - Unified design/production command contract: 00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md
 - Anime: 00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md
