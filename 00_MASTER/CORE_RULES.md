@@ -193,6 +193,8 @@ This is the SINGLE CORE wallpaper entry/continuation rule. `00_MASTER/WALLPAPER/
 
    PAUSED Tasks prevent Batch completion.
 
+## 3.3 Reserved — No Active Rule
+
 ## 3.4 MULTI-WORKER HANDOFF AND FAILURE ISOLATION — NON-NEGOTIABLE
 
 1. A Worker MUST base execution decisions on the current authoritative Task record, per-Task prompt file (or documented legacy prompt source for an existing Batch), and Batch records and directly available result evidence, not solely on a previous Worker's narrative, completion message, or unverified status claim.
