@@ -21,7 +21,7 @@ These rules guide prompt design before generation. They are not a post-generatio
 - unstable or needlessly intricate hand interactions;
 - excessive occlusion that makes the main action or identity evidence hard to understand;
 - decorative particles, branches, straps, or background edges around fingers/toes;
-- accidental animals or pets when not explicitly permitted;
+- any animals or pets, without Task-specific exceptions;
 - extreme perspective that makes body proportions unreliable;
 - confusing limb crossings or objects that obscure limb origins;
 - near-duplicate combinations of action, pose, outfit, background, and framing;
@@ -35,7 +35,7 @@ If a complex idea does not materially improve training-set coverage, choose the 
 
 - Follow `00_MASTER/ANATOMY_STABILITY.md` and `00_MASTER/DRAWING_INSTRUCTIONS.md` for shared anatomy and generation-stability requirements; do not fork or weaken them here.
 - Do not assume a fixed person, age, hairstyle, outfit, or rendering style beyond what the current task and reference establish.
-- Do not add pets unless explicitly permitted by the current task.
+- LORA_IMAGE prompts and images must not include or depict any animals or pets, even when an individual Task explicitly requests them.
 - Do not run IMAGE_QA automatically. QA remains a separate, currently paused system.
 
 
