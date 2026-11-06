@@ -5,7 +5,8 @@ BATCH_ID=BA-20261107-073632
 MODULE=LORA_IMAGE
 IMAGE_COUNT=15
 OUTPUT_TYPE=MIXED_PER_TASK
-PROMPT_SET_LOCKED=NO
+PROMPT_SET_STATUS=LOCKED
+PROMPT_SET_LOCKED=YES
 
 Each Task has exactly one independent, canonical full Prompt file. This manifest is an index and contains no complete prompt body.
 
