@@ -20,6 +20,16 @@
 
 不得因簡化流程而省略必要的規範讀取、提示詞保存、紀錄驗證或鎖定步驟。
 
+### Mandatory English-only output for future LORA_IMAGE design
+
+Effective for new design and record content created on or after 2026-11-07 (Asia/Taipei). This requirement is defined by `MODULES/LORA_IMAGE/MODULE.md` and applies to every new `/LORA_CONSOLE` Batch.
+
+- Author **all Task prompts directly in English** from the beginning of the design stage. Use English for every complete prompt body, heading, task title, design topic, scene, clothing description, constraints, and output instructions. Translate Chinese user requirements into faithful English while designing; do not defer translation to `/LORA_PRODUCE`.
+- Write all newly created GitHub record content and free-text metadata in English, including `SESSION_CONTRACT.md`, `BATCH_RECORD.md`, `TASK_QUEUE.md`, `PROMPT_SET.md`, `EXECUTION_LOG.md`, and all `PROMPTS/TASK_###.md` files. Use English for initial event notes, verification notes, checkpoint descriptions, and Git commit messages.
+- Before locking, verify English-only human-readable content across the new Batch and confirm the written records through GitHub readback. Keep the canonical metadata keys, enums, paths, IDs, lock delimiters and existing validation requirements unchanged.
+- This policy applies prospectively only. Existing locked prompts, Session/Batch records, and historical event text must not be translated, rewritten, or silently migrated. Producer behavior and independent QA remain unchanged.
+
+
 ---
 
 ## 2. 使用者設定
