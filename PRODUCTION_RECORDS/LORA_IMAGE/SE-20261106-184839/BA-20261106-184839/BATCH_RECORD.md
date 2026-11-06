@@ -14,13 +14,13 @@ ACTUAL_IMAGE_COUNT: 0
 UNVERIFIED_COUNT: 0
 FAILED_COUNT: 0
 DEFERRED_COUNT: 0
-BLOCKED_COUNT: 0
+BLOCKED_COUNT: 1
 PAUSED_COUNT: 0
-PENDING_COUNT: 15
-ATTEMPT_COUNT: 0
+PENDING_COUNT: 14
+ATTEMPT_COUNT: 1
 CURRENT_TASK: NONE
-NEXT_TASK: TASK_001
-CHECKPOINT: All five standard Batch files and 15 dedicated prompt files were written and independently read back; Task IDs, prompt identities, versions, formats, marker pairs, queue and manifest were verified. Prompt Set is locked. No generation attempted.
+NEXT_TASK: TASK_002
+CHECKPOINT: TASK_001 first image-generation invocation returned a safety-policy refusal and no image. No retry allowed for this policy block; 14 other tasks remain pending.
 PROMPT_SET_STATUS: LOCKED
 PROMPT_SET_LOCKED: YES
 CREATED_AT: 2026-11-06T18:48:39+08:00
