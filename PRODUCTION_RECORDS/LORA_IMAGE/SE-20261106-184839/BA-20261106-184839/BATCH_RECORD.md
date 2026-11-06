@@ -20,6 +20,7 @@ PENDING_COUNT: 15
 ATTEMPT_COUNT: 0
 CURRENT_TASK: NONE
 NEXT_TASK: TASK_001
-CHECKPOINT: Design files pending independent GitHub readback verification and Prompt Set lock.
-PROMPT_SET_LOCKED: NO
+CHECKPOINT: All five standard Batch files and 15 dedicated prompt files were written and independently read back; Task IDs, prompt identities, versions, formats, marker pairs, queue and manifest were verified. Prompt Set is locked. No generation attempted.
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
 CREATED_AT: 2026-11-06T18:48:39+08:00

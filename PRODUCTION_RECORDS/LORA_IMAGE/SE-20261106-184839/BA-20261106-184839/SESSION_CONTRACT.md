@@ -13,4 +13,5 @@ RENDERING_STYLE: NOT_SPECIFIED; use reference-supported medium when production i
 CREATED_AT: 2026-11-06T18:48:39+08:00
 DESIGN_BOUNDARY: Design 15 independent prompts, GitHub persistence/readback, and prompt lock only; no image generation, retouching, QA or producer launch.
 CONSTRAINTS: No animals or pets; no wallpaper/festival module rules; maintain image-supported visual identity; varied poses, views, costumes, lighting, scenes and shot sizes; one independent randomized TASK_OUTPUT_TYPE per Task.
-PROMPT_SET_LOCKED: NO
+PROMPT_SET_STATUS: LOCKED
+PROMPT_SET_LOCKED: YES
