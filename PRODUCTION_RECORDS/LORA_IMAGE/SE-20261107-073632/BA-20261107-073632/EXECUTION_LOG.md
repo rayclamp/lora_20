@@ -4,8 +4,44 @@ SESSION_ID=SE-20261107-073632
 BATCH_ID=BA-20261107-073632
 MODULE=LORA_IMAGE
 
-Design-stage initialization only. No generation attempts, image receipts, image-result events, QA assessments or production retries have occurred.
+Design and Prompt Set lock events only. No generation attempts, image receipts, production retries, image QC, or QA assessments have occurred.
 
 ## Events
 
-No design completion or Prompt Set lock event has yet been recorded. Events must be appended only after the corresponding operations actually occur and are verified.
+### 20261107074217-001
+
+EVENT_ID=EV-20261107074217-001
+EVENT_TYPE=DESIGN_COMPLETE
+TIMESTAMP=2026-11-07T07:42:17+08:00
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=NOT_APPLICABLE
+PROMPT_ID=NOT_APPLICABLE
+PROMPT_VERSION=NOT_APPLICABLE
+ATTEMPT_ID=NOT_APPLICABLE
+GENERATION_CALL_ID=NOT_APPLICABLE
+PROMPT_CONSUMED=NOT_ATTEMPTED
+ACTUAL_OUTPUT_COUNT=0
+GENERATION_INPUT_MODE=UNKNOWN
+EXECUTION_INPUT_RECORD_STATUS=NOT_REQUIRED
+DETAIL=All 15 English prompt files, the five standard Batch records, and the Task Queue and manifest mappings were read back and crosschecked. All 15 independent Prompt texts are nonempty and match their assigned formats.
+
+### 20261107074217-002
+
+EVENT_ID=EV-20261107074217-002
+EVENT_TYPE=PROMPT_SET_LOCKED
+TIMESTAMP=2026-11-07T07:42:17+08:00
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=NOT_APPLICABLE
+PROMPT_ID=NOT_APPLICABLE
+PROMPT_VERSION=NOT_APPLICABLE
+ATTEMPT_ID=NOT_APPLICABLE
+GENERATION_CALL_ID=NOT_APPLICABLE
+PROMPT_CONSUMED=NOT_ATTEMPTED
+ACTUAL_OUTPUT_COUNT=0
+GENERATION_INPUT_MODE=UNKNOWN
+EXECUTION_INPUT_RECORD_STATUS=NOT_REQUIRED
+PROMPT_SET_STATUS=LOCKED
+PROMPT_SET_LOCKED=YES
+DETAIL=The Prompt Set lock metadata was written to the main branch and independently read back after successful complete-design verification. All 15 Prompt files retain PROMPT_STATUS=LOCKED.
