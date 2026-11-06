@@ -1,0 +1,32 @@
+# LoRA Image Prompt Set Manifest
+
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+MODULE=LORA_IMAGE
+IMAGE_COUNT=15
+OUTPUT_TYPE=MIXED_PER_TASK
+PROMPT_SET_LOCKED=NO
+
+Each Task has exactly one independent, canonical full Prompt file. This manifest is an index and contains no complete prompt body.
+
+| Order | Task ID | Prompt ID | Prompt version | Prompt status | Task output type | Prompt file |
+|---|---|---|---|---|---|---|
+| 1 | TASK_001 | BA-20261107-073632-PR-001 | V1.0 | LOCKED | DESKTOP_16_9 | PROMPTS/TASK_001.md |
+| 2 | TASK_002 | BA-20261107-073632-PR-002 | V1.0 | LOCKED | DESKTOP_16_9 | PROMPTS/TASK_002.md |
+| 3 | TASK_003 | BA-20261107-073632-PR-003 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_003.md |
+| 4 | TASK_004 | BA-20261107-073632-PR-004 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_004.md |
+| 5 | TASK_005 | BA-20261107-073632-PR-005 | V1.0 | LOCKED | DESKTOP_16_9 | PROMPTS/TASK_005.md |
+| 6 | TASK_006 | BA-20261107-073632-PR-006 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_006.md |
+| 7 | TASK_007 | BA-20261107-073632-PR-007 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_007.md |
+| 8 | TASK_008 | BA-20261107-073632-PR-008 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_008.md |
+| 9 | TASK_009 | BA-20261107-073632-PR-009 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_009.md |
+| 10 | TASK_010 | BA-20261107-073632-PR-010 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_010.md |
+| 11 | TASK_011 | BA-20261107-073632-PR-011 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_011.md |
+| 12 | TASK_012 | BA-20261107-073632-PR-012 | V1.0 | LOCKED | PHONE_9_16 | PROMPTS/TASK_012.md |
+| 13 | TASK_013 | BA-20261107-073632-PR-013 | V1.0 | LOCKED | DESKTOP_16_9 | PROMPTS/TASK_013.md |
+| 14 | TASK_014 | BA-20261107-073632-PR-014 | V1.0 | LOCKED | DESKTOP_16_9 | PROMPTS/TASK_014.md |
+| 15 | TASK_015 | BA-20261107-073632-PR-015 | V1.0 | LOCKED | DESKTOP_16_9 | PROMPTS/TASK_015.md |
+
+## Verification requirements
+
+Lock only after all 15 full English prompt files and the five standard Batch records have been written, independently read back, and crosschecked against this manifest and TASK_QUEUE.md. No image generation or QA has occurred.
