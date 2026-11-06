@@ -21,6 +21,13 @@
 
 不得自行建立新 Batch、猜測 Batch、替換指定 Batch，或把其他模組的任務混入本次工作。
 
+### English-only language for newly written GitHub records (effective 2026-11-07)
+
+For `MODULE=LORA_IMAGE`, all new human-readable text persisted to GitHub on or after 2026-11-07 (Taiwan time) must be in English, including added Task status explanations, attempts, event notes, error and interruption reasons, checkpoints, recovery narratives, authorized condensed execution inputs when legitimately created, and Git commit messages. Apply this to new Batches and to **new appended entries** in older Batches without changing their historical content.
+
+Future `/LORA_CONSOLE` Batches have canonical Task prompts written and locked directly in English under `MODULES/LORA_IMAGE/MODULE.md`. The Producer must use each Task's actual authoritative locked prompt exactly under the existing FULL_LOCKED_PROMPT-first and authorized-condensation rules; **do not translate or rewrite a previously locked Chinese prompt**, invent an English replacement, change an established fixed execution input, or restart a Batch merely to meet the language policy. Preserve schema keys, enum values, IDs, canonical paths, existing attempts, actual image observations, readback requirements, and all safety/retry rules. The English-only requirement governs new persisted record text, not conversational replies to the user and not the actual language of historical locked material.
+
+
 ## 2. 必填輸入
 
 使用者必須指定以下三個欄位：
