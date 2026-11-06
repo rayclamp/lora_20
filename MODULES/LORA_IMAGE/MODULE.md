@@ -8,6 +8,17 @@ Define the image-design scope for producing candidate images intended for LoRA t
 
 This module contains only LoRA image-design rules and the reference policies required to apply them. It is not the legacy LoRA production system and does not define Make scenarios, multi-account Worker dispatch, queues, quota management, or a separate runtime.
 
+## English-only future content policy — effective 2026-11-07
+
+This policy applies only to the active `LORA_IMAGE` workflow and only to content newly authored or appended on or after 2026-11-07 (Taiwan time).
+
+1. **Design prompts in English from the outset.** Every new LoRA Task's complete locked prompt, section titles, scene and outfit descriptions, negative constraints, output instructions, and human-readable prompt metadata must be written in English. Translate Chinese-language user requirements faithfully into English **during prompt design**, before persistence and locking; do not create a Chinese canonical prompt and then plan to translate it during production.
+2. **Write all new GitHub production-record text in English.** This covers new `SESSION_CONTRACT.md`, `BATCH_RECORD.md`, `TASK_QUEUE.md`, `PROMPT_SET.md`, `EXECUTION_LOG.md`, `PROMPTS/TASK_###.md`, and any subsequently created `EXECUTION_INPUTS/` and `RECOVERY_CHECKPOINTS/` files. All free-text fields, notes, checkpoint descriptions, topics, events, reasons, audit narratives, and newly appended text in existing records must be in English. Git commit messages for these writes should also be in English.
+3. **Do not change schema identifiers.** Preserve canonical paths, filenames, field keys, enum values, prompt markers, IDs, timestamps, and required formats. The language requirement concerns human-readable text, not machine-readable identifiers or the language of ChatGPT's conversation with the user. Proper names are rendered in their established English forms.
+4. **Enforce before locking a new Prompt Set.** The Console must verify that the new Batch's full prompt bodies, human-readable metadata, descriptive record fields, and initial event entries are in English, then persist and read back the files before locking. This design-time language check does not authorize producer-side prompt inspection or QA.
+5. **Protect existing records and locked prompts.** Never retroactively translate or rewrite historical records, existing Session/Batch identities, or locked prompt bodies. When continuing an older Batch with Chinese-language prompts, follow its existing locked prompt and the current Producer handoff contract exactly; do not translate it, create replacement prompts, or switch its execution-input mode merely because of this policy. Any **new** event, error narrative, or recovery note appended to an older Batch must nevertheless be in English.
+6. **Do not alter execution semantics.** Keep one Task per generation call, the existing FULL_LOCKED_PROMPT-first rule, the narrowly authorized condensation exception, reference-image requirements, evidence preservation, GitHub write/readback verification, and independent paused QA intact. English-only authoring does not claim guaranteed image generation or exact prompt delivery.
+
 ## Producer roles and reference-image timing
 
 LORA_IMAGE has two distinct stages. Do not transfer requirements from one stage to the other.
