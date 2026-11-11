@@ -67,3 +67,40 @@ PROMPT_CONSUMED=YES
 PROMPT_STATE=CONSUMED
 DELIVERY_INTEGRITY_STATUS=KNOWN_DEVIATION
 DETAIL=One image was returned, but the effective generation request did not reflect the canonical locked office-arrival prompt. This is a known input deviation, not a quality assessment. No retry is permitted. Other tasks were not attempted.
+
+
+### 20261111190000-001
+
+EVENT_ID=EV-20261111190000-001
+EVENT_TYPE=IMAGE_RESULT_RECEIVED
+TIMESTAMP=2026-11-11T19:00:00+08:00
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=TASK_002
+PROMPT_ID=BA-20261107-073632-PR-002
+PROMPT_VERSION=V1.0
+ATTEMPT_ID=TASK_002-ATTEMPT_001
+GENERATION_CALL_ID=NOT_EXPOSED
+GENERATION_INPUT_MODE=FULL_LOCKED_PROMPT
+FULL_PROMPT_READ_STATUS=SUCCESS
+IMAGE_RECEIVED=YES
+ACTUAL_OUTPUT_COUNT=1
+RESULT_REFERENCE=/workspace/scratch/d574cc56b34d/generated_images/exec-77de5e5f-dac4-46e0-b5f2-723c04f19f5d.png
+PROMPT_CONSUMED=YES
+PROMPT_STATE=CONSUMED
+DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED
+DETAIL=One image was observably returned after submitting the complete locked Task prompt with the person-reference image provided in the current conversation. GitHub persistence and readback verification are pending. No visual QA was performed.
+
+### 20261111190000-002
+
+EVENT_ID=EV-20261111190000-002
+EVENT_TYPE=RECORD_CORRECTED
+TIMESTAMP=2026-11-11T19:00:00+08:00
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=TASK_001
+PROMPT_ID=BA-20261107-073632-PR-001
+PROMPT_VERSION=V1.0
+ATTEMPT_ID=TASK_001-ATTEMPT_001
+GENERATION_CALL_ID=ca1dfd8a-6320-44af-9ec8-c7b5b229358e
+DETAIL=Corrected stale batch-level statements claiming no generation or image receipt had occurred. Existing Task_001 receipt and known generation-input deviation remain preserved; no regeneration was performed.
