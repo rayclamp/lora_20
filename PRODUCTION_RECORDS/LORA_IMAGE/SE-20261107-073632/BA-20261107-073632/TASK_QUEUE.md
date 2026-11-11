@@ -239,7 +239,7 @@ PROMPT_ID=BA-20261107-073632-PR-008
 PROMPT_VERSION=V1.0
 PROMPT_STATUS=LOCKED
 PROMPT_FILE=PROMPTS/TASK_008.md
-TASK_STATUS=RESULT_RECEIVED_UNVERIFIED
+TASK_STATUS=SUCCESS
 GENERATION_STATUS=IMAGE_RESULT_RECEIVED
 EXPECTED_OUTPUT_COUNT=1
 ACTUAL_OUTPUT_COUNT=1
@@ -261,7 +261,7 @@ ATTEMPT_ID=TASK_008-ATTEMPT_001
 GENERATION_CALL_ID=NOT_EXPOSED
 DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED
 RESULT_REFERENCE=/workspace/scratch/d574cc56b34d/generated_images/exec-e929170c-9d40-4af1-a47e-fb9b76daafc3.png
-RECORD_NOTE=Image returned from a direct unchanged GitHub prompt string and explicitly selected original person reference; record verification pending.
+RECORD_NOTE=Image receipt and Task attribution durably recorded and readback-verified. No visual QA performed.
 
 ## TASK_009
 
