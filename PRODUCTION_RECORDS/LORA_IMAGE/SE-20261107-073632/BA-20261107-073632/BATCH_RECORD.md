@@ -7,19 +7,19 @@ CHARACTER=INARIA
 IMAGE_COUNT=15
 OUTPUT_TYPE=MIXED_PER_TASK
 BATCH_STATUS=IN_PROGRESS
-COMPLETED_COUNT=2
+COMPLETED_COUNT=3
 RESULT_RECORDED_COUNT=0
-ACTUAL_IMAGE_COUNT=5
+ACTUAL_IMAGE_COUNT=6
 UNVERIFIED_COUNT=3
 FAILED_COUNT=0
 DEFERRED_COUNT=0
 BLOCKED_COUNT=0
 PAUSED_COUNT=0
-PENDING_COUNT=10
-ATTEMPT_COUNT=5
-CURRENT_TASK=TASK_005
-NEXT_TASK=TASK_006
-CHECKPOINT=TASK_001, TASK_004 and TASK_005 each have one received image with known generation-input deviation and remain unverified. TASK_002 and TASK_003 are verified SUCCESS. Ten Tasks remain pending.
+PENDING_COUNT=9
+ATTEMPT_COUNT=6
+CURRENT_TASK=TASK_006
+NEXT_TASK=TASK_007
+CHECKPOINT=TASK_002, TASK_003 and TASK_006 are verified SUCCESS; TASK_001, TASK_004 and TASK_005 each have one image received with known input deviation and remain unverified. Nine Tasks remain pending. TASK_006 underlying delivery payload NOT_EXPOSED.
 QA_STATUS=PAUSED
 CREATED_FROM_CONSOLE_AT=2026-11-07T07:40:27+08:00
 
@@ -47,4 +47,4 @@ This is a design plan, not a record of image generation. Each Task contributes a
 
 ## Production boundary
 
-Production events are recorded in EXECUTION_LOG.md and per-Task states in TASK_QUEUE.md. TASK_001, TASK_004 and TASK_005 have one observed image receipt each with known generation-input deviations and remain unverified. TASK_002 has one observed image receipt and is verified SUCCESS. QA remains PAUSED.
+Production events are recorded in EXECUTION_LOG.md and per-Task states in TASK_QUEUE.md. TASK_001, TASK_004 and TASK_005 have one observed image receipt each with known generation-input deviations and remain unverified. TASK_002, TASK_003 and TASK_006 each have one observed image receipt and are verified SUCCESS. QA remains PAUSED.
