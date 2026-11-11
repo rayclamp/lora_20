@@ -215,3 +215,24 @@ PROMPT_STATE=RETIRED
 DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED
 INTERRUPTION_CLASS=SAFETY_BLOCKED
 DETAIL=This event records the observed result at the timestamp above, not an inferred call start time. GitHub prompt blob 3626618675777483777344e8942622f13a41f5a5 was read; the complete substring between prompt delimiters was passed unchanged as a string variable into image_gen__imagegen.prompt. Reference explicitly supplied: current-conversation original upload, /workspace/scratch/d574cc56b34d/upload/範本04(20261111-105307).png. Tool returned HTTP 400, code moderation_blocked, moderation_stage output, category sexual. Request ID 600e163b-f510-4b84-94d6-8fefb050ee48. No image was returned. No retry was initiated; TASK_008 was not attempted under the user-directed stop-on-error verification scope. Hidden downstream payload was not exposed.
+
+
+### TASK_008-1794402907324
+
+EVENT_ID=EV-TASK_008-1794402907324
+EVENT_TYPE=IMAGE_RESULT_RECEIVED
+TIMESTAMP=2026-11-11T13:14:20.669Z
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=TASK_008
+PROMPT_ID=BA-20261107-073632-PR-008
+PROMPT_VERSION=V1.0
+ATTEMPT_ID=TASK_008-ATTEMPT_001
+GENERATION_CALL_ID=NOT_EXPOSED
+GENERATION_INPUT_MODE=FULL_LOCKED_PROMPT
+FULL_PROMPT_READ_STATUS=SUCCESS
+IMAGE_RECEIVED=YES
+ACTUAL_OUTPUT_COUNT=1
+RESULT_REFERENCE=/workspace/scratch/d574cc56b34d/generated_images/exec-e929170c-9d40-4af1-a47e-fb9b76daafc3.png
+DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED
+DETAIL=Call started 2026-11-11T13:13:44.385Z. Complete GitHub prompt substring from blob 969c44dd03bdc482a8b76b3a52e4e8c736475828 was assigned unchanged as the same string variable to image_gen__imagegen.prompt. Explicit original user-uploaded person reference path supplied. One image observably returned; no visual QA performed.
