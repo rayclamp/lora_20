@@ -1,191 +1,288 @@
-# WALLPAPER_COMMAND_PROTOCOL.md — Unified Wallpaper Design and Production Commands
+# /WALLPAPER_CONSOLE V5.0 — 統一桌布提示詞設計與 GitHub 歸檔指令
 
-## 1. Purpose and scope
+## 1. 指令用途與最高優先原則
 
-This document defines the shared command contract for both wallpaper modules:
+本指令只負責一般桌布與節慶桌布的提示詞設計、GitHub 正式規範讀取、Session 建立、獨立 Task 提示詞保存，以及寫入後讀回驗證。
 
-- `UNIVERSAL_WALLPAPER`: ordinary/general wallpaper.
-- `FESTIVAL_WALLPAPER`: festival wallpaper.
+本指令不是生圖指令，不負責圖片生成、圖片品管、修圖、生成排序或生產進度管理。使用者自行將完整提示詞貼入生圖聊天室，決定何時、以何種順序生圖。
 
-The user-facing command names are unified across both modules:
+**使用者設定好本次需求並貼上指令後，立即開始執行；除非必要欄位無效或正式規範存在無法排除的重大衝突，不得再次要求確認是否開始。**
 
-- `/WALLPAPER_CONSOLE`: design and lock prompts; do not generate images.
-- `/WALLPAPER_PRODUCE`: execute the existing locked prompts; do not redesign prompts or perform QA.
+### 核心分工
 
-The selected `MODULE` determines the canonical module rules, reference policy, data sources, and production-record root. Do not create separate command names for ordinary and festival wallpaper.
+- 使用者：指定桌布模組、提示詞數量、風格與創作需求；自行複製提示詞並執行生圖。
+- ChatGPT 設計者：讀取正式規範、規劃整組內容、撰寫可獨立使用的完整提示詞、建立 Session、保存檔案並讀回驗證。
+- GitHub：只作為正式創作規範、人物設定、節慶資料與提示詞成品的保存及查閱資料庫。
 
-This document is not a LoRA specification. General and festival wallpaper workflows MUST NOT read or apply `MODULES/LORA_IMAGE/` or `ARCHIVE/LEGACY_LORA_PRODUCTION/` as active rules.
+不得因簡化歸檔方式而省略必要的規範讀取、繪圖安全要求、完整提示詞內容或保存結果驗證。
 
-## 2. Shared authoritative repository
+### 取消的舊機制
 
-Repository: `rayclamp/lora_20`  
-Branch: `main`
+- 不建立 Batch，也不產生 BATCH_ID。
+- 不建立 SESSION_CONTRACT.md、BATCH_RECORD.md、TASK_QUEUE.md、PROMPT_SET.md 或 EXECUTION_LOG.md。
+- 不建立或更新 PROMPT_ID、PROMPT_VERSION、PROMPT_STATUS、PROMPT_SET_STATUS、PROMPT_SET_LOCKED 等生產狀態欄位。
+- 不使用 BEGIN_LOCKED_PROMPT_TEXT、END_LOCKED_PROMPT_TEXT 或 LOCKED 標記。
+- 不啟動任何生產者，不呼叫生圖工具，也不追蹤提示詞是否已生成圖片。
 
-Before design or production, connect to GitHub and read the current applicable canonical files, including:
+以上僅適用於**本版新建立的提示詞資料**。既有 Session、Batch、舊提示詞與歷史生產紀錄一律保留，不得擅自刪除、覆蓋、重新命名或搬移。
 
-- `START_HERE.md`
-- `00_MASTER/CORE_RULES.md`
-- `00_MASTER/DRAWING_INSTRUCTIONS.md`
-- `00_MASTER/ANATOMY_STABILITY.md`
-- `00_MASTER/GENERATION_RULES.md`
-- `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md`
-- `00_MASTER/GENERATION_WORKER_PROTOCOL.md`
-- `00_MASTER/PRODUCTION_RECORD_SCHEMA.md`
-- `00_MASTER/CANONICAL_PATH_REGISTRY.md`
-- `00_MASTER/MODULE_REGISTRY.md`
-- `00_MASTER/SYSTEM_ARCHITECTURE.md`
+## 2. 使用者設定
 
-CORE rules remain authoritative. Read any further required dependencies referenced by these files. If a required read or GitHub operation fails, stop the affected operation and report the actual failure; do not use memory, cache, guessed rules, or ordinary text-to-image fallback. A Task-local read/write/readback failure must not automatically stop or lock unrelated Tasks. Independent Tasks may continue only after the affected Task's known outcome, attribution, and exact fixed input where applicable are safely written and readback-verified, or preserved in a complete readback-verified safe recovery checkpoint, and the next Task's own authoritative records and complete locked Prompt can be read directly from current GitHub data. Otherwise pause progression to recover persistence. Stop the whole Batch only for a verified non-isolatable Batch-wide access, identity/contract, mapping, attribution, or persistence-safety problem that prevents safe continuation.
+每次執行依本次需求設定：
 
-## 3. Module-specific design dependencies
+```ini
+MODULE=[UNIVERSAL_WALLPAPER / FESTIVAL_WALLPAPER]
+PRODUCTION_TYPE=[ANIME / REALISTIC / FESTIVAL]
+CHARACTER=[INARIA / NONE]
+IMAGE_COUNT=[本次需要設計的獨立提示詞數量，正整數]
+OUTPUT_TYPE=[DESKTOP_16_9 / PHONE_9_16]
+THEME / FESTIVAL_SCOPE=[主題或節慶範圍]
+SCENE=[場景]
+SEASON=[季節]
+WEATHER=[天氣]
+TIME=[時間]
+PET_ALLOWED=[YES / NO]
+CUSTOM_INSTRUCTIONS=[額外要求]
+```
 
-### MODULE=UNIVERSAL_WALLPAPER
+只有 MODULE=FESTIVAL_WALLPAPER 時，另依節慶規範解析：
 
-For this module, `PRODUCTION_TYPE` is `ANIME` or `REALISTIC`. Read the applicable files:
+```ini
+WALLPAPER_TYPE=[ANIME WALLPAPER / REALISTIC WALLPAPER]
+```
+
+### 模組路由與格式
+
+**一般桌布**：MODULE=UNIVERSAL_WALLPAPER；PRODUCTION_TYPE=ANIME 或 REALISTIC。
+
+**節慶桌布**：MODULE=FESTIVAL_WALLPAPER；PRODUCTION_TYPE=FESTIVAL；WALLPAPER_TYPE 決定動漫或寫實視覺規則。
+
+MODULE 決定正式規範與提示詞歸檔目錄，不得依 PRODUCTION_TYPE 建立錯誤資料夾。
+
+IMAGE_COUNT 必須為有效正整數；每個 Task 對應一張預計製作的圖片及一份提示詞，不得擅自減量、合併或重複編號。
+
+OUTPUT_TYPE 只允許 DESKTOP_16_9 或 PHONE_9_16。同一 Session 內所有 Task 一律採用本次指定的相同 OUTPUT_TYPE；MIXED_PER_TASK 不適用一般及節慶桌布。
+
+SCENE、SEASON、WEATHER、TIME 等欄位依需求設定；沒有指定的項目可在正式規範及主題允許範圍內合理設計，不得憑空改變使用者明確限制。
+
+### 參考圖片限制
+
+- 本設計指令不要求使用者上傳人物參考圖片。
+- 不設 REFERENCE_IMAGE 為必填設計欄位。
+- 不得假裝已看過未提供的圖片，也不得將圖片當成提示詞設計的必要前置條件。
+- 若使用者日後在生圖聊天室提供人物參考圖片，提示詞可加入符合模組規範的條件式參考方式，但不得假定圖片一定存在。
+
+## 3. 第一步：連線 GitHub 並讀取正式規範
+
+Repository：`rayclamp/lora_20`
+
+Branch：`main`
+
+每次開始設計前，必須重新連線並讀取本次所需的正式文件，不得只依靠對話記憶、過往摘要或其他 Task 代替。
+
+### 共用核心與桌布設計規範
+
+1. `START_HERE.md`
+2. `00_MASTER/CORE_RULES.md`
+3. `00_MASTER/DRAWING_INSTRUCTIONS.md`
+4. `00_MASTER/ANATOMY_STABILITY.md`
+5. `00_MASTER/GENERATION_RULES.md`
+6. `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md`
+7. `00_MASTER/MODULE_REGISTRY.md`
+8. `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`
+
+`00_MASTER/CORE_RULES.md` 為共用硬性規範。上述文件若引用其他**提示詞設計所必需**的依賴，也必須讀取。
+
+原有 `GENERATION_WORKER_PROTOCOL.md`、`PRODUCTION_RECORD_SCHEMA.md`、`SYSTEM_ARCHITECTURE.md`、`CANONICAL_PATH_REGISTRY.md` 中涉及生產者、Batch、鎖定、執行紀錄或舊歸檔路徑的內容，不再作為本版新提示詞的執行流程要求。若其他正式硬性規範仍強制要求舊結構而與本版無法並存，應回報實際衝突，不能自行假稱已完成遷移或寫入。
+
+### 一般桌布模組
+
+MODULE=UNIVERSAL_WALLPAPER 時，另讀取：
 
 - `MODULES/UNIVERSAL_WALLPAPER/REFERENCE_POLICY.md`
-- For `PRODUCTION_TYPE=ANIME`: `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
-- For `PRODUCTION_TYPE=REALISTIC`: `00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
-- `00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md` when footwear rules are relevant.
-- `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` when `CHARACTER=INARIA`, for character-semantic guidance only.
+- PRODUCTION_TYPE=ANIME：`00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
+- PRODUCTION_TYPE=REALISTIC：`00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
+- 鞋款設計相關時：`00_MASTER/WALLPAPER/UNIVERSAL_WALLPAPER_SHOES.md`
+- CHARACTER=INARIA：`00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`
 
-Do not load festival costume catalogs as Universal options. Do not load LoRA rules or assets.
+Inaria 角色規範只提供角色語義與設計方向，不得冒充已提供的人物參考圖片。
 
-### MODULE=FESTIVAL_WALLPAPER
+### 節慶桌布模組
 
-For this module, set `PRODUCTION_TYPE=FESTIVAL`. The Festival design rules use the separate module-specific `WALLPAPER_TYPE` value (`ANIME WALLPAPER` or `REALISTIC WALLPAPER`) to select the visual-rendering rule set. Read the applicable files:
+MODULE=FESTIVAL_WALLPAPER 時，另讀取：
 
 - `MODULES/FESTIVAL_WALLPAPER/REFERENCE_POLICY.md`
 - `00_MASTER/WALLPAPER/FESTIVAL_WALLPAPER_MANUAL_DESIGN_PROMPT.md`
 - `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/CORE_FESTIVAL_INDEX.md`
-- The selected festival's canonical record(s), cultural anchors, item-link matrix, schemas, and relevant category catalogs required by the festival design rules.
-- For Festival `WALLPAPER_TYPE=ANIME WALLPAPER`: `00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
-- For Festival `WALLPAPER_TYPE=REALISTIC WALLPAPER`: `00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
+- `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/FESTIVAL_CULTURAL_ANCHORS.md`
+- `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/FESTIVAL_ITEM_LINK_MATRIX.md`
+- `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/FESTIVAL_RECORD_SCHEMA.md`
+- `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/ITEM_RECORD_SCHEMA.md`
+- `FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/README.md`
+- 本次選定節慶的正式資料檔及其必要依賴。
+- WALLPAPER_TYPE=ANIME WALLPAPER：`00_MASTER/WALLPAPER/ANIME_WALLPAPER_RULES.md`
+- WALLPAPER_TYPE=REALISTIC WALLPAPER：`00_MASTER/WALLPAPER/REALISTIC_WALLPAPER_RULES.md`
+- CHARACTER=INARIA：`00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`
 
-Resolve `WALLPAPER_TYPE` from the user's explicit request or configured custom instructions. If it remains missing or ambiguous and the Festival design rules require it, stop and report the missing value rather than guessing.
-- `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` when `CHARACTER=INARIA`, for character-semantic guidance only.
+只讀取本次節慶所需的正式資料與相關分類目錄，不得以猜測取代文化資料。
 
-Do not import Universal-only footwear/options where the festival rules specify their own catalog. Do not load LoRA rules or assets.
+### 不得混用 LoRA 規範
 
-## 4. Design command contract — /WALLPAPER_CONSOLE
+一般桌布與節慶桌布不得將 `MODULES/LORA_IMAGE/` 或 `ARCHIVE/LEGACY_LORA_PRODUCTION/` 當成桌布設計規範，不得混入 LoRA 資料集、LoRA 專用人物參考或 LoRA QA 要求。
 
-The design command creates a new Session and Batch, plans the entire requested set, writes every complete prompt to its own authoritative file, verifies the saved data by reading it back, and locks the complete Prompt Set before reporting completion.
+### 讀取失敗處理
 
-The command must not:
-- call the image-generation tool;
-- perform image QA or image editing;
-- request or require an uploaded reference image;
-- include `REFERENCE_IMAGE` as a wallpaper-design input parameter;
-- claim to have seen a reference image that was not provided;
-- read or apply LoRA-specific rules.
+如 GitHub 無法連線、必要規範無法讀取，或正式規範存在不能解決的重大衝突：停止正式設計並回報失敗的檔案或操作；不得猜測缺失規範，亦不得宣稱已保存提示詞。
 
-The wallpaper design request uses the applicable fields defined by `START_HERE.md`, such as `MODULE`, `PRODUCTION_TYPE`, `CHARACTER`, `IMAGE_COUNT`, `OUTPUT_TYPE`, `THEME` / `FESTIVAL_SCOPE`, `SCENE`, `SEASON`, `WEATHER`, `TIME`, `PET_ALLOWED`, and `CUSTOM_INSTRUCTIONS`. For `FESTIVAL_WALLPAPER`, also resolve the Festival-specific `WALLPAPER_TYPE` (`ANIME WALLPAPER` or `REALISTIC WALLPAPER`) from the explicit request/configuration. Use only fields applicable to the selected module and current canonical schema. Do not add a reference-image field to the wallpaper design request.
+## 4. 第二步：建立 Session（不建立 Batch）
 
-A designer may write a prompt that explains how an image explicitly supplied later in the production conversation should be used, according to the active module's reference policy. The designer must not assume that such an image exists or describe its unseen contents.
+每次獨立的提示詞設計需求建立**一個新的 Session**，其下包含 IMAGE_COUNT 份 Task；同一 Session 的 Task 編號由 001 開始。
 
-For every new Batch, use the canonical path:
-`PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/`
+### Session 命名
 
-Create the standard records:
-- `SESSION_CONTRACT.md`
-- `BATCH_RECORD.md`
-- `TASK_QUEUE.md`
-- `PROMPT_SET.md` (manifest/index only; never store all prompt bodies here)
-- `EXECUTION_LOG.md`
-- `PROMPTS/TASK_001.md`, `PROMPTS/TASK_002.md`, etc., one complete prompt per Task.
+```text
+SESSION_ID=SE-YYYYMMDD-HHMMSS
+```
 
-Design all requested Tasks before locking. Verify the exact Task count, one-to-one Task-to-prompt-file mapping, non-empty full prompt bodies, required metadata, and required records by reading the saved files back from GitHub. Lock only after all required data has been successfully written and verified.
+1. 使用台灣時間（UTC+8），以**實際建立時間**產生年、月、日與 24 小時制時分秒。
+2. 不得使用預估時間、固定範例或任意補造的時間。
+3. 新 Session 不得覆蓋既有目錄；若名稱衝突，重新取得實際時間再嘗試，仍衝突則回報。
+4. 此規則只適用新建 Session，不得改動舊 Session 或 Batch。
+5. Session 只代表**這組提示詞的創作與歸檔時間**，不代表生圖時間或生產狀態。
 
-On completion, explicitly post `MODULE`, `SESSION_ID`, `BATCH_ID`, `IMAGE_COUNT`, actual Task/prompt-file counts, `PROMPT_SET_STATUS`, the Batch path, and write/readback verification status in the chat. Then stop; do not generate images.
+### 新版歸檔路徑
 
-## 5. Production command contract — /WALLPAPER_PRODUCE
+```text
+PROMPTS/<MODULE>/<SESSION_ID>/
+    INDEX.md
+    TASK_001.txt
+    TASK_002.txt
+    TASK_003.txt
+    ...
+```
 
-The production command MUST receive all three user-specified fields before it selects any module-specific rules or reads a production Batch:
+- `<MODULE>` 只能是 `UNIVERSAL_WALLPAPER` 或 `FESTIVAL_WALLPAPER`。
+- 每一份獨立提示詞對應一個 `TASK_NNN.txt`；依序編號至 IMAGE_COUNT，至少三位數，不因每次開新 Session 而延續上一組編號。
+- `INDEX.md` 只存本組提示詞的簡單索引、Session 建立時間、模組、共同輸出格式及 Task 名稱／對應檔名；**不存完整提示詞正文**。
+- 不建立其他生產管理檔案。
 
-- `MODULE=UNIVERSAL_WALLPAPER` or `MODULE=FESTIVAL_WALLPAPER`
-- `SESSION_ID=<existing Session ID>`
-- `BATCH_ID=<existing Batch ID>`
+## 5. 第三步：規劃整組桌布內容
 
-These values are mandatory and must not be inferred from memory, earlier chats, default values, or a neighboring record. Validate that all three are present and supported. Then use `MODULE` to load only the corresponding module-specific rules, reconnect to GitHub, and read the exact `PRODUCTION_RECORDS/<MODULE>/<SESSION_ID>/<BATCH_ID>/` records. Confirm that the stored module, Session ID, and Batch ID match all three user-specified values before executing any Task.
+撰寫個別提示詞前，先完成整組內容規劃。Task 數量必須等於 IMAGE_COUNT。
 
-If a field is missing/invalid, a required read fails, or the stored identity does not match, stop and report the exact problem. Do not choose a substitute module, Session, or Batch; do not create a replacement; do not fall back to generic image generation.
+依模組與使用者需求規劃：
 
-Use the manifest and per-Task prompt files required by the current schema. Do not redesign or rewrite locked prompts.
+1. 主題、場景與環境。
+2. 人物姿勢、身體方向、左右手動作與自然受力。
+3. 服裝、髮型、配件及鞋款。
+4. 景別、構圖與拍攝角度。
+5. 季節、天氣、時間與光線。
+6. 色彩、背景與桌布視覺重點。
+7. 每個 Task 的指定 OUTPUT_TYPE。
+8. 多張圖片之間的實質差異。
 
+節慶桌布必須依正式節慶資料設計文化元素、服裝、配件與場景；不得以一般桌布的服裝或鞋款規則取代節慶專用資料。
 
-For each eligible Task:
-1. Read the complete assigned locked Prompt from its authoritative file and treat it as the immutable canonical design specification.
-2. Use `FULL_LOCKED_PROMPT` by default. Only when a concrete observable interface input limitation prevents full submission may the Producer prepare one `AUTHORIZED_CONDENSED_PROMPT` under `00_MASTER/GENERATION_WORKER_PROTOCOL.md`. Preserve the Task's essential drawing requirements, restrictions, exceptions, priorities, identifiers, composition, style, scene, output format, reference rules, and intended meaning; do not redesign or modify the canonical Prompt.
-3. Immediately invoke image generation using the effective Task-specific instruction and any reference inputs permitted by the active wallpaper module. No content/quality validation, prompt display, unrelated GitHub operations, or extra planning may intervene between full-Prompt reading, authorized input preparation, and the initial call. Missing hidden transport telemetry or byte-for-byte payload proof is not a separate success/failure gate.
-4. The first actual generation call fixes the Task's execution instruction. If authorized condensation was used, **after the first actual call** save the exact fixed condensed text to the Task's single `EXECUTION_INPUTS/<TASK_ID>.md` file, then read it back and verify it before retry or unsafe progression. Do not overwrite a successfully verified input file, re-condense, translate, replace the input, or switch modes. Preserve the original locked Prompt unchanged.
-5. Determine only observable results: confirmed image receipt, confirmed no image, or UNKNOWN. Record actual returned-file count, available result references, Task/attempt attribution, confirmed no-image reason when known, and independent GitHub persistence status. Do not inspect the image, assess prompt compliance, or perform visual QA.
-6. If the same prepared/fixed input cannot temporarily be submitted **before a new actual generation call begins**, record `TASK_STATUS=PAUSED` and the reason, preserve the same input and remaining attempt budget, and do not count a new attempt. Resume only with that identical instruction. PAUSED is non-terminal and is never a means to bypass safety/policy restrictions.
-7. If authorized condensed-input persistence fails after the first actual call, isolate the affected Task, preserve its actual generation outcome, and recover the exact fixed text. A complete `RECOVERY_CHECKPOINTS/<TASK_ID>.md` may be used if successfully written and readback-verified; it must preserve the exact fixed input and known Task/attempt/result state. Do not regenerate a received image or reconstruct a different condensed instruction from memory.
+多樣性應來自實質的構圖、姿勢、場景或造型變化，不得只更換少量形容詞或顏色。
 
-The production command does not contain or supply a reference image and does not ask the user to upload one as part of the command. If a visual reference is separately supplied in the production conversation, apply only the active module's reference policy and the locked prompt. Do not invent, search across modules for, or silently substitute a reference. If no reference is supplied, follow the module policy's valid `NO_REFERENCE` behavior unless the applicable task rules explicitly require a reference; if a required reference is missing, record the applicable blocked state rather than guessing.
+除非使用者明確允許且適用規範不禁止，否則不得加入寵物或其他動物。
 
+## 6. 第四步：撰寫純文字提示詞
 
-### Retry and task completion
+依規劃逐份撰寫**完整、可單獨複製、可直接作為使用者生圖訊息**的提示詞。
 
-- Image receipt is an observable generation fact and permanently prohibits further generation for that Task, even when GitHub writes fail. Formal Task SUCCESS and one increment to `COMPLETED_COUNT` require that the received image be attributed to the correct Task and its result durably written and readback-verified. Until then preserve the receipt as unresolved, not formally completed. Record the actual returned-file count separately; never regenerate to repair persistence.
-- Retry only a confirmed no-image result from an **actual generation call**, using the same exact generation instruction fixed at the first actual call and the unchanged canonical locked Prompt reference. Do not switch between `FULL_LOCKED_PROMPT` and `AUTHORIZED_CONDENSED_PROMPT`, rewrite the instruction, or redesign it to bypass a safety/policy block. Missing hidden transport telemetry is not a generation-success gate.
-- Count the initial actual generation call as the first attempt. After three consecutive confirmed no-image generation failures in total for the same Task (initial call included), terminate that Task, record failure-limit exhaustion and reason, and do not start it again. GitHub read/write/readback, prompt-file access, metadata/status failures, and **pre-call PAUSED events** never consume this generation retry limit.
-- A temporary pre-call inability to submit the exact fixed instruction sets non-terminal `TASK_STATUS=PAUSED`. Preserve all previous generation attempts, confirmed no-image failures, `PROMPT_CONSUMED`, `PROMPT_STATE`, input source, and `REMAINING_GENERATION_ATTEMPTS`. A pause/resume event is not a generation call. Resume only with the same fixed instruction. Required PAUSED Tasks prevent `BATCH_COMPLETED`.
-- Do not retry after confirmed image receipt, UNKNOWN generation outcome, or exhausted retry eligibility. Do not use PAUSED to circumvent policy, safety, quota, or other restrictions.
-- Task-local failures do not automatically block unrelated Tasks or consume generation retries. Continue with another independent Task only after the preceding known result/attribution and exact fixed input when applicable are durably preserved/readback-verified, or a complete explicit recovery checkpoint is written and readback-verified. The next Task's own authoritative records and complete locked Prompt must be independently readable. If safe preservation is unavailable, pause progression. Stop the Batch only for a verified non-isolatable Batch-wide access, identity/contract, prompt assignment, result-attribution, or persistence-safety failure.
-- Keep generation outcomes and GitHub persistence outcomes distinct. Recover failed record writes without regenerating an image already received.
+每份提示詞必須：
 
-Do not automatically launch QA. QA is separate from production. The Batch closes only after every required Task has a valid terminal outcome, `PAUSED_COUNT=0`, and the final completion record is written and readback-verified.
+1. 明確描述主體、姿勢、服裝、構圖、場景、光線與畫面品質。
+2. 符合本次桌布模組及視覺風格規範。
+3. 與本組其他 Task 具有實質差異。
+4. 不依賴其他 Task 正文即可理解與使用。
+5. 明確符合本次 OUTPUT_TYPE。
+6. 遵守核心繪圖、人體結構與影像安全規範。
+7. 不加入 LoRA 專用規則。
+8. 不宣稱設計者看過未提供的參考圖片。
+9. 不要求使用者必須提供參考圖片。
+10. 不將未提供的參考圖片錯當成必須複製服裝、姿勢、背景或配件的模板。
+11. 遵守使用者當次明確的主題、角色、場景、寵物與其他限制。
 
-## 6. Prohibited cross-module behavior
+當 CHARACTER=INARIA 時，依正式角色規範提供適用的人物設計方向；CHARACTER=NONE 時不得擅自加入 Inaria 專屬外貌特徵。
 
-- Universal and Festival wallpaper share these command names, but not their specialized design data.
-- Festival cultural/costume data must not leak into Universal Wallpaper.
-- Universal-only options must not override Festival rules.
-- LoRA dataset rules, LoRA references, archived legacy LoRA production rules, and LoRA QA must not be imported into either wallpaper module.
-- Historical Session/Batch records are evidence and must not be silently rewritten or migrated.
+輸出格式只使用 DESKTOP_16_9 或 PHONE_9_16，不另外建立 ASPECT_RATIO 或 ORIENTATION 輸入欄位。
 
+### Task 文字檔格式（重要）
 
-## 7. Evidence-Gated Production and Resume — Mandatory Override
+`TASK_001.txt`、`TASK_002.txt` 等檔案內**只允許完整提示詞正文**：
 
-This section is mandatory for every invocation of /WALLPAPER_PRODUCE and supersedes any conflicting wording elsewhere in this command contract that could permit state changes based on assumptions rather than observable outcomes.
+- 不包含 Task 標題、Session ID、檔案路徑、設定表、中繼資料或 Markdown 包裝。
+- 不包含 LOCKED、BEGIN／END、Prompt 狀態、產圖紀錄、說明文字或生圖工具呼叫語法。
+- 不把多個 Task 的提示詞合併成單一檔案。
+- 保留原有提示詞段落與必要換行，不得為了存檔而摘要或刪減內容。
 
+Task 標題及對應檔名只放在 `INDEX.md` 和聊天室顯示的標題，不寫進純文字提示詞正文。
 
-### 7.1 Before generation
-- Connect to current GitHub `main` and read current canonical rules plus the exact user-specified Session/Batch records, Task queue, manifest, and assigned Task's complete locked Prompt. Select the Task from current authoritative records; do not rely on prior narratives or cached state.
-- Once the complete locked Prompt has been read, immediately prepare and submit the effective Task-specific instruction under the shared Worker Protocol: full Prompt by default, necessary faithful condensation only for a concrete interface input limitation. Do not insert content validation, design review, extra metadata checks, prompt display, or unrelated GitHub operations.
-- Use only module-permitted reference input or its legal `NO_REFERENCE` behavior. Do not silently substitute a missing required reference.
-- The instruction used for the first actual generation call is fixed for all later eligible retries. If the prepared/fixed instruction cannot temporarily be submitted before a new generation call, enter non-terminal PAUSED and preserve the same input and remaining attempt budget without inventing a generation call.
+## 7. 第五步：建立簡單提示詞索引
 
+建立 `INDEX.md`，僅記錄：
 
-### 7.2 After every generation call
-- Record only observable facts: actual image received / confirmed no image / UNKNOWN, returned-file count, available references, Task/attempt attribution, confirmed no-image reason if known, and GitHub persistence state. A call or expected result alone is not receipt evidence.
-- Use `IMAGE_RECEIVED=YES` only for confirmed image receipt, NO only for confirmed no-image outcome after an actual generation call, and UNKNOWN when the call outcome cannot be established. Before any actual call, `PROMPT_CONSUMED=NOT_ATTEMPTED`; a pre-call PAUSED event is not a confirmed no-image outcome.
-- If `AUTHORIZED_CONDENSED_PROMPT` was used for the Task's first actual call, preserve the same exact fixed text **after that call** in `EXECUTION_INPUTS/<TASK_ID>.md` and read back to verify it. Record `GENERATION_INPUT_MODE`, `EXECUTION_INPUT_PATH`, `EXECUTION_INPUT_RECORD_STATUS`, and `FIRST_ATTEMPT_ID` where available. An existing verified input is immutable; do not overwrite, recreate, or switch modes.
-- If this persistence fails, record `EXECUTION_INPUT_PERSISTENCE_FAILED` when possible, isolate the affected Task, and safely recover exact text without regenerating. A `RECOVERY_CHECKPOINTS/<TASK_ID>.md` fallback must contain the **full exact fixed input**, canonical Prompt identity, all known attempts/results, prompt-consumption state, remaining retry eligibility, result attribution, and persistence evidence, and must be readback-verified.
-- Append distinct attempt/result events without overwriting earlier attempt history; append `RECORD_CORRECTED` for corrections. `EXECUTION_INPUT_RECORDED` is recorded only after verified input preservation. `TASK_PAUSED` and `TASK_RESUMED` are non-generation events and must not increase generation attempt or confirmed-no-image failure counts.
-- Update the Task's current state and relevant Batch counts from verified Task/attempt evidence, not expected workflow or older summaries.
-- Write observed results, Task state, prompt-consumption state and applicable counts to GitHub. Read back and verify attempt count, receipt, actual-file count, Task attribution, execution-input record when applicable, prompt state, Task status, and summary counts. Preserve confirmed receipt even when required persistence is unresolved; do not declare formal SUCCESS or regenerate a received image to repair recording.
+- SESSION_ID 與建立日期時間（台灣時間）。
+- MODULE、PRODUCTION_TYPE、CHARACTER、IMAGE_COUNT、OUTPUT_TYPE；節慶桌布另記 WALLPAPER_TYPE。
+- 本次主題／節慶範圍。
+- 每個 TASK_NNN 對應的簡短主題名稱與 `TASK_NNN.txt` 檔名。
 
+`INDEX.md` 只是**查找提示詞的目錄**，不是 Task 佇列、生產計畫、狀態表或鎖定紀錄。
 
-### 7.3 Mandatory gate before the next Task
-Do not select or generate an independent next Task until the affected Task's observed outcome, result attribution, and required fixed execution-input evidence have been durably preserved and readback-verified, or a complete safe recovery checkpoint for the Task-local persistence problem has been written and readback-verified. A known received image must not be regenerated, and an UNKNOWN generation result must not be retried. A path, hash, or previous Producer narrative alone cannot recover missing exact condensed text.
+確認索引 Task 數量及編號與提示詞檔案完全一致。
 
-A Task-local persistence failure or non-terminal PAUSED state does not make unrelated Tasks terminal or automatically stop the Batch. Independent work may continue only after all known facts and exact fixed input where required are safely preserved and verified, and the next Task's own authoritative records and complete locked Prompt are directly readable. Otherwise pause progression until the evidence is safely recovered. Stop the Batch only for verified non-isolatable Batch-wide problems.
+## 8. 第六步：寫入 GitHub 並讀回驗證
 
+將 `INDEX.md` 與全部 `TASK_NNN.txt` 寫入本次的新 Session 目錄。
 
-### 7.4 Resume reconciliation
-On every continuation, read current authoritative records and compare Task status, `PROMPT_CONSUMED`/`PROMPT_STATE`, actual attempt history, result references/counts, `GENERATION_INPUT_MODE`, `EXECUTION_INPUT_PATH`, input-record readback status, and persistence evidence. For any PAUSED Task, verify the same prepared/fixed instruction can be recovered exactly, and preserve the prior attempted-call count and remaining retry eligibility. If a Task used authorized condensation, read back its original verified input file or complete verified recovery checkpoint; never re-condense or switch modes.
+寫入後，重新從 GitHub 讀回，至少確認：
 
-If a discrepancy is Task-local, isolate it for evidence-based recovery; do not automatically block independent Tasks. No status label or prior Producer report alone proves receipt. Never fabricate, overwrite history, retry a received/UNKNOWN outcome, or promote an unresolved Task to SUCCESS. Escalate only a verified non-isolatable Batch-wide defect; satisfy Section 7.3 before progressing.
+1. Module 與 Session 路徑正確，未覆蓋既有 Session。
+2. `INDEX.md` 存在，包含本次所有 Task 的名稱及檔名。
+3. 實際建立的 Task 數等於 IMAGE_COUNT，無遺漏、重複或額外檔案。
+4. 每個 Task 均有一份獨立、非空白的 `.txt` 提示詞檔案。
+5. 每份 `.txt` 內容只有完整提示詞正文，無舊式鎖定標記或生產管理欄位。
+6. 逐份讀回核對正文與本次設計準備保存的完整文字一致，且符合 OUTPUT_TYPE。
 
+不得只憑寫入工具回傳成功就宣稱已完成讀回驗證。不得在沒有實際讀回的情況下宣稱已保存成功。
 
-### 7.5 Completion and counters
-- `COMPLETED_COUNT` counts a Task once only when image receipt and correct Task attribution are confirmed and the required SUCCESS event/Task result are durably written and readback-verified. Keep received-but-unverified results separate.
-- `ACTUAL_IMAGE_COUNT` counts actual individual image files according to verified evidence, not IMAGE_COUNT or successful Tasks. Do not invent a verified total.
-- `ATTEMPT_COUNT` counts only actual generation calls evidenced by distinct attempt events, including permitted retries. Pre-call PAUSED or TASK_RESUMED events, GitHub read/write attempts, and other non-generation operations are excluded.
-- `PAUSED_COUNT` counts required Tasks currently in non-terminal PAUSED state; it is separate from `PENDING_COUNT`, BLOCKED, DEFERRED, FAILED, UNVERIFIED and SUCCESS counts. No Task may be counted twice in current Task-status categories. Derive state counts from verified Task/attempt records, not narrative or older Batch summaries.
-- `REMAINING_GENERATION_ATTEMPTS` is derived from actual generation calls and permitted retry/policy constraints. A pre-call PAUSED event neither consumes nor resets the budget. Never use it to permit retry after receipt, UNKNOWN, exhausted failures, or safety restrictions.
-- `BATCH_COMPLETED` requires all required Tasks to have valid terminal outcomes, `PAUSED_COUNT=0`, reconciled state/events/counters, and final Batch completion record written and readback-verified. UNKNOWN, received-but-unverified results, and unresolved required persistence prevent completion.
+若寫入或讀回失敗：回報受影響的檔案、已成功部分與未完成部分；不得虛報全部完成，也不得自動覆蓋其他資料。已完成的提示詞正文仍可提供給使用者，但必須清楚標示「尚未成功保存／驗證」。
 
-GitHub is the persistence database, not an independent observer of generation. A value does not become proven merely because the Producer writes it. The Producer must base records on directly observable execution facts and explicitly preserve unknowns. Historical records must not be silently rewritten; correct verified errors only through traceable correction events.
+## 9. 第七步：在聊天室交付提示詞
+
+完成提示詞設計後，依 Task 編號顯示各提示詞名稱與完整正文，讓使用者可以直接複製貼到生圖聊天室。
+
+每份提示詞使用下列展示方式（示意）：
+
+```text
+TASK_001｜提示詞主題名稱
+[獨立的完整提示詞正文]
+```
+
+其中 `TASK_001｜提示詞主題名稱` 是**聊天室的識別標題**，不是生圖正文；複製時應只複製完整提示詞正文。需要時可將正文各自放入獨立程式碼區塊，避免與其他 Task 混淆。
+
+- 不改寫、精簡或重新組合已歸檔的提示詞；聊天室交付的正文應與讀回檔案一致。
+- 不以標題、摘要或 GitHub 路徑代替使用者所需的完整提示詞。
+- 如單則回覆長度不足以容納全部提示詞，必須明確標示已展示與尚未展示的 Task；不得宣稱所有提示詞已在聊天室完整交付。可另提供含完整正文的文字附件，但仍不得發起生圖。
+- 使用者貼上其中任一提示詞後，該次生圖流程由使用者掌控，與 GitHub 歸檔及本指令的工作無關。
+
+## 10. 完成後回報與停止條件
+
+完成後於聊天室回報：
+
+- MODULE
+- SESSION_ID（台灣時間）
+- PRODUCTION_TYPE
+- CHARACTER
+- IMAGE_COUNT 與實際建立的 Task 數量
+- OUTPUT_TYPE（節慶另列 WALLPAPER_TYPE）
+- Session 根目錄路徑
+- `INDEX.md` 與獨立 `.txt` 檔案數量
+- GitHub 寫入結果、逐份讀回驗證結果
+- 已完整交付的 Task 範圍、未完成工作或實際錯誤
+
+**不回報 BATCH_ID、PROMPT_SET_STATUS、PROMPT_SET_LOCKED、生成狀態或執行紀錄。**
+
+**完成提示詞設計、歸檔、驗證及聊天室交付後立即停止，不得自行呼叫圖片生成工具、開始 QA、修圖或重生。**
