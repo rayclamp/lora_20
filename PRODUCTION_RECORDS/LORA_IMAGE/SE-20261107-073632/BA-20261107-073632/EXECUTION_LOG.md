@@ -104,3 +104,25 @@ PROMPT_VERSION=V1.0
 ATTEMPT_ID=TASK_001-ATTEMPT_001
 GENERATION_CALL_ID=ca1dfd8a-6320-44af-9ec8-c7b5b229358e
 DETAIL=Corrected stale batch-level statements claiming no generation or image receipt had occurred. Existing Task_001 receipt and known generation-input deviation remain preserved; no regeneration was performed.
+
+### 20261111192000-001
+
+EVENT_ID=EV-20261111192000-001
+EVENT_TYPE=IMAGE_RESULT_RECEIVED
+TIMESTAMP=2026-11-11T19:20:00+08:00
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=TASK_003
+PROMPT_ID=BA-20261107-073632-PR-003
+PROMPT_VERSION=V1.0
+ATTEMPT_ID=TASK_003-ATTEMPT_001
+GENERATION_CALL_ID=NOT_EXPOSED
+GENERATION_INPUT_MODE=FULL_LOCKED_PROMPT
+FULL_PROMPT_READ_STATUS=SUCCESS
+IMAGE_RECEIVED=YES
+ACTUAL_OUTPUT_COUNT=1
+RESULT_REFERENCE=/workspace/scratch/d574cc56b34d/generated_images/exec-096d5a1f-c9e7-45b7-b3c5-6241dcb31a82.png
+PROMPT_CONSUMED=YES
+PROMPT_STATE=CONSUMED
+DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED
+DETAIL=One image was returned after submitting the complete locked Task prompt with the user-provided person-reference image. No visual QA was performed.
