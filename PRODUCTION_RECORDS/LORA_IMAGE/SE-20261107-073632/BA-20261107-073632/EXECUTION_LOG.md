@@ -4,7 +4,7 @@ SESSION_ID=SE-20261107-073632
 BATCH_ID=BA-20261107-073632
 MODULE=LORA_IMAGE
 
-Design and Prompt Set lock events only. No generation attempts, image receipts, production retries, image QC, or QA assessments have occurred.
+The log contains design, Prompt Set lock, and subsequent production events. QA remains separate and has not started.
 
 ## Events
 
@@ -89,7 +89,7 @@ RESULT_REFERENCE=/workspace/scratch/d574cc56b34d/generated_images/exec-77de5e5f-
 PROMPT_CONSUMED=YES
 PROMPT_STATE=CONSUMED
 DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED
-DETAIL=One image was observably returned after submitting the complete locked Task prompt with the person-reference image provided in the current conversation. GitHub persistence and readback verification are pending. No visual QA was performed.
+DETAIL=One image was observably returned after submitting the complete locked Task prompt with the person-reference image provided in the current conversation. Result attribution and GitHub persistence were readback-verified. No visual QA was performed.
 
 ### 20261111190000-002
 
