@@ -47,4 +47,4 @@ This is a design plan, not a record of image generation. Each Task contributes a
 
 ## Production boundary
 
-Production events are recorded in EXECUTION_LOG.md and per-Task states in TASK_QUEUE.md. TASK_001 and TASK_002 each have one observed image receipt; neither is a verified SUCCESS yet. QA remains PAUSED.
+Production events are recorded in EXECUTION_LOG.md and per-Task states in TASK_QUEUE.md. TASK_001 has one observed image receipt with a known generation-input deviation and remains unverified. TASK_002 has one observed image receipt and is verified SUCCESS. QA remains PAUSED.
