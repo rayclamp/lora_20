@@ -148,3 +148,25 @@ PROMPT_CONSUMED=YES
 PROMPT_STATE=CONSUMED
 DELIVERY_INTEGRITY_STATUS=KNOWN_DEVIATION
 DETAIL=One image was received, but the effective generation request described indoor reading rather than the locked autumn riverside walk. This is a known instruction deviation, not visual QA. No retry is permitted.
+
+### 20261111194600-005
+
+EVENT_ID=EV-20261111194600-005
+EVENT_TYPE=IMAGE_RESULT_RECEIVED
+TIMESTAMP=2026-11-11T19:46:00+08:00
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=TASK_005
+PROMPT_ID=BA-20261107-073632-PR-005
+PROMPT_VERSION=V1.0
+ATTEMPT_ID=TASK_005-ATTEMPT_001
+GENERATION_CALL_ID=f371b7ef-fb70-4acb-a085-12ee37d22077
+GENERATION_INPUT_MODE=KNOWN_DEVIATION
+FULL_PROMPT_READ_STATUS=SUCCESS
+IMAGE_RECEIVED=YES
+ACTUAL_OUTPUT_COUNT=1
+RESULT_REFERENCE=file_00000000dfec8206a9f28fed6b6406a4
+PROMPT_CONSUMED=YES
+PROMPT_STATE=CONSUMED
+DELIVERY_INTEGRITY_STATUS=KNOWN_DEVIATION
+DETAIL=One image returned, but tool-visible generation request concerned an unrelated bedroom caption rather than the locked rear-view stair-landing prompt. This is an input handoff deviation, not visual QA. Do not regenerate. Current conversation user reference was uploaded, but explicit tool reference binding was not exposed.
