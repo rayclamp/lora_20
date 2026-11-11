@@ -277,3 +277,25 @@ TIMESTAMP=2026-11-11T13:16:25.182Z
 TASK_ID=TASK_009
 ATTEMPT_ID=TASK_009-ATTEMPT_001
 DETAIL=Result event, correct Task attribution and pending result state written and readback-verified. Task classified SUCCESS; no visual QA performed.
+
+### TASK_010-ATTEMPT_001
+
+EVENT_ID=EV-TASK_010-ATTEMPT_001
+EVENT_TYPE=IMAGE_RESULT_RECEIVED
+TIMESTAMP=NOT_EXPOSED
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=TASK_010
+PROMPT_ID=BA-20261107-073632-PR-010
+PROMPT_VERSION=V1.0
+ATTEMPT_ID=TASK_010-ATTEMPT_001
+GENERATION_CALL_ID=aea1858a-065f-4532-aa2c-5f2cb7b0c0ed
+GENERATION_INPUT_MODE=KNOWN_DEVIATION
+FULL_PROMPT_READ_STATUS=SUCCESS
+IMAGE_RECEIVED=YES
+ACTUAL_OUTPUT_COUNT=1
+RESULT_REFERENCE=file_000000008fd88206b0ab1bf120e9c04e
+PROMPT_CONSUMED=YES
+PROMPT_STATE=CONSUMED
+DELIVERY_INTEGRITY_STATUS=KNOWN_DEVIATION
+DETAIL=Complete locked TASK_010 prompt was fetched and visibly posted to conversation. Tool-visible generation request instead asked for a screenshot-style LoRA production dashboard showing TASK_008 through TASK_015 and GitHub verification. This was a prompt handoff deviation evidenced by tool input, not inferred from output image. Tool return contained one image; metadata prompt empty and hidden effective payload NOT_EXPOSED. Do not regenerate or continue batch.
