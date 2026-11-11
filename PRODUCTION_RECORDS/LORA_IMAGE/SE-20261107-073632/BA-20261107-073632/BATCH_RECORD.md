@@ -9,17 +9,17 @@ OUTPUT_TYPE=MIXED_PER_TASK
 BATCH_STATUS=IN_PROGRESS
 COMPLETED_COUNT=3
 RESULT_RECORDED_COUNT=0
-ACTUAL_IMAGE_COUNT=6
-UNVERIFIED_COUNT=3
+ACTUAL_IMAGE_COUNT=7
+UNVERIFIED_COUNT=4
 FAILED_COUNT=0
 DEFERRED_COUNT=0
 BLOCKED_COUNT=1
 PAUSED_COUNT=0
-PENDING_COUNT=8
-ATTEMPT_COUNT=7
-CURRENT_TASK=TASK_007
-NEXT_TASK=TASK_008
-CHECKPOINT=TASK_007 made one direct full-prompt call and received an output-stage moderation_blocked error with no image. No retry; TASK_008 not attempted. Three verified SUCCESS Tasks, three received-unverified Tasks, one blocked Task and eight pending Tasks; six images received across seven calls.
+PENDING_COUNT=7
+ATTEMPT_COUNT=8
+CURRENT_TASK=TASK_008
+NEXT_TASK=TASK_009
+CHECKPOINT=TASK_008 direct-input verification result=RECEIVED. Hidden downstream payload not exposed. Task states and counters derived from the current queue.
 QA_STATUS=PAUSED
 CREATED_FROM_CONSOLE_AT=2026-11-07T07:40:27+08:00
 
