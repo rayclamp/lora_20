@@ -9,17 +9,17 @@ OUTPUT_TYPE=MIXED_PER_TASK
 BATCH_STATUS=IN_PROGRESS
 COMPLETED_COUNT=0
 RESULT_RECORDED_COUNT=0
-ACTUAL_IMAGE_COUNT=1
-UNVERIFIED_COUNT=1
+ACTUAL_IMAGE_COUNT=2
+UNVERIFIED_COUNT=2
 FAILED_COUNT=0
 DEFERRED_COUNT=0
 BLOCKED_COUNT=0
 PAUSED_COUNT=0
-PENDING_COUNT=14
-ATTEMPT_COUNT=1
-CURRENT_TASK=TASK_001
-NEXT_TASK=TASK_002
-CHECKPOINT=TASK_001 received one image with a known generation-input deviation; production stopped for reconciliation. No other Tasks attempted.
+PENDING_COUNT=13
+ATTEMPT_COUNT=2
+CURRENT_TASK=TASK_002
+NEXT_TASK=TASK_003
+CHECKPOINT=TASK_001 has one received image with a known generation-input deviation. TASK_002 has one received image; GitHub result persistence and readback verification are pending. 13 Tasks remain pending.
 QA_STATUS=PAUSED
 CREATED_FROM_CONSOLE_AT=2026-11-07T07:40:27+08:00
 
@@ -47,4 +47,4 @@ This is a design plan, not a record of image generation. Each Task contributes a
 
 ## Production boundary
 
-No image-generation tool was called. No images were received, no generated artifacts were judged, and no QA was started. Batch status remains pending for producer execution after a verified Prompt Set lock.
+Production events are recorded in EXECUTION_LOG.md and per-Task states in TASK_QUEUE.md. TASK_001 and TASK_002 each have one observed image receipt; neither is a verified SUCCESS yet. QA remains PAUSED.
