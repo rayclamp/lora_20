@@ -170,3 +170,25 @@ PROMPT_CONSUMED=YES
 PROMPT_STATE=CONSUMED
 DELIVERY_INTEGRITY_STATUS=KNOWN_DEVIATION
 DETAIL=One image returned, but tool-visible generation request concerned an unrelated bedroom caption rather than the locked rear-view stair-landing prompt. This is an input handoff deviation, not visual QA. Do not regenerate. Current conversation user reference was uploaded, but explicit tool reference binding was not exposed.
+
+### TASK_006-ATTEMPT_001
+
+EVENT_ID=EV-TASK_006-ATTEMPT_001
+EVENT_TYPE=IMAGE_RESULT_RECEIVED
+TIMESTAMP=NOT_EXPOSED
+SESSION_ID=SE-20261107-073632
+BATCH_ID=BA-20261107-073632
+TASK_ID=TASK_006
+PROMPT_ID=BA-20261107-073632-PR-006
+PROMPT_VERSION=V1.0
+ATTEMPT_ID=TASK_006-ATTEMPT_001
+GENERATION_CALL_ID=3bafddd4-c48f-404e-81ab-55882a8e57af
+GENERATION_INPUT_MODE=FULL_LOCKED_PROMPT
+FULL_PROMPT_READ_STATUS=SUCCESS
+IMAGE_RECEIVED=YES
+ACTUAL_OUTPUT_COUNT=1
+RESULT_REFERENCE=file_00000000d9a4820690ab6e197aa51ae6
+PROMPT_CONSUMED=YES
+PROMPT_STATE=CONSUMED
+DELIVERY_INTEGRITY_STATUS=NOT_EXPOSED
+DETAIL=User explicitly requested generation using complete TASK_006 English prompt exported in immediately preceding assistant message, with original current-conversation reference image. Tool uses conversation-derived generation instructions, not direct literal prompt parameter; tool did not expose underlying effective prompt or explicit reference-image binding. One image returned; no retry or QA. Task attribution and records verified by GitHub readback.
