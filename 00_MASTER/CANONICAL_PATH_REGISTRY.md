@@ -1,5 +1,13 @@
 # Reference Paths
 
+## Current LoRA V5.0 standalone prompt archive (new Sessions only)
+- Canonical design command: `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md`.
+- Canonical root: `PROMPTS/LORA_IMAGE/<SESSION_ID>/` where `SESSION_ID=SE-YYYYMMDD-HHMMSS` uses the **actual** creation time in Asia/Taipei UTC+8, with a collision/nonexistence check.
+- One `INDEX.md` with Session settings, every Task number/title/filename and per-Task `TASK_OUTPUT_TYPE`; it contains no full prompt bodies.
+- Exactly `IMAGE_COUNT` English standalone `TASK_NNN.txt` files with **only** complete prompt bodies, no metadata or lock markers. Verify every file by complete readback and equality comparison.
+- No Batch, `PRODUCTION_RECORDS/`, producer, locks, queue, execution records, automated generation or QA. The user copies prompts manually. Old Batch paths below remain valid solely for existing historical LoRA Batch work and wallpaper workflows, without migration.
+
+
 ## Core
 - Character: 00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md
 - Anatomy: 00_MASTER/ANATOMY_STABILITY.md
@@ -49,8 +57,8 @@
 - Festival item evidence/structural audit (dated snapshots, consult latest section): FESTIVAL_COSTUME_DATABASE/00_CORE_FESTIVALS/DATA_QUALITY_AUDIT.md
 
 ## LoRA Image Design
-- Current LoRA prompt-design and lock command reference (`/LORA_CONSOLE`): 00_MASTER/LORA/LORA_CONSOLE_COMMAND.md
-- Current LoRA image production command reference (`/LORA_PRODUCE`): 00_MASTER/LORA/LORA_PRODUCE_COMMAND.md
+- Current LoRA V5.0 prompt-design and archive command (`/LORA_CONSOLE`): 00_MASTER/LORA/LORA_CONSOLE_COMMAND.md
+- Historical locked-Batch-only LoRA Producer command (`/LORA_PRODUCE`): 00_MASTER/LORA/LORA_PRODUCE_COMMAND.md
 - Module: MODULES/LORA_IMAGE/MODULE.md
 - Uploaded-reference policy: MODULES/LORA_IMAGE/REFERENCE_POLICY.md
 - Dataset design specification: MODULES/LORA_IMAGE/DATASET_DESIGN_SPEC.md
@@ -72,7 +80,7 @@
 - This file is a **path locator**, not an executable command, stage handoff, permission grant, scheduler, production controller, or proof that a referenced item was culturally verified.
 - Stage/role architecture: 00_MASTER/SYSTEM_ARCHITECTURE.md. Consult `00_MASTER/CORE_RULES.md` and the relevant module contract for mandatory execution rules. Adding a path here does not alter those contracts.
 - Wallpaper **design/lock** uses `/WALLPAPER_CONSOLE` and stops before generation. Wallpaper **production/continuation** uses `/WALLPAPER_PRODUCE` against an authorized existing locked Session/Batch. Both commands are defined in the existing `00_MASTER/WALLPAPER/WALLPAPER_COMMAND_PROTOCOL.md`; do not infer separate missing command files.
-- LoRA **design/lock** uses `/LORA_CONSOLE` at `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md`, and LoRA **production/continuation** uses `/LORA_PRODUCE` at `00_MASTER/LORA/LORA_PRODUCE_COMMAND.md`. The design phase does not require an uploaded person-reference image; the LoRA producer stage requires a reference image supplied in its current production conversation, under the active reference policy.
+- New LoRA **design-and-archive only** uses `/LORA_CONSOLE V5.0`; the user copies each independent `TASK_NNN.txt` manually and supplies a reference image in the later generation chat. `/LORA_PRODUCE` remains applicable only to authorized historical locked Batches; no new V5.0 Session may be converted into one.
 - References to any `ARCHIVE/` directory above are **historical pointers only**. Do not load archived legacy production/QA rules as active instructions, import them as overrides, or edit/migrate historical files merely because a path is listed.
 - GitHub remains the authoritative reference and **persistence database**, not a Runtime Controller; only the user-authorized ChatGPT operator executes commands. This registry does not create or modify a Session/Batch, generate images, mark Task SUCCESS, enable Claim/Lease, or activate any QA workflow. **QA is currently `PAUSED`** and remains separate until independently authorized.
 - A registered festival ID and a cultural-anchor design cue are not the same as evidence for a specific tradition. Source-backed festival/item-level data must support cultural verification claims; do not fabricate citations or use unsupported anchors as factual authority.
