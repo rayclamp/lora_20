@@ -1,5 +1,7 @@
 # START_HERE.md
 
+**Current LoRA V5.0 design routing:** `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md` is the authoritative design-only and GitHub-archive command for new `LORA_IMAGE` Sessions. The Batch/lock/producer/queue material in this file is restricted to historical LoRA Batch-based production and wallpaper workflows. It must not be applied to new LoRA V5.0 Sessions. Existing historical records remain intact.
+
 Simple image-production reference and persistence database.
 
 GitHub is the authoritative reference and persistence database. ChatGPT is the Producer and runtime operator.
@@ -47,18 +49,14 @@ For both wallpaper modules, use the unified commands defined in `00_MASTER/WALLP
 - `/WALLPAPER_PRODUCE`: execute an explicitly identified existing Session/Batch from its locked prompts; never redesign or perform QA.
 The command names do not vary by wallpaper module. `MODULE` selects the applicable rules and record path. The wallpaper design command does not request or accept a `REFERENCE_IMAGE` input. If a reference image is separately supplied in a production conversation, apply only the active wallpaper module's reference policy. Neither wallpaper command loads LoRA-specific rules.
 
-For `MODULE=LORA_IMAGE`, set the Batch-level `OUTPUT_TYPE=MIXED_PER_TASK`. Each Task independently selects and records `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9`; a Batch may mix portrait 9:16 and landscape 16:9 with no fixed quota or required split. The Task's locked prompt must be designed for its recorded format. This exception applies only to LORA_IMAGE; other modules retain their existing `OUTPUT_TYPE` behavior.
+For new `MODULE=LORA_IMAGE` V5.0 designs, `OUTPUT_TYPE=MIXED_PER_TASK` is a **Session** setting, not a Batch setting. Each Task independently selects `PHONE_9_16` or `DESKTOP_16_9`, with no fixed quota. Store `TASK_OUTPUT_TYPE` only in `INDEX.md`; the corresponding plain-text Task body describes the composition naturally.
 
-When `MODULE=LORA_IMAGE`:
-- `/LORA_CONSOLE` (prompt design): a person-reference image is not required. Do not request an upload, pause, or block design because no image is attached. Design all requested prompts, persist and read back the records, and lock the Prompt Set under the applicable design rules. The designer must not claim to have inspected an image it has not received.
-- `/LORA_PRODUCE` (image production): before the first image-generation call, the user must supply a person-reference image in the current producer ChatGPT conversation. That image is the sole visual identity authority for the current production run.
-- `CHARACTER=INARIA`: use the canonical Inaria character information in CORE for contextual/semantic guidance, while the production-time uploaded image remains the visual identity authority.
-- `CHARACTER=NONE`: do not apply Inaria-specific character information; follow the production-time uploaded reference image and current task instructions.
-- If the production-time image is missing, inaccessible, or ambiguous, stop before generation and request that the user upload or identify it. Do not substitute images from GitHub, another module, or an earlier conversation. This production-stage block does not invalidate, unlock, or otherwise alter prompts already designed and locked.
-- Load `MODULES/LORA_IMAGE/` and all applicable shared CORE rules/documents: `CORE_RULES.md`, `DRAWING_INSTRUCTIONS.md`, `ANATOMY_STABILITY.md`, `GENERATION_RULES.md`, `IMAGE_GENERATION_SAFETY_SPEC.md`, and `GENERATION_WORKER_PROTOCOL.md`. Do not load `ARCHIVE/LEGACY_LORA_PRODUCTION/` as active production rules.
-- Apply the LoRA-specific dataset design rules in `MODULES/LORA_IMAGE/DATASET_DESIGN_SPEC.md`, `DATASET_DIVERSITY.md`, and `CANDIDATE_DESIGN_RULES.md`.
-- When `CHARACTER=INARIA`, load `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` only for contextual/semantic guidance; the uploaded image remains the visual identity authority.
-- Do not assume a fixed target age, fixed character, or fixed reference image for this module.
+- `/LORA_CONSOLE V5.0`: with a valid positive `IMAGE_COUNT`, immediately read all required current GitHub design rules, plan diverse independent candidates, create one unique actual Asia/Taipei-time `SE-YYYYMMDD-HHMMSS` Session, and archive `PROMPTS/LORA_IMAGE/<SESSION_ID>/INDEX.md` plus one complete English-only plain-text `TASK_NNN.txt` per Task. Read back and compare all full file bodies, then show all complete prompts to the user. No Batch, lock, production records, producer, automatic generation or QA. No design-stage reference-image upload or reconfirmation is required.
+- The user manually copies each selected prompt into a separate image-generation conversation and provides a person-reference image there. That actual image is the sole visual identity authority; do not treat the reference outfit, pose, accessories or background as permanent.
+- `/LORA_PRODUCE`: reserved only for explicitly authorized, already existing historically locked Session/Batches; it must never ingest, convert or generate from new V5.0 prompt archives.
+- `CHARACTER=INARIA`: use `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md` for semantic context, not to override an actual person image's supported appearance. `CHARACTER=NONE` adds no Inaria identity.
+- Load the current shared CORE, drawing, anatomy, generation stability and image safety design requirements; `MODULE_REGISTRY.md`; the LoRA module, reference policy and three LoRA dataset design documents; and the Inaria character spec when applicable. Worker protocol, production-record schema, system architecture and old canonical paths cannot impose Batch/lock obligations on new V5.0 design.
+- Preserve all historical sessions and Batches; do not assume a fixed age, style or permanent reference image and never include animals or pets.
 
 For other modules, retain their existing module-specific interpretation of the request fields.
 
@@ -74,7 +72,9 @@ Image inspection is a separate system, not a production module:
 QA is currently `PAUSED`. Do not automatically start QA after generation, and do not treat generation success as QA PASS. QA inspects existing candidates and reports a decision; it does not generate, rewrite prompts, or trigger regeneration. FESTIVAL_WALLPAPER outputs are excluded from QA intake.
 
 
-## 4. Session / Batch
+## 4. Session / Batch (legacy Batch-based production and wallpaper workflows only)
+
+New LORA_CONSOLE V5.0 designs instead use `PROMPTS/LORA_IMAGE/<SESSION_ID>/` with `INDEX.md` and `TASK_NNN.txt`, with no Batch or lock.
 
 /WALLPAPER_CONSOLE creates a new SESSION_ID and BATCH_ID for wallpaper design and prompt locking. /WALLPAPER_PRODUCE never creates a Session or Batch; the user must specify the existing MODULE, SESSION_ID, and BATCH_ID.
 
@@ -103,9 +103,9 @@ EXPECTED_OUTPUT_COUNT = 1
 
 For `LORA_IMAGE`, each Task is also one independent training-image candidate unless a current task contract explicitly states otherwise.
 
-For `LORA_IMAGE`, each Task's `TASK_OUTPUT_TYPE` must also be recorded in its Task metadata, prompt-file metadata, and manifest metadata, and must agree with the locked prompt's intended composition. Do not add separate `ASPECT_RATIO` or `ORIENTATION` controls.
+For new `LORA_IMAGE` V5.0 Sessions, each Task's `TASK_OUTPUT_TYPE` must be recorded in `INDEX.md`, not inside `TASK_NNN.txt`, and match the prompt's natural-language composition. Legacy Batches retain existing Task/manifest metadata. Do not add separate `ASPECT_RATIO` or `ORIENTATION` controls.
 
-Each Task receives one dedicated locked prompt file and one prompt version. Each file must include `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, `PROMPT_STATUS=LOCKED`, and explicit `BEGIN_LOCKED_PROMPT_TEXT` / `END_LOCKED_PROMPT_TEXT` delimiters around the exact prompt body. After locking, neither the prompt text nor its file mapping may be silently altered.
+For legacy Batch-based and wallpaper production only, each Task receives one dedicated locked prompt file and one prompt version. Each such file must include `TASK_ID`, `PROMPT_ID`, `PROMPT_VERSION`, `PROMPT_STATUS=LOCKED`, and explicit `BEGIN_LOCKED_PROMPT_TEXT` / `END_LOCKED_PROMPT_TEXT` delimiters around the exact prompt body. After locking, neither the prompt text nor its file mapping may be silently altered.
 
 For wallpaper prompt design, **full-body framing is optional, not a universal requirement**. The designer must deliberately choose the shot size for each Task based on its scene and purpose. Do not automatically add “full-length framing,” “show the entire body,” “head and feet fully visible,” “no cropping,” or similar language to every prompt. Require full-body or footwear visibility only when the task specifically benefits from it. If fitting the entire person would compromise the reference-supported body silhouette, natural limb width, stable pose, or plausible camera perspective, prefer a natural crop or closer character-dominant framing. Body-shape preservation outranks full-body coverage, footwear visibility, background coverage, and negative space. Do not change or unlock existing locked prompts; this rule applies to future prompt design.
 
