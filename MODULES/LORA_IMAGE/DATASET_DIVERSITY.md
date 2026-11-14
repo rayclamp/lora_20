@@ -6,7 +6,7 @@ Build a useful, varied training set without weakening identity consistency or ge
 
 ## Core variation dimensions
 
-Across a set of tasks and, when available, across previous batches, consider varying the following dimensions:
+Across a set of tasks and, when available, across previous candidate sets, consider varying the following dimensions:
 
 1. **Pose and body mechanics:** standing, sitting, walking, turning, leaning, crouching, kneeling, reclining, reaching, and other natural actions.
 2. **Viewpoint and orientation:** front, front three-quarter, side profiles, rear three-quarter, full back views, head direction, torso direction, and camera height.
@@ -18,9 +18,9 @@ Across a set of tasks and, when available, across previous batches, consider var
 8. **Scene and environment:** indoor/outdoor locations, different settings, subject placement, foreground/background relationships, and environmental interaction.
 9. **Lighting and conditions:** time of day, light direction and softness, weather, season, indoor illumination, and background depth.
 10. **Camera and composition:** camera height, perspective, subject scale/placement, depth of field, and composition.
-11. **Output format:** independently selected portrait 9:16 or landscape 16:9 per Task, allowing both formats within one Batch.
+11. **Output format:** independently selected portrait 9:16 or landscape 16:9 per Task, allowing both formats within one new V5.0 Session.
 
-During `/LORA_CONSOLE`, no person-reference image is required: plan identity-preserving variation relative to the reference that will be supplied during `/LORA_PRODUCE`, without claiming its features were inspected. During `/LORA_PRODUCE`, the image uploaded in the current production conversation is the sole visual identity authority. Vary presentation without arbitrarily changing the stable identity cues, apparent age, or body proportions supported by that actual reference.
+During new `/LORA_CONSOLE V5.0` design, no person-reference image is required: plan identity-preserving variation relative to the reference that the user will supply later in their own image-generation conversation, without claiming its features were inspected. The user-provided image there is the sole visual identity authority. Historical `/LORA_PRODUCE` locked Batches retain their existing reference requirements. Vary presentation without changing stable identity cues, apparent age, or body proportions supported by the actual reference.
 
 ## Framing balance: close-ups matter
 
@@ -83,14 +83,14 @@ Dataset-level diversity and consistency are complementary constraints: maximize 
 
 ## No inherited module styling
 
-Do not automatically import wallpaper outfit rules, festival costume facts, or another module's props/style. During design, use only the active LORA_IMAGE request, applicable CORE rules, and any explicitly applicable contextual character data; a production-time identity reference may be described conditionally, not assumed already uploaded. During production, use the reference image supplied in that producer conversation as the sole visual identity authority, together with the already locked Task prompt.
+Do not automatically import wallpaper outfit rules, festival costume facts, or another module's props/style. During design, use only the active LORA_IMAGE request, applicable CORE rules, and any explicitly applicable contextual character data; a production-time identity reference may be described conditionally, not assumed already uploaded. For new V5.0 manually copied Task prompts, use the reference image supplied in that later generation conversation as sole visual identity authority; for existing locked Batches, retain their original producer reference requirements.
 
 
 ## Portrait and Landscape Format Diversity
 
 - Treat output format as an explicit diversity dimension. For each Task, randomly choose independently between `PHONE_9_16` (portrait 9:16) and `DESKTOP_16_9` (landscape 16:9).
-- Format is selected per Task, so one Batch may mix portrait and landscape prompts. Do not let a single Batch-level format silently override these per-Task choices.
+- Format is selected per Task, so one new V5.0 Session may mix portrait and landscape prompts. Do not let a Session-level format permission impose one fixed orientation.
 - Do not impose a fixed count, ratio, or 50/50 quota. Choices must be random and independent, not engineered to hit a predetermined split.
-- Record the choice as `TASK_OUTPUT_TYPE` in the Task metadata and design the prompt's subject placement, negative space, environment, and crop for the chosen format.
+- For V5.0, record each `TASK_OUTPUT_TYPE` in `INDEX.md` only and design the corresponding standalone Task prompt's subject placement, negative space, environment and crop for that format. Historical Task metadata is unchanged.
 - Format diversity is not a substitute for shot-size diversity; continue to vary close-ups, busts, half-body, medium, and full-body views.
 - This rule governs the requested design format. Do not promise that a prompt guarantees exact generated pixel dimensions when the generation interface does not expose such control.
