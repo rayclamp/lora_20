@@ -4,7 +4,7 @@ These rules guide prompt design before generation. They are not a post-generatio
 
 ## Prefer designs with
 
-- clear identity-preservation instructions: during `/LORA_CONSOLE`, describe the visual reference that will be provided for `/LORA_PRODUCE` without requiring an image during design or claiming to have inspected one;
+- clear conditional identity-preservation instructions: during `/LORA_CONSOLE V5.0`, describe the person-reference image that the user will provide later in their own image-generation conversation; do not require an image during design or claim to have inspected one;
 - readable face and hair where the chosen framing makes them relevant;
 - natural body proportions and plausible posture;
 - stable, understandable hand and foot actions;
@@ -63,4 +63,4 @@ This is a generation-design requirement only. The Producer generates the image a
 
 ## Output format
 
-For each candidate prompt, randomly select and record `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9` independently. Do not inherit one fixed format across the entire LORA_IMAGE Batch. Both formats may appear in one Batch, with no fixed quota or required split. Keep the locked prompt consistent with the recorded choice, and do not claim that prompt wording guarantees exact pixel dimensions if the image-generation interface does not expose that control.
+For each new V5.0 candidate, randomly choose `TASK_OUTPUT_TYPE=PHONE_9_16` or `TASK_OUTPUT_TYPE=DESKTOP_16_9` independently, without a Session-wide fixed format or quota. Record each choice in `INDEX.md` only; the complete English plain-text `TASK_NNN.txt` body naturally describes the corresponding portrait or landscape composition. Historical locked Batches retain their old metadata and lock conventions. Prompt wording cannot guarantee exact generated pixel dimensions without interface control.
