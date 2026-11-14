@@ -1,5 +1,9 @@
 # SYSTEM_ARCHITECTURE.md
 
+## New LoRA V5.0 standalone design architecture — current scope
+New `/LORA_CONSOLE V5.0` Sessions are design-and-archive only, following `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md`: User → ChatGPT Designer → current CORE and LoRA design rules → diverse `IMAGE_COUNT` candidates → one actual Taiwan-time Session → `PROMPTS/LORA_IMAGE/<SESSION_ID>/INDEX.md` plus complete independent English `TASK_NNN.txt` prompts → read back and compare every complete file → display full prompt bodies → STOP. No Batch, prompt lock, Producer, generation, QA, queue or production records. The user manually copies prompts and supplies identity images in later generation conversations. All Batch/Producer/lock/record statements below apply only to wallpaper and historically existing locked LoRA Batches and must not be imported into new V5.0 Sessions or used to migrate old records.
+
+
 The repository is the project's image-production reference and persistence database, not an execution engine.
 
 ## 0.5 Three-Role System Definition — NON-NEGOTIABLE
@@ -23,7 +27,7 @@ The design/lock command and the image-production/continuation command are **sepa
 
 **Phase B — Execution/resume (Producer):** User specifies/authorizes existing Session/Batch → ChatGPT Producer reconnects and verifies current records → Select eligible Task → Read its complete canonical locked Prompt → Prepare effective Task-specific generation input (FULL_LOCKED_PROMPT by default; authorized condensation only when necessary) → Immediately invoke image generation → Observe image / confirmed no image / UNKNOWN → If condensation was used, preserve the exact fixed input **after the first actual generation call** → Persist and readback-verify events, Task states, execution-input evidence and checkpoint as applicable → Reconcile before retry, PAUSED recovery, or another independent Task → Close Batch only when every required Task is terminal and the durable completion record is verified.
 
-For `UNIVERSAL_WALLPAPER` / `FESTIVAL_WALLPAPER`, the commands are `/WALLPAPER_CONSOLE` and `/WALLPAPER_PRODUCE`. For `LORA_IMAGE`, they are `/LORA_CONSOLE` and `/LORA_PRODUCE`. Only the appropriate module rules and command contract apply; never create a replacement Session/Batch during continuation.
+For `UNIVERSAL_WALLPAPER` / `FESTIVAL_WALLPAPER`, the commands remain `/WALLPAPER_CONSOLE` and `/WALLPAPER_PRODUCE`. New `LORA_IMAGE` prompt-only design uses `/LORA_CONSOLE V5.0` with NO producer handoff; `/LORA_PRODUCE` is retained only for existing historical locked LoRA Batches. Never create a replacement Session/Batch during historical production continuation.
 
 ### Phase A — Design/lock (Console)
 1. Create the authorized unique SESSION_ID and BATCH_ID for **design**, not in the Producer.
@@ -94,7 +98,7 @@ For `UNIVERSAL_WALLPAPER` and `FESTIVAL_WALLPAPER`, use `/WALLPAPER_CONSOLE` for
 
 For wallpaper production, `/WALLPAPER_CONSOLE` is the only design-and-lock entry point and `/WALLPAPER_PRODUCE` is the only execution/continuation entry point. Before executing, the user must explicitly provide `MODULE`, `SESSION_ID`, and `BATCH_ID`; verify that all three match the current GitHub records. If a required value or read is missing, invalid, or mismatched, do not generate. Continuation reuses the same identifiers and locked prompts; it never creates replacements or redesigns prompts. For new-format Batches, recover each Task's dedicated prompt file through the manifest. Do not silently migrate existing legacy Batches.
 
-For `MODULE=LORA_IMAGE`, use `/LORA_CONSOLE` solely for prompt design, Session/Batch creation, GitHub persistence/readback and lock; **the design stage does not require a person-reference image**. Use `/LORA_PRODUCE` to execute only the explicitly authorized existing Session/Batch and already locked prompts according to `00_MASTER/LORA/LORA_PRODUCE_COMMAND.md`. Before its first generation call, the **current Producer conversation must contain a supplied person-reference image** as the visual identity authority. If missing/inaccessible/ambiguous, stop LoRA generation and request it; do not silently substitute a GitHub image, a past conversation or a different module's reference. The absent image does not retroactively invalidate the completed design/lock stage. LoRA Task output orientation may vary by Task as recorded in its locked Task contract.
+For NEW `MODULE=LORA_IMAGE` work, `/LORA_CONSOLE V5.0` creates only one Session with `INDEX.md` and independently written English `TASK_NNN.txt`, verifies full GitHub readback and displays all complete prompts; it does not require a reference image at design time or perform any Batch/lock/producer/generation/QA operations. Later generation is controlled by the user and uses the reference image they supply in that separate chat. `/LORA_PRODUCE` only resumes expressly authorized existing historically locked Batches with their original metadata, reference rules and records. V5.0 formats are independently selected per Task and indexed in `INDEX.md`; historical Batch metadata stays unchanged.
 
 Single-Producer operation does **not** require GitHub Task Claim, Lease, execution locks, or a GitHub runtime coordinator. A future multi-Worker coordination design is not active here. QA remains independent and `PAUSED`.
 
