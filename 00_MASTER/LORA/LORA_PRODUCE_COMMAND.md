@@ -1,5 +1,8 @@
 # `/LORA_PRODUCE` — LoRA 圖片生產者啟動指令
 
+> **Historical locked-Batch compatibility ONLY:** This command operates on explicitly authorized, already existing LoRA Session/Batches with their historical locked prompts. New `/LORA_CONSOLE V5.0` prompt-only Sessions at `PROMPTS/LORA_IMAGE/<SESSION_ID>/` have no Batch, lock, queue, producer handoff, generation status or execution record. Never import, migrate, dispatch or create a Batch for a V5.0 archive. The user individually copies its complete Task prompts to a separate image-generation chat and supplies the reference image there. Keep all older Batch records and execution protections unchanged.
+
+
 > **P0-03 核准版 — LoRA 生產者正式指令**
 >
 > 依使用者上傳的 `/LORA_PRODUCE` 11 節原稿及既有 P0-03 修正版本核對；持續遵循現行 CORE、LoRA Module、Schema 與已鎖定 `/LORA_CONSOLE` 交接契約。GitHub 為規範與生產記錄資料庫，實際生圖由 ChatGPT 生產者執行。本文不自動啟動 QA，不變更既有 Session／Batch，也不將歷史 ARCHIVE 視為現行規範。
@@ -25,7 +28,7 @@
 
 For `MODULE=LORA_IMAGE`, all new human-readable text persisted to GitHub on or after 2026-11-07 (Taiwan time) must be in English, including added Task status explanations, attempts, event notes, error and interruption reasons, checkpoints, recovery narratives, authorized condensed execution inputs when legitimately created, and Git commit messages. Apply this to new Batches and to **new appended entries** in older Batches without changing their historical content.
 
-Future `/LORA_CONSOLE` Batches have canonical Task prompts written and locked directly in English under `MODULES/LORA_IMAGE/MODULE.md`. The Producer must use each Task's actual authoritative locked prompt exactly under the existing FULL_LOCKED_PROMPT-first and authorized-condensation rules; **do not translate or rewrite a previously locked Chinese prompt**, invent an English replacement, change an established fixed execution input, or restart a Batch merely to meet the language policy. Preserve schema keys, enum values, IDs, canonical paths, existing attempts, actual image observations, readback requirements, and all safety/retry rules. The English-only requirement governs new persisted record text, not conversational replies to the user and not the actual language of historical locked material.
+Historically created locked LoRA Batches retain their canonical Task prompts written in the original language under `MODULES/LORA_IMAGE/MODULE.md`. The Producer must use each Task's actual authoritative locked prompt exactly under the existing FULL_LOCKED_PROMPT-first and authorized-condensation rules; **do not translate or rewrite a previously locked Chinese prompt**, invent an English replacement, change an established fixed execution input, or restart a Batch merely to meet the language policy. Preserve schema keys, enum values, IDs, canonical paths, existing attempts, actual image observations, readback requirements, and all safety/retry rules. The English-only requirement governs new persisted record text, not conversational replies to the user and not the actual language of historical locked material.
 
 
 ## 2. 必填輸入
@@ -98,7 +101,7 @@ BATCH_ID=<指定的 Batch ID>
 - `MODULES/LORA_IMAGE/DATASET_DIVERSITY.md`
 - `MODULES/LORA_IMAGE/CANDIDATE_DESIGN_RULES.md`
 
-當需核對現行 Console → Producer 交接契約時，讀取已登錄的 `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md`；此檔只用於確認既有 Session／Batch、Prompt Lock 與 Task 格式約定，**不允許生產者重新啟動設計或修改提示詞**。不得載入 `ARCHIVE/LEGACY_LORA_PRODUCTION/` 作為現行規範，也不得混入其他模組的專屬設定。
+核對歷史 Console → Producer 交接契約時，必須以既有 Session／Batch 已保存的實際正式紀錄、Prompt Lock 與 Task 格式為準。目前 `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md` 已是 V5.0 純提示詞歸檔指令，不能冒充歷史 Batch 的交接契約，也不能據此替新版 Session 建立生產佇列。**不允許生產者重新啟動設計或修改已鎖定提示詞**。不得載入 `ARCHIVE/LEGACY_LORA_PRODUCTION/` 作為現行規範，也不得混入其他模組的專屬設定。
 
 當指定 Batch 的角色設定為 `CHARACTER=INARIA` 時，依規範讀取 `00_MASTER/CHARACTERS/INARIA_CHARACTER_SPEC.md`。
 
