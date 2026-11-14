@@ -1,5 +1,7 @@
 # Reference Catalog
 
+**New LoRA V5.0 design routing:** `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md` is authoritative for new prompt-only Sessions, saved at `PROMPTS/LORA_IMAGE/<SESSION_ID>/INDEX.md` plus complete English `TASK_NNN.txt` files. No Batch, lock, producer, automatic generation or QA. Historical LoRA locked Batches and wallpaper workflows remain unchanged.
+
 | Domain | Reference location |
 |---|---|
 | UNIVERSAL_WALLPAPER | 00_MASTER/WALLPAPER/ + MODULES/UNIVERSAL_WALLPAPER/ |
