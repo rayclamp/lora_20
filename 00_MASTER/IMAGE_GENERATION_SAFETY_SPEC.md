@@ -1,5 +1,8 @@
 # IMAGE_GENERATION_SAFETY_SPEC.md — Production Worker Safety
 
+**V5.0 design-only applicability:** Apply this document's drawing-stability and pre-generation safety constraints while designing new `LORA_IMAGE` prompts. Producer, locked-Prompt, retry, Task state and Batch-result procedures below apply only to historical Batch-based and wallpaper production. `LORA_CONSOLE V5.0` must never start generation, producer, QA, Batch, prompt locks or production records; it only writes and full-readback-verifies `PROMPTS/LORA_IMAGE/<SESSION_ID>/INDEX.md` plus complete English `TASK_NNN.txt` prompts. User-managed image generation occurs separately.
+
+
 ## Purpose
 
 This document defines operational safety for the Production Worker pipeline.
