@@ -1,5 +1,8 @@
 # PRODUCTION_RECORD_SCHEMA.md
 
+**Scope clarification — LoRA V5.0:** This is the canonical schema for automated Batch-based production, including existing historically locked LoRA Batches and current wallpaper production flows. It does NOT apply to any NEW `/LORA_CONSOLE V5.0` design-only Session. Such a Session uses `PROMPTS/LORA_IMAGE/<SESSION_ID>/INDEX.md` and complete English-only `TASK_NNN.txt` prompts without Batch ID, prompt locks, manifests, Task metadata, production status, execution or QA records. No automatic migration or modification of historical Batch records is authorized. New V5.0 format choices live only in the INDEX; existing Batch Task formats and schema fields remain valid for historical records.
+
+
 This document defines the storage schema for automated production records.
 It does not create or control a Runtime, Scheduler, Worker Manager, State Machine, Retry Engine, Session Manager, or Execution Controller.
 
