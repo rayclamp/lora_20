@@ -1,5 +1,8 @@
 # LORA_IMAGE Reference Policy
 
+**New V5.0 design and user generation boundary:** New `/LORA_CONSOLE V5.0` Sessions create only the `INDEX.md` and standalone `TASK_NNN.txt` archive under `PROMPTS/LORA_IMAGE/<SESSION_ID>/`. The user manually copies a prompt into their own separate image-generation chat and supplies their person-reference image there as sole visual identity authority. No Batch, lock, automatic producer handoff, or design-stage image is required. The historical `/LORA_PRODUCE` rules below apply only to authorized existing locked Batches.
+
+
 ## Reference-image requirement by stage
 
 Reference-image handling differs between prompt design and image production. This distinction is mandatory.
@@ -9,10 +12,14 @@ Reference-image handling differs between prompt design and image production. Thi
 - The prompt designer does **not** require a person-reference image.
 - Do not ask the user to upload a reference image during console startup.
 - Do not pause, fail, or defer prompt design because no image is attached.
-- Design and lock the requested prompts using the active LORA_IMAGE rules and, when selected, the shared CORE character information.
+- Design and archive the requested complete English plain-text Task prompts under the V5.0 rules using applicable CORE and semantic character context, without locking or Batch creation.
 - Prompts may refer generically to the person-reference image that will be supplied later during production. Do not claim that the designer has inspected an image it has not received.
 
-### Image production — `/LORA_PRODUCE`
+### Later image generation controlled by the user (new V5.0 Sessions)
+
+The user selects and copies an entire `TASK_NNN.txt` body into a new image-generation conversation, providing the current person-reference image there. Preserve only the visible and confirmable facial/age/hair/eye/body/style attributes in that image as the sole visual identity authority; the original outfit, pose, composition, accessories and background are not fixed templates. Never claim the design-stage image was seen or supplied. V5.0 does not create generation or QA state.
+
+### Legacy image production — `/LORA_PRODUCE` (pre-existing locked Batches only)
 
 - Before the first generation call, the user must attach the person-reference image in the current producer ChatGPT conversation.
 - Use that current uploaded image as the sole visual identity authority for the production run.
@@ -35,9 +42,9 @@ Reference-image handling differs between prompt design and image production. Thi
 
 LORA_IMAGE does not permanently bind training to Inaria, age 20, or any other fixed person/age. The current production-time uploaded image and explicit current instructions determine the subject for each run.
 
-## Locked prompt integrity
+## Prompt integrity
 
-The producer must execute the authoritative locked prompt for each Task without rewriting its design. The reference image is an input to image generation, not a reason to redesign or silently alter the prompt. If the reference image and a task instruction appear to conflict, preserve the image's identity while following the task's explicitly requested presentation changes; do not infer that the reference's original outfit, pose, accessories, or background must be copied.
+For V5.0, preserve each full verified plain-text prompt body intact in its archive and show the exact same body for manual copy. For existing legacy locked Batches only, the Producer must execute the authoritative locked prompt for each Task without rewriting its design. The reference image is an input to image generation, not a reason to redesign or silently alter the prompt. If the reference image and a task instruction appear to conflict, preserve the image's identity while following the task's explicitly requested presentation changes; do not infer that the reference's original outfit, pose, accessories, or background must be copied.
 
 ## Related active design rules
 
