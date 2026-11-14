@@ -1,5 +1,8 @@
 # GENERATION_WORKER_PROTOCOL.md
 
+**Applicability:** This locked-prompt execution/handoff protocol is exclusively for authorized existing Batch-based production and compatible wallpaper workflows. It is not invoked by new `/LORA_CONSOLE V5.0` design-only Sessions, which have no Producer, Batch, queue, lock, retry or generation. Do not treat `PROMPTS/LORA_IMAGE/<SESSION_ID>/TASK_NNN.txt` as a locked execution queue. Users copy each standalone prompt and supply an image reference in a separate generation chat. Historical Producer safeguards remain intact.
+
+
 This document defines the execution contract between ChatGPT's production operation and the actual image-generation interface.
 It does not turn GitHub into a runtime, scheduler, worker controller, retry engine, or generation controller.
 
