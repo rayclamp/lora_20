@@ -2,6 +2,11 @@
 
 CORE contains only rules shared across production modules.
 
+## Active new LORA_CONSOLE V5.0 scope — NON-NEGOTIABLE
+
+For NEW `LORA_IMAGE` prompt-design work, `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md` V5.0 controls the workflow: read current design rules, create ONE new Taiwan-time Session, design `IMAGE_COUNT` independent English prompts, archive `PROMPTS/LORA_IMAGE/<SESSION_ID>/INDEX.md` and exactly `IMAGE_COUNT` standalone `TASK_NNN.txt` files, fully read back each file, and show all full prompts in chat. No Batch, prompt lock, producer/queue, execution records, generated images or QA. `TASK_OUTPUT_TYPE` is recorded only in the INDEX for new Sessions, while the corresponding prompt describes 9:16 or 16:9 naturally. The user manually copies prompts to a later image-generation chat and supplies the current person reference there. All Batch/locked-Prompt/worker/retry/state rules below are scoped to the legacy Batch-based and wallpaper production workflows; they are NOT requirements for new V5.0 prompt-only Sessions. This scope distinction does not weaken shared anatomy, drawing, safety, reference-identity or LoRA dataset rules and does not change any historical records.
+
+
 ## 0. GitHub Repository Role — NON-NEGOTIABLE
 This repository is the project's image-production reference and persistence database.
 GitHub is NOT the production runtime or control system.
@@ -20,7 +25,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 4. Explicit User authorization may identify another SESSION_ID.
 5. SESSION_ID is an identifier, not an access credential.
 6. GitHub does not enforce Session access.
-7. Cross-Session operations must be recorded in EXECUTION_LOG.md.
+7. Cross-Session Batch production operations must be recorded in EXECUTION_LOG.md. New LORA_CONSOLE V5.0 prompt-only Sessions have no execution log.
 
 ## 1. Core Rules
 1. CORE hard rules cannot be weakened by a module.
@@ -41,7 +46,7 @@ GitHub MUST NOT be treated as a Worker controller, scheduler, queue executor, li
 16. One Task represents one PLANNED image output. A confirmed image receipt permanently prohibits generation again for that Task, but does NOT increment `COMPLETED_COUNT` until correct attribution and durable record/readback are verified. Count the Task at most once, and record every actually received image file separately even if multiple files are returned. Wallpaper plans one independent image; new `RESULT_COUNT_MISMATCH` statuses are prohibited.
 17. Every confirmed image receipt and actual returned-file count must be preserved as OBSERVABLE facts, even when the official record has not yet been saved; do not falsely claim durable recording or verified counters. Record image received / confirmed no image / UNKNOWN, Task/result attribution and persistence/readback separately. The Producer MUST NOT compare the submitted payload to the Prompt or inspect visual compliance. Keep `PROMPT_MATCH_STATUS` `NOT_ASSESSED` or unset; QA owns image quality.
 18. A Batch is `BATCH_COMPLETED` only after every required Task has a VALID RECORDED TERMINAL outcome, Task/attempt evidence and counters reconcile, and the final completion record is written AND readback-verified. A terminal failed/deferred/blocked Task alone need not keep the Batch open; UNKNOWN, unverified image receipt or unresolved required persistence does. `RESULT_COUNT_MISMATCH` is historical only and cannot be assigned to new results.
-19. The design stage validates and locks each Prompt. In production, the Producer reads the complete assigned locked Prompt and does not repeat design-stage content validation.
+19. The design stage validates and locks prompts for legacy Batch-based and wallpaper production only. New LORA_CONSOLE V5.0 instead validates each complete standalone prompt and INDEX mapping through GitHub write/readback without locks, Batches or production handoff. For existing locked-Batch production, the Producer reads complete assigned prompts without repeating content validation.
 
 20. FULL_LOCKED_PROMPT is the default generation input.
 
