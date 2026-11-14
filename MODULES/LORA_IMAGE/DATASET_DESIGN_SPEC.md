@@ -138,9 +138,9 @@ These are design-time requirements. Final image acceptance, PASS/REVIEW/REPAIR/R
 Image format is a required dataset-diversity dimension, alongside framing, viewpoint, pose, clothing, hairstyle, and scene.
 
 - Randomly select one canonical output format independently for each Task during prompt design: `PHONE_9_16` (portrait 9:16) or `DESKTOP_16_9` (landscape 16:9).
-- The choice is per Task, not per Batch. A single LORA_IMAGE Batch may contain both formats.
-- Make the choice independently and without a fixed quota or required 50/50 split. Do not force a Batch to a single format or engineer choices to hit a predetermined split; the format choice itself must be randomized per Task.
-- Record the selected canonical value in that Task's metadata as `TASK_OUTPUT_TYPE`, and explicitly design the locked prompt's composition for that format. The chosen format must be consistent between the metadata and prompt.
+- The choice is per Task, not per Session. A V5.0 LORA_IMAGE prompt-only Session may contain both formats. Existing historical Batches keep their recorded Task format.
+- Make the choice independently and without a fixed quota or required 50/50 split. Do not force a V5.0 Session to a single format or engineer choices to hit a predetermined split; randomize each Task.
+- In new V5.0 Sessions, record the canonical `TASK_OUTPUT_TYPE` for each Task in `INDEX.md` only, not in its `TASK_NNN.txt`. Naturally specify the corresponding portrait 9:16 or landscape 16:9 composition inside the complete standalone English Task body. Existing legacy Batches retain their locked-prompt and Task/manifest metadata conventions.
 - Portrait and landscape should lead to genuinely suitable framing and composition, not simply the same composition described with a different ratio label.
 - Do not add separate `ASPECT_RATIO` or `ORIENTATION` controls. `TASK_OUTPUT_TYPE` uses the existing canonical `OUTPUT_TYPE` values.
 - This rule specifies prompt-design intent. Do not claim that text alone guarantees the generation interface's actual pixel dimensions; record the format requested, and use an explicit interface format control only if the current generation interface actually exposes one.
