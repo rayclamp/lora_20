@@ -8,23 +8,27 @@ Define the image-design scope for producing candidate images intended for LoRA t
 
 This module contains only LoRA image-design rules and the reference policies required to apply them. It is not the legacy LoRA production system and does not define Make scenarios, multi-account Worker dispatch, queues, quota management, or a separate runtime.
 
-## English-only future content policy — effective 2026-11-07
+## V5.0 prompt-only Session design — current authority
 
-This policy applies only to the active `LORA_IMAGE` workflow and only to content newly authored or appended on or after 2026-11-07 (Taiwan time).
+For NEW `/LORA_CONSOLE` requests, follow the complete canonical command `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md` V5.0. Immediately begin after valid `IMAGE_COUNT`; no extra approval or reference image is needed. A new actual Taiwan-time `SE-YYYYMMDD-HHMMSS` Session contains `INDEX.md` and exactly `IMAGE_COUNT` independent English-only `TASK_NNN.txt` prompt bodies under `PROMPTS/LORA_IMAGE/<SESSION_ID>/`. Each Task independently randomly selects portrait 9:16 or landscape 16:9, without a fixed ratio; `TASK_OUTPUT_TYPE`, topic and filename belong in `INDEX.md`, not in Task text. Task files contain complete standalone natural-language instructions only, with no headers, metadata, delimiters, lock markers or production fields. Plan genuine LoRA variation, preserve conditional reference-image identity, forbid all animals/pets, follow CORE anatomy and safety, compare all full file text after GitHub readback, and show all complete prompts to the user. No Batch, producer, handoff, generation, lock, execution log, queue or QA. The user later copies prompts manually and supplies the identity image in the generation chat.
 
-1. **Design prompts in English from the outset.** Every new LoRA Task's complete locked prompt, section titles, scene and outfit descriptions, negative constraints, output instructions, and human-readable prompt metadata must be written in English. Translate Chinese-language user requirements faithfully into English **during prompt design**, before persistence and locking; do not create a Chinese canonical prompt and then plan to translate it during production.
-2. **Write all new GitHub production-record text in English.** This covers new `SESSION_CONTRACT.md`, `BATCH_RECORD.md`, `TASK_QUEUE.md`, `PROMPT_SET.md`, `EXECUTION_LOG.md`, `PROMPTS/TASK_###.md`, and any subsequently created `EXECUTION_INPUTS/` and `RECOVERY_CHECKPOINTS/` files. All free-text fields, notes, checkpoint descriptions, topics, events, reasons, audit narratives, and newly appended text in existing records must be in English. Git commit messages for these writes should also be in English.
-3. **Do not change schema identifiers.** Preserve canonical paths, filenames, field keys, enum values, prompt markers, IDs, timestamps, and required formats. The language requirement concerns human-readable text, not machine-readable identifiers or the language of ChatGPT's conversation with the user. Proper names are rendered in their established English forms.
-4. **Enforce before locking a new Prompt Set.** The Console must verify that the new Batch's full prompt bodies, human-readable metadata, descriptive record fields, and initial event entries are in English, then persist and read back the files before locking. This design-time language check does not authorize producer-side prompt inspection or QA.
-5. **Protect existing records and locked prompts.** Never retroactively translate or rewrite historical records, existing Session/Batch identities, or locked prompt bodies. When continuing an older Batch with Chinese-language prompts, follow its existing locked prompt and the current Producer handoff contract exactly; do not translate it, create replacement prompts, or switch its execution-input mode merely because of this policy. Any **new** event, error narrative, or recovery note appended to an older Batch must nevertheless be in English.
-6. **Do not alter execution semantics.** Keep one Task per generation call, the existing FULL_LOCKED_PROMPT-first rule, the narrowly authorized condensation exception, reference-image requirements, evidence preservation, GitHub write/readback verification, and independent paused QA intact. English-only authoring does not claim guaranteed image generation or exact prompt delivery.
+Existing historical LoRA Batches, locked prompts, producer rules and records remain unchanged. `/LORA_PRODUCE` is for those expressly authorized historical Batches only and cannot consume V5.0 archives. Wallpaper module workflows are unaffected.
+
+## English-only authoring — effective 2026-11-07
+
+1. Author newly designed LoRA Task prompt bodies in English from the outset, faithfully reflecting Chinese user requests. Newly added topic names, descriptive INDEX text, and Git commit messages also use English. Chat conversation language need not change, but delivered prompt body text must match the stored English verbatim.
+2. For new V5.0 Session archives, `INDEX.md` and the dedicated plain-text `TASK_NNN.txt` files are the only required files. Do not create `SESSION_CONTRACT.md`, `BATCH_RECORD.md`, `TASK_QUEUE.md`, `PROMPT_SET.md`, `EXECUTION_LOG.md`, lock markers, IDs/versions/statuses, execution evidence, or any Batch state.
+3. Preserve all historical schemas and canonical identifiers for existing legacy Batches; do not rewrite, translate, delete, move or unlock older records, prompts or execution evidence. Any new textual event/recovery note appended to a historical LoRA Batch remains English.
+4. For V5.0, verify English content and every complete prompt/INDEX mapping before saving and after full GitHub readback. This is archive verification, not locking. Preserve `MIXED_PER_TASK`, exact per-Task format enums and canonical timestamp/Task naming. No extra `ASPECT_RATIO` or `ORIENTATION` user settings.
+5. This content policy does not guarantee exact generated pixels, generation submission fidelity or image acceptance. Independent QA remains separate and not automatically activated.
 
 ## Producer roles and reference-image timing
 
 LORA_IMAGE has two distinct stages. Do not transfer requirements from one stage to the other.
 
-- **Prompt designer / `/LORA_CONSOLE`:** designs and locks the Batch prompts and writes the required GitHub records. It does not generate images and does not need, request, or wait for a person-reference image. Its only required user input is the requested image count, unless the active launch instruction explicitly defines otherwise.
-- **Image producer / `/LORA_PRODUCE`:** executes the already-locked prompts for the explicitly specified Module, Session, and Batch. The user must provide the person-reference image in the producer's current ChatGPT conversation before generation begins. The producer applies that image as the visual identity reference when calling the image-generation tool.
+- **Prompt designer / `/LORA_CONSOLE V5.0`:** designs and archives complete plain-text prompts with one INDEX; it does not lock, create Batches, generate or require a person-reference image.
+- **User-managed V5.0 generation:** the user independently copies a Task prompt into a separate generation chat and supplies the reference person image there; GitHub does not operate that generator.
+- **Legacy `/LORA_PRODUCE` only:** executes expressly authorized pre-existing locked Session/Batches, never new V5.0 archives; the user supplies a person image in that legacy producer chat.
 
 The prompt designer may write identity-preservation instructions that refer generically to the reference image that will be supplied at production time. The designer must not block prompt design because that image has not yet been uploaded.
 
@@ -46,7 +50,6 @@ Load and apply:
 - `00_MASTER/ANATOMY_STABILITY.md`;
 - `00_MASTER/GENERATION_RULES.md`;
 - `00_MASTER/IMAGE_GENERATION_SAFETY_SPEC.md`;
-- `00_MASTER/GENERATION_WORKER_PROTOCOL.md`;
 - `MODULES/LORA_IMAGE/REFERENCE_POLICY.md`;
 - `MODULES/LORA_IMAGE/DATASET_DESIGN_SPEC.md`;
 - `MODULES/LORA_IMAGE/DATASET_DIVERSITY.md`;
@@ -64,4 +67,4 @@ The archived directory remains historical reference only. It must not be loaded 
 
 ## Per-Task output format
 
-For `LORA_IMAGE`, output format is randomly selected independently for each Task: `PHONE_9_16` (portrait 9:16) or `DESKTOP_16_9` (landscape 16:9). A Batch may mix both formats; no fixed quota or 50/50 split is required. Record the choice as `TASK_OUTPUT_TYPE` and ensure the locked prompt is designed for the same format. The module-specific Batch contract exception and record fields are defined in `00_MASTER/PRODUCTION_RECORD_SCHEMA.md`. Do not add separate `ASPECT_RATIO` or `ORIENTATION` controls.
+For new V5.0 LORA_IMAGE Sessions, randomly select `PHONE_9_16` or `DESKTOP_16_9` independently per Task without fixed quota, record `TASK_OUTPUT_TYPE` in `INDEX.md` only, and naturally describe the intended aspect and composition in the corresponding `TASK_NNN.txt`. The Batch schema in `00_MASTER/PRODUCTION_RECORD_SCHEMA.md` remains applicable only to historical Batches. Do not add separate `ASPECT_RATIO` or `ORIENTATION` controls.
