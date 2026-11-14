@@ -1,4 +1,7 @@
-# GENERATION_RULES.md — Shared Generation Constraints
+# GENERATION_RULES.md
+
+**New LORA_CONSOLE V5.0 scope:** Shared drawing and pre-generation stability requirements remain mandatory for new LoRA Task design. All following Batch/locked Prompt/automatic Producer/retry/production-result requirements govern existing historical Batch-based workflows and wallpaper production only, not new standalone LoRA prompt archives. New V5.0 Sessions create only `PROMPTS/LORA_IMAGE/<SESSION_ID>/INDEX.md` and independently authored English `TASK_NNN.txt` bodies, then perform full GitHub readback; no automatic generation, prompt lock, production record or QA. See `00_MASTER/LORA/LORA_CONSOLE_COMMAND.md`.
+ — Shared Generation Constraints
 
 1. Output format is defined by the active task.
 2. Character identity and reference are defined by the active module.
